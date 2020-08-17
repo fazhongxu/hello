@@ -17,5 +17,6 @@ public class MainActivity extends AppCompatActivity {
         int random = TestUtils.getRandom();
         TextView tvText = findViewById(R.id.tv_test);
         tvText.setText(String.valueOf(random));
+        tvText.setText(String.valueOf(TestUtils.currentTimeMillis()));
     }
 }

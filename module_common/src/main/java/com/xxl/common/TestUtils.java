@@ -21,10 +21,20 @@ public class TestUtils {
 
     /**
      * 获取一个随机数
+     *
      * @return
      */
     public static int getRandom() {
         Random random = new Random();
         return random.nextInt(Integer.MAX_VALUE);
+    }
+
+    /**
+     * 获取当前时间戳
+     *
+     * @return
+     */
+    public static long currentTimeMillis() {
+        return System.currentTimeMillis();
     }
 }
