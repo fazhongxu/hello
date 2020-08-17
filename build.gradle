@@ -1,12 +1,8 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-
-    repositories {
-        google()
-        jcenter()
-
-    }
+    apply from:"config.gradle"
+    addRepos(repositories)
     dependencies {
         classpath 'com.android.tools.build:gradle:3.6.3'
 
@@ -18,13 +14,7 @@ buildscript {
 
 allprojects {
     repositories {
-        //使用的时候添加仓库
-        maven {
-            url "http://127.0.0.1:8081/repository/hello_nexus/"
-        }
-        google()
-        jcenter()
-
+        addRepos(repositories)
     }
 }
 

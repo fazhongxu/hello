@@ -1,0 +1,37 @@
+// gradle 统一配置
+ext.deps = [:]
+
+def versions = [:]
+versions.constraintlayout = "1.1.3"
+versions.origin = "1.0.1"
+
+def androidx = [:]
+androidx.constraintlayout = "androidx.constraintlayout:constraintlayout:$versions.constraintlayout"
+deps.androidx = androidx
+
+def origin = [:]
+// 是否使用远程依赖 true使用远程依赖（远程私服存储的aar依赖）
+// false则为本地仓库存储的代码
+
+// 多个模块 每次开发完成之后，升级一下私服的版本号，然后发布到私有服务上面
+// 不需要改动代码时，拉取下来的就是aar包，需要改动或者查看本地代码时，改为false用本地的library包
+// 可以改动这里的代码来查看本地的代码是引用到私有仓库还是本地
+versions.module_common_remote = false
+deps.origin = origin
+
+if (versions.module_common_remote) {
+    origin.common = "com.xxl.common:hello_nexus:$versions.origin"
+} else {
+    origin.common = project(':module_common')
+}
+
+static def addRepos(RepositoryHandler handler) {
+    handler.google()
+    handler.jcenter()
+    handler.mavenCentral()
+    handler.maven { url 'https://jitpack.io' }
+    //使用的时候添加仓库
+    handler.maven { url "http://127.0.0.1:8081/repository/hello_nexus/" }
+}
+
+ext.addRepos = this.&addRepos
