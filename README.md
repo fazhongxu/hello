@@ -14,7 +14,7 @@ maven2
 hosted
 http://127.0.0.1:8081/repository/hello_nexus/
 
-5.
+5.配置上传代码，需要上传的话点击AndroidStudio的右侧 Gradle ->找到对应的模块 Tasks-> upload 双击 uploadArchives
 
 apply plugin: 'maven'
 
@@ -43,3 +43,7 @@ uploadArchives {
  implementation 'com.xxl.common:hello_nexus:1.0.1@aar'
  // 本地
  //implementation project(path: ':module_common')
+
+ 7.观察效果
+ // 需要体验是否使用本地library 可以通过修改 config.gradle versions.module_common_remote = false 来切换
+ // 观察MainActivity内的文件引用到了本地代码还是远程的私服aar文件
