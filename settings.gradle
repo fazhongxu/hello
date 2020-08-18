@@ -1,3 +1,4 @@
 rootProject.name='HelloNexus'
 include ':app'
 include ':module_common'
+include ':module_service'
