@@ -62,3 +62,9 @@ task makeJar(type: Copy) {
 }
 
 makeJar.dependsOn(build)
+
+// 可以生成带注释的jar包
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from android.sourceSets.main.java.srcDirs
+}
