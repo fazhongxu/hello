@@ -47,3 +47,8 @@ uploadArchives {
  7.观察效果
  // 需要体验是否使用本地library 可以通过修改 config.gradle versions.module_common_remote = false 来切换
  // 观察MainActivity内的文件引用到了本地代码还是远程的私服aar文件
+
+
+ 8.命令打包
+
+ ./gradlew resguardRelease
