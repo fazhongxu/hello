@@ -9,10 +9,17 @@ class MyApp extends StatelessWidget {
     var username = ">>hello_flutter";
     username = "test_";
     var time = DateTime.now();
-
-    print(username);
+    var books =  ["Chinese","Computer","Math"];
+    print(books);
+    var sets = {'a','b','c'};
+    sets.add("e");
+    print(sets);
+    var maps = {"name":"jack","age":18};
+    print(maps.toString()+"--"+maps["name"]+"--"+maps.containsKey("age").toString());
+    print("my name is$username"+username.runtimeType.toString());
 
     print(time);
+
 
     return MaterialApp(
       title: 'Flutter Demo',
