@@ -5,10 +5,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.xxl.common.TestUtils;
-
 import io.flutter.embedding.android.FlutterActivity;
-import io.flutter.embedding.android.FlutterActivityLaunchConfigs;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -17,10 +14,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        int random = TestUtils.getRandom();
         TextView tvText = findViewById(R.id.tv_test);
-        tvText.setText(String.valueOf(random));
-        tvText.setText(String.valueOf(TestUtils.currentTimeMillis()));
 
         tvText.setOnClickListener(view -> {
             startFlutterActivity();

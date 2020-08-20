@@ -2,8 +2,6 @@
 rootProject.name = 'hello_nexus'
 
 include ':app'
-include ':module_common'
-include ':module_service'
 include ':flutter_module'
 
 setBinding(new Binding([gradle: this]))
