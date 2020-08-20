@@ -1,4 +1,17 @@
-rootProject.name='HelloNexus'
+
+rootProject.name = 'hello_nexus'
+
 include ':app'
 include ':module_common'
 include ':module_service'
+include ':flutter_module'
+
+setBinding(new Binding([gradle: this]))
+
+evaluate(new File(
+        settingsDir,
+        '/flutter_module/.android/include_flutter.groovy'
+))
+
+
+

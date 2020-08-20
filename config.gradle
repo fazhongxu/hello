@@ -17,7 +17,7 @@ def origin = [:]
 // 多个模块 每次开发完成之后，升级一下私服的版本号，然后发布到私有服务上面
 // 不需要改动代码时，拉取下来的就是aar包，需要改动或者查看本地代码时，改为false用本地的library包
 // 可以改动这里的代码来查看本地的代码是引用到私有仓库还是本地
-versions.module_common_remote = false
+versions.module_common_remote = true
 deps.origin = origin
 
 if (versions.module_common_remote) {
