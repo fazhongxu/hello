@@ -6,6 +6,14 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    var username = ">>hello_flutter";
+    username = "test_";
+    var time = DateTime.now();
+
+    print(username);
+
+    print(time);
+
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
