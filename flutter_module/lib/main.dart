@@ -74,8 +74,15 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  Future<String> request() async {
+    await Future.delayed(new Duration(milliseconds: 100));
+    return "ok";
+  }
+
   @override
   Widget build(BuildContext context) {
+    request().then((value) => print("--->" + value));
+
     return new Container(
         color: Colors.white,
         child: new Center(
