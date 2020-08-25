@@ -76,42 +76,40 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-//
-//    return new Container(
-//      color: Colors.white,
-//      child: new Text(
-//        "我是一个Text",
-//        style: Theme.of(context).textTheme.headline6,
-//      ),
-//    );
-//
-//    return new Container(
-//        //color: Colors.white,
-//        decoration: new BoxDecoration(
-//            color: Colors.white,
-//            borderRadius: BorderRadius.all(Radius.circular(5)),
-//            border: Border.all(color: Colors.white, width: 1.0)),
-//        child: new Center(
-//            child: new Text("我是一个Text",
-//                style: Theme.of(context).textTheme.headline4)));
-
     return new Container(
-        //color: Colors.white,
+        color: Colors.white,
+        child: new Center(
+          child: new Container(
+            ///四周10大小的maring
+            margin: EdgeInsets.all(30.0),
 
-        ///四周10大小的maring
-        margin: EdgeInsets.all(10.0),
+            // 充满全屏幕
+            height: double.infinity,
+            width: double.infinity,
 
-        ///透明黑色遮罩
-        decoration: new BoxDecoration(
+            // 居中
+            alignment: Alignment.center,
 
-            ///弧度为4.0
-            borderRadius: BorderRadius.all(Radius.circular(4.0)),
+            ///透明黑色遮罩
+            decoration: new BoxDecoration(
 
-            ///设置了decoration的color，就不能设置Container的color。
-            color: Colors.white,
-            ///边框
-            border: new Border.all(color: Colors.lightBlue, width: 1)),
-        child: new Text("666666"));
+                ///弧度为4.0
+                borderRadius: BorderRadius.all(Radius.circular(4.0)),
+
+                ///设置了decoration的color，就不能设置Container的color。
+                color: Colors.lightGreen,
+
+                ///边框
+                border: new Border.all(color: Colors.lightBlue, width: 1)),
+            child: new Text(
+              "我是卡片里面的内容",
+              style: new TextStyle(
+                  color: Colors.white,
+                  fontSize: 14,
+                  decoration: TextDecoration.none),
+            ),
+          ),
+        ));
   }
 
 //class _MyHomePageState extends State<MyHomePage> {
