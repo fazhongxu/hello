@@ -9,17 +9,20 @@ class MyApp extends StatelessWidget {
     var username = ">>hello_flutter";
     username = "test_";
     var time = DateTime.now();
-    var books =  ["Chinese","Computer","Math"];
+    var books = ["Chinese", "Computer", "Math"];
     print(books);
-    var sets = {'a','b','c'};
+    var sets = {'a', 'b', 'c'};
     sets.add("e");
     print(sets);
-    var maps = {"name":"jack","age":18};
-    print(maps.toString()+"--"+maps["name"]+"--"+maps.containsKey("age").toString());
-    print("my name is$username"+username.runtimeType.toString());
+    var maps = {"name": "jack", "age": 18};
+    print(maps.toString() +
+        "--" +
+        maps["name"] +
+        "--" +
+        maps.containsKey("age").toString());
+    print("my name is$username" + username.runtimeType.toString());
 
     print(time);
-
 
     return MaterialApp(
       title: 'Flutter Demo',
@@ -73,53 +76,107 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
+//
+//    return new Container(
+//      color: Colors.white,
+//      child: new Text(
+//        "我是一个Text",
+//        style: Theme.of(context).textTheme.headline6,
+//      ),
+//    );
+//
+//    return new Container(
+//        //color: Colors.white,
+//        decoration: new BoxDecoration(
+//            color: Colors.white,
+//            borderRadius: BorderRadius.all(Radius.circular(5)),
+//            border: Border.all(color: Colors.white, width: 1.0)),
+//        child: new Center(
+//            child: new Text("我是一个Text",
+//                style: Theme.of(context).textTheme.headline4)));
+
+    return new Container(
+        //color: Colors.white,
+
+        ///四周10大小的maring
+        margin: EdgeInsets.all(10.0),
+
+        ///透明黑色遮罩
+        decoration: new BoxDecoration(
+
+            ///弧度为4.0
+            borderRadius: BorderRadius.all(Radius.circular(4.0)),
+
+            ///设置了decoration的color，就不能设置Container的color。
+            color: Colors.white,
+            ///边框
+            border: new Border.all(color: Colors.lightBlue, width: 1)),
+        child: new Text("666666"));
   }
+
+//class _MyHomePageState extends State<MyHomePage> {
+//  int _counter = 0;
+//
+//  void _incrementCounter() {
+//    setState(() {
+//      // This call to setState tells the Flutter framework that something has
+//      // changed in this State, which causes it to rerun the build method below
+//      // so that the display can reflect the updated values. If we changed
+//      // _counter without calling setState(), then the build method would not be
+//      // called again, and so nothing would appear to happen.
+//      _counter++;
+//    });
+//  }
+//
+//  @override
+//  Widget build(BuildContext context) {
+//    // This method is rerun every time setState is called, for instance as done
+//    // by the _incrementCounter method above.
+//    //
+//    // The Flutter framework has been optimized to make rerunning build methods
+//    // fast, so that you can just rebuild anything that needs updating rather
+//    // than having to individually change instances of widgets.
+//    return Scaffold(
+//      appBar: AppBar(
+//        // Here we take the value from the MyHomePage object that was created by
+//        // the App.build method, and use it to set our appbar title.
+//        title: Text(widget.title),
+//      ),
+//      body: Center(
+//        // Center is a layout widget. It takes a single child and positions it
+//        // in the middle of the parent.
+//        child: Column(
+//          // Column is also a layout widget. It takes a list of children and
+//          // arranges them vertically. By default, it sizes itself to fit its
+//          // children horizontally, and tries to be as tall as its parent.
+//          //
+//          // Invoke "debug painting" (press "p" in the console, choose the
+//          // "Toggle Debug Paint" action from the Flutter Inspector in Android
+//          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
+//          // to see the wireframe for each widget.
+//          //
+//          // Column has various properties to control how it sizes itself and
+//          // how it positions its children. Here we use mainAxisAlignment to
+//          // center the children vertically; the main axis here is the vertical
+//          // axis because Columns are vertical (the cross axis would be
+//          // horizontal).
+//          mainAxisAlignment: MainAxisAlignment.center,
+//          children: <Widget>[
+//            Text(
+//              'You have pushed the button this many times:',
+//            ),
+//            Text(
+//              '$_counter',
+//              style: Theme.of(context).textTheme.headline4,
+//            ),
+//          ],
+//        ),
+//      ),
+//      floatingActionButton: FloatingActionButton(
+//        onPressed: _incrementCounter,
+//        tooltip: 'Increment',
+//        child: Icon(Icons.add),
+//      ), // This trailing comma makes auto-formatting nicer for build methods.
+//    );
+//  }
 }
