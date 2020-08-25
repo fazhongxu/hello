@@ -80,35 +80,54 @@ class _MyHomePageState extends State<MyHomePage> {
         color: Colors.white,
         child: new Center(
           child: new Container(
-            ///四周10大小的maring
-            margin: EdgeInsets.all(30.0),
 
-            // 充满全屏幕
-            height: double.infinity,
-            width: double.infinity,
+              ///四周10大小的maring
+              margin: EdgeInsets.all(30.0),
 
-            // 居中
-            alignment: Alignment.center,
+              // 充满全屏幕
+              height: double.infinity,
+              width: double.infinity,
 
-            ///透明黑色遮罩
-            decoration: new BoxDecoration(
+              // 居中
+              alignment: Alignment.center,
 
-                ///弧度为4.0
-                borderRadius: BorderRadius.all(Radius.circular(4.0)),
+              ///透明黑色遮罩
+              decoration: new BoxDecoration(
 
-                ///设置了decoration的color，就不能设置Container的color。
-                color: Colors.lightGreen,
+                  ///弧度为4.0
+                  borderRadius: BorderRadius.all(Radius.circular(4.0)),
 
-                ///边框
-                border: new Border.all(color: Colors.lightBlue, width: 1)),
-            child: new Text(
-              "我是卡片里面的内容",
-              style: new TextStyle(
-                  color: Colors.white,
-                  fontSize: 14,
-                  decoration: TextDecoration.none),
-            ),
-          ),
+                  ///设置了decoration的color，就不能设置Container的color。
+                  color: Colors.lightGreen,
+
+                  ///边框
+                  border: new Border.all(color: Colors.lightBlue, width: 1)),
+              child: new Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  new Text(
+                    "我是",
+                    style: new TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                        decoration: TextDecoration.none),
+                  ),
+                  new Text(
+                    "一个",
+                    style: new TextStyle(
+                        color: Colors.lightBlueAccent,
+                        fontSize: 16,
+                        decoration: TextDecoration.none),
+                  ),
+                  new Text(
+                    "靓仔",
+                    style: new TextStyle(
+                        color: Colors.purpleAccent,
+                        fontSize: 18,
+                        decoration: TextDecoration.none),
+                  ),
+                ],
+              )),
         ));
   }
 
