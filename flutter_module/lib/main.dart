@@ -146,7 +146,7 @@ class _ShareHomeState extends State<ShareHomePage>
                 children: datas
                     .map((data) => new Padding(
                         padding: EdgeInsets.all(5),
-                        child: new ShareCardView(shareData: _shareData)))
+                        child: new ShareCardView(shareData: data)))
                     .toList())),
       ),
     );
