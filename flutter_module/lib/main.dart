@@ -75,7 +75,88 @@ class MyApp extends ShareHomePage {
 
 }
 
-class _ShareHomeState extends State<ShareHomePage> {
+//region: 顶部AppBar带图标 页面顶部带tab的页面
+
+class _ShareHomeState extends State<ShareHomePage>
+    with TickerProviderStateMixin {
+  ShareData _shareData = datas[0];
+
+  TabController _tabController;
+
+  void _select(ShareData shareData) {
+    setState(() {
+      _shareData = shareData;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = new TabController(length: datas.length, vsync: this);
+    _tabController.addListener(() {
+      setState(() {
+        _shareData = datas[_tabController.index];
+        print("------" + _shareData.toString());
+      });
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return new MaterialApp(
+      home: new DefaultTabController(
+        length: datas.length,
+        child: new Scaffold(
+            appBar: new AppBar(
+              title: new Expanded(
+                child: new Text("我是AppBar的标题"),
+                flex: 1,
+              ),
+              bottom: new TabBar(
+                tabs: datas
+                    .map((data) =>
+                        new Tab(text: data.title, icon: new Icon(data.icon)))
+                    .toList(),
+                controller: _tabController,
+                isScrollable: false,
+              ),
+              actions: [
+                new IconButton(
+                    icon: new Icon(
+                      Icons.directions_car,
+                      color: Colors.white,
+                    ),
+                    onPressed: () {
+                      _select(datas[0]);
+                    }),
+                new IconButton(
+                    icon: new Icon(Icons.directions_bike),
+                    onPressed: () {
+                      _select(datas[1]);
+                    }),
+                new IconButton(
+                    icon: new Icon(Icons.directions_boat),
+                    onPressed: () {
+                      _select(datas[2]);
+                    }),
+              ],
+            ),
+            //body: new ShareCardView(shareData: _shareData),
+            body: new TabBarView(
+                children: datas
+                    .map((data) => new Padding(
+                        padding: EdgeInsets.all(5),
+                        child: new ShareCardView(shareData: _shareData)))
+                    .toList())),
+      ),
+    );
+  }
+}
+//endregion
+
+//region: 顶部AppBar带图标
+
+/*class _ShareHomeState extends State<ShareHomePage> {
   ShareData _shareData = datas[0];
 
   void _select(ShareData shareData) {
@@ -118,7 +199,9 @@ class _ShareHomeState extends State<ShareHomePage> {
       ),
     );
   }
-}
+}*/
+
+//endregion
 
 class ShareHomePage extends StatefulWidget {
   @override
