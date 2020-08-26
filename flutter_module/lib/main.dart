@@ -23,8 +23,39 @@ class MyApp extends StatelessWidget {
     print("my name is$username" + username.runtimeType.toString());
 
     print(time);
-
-    return MaterialApp(
+    return new MaterialApp(
+      home: new Scaffold(
+          appBar: new AppBar(
+            title: new Text("我是AppBar的标题"),
+          ),
+          body: new Center(
+            child: new Container(
+              //color: Colors.lightBlueAccent,
+              margin: EdgeInsets.all(10),
+              width: 300,
+              height: 300,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                  color: Colors.lightBlueAccent,
+                  borderRadius: BorderRadius.all(Radius.circular(6))),
+              child: new Center(
+                  child: new Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  new Expanded(
+                    child: new Container(
+                      child: new Text("我是body",
+                          style:
+                              new TextStyle(color: Colors.white, fontSize: 14)),
+                      alignment: Alignment.center,
+                    ),
+                  )
+                ],
+              )),
+            ),
+          )),
+    );
+    /*return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
         // This is the theme of your application.
@@ -38,7 +69,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: MyHomePage(title: 'Flutter Demo Home Page'),
-    );
+    );*/
   }
 }
 
