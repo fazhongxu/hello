@@ -26,7 +26,20 @@ class MyApp extends StatelessWidget {
     return new MaterialApp(
       home: new Scaffold(
           appBar: new AppBar(
-            title: new Text("我是AppBar的标题"),
+            title: new Expanded(
+              child: new Text("我是AppBar的标题"),
+              flex: 1,
+            ),
+            actions: [
+              new IconButton(
+                  icon: new Icon(
+                    Icons.settings,
+                    color: Colors.white,
+                  ),
+                  onPressed: setting),
+              new IconButton(icon: new Icon(Icons.search), onPressed: null),
+              new IconButton(icon: new Icon(Icons.offline_bolt), onPressed: null)
+            ],
           ),
           body: new Center(
             child: new Container(
@@ -71,6 +84,10 @@ class MyApp extends StatelessWidget {
       home: MyHomePage(title: 'Flutter Demo Home Page'),
     );*/
   }
+}
+
+void setting() {
+  print("setting");
 }
 
 class MyHomePage extends StatefulWidget {
