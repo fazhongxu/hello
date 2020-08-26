@@ -38,34 +38,15 @@ class MyApp extends StatelessWidget {
                   ),
                   onPressed: setting),
               new IconButton(icon: new Icon(Icons.search), onPressed: null),
-              new IconButton(icon: new Icon(Icons.offline_bolt), onPressed: null)
+              new IconButton(
+                  icon: new Icon(Icons.offline_bolt), onPressed: null)
             ],
           ),
           body: new Center(
-            child: new Container(
-              //color: Colors.lightBlueAccent,
-              margin: EdgeInsets.all(10),
-              width: 300,
-              height: 300,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                  color: Colors.lightBlueAccent,
-                  borderRadius: BorderRadius.all(Radius.circular(6))),
-              child: new Center(
-                  child: new Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  new Expanded(
-                    child: new Container(
-                      child: new Text("我是body",
-                          style:
-                              new TextStyle(color: Colors.white, fontSize: 14)),
-                      alignment: Alignment.center,
-                    ),
-                  )
-                ],
-              )),
-            ),
+            child: new ShareCardView(
+                shareData: new ShareData(
+                    title: "分享标题",
+                    icon: new Icon(Icons.settings_input_svideo_outlined).icon)),
           )),
     );
     /*return MaterialApp(
@@ -83,6 +64,36 @@ class MyApp extends StatelessWidget {
       ),
       home: MyHomePage(title: 'Flutter Demo Home Page'),
     );*/
+  }
+}
+
+class ShareData {
+  const ShareData({this.title, this.icon});
+
+  final String title;
+  final IconData icon;
+}
+
+class ShareCardView extends StatelessWidget {
+  ShareData shareData;
+
+  ShareCardView({Key key, this.shareData}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return new Card(
+      elevation: 14,
+      margin: EdgeInsets.fromLTRB(15, 30, 15, 30),
+      child: new Center(
+          child: new Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          new Text(shareData.title,
+              style: new TextStyle(color: Colors.green, fontSize: 14)),
+          new Icon(shareData.icon, color: Colors.green),
+        ],
+      )),
+    );
   }
 }
 
