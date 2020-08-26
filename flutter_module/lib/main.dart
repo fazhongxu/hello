@@ -2,54 +2,61 @@ import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    var username = ">>hello_flutter";
-    username = "test_";
-    var time = DateTime.now();
-    var books = ["Chinese", "Computer", "Math"];
-    print(books);
-    var sets = {'a', 'b', 'c'};
-    sets.add("e");
-    print(sets);
-    var maps = {"name": "jack", "age": 18};
-    print(maps.toString() +
-        "--" +
-        maps["name"] +
-        "--" +
-        maps.containsKey("age").toString());
-    print("my name is$username" + username.runtimeType.toString());
-
-    print(time);
-    return new MaterialApp(
-      home: new Scaffold(
-          appBar: new AppBar(
-            title: new Expanded(
-              child: new Text("我是AppBar的标题"),
-              flex: 1,
-            ),
-            actions: [
-              new IconButton(
-                  icon: new Icon(
-                    Icons.settings,
-                    color: Colors.white,
-                  ),
-                  onPressed: setting),
-              new IconButton(icon: new Icon(Icons.search), onPressed: null),
-              new IconButton(
-                  icon: new Icon(Icons.offline_bolt), onPressed: null)
-            ],
-          ),
-          body: new Center(
-            child: new ShareCardView(
-                shareData: new ShareData(
-                    title: "分享标题",
-                    icon: new Icon(Icons.settings_input_svideo_outlined).icon)),
-          )),
-    );
-    /*return MaterialApp(
+class MyApp extends ShareHomePage {
+//  // This widget is the root of your application.
+//  @override
+//  Widget build(BuildContext context) {
+//    var username = ">>hello_flutter";
+//    username = "test_";
+//    var time = DateTime.now();
+//    var books = ["Chinese", "Computer", "Math"];
+//    print(books);
+//    var sets = {'a', 'b', 'c'};
+//    sets.add("e");
+//    print(sets);
+//    var maps = {"name": "jack", "age": 18};
+//    print(maps.toString() +
+//        "--" +
+//        maps["name"] +
+//        "--" +
+//        maps.containsKey("age").toString());
+//    print("my name is$username" + username.runtimeType.toString());
+//
+//    print(time);
+//
+//    ShareData _shareData;
+//
+//    void _select(ShareData shareData) {
+//      _shareData = shareData;
+//    }
+//
+//    return new MaterialApp(
+//      home: new Scaffold(
+//          appBar: new AppBar(
+//            title: new Expanded(
+//              child: new Text("我是AppBar的标题"),
+//              flex: 1,
+//            ),
+//            actions: [
+//              new IconButton(
+//                  icon: new Icon(
+//                    Icons.directions_car,
+//                    color: Colors.white,
+//                  ),
+//                  onPressed: null),
+//              new IconButton(
+//                  icon: new Icon(Icons.directions_bike), onPressed: null),
+//              new IconButton(
+//                  icon: new Icon(Icons.directions_boat), onPressed: null)
+//            ],
+//          ),
+//          body: new Center(
+//            child: new ShareCardView(
+//                shareData: new ShareData(
+//                    title: "分享标题", icon: new Icon(Icons.directions_car).icon)),
+//          )),
+//    );
+  /*return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
         // This is the theme of your application.
@@ -64,8 +71,67 @@ class MyApp extends StatelessWidget {
       ),
       home: MyHomePage(title: 'Flutter Demo Home Page'),
     );*/
+//  }
+
+}
+
+class _ShareHomeState extends State<ShareHomePage> {
+  ShareData _shareData = datas[0];
+
+  void _select(ShareData shareData) {
+    setState(() {
+      _shareData = shareData;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return new MaterialApp(
+      home: new Scaffold(
+        appBar: new AppBar(
+          title: new Expanded(
+            child: new Text("我是AppBar的标题"),
+            flex: 1,
+          ),
+          actions: [
+            new IconButton(
+                icon: new Icon(
+                  Icons.directions_car,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  _select(datas[0]);
+                }),
+            new IconButton(
+                icon: new Icon(Icons.directions_bike),
+                onPressed: () {
+                  _select(datas[1]);
+                }),
+            new IconButton(
+                icon: new Icon(Icons.directions_boat),
+                onPressed: () {
+                  _select(datas[2]);
+                }),
+          ],
+        ),
+        body: new ShareCardView(shareData: _shareData),
+      ),
+    );
   }
 }
+
+class ShareHomePage extends StatefulWidget {
+  @override
+  _ShareHomeState createState() {
+    return _ShareHomeState();
+  }
+}
+
+const List<ShareData> datas = const <ShareData>[
+  const ShareData(title: "car", icon: Icons.directions_car),
+  const ShareData(title: "bike", icon: Icons.directions_bike),
+  const ShareData(title: "boat", icon: Icons.directions_boat),
+];
 
 class ShareData {
   const ShareData({this.title, this.icon});
@@ -89,16 +155,16 @@ class ShareCardView extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           new Text(shareData.title,
-              style: new TextStyle(color: Colors.green, fontSize: 14)),
-          new Icon(shareData.icon, color: Colors.green),
+              style: new TextStyle(color: Colors.green, fontSize: 23)),
+          new Icon(
+            shareData.icon,
+            color: Colors.green,
+            size: 128,
+          ),
         ],
       )),
     );
   }
-}
-
-void setting() {
-  print("setting");
 }
 
 class MyHomePage extends StatefulWidget {
