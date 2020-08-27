@@ -115,7 +115,7 @@ class _ShareHomeState extends State<ShareHomePage>
               bottom: new TabBar(
                 tabs: datas
                     .map((data) =>
-                        new Tab(text: data.title, icon: new Icon(data.icon)))
+                new Tab(text: data.title, icon: new Icon(data.icon)))
                     .toList(),
                 controller: _tabController,
                 isScrollable: false,
@@ -142,12 +142,13 @@ class _ShareHomeState extends State<ShareHomePage>
               ],
             ),
             //body: new ShareCardView(shareData: _shareData),
-            body: new TabBarView(
-                children: datas
-                    .map((data) => new Padding(
-                        padding: EdgeInsets.all(5),
-                        child: new ShareCardView(shareData: data)))
-                    .toList())),
+            body: Center(
+                child: Image.asset(
+                  "images/resources_ic_default_avatar.jpeg",
+                  width: 300,
+                  height: double.infinity,
+                  fit: BoxFit.cover,
+                ))),
       ),
     );
   }
@@ -235,17 +236,17 @@ class ShareCardView extends StatelessWidget {
       margin: EdgeInsets.fromLTRB(15, 30, 15, 30),
       child: new Center(
           child: new Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          new Text(shareData.title,
-              style: new TextStyle(color: Colors.green, fontSize: 23)),
-          new Icon(
-            shareData.icon,
-            color: Colors.green,
-            size: 128,
-          ),
-        ],
-      )),
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              new Text(shareData.title,
+                  style: new TextStyle(color: Colors.green, fontSize: 23)),
+              new Icon(
+                shareData.icon,
+                color: Colors.green,
+                size: 128,
+              ),
+            ],
+          )),
     );
   }
 }
@@ -296,7 +297,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: new Center(
           child: new Container(
 
-              ///四周10大小的maring
+            ///四周10大小的maring
               margin: EdgeInsets.all(30.0),
 
               // 充满全屏幕
@@ -309,7 +310,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ///透明黑色遮罩
               decoration: new BoxDecoration(
 
-                  ///弧度为4.0
+                ///弧度为4.0
                   borderRadius: BorderRadius.all(Radius.circular(4.0)),
 
                   ///设置了decoration的color，就不能设置Container的color。

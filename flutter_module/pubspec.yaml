@@ -41,6 +41,10 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
+  assets:
+    - ./images/resources_ic_black_dark_lock.png
+    - ./images/resources_ic_default_avatar.jpeg
+
   # To add Flutter specific assets to your application, add an assets section, 
   # like this:
   # assets:
@@ -84,3 +88,4 @@ flutter:
     androidX: true
     androidPackage: com.example.flutter_module
     iosBundleIdentifier: com.example.flutterModule
+
