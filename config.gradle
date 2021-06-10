@@ -3,7 +3,7 @@ ext.deps = [:]
 
 def versions = [:]
 versions.constraintlayout = "1.1.3"
-versions.origin = "1.0.5"
+versions.origin = "1.0.10"
 ext.versions = versions
 
 def androidx = [:]
@@ -27,14 +27,20 @@ if (versions.module_common_remote) {
 }
 
 def hello_nexus_maven_config = [:]
-    hello_nexus_maven_config.userName = "admin"
-    hello_nexus_maven_config.password = "admin123"
-    hello_nexus_maven_config.url = "http://127.0.0.1:8081/repository/hello_nexus/"
+hello_nexus_maven_config.userName = "admin"
+hello_nexus_maven_config.password = "admin123"
+hello_nexus_maven_config.url = "http://127.0.0.1:8081/repository/hello_nexus/"
 ext.hello_nexus_maven_config = hello_nexus_maven_config
 
 static def addRepos(RepositoryHandler handler) {
     handler.google()
     handler.jcenter()
+    handler.maven {
+        url 'http://maven.aliyun.com/nexus/content/groups/public/'
+    }
+    handler.maven {
+        url 'http://maven.aliyun.com/nexus/content/repositories/jcenter/'
+    }
     handler.mavenCentral()
     handler.maven { url 'https://jitpack.io' }
     //使用的时候添加仓库

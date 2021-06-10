@@ -9,6 +9,15 @@ import java.util.Random;
 public class TestUtils {
 
     /**
+     * 返回Hello
+     *
+     * @return
+     */
+    public String sayHello() {
+        return "Hello";
+    }
+
+    /**
      * 获取一个随机数
      *
      * @param bound

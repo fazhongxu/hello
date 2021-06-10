@@ -63,6 +63,8 @@ task makeJar(type: Copy) {
 
 makeJar.dependsOn(build)
 
+//region: 生成带注释的 aar 的必须配置项
+
 // 可以生成带注释的jar包
 task sourcesJar(type: Jar) {
     classifier = 'sources'
@@ -87,3 +89,5 @@ artifacts {
     archives sourcesJar
     archives androidJavadocsJar
 }
+
+//endregion
