@@ -7,9 +7,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.xxl.common.TestUtils;
 
-import io.flutter.embedding.android.FlutterActivity;
-import io.flutter.embedding.android.FlutterActivityLaunchConfigs;
-
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,17 +20,17 @@ public class MainActivity extends AppCompatActivity {
         tvText.setText(String.valueOf(TestUtils.currentTimeMillis()));
 
         tvText.setOnClickListener(view -> {
-            startFlutterActivity();
+//            startFlutterActivity();
         });
     }
 
-    /**
-     * 跳转Flutter页面
-     */
-    private void startFlutterActivity() {
-        startActivity(FlutterActivity.withCachedEngine(MyApplication.FLUTTER_ENGINE_ID)
-                .build(this)
-        );
-    }
+//    /**
+//     * 跳转Flutter页面
+//     */
+//    private void startFlutterActivity() {
+//        startActivity(FlutterActivity.withCachedEngine(MyApplication.FLUTTER_ENGINE_ID)
+//                .build(this)
+//        );
+//    }
 
 }
