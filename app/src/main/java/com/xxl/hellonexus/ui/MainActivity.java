@@ -1,4 +1,4 @@
-package com.xxl.hellonexus;
+package com.xxl.hellonexus.ui;
 
 import android.os.Bundle;
 import android.widget.TextView;
@@ -6,7 +6,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.xxl.common.TestUtils;
-
+import com.xxl.hellonexus.R;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
 //     * 跳转Flutter页面
 //     */
 //    private void startFlutterActivity() {
-//        startActivity(FlutterActivity.withCachedEngine(MyApplication.FLUTTER_ENGINE_ID)
+//        startActivity(FlutterActivity.withCachedEngine(NexusApplication.FLUTTER_ENGINE_ID)
 //                .build(this)
 //        );
 //    }

@@ -10,6 +10,13 @@ def androidx = [:]
 androidx.constraintlayout = "androidx.constraintlayout:constraintlayout:$versions.constraintlayout"
 deps.androidx = androidx
 
+def dagger = [:]
+dagger.dagger = "com.google.dagger:dagger:2.28.1"
+dagger.processor = "com.google.dagger:dagger-compiler:2.28.1"
+dagger.android = "com.google.dagger:dagger-android:2.28.1"
+dagger.android_processor = "com.google.dagger:dagger-android-processor:2.28.1"
+deps.dagger = dagger
+
 def origin = [:]
 // 是否使用远程依赖 true使用远程依赖（远程私服存储的aar依赖）
 // false则为本地仓库存储的代码

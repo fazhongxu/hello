@@ -59,5 +59,8 @@ dependencies {
 
     implementation deps.origin.common
 
-//    implementation project(':flutter')
+    implementation deps.dagger.dagger
+    annotationProcessor deps.dagger.processor
+    implementation deps.dagger.android
+    annotationProcessor deps.dagger.android_processor
 }
