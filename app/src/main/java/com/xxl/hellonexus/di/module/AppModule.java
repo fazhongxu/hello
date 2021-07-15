@@ -1,6 +1,7 @@
 package com.xxl.hellonexus.di.module;
 
 import android.app.Application;
+import android.content.Context;
 
 import androidx.annotation.NonNull;
 
@@ -21,6 +22,12 @@ public class AppModule {
     @Singleton
     @Provides
     Application provideApplication(@NonNull final Application application) {
+        return application;
+    }
+
+    @Singleton
+    @Provides
+    Context provideContext(@NonNull final Application application) {
         return application;
     }
 
