@@ -9,7 +9,7 @@ import dagger.android.DaggerApplication;
  * @author xxl.
  * @date 2020/8/20.
  */
-public class NexusApplication extends DaggerApplication {
+public class HelloApplication extends DaggerApplication {
 
     @Override
     public void onCreate() {

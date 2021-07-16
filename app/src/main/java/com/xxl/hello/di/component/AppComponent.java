@@ -4,7 +4,7 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 
-import com.xxl.hello.NexusApplication;
+import com.xxl.hello.HelloApplication;
 import com.xxl.hello.di.builder.AppActivityBuilder;
 import com.xxl.hello.di.module.AppModule;
 import com.xxl.hello.di.module.DataStoreModule;
@@ -25,7 +25,7 @@ import dagger.android.AndroidInjector;
         AppModule.class,
         AppActivityBuilder.class,
         DataStoreModule.class})
-public interface AppComponent extends AndroidInjector<NexusApplication> {
+public interface AppComponent extends AndroidInjector<HelloApplication> {
 
     @Component.Builder
     interface Builder {
