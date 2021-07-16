@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply from: '../and_res_guard.gradle'
+
 android {
 
     compileSdkVersion 30
@@ -42,22 +43,27 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
-
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-
-    implementation deps.androidx.constraintlayout
+    implementation project(path: ':module_user')
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation deps.androidx.constraintlayout
+
+    implementation project(path: ':module_service')
     implementation deps.origin.common
 
-//    implementation project(':flutter')
+    implementation deps.okhttp.okhttp
+    implementation deps.retrofit.retrofit
+
+    implementation deps.dagger.dagger
+    annotationProcessor deps.dagger.processor
+    implementation deps.dagger.android
+    annotationProcessor deps.dagger.android_processor
 }
