@@ -1,4 +1,4 @@
-package com.xxl.hellonexus;
+package com.xxl.hello;
 
 import android.content.Context;
 
@@ -22,6 +22,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
-        assertEquals("com.xxl.hellonexus", appContext.getPackageName());
+        assertEquals("com.xxl.hello", appContext.getPackageName());
     }
 }

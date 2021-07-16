@@ -1,4 +1,4 @@
-package com.xxl.hellonexus;
+package com.xxl.hello;
 
 import org.junit.Test;
 
