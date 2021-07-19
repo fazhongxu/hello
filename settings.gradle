@@ -1,7 +1,7 @@
-include ':module_user'
 include ':app'
-include ':base:module_common'
-include ':base:module_service'
+include ':framework:module_common'
+include ':framework:module_service'
+include ':modules:module_user'
 
 
 
