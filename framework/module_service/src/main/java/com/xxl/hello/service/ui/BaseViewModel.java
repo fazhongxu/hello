@@ -6,8 +6,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.AndroidViewModel;
 
+import com.xxl.hello.common.SchedulersProvider;
+
 import java.lang.ref.WeakReference;
 
+import io.reactivex.rxjava3.core.ObservableTransformer;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import lombok.experimental.Accessors;
@@ -91,6 +94,25 @@ public class BaseViewModel<N> extends AndroidViewModel {
         }
     }
 
+    /**
+     * 数据流线程切换 子线程->主线程
+     *
+     * @param <T>
+     * @return
+     */
+    protected <T> ObservableTransformer<T, T> applySchedulers() {
+        return SchedulersProvider.applySchedulers();
+    }
+
+    /**
+     * 数据流线程切换 子线程->子线程
+     *
+     * @param <T>
+     * @return
+     */
+    protected <T> ObservableTransformer<T, T> applyIOSchedulers() {
+        return SchedulersProvider.applyIOSchedulers();
+    }
 
     //endregion
 
