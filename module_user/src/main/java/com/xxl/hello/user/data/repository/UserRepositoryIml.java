@@ -3,7 +3,11 @@ package com.xxl.hello.user.data.repository;
 import androidx.annotation.NonNull;
 
 import com.xxl.hello.user.data.local.UserLocalDataStoreSource;
+import com.xxl.hello.user.data.model.api.UserLoginRequest;
+import com.xxl.hello.user.data.model.api.UserLoginResponse;
 import com.xxl.hello.user.data.remote.UserRemoteDataStoreSource;
+
+import io.reactivex.rxjava3.core.Observable;
 
 /**
  * @author xxl.
@@ -32,14 +36,12 @@ public class UserRepositoryIml implements UserRepository {
     /**
      * 用户登录
      *
-     * @param phoneNumber 手机号
-     * @param verifyCode  验证码
+     * @param request 请求参数
      * @return
      */
     @Override
-    public void login(@NonNull final String phoneNumber,
-                      @NonNull final String verifyCode) {
-        mUserRemoteDataStoreSource.login(phoneNumber, verifyCode);
+    public Observable<UserLoginResponse> login(@NonNull final UserLoginRequest request) {
+        return mUserRemoteDataStoreSource.login(request);
     }
 
     //endregion

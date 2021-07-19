@@ -42,6 +42,11 @@ dependencies {
 
     implementation deps.okhttp.okhttp
     implementation deps.retrofit.retrofit
+    implementation deps.rxjava
+    implementation deps.rxandroid
+
+    compileOnly deps.lombok.lombok
+    annotationProcessor deps.lombok.lombok_processor
 
     implementation deps.dagger.dagger
     annotationProcessor deps.dagger.processor

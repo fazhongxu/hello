@@ -51,6 +51,11 @@ dependencies {
 
     implementation deps.okhttp.okhttp
     implementation deps.retrofit.retrofit
+    implementation deps.rxjava
+    implementation deps.rxandroid
+
+    compileOnly deps.lombok.lombok
+    annotationProcessor deps.lombok.lombok_processor
 }
 
 // module gradle-> other->makejar  即可在module build->libs看到生成的文件

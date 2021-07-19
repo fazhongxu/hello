@@ -2,6 +2,10 @@ package com.xxl.hello.user.data.remote;
 
 import androidx.annotation.NonNull;
 
+import com.xxl.hello.user.data.model.api.UserLoginRequest;
+import com.xxl.hello.user.data.model.api.UserLoginResponse;
+
+import io.reactivex.rxjava3.core.Observable;
 import retrofit2.Retrofit;
 
 /**
@@ -29,17 +33,16 @@ public class UserRemoteDataStoreSourceImpl implements UserRemoteDataStoreSource 
 
     //region: 用户登录相关
 
+
     /**
      * 用户登录
      *
-     * @param phoneNumber 手机号
-     * @param verifyCode  验证码
+     * @param request 请求参数
      * @return
      */
     @Override
-    public void login(@NonNull final String phoneNumber,
-                      @NonNull final String verifyCode) {
-        mUserRemoteDataSourceService.login(phoneNumber, verifyCode);
+    public Observable<UserLoginResponse> login(@NonNull UserLoginRequest request) {
+        return mUserRemoteDataSourceService.login(request.getPhoneNumber(),request.getVerifyCode());
     }
 
     //endregion
@@ -49,6 +52,7 @@ public class UserRemoteDataStoreSourceImpl implements UserRemoteDataStoreSource 
     public Retrofit getRetrofit() {
         return mRetrofit;
     }
+
 
     //endregion
 }

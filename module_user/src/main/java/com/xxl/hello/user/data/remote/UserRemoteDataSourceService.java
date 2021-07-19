@@ -1,5 +1,8 @@
 package com.xxl.hello.user.data.remote;
 
+import com.xxl.hello.user.data.model.api.UserLoginResponse;
+
+import io.reactivex.rxjava3.core.Observable;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
@@ -28,6 +31,6 @@ public interface UserRemoteDataSourceService {
      */
     @FormUrlEncoded
     @POST(USER_NET_WORK_PREFIX + "login")
-    String login(@Field("phone_number") final String phoneNumber,
-                 @Field("verify_code") final String verifyCode);
+    Observable<UserLoginResponse> login(@Field("phone_number") final String phoneNumber,
+                                        @Field("verify_code") final String verifyCode);
 }

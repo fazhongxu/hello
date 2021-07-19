@@ -66,4 +66,10 @@ dependencies {
     annotationProcessor deps.dagger.processor
     implementation deps.dagger.android
     annotationProcessor deps.dagger.android_processor
+
+    implementation deps.rxjava
+    implementation deps.rxandroid
+
+    compileOnly deps.lombok.lombok
+    annotationProcessor deps.lombok.lombok_processor
 }

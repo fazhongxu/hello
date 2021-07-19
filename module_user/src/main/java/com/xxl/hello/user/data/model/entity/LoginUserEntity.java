@@ -1,11 +1,16 @@
 package com.xxl.hello.user.data.model.entity;
 
+import lombok.Getter;
+import lombok.experimental.Accessors;
+
 /**
  * 登录用户信息
  *
  * @author xxl.
  * @date 2021/7/16.
  */
+@Getter
+@Accessors(prefix = "m")
 public class LoginUserEntity {
 
     //region: 成员变量

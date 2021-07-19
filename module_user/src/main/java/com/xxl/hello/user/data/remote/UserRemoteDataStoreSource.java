@@ -2,6 +2,11 @@ package com.xxl.hello.user.data.remote;
 
 import androidx.annotation.NonNull;
 
+import com.xxl.hello.user.data.model.api.UserLoginRequest;
+import com.xxl.hello.user.data.model.api.UserLoginResponse;
+
+import io.reactivex.rxjava3.core.Observable;
+
 /**
  * 用户模块远程数据源
  *
@@ -13,10 +18,8 @@ public interface UserRemoteDataStoreSource {
     /**
      * 用户登录
      *
-     * @param phoneNumber 手机号
-     * @param verifyCode  验证码
+     * @param request 请求参数
      * @return
      */
-    void login(@NonNull final String phoneNumber,
-               @NonNull final String verifyCode);
+    Observable<UserLoginResponse> login(@NonNull final UserLoginRequest request);
 }

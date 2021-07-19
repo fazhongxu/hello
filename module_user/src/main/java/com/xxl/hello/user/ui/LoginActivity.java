@@ -1,16 +1,21 @@
 package com.xxl.hello.user.ui;
 
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.xxl.hello.common.TestUtils;
 import com.xxl.hello.service.ui.BaseActivity;
 import com.xxl.hello.user.R;
+import com.xxl.hello.user.data.model.api.UserLoginResponse;
 
 /**
  * @author xxl.
  * @date 2021/07/16.
  */
-public class LoginActivity extends BaseActivity<LoginActivityViewModel> {
+public class LoginActivity extends BaseActivity<LoginActivityViewModel> implements LoginActivityNavigator{
 
     //region: 成员变量
 
@@ -35,7 +40,9 @@ public class LoginActivity extends BaseActivity<LoginActivityViewModel> {
      */
     @Override
     protected LoginActivityViewModel createViewModel() {
-        return mLoginActivityViewModel = new ViewModelProvider(this, mViewModelProviderFactory).get(LoginActivityViewModel.class);
+         mLoginActivityViewModel = new ViewModelProvider(this, mViewModelProviderFactory).get(LoginActivityViewModel.class);
+         mLoginActivityViewModel.setNavigator(this);
+         return mLoginActivityViewModel;
     }
 
     /**
@@ -61,8 +68,23 @@ public class LoginActivity extends BaseActivity<LoginActivityViewModel> {
     protected void setupLayout() {
         mBtnLogin = findViewById(R.id.btn_login);
         mBtnLogin.setOnClickListener(v -> {
-            mLoginActivityViewModel.requestLogin("123456", "abc");
+            mLoginActivityViewModel.requestLogin("123456", String.valueOf(TestUtils.currentTimeMillis()));
         });
+    }
+
+    //endregion
+
+
+    //region: LoginActivityNavigator
+
+    /**
+     * 请求登录完成
+     *
+     * @param loginResponse
+     */
+    @Override
+    public void requestLoginComplete(@NonNull final UserLoginResponse loginResponse) {
+        Toast.makeText(this, loginResponse.getLoginUserEntity().getUserName(), Toast.LENGTH_SHORT).show();
     }
 
     //endregion
