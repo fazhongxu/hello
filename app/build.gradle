@@ -47,7 +47,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation project(path: ':module_user')
+    implementation project(path: ':modules:module_user')
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
@@ -56,7 +56,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation deps.androidx.constraintlayout
 
-    implementation project(path: ':base:module_service')
+    implementation project(path: ':framework:module_service')
     implementation deps.origin.common
 
     implementation deps.okhttp.okhttp
