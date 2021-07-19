@@ -52,3 +52,7 @@ uploadArchives {
  8.命令打包
 
  ./gradlew resguardRelease
+
+
+ dagger2_simple
+ dagger2 使用的简单版本
