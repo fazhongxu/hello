@@ -8,6 +8,16 @@ versions.okhttp = "4.9.1"
 versions.retrofit = "2.9.0"
 ext.versions = versions
 
+// build 相关配置
+def build_versions = [:]
+build_versions.compileSdkVersion = 30
+build_versions.buildToolsVersion = "30.0.1"
+build_versions.minSdkVersion = 16
+build_versions.targetSdkVersion = 30
+build_versions.versionCode = 1
+build_versions.versionName = "1.0.0"
+ext.build_versions = build_versions
+
 def androidx = [:]
 androidx.constraintlayout = "androidx.constraintlayout:constraintlayout:$versions.constraintlayout"
 deps.androidx = androidx
