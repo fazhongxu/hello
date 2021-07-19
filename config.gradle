@@ -44,10 +44,10 @@ versions.module_service_remote = false;
 if (versions.module_common_remote) {
     origin.common = "com.xxl.common:hello_nexus:$versions.origin"
 } else {
-    origin.common = project(':module_common')
+    origin.common = project(':base:module_common')
 }
 
-origin.service = project(':module_service')
+origin.service = project(':base:module_service')
 
 def hello_nexus_maven_config = [:]
 hello_nexus_maven_config.userName = "admin"
