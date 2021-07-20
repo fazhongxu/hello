@@ -61,7 +61,7 @@ public class CacheUtils {
      * @param value
      * @return
      */
-    public boolean encode(@NonNull final String key,
+    public static boolean encode(@NonNull final String key,
                           @NonNull final String value) {
         return MMKV.mmkvWithID(getDefaultName(),MMKV.MULTI_PROCESS_MODE).encode(key, value);
     }
@@ -72,7 +72,7 @@ public class CacheUtils {
      * @param key
      * @return
      */
-    public String decodeString(@NonNull final String key) {
+    public static String decodeString(@NonNull final String key) {
         return MMKV.mmkvWithID(getDefaultName(),MMKV.MULTI_PROCESS_MODE).decodeString(key);
     }
 
