@@ -6,7 +6,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.xxl.hello.common.TestUtils;
+import com.xxl.hello.common.utils.TestUtils;
 import com.xxl.hello.nexus.R;
 import com.xxl.hello.user.ui.LoginActivity;
 

@@ -39,6 +39,8 @@ dependencies {
 
     implementation deps.okhttp.okhttp
     implementation deps.retrofit.retrofit
+    implementation deps.retrofit.adapter
+    implementation deps.retrofit.converter
 
     implementation deps.rxjava
     implementation deps.rxandroid
