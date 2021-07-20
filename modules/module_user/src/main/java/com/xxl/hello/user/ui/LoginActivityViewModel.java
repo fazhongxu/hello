@@ -8,9 +8,7 @@ import com.xxl.hello.service.ui.BaseViewModel;
 import com.xxl.hello.user.data.model.api.UserLoginRequest;
 import com.xxl.hello.user.data.repository.UserRepository;
 
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.Disposable;
-import io.reactivex.rxjava3.schedulers.Schedulers;
 
 /**
  * @author xxl.
@@ -48,8 +46,7 @@ public class LoginActivityViewModel extends BaseViewModel<LoginActivityNavigator
                 .setPhoneNumber(phoneNumber)
                 .setVerifyCode(verifyCode);
         final Disposable disposable = mUserRepository.login(request)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .compose(applySchedulers())
                 .subscribe(userLoginResponse -> {
                     getNavigator().requestLoginComplete(userLoginResponse);
                 }, this::setResponseException);

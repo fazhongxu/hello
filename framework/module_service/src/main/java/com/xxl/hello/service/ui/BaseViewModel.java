@@ -1,13 +1,18 @@
 package com.xxl.hello.service.ui;
 
 import android.app.Application;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.AndroidViewModel;
 
+import com.xxl.hello.common.SchedulersProvider;
+import com.xxl.hello.common.utils.AppUtils;
+
 import java.lang.ref.WeakReference;
 
+import io.reactivex.rxjava3.core.ObservableTransformer;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import lombok.experimental.Accessors;
@@ -88,9 +93,29 @@ public class BaseViewModel<N> extends AndroidViewModel {
     protected void setResponseException(@Nullable final Throwable throwable) {
         if (throwable != null) {
             // TODO: 2021/7/19 处理异常信息
+            Toast.makeText(AppUtils.getApplication(), throwable.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
+    /**
+     * 数据流线程切换 子线程->主线程
+     *
+     * @param <T>
+     * @return
+     */
+    protected <T> ObservableTransformer<T, T> applySchedulers() {
+        return SchedulersProvider.applySchedulers();
+    }
+
+    /**
+     * 数据流线程切换 子线程->子线程
+     *
+     * @param <T>
+     * @return
+     */
+    protected <T> ObservableTransformer<T, T> applyIOSchedulers() {
+        return SchedulersProvider.applyIOSchedulers();
+    }
 
     //endregion
 

@@ -35,8 +35,12 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
+    implementation deps.origin.common
+
     implementation deps.okhttp.okhttp
     implementation deps.retrofit.retrofit
+    implementation deps.retrofit.adapter
+    implementation deps.retrofit.converter
 
     implementation deps.rxjava
     implementation deps.rxandroid

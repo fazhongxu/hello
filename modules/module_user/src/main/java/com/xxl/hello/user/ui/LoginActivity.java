@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.xxl.hello.common.TestUtils;
+import com.xxl.hello.common.utils.TestUtils;
 import com.xxl.hello.service.ui.BaseActivity;
 import com.xxl.hello.user.R;
 import com.xxl.hello.user.data.model.api.UserLoginResponse;
