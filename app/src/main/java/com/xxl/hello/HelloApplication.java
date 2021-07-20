@@ -31,6 +31,6 @@ public class HelloApplication extends DaggerApplication {
      * 初始化组件
      */
     private void initPlugins() {
-        CacheUtils.initialize(this);
+        CacheUtils.init(this);
     }
 }

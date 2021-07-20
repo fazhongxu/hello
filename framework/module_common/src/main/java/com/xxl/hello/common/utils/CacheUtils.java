@@ -41,7 +41,7 @@ public class CacheUtils {
      *
      * @param application
      */
-    public static void initialize(@NonNull final Application application) {
+    public static void init(@NonNull final Application application) {
         MMKV.initialize(application);
     }
 
@@ -63,7 +63,7 @@ public class CacheUtils {
      */
     public boolean encode(@NonNull final String key,
                           @NonNull final String value) {
-        return MMKV.mmkvWithID(getDefaultName()).encode(key, value);
+        return MMKV.mmkvWithID(getDefaultName(),MMKV.MULTI_PROCESS_MODE).encode(key, value);
     }
 
     /**
@@ -73,7 +73,7 @@ public class CacheUtils {
      * @return
      */
     public String decodeString(@NonNull final String key) {
-        return MMKV.mmkvWithID(getDefaultName()).decodeString(key);
+        return MMKV.mmkvWithID(getDefaultName(),MMKV.MULTI_PROCESS_MODE).decodeString(key);
     }
 
     //endregion
