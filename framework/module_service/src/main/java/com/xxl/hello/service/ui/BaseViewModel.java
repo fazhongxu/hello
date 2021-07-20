@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.AndroidViewModel;
 
-import com.xxl.hello.common.SchedulersProvider;
+import com.xxl.hello.common.utils.SchedulersProvider;
 import com.xxl.hello.common.utils.AppUtils;
 
 import java.lang.ref.WeakReference;

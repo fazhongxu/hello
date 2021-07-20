@@ -1,5 +1,6 @@
 package com.xxl.hello.di.module;
 
+import com.xxl.hello.common.config.NetworkConfig;
 import com.xxl.hello.service.qunlifier.ForBaseUrl;
 import com.xxl.hello.service.qunlifier.ForNetWorkDebug;
 import com.xxl.hello.service.qunlifier.ForNetworkEncryptKey;
@@ -45,9 +46,8 @@ public class DataStoreModule {
     @ForNetWorkDebug
     @Singleton
     @Provides
-    boolean provideNetwordDebug() {
-        // NetwordUtils#isNetworkDebug
-        return true;
+    boolean provideNetworkDebug() {
+        return NetworkConfig.isNetworkDebug();
     }
 
     /**
@@ -59,7 +59,7 @@ public class DataStoreModule {
     @Singleton
     @Provides
     String provideHostUrl(@ForNetWorkDebug boolean isNetworkDebug) {
-        return isNetworkDebug ? "https://192.168.1.1:8080" : "https://github.com/fazhongxu";
+        return isNetworkDebug ? "https://192.168.1.1:8080/" : "https://github.com/fazhongxu/";
     }
 
     //endregion

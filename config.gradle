@@ -9,6 +9,7 @@ versions.retrofit = "2.9.0"
 versions.rxjava = "3.0.13"
 versions.rxandroid = "3.0.0"
 versions.lombok = "1.18.20"
+versions.mmkv = "1.2.10"
 ext.versions = versions
 
 // build 相关配置
@@ -58,6 +59,9 @@ def lombok = [:]
 lombok.lombok = "org.projectlombok:lombok:$versions.lombok"
 lombok.lombok_processor = "org.projectlombok:lombok:$versions.lombok"
 deps.lombok = lombok
+
+// mmkv 数据存储 代替sp [https://github.com/Tencent/MMKV]
+deps.mmkv = "com.tencent:mmkv-static:$versions.mmkv"
 
 def origin = [:]
 // 是否使用远程依赖 true使用远程依赖（远程私服存储的aar依赖）

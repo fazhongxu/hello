@@ -1,5 +1,6 @@
 package com.xxl.hello;
 
+import com.xxl.hello.common.utils.CacheUtils;
 import com.xxl.hello.common.utils.AppUtils;
 import com.xxl.hello.di.component.DaggerAppComponent;
 
@@ -16,6 +17,7 @@ public class HelloApplication extends DaggerApplication {
     public void onCreate() {
         super.onCreate();
         AppUtils.init(this);
+        initPlugins();
     }
 
     @Override
@@ -23,5 +25,12 @@ public class HelloApplication extends DaggerApplication {
         return DaggerAppComponent.builder()
                 .application(this)
                 .build();
+    }
+
+    /**
+     * 初始化组件
+     */
+    private void initPlugins() {
+        CacheUtils.initialize(this);
     }
 }

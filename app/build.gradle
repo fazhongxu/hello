@@ -74,4 +74,6 @@ dependencies {
 
     compileOnly deps.lombok.lombok
     annotationProcessor deps.lombok.lombok_processor
+
+    implementation deps.mmkv
 }

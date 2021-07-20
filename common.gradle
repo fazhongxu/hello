@@ -55,5 +55,7 @@ dependencies {
     annotationProcessor deps.dagger.processor
     implementation deps.dagger.android
     annotationProcessor deps.dagger.android_processor
+
+    implementation deps.mmkv
 }
 
