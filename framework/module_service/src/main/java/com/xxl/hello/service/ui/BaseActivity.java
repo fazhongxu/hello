@@ -41,6 +41,7 @@ public abstract class BaseActivity<V extends BaseViewModel> extends AppCompatAct
         createViewModel();
         setupData();
         setupLayout();
+        requestData();
     }
 
     /**
@@ -61,6 +62,8 @@ public abstract class BaseActivity<V extends BaseViewModel> extends AppCompatAct
 
     /**
      * 获取视图资源ID
+     *
+     * @return
      */
     @LayoutRes
     protected abstract int getLayoutRes();
@@ -74,6 +77,13 @@ public abstract class BaseActivity<V extends BaseViewModel> extends AppCompatAct
      * 设置页面视图
      */
     protected abstract void setupLayout();
+
+    /**
+     * 请求数据
+     */
+    protected void requestData() {
+
+    }
 
     /**
      * 是否需要依赖注入

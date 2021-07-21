@@ -2,7 +2,7 @@ package com.xxl.hello.user.data.model.api;
 
 import androidx.annotation.Keep;
 
-import com.xxl.hello.user.data.model.entity.LoginUserEntity;
+import com.xxl.hello.service.data.model.entity.LoginUserEntity;
 
 import lombok.Getter;
 import lombok.experimental.Accessors;

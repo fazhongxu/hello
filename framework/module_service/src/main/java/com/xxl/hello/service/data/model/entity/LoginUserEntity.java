@@ -1,4 +1,4 @@
-package com.xxl.hello.user.data.model.entity;
+package com.xxl.hello.service.data.model.entity;
 
 import lombok.Getter;
 import lombok.experimental.Accessors;

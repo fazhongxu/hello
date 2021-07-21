@@ -38,12 +38,6 @@ public class AppModule {
 
     @Singleton
     @Provides
-    ServiceWrapper provideServiceWrapper(@ForApplication final Application application) {
-        return new ServiceWrapper(application);
-    }
-
-    @Singleton
-    @Provides
     HelloApplicationWrapper provideApplicationWrapper(@ForApplication final Application application,
                                                       @NonNull final ServiceWrapper serviceWrapper) {
         return new HelloApplicationWrapper(application, serviceWrapper);

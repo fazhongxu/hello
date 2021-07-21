@@ -2,6 +2,8 @@ package com.xxl.hello.user.data.repository;
 
 import androidx.annotation.NonNull;
 
+import com.xxl.hello.service.data.model.api.QueryUserInfoRequest;
+import com.xxl.hello.service.data.model.api.QueryUserInfoResponse;
 import com.xxl.hello.user.data.local.UserLocalDataStoreSource;
 import com.xxl.hello.user.data.model.api.UserLoginRequest;
 import com.xxl.hello.user.data.model.api.UserLoginResponse;
@@ -42,6 +44,22 @@ public class UserRepositoryIml implements UserRepository {
     @Override
     public Observable<UserLoginResponse> login(@NonNull final UserLoginRequest request) {
         return mUserRemoteDataStoreSource.login(request);
+    }
+
+    //endregion
+
+    //region: UserRepositoryApi
+
+    /**
+     * 查询用户信息
+     *
+     * @param request 请求参数
+     * @return
+     */
+    @Override
+    public Observable<QueryUserInfoResponse> queryUserInfo(@NonNull final QueryUserInfoRequest request) {
+        // TODO: 2021/7/21
+        return Observable.just(QueryUserInfoResponse.obtain());
     }
 
     //endregion

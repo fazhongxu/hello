@@ -1,6 +1,7 @@
 package com.xxl.hello.di.module;
 
 import com.xxl.hello.common.config.NetworkConfig;
+import com.xxl.hello.service.di.module.ServiceDataStoreModule;
 import com.xxl.hello.service.qunlifier.ForBaseUrl;
 import com.xxl.hello.service.qunlifier.ForNetWorkDebug;
 import com.xxl.hello.service.qunlifier.ForNetworkEncryptKey;
@@ -21,7 +22,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * @author xxl.
  * @date 2021/7/15.
  */
-@Module(includes = UserDataStoreModule.class)
+@Module(includes = {ServiceDataStoreModule.class,
+        UserDataStoreModule.class})
 public class DataStoreModule {
 
     //region: 构建网络请求基础参数相关

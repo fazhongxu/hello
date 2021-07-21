@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.hello.service.qunlifier.ForApplication;
 import com.xxl.hello.service.ui.ViewModelProviderFactory;
 import com.xxl.hello.user.data.repository.UserRepository;
@@ -21,8 +22,9 @@ public class LoginActivityViewModule {
 
     @Provides
     LoginActivityViewModel provideLoginActivityViewModel(@ForApplication final Application application,
+                                                         @NonNull final DataRepositoryKit dataRepositoryKit,
                                                          @NonNull final UserRepository userRepository) {
-        return new LoginActivityViewModel(application,userRepository);
+        return new LoginActivityViewModel(application,dataRepositoryKit,userRepository);
     }
 
     @Provides
