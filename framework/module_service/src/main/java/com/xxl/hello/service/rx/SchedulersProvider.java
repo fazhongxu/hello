@@ -1,4 +1,4 @@
-package com.xxl.hello.common.utils;
+package com.xxl.hello.service.rx;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.ObservableTransformer;

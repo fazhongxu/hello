@@ -5,6 +5,8 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 
+import com.xxl.hello.HelloApplicationWrapper;
+import com.xxl.hello.service.ServiceWrapper;
 import com.xxl.hello.service.qunlifier.ForApplication;
 
 import javax.inject.Singleton;
@@ -32,6 +34,19 @@ public class AppModule {
     @Provides
     Context provideContext(@NonNull final Application application) {
         return application;
+    }
+
+    @Singleton
+    @Provides
+    ServiceWrapper provideServiceWrapper(@ForApplication final Application application) {
+        return new ServiceWrapper(application);
+    }
+
+    @Singleton
+    @Provides
+    HelloApplicationWrapper provideApplicationWrapper(@ForApplication final Application application,
+                                                      @NonNull final ServiceWrapper serviceWrapper) {
+        return new HelloApplicationWrapper(application, serviceWrapper);
     }
 
     //endregion
