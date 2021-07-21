@@ -1,5 +1,7 @@
 package com.xxl.hello.user.ui;
 
+import android.text.TextUtils;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -7,6 +9,7 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.xxl.hello.common.utils.TestUtils;
+import com.xxl.hello.service.data.model.entity.LoginUserEntity;
 import com.xxl.hello.service.ui.BaseActivity;
 import com.xxl.hello.user.R;
 import com.xxl.hello.user.data.model.api.UserLoginResponse;
@@ -15,7 +18,7 @@ import com.xxl.hello.user.data.model.api.UserLoginResponse;
  * @author xxl.
  * @date 2021/07/16.
  */
-public class LoginActivity extends BaseActivity<LoginActivityViewModel> implements LoginActivityNavigator{
+public class LoginActivity extends BaseActivity<LoginActivityViewModel> implements LoginActivityNavigator {
 
     //region: 成员变量
 
@@ -23,6 +26,11 @@ public class LoginActivity extends BaseActivity<LoginActivityViewModel> implemen
      * 登录按钮
      */
     private AppCompatButton mBtnLogin;
+
+    /**
+     * 用户信息控件
+     */
+    private TextView mTvUserInfo;
 
     /**
      * 登录页面ViewModel数据模型
@@ -40,9 +48,9 @@ public class LoginActivity extends BaseActivity<LoginActivityViewModel> implemen
      */
     @Override
     protected LoginActivityViewModel createViewModel() {
-         mLoginActivityViewModel = new ViewModelProvider(this, mViewModelProviderFactory).get(LoginActivityViewModel.class);
-         mLoginActivityViewModel.setNavigator(this);
-         return mLoginActivityViewModel;
+        mLoginActivityViewModel = new ViewModelProvider(this, mViewModelProviderFactory).get(LoginActivityViewModel.class);
+        mLoginActivityViewModel.setNavigator(this);
+        return mLoginActivityViewModel;
     }
 
     /**
@@ -67,13 +75,24 @@ public class LoginActivity extends BaseActivity<LoginActivityViewModel> implemen
     @Override
     protected void setupLayout() {
         mBtnLogin = findViewById(R.id.btn_login);
+        mTvUserInfo = findViewById(R.id.tv_user_info);
         mBtnLogin.setOnClickListener(v -> {
             mLoginActivityViewModel.requestLogin("123456", String.valueOf(TestUtils.currentTimeMillis()));
         });
     }
 
-    //endregion
+    @Override
+    protected void requestData() {
+        super.requestData();
+        final LoginUserEntity loginUserEntity = mLoginActivityViewModel.requestGetCurrentLoginUserEntity();
+        if (loginUserEntity != null) {
+            if (!TextUtils.isEmpty(loginUserEntity.getUserId())) {
+                mTvUserInfo.setText(loginUserEntity.getUserId());
+            }
+        }
+    }
 
+    //endregion
 
     //region: LoginActivityNavigator
 

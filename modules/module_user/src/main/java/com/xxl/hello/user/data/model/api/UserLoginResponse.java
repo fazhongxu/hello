@@ -1,7 +1,9 @@
 package com.xxl.hello.user.data.model.api;
 
 import androidx.annotation.Keep;
+import androidx.annotation.NonNull;
 
+import com.xxl.hello.common.config.NetworkConfig;
 import com.xxl.hello.service.data.model.entity.LoginUserEntity;
 
 import lombok.Getter;
@@ -21,7 +23,7 @@ public class UserLoginResponse {
     //region: 成员变量
 
     /**
-     *  登录用户信息
+     * 登录用户信息
      */
     private LoginUserEntity mLoginUserEntity;
 
@@ -41,9 +43,14 @@ public class UserLoginResponse {
 
     //region: 提供方法
 
-    //endregion
-
-    //region: 内部辅助方法
+    /**
+     * 设置用户信息
+     *
+     * @param loginUserEntity
+     */
+    public void setLoginUserEntity(@NonNull final LoginUserEntity loginUserEntity) {
+        this.mLoginUserEntity = loginUserEntity;
+    }
 
     //endregion
 

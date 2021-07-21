@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 
 import com.xxl.hello.service.data.model.api.QueryUserInfoRequest;
 import com.xxl.hello.service.data.model.api.QueryUserInfoResponse;
+import com.xxl.hello.service.data.model.entity.LoginUserEntity;
 import com.xxl.hello.user.data.local.UserLocalDataStoreSource;
 import com.xxl.hello.user.data.model.api.UserLoginRequest;
 import com.xxl.hello.user.data.model.api.UserLoginResponse;
@@ -20,6 +21,11 @@ public class UserRepositoryIml implements UserRepository {
     //region: 成员变量
 
     /**
+     * 用户模块本地数据源
+     */
+    private final UserLocalDataStoreSource mUserLocalDataStoreModule;
+
+    /**
      * 用户模块远程数据源
      */
     private final UserRemoteDataStoreSource mUserRemoteDataStoreSource;
@@ -28,6 +34,7 @@ public class UserRepositoryIml implements UserRepository {
 
     public UserRepositoryIml(@NonNull final UserLocalDataStoreSource userLocalDataStoreModule,
                              @NonNull final UserRemoteDataStoreSource userRemoteDataStoreSource) {
+        mUserLocalDataStoreModule = userLocalDataStoreModule;
         mUserRemoteDataStoreSource = userRemoteDataStoreSource;
     }
 
@@ -43,12 +50,28 @@ public class UserRepositoryIml implements UserRepository {
      */
     @Override
     public Observable<UserLoginResponse> login(@NonNull final UserLoginRequest request) {
-        return mUserRemoteDataStoreSource.login(request);
+        return mUserRemoteDataStoreSource.login(request)
+                .doOnNext(loginResponse -> {
+                    if (loginResponse != null && loginResponse.getLoginUserEntity() != null) {
+                        mUserLocalDataStoreModule.setCurrentLoginUserEntity(loginResponse.getLoginUserEntity());
+                    }
+                });
     }
 
     //endregion
 
     //region: UserRepositoryApi
+
+
+    /**
+     * 获取当前登录用户的信息
+     *
+     * @return
+     */
+    @Override
+    public LoginUserEntity getCurrentLoginUserEntity() {
+        return mUserLocalDataStoreModule.getCurrentLoginUserEntity();
+    }
 
     /**
      * 查询用户信息

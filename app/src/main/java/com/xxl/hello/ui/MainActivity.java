@@ -1,6 +1,7 @@
 package com.xxl.hello.ui;
 
 import android.content.Intent;
+import android.text.TextUtils;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -10,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.xxl.hello.common.utils.TestUtils;
 import com.xxl.hello.nexus.R;
 import com.xxl.hello.service.data.model.api.QueryUserInfoResponse;
+import com.xxl.hello.service.data.model.entity.LoginUserEntity;
 import com.xxl.hello.service.ui.BaseActivity;
 import com.xxl.hello.user.ui.LoginActivity;
 
@@ -25,6 +27,8 @@ public class MainActivity extends BaseActivity<MainViewModel> implements MainAct
      * 首页数据模型
      */
     private MainViewModel mMainViewModel;
+
+    private TextView mTvTest;
 
     //endregion
 
@@ -65,6 +69,20 @@ public class MainActivity extends BaseActivity<MainViewModel> implements MainAct
     @Override
     protected void requestData() {
         mMainViewModel.requestQueryUserInfo();
+        final LoginUserEntity loginUserEntity = mMainViewModel.requestGetCurrentLoginUserEntity();
+        if (loginUserEntity != null) {
+            String userInfo = "";
+            if (!TextUtils.isEmpty(loginUserEntity.getUserId())) {
+                userInfo = userInfo.concat(loginUserEntity.getUserId());
+            }
+            if (!TextUtils.isEmpty(loginUserEntity.getUserName())) {
+                userInfo = userInfo.concat("--")
+                        .concat(loginUserEntity.getUserName());
+            }
+            if (!TextUtils.isEmpty(userInfo)) {
+                mTvTest.setText(userInfo);
+            }
+        }
     }
 
     /**
@@ -73,11 +91,11 @@ public class MainActivity extends BaseActivity<MainViewModel> implements MainAct
     @Override
     protected void setupLayout() {
         int random = TestUtils.getRandom();
-        TextView tvText = findViewById(R.id.tv_test);
-        tvText.setText(String.valueOf(random));
-        tvText.setText(String.valueOf(TestUtils.currentTimeMillis()));
+        mTvTest = findViewById(R.id.tv_test);
+        mTvTest.setText(String.valueOf(random));
+        mTvTest.setText(String.valueOf(TestUtils.currentTimeMillis()));
 
-        tvText.setOnClickListener(view -> {
+        mTvTest.setOnClickListener(view -> {
             startActivity(new Intent(this, LoginActivity.class));
         });
     }

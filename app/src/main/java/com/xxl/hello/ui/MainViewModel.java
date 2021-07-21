@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 
 import com.xxl.hello.service.data.model.api.QueryUserInfoRequest;
 import com.xxl.hello.service.data.model.api.QueryUserInfoResponse;
+import com.xxl.hello.service.data.model.entity.LoginUserEntity;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.hello.service.data.repository.api.UserRepositoryApi;
 import com.xxl.hello.service.ui.BaseViewModel;
@@ -53,6 +54,17 @@ public class MainViewModel extends BaseViewModel<MainActivityNavigator> {
                     getNavigator().onRequestQueryUserInfoComplete(queryUserInfoResponse);
                 }, this::setResponseException);
         addCompositeDisposable(disposable);
+    }
+
+
+    /**
+     * 获取当前登录用户的信息
+     *
+     * @return
+     */
+    LoginUserEntity requestGetCurrentLoginUserEntity() {
+        final UserRepositoryApi userRepositoryApi = mDataRepositoryKit.getUserRepositoryApi();
+        return userRepositoryApi.getCurrentLoginUserEntity();
     }
 
     //endregion

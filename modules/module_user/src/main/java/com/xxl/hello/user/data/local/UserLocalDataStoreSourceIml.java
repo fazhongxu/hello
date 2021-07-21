@@ -2,6 +2,9 @@ package com.xxl.hello.user.data.local;
 
 import androidx.annotation.NonNull;
 
+import com.xxl.hello.service.data.local.prefs.PreferencesKit;
+import com.xxl.hello.service.data.local.prefs.api.UserLocalPreferences;
+import com.xxl.hello.service.data.local.prefs.api.UserPreferences;
 import com.xxl.hello.service.data.model.entity.LoginUserEntity;
 
 /**
@@ -12,9 +15,23 @@ import com.xxl.hello.service.data.model.entity.LoginUserEntity;
  */
 public class UserLocalDataStoreSourceIml implements UserLocalDataStoreSource {
 
-    public UserLocalDataStoreSourceIml() {
-        // 可以构造入 MMKV 相关 的本地存储
+    //region: 成员变量
+
+    /**
+     * 本地数据存储集合
+     */
+    private final PreferencesKit mPreferencesKit;
+
+    //endregion
+
+    //region: 构造函数
+
+    public UserLocalDataStoreSourceIml(@NonNull final PreferencesKit preferencesKit) {
+        // DBClientKit
+        mPreferencesKit = preferencesKit;
     }
+
+    //endregion
 
     //region: 与登录用户信息相关
 
@@ -26,8 +43,8 @@ public class UserLocalDataStoreSourceIml implements UserLocalDataStoreSource {
      */
     @Override
     public boolean setCurrentLoginUserEntity(@NonNull final LoginUserEntity loginUserEntity) {
-
-        return false;
+        final UserPreferences<LoginUserEntity> userPreferences = mPreferencesKit.getUserPreferences();
+        return userPreferences.setCurrentLoginUserEntity(loginUserEntity);
     }
 
     /**
@@ -37,7 +54,19 @@ public class UserLocalDataStoreSourceIml implements UserLocalDataStoreSource {
      */
     @Override
     public LoginUserEntity getCurrentLoginUserEntity() {
-        return null;
+        final UserPreferences<LoginUserEntity> userPreferences = mPreferencesKit.getUserPreferences();
+        return userPreferences.getCurrentLoginUserEntity();
+    }
+
+    /**
+     * 获取用户token
+     *
+     * @return
+     */
+    @Override
+    public String getUserToken() {
+        final UserPreferences userPreferences = mPreferencesKit.getUserPreferences();
+        return userPreferences.getToken();
     }
 
     //endregion

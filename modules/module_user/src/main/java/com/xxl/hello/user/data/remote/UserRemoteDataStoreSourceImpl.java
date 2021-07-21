@@ -2,6 +2,7 @@ package com.xxl.hello.user.data.remote;
 
 import androidx.annotation.NonNull;
 
+import com.xxl.hello.service.data.model.entity.LoginUserEntity;
 import com.xxl.hello.user.data.model.api.UserLoginRequest;
 import com.xxl.hello.user.data.model.api.UserLoginResponse;
 
@@ -42,7 +43,14 @@ public class UserRemoteDataStoreSourceImpl implements UserRemoteDataStoreSource 
      */
     @Override
     public Observable<UserLoginResponse> login(@NonNull UserLoginRequest request) {
-        return mUserRemoteDataSourceService.login(request.getPhoneNumber(),request.getVerifyCode());
+        // FIXME: 2021/7/21 换成网络请求
+        //return mUserRemoteDataSourceService.login(request.getPhoneNumber(),request.getVerifyCode());
+        return Observable.create(emitter -> {
+            final UserLoginResponse response = UserLoginResponse.obtain();
+            response.setLoginUserEntity(LoginUserEntity.obtainTestUserEntity());
+            emitter.onNext(response);
+            emitter.onComplete();
+        });
     }
 
     //endregion

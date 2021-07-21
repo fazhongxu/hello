@@ -4,6 +4,7 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 
+import com.xxl.hello.service.data.model.entity.LoginUserEntity;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.hello.service.ui.BaseViewModel;
 import com.xxl.hello.user.data.model.api.UserLoginRequest;
@@ -62,6 +63,15 @@ public class LoginActivityViewModel extends BaseViewModel<LoginActivityNavigator
                     getNavigator().requestLoginComplete(userLoginResponse);
                 }, this::setResponseException);
         addCompositeDisposable(disposable);
+    }
+
+    /**
+     * 获取当前登录用户的信息
+     *
+     * @return
+     */
+    LoginUserEntity requestGetCurrentLoginUserEntity() {
+        return mUserRepository.getCurrentLoginUserEntity();
     }
 
     //endregion

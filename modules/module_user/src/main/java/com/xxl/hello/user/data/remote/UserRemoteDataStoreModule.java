@@ -1,5 +1,8 @@
 package com.xxl.hello.user.data.remote;
 
+import androidx.annotation.NonNull;
+
+import com.xxl.hello.service.data.local.prefs.PreferencesKit;
 import com.xxl.hello.service.qunlifier.ForRetrofit;
 import com.xxl.hello.user.data.local.UserLocalDataStoreSource;
 import com.xxl.hello.user.data.local.UserLocalDataStoreSourceIml;
@@ -21,8 +24,8 @@ public class UserRemoteDataStoreModule {
 
     @Singleton
     @Provides
-    UserLocalDataStoreSource provideUserLocalDataStoreModule() {
-        return new UserLocalDataStoreSourceIml();
+    UserLocalDataStoreSource provideUserLocalDataStoreModule(@NonNull final PreferencesKit preferencesKit) {
+        return new UserLocalDataStoreSourceIml(preferencesKit);
     }
 
     @Singleton

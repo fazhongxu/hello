@@ -26,4 +26,11 @@ public interface UserLocalDataStoreSource {
      * @return
      */
     LoginUserEntity getCurrentLoginUserEntity();
+
+    /**
+     * 获取用户token
+     *
+     * @return
+     */
+    String getUserToken();
 }

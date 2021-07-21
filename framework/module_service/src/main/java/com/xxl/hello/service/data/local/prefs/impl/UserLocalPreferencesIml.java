@@ -34,6 +34,8 @@ public class UserLocalPreferencesIml implements UserLocalPreferences {
 
     //region: 提供方法
 
+    //region: 基础操作
+
     /**
      * 保存数据
      *
@@ -59,6 +61,13 @@ public class UserLocalPreferencesIml implements UserLocalPreferences {
                                @NonNull final String key) {
         return isLogged ? getLoginUserLocalCache().decodeString(key) : mUserLocalCache.decodeString(key);
     }
+
+    //endregion
+
+    //region: 用户信息相关
+
+
+    //endregion
 
     //endregion
 
