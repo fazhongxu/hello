@@ -60,7 +60,7 @@ public class LoginActivityViewModel extends BaseViewModel<LoginActivityNavigator
         final Disposable disposable = mUserRepository.login(request)
                 .compose(applySchedulers())
                 .subscribe(userLoginResponse -> {
-                    getNavigator().requestLoginComplete(userLoginResponse);
+                    getNavigator().onRequestLoginComplete(userLoginResponse);
                 }, this::setResponseException);
         addCompositeDisposable(disposable);
     }

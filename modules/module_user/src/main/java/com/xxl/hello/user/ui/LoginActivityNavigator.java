@@ -15,5 +15,5 @@ public interface LoginActivityNavigator {
      *
      * @param loginResponse
      */
-    void requestLoginComplete(@NonNull final UserLoginResponse loginResponse);
+    void onRequestLoginComplete(@NonNull final UserLoginResponse loginResponse);
 }

@@ -102,7 +102,7 @@ public class LoginActivity extends BaseActivity<LoginActivityViewModel> implemen
      * @param loginResponse
      */
     @Override
-    public void requestLoginComplete(@NonNull final UserLoginResponse loginResponse) {
+    public void onRequestLoginComplete(@NonNull final UserLoginResponse loginResponse) {
         Toast.makeText(this, loginResponse.getLoginUserEntity().getUserName(), Toast.LENGTH_SHORT).show();
     }
 
