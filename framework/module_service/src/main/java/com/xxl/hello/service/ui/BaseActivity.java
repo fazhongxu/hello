@@ -37,7 +37,7 @@ public abstract class BaseActivity<V extends BaseViewModel> extends AppCompatAct
             AndroidInjection.inject(this);
         }
         super.onCreate(savedInstanceState);
-        setContentView(getLayoutRes());
+        setContentView();
         createViewModel();
         setupData();
         setupLayout();
@@ -82,6 +82,13 @@ public abstract class BaseActivity<V extends BaseViewModel> extends AppCompatAct
      * 请求数据
      */
     protected void requestData() {
+
+    }
+
+    /**
+     * 设置页面内容布局
+     */
+    protected void setContentView() {
 
     }
 

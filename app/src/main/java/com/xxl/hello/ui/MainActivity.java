@@ -13,13 +13,14 @@ import com.xxl.hello.nexus.R;
 import com.xxl.hello.service.data.model.api.QueryUserInfoResponse;
 import com.xxl.hello.service.data.model.entity.LoginUserEntity;
 import com.xxl.hello.service.ui.BaseActivity;
+import com.xxl.hello.service.ui.DataBindingActivity;
 import com.xxl.hello.user.ui.LoginActivity;
 
 /**
  * @author xxl
  * @date 2021/07/16.
  */
-public class MainActivity extends BaseActivity<MainViewModel> implements MainActivityNavigator {
+public class MainActivity extends DataBindingActivity<MainViewModel> implements MainActivityNavigator {
 
     //region: 成员变量
 

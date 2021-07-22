@@ -16,4 +16,9 @@ public interface LoginActivityNavigator {
      * @param loginResponse
      */
     void onRequestLoginComplete(@NonNull final UserLoginResponse loginResponse);
+
+    /**
+     * 登录按钮点击
+     */
+    void onLoginClick();
 }

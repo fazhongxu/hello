@@ -1,16 +1,13 @@
 package com.xxl.hello.user.ui;
 
-import android.text.TextUtils;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatButton;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.xxl.hello.common.utils.TestUtils;
 import com.xxl.hello.service.data.model.entity.LoginUserEntity;
-import com.xxl.hello.service.ui.BaseActivity;
+import com.xxl.hello.service.ui.DataBindingActivity;
 import com.xxl.hello.user.R;
 import com.xxl.hello.user.data.model.api.UserLoginResponse;
 
@@ -18,19 +15,9 @@ import com.xxl.hello.user.data.model.api.UserLoginResponse;
  * @author xxl.
  * @date 2021/07/16.
  */
-public class LoginActivity extends BaseActivity<LoginActivityViewModel> implements LoginActivityNavigator {
+public class LoginActivity extends DataBindingActivity<LoginActivityViewModel> implements LoginActivityNavigator {
 
     //region: 成员变量
-
-    /**
-     * 登录按钮
-     */
-    private AppCompatButton mBtnLogin;
-
-    /**
-     * 用户信息控件
-     */
-    private TextView mTvUserInfo;
 
     /**
      * 登录页面ViewModel数据模型
@@ -74,22 +61,14 @@ public class LoginActivity extends BaseActivity<LoginActivityViewModel> implemen
      */
     @Override
     protected void setupLayout() {
-        mBtnLogin = findViewById(R.id.btn_login);
-        mTvUserInfo = findViewById(R.id.tv_user_info);
-        mBtnLogin.setOnClickListener(v -> {
-            mLoginActivityViewModel.requestLogin("123456", String.valueOf(TestUtils.currentTimeMillis()));
-        });
+
     }
 
     @Override
     protected void requestData() {
         super.requestData();
         final LoginUserEntity loginUserEntity = mLoginActivityViewModel.requestGetCurrentLoginUserEntity();
-        if (loginUserEntity != null) {
-            if (!TextUtils.isEmpty(loginUserEntity.getUserId())) {
-                mTvUserInfo.setText(loginUserEntity.getUserId());
-            }
-        }
+        mLoginActivityViewModel.setTargetUserInfo(loginUserEntity);
     }
 
     //endregion
@@ -104,7 +83,22 @@ public class LoginActivity extends BaseActivity<LoginActivityViewModel> implemen
     @Override
     public void onRequestLoginComplete(@NonNull final UserLoginResponse loginResponse) {
         Toast.makeText(this, loginResponse.getLoginUserEntity().getUserName(), Toast.LENGTH_SHORT).show();
+        mLoginActivityViewModel.setTargetUserInfo(loginResponse.getLoginUserEntity());
     }
+
+    /**
+     * 登录按钮点击
+     */
+    @Override
+    public void onLoginClick() {
+        // FIXME: 2021/7/22 引入了databinding 但是 点击事件和数据绑定未生效，待处理
+        mLoginActivityViewModel.requestLogin("123456", String.valueOf(TestUtils.currentTimeMillis()));
+    }
+
+    //endregion
+
+    //region: Fragment 操作
+
 
     //endregion
 

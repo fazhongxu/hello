@@ -3,6 +3,8 @@ package com.xxl.hello.user.ui;
 import android.app.Application;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.databinding.ObservableField;
 
 import com.xxl.hello.service.data.model.entity.LoginUserEntity;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
@@ -11,11 +13,14 @@ import com.xxl.hello.user.data.model.api.UserLoginRequest;
 import com.xxl.hello.user.data.repository.UserRepository;
 
 import io.reactivex.rxjava3.disposables.Disposable;
+import lombok.Getter;
+import lombok.experimental.Accessors;
 
 /**
  * @author xxl.
  * @date 2021/7/16.
  */
+@Accessors(prefix = "m")
 public class LoginActivityViewModel extends BaseViewModel<LoginActivityNavigator> {
 
     //region: 成员变量
@@ -29,6 +34,18 @@ public class LoginActivityViewModel extends BaseViewModel<LoginActivityNavigator
      * 用户模块服务接口
      */
     private final UserRepository mUserRepository;
+
+    /**
+     * 用户昵称
+     */
+    @Getter
+    private ObservableField<String> mObservableUserName = new ObservableField<>();
+
+    /**
+     * 用户信息
+     */
+    @Getter
+    private LoginUserEntity mTargetLoginUserEntity;
 
     //endregion
 
@@ -72,6 +89,22 @@ public class LoginActivityViewModel extends BaseViewModel<LoginActivityNavigator
      */
     LoginUserEntity requestGetCurrentLoginUserEntity() {
         return mUserRepository.getCurrentLoginUserEntity();
+    }
+
+    //endregion
+
+    //region: get or set
+
+    /**
+     * 设置用户信息
+     *
+     * @param targetLoginUserEntity
+     */
+    void setTargetUserInfo(@Nullable final LoginUserEntity targetLoginUserEntity) {
+        mTargetLoginUserEntity = targetLoginUserEntity;
+        if (mTargetLoginUserEntity != null) {
+            mObservableUserName.set(targetLoginUserEntity.getUserName() + "--" + targetLoginUserEntity.getUserId());
+        }
     }
 
     //endregion
