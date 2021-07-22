@@ -10,9 +10,9 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.xxl.hello.common.utils.TestUtils;
 import com.xxl.hello.nexus.R;
+import com.xxl.hello.nexus.databinding.ActivityMainBinding;
 import com.xxl.hello.service.data.model.api.QueryUserInfoResponse;
 import com.xxl.hello.service.data.model.entity.LoginUserEntity;
-import com.xxl.hello.service.ui.BaseActivity;
 import com.xxl.hello.service.ui.DataBindingActivity;
 import com.xxl.hello.user.ui.LoginActivity;
 
@@ -20,7 +20,7 @@ import com.xxl.hello.user.ui.LoginActivity;
  * @author xxl
  * @date 2021/07/16.
  */
-public class MainActivity extends DataBindingActivity<MainViewModel> implements MainActivityNavigator {
+public class MainActivity extends DataBindingActivity<MainViewModel,ActivityMainBinding> implements MainActivityNavigator {
 
     //region: 成员变量
 

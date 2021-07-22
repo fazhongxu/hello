@@ -1,7 +1,5 @@
 package com.xxl.hello.user.ui;
 
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -10,12 +8,13 @@ import com.xxl.hello.service.data.model.entity.LoginUserEntity;
 import com.xxl.hello.service.ui.DataBindingActivity;
 import com.xxl.hello.user.R;
 import com.xxl.hello.user.data.model.api.UserLoginResponse;
+import com.xxl.hello.user.databinding.ActivityLoginBinding;
 
 /**
  * @author xxl.
  * @date 2021/07/16.
  */
-public class LoginActivity extends DataBindingActivity<LoginActivityViewModel> implements LoginActivityNavigator {
+public class LoginActivity extends DataBindingActivity<LoginActivityViewModel, ActivityLoginBinding> implements LoginActivityNavigator {
 
     //region: 成员变量
 
@@ -53,7 +52,11 @@ public class LoginActivity extends DataBindingActivity<LoginActivityViewModel> i
      */
     @Override
     protected void setupData() {
+        mViewDataBinding = getViewDataBinding();
 
+        // TODO: 2021/7/22  抽取到上层
+        mViewDataBinding.setViewModel(mLoginActivityViewModel);
+        mViewDataBinding.setNavigator(this);
     }
 
     /**
@@ -82,7 +85,6 @@ public class LoginActivity extends DataBindingActivity<LoginActivityViewModel> i
      */
     @Override
     public void onRequestLoginComplete(@NonNull final UserLoginResponse loginResponse) {
-        Toast.makeText(this, loginResponse.getLoginUserEntity().getUserName(), Toast.LENGTH_SHORT).show();
         mLoginActivityViewModel.setTargetUserInfo(loginResponse.getLoginUserEntity());
     }
 
@@ -91,14 +93,12 @@ public class LoginActivity extends DataBindingActivity<LoginActivityViewModel> i
      */
     @Override
     public void onLoginClick() {
-        // FIXME: 2021/7/22 引入了databinding 但是 点击事件和数据绑定未生效，待处理
         mLoginActivityViewModel.requestLogin("123456", String.valueOf(TestUtils.currentTimeMillis()));
     }
 
     //endregion
 
     //region: Fragment 操作
-
 
     //endregion
 
