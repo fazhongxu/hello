@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.xxl.hello.common.utils.TestUtils;
+import com.xxl.hello.nexus.BR;
 import com.xxl.hello.nexus.R;
 import com.xxl.hello.nexus.databinding.ActivityMainBinding;
 import com.xxl.hello.service.data.model.api.QueryUserInfoResponse;
@@ -40,6 +41,14 @@ public class MainActivity extends DataBindingActivity<MainViewModel,ActivityMain
     //region: 页面生命周期
 
     /**
+     * 获取视图资源ID
+     */
+    @Override
+    protected int getLayoutRes() {
+        return R.layout.activity_main;
+    }
+
+    /**
      * 创建ViewModel数据模型
      *
      * @return
@@ -52,11 +61,23 @@ public class MainActivity extends DataBindingActivity<MainViewModel,ActivityMain
     }
 
     /**
-     * 获取视图资源ID
+     * 获取data binding 内的 ViewModel
+     *
+     * @return
      */
     @Override
-    protected int getLayoutRes() {
-        return R.layout.activity_main;
+    public int getViewModelVariable() {
+        return BR.viewModel;
+    }
+
+    /**
+     * 获取data binding 内的 Navigator
+     *
+     * @return
+     */
+    @Override
+    public int getViewNavigatorVariable() {
+        return BR.navigator;
     }
 
     /**
@@ -65,6 +86,21 @@ public class MainActivity extends DataBindingActivity<MainViewModel,ActivityMain
     @Override
     protected void setupData() {
 
+    }
+
+    /**
+     * 设置页面视图
+     */
+    @Override
+    protected void setupLayout() {
+        int random = TestUtils.getRandom();
+        mTvTest = findViewById(R.id.tv_test);
+        mTvTest.setText(String.valueOf(random));
+        mTvTest.setText(String.valueOf(TestUtils.currentTimeMillis()));
+
+        mTvTest.setOnClickListener(view -> {
+            startActivity(new Intent(this, LoginActivity.class));
+        });
     }
 
     @Override
@@ -84,21 +120,6 @@ public class MainActivity extends DataBindingActivity<MainViewModel,ActivityMain
                 mTvTest.setText(userInfo);
             }
         }
-    }
-
-    /**
-     * 设置页面视图
-     */
-    @Override
-    protected void setupLayout() {
-        int random = TestUtils.getRandom();
-        mTvTest = findViewById(R.id.tv_test);
-        mTvTest.setText(String.valueOf(random));
-        mTvTest.setText(String.valueOf(TestUtils.currentTimeMillis()));
-
-        mTvTest.setOnClickListener(view -> {
-            startActivity(new Intent(this, LoginActivity.class));
-        });
     }
 
     //endregion

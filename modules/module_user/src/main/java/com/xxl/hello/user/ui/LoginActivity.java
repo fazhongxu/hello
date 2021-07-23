@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.xxl.hello.common.utils.TestUtils;
 import com.xxl.hello.service.data.model.entity.LoginUserEntity;
 import com.xxl.hello.service.ui.DataBindingActivity;
+import com.xxl.hello.user.BR;
 import com.xxl.hello.user.R;
 import com.xxl.hello.user.data.model.api.UserLoginResponse;
 import com.xxl.hello.user.databinding.ActivityLoginBinding;
@@ -28,6 +29,14 @@ public class LoginActivity extends DataBindingActivity<LoginActivityViewModel, A
     //region: 页面生命周期
 
     /**
+     * 获取视图资源ID
+     */
+    @Override
+    protected int getLayoutRes() {
+        return R.layout.activity_login;
+    }
+
+    /**
      * 创建ViewModel
      *
      * @return
@@ -40,11 +49,23 @@ public class LoginActivity extends DataBindingActivity<LoginActivityViewModel, A
     }
 
     /**
-     * 获取视图资源ID
+     * 获取data binding 内的 ViewModel
+     *
+     * @return
      */
     @Override
-    protected int getLayoutRes() {
-        return R.layout.activity_login;
+    public int getViewModelVariable() {
+        return BR.viewModel;
+    }
+
+    /**
+     * 获取data binding 内的 Navigator
+     *
+     * @return
+     */
+    @Override
+    public int getViewNavigatorVariable() {
+        return BR.navigator;
     }
 
     /**
@@ -53,10 +74,6 @@ public class LoginActivity extends DataBindingActivity<LoginActivityViewModel, A
     @Override
     protected void setupData() {
         mViewDataBinding = getViewDataBinding();
-
-        // TODO: 2021/7/22  抽取到上层
-        mViewDataBinding.setViewModel(mLoginActivityViewModel);
-        mViewDataBinding.setNavigator(this);
     }
 
     /**
@@ -66,6 +83,7 @@ public class LoginActivity extends DataBindingActivity<LoginActivityViewModel, A
     protected void setupLayout() {
 
     }
+
 
     @Override
     protected void requestData() {

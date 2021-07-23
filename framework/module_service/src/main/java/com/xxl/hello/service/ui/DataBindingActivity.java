@@ -39,9 +39,21 @@ public abstract class DataBindingActivity<V extends BaseViewModel, T extends Vie
         return mViewDataBinding;
     }
 
+    /**
+     * 创建ViewModel数据模型后
+     */
+    @Override
+    protected void afterCreateVieModel() {
+        setVariable();
+    }
+
+    /**
+     * 设置data binding 绑定数据和事件所需参数
+     */
     protected void setVariable() {
-        // TODO: 2021/7/22
-        //mViewDataBinding.setVariable(,)
+        mViewDataBinding.setVariable(getViewModelVariable(),getViewModel());
+        mViewDataBinding.setVariable(getViewNavigatorVariable(),this);
+        mViewDataBinding.executePendingBindings();
     }
 
     //endregion

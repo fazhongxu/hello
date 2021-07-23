@@ -37,27 +37,14 @@ public abstract class BaseActivity<V extends BaseViewModel> extends AppCompatAct
             AndroidInjection.inject(this);
         }
         super.onCreate(savedInstanceState);
+        beforeSetContentView();
         setContentView();
-        createViewModel();
+        afterSetContentView();
+        mViewModel = createViewModel();
+        afterCreateVieModel();
         setupData();
         setupLayout();
         requestData();
-    }
-
-    /**
-     * 创建ViewModel数据模型
-     *
-     * @return
-     */
-    protected abstract V createViewModel();
-
-    /**
-     * 获取ViewModel数据模型
-     *
-     * @return
-     */
-    protected V getViewModel() {
-        return mViewModel;
     }
 
     /**
@@ -67,6 +54,43 @@ public abstract class BaseActivity<V extends BaseViewModel> extends AppCompatAct
      */
     @LayoutRes
     protected abstract int getLayoutRes();
+
+    /**
+     * 创建ViewModel数据模型
+     *
+     * @return
+     */
+    protected abstract V createViewModel();
+
+    /**
+     * 获取data binding 内的 ViewModel
+     *
+     * @return
+     */
+    public abstract int getViewModelVariable();
+
+    /**
+     * 获取data binding 内的 Navigator
+     *
+     * @return
+     */
+    public abstract int getViewNavigatorVariable();
+
+    /**
+     * 创建ViewModel数据模型后
+     */
+    protected void afterCreateVieModel() {
+
+    }
+
+    /**
+     * 获取ViewModel数据模型
+     *
+     * @return
+     */
+    protected V getViewModel() {
+        return mViewModel;
+    }
 
     /**
      * 设置数据
@@ -86,9 +110,23 @@ public abstract class BaseActivity<V extends BaseViewModel> extends AppCompatAct
     }
 
     /**
+     * 设置contentView之前
+     */
+    protected void beforeSetContentView() {
+
+    }
+
+    /**
      * 设置页面内容布局
      */
     protected void setContentView() {
+
+    }
+
+    /**
+     * 设置contentView 之后
+     */
+    protected void afterSetContentView() {
 
     }
 

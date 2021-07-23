@@ -5,6 +5,14 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="com.xxl.hello.ui.MainViewModel" />
+
+        <variable
+            name="navigator"
+            type="com.xxl.hello.ui.MainActivityNavigator" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
