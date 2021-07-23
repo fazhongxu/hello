@@ -17,7 +17,15 @@ public class UserRemoteDataStoreSourceImpl implements UserRemoteDataStoreSource 
 
     //region: 成员变量
 
+    /**
+     * 项目Retrofit
+     */
     private Retrofit mRetrofit;
+
+    /**
+     * 用户模块Retrofit
+     */
+    private Retrofit mUserRetrofit;
 
     private final UserRemoteDataSourceService mUserRemoteDataSourceService;
 
@@ -25,9 +33,11 @@ public class UserRemoteDataStoreSourceImpl implements UserRemoteDataStoreSource 
 
     //region: 构造函数
 
-    public UserRemoteDataStoreSourceImpl(@NonNull final Retrofit retrofit) {
+    public UserRemoteDataStoreSourceImpl(@NonNull final Retrofit retrofit,
+                                         @NonNull final Retrofit userRetrofit) {
         mRetrofit = retrofit;
-        mUserRemoteDataSourceService = mRetrofit.create(UserRemoteDataSourceService.class);
+        mUserRetrofit = userRetrofit;
+        mUserRemoteDataSourceService = mUserRetrofit.create(UserRemoteDataSourceService.class);
     }
 
     //endregion

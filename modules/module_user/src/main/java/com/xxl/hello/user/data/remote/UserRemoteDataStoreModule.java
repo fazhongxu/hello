@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 
 import com.xxl.hello.service.data.local.prefs.PreferencesKit;
 import com.xxl.hello.service.qunlifier.ForRetrofit;
+import com.xxl.hello.service.qunlifier.ForUserRetrofit;
 import com.xxl.hello.user.data.local.UserLocalDataStoreSource;
 import com.xxl.hello.user.data.local.UserLocalDataStoreSourceIml;
 
@@ -30,7 +31,8 @@ public class UserRemoteDataStoreModule {
 
     @Singleton
     @Provides
-    UserRemoteDataStoreSource provideUserRemoteDataStoreModule(@ForRetrofit final Retrofit retrofit) {
-        return new UserRemoteDataStoreSourceImpl(retrofit);
+    UserRemoteDataStoreSource provideUserRemoteDataStoreModule(@ForRetrofit final Retrofit retrofit,
+                                                               @ForUserRetrofit final Retrofit userRetrofit) {
+        return new UserRemoteDataStoreSourceImpl(retrofit,userRetrofit);
     }
 }

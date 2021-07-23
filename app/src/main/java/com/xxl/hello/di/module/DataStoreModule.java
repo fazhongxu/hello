@@ -7,6 +7,8 @@ import com.xxl.hello.service.qunlifier.ForNetWorkDebug;
 import com.xxl.hello.service.qunlifier.ForNetworkEncryptKey;
 import com.xxl.hello.service.qunlifier.ForOkHttp;
 import com.xxl.hello.service.qunlifier.ForRetrofit;
+import com.xxl.hello.service.qunlifier.ForUserBaseUrl;
+import com.xxl.hello.service.qunlifier.ForUserRetrofit;
 import com.xxl.hello.user.di.module.UserDataStoreModule;
 
 import javax.inject.Singleton;
@@ -64,6 +66,18 @@ public class DataStoreModule {
         return isNetworkDebug ? "https://192.168.1.1:8080/" : "https://github.com/fazhongxu/";
     }
 
+    /**
+     * 构建网络请求域名地址
+     *
+     * @return
+     */
+    @ForUserBaseUrl
+    @Singleton
+    @Provides
+    String provideUserHostUrl(@ForNetWorkDebug boolean isNetworkDebug) {
+        return isNetworkDebug ? "https://192.168.0.12:8080/" : "https://github.com/user/fazhongxu/";
+    }
+
     //endregion
 
     //region: 构建网络请求相关对象
@@ -94,6 +108,24 @@ public class DataStoreModule {
                              @ForBaseUrl final String baseUrl) {
         return new Retrofit.Builder()
                 .baseUrl(baseUrl)
+                .client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
+                .build();
+    }
+
+    /**
+     * 构建用户模块Retrofit
+     *
+     * @return
+     */
+    @ForUserRetrofit
+    @Singleton
+    @Provides
+    Retrofit provideUserRetrofit(@ForOkHttp final OkHttpClient okHttpClient,
+                                 @ForBaseUrl final String userBaseUrl) {
+        return new Retrofit.Builder()
+                .baseUrl(userBaseUrl)
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
