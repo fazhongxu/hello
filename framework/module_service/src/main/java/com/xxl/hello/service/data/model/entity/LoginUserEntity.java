@@ -2,8 +2,7 @@ package com.xxl.hello.service.data.model.entity;
 
 import com.xxl.hello.common.config.NetworkConfig;
 import com.xxl.hello.common.utils.TestUtils;
-
-import java.util.concurrent.TimeUnit;
+import com.xxl.hello.service.data.model.enums.UserEnumsApi.UserSex;
 
 import lombok.Getter;
 import lombok.NonNull;
@@ -39,6 +38,7 @@ public class LoginUserEntity {
     /**
      * 性别
      */
+    @UserSex
     private int mSex;
 
     //endregion
@@ -55,7 +55,16 @@ public class LoginUserEntity {
 
     //endregion
 
-    //region: 提供方法
+    //region: get or set
+
+    /**
+     * 判断性别是否是男
+     *
+     * @return
+     */
+    public boolean isMale() {
+        return getSex() == UserSex.MALE;
+    }
 
     /**
      * 设置用户ID
