@@ -5,11 +5,14 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.xxl.hello.common.utils.TestUtils;
 import com.xxl.hello.service.data.model.entity.LoginUserEntity;
+import com.xxl.hello.service.ui.BaseEventBusWrapper;
 import com.xxl.hello.service.ui.DataBindingActivity;
 import com.xxl.hello.user.BR;
 import com.xxl.hello.user.R;
 import com.xxl.hello.user.data.model.api.UserLoginResponse;
 import com.xxl.hello.user.databinding.ActivityLoginBinding;
+
+import javax.inject.Inject;
 
 /**
  * @author xxl.
@@ -23,6 +26,12 @@ public class LoginActivity extends DataBindingActivity<LoginActivityViewModel, A
      * 登录页面ViewModel数据模型
      */
     private LoginActivityViewModel mLoginActivityViewModel;
+
+    /**
+     * 登录页面EventBus通知事件监听
+     */
+    @Inject
+    LoginActivityEventBusWrapper mLoginActivityEventBusWrapper;
 
     //endregion
 
@@ -46,6 +55,11 @@ public class LoginActivity extends DataBindingActivity<LoginActivityViewModel, A
         mLoginActivityViewModel = new ViewModelProvider(this, mViewModelProviderFactory).get(LoginActivityViewModel.class);
         mLoginActivityViewModel.setNavigator(this);
         return mLoginActivityViewModel;
+    }
+
+    @Override
+    protected BaseEventBusWrapper getEventBusWrapper() {
+        return mLoginActivityEventBusWrapper;
     }
 
     /**
@@ -103,7 +117,7 @@ public class LoginActivity extends DataBindingActivity<LoginActivityViewModel, A
      */
     @Override
     public void onRequestLoginComplete(@NonNull final UserLoginResponse loginResponse) {
-        mLoginActivityViewModel.setTargetUserInfo(loginResponse.getLoginUserEntity());
+
     }
 
     /**
@@ -117,6 +131,19 @@ public class LoginActivity extends DataBindingActivity<LoginActivityViewModel, A
     //endregion
 
     //region: Fragment 操作
+
+    //endregion
+
+    //region: EventBus 操作
+
+    /**
+     * 刷新用户信息
+     *
+     * @param targetUserEntity
+     */
+    public void refreshUserInfo(@NonNull final LoginUserEntity targetUserEntity) {
+        mLoginActivityViewModel.setTargetUserInfo(targetUserEntity);
+    }
 
     //endregion
 

@@ -37,6 +37,10 @@ public abstract class BaseActivity<V extends BaseViewModel> extends AppCompatAct
             AndroidInjection.inject(this);
         }
         super.onCreate(savedInstanceState);
+        final BaseEventBusWrapper eventBusWrapper = getEventBusWrapper();
+        if (eventBusWrapper != null) {
+            eventBusWrapper.register(this);
+        }
         beforeSetContentView();
         setContentView();
         afterSetContentView();
@@ -45,6 +49,15 @@ public abstract class BaseActivity<V extends BaseViewModel> extends AppCompatAct
         setupData();
         setupLayout();
         requestData();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        final BaseEventBusWrapper eventBusWrapper = getEventBusWrapper();
+        if (eventBusWrapper != null) {
+            eventBusWrapper.unRegister();
+        }
     }
 
     /**
@@ -61,6 +74,15 @@ public abstract class BaseActivity<V extends BaseViewModel> extends AppCompatAct
      * @return
      */
     protected abstract V createViewModel();
+
+    /**
+     * 获取EventBus事件监听类
+     *
+     * @return
+     */
+    protected BaseEventBusWrapper getEventBusWrapper() {
+        return null;
+    }
 
     /**
      * 获取data binding 内的 ViewModel

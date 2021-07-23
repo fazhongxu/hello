@@ -1,5 +1,12 @@
 package com.xxl.hello.service.data.model.event;
 
+import androidx.annotation.NonNull;
+
+import com.xxl.hello.service.data.model.entity.LoginUserEntity;
+
+import lombok.Getter;
+import lombok.experimental.Accessors;
+
 /**
  * 用户模块EventBus
  *
@@ -21,14 +28,21 @@ public class OnUserEventApi {
     /**
      * 用户信息更新通知事件
      */
+    @Accessors(prefix = "m")
     public static final class OnUpdateUserInfoEvent {
 
-        private OnUpdateUserInfoEvent() {
+        /**
+         * 用户信息
+         */
+        @Getter
+        private LoginUserEntity mTargetUserEntity;
 
+        private OnUpdateUserInfoEvent(@NonNull final LoginUserEntity targetUserEntity) {
+            mTargetUserEntity = targetUserEntity;
         }
 
-        public static final OnUpdateUserInfoEvent obtain() {
-            return new OnUpdateUserInfoEvent();
+        public static final OnUpdateUserInfoEvent obtain(@NonNull final LoginUserEntity targetUserEntity) {
+            return new OnUpdateUserInfoEvent(targetUserEntity);
         }
     }
 

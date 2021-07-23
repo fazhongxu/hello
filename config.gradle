@@ -10,6 +10,7 @@ versions.rxjava = "3.0.13"
 versions.rxandroid = "3.0.0"
 versions.lombok = "1.18.20"
 versions.mmkv = "1.2.10"
+versions.eventbus = "3.2.0"
 ext.versions = versions
 
 // build 相关配置
@@ -42,7 +43,7 @@ deps.okhttp = okhttp
 def retrofit = [:]
 retrofit.retrofit = "com.squareup.retrofit2:retrofit:$versions.retrofit"
 retrofit.adapter = "com.squareup.retrofit2:adapter-rxjava3:$versions.retrofit"
-retrofit.converter =  "com.squareup.retrofit2:converter-gson:$versions.retrofit"
+retrofit.converter = "com.squareup.retrofit2:converter-gson:$versions.retrofit"
 
 deps.retrofit = retrofit
 
@@ -62,6 +63,9 @@ deps.lombok = lombok
 
 // mmkv 数据存储 代替sp [https://github.com/Tencent/MMKV]
 deps.mmkv = "com.tencent:mmkv-static:$versions.mmkv"
+
+// EventBus 事件通知[https://github.com/greenrobot/EventBus]
+deps.evetbus = "org.greenrobot:eventbus:$versions.eventbus"
 
 def origin = [:]
 // 是否使用远程依赖 true使用远程依赖（远程私服存储的aar依赖）

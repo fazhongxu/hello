@@ -61,6 +61,9 @@ dependencies {
     annotationProcessor deps.lombok.lombok_processor
 
     implementation deps.mmkv
+
+    implementation deps.evetbus
+
 }
 
 // module gradle-> other->makejar  即可在module build->libs看到生成的文件

@@ -80,4 +80,7 @@ dependencies {
     annotationProcessor deps.lombok.lombok_processor
 
     implementation deps.mmkv
+
+    implementation deps.evetbus
+
 }
