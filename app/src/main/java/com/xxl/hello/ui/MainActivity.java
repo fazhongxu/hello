@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.xxl.hello.common.utils.LogUtils;
 import com.xxl.hello.common.utils.TestUtils;
 import com.xxl.hello.nexus.BR;
 import com.xxl.hello.nexus.R;
@@ -14,6 +15,7 @@ import com.xxl.hello.service.data.model.api.QueryUserInfoResponse;
 import com.xxl.hello.service.data.model.entity.LoginUserEntity;
 import com.xxl.hello.service.ui.BaseEventBusWrapper;
 import com.xxl.hello.service.ui.DataBindingActivity;
+import com.xxl.hello.service.utils.AppExpandUtils;
 import com.xxl.hello.user.ui.LoginActivity;
 
 import javax.inject.Inject;
@@ -100,7 +102,7 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
      */
     @Override
     protected void setupData() {
-
+        LogUtils.d("当前登录用户ID..." + AppExpandUtils.getCurrentUserId());
     }
 
     /**
@@ -108,6 +110,7 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
      */
     @Override
     protected void setupLayout() {
+
     }
 
     @Override

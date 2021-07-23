@@ -22,6 +22,6 @@ public class AppExpandUtils {
      * @return
      */
     public static String getCurrentUserId() {
-       return getApplication() == null?null:getApplication().getCurrentUserId();
+        return getApplication() == null ? null : getApplication().getCurrentUserId();
     }
 }

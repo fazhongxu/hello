@@ -1,10 +1,13 @@
 package com.xxl.hello.service;
 
 import android.app.Application;
-import android.content.Context;
 import android.content.ContextWrapper;
 
 import androidx.annotation.NonNull;
+
+import com.xxl.hello.service.data.model.entity.LoginUserEntity;
+import com.xxl.hello.service.data.repository.DataRepositoryKit;
+import com.xxl.hello.service.data.repository.api.UserRepositoryApi;
 
 /**
  * 服务提供组件
@@ -22,13 +25,21 @@ public class ServiceWrapper extends ContextWrapper {
      */
     private Application mApplication;
 
+    /**
+     * 数据服务接口集合
+     */
+    private final DataRepositoryKit mDataRepositoryKit;
+
     //endregion
 
     //region: 构造函数
 
-    public ServiceWrapper(@NonNull final Context context) {
-        super(context);
-        // 构造入 DBClientKit,UploadService 等
+    public ServiceWrapper(@NonNull final Application application,
+                          @NonNull final DataRepositoryKit dataRepositoryKit) {
+        super(application);
+        mApplication = application;
+        mDataRepositoryKit = dataRepositoryKit;
+
     }
 
     //endregion
@@ -42,6 +53,30 @@ public class ServiceWrapper extends ContextWrapper {
      */
     public void init(@NonNull final Application application) {
         mApplication = application;
+    }
+
+
+    /**
+     * 获取当前用户ID
+     *
+     * @return
+     */
+    public String getCurrentUserId() {
+        final LoginUserEntity currentLoginUserEntity = getCurrentLoginUserEntity();
+        if (currentLoginUserEntity != null) {
+            return currentLoginUserEntity.getUserId();
+        }
+        return null;
+    }
+
+    /**
+     * 获取当前登录用户的信息
+     *
+     * @return
+     */
+    public LoginUserEntity getCurrentLoginUserEntity() {
+        final UserRepositoryApi userRepositoryApi = mDataRepositoryKit.getUserRepositoryApi();
+        return userRepositoryApi.getCurrentLoginUserEntity();
     }
 
     //endregion

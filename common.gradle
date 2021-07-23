@@ -64,5 +64,7 @@ dependencies {
     implementation deps.mmkv
 
     implementation deps.evetbus
+
+    implementation deps.logger
 }
 

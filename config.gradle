@@ -12,6 +12,7 @@ versions.rxandroid = "3.0.0"
 versions.lombok = "1.18.20"
 versions.mmkv = "1.2.10"
 versions.eventbus = "3.2.0"
+versions.logger = "2.2.0"
 ext.versions = versions
 
 // build 相关配置
@@ -46,7 +47,6 @@ def retrofit = [:]
 retrofit.retrofit = "com.squareup.retrofit2:retrofit:$versions.retrofit"
 retrofit.adapter = "com.squareup.retrofit2:adapter-rxjava3:$versions.retrofit"
 retrofit.converter = "com.squareup.retrofit2:converter-gson:$versions.retrofit"
-
 deps.retrofit = retrofit
 
 //rxjava [https://github.com/ReactiveX/RxJava]
@@ -54,6 +54,9 @@ deps.rxjava = "io.reactivex.rxjava3:rxjava:$versions.rxjava"
 
 //rxandroid [https://github.com/ReactiveX/RxAndroid]
 deps.rxandroid = "io.reactivex.rxjava3:rxandroid:$versions.rxandroid"
+
+//logger [https://github.com/orhanobut/logger]
+deps.logger= "com.orhanobut:logger:$versions.logger"
 
 //lombok getter setter [https://github.com/projectlombok/lombok]
 //配合 android Studio  lombok 插件使用 只需要添加注解即可，不需要手动写get set 代码

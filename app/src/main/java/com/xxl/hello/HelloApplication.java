@@ -1,6 +1,8 @@
 package com.xxl.hello;
 
+import com.xxl.hello.common.config.NetworkConfig;
 import com.xxl.hello.common.utils.CacheUtils;
+import com.xxl.hello.common.utils.LogUtils;
 import com.xxl.hello.di.component.DaggerAppComponent;
 import com.xxl.hello.service.BaseApplication;
 
@@ -40,6 +42,26 @@ public class HelloApplication extends BaseApplication {
                 .build();
     }
 
+    /**
+     * 获取当前用户ID
+     *
+     * @return
+     */
+    @Override
+    public String getCurrentUserId() {
+        return mApplicationWrapper.getCurrentUserId();
+    }
+
+    /**
+     * 是否是debug模式
+     *
+     * @return
+     */
+    @Override
+    public boolean isNetworkDebug() {
+        return NetworkConfig.isNetworkDebug();
+    }
+
     //endregion
 
     //region: 组件初始化操作
@@ -56,6 +78,7 @@ public class HelloApplication extends BaseApplication {
      * 初始化组件
      */
     private void initPlugins() {
+        LogUtils.init(isNetworkDebug());
         CacheUtils.init(this);
     }
 

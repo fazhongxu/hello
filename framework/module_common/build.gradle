@@ -65,6 +65,7 @@ dependencies {
 
     implementation deps.evetbus
 
+    implementation deps.logger
 }
 
 // module gradle-> other->makejar  即可在module build->libs看到生成的文件

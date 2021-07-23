@@ -52,6 +52,15 @@ public class HelloApplicationWrapper extends ContextWrapper {
         mServiceWrapper.init(application);
     }
 
+    /**
+     * 获取当前用户ID
+     *
+     * @return
+     */
+    public String getCurrentUserId() {
+        return mServiceWrapper.getCurrentUserId();
+    }
+
     //endregion
 
     //region: 内部辅助方法
