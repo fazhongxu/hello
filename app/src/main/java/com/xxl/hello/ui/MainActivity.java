@@ -1,11 +1,9 @@
 package com.xxl.hello.ui;
 
 import android.content.Intent;
-import android.text.TextUtils;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.xxl.hello.common.utils.TestUtils;
@@ -14,14 +12,17 @@ import com.xxl.hello.nexus.R;
 import com.xxl.hello.nexus.databinding.ActivityMainBinding;
 import com.xxl.hello.service.data.model.api.QueryUserInfoResponse;
 import com.xxl.hello.service.data.model.entity.LoginUserEntity;
+import com.xxl.hello.service.ui.BaseEventBusWrapper;
 import com.xxl.hello.service.ui.DataBindingActivity;
 import com.xxl.hello.user.ui.LoginActivity;
+
+import javax.inject.Inject;
 
 /**
  * @author xxl
  * @date 2021/07/16.
  */
-public class MainActivity extends DataBindingActivity<MainViewModel,ActivityMainBinding> implements MainActivityNavigator {
+public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMainBinding> implements MainActivityNavigator {
 
     //region: 成员变量
 
@@ -30,7 +31,11 @@ public class MainActivity extends DataBindingActivity<MainViewModel,ActivityMain
      */
     private MainViewModel mMainViewModel;
 
-    private TextView mTvTest;
+    /**
+     * 首页EventBus事件监听
+     */
+    @Inject
+    MainEventBusWrapper mMainEventBusWrapper;
 
     //endregion
 
@@ -58,6 +63,16 @@ public class MainActivity extends DataBindingActivity<MainViewModel,ActivityMain
         mMainViewModel = new ViewModelProvider(this, mViewModelProviderFactory).get(MainViewModel.class);
         mMainViewModel.setNavigator(this);
         return mMainViewModel;
+    }
+
+    /**
+     * 获取EventBus事件监听类
+     *
+     * @return
+     */
+    @Override
+    protected BaseEventBusWrapper getEventBusWrapper() {
+        return mMainEventBusWrapper;
     }
 
     /**
@@ -93,33 +108,11 @@ public class MainActivity extends DataBindingActivity<MainViewModel,ActivityMain
      */
     @Override
     protected void setupLayout() {
-        int random = TestUtils.getRandom();
-        mTvTest = findViewById(R.id.tv_test);
-        mTvTest.setText(String.valueOf(random));
-        mTvTest.setText(String.valueOf(TestUtils.currentTimeMillis()));
-
-        mTvTest.setOnClickListener(view -> {
-            startActivity(new Intent(this, LoginActivity.class));
-        });
     }
 
     @Override
     protected void requestData() {
         mMainViewModel.requestQueryUserInfo();
-        final LoginUserEntity loginUserEntity = mMainViewModel.requestGetCurrentLoginUserEntity();
-        if (loginUserEntity != null) {
-            String userInfo = "";
-            if (!TextUtils.isEmpty(loginUserEntity.getUserId())) {
-                userInfo = userInfo.concat(loginUserEntity.getUserId());
-            }
-            if (!TextUtils.isEmpty(loginUserEntity.getUserName())) {
-                userInfo = userInfo.concat("--")
-                        .concat(loginUserEntity.getUserName());
-            }
-            if (!TextUtils.isEmpty(userInfo)) {
-                mTvTest.setText(userInfo);
-            }
-        }
     }
 
     //endregion
@@ -133,7 +126,36 @@ public class MainActivity extends DataBindingActivity<MainViewModel,ActivityMain
      */
     @Override
     public void onRequestQueryUserInfoComplete(@NonNull final QueryUserInfoResponse response) {
-        Toast.makeText(this, "请求成功", Toast.LENGTH_SHORT).show();
+        final LoginUserEntity loginUserEntity = mMainViewModel.requestGetCurrentLoginUserEntity();
+        if (loginUserEntity != null) {
+            mMainViewModel.setObservableUserId(loginUserEntity.getUserId());
+        } else {
+            mMainViewModel.setObservableUserId(String.valueOf(TestUtils.currentTimeMillis()));
+        }
+    }
+
+    /**
+     * 测试按钮点击
+     */
+    @Override
+    public void onTestClick() {
+        startActivity(new Intent(this, LoginActivity.class));
+    }
+
+    //endregion
+
+    //region: Event Bus 操作
+
+    /**
+     * 刷新用户信息
+     *
+     * @param targetUserEntity
+     */
+    public void refreshUserInfo(@Nullable final LoginUserEntity targetUserEntity) {
+        if (targetUserEntity == null) {
+            return;
+        }
+        mMainViewModel.setObservableUserId(targetUserEntity.getUserId());
     }
 
     //endregion

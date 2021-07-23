@@ -117,7 +117,7 @@ public class LoginActivity extends DataBindingActivity<LoginActivityViewModel, A
      */
     @Override
     public void onRequestLoginComplete(@NonNull final UserLoginResponse loginResponse) {
-
+        mLoginActivityViewModel.setTargetUserInfo(loginResponse.getLoginUserEntity());
     }
 
     /**
@@ -142,7 +142,7 @@ public class LoginActivity extends DataBindingActivity<LoginActivityViewModel, A
      * @param targetUserEntity
      */
     public void refreshUserInfo(@NonNull final LoginUserEntity targetUserEntity) {
-        mLoginActivityViewModel.setTargetUserInfo(targetUserEntity);
+
     }
 
     //endregion

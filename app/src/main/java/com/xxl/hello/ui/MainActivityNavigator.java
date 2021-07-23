@@ -16,4 +16,9 @@ public interface MainActivityNavigator {
      * @param response
      */
     void onRequestQueryUserInfoComplete(@NonNull final QueryUserInfoResponse response);
+
+    /**
+     * 测试按钮点击
+     */
+    void onTestClick();
 }
