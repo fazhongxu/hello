@@ -18,15 +18,15 @@ android {
 
     signingConfigs {
         debug {
-            storeFile file('../hello_nexus.jks')
+            storeFile file('../hello.jks')
             storePassword '123456'
-            keyAlias = 'hello_nexus'
+            keyAlias = 'hello'
             keyPassword '123456'
         }
         release {
-            storeFile file('..//hello_nexus.jks')
+            storeFile file('../hello')
             storePassword '123456'
-            keyAlias = 'hello_nexus'
+            keyAlias = 'hello'
             keyPassword '123456'
         }
     }
