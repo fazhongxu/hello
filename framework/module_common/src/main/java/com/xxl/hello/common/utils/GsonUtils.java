@@ -35,7 +35,12 @@ public class GsonUtils {
      * @return
      */
     public static String toJson(@NonNull final Object object) {
-        return GSON.toJson(object);
+        try {
+            return GSON.toJson(object);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
     /**

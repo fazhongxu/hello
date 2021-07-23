@@ -1,6 +1,9 @@
 package com.xxl.hello.common.utils;
 
+import android.text.TextUtils;
+
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.FormatStrategy;
@@ -46,7 +49,13 @@ public class LogUtils {
                 .tag("hello")
                 .build();
 
-        Logger.addLogAdapter(new AndroidLogAdapter(formatStrategy));
+        Logger.addLogAdapter(new AndroidLogAdapter(formatStrategy) {
+            @Override
+            public boolean isLoggable(int priority,
+                                      @Nullable String tag) {
+                return sIsDebug;
+            }
+        });
     }
 
     public static void i(@NonNull final String message) {
@@ -75,6 +84,20 @@ public class LogUtils {
             return;
         }
         Logger.e(message);
+    }
+
+    public static void e(@NonNull final Object object) {
+        if (!sIsDebug) {
+            return;
+        }
+        if (object instanceof String) {
+            Logger.e((String) object);
+        } else {
+            final String json = GsonUtils.toJson(object);
+            if (!TextUtils.isEmpty(json)) {
+                Logger.e(json);
+            }
+        }
     }
 
     //endregion
