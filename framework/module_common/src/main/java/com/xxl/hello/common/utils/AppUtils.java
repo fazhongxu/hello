@@ -35,8 +35,20 @@ public class AppUtils {
         mApplication = application;
     }
 
+    /**
+     * 获取应用上下文
+     *
+     * @return
+     */
     public static Application getApplication() {
         return mApplication;
+    }
+
+    /**
+     * 重启应用
+     */
+    public static void restartApp() {
+        System.exit(0);
     }
 
     //endregion

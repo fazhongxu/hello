@@ -42,6 +42,12 @@ public class LoginActivityViewModel extends BaseViewModel<LoginActivityNavigator
     private ObservableField<String> mObservableUserName = new ObservableField<>();
 
     /**
+     * 当前网络环境信息
+     */
+    @Getter
+    private ObservableField<String> mObservableNetworkConfig = new ObservableField<>();
+
+    /**
      * 用户信息
      */
     @Getter
@@ -105,6 +111,24 @@ public class LoginActivityViewModel extends BaseViewModel<LoginActivityNavigator
         if (mTargetLoginUserEntity != null) {
             mObservableUserName.set(targetLoginUserEntity.getUserName() + "--" + targetLoginUserEntity.getUserId());
         }
+    }
+
+    /**
+     * 设置当前网络环境配置信息
+     *
+     * @param networkConfig
+     */
+    void setNetworkConfig(@NonNull final String networkConfig) {
+        setObservableNetworkConfig(networkConfig);
+    }
+
+    /**
+     * 设置当前网络环境配置信息
+     *
+     * @param networkConfig
+     */
+    void setObservableNetworkConfig(@NonNull final String networkConfig) {
+        this.mObservableNetworkConfig.set(networkConfig);
     }
 
     //endregion

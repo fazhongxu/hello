@@ -41,6 +41,7 @@ dependencies {
     implementation deps.androidx.appcompat
 
     implementation deps.origin.common
+    implementation deps.origin.resources
 
     implementation deps.okhttp.okhttp
     implementation deps.retrofit.retrofit

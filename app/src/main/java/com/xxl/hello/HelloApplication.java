@@ -78,8 +78,8 @@ public class HelloApplication extends BaseApplication {
      * 初始化组件
      */
     private void initPlugins() {
-        LogUtils.init(isNetworkDebug());
         CacheUtils.init(this);
+        LogUtils.init(isNetworkDebug());
     }
 
     //endregion

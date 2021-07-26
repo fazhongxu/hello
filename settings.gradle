@@ -1,6 +1,7 @@
 include ':app'
 include ':framework:module_common'
 include ':framework:module_service'
+include ':framework:module_resources'
 include ':modules:module_user'
 
 

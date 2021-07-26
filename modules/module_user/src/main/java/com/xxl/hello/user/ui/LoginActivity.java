@@ -3,8 +3,10 @@ package com.xxl.hello.user.ui;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.xxl.hello.common.config.NetworkConfig;
 import com.xxl.hello.common.utils.TestUtils;
 import com.xxl.hello.service.data.model.entity.LoginUserEntity;
+import com.xxl.hello.service.qunlifier.ForUserBaseUrl;
 import com.xxl.hello.service.ui.BaseEventBusWrapper;
 import com.xxl.hello.service.ui.DataBindingActivity;
 import com.xxl.hello.user.BR;
@@ -32,6 +34,13 @@ public class LoginActivity extends DataBindingActivity<LoginActivityViewModel, A
      */
     @Inject
     LoginActivityEventBusWrapper mLoginActivityEventBusWrapper;
+
+    /**
+     * 用户模块主机地址
+     */
+    @ForUserBaseUrl
+    @Inject
+    String mBaseUrl;
 
     //endregion
 
@@ -88,6 +97,7 @@ public class LoginActivity extends DataBindingActivity<LoginActivityViewModel, A
     @Override
     protected void setupData() {
         mViewDataBinding = getViewDataBinding();
+        setNetworkConfig();
     }
 
     /**
@@ -128,9 +138,27 @@ public class LoginActivity extends DataBindingActivity<LoginActivityViewModel, A
         mLoginActivityViewModel.requestLogin("123456", String.valueOf(TestUtils.currentTimeMillis()));
     }
 
+    /**
+     * 切换网络环境点击
+     */
+    @Override
+    public void onSwitchEnvironmentClick() {
+        NetworkConfig.switchEnvironment();
+    }
+
     //endregion
 
     //region: Fragment 操作
+
+    /**
+     * 设置网络配置环境信息
+     */
+    private void setNetworkConfig() {
+        final String networkConfigInfo = getString(R.string.resources_is_develop_environment_format, String.valueOf(NetworkConfig.isNetworkDebug()))
+                .concat("\n")
+                .concat(getString(R.string.resources_host_format, mBaseUrl));
+        mLoginActivityViewModel.setNetworkConfig(networkConfigInfo);
+    }
 
     //endregion
 

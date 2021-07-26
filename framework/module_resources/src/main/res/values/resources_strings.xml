@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">module_resources</string>
+    <string name="resources_switch_environment_text">切换环境</string>
+    <string name="resources_is_develop_environment_format">是否是开发环境:%s</string>
+    <string name="resources_host_format">主机地址:%s</string>
+</resources>

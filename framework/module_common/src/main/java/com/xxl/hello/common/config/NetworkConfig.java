@@ -1,5 +1,8 @@
 package com.xxl.hello.common.config;
 
+import com.xxl.hello.common.utils.AppUtils;
+import com.xxl.hello.common.utils.CacheUtils;
+
 /**
  * @author xxl.
  * @date 2021/7/20.
@@ -7,6 +10,16 @@ package com.xxl.hello.common.config;
 public class NetworkConfig {
 
     //region: 成员变量
+
+    /**
+     * 网络环境是否是debug模式，上线必须改为false
+     */
+    private static final boolean sIsNetWorkDebug = true;
+
+    /**
+     * 开发环境一些配置信息存储key
+     */
+    private static final String PREF_KEY_DEVELOP = "pref_key_develop";
 
     //endregion
 
@@ -26,26 +39,20 @@ public class NetworkConfig {
      * @return
      */
     public static boolean isNetworkDebug() {
-        // 1.是否可以切换 未打包可以切换
-        // 2.mmkv 取出切换环境的值
-        return true;
-    }
-
-    /**
-     * 设置是否是Debug 模式
-     *
-     * @param isNetworkDebug
-     */
-    public static void setNetworkDebug(final boolean isNetworkDebug) {
-        // mmkv 存入值
+        if (sIsNetWorkDebug) {
+            return CacheUtils.decodeBool(PREF_KEY_DEVELOP);
+        }
+        return false;
     }
 
     /**
      * 切换环境 debug/release
      */
     public static void switchEnvironment() {
-        setNetworkDebug(!isNetworkDebug());
-        // 重启app
+        final boolean isSuccess = CacheUtils.encode(PREF_KEY_DEVELOP, !isNetworkDebug());
+        if (isSuccess) {
+            AppUtils.restartApp();
+        }
     }
 
     //endregion

@@ -21,4 +21,9 @@ public interface LoginActivityNavigator {
      * 登录按钮点击
      */
     void onLoginClick();
+
+    /**
+     * 切换网络环境点击
+     */
+    void onSwitchEnvironmentClick();
 }

@@ -62,8 +62,8 @@ public class CacheUtils {
      * @return
      */
     public static boolean encode(@NonNull final String key,
-                          @NonNull final String value) {
-        return MMKV.mmkvWithID(getDefaultName(),MMKV.MULTI_PROCESS_MODE).encode(key, value);
+                                 @NonNull final String value) {
+        return getCacheFile().encode(key, value);
     }
 
     /**
@@ -73,12 +73,43 @@ public class CacheUtils {
      * @return
      */
     public static String decodeString(@NonNull final String key) {
-        return MMKV.mmkvWithID(getDefaultName(),MMKV.MULTI_PROCESS_MODE).decodeString(key);
+        return getCacheFile().decodeString(key);
+    }
+
+    /**
+     * 保存数据
+     *
+     * @param key
+     * @param value
+     * @return
+     */
+    public static boolean encode(@NonNull final String key,
+                                 @NonNull final boolean value) {
+        return getCacheFile().encode(key, value);
+    }
+
+    /**
+     * 获取数据
+     *
+     * @param key
+     * @return
+     */
+    public static boolean decodeBool(@NonNull final String key) {
+        return getCacheFile().decodeBool(key);
     }
 
     //endregion
 
     //region: 内部辅助方法
+
+    /**
+     * 获取缓存配置文件
+     *
+     * @return
+     */
+    public static MMKV getCacheFile() {
+        return MMKV.mmkvWithID(getDefaultName(), MMKV.MULTI_PROCESS_MODE);
+    }
 
     /**
      * 获取默认名称
