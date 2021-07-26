@@ -16,7 +16,7 @@ import com.xxl.hello.service.data.model.entity.LoginUserEntity;
 import com.xxl.hello.service.ui.BaseEventBusWrapper;
 import com.xxl.hello.service.ui.DataBindingActivity;
 import com.xxl.hello.service.utils.AppExpandUtils;
-import com.xxl.hello.user.ui.LoginActivity;
+import com.xxl.hello.user.ui.login.LoginActivity;
 
 import javax.inject.Inject;
 

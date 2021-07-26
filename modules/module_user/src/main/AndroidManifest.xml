@@ -3,7 +3,8 @@
     package="com.xxl.hello.user">
 
     <application>
-        <activity android:name="com.xxl.hello.user.ui.LoginActivity" />
+        <activity android:name="com.xxl.hello.user.ui.login.LoginActivity" />
+        <activity android:name=".ui.setting.UserSettingActivity"/>
     </application>
 
 </manifest>

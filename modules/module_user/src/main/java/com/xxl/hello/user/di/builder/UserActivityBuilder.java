@@ -1,7 +1,9 @@
 package com.xxl.hello.user.di.builder;
 
-import com.xxl.hello.user.ui.LoginActivity;
-import com.xxl.hello.user.ui.LoginActivityViewModule;
+import com.xxl.hello.user.ui.login.LoginActivity;
+import com.xxl.hello.user.ui.login.LoginActivityViewModule;
+import com.xxl.hello.user.ui.setting.UserSettingActivity;
+import com.xxl.hello.user.ui.setting.UserSettingActivityViewModule;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -18,4 +20,7 @@ public abstract class UserActivityBuilder {
 
     @ContributesAndroidInjector(modules = {LoginActivityViewModule.class})
     abstract LoginActivity bindLoginActivityBuilder();
+
+    @ContributesAndroidInjector(modules = {UserSettingActivityViewModule.class})
+    abstract UserSettingActivity bindUserSettingActivityBuilder();
 }

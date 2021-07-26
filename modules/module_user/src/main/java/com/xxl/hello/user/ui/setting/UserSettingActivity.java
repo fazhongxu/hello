@@ -1,39 +1,31 @@
-package com.xxl.hello.user.ui;
+package com.xxl.hello.user.ui.setting;
 
-import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.xxl.hello.common.config.NetworkConfig;
-import com.xxl.hello.common.utils.TestUtils;
 import com.xxl.hello.service.data.model.entity.LoginUserEntity;
 import com.xxl.hello.service.qunlifier.ForUserBaseUrl;
-import com.xxl.hello.service.ui.BaseEventBusWrapper;
 import com.xxl.hello.service.ui.DataBindingActivity;
 import com.xxl.hello.user.BR;
 import com.xxl.hello.user.R;
-import com.xxl.hello.user.data.model.api.UserLoginResponse;
-import com.xxl.hello.user.databinding.ActivityLoginBinding;
+import com.xxl.hello.user.databinding.UserActivitySettingBinding;
 
 import javax.inject.Inject;
 
 /**
+ * 用户设置页面
+ *
  * @author xxl.
- * @date 2021/07/16.
+ * @date 2021/07/26.
  */
-public class LoginActivity extends DataBindingActivity<LoginActivityViewModel, ActivityLoginBinding> implements LoginActivityNavigator {
+public class UserSettingActivity extends DataBindingActivity<UserSettingViewModel, UserActivitySettingBinding> implements UserSettingNavigator {
 
     //region: 成员变量
 
     /**
-     * 登录页面ViewModel数据模型
+     * 用户设置数据模型
      */
-    private LoginActivityViewModel mLoginActivityViewModel;
-
-    /**
-     * 登录页面EventBus通知事件监听
-     */
-    @Inject
-    LoginActivityEventBusWrapper mLoginActivityEventBusWrapper;
+    private UserSettingViewModel mUserSettingViewModel;
 
     /**
      * 用户模块主机地址
@@ -51,7 +43,7 @@ public class LoginActivity extends DataBindingActivity<LoginActivityViewModel, A
      */
     @Override
     protected int getLayoutRes() {
-        return R.layout.activity_login;
+        return R.layout.user_activity_setting;
     }
 
     /**
@@ -60,15 +52,10 @@ public class LoginActivity extends DataBindingActivity<LoginActivityViewModel, A
      * @return
      */
     @Override
-    protected LoginActivityViewModel createViewModel() {
-        mLoginActivityViewModel = new ViewModelProvider(this, mViewModelProviderFactory).get(LoginActivityViewModel.class);
-        mLoginActivityViewModel.setNavigator(this);
-        return mLoginActivityViewModel;
-    }
-
-    @Override
-    protected BaseEventBusWrapper getEventBusWrapper() {
-        return mLoginActivityEventBusWrapper;
+    protected UserSettingViewModel createViewModel() {
+        mUserSettingViewModel = new ViewModelProvider(this, mViewModelProviderFactory).get(UserSettingViewModel.class);
+        mUserSettingViewModel.setNavigator(this);
+        return mUserSettingViewModel;
     }
 
     /**
@@ -112,31 +99,13 @@ public class LoginActivity extends DataBindingActivity<LoginActivityViewModel, A
     @Override
     protected void requestData() {
         super.requestData();
-        final LoginUserEntity loginUserEntity = mLoginActivityViewModel.requestGetCurrentLoginUserEntity();
-        mLoginActivityViewModel.setTargetUserInfo(loginUserEntity);
+        final LoginUserEntity loginUserEntity = mUserSettingViewModel.requestGetCurrentLoginUserEntity();
+        mUserSettingViewModel.setTargetUserInfo(loginUserEntity);
     }
 
     //endregion
 
-    //region: LoginActivityNavigator
-
-    /**
-     * 请求登录完成
-     *
-     * @param loginResponse
-     */
-    @Override
-    public void onRequestLoginComplete(@NonNull final UserLoginResponse loginResponse) {
-        mLoginActivityViewModel.setTargetUserInfo(loginResponse.getLoginUserEntity());
-    }
-
-    /**
-     * 登录按钮点击
-     */
-    @Override
-    public void onLoginClick() {
-        mLoginActivityViewModel.requestLogin("123456", String.valueOf(TestUtils.currentTimeMillis()));
-    }
+    //region: UserSettingNavigator
 
     /**
      * 切换网络环境点击
@@ -157,21 +126,13 @@ public class LoginActivity extends DataBindingActivity<LoginActivityViewModel, A
         final String networkConfigInfo = getString(R.string.resources_is_develop_environment_format, String.valueOf(NetworkConfig.isNetworkDebug()))
                 .concat("\n")
                 .concat(getString(R.string.resources_host_format, mBaseUrl));
-        mLoginActivityViewModel.setNetworkConfig(networkConfigInfo);
+        mUserSettingViewModel.setNetworkConfig(networkConfigInfo);
     }
 
     //endregion
 
     //region: EventBus 操作
 
-    /**
-     * 刷新用户信息
-     *
-     * @param targetUserEntity
-     */
-    public void refreshUserInfo(@NonNull final LoginUserEntity targetUserEntity) {
-
-    }
 
     //endregion
 

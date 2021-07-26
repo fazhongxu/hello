@@ -1,4 +1,4 @@
-package com.xxl.hello.user.ui;
+package com.xxl.hello.user.ui.login;
 
 import androidx.annotation.NonNull;
 
@@ -23,7 +23,7 @@ public interface LoginActivityNavigator {
     void onLoginClick();
 
     /**
-     * 切换网络环境点击
+     * 设置按钮点击
      */
-    void onSwitchEnvironmentClick();
+    void onSettingClick();
 }

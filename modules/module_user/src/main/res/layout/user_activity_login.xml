@@ -6,11 +6,11 @@
 
         <variable
             name="viewModel"
-            type="com.xxl.hello.user.ui.LoginActivityViewModel" />
+            type="com.xxl.hello.user.ui.login.LoginActivityViewModel" />
 
         <variable
             name="navigator"
-            type="com.xxl.hello.user.ui.LoginActivityNavigator" />
+            type="com.xxl.hello.user.ui.login.LoginActivityNavigator" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -39,26 +39,14 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
             android:alpha="0.6"
+            android:onClick="@{()->navigator.onSettingClick()}"
             android:padding="5dp"
-            android:text="@{viewModel.observableNetworkConfig}"
-            app:layout_constraintBottom_toTopOf="@+id/tv_environment"
-            app:layout_constraintRight_toRightOf="parent"
-            tools:text="https://github.com" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_environment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:alpha="0.6"
-            android:onClick="@{()->navigator.onSwitchEnvironmentClick()}"
-            android:padding="5dp"
-            android:text="@string/resources_switch_environment_text"
+            android:src="@drawable/user_ic_setting"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent" />
 

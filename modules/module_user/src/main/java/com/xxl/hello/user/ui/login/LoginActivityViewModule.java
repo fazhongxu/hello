@@ -1,4 +1,4 @@
-package com.xxl.hello.user.ui;
+package com.xxl.hello.user.ui.login;
 
 import android.app.Application;
 
