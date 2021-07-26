@@ -17,9 +17,14 @@ public class NetworkConfig {
     private static final boolean sIsNetWorkDebug = true;
 
     /**
-     * 开发环境一些配置信息存储key
+     * 开发环境一些配置信息存储名称
      */
-    private static final String PREF_KEY_DEVELOP = "pref_key_develop";
+    private static final String PREF_DEVELOP_NAME = "pref_key_develop_name";
+
+    /**
+     * 是否是debug环境
+     */
+    private static final String PREF_KEY_IS_NETWORK_DEBUG = "pref_key_is_network_debug";
 
     //endregion
 
@@ -40,7 +45,7 @@ public class NetworkConfig {
      */
     public static boolean isNetworkDebug() {
         if (sIsNetWorkDebug) {
-            return CacheUtils.decodeBool(PREF_KEY_DEVELOP);
+            return CacheUtils.decodeBool(PREF_DEVELOP_NAME, PREF_KEY_IS_NETWORK_DEBUG);
         }
         return false;
     }
@@ -49,10 +54,8 @@ public class NetworkConfig {
      * 切换环境 debug/release
      */
     public static void switchEnvironment() {
-        final boolean isSuccess = CacheUtils.encode(PREF_KEY_DEVELOP, !isNetworkDebug());
-        if (isSuccess) {
-            AppUtils.restartApp();
-        }
+        CacheUtils.encode(PREF_DEVELOP_NAME, PREF_KEY_IS_NETWORK_DEBUG, !isNetworkDebug());
+        AppUtils.restartApp();
     }
 
     //endregion

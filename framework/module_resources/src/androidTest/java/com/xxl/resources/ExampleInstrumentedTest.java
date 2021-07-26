@@ -1,4 +1,4 @@
-package com.xxl.module_resources;
+package com.xxl.resources;
 
 import android.content.Context;
 

@@ -92,6 +92,7 @@ if (versions.module_common_remote) {
 
 origin.service = project(':framework:module_service')
 origin.resources = project(':framework:module_resources')
+origin.widget = project(':framework:module_widget')
 
 def hello_nexus_maven_config = [:]
 hello_nexus_maven_config.userName = "admin"

@@ -63,6 +63,7 @@ dependencies {
     implementation deps.origin.service
     implementation deps.origin.common
     implementation deps.origin.resources
+    implementation deps.origin.widget
 
     implementation deps.okhttp.okhttp
     implementation deps.retrofit.retrofit
