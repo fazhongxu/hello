@@ -2,11 +2,15 @@ package com.xxl.hello.core.utils;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Intent;
+import android.os.Process;
 
 import androidx.annotation.NonNull;
 
 import com.xxl.hello.core.listener.ActivityLifecycle;
 import com.xxl.hello.core.listener.OnAppStatusChangedListener;
+
+import java.util.List;
 
 /**
  * @author xxl.
@@ -69,6 +73,15 @@ public class AppUtils {
     }
 
     /**
+     * 获取activity集合
+     *
+     * @return
+     */
+    public static List<Activity> getActivityList() {
+        return sActivityLifecycle == null ? null : sActivityLifecycle.getActivityList();
+    }
+
+    /**
      * 添加前后台状态切换监听
      *
      * @param listener
@@ -105,7 +118,14 @@ public class AppUtils {
      * 重启应用
      */
     public static void restartApp() {
-        System.exit(0);
+        // TODO: 2021/7/27  路由打开主页 实现重启
+        if (getActivityList() != null) {
+            for (Activity activity : getActivityList()) {
+                activity.finish();
+            }
+        }
+        Process.killProcess(Process.myPid());
+        System.exit(1);
     }
 
     //endregion

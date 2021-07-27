@@ -42,6 +42,7 @@ dependencies {
 
     implementation deps.androidx.constraintlayout
 
+    implementation deps.origin.core
     implementation deps.origin.common
     implementation deps.origin.service
 

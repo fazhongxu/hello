@@ -172,6 +172,20 @@ public class ActivityLifecycleImpl implements ActivityLifecycle {
     }
 
     /**
+     * 获取activity集合
+     *
+     * @return
+     */
+    @Override
+    public List<Activity> getActivityList() {
+        if (!mActivityList.isEmpty()) {
+            return new LinkedList<>(mActivityList);
+        }
+        return new LinkedList<>(mActivityList);
+    }
+
+
+    /**
      * 添加前后台状态切换监听
      *
      * @param listener
@@ -199,18 +213,6 @@ public class ActivityLifecycleImpl implements ActivityLifecycle {
     @Override
     public boolean isForeground() {
         return !mIsBackground;
-    }
-
-    /**
-     * 获取activity集合
-     *
-     * @return
-     */
-    public List<Activity> getActivityList() {
-        if (!mActivityList.isEmpty()) {
-            return new LinkedList<>(mActivityList);
-        }
-        return new LinkedList<>(mActivityList);
     }
 
     //endregion

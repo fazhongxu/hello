@@ -5,6 +5,8 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 
+import java.util.List;
+
 /**
  * Activity 页面生命周期监听
  *
@@ -19,6 +21,13 @@ public interface ActivityLifecycle extends Application.ActivityLifecycleCallback
      * @return
      */
     Activity getTopActivity();
+
+    /**
+     * 获取activity集合
+     *
+     * @return
+     */
+    List<Activity> getActivityList();
 
     /**
      * 添加前后台状态切换监听

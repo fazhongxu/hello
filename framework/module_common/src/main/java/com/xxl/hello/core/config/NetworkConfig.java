@@ -1,5 +1,9 @@
 package com.xxl.hello.core.config;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Process;
+
 import com.xxl.hello.core.BuildConfig;
 import com.xxl.hello.core.utils.AppUtils;
 import com.xxl.hello.core.utils.CacheUtils;

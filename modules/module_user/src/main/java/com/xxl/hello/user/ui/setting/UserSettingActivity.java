@@ -1,8 +1,13 @@
 package com.xxl.hello.user.ui.setting;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Process;
+
 import androidx.lifecycle.ViewModelProvider;
 
 import com.xxl.hello.core.config.NetworkConfig;
+import com.xxl.hello.core.utils.AppUtils;
 import com.xxl.hello.service.data.model.entity.LoginUserEntity;
 import com.xxl.hello.service.qunlifier.ForUserBaseUrl;
 import com.xxl.hello.service.ui.DataBindingActivity;
