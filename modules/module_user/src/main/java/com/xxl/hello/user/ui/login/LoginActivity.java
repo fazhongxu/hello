@@ -1,11 +1,11 @@
 package com.xxl.hello.user.ui.login;
 
-import android.content.Intent;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.xxl.hello.core.utils.TestUtils;
+import com.xxl.hello.router.paths.UserRouterApi;
 import com.xxl.hello.service.data.model.entity.LoginUserEntity;
 import com.xxl.hello.service.ui.BaseEventBusWrapper;
 import com.xxl.hello.service.ui.DataBindingActivity;
@@ -13,7 +13,6 @@ import com.xxl.hello.user.BR;
 import com.xxl.hello.user.R;
 import com.xxl.hello.user.data.model.api.UserLoginResponse;
 import com.xxl.hello.user.databinding.UserActivityLoginBinding;
-import com.xxl.hello.user.ui.setting.UserSettingActivity;
 
 import javax.inject.Inject;
 
@@ -21,6 +20,7 @@ import javax.inject.Inject;
  * @author xxl.
  * @date 2021/07/16.
  */
+@Route(path = UserRouterApi.Login.PATH)
 public class LoginActivity extends DataBindingActivity<LoginActivityViewModel, UserActivityLoginBinding> implements LoginActivityNavigator {
 
     //region: 成员变量
@@ -141,7 +141,7 @@ public class LoginActivity extends DataBindingActivity<LoginActivityViewModel, U
      */
     @Override
     public void onSettingClick() {
-        startActivity(new Intent(this, UserSettingActivity.class));
+        UserRouterApi.UserSetting.navigation();
     }
 
     //endregion

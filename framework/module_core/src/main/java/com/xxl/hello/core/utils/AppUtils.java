@@ -2,7 +2,6 @@ package com.xxl.hello.core.utils;
 
 import android.app.Activity;
 import android.app.Application;
-import android.content.Intent;
 import android.os.Process;
 
 import androidx.annotation.NonNull;
@@ -118,7 +117,7 @@ public class AppUtils {
      * 重启应用
      */
     public static void restartApp() {
-        // TODO: 2021/7/27  路由打开主页 实现重启
+        AppRouterApi.navigationToMain();
         if (getActivityList() != null) {
             for (Activity activity : getActivityList()) {
                 activity.finish();

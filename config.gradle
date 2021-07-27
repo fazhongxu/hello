@@ -13,6 +13,7 @@ versions.lombok = "1.18.20"
 versions.mmkv = "1.2.10"
 versions.eventbus = "3.2.0"
 versions.logger = "2.2.0"
+versions.arouter = "1.5.2"
 ext.versions = versions
 
 // build 相关配置
@@ -73,6 +74,12 @@ deps.mmkv = "com.tencent:mmkv-static:$versions.mmkv"
 // EventBus 事件通知[https://github.com/greenrobot/EventBus]
 deps.evetbus = "org.greenrobot:eventbus:$versions.eventbus"
 
+// Arouter 路由通信 [https://github.com/alibaba/ARouter]
+def arouter = [:]
+arouter.arouter = "com.alibaba:arouter-api:$versions.arouter"
+arouter.arouter_processor = "com.alibaba:arouter-compiler:$versions.arouter"
+deps.arouter = arouter
+
 def origin = [:]
 // 是否使用远程依赖 true使用远程依赖（远程私服存储的aar依赖）
 // false则为本地仓库存储的代码
@@ -95,6 +102,7 @@ origin.core = project(':framework:module_core')
 origin.service = project(':framework:module_service')
 origin.resources = project(':framework:module_resources')
 origin.widget = project(':framework:module_widget')
+origin.router = project(':framework:module_router')
 
 def hello_nexus_maven_config = [:]
 hello_nexus_maven_config.userName = "admin"

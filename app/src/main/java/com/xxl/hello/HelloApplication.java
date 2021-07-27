@@ -1,6 +1,7 @@
 package com.xxl.hello;
 
 import com.xxl.hello.core.BaseApplication;
+import com.xxl.hello.core.BuildConfig;
 import com.xxl.hello.core.config.NetworkConfig;
 import com.xxl.hello.core.utils.CacheUtils;
 import com.xxl.hello.core.utils.LogUtils;
@@ -50,6 +51,16 @@ public class HelloApplication extends BaseApplication {
     @Override
     public String getCurrentUserId() {
         return mApplicationWrapper.getCurrentUserId();
+    }
+
+    /**
+     * 是否是debug模式
+     *
+     * @return
+     */
+    @Override
+    public boolean isDebug() {
+        return BuildConfig.DEBUG;
     }
 
     /**

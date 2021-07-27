@@ -4,6 +4,7 @@ include ':framework:module_common'
 include ':framework:module_service'
 include ':framework:module_resources'
 include ':framework:module_widget'
+include ':framework:module_router'
 include ':modules:module_user'
 
 

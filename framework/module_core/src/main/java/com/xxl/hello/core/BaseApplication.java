@@ -1,6 +1,7 @@
 package com.xxl.hello.core;
 
 import com.xxl.hello.core.utils.AppUtils;
+import com.xxl.hello.core.utils.RouterUtils;
 
 import dagger.android.DaggerApplication;
 
@@ -15,7 +16,15 @@ public abstract class BaseApplication extends DaggerApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        init();
+    }
+
+    /**
+     * 初始化
+     */
+    private void init() {
         AppUtils.init(this, new ActivityLifecycleImpl());
+        RouterUtils.init(this, isDebug());
     }
 
     //endregion
@@ -28,6 +37,13 @@ public abstract class BaseApplication extends DaggerApplication {
      * @return
      */
     public abstract String getCurrentUserId();
+
+    /**
+     * 是否是debug模式
+     *
+     * @return
+     */
+    public abstract boolean isDebug();
 
     /**
      * 是否是debug模式

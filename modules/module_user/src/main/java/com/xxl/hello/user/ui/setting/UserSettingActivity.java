@@ -1,13 +1,10 @@
 package com.xxl.hello.user.ui.setting;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Process;
-
 import androidx.lifecycle.ViewModelProvider;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.xxl.hello.core.config.NetworkConfig;
-import com.xxl.hello.core.utils.AppUtils;
+import com.xxl.hello.router.paths.UserRouterApi;
 import com.xxl.hello.service.data.model.entity.LoginUserEntity;
 import com.xxl.hello.service.qunlifier.ForUserBaseUrl;
 import com.xxl.hello.service.ui.DataBindingActivity;
@@ -23,6 +20,7 @@ import javax.inject.Inject;
  * @author xxl.
  * @date 2021/07/26.
  */
+@Route(path = UserRouterApi.UserSetting.PATH)
 public class UserSettingActivity extends DataBindingActivity<UserSettingViewModel, UserActivitySettingBinding> implements UserSettingNavigator {
 
     //region: 成员变量

@@ -7,13 +7,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.xxl.hello.core.listener.OnAppStatusChangedListener;
+import com.xxl.hello.core.utils.AppRouterApi;
 import com.xxl.hello.core.utils.LogUtils;
 import com.xxl.hello.core.utils.TestUtils;
 import com.xxl.hello.core.utils.ToastUtils;
 import com.xxl.hello.nexus.BR;
 import com.xxl.hello.nexus.R;
 import com.xxl.hello.nexus.databinding.ActivityMainBinding;
+import com.xxl.hello.router.paths.UserRouterApi;
 import com.xxl.hello.service.data.model.api.QueryUserInfoResponse;
 import com.xxl.hello.service.data.model.entity.LoginUserEntity;
 import com.xxl.hello.service.ui.BaseEventBusWrapper;
@@ -27,6 +30,7 @@ import javax.inject.Inject;
  * @author xxl
  * @date 2021/07/16.
  */
+@Route(path = AppRouterApi.MAIN_PATH)
 public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMainBinding> implements MainActivityNavigator, OnAppStatusChangedListener {
 
     //region: 成员变量
@@ -152,7 +156,7 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
      */
     @Override
     public void onTestClick() {
-        startActivity(new Intent(this, LoginActivity.class));
+        UserRouterApi.Login.navigation();
     }
 
     //endregion
