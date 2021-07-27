@@ -43,6 +43,18 @@ public class AppConfig {
 
     //endregion
 
+    //region: 用户模块相关配置
+
+    public static class User {
+
+        /**
+         * github用户昵称
+         */
+        public static final String GITHUB_USER_NAME = "fazhongxu";
+    }
+
+    //endregion
+
     //region: 内部辅助方法
 
     //endregion

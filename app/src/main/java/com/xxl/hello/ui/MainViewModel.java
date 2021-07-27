@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.databinding.ObservableField;
 
+import com.xxl.hello.core.config.AppConfig;
 import com.xxl.hello.service.data.model.api.QueryUserInfoRequest;
 import com.xxl.hello.service.data.model.entity.LoginUserEntity;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
@@ -62,7 +63,7 @@ public class MainViewModel extends BaseViewModel<MainActivityNavigator> {
      */
     void requestQueryUserInfo() {
         final QueryUserInfoRequest request = QueryUserInfoRequest.obtain()
-                .setTargetUserName("fazhongxu");
+                .setTargetUserName(AppConfig.User.GITHUB_USER_NAME);
         final UserRepositoryApi userRepositoryApi = mDataRepositoryKit.getUserRepositoryApi();
         final Disposable disposable = userRepositoryApi.queryUserInfo(request)
                 .compose(applySchedulers())
