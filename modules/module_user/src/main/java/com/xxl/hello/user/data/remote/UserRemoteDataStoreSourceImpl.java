@@ -72,7 +72,7 @@ public class UserRemoteDataStoreSourceImpl implements UserRemoteDataStoreSource 
      */
     @Override
     public Observable<QueryUserInfoResponse> queryUserInfo(@NonNull final QueryUserInfoRequest request) {
-        return mUserRemoteDataSourceService.queryUserInfo(request.getTargetUserId());
+        return mUserRemoteDataSourceService.queryUserInfo(request.getTargetUserName());
     }
 
     //endregion

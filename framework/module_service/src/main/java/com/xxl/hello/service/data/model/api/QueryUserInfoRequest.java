@@ -18,9 +18,9 @@ public class QueryUserInfoRequest {
     private static final Map<String, Object> sFiled = new LinkedHashMap<>();
 
     /**
-     * 用户ID
+     * 用户昵称
      */
-    private static final String REQUEST_KEY_USER_ID = "userId";
+    private static final String REQUEST_KEY_USER_NAME = "username";
 
     //endregion
 
@@ -39,23 +39,23 @@ public class QueryUserInfoRequest {
     //region: get or set
 
     /**
-     * 设置目标用户名称
+     * 设置目标用户昵称
      *
-     * @param targetUserId
+     * @param targetUserName
      * @return
      */
-    public QueryUserInfoRequest setTargetUserId(@NonNull final String targetUserId) {
-        sFiled.put(REQUEST_KEY_USER_ID, targetUserId);
+    public QueryUserInfoRequest setTargetUserName(@NonNull final String targetUserName) {
+        sFiled.put(REQUEST_KEY_USER_NAME, targetUserName);
         return this;
     }
 
     /**
-     * 获取用户ID
+     * 获取用户昵称
      *
      * @return
      */
-    public String getTargetUserId() {
-        return (String) sFiled.get(REQUEST_KEY_USER_ID);
+    public String getTargetUserName() {
+        return (String) sFiled.get(REQUEST_KEY_USER_NAME);
     }
 
     //endregion

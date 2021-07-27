@@ -62,7 +62,7 @@ public class MainViewModel extends BaseViewModel<MainActivityNavigator> {
      */
     void requestQueryUserInfo() {
         final QueryUserInfoRequest request = QueryUserInfoRequest.obtain()
-                .setTargetUserId("fazhongxu");
+                .setTargetUserName("fazhongxu");
         final UserRepositoryApi userRepositoryApi = mDataRepositoryKit.getUserRepositoryApi();
         final Disposable disposable = userRepositoryApi.queryUserInfo(request)
                 .compose(applySchedulers())

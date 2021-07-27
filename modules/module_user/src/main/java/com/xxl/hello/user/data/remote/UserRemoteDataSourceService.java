@@ -42,9 +42,9 @@ public interface UserRemoteDataSourceService {
     /**
      * 查询用户信息
      *
-     * @param userId 用户id
+     * @param userNickname 用户昵称
      * @return
      */
-    @GET("users/{userId}")
-    Observable<QueryUserInfoResponse> queryUserInfo(@Path("userId") String userId);
+    @GET("users/{userNickname}")
+    Observable<QueryUserInfoResponse> queryUserInfo(@Path("userNickname") String userNickname);
 }
