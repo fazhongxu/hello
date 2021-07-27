@@ -1,5 +1,5 @@
 
-package com.xxl.hello.common.utils;
+package com.xxl.hello.core.utils;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

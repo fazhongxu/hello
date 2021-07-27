@@ -1,10 +1,10 @@
 package com.xxl.hello;
 
-import com.xxl.hello.common.config.NetworkConfig;
-import com.xxl.hello.common.utils.CacheUtils;
-import com.xxl.hello.common.utils.LogUtils;
+import com.xxl.hello.core.BaseApplication;
+import com.xxl.hello.core.config.NetworkConfig;
+import com.xxl.hello.core.utils.CacheUtils;
+import com.xxl.hello.core.utils.LogUtils;
 import com.xxl.hello.di.component.DaggerAppComponent;
-import com.xxl.hello.service.BaseApplication;
 
 import javax.inject.Inject;
 

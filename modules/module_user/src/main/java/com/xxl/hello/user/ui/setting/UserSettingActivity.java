@@ -2,7 +2,7 @@ package com.xxl.hello.user.ui.setting;
 
 import androidx.lifecycle.ViewModelProvider;
 
-import com.xxl.hello.common.config.NetworkConfig;
+import com.xxl.hello.core.config.NetworkConfig;
 import com.xxl.hello.service.data.model.entity.LoginUserEntity;
 import com.xxl.hello.service.qunlifier.ForUserBaseUrl;
 import com.xxl.hello.service.ui.DataBindingActivity;

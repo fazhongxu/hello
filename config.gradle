@@ -90,6 +90,7 @@ if (versions.module_common_remote) {
     origin.common = project(':framework:module_common')
 }
 
+origin.core = project(':framework:module_core')
 origin.service = project(':framework:module_service')
 origin.resources = project(':framework:module_resources')
 origin.widget = project(':framework:module_widget')

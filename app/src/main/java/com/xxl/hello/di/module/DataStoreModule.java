@@ -1,6 +1,6 @@
 package com.xxl.hello.di.module;
 
-import com.xxl.hello.common.config.NetworkConfig;
+import com.xxl.hello.core.config.NetworkConfig;
 import com.xxl.hello.service.di.module.ServiceDataStoreModule;
 import com.xxl.hello.service.qunlifier.ForBaseUrl;
 import com.xxl.hello.service.qunlifier.ForNetWorkDebug;

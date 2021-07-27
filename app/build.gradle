@@ -60,6 +60,7 @@ dependencies {
     implementation deps.androidx.appcompat
     implementation deps.androidx.constraintlayout
 
+    implementation deps.origin.core
     implementation deps.origin.service
     implementation deps.origin.common
     implementation deps.origin.resources

@@ -1,7 +1,7 @@
-package com.xxl.hello.common.config;
+package com.xxl.hello.core.config;
 
-import com.xxl.hello.common.utils.AppUtils;
-import com.xxl.hello.common.utils.CacheUtils;
+import com.xxl.hello.core.utils.AppUtils;
+import com.xxl.hello.core.utils.CacheUtils;
 
 /**
  * @author xxl.

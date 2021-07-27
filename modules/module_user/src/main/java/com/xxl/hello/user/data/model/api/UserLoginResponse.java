@@ -3,7 +3,6 @@ package com.xxl.hello.user.data.model.api;
 import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 
-import com.xxl.hello.common.config.NetworkConfig;
 import com.xxl.hello.service.data.model.entity.LoginUserEntity;
 
 import lombok.Getter;

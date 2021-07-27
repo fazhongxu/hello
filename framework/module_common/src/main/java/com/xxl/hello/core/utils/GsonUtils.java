@@ -1,6 +1,4 @@
-package com.xxl.hello.common.utils;
-
-import android.app.Application;
+package com.xxl.hello.core.utils;
 
 import androidx.annotation.NonNull;
 

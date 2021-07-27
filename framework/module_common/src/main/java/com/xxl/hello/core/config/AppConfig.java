@@ -1,4 +1,4 @@
-package com.xxl.hello.common.config;
+package com.xxl.hello.core.config;
 
 import androidx.annotation.NonNull;
 

@@ -4,4 +4,6 @@
     <string name="resources_setting_text">设置</string>
     <string name="resources_is_develop_environment_format">是否是开发环境:%s</string>
     <string name="resources_host_format">主机地址:%s</string>
+    <string name="resources_app_is_foreground_tips">进入到前台</string>
+    <string name="resources_app_is_background_tips">进入到后台</string>
 </resources>

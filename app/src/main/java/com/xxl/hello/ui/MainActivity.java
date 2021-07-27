@@ -1,13 +1,17 @@
 package com.xxl.hello.ui;
 
+import android.app.Activity;
 import android.content.Intent;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.xxl.hello.common.utils.LogUtils;
-import com.xxl.hello.common.utils.TestUtils;
+import com.xxl.hello.core.listener.OnAppStatusChangedListener;
+import com.xxl.hello.core.utils.AppUtils;
+import com.xxl.hello.core.utils.LogUtils;
+import com.xxl.hello.core.utils.TestUtils;
+import com.xxl.hello.core.utils.ToastUtils;
 import com.xxl.hello.nexus.BR;
 import com.xxl.hello.nexus.R;
 import com.xxl.hello.nexus.databinding.ActivityMainBinding;
@@ -15,7 +19,7 @@ import com.xxl.hello.service.data.model.api.QueryUserInfoResponse;
 import com.xxl.hello.service.data.model.entity.LoginUserEntity;
 import com.xxl.hello.service.ui.BaseEventBusWrapper;
 import com.xxl.hello.service.ui.DataBindingActivity;
-import com.xxl.hello.service.utils.AppExpandUtils;
+import com.xxl.hello.core.utils.AppExpandUtils;
 import com.xxl.hello.user.ui.login.LoginActivity;
 
 import javax.inject.Inject;
@@ -24,7 +28,7 @@ import javax.inject.Inject;
  * @author xxl
  * @date 2021/07/16.
  */
-public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMainBinding> implements MainActivityNavigator {
+public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMainBinding> implements MainActivityNavigator, OnAppStatusChangedListener {
 
     //region: 成员变量
 
@@ -97,6 +101,12 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
         return BR.navigator;
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterAppStatusChangedListener(this);
+    }
+
     /**
      * 设置数据
      */
@@ -110,7 +120,7 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
      */
     @Override
     protected void setupLayout() {
-
+        registerAppStatusChangedListener(this);
     }
 
     @Override
@@ -147,6 +157,20 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
 
     //endregion
 
+    //region: OnAppStatusChangedListener
+
+    @Override
+    public void onForeground(Activity activity) {
+        ToastUtils.show(getString(R.string.resources_app_is_foreground_tips));
+    }
+
+    @Override
+    public void onBackground(Activity activity) {
+        ToastUtils.show(getString(R.string.resources_app_is_background_tips));
+    }
+
+    //endregion
+
     //region: Event Bus 操作
 
     /**
@@ -160,8 +184,8 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
         }
         mMainViewModel.setObservableUserId(targetUserEntity.getUserId());
     }
-
     //endregion
+
 }
 
 

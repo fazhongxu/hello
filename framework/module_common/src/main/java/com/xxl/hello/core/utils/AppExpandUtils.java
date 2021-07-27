@@ -1,7 +1,6 @@
-package com.xxl.hello.service.utils;
+package com.xxl.hello.core.utils;
 
-import com.xxl.hello.common.utils.AppUtils;
-import com.xxl.hello.service.BaseApplication;
+import com.xxl.hello.core.BaseApplication;
 
 /**
  * @author xxl.
@@ -24,4 +23,5 @@ public class AppExpandUtils {
     public static String getCurrentUserId() {
         return getApplication() == null ? null : getApplication().getCurrentUserId();
     }
+
 }

@@ -1,4 +1,4 @@
-package com.xxl.hello.common.utils;
+package com.xxl.hello.core.utils;
 
 import androidx.annotation.Nullable;
 

@@ -1,6 +1,6 @@
-package com.xxl.hello.service;
+package com.xxl.hello.core;
 
-import com.xxl.hello.common.utils.AppUtils;
+import com.xxl.hello.core.utils.AppUtils;
 
 import dagger.android.DaggerApplication;
 
@@ -15,7 +15,7 @@ public abstract class BaseApplication extends DaggerApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        AppUtils.init(this);
+        AppUtils.init(this, new ActivityLifecycleImpl());
     }
 
     //endregion

@@ -3,9 +3,13 @@ package com.xxl.hello.service.ui;
 import android.os.Bundle;
 
 import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+
+import com.xxl.hello.core.listener.OnAppStatusChangedListener;
+import com.xxl.hello.core.utils.AppUtils;
 
 import javax.inject.Inject;
 
@@ -159,6 +163,24 @@ public abstract class BaseActivity<V extends BaseViewModel> extends AppCompatAct
      */
     protected boolean enableInjection() {
         return true;
+    }
+
+    /**
+     * 注册前后台状态切换监听
+     *
+     * @param listener
+     */
+    protected void registerAppStatusChangedListener(@NonNull final OnAppStatusChangedListener listener) {
+        AppUtils.addOnAppStatusChangedListener(listener);
+    }
+
+    /**
+     * 取消注册前后台状态切换监听
+     *
+     * @param listener
+     */
+    protected void unregisterAppStatusChangedListener(@NonNull final OnAppStatusChangedListener listener) {
+        AppUtils.removeOnAppStatusChangedListener(listener);
     }
 
     //endregion

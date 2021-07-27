@@ -29,18 +29,6 @@ android {
 
 }
 
-uploadArchives {
-    repositories.mavenDeployer {
-        // 修改为自己创建的仓库地址
-        repository(url: hello_nexus_maven_config.url) {
-            authentication(userName: hello_nexus_maven_config.userName, password: hello_nexus_maven_config.password)
-        }
-        pom.version = versions.origin
-        pom.artifactId = "hello_nexus"
-        pom.groupId = "com.xxl.common"
-    }
-}
-
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
@@ -48,7 +36,6 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
-    implementation deps.origin.core
     implementation deps.androidx.appcompat
 
     implementation deps.dagger.dagger
@@ -73,50 +60,3 @@ dependencies {
 
     implementation deps.logger
 }
-
-// module gradle-> other->makejar  即可在module build->libs看到生成的文件
-task makeJar(type: Copy) {
-    //删除存在的
-    delete 'build/libs/myjar.jar'
-    //设置拷贝的文件
-    from('build/intermediates/aar_main_jar/release/')
-    //打进jar包后的文件目录
-    into('build/libs/')
-    //将classes.jar放入build/libs/目录下
-    //include ,exclude参数来设置过滤
-    //（我们只关心classes.jar这个文件）
-    include('classes.jar')
-    //重命名
-    rename('classes.jar', 'myjar.jar')
-}
-
-makeJar.dependsOn(build)
-
-//region: 生成带注释的 aar 的必须配置项
-
-// 可以生成带注释的jar包
-task sourcesJar(type: Jar) {
-    classifier = 'sources'
-    from android.sourceSets.main.java.srcDirs
-}
-
-//生成文档注释
-task androidJavadocs(type: Javadoc) {
-    failOnError = false
-    source = android.sourceSets.main.java.srcDirs
-    ext.androidJar = "${android.sdkDirectory}/platforms/${android.compileSdkVersion}/android.jar"
-    classpath += files(ext.androidJar)
-}
-//将文档打包成jar
-task androidJavadocsJar(type: Jar, dependsOn: androidJavadocs) {
-    classifier = 'javadoc'
-    from androidJavadocs.destinationDir
-}
-
-//包含文档和源码的aar
-artifacts {
-    archives sourcesJar
-    archives androidJavadocsJar
-}
-
-//endregion

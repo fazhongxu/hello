@@ -1,7 +1,7 @@
 package com.xxl.hello.service.data.model.entity;
 
-import com.xxl.hello.common.config.NetworkConfig;
-import com.xxl.hello.common.utils.TestUtils;
+import com.xxl.hello.core.config.NetworkConfig;
+import com.xxl.hello.core.utils.TestUtils;
 import com.xxl.hello.service.data.model.enums.UserEnumsApi.UserSex;
 
 import lombok.Getter;

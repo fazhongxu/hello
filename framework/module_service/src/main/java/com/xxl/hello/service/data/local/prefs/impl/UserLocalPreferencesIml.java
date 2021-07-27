@@ -3,9 +3,9 @@ package com.xxl.hello.service.data.local.prefs.impl;
 import androidx.annotation.NonNull;
 
 import com.tencent.mmkv.MMKV;
-import com.xxl.hello.common.config.AppConfig;
+import com.xxl.hello.core.config.AppConfig;
 import com.xxl.hello.service.data.local.prefs.api.UserLocalPreferences;
-import com.xxl.hello.service.utils.AppExpandUtils;
+import com.xxl.hello.core.utils.AppExpandUtils;
 
 /**
  * 用户模块本地数据存储
