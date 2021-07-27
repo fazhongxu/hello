@@ -37,6 +37,12 @@ public class MainViewModel extends BaseViewModel<MainActivityNavigator> {
     @Getter
     private ObservableField<String> mObservableUserId = new ObservableField<>();
 
+    /**
+     * 用户信息
+     */
+    @Getter
+    private ObservableField<String> mObservableUserInfo = new ObservableField<>();
+
     //endregion
 
     //region: 构造函数
@@ -87,6 +93,15 @@ public class MainViewModel extends BaseViewModel<MainActivityNavigator> {
      */
     public void setObservableUserId(@NonNull final String targetUserId) {
         this.mObservableUserId.set(targetUserId);
+    }
+
+    /**
+     * 设置用户信息
+     *
+     * @param targetUserInfo
+     */
+    public void setObservableUserInfo(@NonNull final String targetUserInfo) {
+        this.mObservableUserInfo.set(targetUserInfo);
     }
 
     //endregion

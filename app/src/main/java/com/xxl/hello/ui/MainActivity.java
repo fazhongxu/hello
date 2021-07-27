@@ -141,6 +141,10 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
      */
     @Override
     public void onRequestQueryUserInfoComplete(@NonNull final QueryUserInfoResponse response) {
+        if (response != null) {
+            mMainViewModel.setObservableUserInfo(response.getUserId().concat("\n").concat(response.getNickName()).concat("\n").concat(response.getAvatarUrl()));
+        }
+
         final LoginUserEntity loginUserEntity = mMainViewModel.requestGetCurrentLoginUserEntity();
         if (loginUserEntity != null) {
             mMainViewModel.setObservableUserId(loginUserEntity.getUserId());
