@@ -6,6 +6,7 @@ import android.os.Process;
 
 import androidx.annotation.NonNull;
 
+import com.xxl.hello.core.data.router.AppRouterApi;
 import com.xxl.hello.core.listener.ActivityLifecycle;
 import com.xxl.hello.core.listener.OnAppStatusChangedListener;
 

@@ -1,7 +1,6 @@
 package com.xxl.hello.ui;
 
 import android.app.Activity;
-import android.content.Intent;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -9,7 +8,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.xxl.hello.core.listener.OnAppStatusChangedListener;
-import com.xxl.hello.core.utils.AppRouterApi;
+import com.xxl.hello.core.data.router.AppRouterApi;
 import com.xxl.hello.core.utils.LogUtils;
 import com.xxl.hello.core.utils.TestUtils;
 import com.xxl.hello.core.utils.ToastUtils;
@@ -22,7 +21,6 @@ import com.xxl.hello.service.data.model.entity.LoginUserEntity;
 import com.xxl.hello.service.ui.BaseEventBusWrapper;
 import com.xxl.hello.service.ui.DataBindingActivity;
 import com.xxl.hello.core.utils.AppExpandUtils;
-import com.xxl.hello.user.ui.login.LoginActivity;
 
 import javax.inject.Inject;
 

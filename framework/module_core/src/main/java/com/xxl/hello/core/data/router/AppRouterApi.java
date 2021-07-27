@@ -1,4 +1,6 @@
-package com.xxl.hello.core.utils;
+package com.xxl.hello.core.data.router;
+
+import com.xxl.hello.core.utils.RouterUtils;
 
 /**
  * app路由

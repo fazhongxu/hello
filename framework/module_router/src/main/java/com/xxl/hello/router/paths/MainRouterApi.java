@@ -1,6 +1,6 @@
 package com.xxl.hello.router.paths;
 
-import com.xxl.hello.core.utils.AppRouterApi;
+import com.xxl.hello.core.data.router.AppRouterApi;
 
 /**
  * 主模块路由路径
