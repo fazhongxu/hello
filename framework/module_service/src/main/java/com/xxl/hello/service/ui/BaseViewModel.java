@@ -37,7 +37,7 @@ public class BaseViewModel<N> extends AndroidViewModel {
     /**
      * 页面事件监听
      */
-    private WeakReference<N> mNavigator;
+    private N mNavigator;
 
     //endregion
 
@@ -73,7 +73,7 @@ public class BaseViewModel<N> extends AndroidViewModel {
      * @param navigator
      */
     public void setNavigator(@Nullable final N navigator) {
-        mNavigator = new WeakReference<N>(navigator);
+        mNavigator = navigator;
     }
 
     /**
@@ -81,9 +81,8 @@ public class BaseViewModel<N> extends AndroidViewModel {
      *
      * @return
      */
-    @Nullable
     public N getNavigator() {
-        return mNavigator.get();
+        return mNavigator;
     }
 
     /**
