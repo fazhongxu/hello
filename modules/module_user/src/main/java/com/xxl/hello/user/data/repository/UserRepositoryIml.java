@@ -82,6 +82,17 @@ public class UserRepositoryIml extends BaseRepositoryIml implements UserReposito
     //region: UserRepositoryApi
 
     /**
+     * 查询用户信息
+     *
+     * @param request 请求参数
+     * @return
+     */
+    @Override
+    public Observable<QueryUserInfoResponse> queryUserInfo(@NonNull final QueryUserInfoRequest request) {
+        return mUserRemoteDataStoreSource.queryUserInfo(request);
+    }
+
+    /**
      * 获取当前登录用户的信息
      *
      * @return
@@ -91,17 +102,6 @@ public class UserRepositoryIml extends BaseRepositoryIml implements UserReposito
         return mUserLocalDataStoreModule.getCurrentLoginUserEntity();
     }
 
-    /**
-     * 查询用户信息
-     *
-     * @param request 请求参数
-     * @return
-     */
-    @Override
-    public Observable<QueryUserInfoResponse> queryUserInfo(@NonNull final QueryUserInfoRequest request) {
-        // TODO: 2021/7/21
-        return Observable.just(QueryUserInfoResponse.obtain());
-    }
 
     //endregion
 

@@ -1,11 +1,16 @@
 package com.xxl.hello.user.data.remote;
 
+import com.xxl.hello.service.data.model.api.QueryUserInfoResponse;
 import com.xxl.hello.user.data.model.api.UserLoginResponse;
 
 import io.reactivex.rxjava3.core.Observable;
+import lombok.Getter;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
+import retrofit2.http.Url;
 
 /**
  * @author xxl.
@@ -33,4 +38,13 @@ public interface UserRemoteDataSourceService {
     @POST(USER_NET_WORK_PREFIX + "login")
     Observable<UserLoginResponse> login(@Field("phone_number") final String phoneNumber,
                                         @Field("verify_code") final String verifyCode);
+
+    /**
+     * 查询用户信息
+     *
+     * @param userId 用户id
+     * @return
+     */
+    @GET("users/{userId}")
+    Observable<QueryUserInfoResponse> queryUserInfo(@Path("userId") String userId);
 }

@@ -1,6 +1,9 @@
 package com.xxl.hello.di.module;
 
+import android.util.Log;
+
 import com.xxl.hello.core.config.NetworkConfig;
+import com.xxl.hello.core.utils.LogUtils;
 import com.xxl.hello.service.di.module.ServiceDataStoreModule;
 import com.xxl.hello.service.qunlifier.ForBaseUrl;
 import com.xxl.hello.service.qunlifier.ForNetWorkDebug;
@@ -11,11 +14,14 @@ import com.xxl.hello.service.qunlifier.ForUserBaseUrl;
 import com.xxl.hello.service.qunlifier.ForUserRetrofit;
 import com.xxl.hello.user.di.module.UserDataStoreModule;
 
+import org.jetbrains.annotations.NotNull;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -63,7 +69,7 @@ public class DataStoreModule {
     @Singleton
     @Provides
     String provideHostUrl(@ForNetWorkDebug boolean isNetworkDebug) {
-        return isNetworkDebug ? "https://192.168.1.1:8080/" : "https://github.com/fazhongxu/";
+        return isNetworkDebug ? "https://192.168.1.1:8000/" : "https://github.com/";
     }
 
     /**
@@ -75,7 +81,7 @@ public class DataStoreModule {
     @Singleton
     @Provides
     String provideUserHostUrl(@ForNetWorkDebug boolean isNetworkDebug) {
-        return isNetworkDebug ? "https://192.168.0.12:8080/" : "https://github.com/user/fazhongxu/";
+        return isNetworkDebug ? "https://192.168.0.12:8080/" : "https://api.github.com/";
     }
 
     //endregion
@@ -90,10 +96,19 @@ public class DataStoreModule {
     @ForOkHttp
     @Singleton
     @Provides
-    OkHttpClient provideOkHttpClient() {
-        return new OkHttpClient()
-                .newBuilder()
-                .build();
+    OkHttpClient provideOkHttpClient(@ForNetWorkDebug boolean isNetworkDebug) {
+        final OkHttpClient.Builder builder = new OkHttpClient()
+                .newBuilder();
+
+        if (NetworkConfig.isDebug()) {
+            final HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor(message -> {
+                LogUtils.d("okhttp" +message);
+            });
+            httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+            builder.addNetworkInterceptor(httpLoggingInterceptor);
+        }
+
+        return builder.build();
     }
 
     /**
@@ -123,7 +138,7 @@ public class DataStoreModule {
     @Singleton
     @Provides
     Retrofit provideUserRetrofit(@ForOkHttp final OkHttpClient okHttpClient,
-                                 @ForBaseUrl final String userBaseUrl) {
+                                 @ForUserBaseUrl final String userBaseUrl) {
         return new Retrofit.Builder()
                 .baseUrl(userBaseUrl)
                 .client(okHttpClient)

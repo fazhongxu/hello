@@ -4,7 +4,7 @@ package com.xxl.hello.service.data.model.api;
  * 查询用户信息响应数据
  *
  * @author xxl.
- * @date 2021/7/21.
+ * @date 2021/7/27.
  */
 public class QueryUserInfoResponse {
 

@@ -1,5 +1,6 @@
 package com.xxl.hello.core.config;
 
+import com.xxl.hello.core.BuildConfig;
 import com.xxl.hello.core.utils.AppUtils;
 import com.xxl.hello.core.utils.CacheUtils;
 
@@ -40,6 +41,15 @@ public class NetworkConfig {
 
     /**
      * 是否是Debug模式
+     *
+     * @return
+     */
+    public static boolean isDebug() {
+        return BuildConfig.DEBUG;
+    }
+
+    /**
+     * 网络环境是否是Debug模式
      *
      * @return
      */

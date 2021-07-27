@@ -79,7 +79,7 @@ public class HelloApplication extends BaseApplication {
      */
     private void initPlugins() {
         CacheUtils.init(this);
-        LogUtils.init(isNetworkDebug());
+        LogUtils.init(NetworkConfig.isDebug());
     }
 
     //endregion

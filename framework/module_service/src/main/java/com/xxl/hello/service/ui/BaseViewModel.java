@@ -8,7 +8,8 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.AndroidViewModel;
 
 import com.xxl.hello.core.utils.AppUtils;
-import com.xxl.hello.service.rx.SchedulersProvider;
+import com.xxl.hello.core.utils.LogUtils;
+import com.xxl.hello.core.rx.SchedulersProvider;
 
 import java.lang.ref.WeakReference;
 
@@ -94,6 +95,7 @@ public class BaseViewModel<N> extends AndroidViewModel {
         if (throwable != null) {
             // TODO: 2021/7/19 处理异常信息
             Toast.makeText(AppUtils.getApplication(), throwable.getMessage(), Toast.LENGTH_SHORT).show();
+            LogUtils.e(throwable.getMessage());
         }
     }
 

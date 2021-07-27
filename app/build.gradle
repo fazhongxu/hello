@@ -67,6 +67,7 @@ dependencies {
     implementation deps.origin.widget
 
     implementation deps.okhttp.okhttp
+    implementation deps.okhttp.logging
     implementation deps.retrofit.retrofit
     implementation deps.retrofit.adapter
     implementation deps.retrofit.converter

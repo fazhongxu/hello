@@ -1,14 +1,26 @@
 package com.xxl.hello.service.data.model.api;
 
+import androidx.annotation.NonNull;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 /**
  * 查询用户信息请求参数
  *
  * @author xxl.
- * @date 2021/7/21.
+ * @date 2021/7/27.
  */
 public class QueryUserInfoRequest {
 
     //region: 成员变量
+
+    private static final Map<String, Object> sFiled = new LinkedHashMap<>();
+
+    /**
+     * 用户ID
+     */
+    private static final String REQUEST_KEY_USER_ID = "userId";
 
     //endregion
 
@@ -24,11 +36,27 @@ public class QueryUserInfoRequest {
 
     //endregion
 
-    //region: 提供方法
+    //region: get or set
 
-    //endregion
+    /**
+     * 设置目标用户名称
+     *
+     * @param targetUserId
+     * @return
+     */
+    public QueryUserInfoRequest setTargetUserId(@NonNull final String targetUserId) {
+        sFiled.put(REQUEST_KEY_USER_ID, targetUserId);
+        return this;
+    }
 
-    //region: 内部辅助方法
+    /**
+     * 获取用户ID
+     *
+     * @return
+     */
+    public String getTargetUserId() {
+        return (String) sFiled.get(REQUEST_KEY_USER_ID);
+    }
 
     //endregion
 

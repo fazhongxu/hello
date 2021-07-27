@@ -44,6 +44,7 @@ dependencies {
     annotationProcessor deps.dagger.android_processor
 
     implementation deps.okhttp.okhttp
+    implementation deps.okhttp.logging
     implementation deps.retrofit.retrofit
     implementation deps.retrofit.adapter
     implementation deps.retrofit.converter

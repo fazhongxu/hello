@@ -8,7 +8,6 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.xxl.hello.core.listener.OnAppStatusChangedListener;
-import com.xxl.hello.core.utils.AppUtils;
 import com.xxl.hello.core.utils.LogUtils;
 import com.xxl.hello.core.utils.TestUtils;
 import com.xxl.hello.core.utils.ToastUtils;
@@ -121,6 +120,7 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
     @Override
     protected void setupLayout() {
         registerAppStatusChangedListener(this);
+        mMainViewModel.setObservableUserId(String.valueOf(TestUtils.currentTimeMillis()));
     }
 
     @Override
