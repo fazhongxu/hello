@@ -6,6 +6,7 @@ import com.xxl.hello.core.config.NetworkConfig;
 import com.xxl.hello.core.utils.LogUtils;
 import com.xxl.hello.service.di.module.ServiceDataStoreModule;
 import com.xxl.hello.service.qunlifier.ForBaseUrl;
+import com.xxl.hello.service.qunlifier.ForDebug;
 import com.xxl.hello.service.qunlifier.ForNetWorkDebug;
 import com.xxl.hello.service.qunlifier.ForNetworkEncryptKey;
 import com.xxl.hello.service.qunlifier.ForOkHttp;
@@ -61,6 +62,18 @@ public class DataStoreModule {
     }
 
     /**
+     * 是否是Debug模式
+     *
+     * @return
+     */
+    @ForDebug
+    @Singleton
+    @Provides
+    boolean provideDebug() {
+        return NetworkConfig.isDebug();
+    }
+
+    /**
      * 构建网络请求域名地址
      *
      * @return
@@ -96,13 +109,13 @@ public class DataStoreModule {
     @ForOkHttp
     @Singleton
     @Provides
-    OkHttpClient provideOkHttpClient(@ForNetWorkDebug boolean isNetworkDebug) {
+    OkHttpClient provideOkHttpClient(@ForDebug boolean isDebug) {
         final OkHttpClient.Builder builder = new OkHttpClient()
                 .newBuilder();
 
-        if (NetworkConfig.isDebug()) {
+        if (isDebug) {
             final HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor(message -> {
-                LogUtils.d("okhttp" +message);
+                LogUtils.d("okhttp" + message);
             });
             httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
             builder.addNetworkInterceptor(httpLoggingInterceptor);

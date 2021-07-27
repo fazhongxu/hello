@@ -1,10 +1,6 @@
 package com.xxl.hello.core.config;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Process;
-
-import com.xxl.hello.core.BuildConfig;
+import com.xxl.hello.core.utils.AppExpandUtils;
 import com.xxl.hello.core.utils.AppUtils;
 import com.xxl.hello.core.utils.CacheUtils;
 
@@ -15,11 +11,6 @@ import com.xxl.hello.core.utils.CacheUtils;
 public class NetworkConfig {
 
     //region: 成员变量
-
-    /**
-     * 网络环境是否是debug模式，上线必须改为false
-     */
-    private static final boolean sIsNetWorkDebug = true;
 
     /**
      * 开发环境一些配置信息存储名称
@@ -49,7 +40,7 @@ public class NetworkConfig {
      * @return
      */
     public static boolean isDebug() {
-        return BuildConfig.DEBUG;
+        return AppExpandUtils.isDebug();
     }
 
     /**
@@ -58,7 +49,7 @@ public class NetworkConfig {
      * @return
      */
     public static boolean isNetworkDebug() {
-        if (sIsNetWorkDebug) {
+        if (isDebug()) {
             return CacheUtils.decodeBool(PREF_DEVELOP_NAME, PREF_KEY_IS_NETWORK_DEBUG);
         }
         return false;

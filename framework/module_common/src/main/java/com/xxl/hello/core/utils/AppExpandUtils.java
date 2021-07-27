@@ -24,4 +24,14 @@ public class AppExpandUtils {
         return getApplication() == null ? null : getApplication().getCurrentUserId();
     }
 
+    /**
+     * 是否是debug模式
+     *
+     * @return
+     */
+    public static boolean isDebug() {
+        return getApplication() == null ? null : getApplication().isDebug();
+    }
+
+
 }

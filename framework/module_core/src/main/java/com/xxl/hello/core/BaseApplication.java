@@ -46,7 +46,7 @@ public abstract class BaseApplication extends DaggerApplication {
     public abstract boolean isDebug();
 
     /**
-     * 是否是debug模式
+     * 网络环境是否是debug模式
      *
      * @return
      */

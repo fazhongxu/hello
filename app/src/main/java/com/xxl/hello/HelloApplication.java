@@ -21,6 +21,11 @@ public class HelloApplication extends BaseApplication {
     //region: 成员变量
 
     /**
+     * 网络环境是否是debug模式，上线必须改为false
+     */
+    private static final boolean sIsDebug = true;
+
+    /**
      * Application 包装类
      */
     @Inject
@@ -60,11 +65,11 @@ public class HelloApplication extends BaseApplication {
      */
     @Override
     public boolean isDebug() {
-        return BuildConfig.DEBUG;
+        return sIsDebug;
     }
 
     /**
-     * 是否是debug模式
+     * 网络环境是否是debug模式
      *
      * @return
      */
