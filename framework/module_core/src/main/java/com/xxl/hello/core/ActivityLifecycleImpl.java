@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import com.xxl.hello.core.listener.ActivityLifecycle;
 import com.xxl.hello.core.listener.OnAppStatusChangedListener;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -181,7 +182,7 @@ public class ActivityLifecycleImpl implements ActivityLifecycle {
         if (!mActivityList.isEmpty()) {
             return new LinkedList<>(mActivityList);
         }
-        return new LinkedList<>(mActivityList);
+        return new ArrayList<>();
     }
 
 
