@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.xxl.module_resources", appContext.getPackageName());
+        assertEquals("com.xxl.hello.widget", appContext.getPackageName());
     }
 }

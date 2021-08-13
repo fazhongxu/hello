@@ -13,6 +13,13 @@
     </item>
 
     <item
+        android:width="190dp"
+        android:height="120dp"
+        android:gravity="center">
+        <bitmap android:src="@drawable/resources_ic_hello" />
+    </item>
+
+    <item
         android:width="56dp"
         android:height="56dp"
         android:bottom="90dp"
