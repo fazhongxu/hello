@@ -1,5 +1,9 @@
 package com.xxl.hello.core.data.router;
 
+import android.app.Activity;
+
+import androidx.annotation.NonNull;
+
 import com.xxl.hello.core.utils.RouterUtils;
 
 /**
@@ -29,5 +33,12 @@ public class AppRouterApi {
      */
     public static void navigationToMain() {
         RouterUtils.navigation(MAIN_PATH);
+    }
+
+    /**
+     * 导航到首页
+     */
+    public static void navigationWithFinish(@NonNull final Activity activity) {
+        RouterUtils.navigationWithFinish(activity, MAIN_PATH);
     }
 }

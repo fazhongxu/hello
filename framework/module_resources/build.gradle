@@ -1,3 +1,49 @@
+//apply plugin: 'com.android.library'
+//apply plugin: 'maven'
+//
+//android {
+//    compileSdkVersion build_versions.compileSdkVersion
+//    buildToolsVersion build_versions.buildToolsVersion
+//
+//    defaultConfig {
+//        minSdkVersion build_versions.minSdkVersion
+//        targetSdkVersion build_versions.targetSdkVersion
+//        versionCode build_versions.versionCode
+//        versionName build_versions.versionName
+//
+//        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+//        consumerProguardFiles 'consumer-rules.pro'
+//
+//        javaCompileOptions {
+//            annotationProcessorOptions {
+//                arguments = [AROUTER_MODULE_NAME: project.getName()]
+//            }
+//        }
+//    }
+//
+//    buildTypes {
+//        release {
+//            minifyEnabled false
+//            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+//        }
+//    }
+//
+//    compileOptions {
+//        sourceCompatibility JavaVersion.VERSION_1_8
+//        targetCompatibility JavaVersion.VERSION_1_8
+//    }
+//}
+//
+//dependencies {
+//    implementation fileTree(dir: 'libs', include: ['*.jar'])
+//
+//    testImplementation 'junit:junit:4.12'
+//    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+//    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+//
+//    implementation deps.androidx.appcompat
+//}
+
 apply plugin: 'com.android.library'
 apply plugin: 'maven'
 
@@ -13,6 +59,12 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
+            }
+        }
     }
 
     buildTypes {
@@ -29,6 +81,98 @@ android {
 
 }
 
-dependencies {
-    implementation deps.androidx.appcompat
+uploadArchives {
+    repositories.mavenDeployer {
+        // 修改为自己创建的仓库地址
+        repository(url: hello_nexus_maven_config.url) {
+            authentication(userName: hello_nexus_maven_config.userName, password: hello_nexus_maven_config.password)
+        }
+        pom.version = versions.origin
+        pom.artifactId = "hello_nexus"
+        pom.groupId = "com.xxl.common"
+    }
 }
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    implementation deps.origin.core
+    implementation deps.androidx.appcompat
+
+    implementation deps.dagger.dagger
+    annotationProcessor deps.dagger.processor
+    implementation deps.dagger.android
+    annotationProcessor deps.dagger.android_processor
+
+    implementation deps.okhttp.okhttp
+    implementation deps.okhttp.logging
+    implementation deps.retrofit.retrofit
+    implementation deps.retrofit.adapter
+    implementation deps.retrofit.converter
+
+    implementation deps.rxjava
+    implementation deps.rxandroid
+
+    compileOnly deps.lombok.lombok
+    annotationProcessor deps.lombok.lombok_processor
+
+    implementation deps.mmkv
+
+    implementation deps.evetbus
+
+    implementation deps.logger
+
+    implementation deps.arouter.arouter
+    annotationProcessor deps.arouter.arouter_processor
+}
+
+// module gradle-> other->makejar  即可在module build->libs看到生成的文件
+task makeJar(type: Copy) {
+    //删除存在的
+    delete 'build/libs/myjar.jar'
+    //设置拷贝的文件
+    from('build/intermediates/aar_main_jar/release/')
+    //打进jar包后的文件目录
+    into('build/libs/')
+    //将classes.jar放入build/libs/目录下
+    //include ,exclude参数来设置过滤
+    //（我们只关心classes.jar这个文件）
+    include('classes.jar')
+    //重命名
+    rename('classes.jar', 'myjar.jar')
+}
+
+makeJar.dependsOn(build)
+
+//region: 生成带注释的 aar 的必须配置项
+
+// 可以生成带注释的jar包
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from android.sourceSets.main.java.srcDirs
+}
+
+//生成文档注释
+task androidJavadocs(type: Javadoc) {
+    failOnError = false
+    source = android.sourceSets.main.java.srcDirs
+    ext.androidJar = "${android.sdkDirectory}/platforms/${android.compileSdkVersion}/android.jar"
+    classpath += files(ext.androidJar)
+}
+//将文档打包成jar
+task androidJavadocsJar(type: Jar, dependsOn: androidJavadocs) {
+    classifier = 'javadoc'
+    from androidJavadocs.destinationDir
+}
+
+//包含文档和源码的aar
+artifacts {
+    archives sourcesJar
+    archives androidJavadocsJar
+}
+
+//endregion

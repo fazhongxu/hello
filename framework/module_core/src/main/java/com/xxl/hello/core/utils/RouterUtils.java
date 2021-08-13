@@ -1,9 +1,12 @@
 package com.xxl.hello.core.utils;
 
+import android.app.Activity;
 import android.app.Application;
 
 import androidx.annotation.NonNull;
 
+import com.alibaba.android.arouter.facade.Postcard;
+import com.alibaba.android.arouter.facade.callback.NavCallback;
 import com.alibaba.android.arouter.launcher.ARouter;
 
 /**
@@ -40,6 +43,24 @@ public class RouterUtils {
     public static void navigation(@NonNull final String path) {
         ARouter.getInstance().build(path)
                 .navigation();
+    }
+
+    /**
+     * 跳转到指定页面
+     *
+     * @param path
+     */
+    public static void navigationWithFinish(@NonNull final Activity activity,
+                                            @NonNull final String path) {
+        ARouter.getInstance().build(path)
+                .navigation(activity, new NavCallback() {
+                    @Override
+                    public void onArrival(Postcard postcard) {
+                        if (activity != null) {
+                            activity.finish();
+                        }
+                    }
+                });
     }
 
 }

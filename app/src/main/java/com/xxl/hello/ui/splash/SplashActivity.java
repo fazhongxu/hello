@@ -69,7 +69,7 @@ public class SplashActivity extends SingleActivity<SplashViewModel> {
      */
     @Override
     protected void setupLayout() {
-        new Handler().postDelayed(AppRouterApi::navigationToMain, 2000);
+        new Handler().postDelayed(() -> AppRouterApi.navigationWithFinish(this), 2000);
     }
 
     //endregion

@@ -7,7 +7,12 @@
     </style>
 
     <style name="SplashTheme" parent="BaseTheme">
+        <item name="android:windowFullscreen">true</item>
         <item name="android:windowBackground">@drawable/resources_bg_splash</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
     </style>
 
 </resources>
