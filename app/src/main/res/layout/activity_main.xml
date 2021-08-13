@@ -7,18 +7,17 @@
 
         <variable
             name="viewModel"
-            type="com.xxl.hello.ui.MainViewModel" />
+            type="com.xxl.hello.ui.main.MainViewModel" />
 
         <variable
             name="navigator"
-            type="com.xxl.hello.ui.MainActivityNavigator" />
+            type="com.xxl.hello.ui.main.MainActivityNavigator" />
 
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context="com.xxl.hello.ui.MainActivity">
+        android:layout_height="match_parent">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_user_info"

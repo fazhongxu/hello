@@ -11,8 +11,6 @@ import com.xxl.hello.core.utils.AppUtils;
 import com.xxl.hello.core.utils.LogUtils;
 import com.xxl.hello.core.rx.SchedulersProvider;
 
-import java.lang.ref.WeakReference;
-
 import io.reactivex.rxjava3.core.ObservableTransformer;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;

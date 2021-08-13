@@ -1,7 +1,5 @@
 package com.xxl.hello.di.module;
 
-import android.util.Log;
-
 import com.xxl.hello.core.config.NetworkConfig;
 import com.xxl.hello.core.utils.LogUtils;
 import com.xxl.hello.service.di.module.ServiceDataStoreModule;
@@ -14,8 +12,6 @@ import com.xxl.hello.service.qunlifier.ForRetrofit;
 import com.xxl.hello.service.qunlifier.ForUserBaseUrl;
 import com.xxl.hello.service.qunlifier.ForUserRetrofit;
 import com.xxl.hello.user.di.module.UserDataStoreModule;
-
-import org.jetbrains.annotations.NotNull;
 
 import javax.inject.Singleton;
 

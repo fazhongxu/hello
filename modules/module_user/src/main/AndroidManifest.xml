@@ -4,7 +4,7 @@
 
     <application>
         <activity android:name="com.xxl.hello.user.ui.login.LoginActivity" />
-        <activity android:name=".ui.setting.UserSettingActivity"/>
+        <activity android:name="com.xxl.hello.user.ui.setting.UserSettingActivity"/>
     </application>
 
 </manifest>

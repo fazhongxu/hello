@@ -1,4 +1,4 @@
-package com.xxl.hello.ui;
+package com.xxl.hello.ui.main;
 
 import androidx.annotation.NonNull;
 

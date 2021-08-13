@@ -9,7 +9,6 @@ import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.hello.service.qunlifier.ForApplication;
 import com.xxl.hello.service.ui.ViewModelProviderFactory;
 import com.xxl.hello.user.data.repository.UserRepository;
-import com.xxl.hello.user.ui.login.LoginActivityViewModel;
 
 import dagger.Module;
 import dagger.Provides;

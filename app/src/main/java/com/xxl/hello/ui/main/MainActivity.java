@@ -1,4 +1,4 @@
-package com.xxl.hello.ui;
+package com.xxl.hello.ui.main;
 
 import android.app.Activity;
 
@@ -7,20 +7,20 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.xxl.hello.BR;
+import com.xxl.hello.R;
 import com.xxl.hello.core.listener.OnAppStatusChangedListener;
 import com.xxl.hello.core.data.router.AppRouterApi;
 import com.xxl.hello.core.utils.LogUtils;
 import com.xxl.hello.core.utils.TestUtils;
 import com.xxl.hello.core.utils.ToastUtils;
-import com.xxl.hello.nexus.BR;
-import com.xxl.hello.nexus.R;
-import com.xxl.hello.nexus.databinding.ActivityMainBinding;
+import com.xxl.hello.databinding.ActivityMainBinding;
 import com.xxl.hello.router.paths.UserRouterApi;
 import com.xxl.hello.service.data.model.api.QueryUserInfoResponse;
 import com.xxl.hello.service.data.model.entity.LoginUserEntity;
 import com.xxl.hello.service.ui.BaseEventBusWrapper;
-import com.xxl.hello.service.ui.DataBindingActivity;
 import com.xxl.hello.core.utils.AppExpandUtils;
+import com.xxl.hello.service.ui.DataBindingActivity;
 
 import javax.inject.Inject;
 
