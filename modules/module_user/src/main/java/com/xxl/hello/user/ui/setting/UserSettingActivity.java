@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.xxl.hello.core.config.NetworkConfig;
-import com.xxl.hello.router.paths.UserRouterApi;
+import com.xxl.hello.widget.paths.UserRouterApi;
 import com.xxl.hello.service.data.model.entity.LoginUserEntity;
 import com.xxl.hello.service.qunlifier.ForUserBaseUrl;
 import com.xxl.hello.service.ui.DataBindingActivity;

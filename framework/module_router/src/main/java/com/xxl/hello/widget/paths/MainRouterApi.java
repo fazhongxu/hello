@@ -1,4 +1,4 @@
-package com.xxl.hello.router.paths;
+package com.xxl.hello.widget.paths;
 
 import com.xxl.hello.core.data.router.AppRouterApi;
 

@@ -15,7 +15,7 @@ import com.xxl.hello.core.utils.LogUtils;
 import com.xxl.hello.core.utils.TestUtils;
 import com.xxl.hello.core.utils.ToastUtils;
 import com.xxl.hello.databinding.ActivityMainBinding;
-import com.xxl.hello.router.paths.UserRouterApi;
+import com.xxl.hello.widget.paths.UserRouterApi;
 import com.xxl.hello.service.data.model.api.QueryUserInfoResponse;
 import com.xxl.hello.service.data.model.entity.LoginUserEntity;
 import com.xxl.hello.service.ui.BaseEventBusWrapper;
