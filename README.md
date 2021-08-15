@@ -52,3 +52,4 @@ uploadArchives {
  8.命令打包
 
  ./gradlew resguardRelease
+
