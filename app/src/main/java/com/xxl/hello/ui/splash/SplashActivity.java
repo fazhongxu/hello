@@ -2,6 +2,7 @@ package com.xxl.hello.ui.splash;
 
 import android.os.Handler;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.xxl.hello.R;
 import com.xxl.hello.core.data.router.AppRouterApi;
 import com.xxl.hello.service.ui.SingleActivity;
@@ -12,6 +13,7 @@ import com.xxl.hello.service.ui.SingleActivity;
  * @author xxl.
  * @date 2021/8/13.
  */
+@Route(path = AppRouterApi.SPLASH_PATH)
 public class SplashActivity extends SingleActivity<SplashViewModel> {
 
     //region: 页面生命周期

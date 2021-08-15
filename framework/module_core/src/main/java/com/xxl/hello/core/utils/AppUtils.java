@@ -118,7 +118,7 @@ public class AppUtils {
      * 重启应用
      */
     public static void restartApp() {
-        AppRouterApi.navigationToMain();
+        AppRouterApi.navigationToSplash();
         if (getActivityList() != null) {
             for (Activity activity : getActivityList()) {
                 activity.finish();
