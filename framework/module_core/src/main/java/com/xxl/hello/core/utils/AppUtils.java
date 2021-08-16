@@ -125,7 +125,7 @@ public class AppUtils {
             }
         }
         Process.killProcess(Process.myPid());
-        System.exit(1);
+        System.exit(0);
     }
 
     //endregion
