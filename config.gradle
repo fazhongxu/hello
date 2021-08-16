@@ -104,6 +104,9 @@ origin.resources = project(':framework:module_resources')
 origin.widget = project(':framework:module_widget')
 origin.router = project(':framework:module_router')
 
+origin.main = project(':modules:module_main')
+origin.user = project(':modules:module_user')
+
 def hello_nexus_maven_config = [:]
 hello_nexus_maven_config.userName = "admin"
 hello_nexus_maven_config.password = "admin123"

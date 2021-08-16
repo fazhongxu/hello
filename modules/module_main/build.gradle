@@ -1,5 +1,4 @@
-apply plugin: 'com.android.application'
-apply from: '../and_res_guard.gradle'
+apply plugin: 'com.android.library'
 
 android {
 
@@ -7,7 +6,6 @@ android {
     buildToolsVersion build_versions.buildToolsVersion
 
     defaultConfig {
-        applicationId "com.xxl.hello"
         minSdkVersion build_versions.minSdkVersion
         targetSdkVersion build_versions.targetSdkVersion
         versionCode build_versions.versionCode
@@ -19,29 +17,6 @@ android {
             annotationProcessorOptions {
                 arguments = [AROUTER_MODULE_NAME: project.getName()]
             }
-        }
-    }
-
-    signingConfigs {
-        debug {
-            storeFile file('../hello')
-            storePassword '123456'
-            keyAlias = 'hello'
-            keyPassword '123456'
-        }
-        release {
-            storeFile file('../hello')
-            storePassword '123456'
-            keyAlias = 'hello'
-            keyPassword '123456'
-        }
-    }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
         }
     }
 
@@ -71,8 +46,7 @@ dependencies {
     implementation deps.origin.resources
     implementation deps.origin.widget
     implementation deps.origin.router
-    
-    implementation deps.origin.main
+
     implementation deps.origin.user
 
     implementation deps.okhttp.okhttp

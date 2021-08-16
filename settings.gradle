@@ -1,10 +1,12 @@
-include ':app'
 include ':framework:module_core'
 include ':framework:module_common'
 include ':framework:module_service'
 include ':framework:module_resources'
 include ':framework:module_widget'
 include ':framework:module_router'
+
+include ':app'
+include ':modules:module_main'
 include ':modules:module_user'
 
 

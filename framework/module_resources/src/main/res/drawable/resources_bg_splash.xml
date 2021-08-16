@@ -14,7 +14,7 @@
 
     <item
         android:width="190dp"
-        android:height="120dp"
+        android:height="85dp"
         android:gravity="center">
         <bitmap android:src="@drawable/resources_ic_hello" />
     </item>
