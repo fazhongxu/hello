@@ -1,7 +1,12 @@
 package com.xxl.hello.main.di.module;
 
+import androidx.annotation.NonNull;
+
 import com.xxl.hello.core.config.NetworkConfig;
+import com.xxl.hello.core.data.remote.ApiHeader;
 import com.xxl.hello.core.utils.LogUtils;
+import com.xxl.hello.service.data.local.prefs.api.UserPreferences;
+import com.xxl.hello.service.data.model.entity.LoginUserEntity;
 import com.xxl.hello.service.di.module.ServiceDataStoreModule;
 import com.xxl.hello.service.qunlifier.ForBaseUrl;
 import com.xxl.hello.service.qunlifier.ForDebug;
@@ -91,6 +96,45 @@ public class DataStoreModule {
     @Provides
     String provideUserHostUrl(@ForNetWorkDebug boolean isNetworkDebug) {
         return isNetworkDebug ? "https://192.168.0.12:8080/" : "https://api.github.com/";
+    }
+
+    /**
+     * 构建公用网络请求头
+     *
+     * @return
+     */
+    @Singleton
+    @Provides
+    ApiHeader.PublicApiHeader providePublicApiHeader() {
+        // TODO: 2021/8/16  user-agent android 版本号相关，或key
+        return new ApiHeader.PublicApiHeader("user-agent");
+    }
+
+    /**
+     * 构建用户登录后的网络请求头
+     *
+     * @param userPreferences
+     * @return
+     */
+    @Singleton
+    @Provides
+    ApiHeader.ProtectedApiHeader provideProtectedApiHeader(@NonNull final UserPreferences userPreferences) {
+        // TODO: 2021/8/16 登录后更新请求头信息 ApiHeader.ProtectedApiHeade#setAccessToken
+        return new ApiHeader.ProtectedApiHeader("", userPreferences.getUserId(), userPreferences.getToken());
+    }
+
+    /**
+     * 构建网络请求头信息
+     *
+     * @param publicApiHeader
+     * @param protectedApiHeader
+     * @return
+     */
+    @Singleton
+    @Provides
+    ApiHeader provideApiHeader(@NonNull final ApiHeader.PublicApiHeader publicApiHeader,
+                               @NonNull final ApiHeader.ProtectedApiHeader protectedApiHeader) {
+        return new ApiHeader(publicApiHeader, protectedApiHeader);
     }
 
     //endregion
