@@ -49,9 +49,11 @@ dependencies {
     implementation deps.androidx.constraintlayout
 
     implementation deps.origin.core
-    implementation deps.origin.common
     implementation deps.origin.service
+    implementation deps.origin.common
     implementation deps.origin.router
+    implementation deps.origin.widget
+    implementation deps.origin.resources
 
     implementation deps.okhttp.okhttp
     implementation deps.okhttp.logging
