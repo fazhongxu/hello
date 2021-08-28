@@ -63,6 +63,12 @@ dependencies {
 
     implementation deps.rxjava
     implementation deps.rxandroid
+    implementation deps.rxpermission
+
+    implementation deps.luban
+    implementation deps.glide.glide
+    annotationProcessor deps.glide.glide_processor
+    implementation deps.picture_selector
 
     compileOnly deps.lombok.lombok
     annotationProcessor deps.lombok.lombok_processor

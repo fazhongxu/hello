@@ -6,7 +6,7 @@ def build_versions = [:]
 build_versions.android_build_gradle = "3.6.3"
 build_versions.compileSdkVersion = 30
 build_versions.buildToolsVersion = "30.0.1"
-build_versions.minSdkVersion = 16
+build_versions.minSdkVersion = 19
 build_versions.targetSdkVersion = 30
 build_versions.versionCode = 1
 build_versions.versionName = "1.0.0"
@@ -17,15 +17,24 @@ versions.and_res_guard = "1.2.18"
 versions.constraintlayout = "1.1.3"
 versions.appcompat = "1.2.0"
 versions.origin = "1.0.10"
+
 versions.okhttp = "4.9.1"
 versions.retrofit = "2.9.0"
+
 versions.rxjava = "3.0.13"
 versions.rxandroid = "3.0.0"
+versions.rxpermission = "0.12"
+
 versions.lombok = "1.18.20"
 versions.mmkv = "1.2.10"
 versions.eventbus = "3.2.0"
 versions.logger = "2.2.0"
 versions.arouter = "1.5.2"
+
+versions.luban = "1.1.8"
+versions.glide = "4.12.0"
+versions.picture_selector = "v2.6.0"
+
 ext.versions = versions
 
 deps.android_build_gradle = "com.android.tools.build:gradle:$build_versions.android_build_gradle"
@@ -56,11 +65,26 @@ retrofit.adapter = "com.squareup.retrofit2:adapter-rxjava3:$versions.retrofit"
 retrofit.converter = "com.squareup.retrofit2:converter-gson:$versions.retrofit"
 deps.retrofit = retrofit
 
+//luban 图片压缩 [https://github.com/Curzibn/Luban]
+deps.luban = "top.zibin:Luban:$versions.luban"
+
+//glide 图片加载 [https://github.com/bumptech/glide]
+def glide = [:]
+glide.glide = "com.github.bumptech.glide:glide:$versions.glide"
+glide.glide_processor = "com.github.bumptech.glide:compiler:$versions.glide"
+deps.glide = glide
+
+//pictureselector 图片选择 [https://github.com/LuckSiege/PictureSelector]
+deps.picture_selector = "io.github.lucksiege:pictureselector:$versions.picture_selector"
+
 //rxjava [https://github.com/ReactiveX/RxJava]
 deps.rxjava = "io.reactivex.rxjava3:rxjava:$versions.rxjava"
 
 //rxandroid [https://github.com/ReactiveX/RxAndroid]
 deps.rxandroid = "io.reactivex.rxjava3:rxandroid:$versions.rxandroid"
+
+//rxpermission [https://github.com/tbruyelle/RxPermissions]
+deps.rxpermission = "com.github.tbruyelle:rxpermissions:$versions.rxpermission"
 
 //logger [https://github.com/orhanobut/logger]
 deps.logger = "com.orhanobut:logger:$versions.logger"

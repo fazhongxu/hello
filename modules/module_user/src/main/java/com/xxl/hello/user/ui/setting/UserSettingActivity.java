@@ -1,18 +1,33 @@
 package com.xxl.hello.user.ui.setting;
 
+import android.Manifest;
+import android.content.Intent;
+
+import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.luck.picture.lib.config.PictureConfig;
+import com.luck.picture.lib.config.PictureMimeType;
+import com.luck.picture.lib.entity.LocalMedia;
+import com.tbruyelle.rxpermissions3.RxPermissions;
 import com.xxl.hello.core.config.NetworkConfig;
-import com.xxl.hello.widget.paths.UserRouterApi;
+import com.xxl.hello.core.utils.ImageLoader;
+import com.xxl.hello.core.utils.MediaSelector;
+import com.xxl.hello.core.utils.ToastUtils;
 import com.xxl.hello.service.data.model.entity.LoginUserEntity;
 import com.xxl.hello.service.qunlifier.ForUserBaseUrl;
 import com.xxl.hello.service.ui.DataBindingActivity;
 import com.xxl.hello.user.BR;
 import com.xxl.hello.user.R;
 import com.xxl.hello.user.databinding.UserActivitySettingBinding;
+import com.xxl.hello.widget.paths.UserRouterApi;
+
+import java.util.List;
 
 import javax.inject.Inject;
+
+import io.reactivex.rxjava3.disposables.Disposable;
 
 /**
  * 用户设置页面
@@ -61,6 +76,18 @@ public class UserSettingActivity extends DataBindingActivity<UserSettingViewMode
         return mUserSettingViewModel;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (MediaSelector.isPictureRequestCode(requestCode)) {
+                final List<LocalMedia> mediaList = MediaSelector.obtainMultipleResult(data);
+                final LocalMedia media = mediaList.get(0);
+                mUserSettingViewModel.requestUpdateUserInfo(media.getPath());
+            }
+        }
+    }
+
     /**
      * 获取data binding 内的 ViewModel
      *
@@ -98,7 +125,6 @@ public class UserSettingActivity extends DataBindingActivity<UserSettingViewMode
 
     }
 
-
     @Override
     protected void requestData() {
         super.requestData();
@@ -108,7 +134,56 @@ public class UserSettingActivity extends DataBindingActivity<UserSettingViewMode
 
     //endregion
 
+    //region: 页面试图渲染
+
+    /**
+     * 设置用户头像
+     *
+     * @param imageUrl
+     */
+    private void setupUserAvatar(@NonNull final String imageUrl) {
+        ImageLoader.with(this)
+                .load(imageUrl)
+                .error(R.drawable.user_ic_data_error)
+                .into(mViewDataBinding.ivUserAvatar);
+    }
+
+    //endregion
+
     //region: UserSettingNavigator
+
+    /**
+     * 更新用户信息完成
+     *
+     * @param targetUserEntity
+     */
+    @Override
+    public void onUpdateUserInfoComplete(@NonNull final LoginUserEntity targetUserEntity) {
+        setupUserAvatar(targetUserEntity.getAvatar());
+    }
+
+    /**
+     * 用户头像点击
+     */
+    @Override
+    public void onUserAvatarClick() {
+        final RxPermissions rxPermissions = new RxPermissions(this);
+        final Disposable disposable = rxPermissions.request(Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.CAMERA)
+                .subscribe(isSuccess -> {
+                    if (isSuccess) {
+                        MediaSelector.create(this)
+                                .openGallery(PictureMimeType.ofImage())
+                                .forResult(PictureConfig.CHOOSE_REQUEST);
+                    } else {
+                        ToastUtils.show(getString(R.string.resources_permission_read_of_white_external_storage_failure_tips));
+                    }
+                }, throwable -> {
+                    ToastUtils.show(getString(R.string.resources_permission_read_of_white_external_storage_failure_tips));
+                });
+        mUserSettingViewModel.addCompositeDisposable(disposable);
+    }
 
     /**
      * 切换网络环境点击

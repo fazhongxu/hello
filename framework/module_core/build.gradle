@@ -61,6 +61,11 @@ dependencies {
     compileOnly deps.lombok.lombok
     annotationProcessor deps.lombok.lombok_processor
 
+    implementation deps.luban
+    implementation deps.glide.glide
+    annotationProcessor deps.glide.glide_processor
+    implementation deps.picture_selector
+
     implementation deps.mmkv
 
     implementation deps.evetbus

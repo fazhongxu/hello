@@ -31,6 +31,11 @@ public class LoginUserEntity {
     private String mUserName;
 
     /**
+     * 用户头像
+     */
+    private String mAvatar;
+
+    /**
      * 年龄
      */
     private String mAge;
@@ -88,9 +93,16 @@ public class LoginUserEntity {
         return this;
     }
 
-    //endregion
-
-    //region: 内部辅助方法
+    /**
+     * 设置用户头像
+     *
+     * @param targetUserAvatar
+     * @return
+     */
+    public LoginUserEntity setUserAvatar(@NonNull final String targetUserAvatar) {
+        this.mAvatar = targetUserAvatar;
+        return this;
+    }
 
     //endregion
 
@@ -110,6 +122,10 @@ public class LoginUserEntity {
         }
         throw new RuntimeException("仅测试环境可用");
     }
+
+    //endregion
+
+    //region: 内部辅助方法
 
     //endregion
 

@@ -1,6 +1,8 @@
 package com.xxl.hello.core.utils;
 
+import androidx.annotation.IdRes;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 
 /**
  * @author xxl.
@@ -35,6 +37,16 @@ public class StringUtils {
      */
     public static boolean isEmpty(@Nullable final CharSequence charSequence) {
         return charSequence == null || charSequence.length() <= 0;
+    }
+
+    /**
+     * 获取文本
+     *
+     * @param resId 文本资源ID
+     * @return
+     */
+    public static String getString(@StringRes final int resId) {
+        return AppUtils.getApplication().getString(resId);
     }
 
     /**

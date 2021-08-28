@@ -55,6 +55,7 @@ dependencies {
 
     implementation deps.rxjava
     implementation deps.rxandroid
+    implementation deps.rxpermission
 
     compileOnly deps.lombok.lombok
     annotationProcessor deps.lombok.lombok_processor

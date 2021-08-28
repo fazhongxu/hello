@@ -6,10 +6,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.ObservableField;
 
+import com.xxl.hello.core.config.CacheDirConfig;
+import com.xxl.hello.core.listener.OnResourcesCompressListener;
+import com.xxl.hello.core.utils.ImageUtils;
+import com.xxl.hello.core.utils.StringUtils;
+import com.xxl.hello.core.utils.ToastUtils;
 import com.xxl.hello.service.data.model.entity.LoginUserEntity;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.hello.service.ui.BaseViewModel;
+import com.xxl.hello.user.R;
 import com.xxl.hello.user.data.repository.UserRepository;
+
+import java.io.File;
 
 import lombok.Getter;
 import lombok.experimental.Accessors;
@@ -70,12 +78,60 @@ public class UserSettingViewModel extends BaseViewModel<UserSettingNavigator> {
     //region: 与用户信息相关
 
     /**
+     * 请求更新用户信息
+     *
+     * @param avatarPath 头像路径
+     */
+    void requestUpdateUserInfo(@NonNull final String avatarPath) {
+        // TODO: 2021/8/29  loading
+        final OnResourcesCompressListener listener = new OnResourcesCompressListener() {
+            @Override
+            public void onSuccess(File file) {
+                final LoginUserEntity loginUserEntity = LoginUserEntity.obtain()
+                        .setUserAvatar(file.getAbsolutePath());
+                getNavigator().onUpdateUserInfoComplete(loginUserEntity);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                ToastUtils.show(StringUtils.getString(R.string.resources_compress_failure_text) + e.getMessage());
+            }
+        };
+        handleImageCompress(avatarPath, listener);
+    }
+
+    /**
      * 获取当前登录用户的信息
      *
      * @return
      */
     LoginUserEntity requestGetCurrentLoginUserEntity() {
         return mUserRepository.getCurrentLoginUserEntity();
+    }
+
+    //endregion
+
+    //region: 图片压缩相关
+
+    /**
+     * 图片压缩长距离
+     *
+     * @param imagePath 图片路径
+     */
+    public void handleImageCompress(@NonNull final String imagePath,
+                                    @NonNull final OnResourcesCompressListener listener) {
+        ImageUtils.compressImage(imagePath, CacheDirConfig.COMPRESSION_FILE_DIR, new OnResourcesCompressListener() {
+            @Override
+            public void onSuccess(File file) {
+                listener.onSuccess(file);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                ToastUtils.show(StringUtils.getString(R.string.resources_compress_failure_text) + e.getMessage());
+                listener.onError(e);
+            }
+        });
     }
 
     //endregion

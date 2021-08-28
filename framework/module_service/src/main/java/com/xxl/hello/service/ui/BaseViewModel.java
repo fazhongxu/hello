@@ -50,7 +50,7 @@ public class BaseViewModel<N> extends AndroidViewModel {
 
     //region: 页面生命周期
 
-    protected void addCompositeDisposable(@NonNull final Disposable disposable) {
+    public void addCompositeDisposable(@NonNull final Disposable disposable) {
         if (mCompositeDisposable != null) {
             mCompositeDisposable.add(disposable);
         }
