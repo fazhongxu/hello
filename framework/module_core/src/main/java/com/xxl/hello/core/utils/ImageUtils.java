@@ -27,9 +27,9 @@ public class ImageUtils {
      * @param targetDir 压缩后的图片存放文件夹
      * @param listener  压缩监听
      */
-    public static void compressImage(@NonNull final String imagePath,
-                                     @NonNull final String targetDir,
-                                     @NonNull final OnResourcesCompressListener listener) {
+    public static void compress(@NonNull final String imagePath,
+                                @NonNull final String targetDir,
+                                @NonNull final OnResourcesCompressListener listener) {
         Luban.with(AppUtils.getApplication())
                 .load(imagePath)
                 .ignoreBy(100)

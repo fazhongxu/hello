@@ -120,7 +120,7 @@ public class UserSettingViewModel extends BaseViewModel<UserSettingNavigator> {
      */
     public void handleImageCompress(@NonNull final String imagePath,
                                     @NonNull final OnResourcesCompressListener listener) {
-        ImageUtils.compressImage(imagePath, CacheDirConfig.COMPRESSION_FILE_DIR,
+        ImageUtils.compress(imagePath, CacheDirConfig.COMPRESSION_FILE_DIR,
                 new OnResourcesCompressListener() {
                     @Override
                     public void onSuccess(File file) {
