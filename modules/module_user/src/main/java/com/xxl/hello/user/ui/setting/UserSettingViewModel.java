@@ -120,18 +120,19 @@ public class UserSettingViewModel extends BaseViewModel<UserSettingNavigator> {
      */
     public void handleImageCompress(@NonNull final String imagePath,
                                     @NonNull final OnResourcesCompressListener listener) {
-        ImageUtils.compressImage(imagePath, CacheDirConfig.COMPRESSION_FILE_DIR, new OnResourcesCompressListener() {
-            @Override
-            public void onSuccess(File file) {
-                listener.onSuccess(file);
-            }
+        ImageUtils.compressImage(imagePath, CacheDirConfig.COMPRESSION_FILE_DIR,
+                new OnResourcesCompressListener() {
+                    @Override
+                    public void onSuccess(File file) {
+                        listener.onSuccess(file);
+                    }
 
-            @Override
-            public void onError(Throwable e) {
-                ToastUtils.show(StringUtils.getString(R.string.resources_compress_failure_text) + e.getMessage());
-                listener.onError(e);
-            }
-        });
+                    @Override
+                    public void onError(Throwable e) {
+                        ToastUtils.show(StringUtils.getString(R.string.resources_compress_failure_text) + e.getMessage());
+                        listener.onError(e);
+                    }
+                });
     }
 
     //endregion

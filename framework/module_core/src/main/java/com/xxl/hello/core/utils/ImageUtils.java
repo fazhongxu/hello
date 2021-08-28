@@ -29,7 +29,7 @@ public class ImageUtils {
      */
     public static void compressImage(@NonNull final String imagePath,
                                      @NonNull final String targetDir,
-                                     @Nullable final OnResourcesCompressListener listener) {
+                                     @NonNull final OnResourcesCompressListener listener) {
         Luban.with(AppUtils.getApplication())
                 .load(imagePath)
                 .ignoreBy(100)
