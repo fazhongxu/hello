@@ -5,6 +5,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.databinding.ObservableBoolean;
 import androidx.lifecycle.AndroidViewModel;
 
 import com.xxl.hello.core.utils.AppUtils;
@@ -14,6 +15,7 @@ import com.xxl.hello.core.rx.SchedulersProvider;
 import io.reactivex.rxjava3.core.ObservableTransformer;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
+import lombok.Getter;
 import lombok.experimental.Accessors;
 
 /**
@@ -26,6 +28,12 @@ import lombok.experimental.Accessors;
 public class BaseViewModel<N> extends AndroidViewModel {
 
     //region: 成员变量
+
+    /**
+     * 进度加载状态
+     */
+    @Getter
+    private ObservableBoolean mViewLoading = new ObservableBoolean();
 
     /**
      * A disposable container
@@ -84,6 +92,15 @@ public class BaseViewModel<N> extends AndroidViewModel {
     }
 
     /**
+     * 设置进度加载状态
+     *
+     * @param isLoading
+     */
+    public void setViewLoading(final boolean isLoading) {
+        mViewLoading.set(isLoading);
+    }
+
+    /**
      * 处理异常
      *
      * @param throwable
@@ -94,6 +111,7 @@ public class BaseViewModel<N> extends AndroidViewModel {
             Toast.makeText(AppUtils.getApplication(), throwable.getMessage(), Toast.LENGTH_SHORT).show();
             LogUtils.e(throwable.getMessage());
         }
+        setViewLoading(false);
     }
 
     /**

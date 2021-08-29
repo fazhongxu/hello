@@ -1,6 +1,7 @@
 package com.xxl.hello.user.ui.setting;
 
 import android.app.Application;
+import android.os.Handler;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -83,21 +84,37 @@ public class UserSettingViewModel extends BaseViewModel<UserSettingNavigator> {
      * @param avatarPath 头像路径
      */
     void requestUpdateUserInfo(@NonNull final String avatarPath) {
-        // TODO: 2021/8/29  loading
+        setViewLoading(true);
         final OnResourcesCompressListener listener = new OnResourcesCompressListener() {
             @Override
             public void onSuccess(File file) {
                 final LoginUserEntity loginUserEntity = LoginUserEntity.obtain()
                         .setUserAvatar(file.getAbsolutePath());
-                getNavigator().onUpdateUserInfoComplete(loginUserEntity);
+                submitUserInfoToService(loginUserEntity);
             }
 
             @Override
             public void onError(Throwable e) {
-                ToastUtils.show(StringUtils.getString(R.string.resources_compress_failure_text) + e.getMessage());
+                setResponseException(e);
             }
         };
         handleImageCompress(avatarPath, listener);
+    }
+
+    /**
+     * 提交用户信息到服务器
+     *
+     * @param targetUserEntity
+     */
+    void submitUserInfoToService(@NonNull final LoginUserEntity targetUserEntity) {
+        // FIXME: 2021/8/29  模拟网络请求
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                setViewLoading(false);
+                getNavigator().onUpdateUserInfoComplete(targetUserEntity);
+            }
+        }, 3000);
     }
 
     /**

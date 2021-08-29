@@ -35,6 +35,8 @@ versions.luban = "1.1.8"
 versions.glide = "4.12.0"
 versions.picture_selector = "v2.6.0"
 
+versions.kprogresshud = "1.2.0"
+
 ext.versions = versions
 
 deps.android_build_gradle = "com.android.tools.build:gradle:$build_versions.android_build_gradle"
@@ -86,12 +88,14 @@ deps.rxandroid = "io.reactivex.rxjava3:rxandroid:$versions.rxandroid"
 //rxpermission [https://github.com/tbruyelle/RxPermissions]
 deps.rxpermission = "com.github.tbruyelle:rxpermissions:$versions.rxpermission"
 
+//kprogresshud 进度条 [https://github.com/Kaopiz/KProgressHUD]
+deps.kprogresshud = "com.kaopiz:kprogresshud:$versions.kprogresshud"
+
 //logger [https://github.com/orhanobut/logger]
 deps.logger = "com.orhanobut:logger:$versions.logger"
 
 //lombok getter setter [https://github.com/projectlombok/lombok]
 //配合 android Studio  lombok 插件使用 只需要添加注解即可，不需要手动写get set 代码
-
 def lombok = [:]
 lombok.lombok = "org.projectlombok:lombok:$versions.lombok"
 lombok.lombok_processor = "org.projectlombok:lombok:$versions.lombok"

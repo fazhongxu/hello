@@ -66,6 +66,8 @@ dependencies {
     annotationProcessor deps.glide.glide_processor
     implementation deps.picture_selector
 
+    implementation deps.kprogresshud
+
     implementation deps.mmkv
 
     implementation deps.evetbus

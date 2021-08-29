@@ -6,8 +6,10 @@ import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.Observable;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.kaopiz.kprogresshud.KProgressHUD;
 import com.xxl.hello.core.listener.OnAppStatusChangedListener;
 import com.xxl.hello.core.utils.AppUtils;
 
@@ -31,6 +33,11 @@ public abstract class BaseActivity<V extends BaseViewModel> extends AppCompatAct
      */
     protected V mViewModel;
 
+    /**
+     * 进度条
+     */
+    protected KProgressHUD mKProgressHUD;
+
     //endregion
 
     //region: 页面生命周期
@@ -49,6 +56,7 @@ public abstract class BaseActivity<V extends BaseViewModel> extends AppCompatAct
         setContentView();
         afterSetContentView();
         mViewModel = createViewModel();
+        setupLoadingLayout();
         afterCreateVieModel();
         setupData();
         setupLayout();
@@ -153,6 +161,39 @@ public abstract class BaseActivity<V extends BaseViewModel> extends AppCompatAct
      * 设置contentView 之后
      */
     protected void afterSetContentView() {
+
+    }
+
+    /**
+     * loading状态相关视图
+     */
+    protected void setupLoadingLayout() {
+        if (mViewModel == null) {
+            return;
+        }
+        mKProgressHUD = KProgressHUD.create(BaseActivity.this)
+                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                .setCancellable(true)
+                .setAnimationSpeed(2)
+                .setDimAmount(0.5f);
+
+        mViewModel.getViewLoading().addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable sender,
+                                          int propertyId) {
+                final boolean isLoading = mViewModel.getViewLoading().get();
+                if (mKProgressHUD == null) {
+                    return;
+                }
+                if (isLoading) {
+                    mKProgressHUD.show();
+                } else {
+                    mKProgressHUD.dismiss();
+                }
+
+            }
+        });
+
 
     }
 
