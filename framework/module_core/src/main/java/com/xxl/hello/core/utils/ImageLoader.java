@@ -1,6 +1,6 @@
 package com.xxl.hello.core.utils;
 
-import android.app.Activity;
+import android.content.Context;
 
 import androidx.annotation.NonNull;
 
@@ -14,8 +14,8 @@ import com.bumptech.glide.RequestManager;
  **/
 public class ImageLoader {
 
-    public static RequestManager with(@NonNull final Activity activity) {
-        return Glide.with(activity);
+    public static RequestManager with(@NonNull final Context context) {
+        return Glide.with(context);
     }
 
     private ImageLoader(){

@@ -12,6 +12,7 @@ import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.tbruyelle.rxpermissions3.RxPermissions;
 import com.xxl.hello.core.config.NetworkConfig;
+import com.xxl.hello.core.image.GlideEngine;
 import com.xxl.hello.core.utils.ImageLoader;
 import com.xxl.hello.core.utils.MediaSelector;
 import com.xxl.hello.core.utils.ToastUtils;
@@ -175,6 +176,7 @@ public class UserSettingActivity extends DataBindingActivity<UserSettingViewMode
                     if (isSuccess) {
                         MediaSelector.create(this)
                                 .openGallery(PictureMimeType.ofImage())
+                                .imageEngine(GlideEngine.createGlideEngine())
                                 .forResult(PictureConfig.CHOOSE_REQUEST);
                     } else {
                         ToastUtils.show(getString(R.string.resources_permission_read_of_white_external_storage_failure_tips));

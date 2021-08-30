@@ -1,5 +1,9 @@
 package com.xxl.hello.core;
 
+import android.content.Context;
+
+import androidx.multidex.MultiDex;
+
 import com.xxl.hello.core.utils.AppUtils;
 import com.xxl.hello.core.utils.RouterUtils;
 
@@ -17,6 +21,12 @@ public abstract class BaseApplication extends DaggerApplication {
     public void onCreate() {
         super.onCreate();
         init();
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
     }
 
     /**

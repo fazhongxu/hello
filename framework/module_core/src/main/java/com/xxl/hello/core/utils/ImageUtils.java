@@ -30,38 +30,45 @@ public class ImageUtils {
     public static void compress(@NonNull final String imagePath,
                                 @NonNull final String targetDir,
                                 @NonNull final OnResourcesCompressListener listener) {
-        Luban.with(AppUtils.getApplication())
-                .load(imagePath)
-                .ignoreBy(100)
-                .setTargetDir(targetDir)
-                .filter(new CompressionPredicate() {
-                    @Override
-                    public boolean apply(String path) {
-                        return !(TextUtils.isEmpty(path) || path.toLowerCase().endsWith(".gif"));
-                    }
-                })
-                .setCompressListener(new OnCompressListener() {
-                    @Override
-                    public void onStart() {
-                        if (listener != null) {
-                            listener.onStart();
+        if (FileUtils.createOrExistsDir(targetDir)) {
+            Luban.with(AppUtils.getApplication())
+                    .load(imagePath)
+                    .ignoreBy(100)
+                    .setTargetDir(targetDir)
+                    .filter(new CompressionPredicate() {
+                        @Override
+                        public boolean apply(String path) {
+                            return !(TextUtils.isEmpty(path) || path.toLowerCase().endsWith(".gif"));
                         }
-                    }
+                    })
+                    .setCompressListener(new OnCompressListener() {
+                        @Override
+                        public void onStart() {
+                            if (listener != null) {
+                                listener.onStart();
+                            }
+                        }
 
-                    @Override
-                    public void onSuccess(File file) {
-                        if (listener != null) {
-                            listener.onSuccess(file);
+                        @Override
+                        public void onSuccess(File file) {
+                            if (listener != null) {
+                                listener.onSuccess(file);
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onError(Throwable error) {
-                        if (listener != null) {
-                            listener.onError(error);
+                        @Override
+                        public void onError(Throwable error) {
+                            if (listener != null) {
+                                listener.onError(error);
+                            }
                         }
-                    }
-                }).launch();
+                    }).launch();
+        }else {
+            if (listener != null) {
+                listener.onError(new Throwable());
+            }
+        }
+
     }
 
     private ImageUtils() {

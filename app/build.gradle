@@ -13,6 +13,8 @@ android {
         versionCode build_versions.versionCode
         versionName build_versions.versionName
 
+        multiDexEnabled true
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         javaCompileOptions {
@@ -64,6 +66,7 @@ dependencies {
 
     implementation deps.androidx.appcompat
     implementation deps.androidx.constraintlayout
+    implementation deps.androidx.multidex
 
     implementation deps.origin.core
     implementation deps.origin.service

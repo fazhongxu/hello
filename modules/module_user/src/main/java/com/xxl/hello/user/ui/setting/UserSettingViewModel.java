@@ -9,6 +9,7 @@ import androidx.databinding.ObservableField;
 
 import com.xxl.hello.core.config.CacheDirConfig;
 import com.xxl.hello.core.listener.OnResourcesCompressListener;
+import com.xxl.hello.core.utils.FileUtils;
 import com.xxl.hello.core.utils.ImageUtils;
 import com.xxl.hello.core.utils.StringUtils;
 import com.xxl.hello.core.utils.ToastUtils;
@@ -137,7 +138,7 @@ public class UserSettingViewModel extends BaseViewModel<UserSettingNavigator> {
      */
     public void handleImageCompress(@NonNull final String imagePath,
                                     @NonNull final OnResourcesCompressListener listener) {
-        ImageUtils.compress(imagePath, CacheDirConfig.COMPRESSION_FILE_DIR,
+        ImageUtils.compress(imagePath,CacheDirConfig.COMPRESSION_FILE_DIR,
                 new OnResourcesCompressListener() {
                     @Override
                     public void onSuccess(File file) {
