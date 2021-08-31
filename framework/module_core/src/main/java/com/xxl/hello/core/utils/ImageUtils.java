@@ -44,7 +44,7 @@ public class ImageUtils {
                     .setCompressListener(listener).launch();
         } else {
             if (listener != null) {
-                listener.onError(new Throwable());
+                listener.onSuccess(new File(imagePath));
             }
         }
 
