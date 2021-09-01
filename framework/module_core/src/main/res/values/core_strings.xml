@@ -1,0 +1,4 @@
+<resources>
+    <string name="core_test">test</string>
+    <string name="core_image_path_can_not_be_empty_tips">图片路径不能为空</string>
+</resources>

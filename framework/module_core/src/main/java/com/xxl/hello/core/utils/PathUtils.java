@@ -471,6 +471,7 @@ public class PathUtils {
         }
     }
 
+
     /**
      * Return a content URI for a given file.
      *
@@ -483,7 +484,7 @@ public class PathUtils {
             return null;
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            String authority = AppUtils.getApplication().getPackageName() + ".xutil.provider";
+            String authority = AppUtils.getApplication().getPackageName() + ".fileprovider";
             return FileProvider.getUriForFile(AppUtils.getApplication(), authority, file);
         } else {
             return Uri.fromFile(file);
@@ -696,7 +697,7 @@ public class PathUtils {
         } else if (ContentResolver.SCHEME_FILE.equalsIgnoreCase(scheme)) {
             return uri.getPath();
         }
-        return null;
+        return uri.getPath();
     }
 
     @Nullable

@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.xxl.hello.core.R;
 import com.xxl.hello.core.listener.OnResourcesCompressListener;
 
 import java.io.File;
@@ -30,6 +31,10 @@ public class ImageUtils {
     public static void compress(@NonNull final String imagePath,
                                 @NonNull final String targetDir,
                                 @NonNull final OnSimpleCompressListener listener) {
+        if (TextUtils.isEmpty(imagePath)) {
+            listener.onError(new Throwable(StringUtils.getString(R.string.core_image_path_can_not_be_empty_tips)));
+            return;
+        }
         if (FileUtils.createOrExistsDir(targetDir)) {
             Luban.with(AppUtils.getApplication())
                     .load(imagePath)

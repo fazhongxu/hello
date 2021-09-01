@@ -2,6 +2,7 @@ package com.xxl.hello.user.ui.setting;
 
 import android.Manifest;
 import android.content.Intent;
+import android.net.Uri;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
@@ -13,8 +14,10 @@ import com.luck.picture.lib.entity.LocalMedia;
 import com.tbruyelle.rxpermissions3.RxPermissions;
 import com.xxl.hello.core.config.NetworkConfig;
 import com.xxl.hello.core.image.GlideEngine;
+import com.xxl.hello.core.utils.FileUtils;
 import com.xxl.hello.core.utils.ImageLoader;
 import com.xxl.hello.core.utils.MediaSelector;
+import com.xxl.hello.core.utils.PathUtils;
 import com.xxl.hello.core.utils.ToastUtils;
 import com.xxl.hello.service.data.model.entity.LoginUserEntity;
 import com.xxl.hello.service.qunlifier.ForUserBaseUrl;
@@ -84,7 +87,8 @@ public class UserSettingActivity extends DataBindingActivity<UserSettingViewMode
             if (MediaSelector.isPictureRequestCode(requestCode)) {
                 final List<LocalMedia> mediaList = MediaSelector.obtainMultipleResult(data);
                 final LocalMedia media = mediaList.get(0);
-                mUserSettingViewModel.requestUpdateUserInfo(media.getPath());
+                final Uri uri = Uri.parse(media.getPath());
+                mUserSettingViewModel.requestUpdateUserInfo(PathUtils.getFilePathByUri(uri));
             }
         }
     }
@@ -98,6 +102,7 @@ public class UserSettingActivity extends DataBindingActivity<UserSettingViewMode
     public int getViewModelVariable() {
         return BR.viewModel;
     }
+
 
     /**
      * 获取data binding 内的 Navigator
