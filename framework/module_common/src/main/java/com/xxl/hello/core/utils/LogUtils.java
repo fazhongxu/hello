@@ -83,6 +83,9 @@ public class LogUtils {
         if (!sIsDebug) {
             return;
         }
+        if (TextUtils.isEmpty(message)){
+            return;
+        }
         Logger.e(message);
     }
 
