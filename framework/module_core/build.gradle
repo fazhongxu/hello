@@ -63,7 +63,7 @@ dependencies {
     annotationProcessor deps.lombok.lombok_processor
 
     implementation deps.luban
-    implementation deps.glide.glide
+    compileOnly deps.glide.glide
     annotationProcessor deps.glide.glide_processor
     implementation deps.picture_selector
 
