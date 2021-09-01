@@ -67,6 +67,8 @@ dependencies {
     implementation deps.dagger.android
     annotationProcessor deps.dagger.android_processor
 
+    implementation deps.picture_selector
+
     implementation deps.mmkv
 
     implementation deps.evetbus

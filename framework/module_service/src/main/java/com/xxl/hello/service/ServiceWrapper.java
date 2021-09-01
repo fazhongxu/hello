@@ -1,10 +1,15 @@
 package com.xxl.hello.service;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.ContextWrapper;
 
 import androidx.annotation.NonNull;
 
+import com.luck.picture.lib.engine.PictureSelectorEngine;
+import com.xxl.hello.core.image.selector.MediaSelector;
+import com.xxl.hello.core.image.selector.MediaSelectorApp;
+import com.xxl.hello.core.image.selector.PictureSelectorEngineImpl;
 import com.xxl.hello.service.data.model.entity.LoginUserEntity;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.hello.service.data.repository.api.UserRepositoryApi;
@@ -16,7 +21,7 @@ import com.xxl.hello.service.data.repository.api.UserRepositoryApi;
  * @author xxl.
  * @date 2021/7/21.
  */
-public class ServiceWrapper extends ContextWrapper {
+public class ServiceWrapper extends ContextWrapper implements MediaSelectorApp {
 
     //region: 成员变量
 
@@ -53,6 +58,7 @@ public class ServiceWrapper extends ContextWrapper {
      */
     public void init(@NonNull final Application application) {
         mApplication = application;
+        MediaSelector.init(this);
     }
 
 
@@ -77,6 +83,26 @@ public class ServiceWrapper extends ContextWrapper {
     public LoginUserEntity getCurrentLoginUserEntity() {
         final UserRepositoryApi userRepositoryApi = mDataRepositoryKit.getUserRepositoryApi();
         return userRepositoryApi.getCurrentLoginUserEntity();
+    }
+
+    /**
+     * Application
+     *
+     * @return
+     */
+    @Override
+    public Context getAppContext() {
+        return mApplication;
+    }
+
+    /**
+     * PictureSelectorEngine
+     *
+     * @return
+     */
+    @Override
+    public PictureSelectorEngine getPictureSelectorEngine() {
+        return new PictureSelectorEngineImpl();
     }
 
     //endregion
