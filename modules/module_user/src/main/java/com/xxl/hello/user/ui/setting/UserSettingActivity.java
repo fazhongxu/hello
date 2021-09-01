@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.FileProvider;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -27,6 +28,7 @@ import com.xxl.hello.user.R;
 import com.xxl.hello.user.databinding.UserActivitySettingBinding;
 import com.xxl.hello.widget.paths.UserRouterApi;
 
+import java.io.File;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -88,6 +90,7 @@ public class UserSettingActivity extends DataBindingActivity<UserSettingViewMode
                 final List<LocalMedia> mediaList = MediaSelector.obtainMultipleResult(data);
                 final LocalMedia media = mediaList.get(0);
                 final Uri uri = Uri.parse(media.getPath());
+                final Uri targetUri = PathUtils.getUriByFilePath(PathUtils.getFilePathByUri(uri));
                 mUserSettingViewModel.requestUpdateUserInfo(PathUtils.getFilePathByUri(uri));
             }
         }
