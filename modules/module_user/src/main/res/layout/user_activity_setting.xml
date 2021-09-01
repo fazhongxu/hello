@@ -12,7 +12,6 @@
             android:layout_width="160dp"
             android:layout_height="160dp"
             android:scaleType="centerCrop"
-            android:background="@color/colorPrimary"
             android:onClick="@{()->navigator.onUserAvatarClick()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"

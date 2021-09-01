@@ -128,7 +128,9 @@ public class UserSettingActivity extends DataBindingActivity<UserSettingViewMode
      */
     @Override
     protected void setupLayout() {
-
+        ImageLoader.with(this)
+                .load("https://avatars.githubusercontent.com/u/24353536?s=400&u=43f37f2e73f15a1dfad58f0d63c35418715a5621&v=4")
+                .into(mViewDataBinding.ivUserAvatar);
     }
 
     @Override
