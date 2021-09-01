@@ -3,9 +3,9 @@
     package="com.xxl.hello">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:name="com.xxl.hello.main.HelloApplication"
@@ -15,7 +15,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name="com.xxl.hello.main.ui.splash.SplashActivity"
+        <activity
+            android:name="com.xxl.hello.main.ui.splash.SplashActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -36,6 +37,9 @@
                 android:resource="@xml/file_provider" />
         </provider>
 
+        <meta-data
+            android:name="com.xxl.hello.core.image.loader.GlideImageModel"
+            android:value="AppGlideModule" />
     </application>
 
 </manifest>

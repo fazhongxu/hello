@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.net.Uri;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.FileProvider;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -14,10 +13,9 @@ import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.tbruyelle.rxpermissions3.RxPermissions;
 import com.xxl.hello.core.config.NetworkConfig;
-import com.xxl.hello.core.image.GlideEngine;
-import com.xxl.hello.core.utils.FileUtils;
-import com.xxl.hello.core.utils.ImageLoader;
-import com.xxl.hello.core.utils.MediaSelector;
+import com.xxl.hello.core.image.loader.ImageLoader;
+import com.xxl.hello.core.image.selector.GlideEngine;
+import com.xxl.hello.core.image.selector.MediaSelector;
 import com.xxl.hello.core.utils.PathUtils;
 import com.xxl.hello.core.utils.ToastUtils;
 import com.xxl.hello.service.data.model.entity.LoginUserEntity;
@@ -28,7 +26,6 @@ import com.xxl.hello.user.R;
 import com.xxl.hello.user.databinding.UserActivitySettingBinding;
 import com.xxl.hello.widget.paths.UserRouterApi;
 
-import java.io.File;
 import java.util.List;
 
 import javax.inject.Inject;

@@ -1,4 +1,4 @@
-package com.xxl.hello.core.utils;
+package com.xxl.hello.core.image.selector;
 
 import android.app.Activity;
 import android.content.Intent;

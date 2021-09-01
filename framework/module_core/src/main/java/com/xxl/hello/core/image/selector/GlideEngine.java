@@ -1,4 +1,4 @@
-package com.xxl.hello.core.image;
+package com.xxl.hello.core.image.selector;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -21,7 +21,7 @@ import com.luck.picture.lib.widget.longimage.ImageSource;
 import com.luck.picture.lib.widget.longimage.ImageViewState;
 import com.luck.picture.lib.widget.longimage.SubsamplingScaleImageView;
 import com.xxl.hello.core.R;
-import com.xxl.hello.core.utils.ImageLoader;
+import com.xxl.hello.core.image.loader.ImageLoader;
 
 /**
  * 图片选择器加载图片的引擎
