@@ -13,15 +13,15 @@
     </item>
 
     <item
-        android:width="190dp"
-        android:height="85dp"
+        android:width="100dp"
+        android:height="100dp"
         android:gravity="center">
-        <bitmap android:src="@drawable/resources_ic_hello" />
+        <bitmap android:src="@drawable/resources_ic_app_logo" />
     </item>
 
     <item
-        android:width="56dp"
-        android:height="56dp"
+        android:width="36dp"
+        android:height="36dp"
         android:bottom="90dp"
         android:gravity="bottom|center_horizontal">
         <bitmap android:src="@drawable/resources_ic_app_logo" />
