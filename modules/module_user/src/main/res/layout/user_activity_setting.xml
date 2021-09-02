@@ -16,7 +16,6 @@
             app:civ_border_color="@android:color/transparent"
             app:civ_border_overlay="true"
             app:civ_border_width="2dp"
-            app:error="@{@drawable/user_ic_data_error}"
             app:imageUrl="@{viewModel.observableUserAvatarUrl}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"

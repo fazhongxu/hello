@@ -22,8 +22,9 @@ public class ImageViewBindingAdapter {
      * @param targetImageView 目标图片
      * @param targetUrl       图片地址
      * @param errorDrawable   加载错误时展示的图片资源
+     *                        requireAll 表示 value 对应的参数是否都是必须填的
      */
-    @BindingAdapter(value = {"imageUrl", "error"})
+    @BindingAdapter(value = {"imageUrl", "error"}, requireAll = false)
     public static void loadImage(@NonNull final ImageView targetImageView,
                                  @NonNull final String targetUrl,
                                  @Nullable final Drawable errorDrawable) {
