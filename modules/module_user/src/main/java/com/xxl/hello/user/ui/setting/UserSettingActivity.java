@@ -127,9 +127,7 @@ public class UserSettingActivity extends DataBindingActivity<UserSettingViewMode
      */
     @Override
     protected void setupLayout() {
-        ImageLoader.with(this)
-                .load("https://avatars.githubusercontent.com/u/24353536?s=400&u=43f37f2e73f15a1dfad58f0d63c35418715a5621&v=4")
-                .into(mViewDataBinding.ivUserAvatar);
+        mUserSettingViewModel.setObservableUserAvatarUrl("https://avatars.githubusercontent.com/u/24353536?s=400&u=43f37f2e73f15a1dfad58f0d63c35418715a5621&v=4");
     }
 
     @Override
@@ -149,10 +147,7 @@ public class UserSettingActivity extends DataBindingActivity<UserSettingViewMode
      * @param imageUrl
      */
     private void setupUserAvatar(@NonNull final String imageUrl) {
-        ImageLoader.with(this)
-                .load(imageUrl)
-                .error(R.drawable.user_ic_data_error)
-                .into(mViewDataBinding.ivUserAvatar);
+        mUserSettingViewModel.setObservableUserAvatarUrl(imageUrl);
     }
 
     //endregion

@@ -52,6 +52,12 @@ public class UserSettingViewModel extends BaseViewModel<UserSettingNavigator> {
     private ObservableField<String> mObservableUserName = new ObservableField<>();
 
     /**
+     * 用户头像地址
+     */
+    @Getter
+    private ObservableField<String> mObservableUserAvatarUrl = new ObservableField<>();
+
+    /**
      * 当前网络环境信息
      */
     @Getter
@@ -138,7 +144,7 @@ public class UserSettingViewModel extends BaseViewModel<UserSettingNavigator> {
      */
     public void handleImageCompress(@NonNull final String imagePath,
                                     @NonNull final OnResourcesCompressListener listener) {
-        ImageUtils.compress(imagePath,CacheDirConfig.COMPRESSION_FILE_DIR,
+        ImageUtils.compress(imagePath, CacheDirConfig.COMPRESSION_FILE_DIR,
                 new ImageUtils.OnSimpleCompressListener() {
                     @Override
                     public void onSuccess(File file) {
@@ -166,7 +172,17 @@ public class UserSettingViewModel extends BaseViewModel<UserSettingNavigator> {
         mTargetLoginUserEntity = targetLoginUserEntity;
         if (mTargetLoginUserEntity != null) {
             mObservableUserName.set(targetLoginUserEntity.getUserName() + "--" + targetLoginUserEntity.getUserId());
+            setObservableUserAvatarUrl(targetLoginUserEntity.getAvatar());
         }
+    }
+
+    /**
+     * 设置用户头像地址
+     *
+     * @param avatarUrl
+     */
+    void setObservableUserAvatarUrl(@NonNull final String avatarUrl) {
+        mObservableUserAvatarUrl.set(avatarUrl);
     }
 
     /**
@@ -184,7 +200,7 @@ public class UserSettingViewModel extends BaseViewModel<UserSettingNavigator> {
      * @param networkConfig
      */
     void setObservableNetworkConfig(@NonNull final String networkConfig) {
-        this.mObservableNetworkConfig.set(networkConfig);
+        mObservableNetworkConfig.set(networkConfig);
     }
 
     //endregion
