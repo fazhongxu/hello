@@ -54,16 +54,6 @@ public class HelloApplication extends BaseApplication implements MediaSelectorAp
     }
 
     /**
-     * Application
-     *
-     * @return
-     */
-    @Override
-    public Context getAppContext() {
-        return this;
-    }
-
-    /**
      * 获取当前用户ID
      *
      * @return
@@ -117,6 +107,16 @@ public class HelloApplication extends BaseApplication implements MediaSelectorAp
     //endregion
 
     //region: MediaSelectorApp
+
+    /**
+     * Application
+     *
+     * @return
+     */
+    @Override
+    public Context getAppContext() {
+        return this;
+    }
 
     /**
      * PictureSelectorEngine
