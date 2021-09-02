@@ -1,7 +1,13 @@
 package com.xxl.hello.main;
 
+import android.content.Context;
+
+import com.luck.picture.lib.engine.PictureSelectorEngine;
 import com.xxl.hello.core.BaseApplication;
 import com.xxl.hello.core.config.NetworkConfig;
+import com.xxl.hello.core.image.selector.MediaSelector;
+import com.xxl.hello.core.image.selector.MediaSelectorApp;
+import com.xxl.hello.core.image.selector.PictureSelectorEngineImpl;
 import com.xxl.hello.core.utils.CacheUtils;
 import com.xxl.hello.core.utils.LogUtils;
 import com.xxl.hello.main.di.component.DaggerAppComponent;
@@ -15,7 +21,7 @@ import dagger.android.DaggerApplication;
  * @author xxl.
  * @date 2020/8/20.
  */
-public class HelloApplication extends BaseApplication {
+public class HelloApplication extends BaseApplication implements MediaSelectorApp {
 
     //region: 成员变量
 
@@ -45,6 +51,16 @@ public class HelloApplication extends BaseApplication {
         return DaggerAppComponent.builder()
                 .application(this)
                 .build();
+    }
+
+    /**
+     * Application
+     *
+     * @return
+     */
+    @Override
+    public Context getAppContext() {
+        return this;
     }
 
     /**
@@ -95,6 +111,21 @@ public class HelloApplication extends BaseApplication {
     private void initPlugins() {
         CacheUtils.init(this);
         LogUtils.init(NetworkConfig.isDebug());
+        MediaSelector.init(this);
+    }
+
+    //endregion
+
+    //region: MediaSelectorApp
+
+    /**
+     * PictureSelectorEngine
+     *
+     * @return
+     */
+    @Override
+    public PictureSelectorEngine getPictureSelectorEngine() {
+        return new PictureSelectorEngineImpl();
     }
 
     //endregion
