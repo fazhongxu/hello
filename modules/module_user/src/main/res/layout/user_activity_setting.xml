@@ -7,12 +7,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.AppCompatImageView
+        <com.xxl.hello.widget.CircleImageView
             android:id="@+id/iv_user_avatar"
             android:layout_width="160dp"
             android:layout_height="160dp"
-            android:scaleType="centerCrop"
             android:onClick="@{()->navigator.onUserAvatarClick()}"
+            android:scaleType="centerCrop"
+            app:civ_border_color="@android:color/transparent"
+            app:civ_border_overlay="true"
+            app:civ_border_width="2dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
