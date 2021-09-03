@@ -18,13 +18,13 @@
         android:gravity="center">
         <bitmap android:src="@drawable/resources_ic_app_logo" />
     </item>
-
-    <item
-        android:width="36dp"
-        android:height="36dp"
-        android:bottom="90dp"
-        android:gravity="bottom|center_horizontal">
-        <bitmap android:src="@drawable/resources_ic_app_logo" />
-    </item>
+    <!--
+        <item
+            android:width="36dp"
+            android:height="36dp"
+            android:bottom="90dp"
+            android:gravity="bottom|center_horizontal">
+            <bitmap android:src="@drawable/resources_ic_app_logo" />
+    </item>-->
 
 </layer-list>
