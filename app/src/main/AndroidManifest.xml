@@ -25,7 +25,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.xxl.hello.main.ui.main.MainActivity" />
+        <activity
+            android:name="com.xxl.hello.main.ui.main.MainActivity"
+            android:launchMode="singleTask" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

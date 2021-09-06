@@ -1,6 +1,10 @@
 package com.xxl.hello.main.ui.splash;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
+
+import androidx.annotation.Nullable;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.xxl.hello.core.data.router.AppRouterApi;
@@ -17,6 +21,23 @@ import com.xxl.hello.service.ui.SingleActivity;
 public class SplashActivity extends SingleActivity<SplashViewModel> {
 
     //region: 页面生命周期
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if (!isTaskRoot()) {
+            finish();
+            return;
+        }
+
+        if (getIntent() != null) {
+            if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0) {
+                finish();
+                return;
+            }
+        }
+    }
 
     /**
      * 获取视图资源ID
@@ -71,7 +92,12 @@ public class SplashActivity extends SingleActivity<SplashViewModel> {
      */
     @Override
     protected void setupLayout() {
-        new Handler().postDelayed(() -> AppRouterApi.navigationWithFinish(this), 2000);
+        new Handler().postDelayed(() -> {
+            if (isFinishing()) {
+                return;
+            }
+            AppRouterApi.navigationWithFinish(this);
+        }, 2000);
     }
 
     //endregion
