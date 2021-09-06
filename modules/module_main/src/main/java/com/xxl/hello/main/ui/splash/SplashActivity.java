@@ -26,15 +26,14 @@ public class SplashActivity extends SingleActivity<SplashViewModel> {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (!isTaskRoot()) {
-            finish();
-            return;
-        }
-
-        if (getIntent() != null) {
-            if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0) {
-                finish();
-                return;
+        // 判断当前activity是不是所在任务栈的根
+        if (!this.isTaskRoot()) {
+            final Intent intent = getIntent();
+            if (intent != null) {
+                String action = intent.getAction();
+                if (intent.hasCategory(Intent.CATEGORY_LAUNCHER) && Intent.ACTION_MAIN.equals(action)) {
+                    finish();
+                }
             }
         }
     }
