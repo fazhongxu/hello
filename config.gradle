@@ -159,8 +159,8 @@ static def addRepos(RepositoryHandler handler) {
     }
     handler.mavenCentral()
     handler.maven { url 'https://jitpack.io' }
-    //使用的时候添加仓库
-    handler.maven { url "http://127.0.0.1:8081/repository/hello_nexus/" }
+    //使用的时候添加仓库 私服仓库地址，连接不上打包会报错，暂时注释掉
+    //handler.maven { url "http://127.0.0.1:8081/repository/hello_nexus/" }
 }
 
 ext.addRepos = this.&addRepos
