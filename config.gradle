@@ -19,6 +19,8 @@ versions.appcompat = "1.2.0"
 versions.multidex = "2.0.1"
 versions.origin = "1.0.10"
 
+versions.swipebacklayout = "1.1.0"
+
 versions.okhttp = "4.9.1"
 versions.retrofit = "2.9.0"
 
@@ -48,6 +50,9 @@ androidx.constraintlayout = "androidx.constraintlayout:constraintlayout:$version
 androidx.appcompat = "androidx.appcompat:appcompat:$versions.appcompat"
 androidx.multidex = "androidx.multidex:multidex:$versions.multidex"
 deps.androidx = androidx
+
+//swipebacklayout [https://github.com/ikew0ng/SwipeBackLayout]
+deps.swipebacklayout = "me.imid.swipebacklayout.lib:library:$versions.swipebacklayout"
 
 def dagger = [:]
 dagger.dagger = "com.google.dagger:dagger:2.28.1"

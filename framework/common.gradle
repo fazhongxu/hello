@@ -49,6 +49,8 @@ dependencies {
     implementation deps.androidx.appcompat
     implementation deps.androidx.constraintlayout
 
+    implementation deps.swipebacklayout
+
     implementation deps.okhttp.okhttp
     implementation deps.okhttp.logging
     implementation deps.retrofit.retrofit

@@ -16,12 +16,16 @@ import com.xxl.hello.core.utils.AppUtils;
 import javax.inject.Inject;
 
 import dagger.android.AndroidInjection;
+import me.imid.swipebacklayout.lib.SwipeBackLayout;
+import me.imid.swipebacklayout.lib.Utils;
+import me.imid.swipebacklayout.lib.app.SwipeBackActivityBase;
+import me.imid.swipebacklayout.lib.app.SwipeBackActivityHelper;
 
 /**
  * @author xxl.
  * @date 2021/7/19.
  */
-public abstract class BaseActivity<V extends BaseViewModel> extends AppCompatActivity {
+public abstract class BaseActivity<V extends BaseViewModel> extends AppCompatActivity implements SwipeBackActivityBase {
 
     //region: 成员变量
 
@@ -37,6 +41,11 @@ public abstract class BaseActivity<V extends BaseViewModel> extends AppCompatAct
      * 进度条
      */
     protected KProgressHUD mKProgressHUD;
+
+    /**
+     * 页面策划辅助类
+     */
+    private SwipeBackActivityHelper mHelper;
 
     //endregion
 
@@ -56,11 +65,18 @@ public abstract class BaseActivity<V extends BaseViewModel> extends AppCompatAct
         setContentView();
         afterSetContentView();
         mViewModel = createViewModel();
+        setSwipeBackActivityLayout();
         setupLoadingLayout();
         afterCreateVieModel();
         setupData();
         setupLayout();
         requestData();
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mHelper.onPostCreate();
     }
 
     @Override
@@ -162,6 +178,40 @@ public abstract class BaseActivity<V extends BaseViewModel> extends AppCompatAct
      */
     protected void afterSetContentView() {
 
+    }
+
+    /**
+     * 设置策划页面
+     */
+    private void setSwipeBackActivityLayout() {
+        mHelper = new SwipeBackActivityHelper(this);
+        mHelper.onActivityCreate();
+        setSwipeBackEnable(swipeBackEnable());
+    }
+
+    /**
+     * 是否启动策划
+     *
+     * @return
+     */
+    private boolean swipeBackEnable() {
+        return true;
+    }
+
+    @Override
+    public SwipeBackLayout getSwipeBackLayout() {
+        return mHelper.getSwipeBackLayout();
+    }
+
+    @Override
+    public void setSwipeBackEnable(boolean enable) {
+        getSwipeBackLayout().setEnableGesture(enable);
+    }
+
+    @Override
+    public void scrollToFinishActivity() {
+        Utils.convertActivityToTranslucent(this);
+        getSwipeBackLayout().scrollToFinishActivity();
     }
 
     /**
