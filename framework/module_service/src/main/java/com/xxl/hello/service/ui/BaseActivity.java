@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.xxl.hello.core.listener.OnAppStatusChangedListener;
 import com.xxl.hello.core.utils.AppUtils;
+import com.xxl.hello.core.utils.StatusBarUtil;
 import com.xxl.hello.core.widget.swipebacklayout.SwipeBackActivity;
 
 import javax.inject.Inject;
@@ -52,6 +53,7 @@ public abstract class BaseActivity<V extends BaseViewModel> extends SwipeBackAct
         if (eventBusWrapper != null) {
             eventBusWrapper.register(this);
         }
+        StatusBarUtil.setLightMode(this);
         beforeSetContentView();
         setContentView();
         afterSetContentView();

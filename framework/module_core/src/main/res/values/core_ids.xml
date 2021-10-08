@@ -17,4 +17,7 @@
 
 <resources>
     <item name="qmui_arch_swipe_layout_in_back" type="id"/>
+
+    <item type="id" name="statusbarutil_fake_status_bar_view" />
+    <item type="id" name="statusbarutil_translucent_view" />
 </resources>
