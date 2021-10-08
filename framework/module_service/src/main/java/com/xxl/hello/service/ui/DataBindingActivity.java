@@ -1,5 +1,7 @@
 package com.xxl.hello.service.ui;
 
+import android.view.LayoutInflater;
+
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 
@@ -26,8 +28,9 @@ public abstract class DataBindingActivity<V extends BaseViewModel, T extends Vie
     @Override
     protected void setContentView() {
         super.setContentView();
-        mViewDataBinding = DataBindingUtil.setContentView(this, getLayoutRes());
+        mViewDataBinding =  DataBindingUtil.inflate(getLayoutInflater(),getLayoutRes(),null,false);
         mViewDataBinding.executePendingBindings();
+        setContentView(mViewDataBinding.getRoot());
     }
 
     /**

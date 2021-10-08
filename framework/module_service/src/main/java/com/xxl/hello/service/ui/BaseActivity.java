@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.xxl.hello.core.listener.OnAppStatusChangedListener;
 import com.xxl.hello.core.utils.AppUtils;
+import com.xxl.hello.core.widget.swipebacklayout.SwipeBackActivity;
 
 import javax.inject.Inject;
 
@@ -20,7 +21,7 @@ import dagger.android.AndroidInjection;
  * @author xxl.
  * @date 2021/7/19.
  */
-public abstract class BaseActivity<V extends BaseViewModel> extends SwipeBackActivity{
+public abstract class BaseActivity<V extends BaseViewModel> extends SwipeBackActivity {
 
     //region: 成员变量
 

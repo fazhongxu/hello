@@ -10,6 +10,7 @@ import com.xxl.hello.core.image.selector.MediaSelectorApp;
 import com.xxl.hello.core.image.selector.PictureSelectorEngineImpl;
 import com.xxl.hello.core.utils.CacheUtils;
 import com.xxl.hello.core.utils.LogUtils;
+import com.xxl.hello.core.widget.swipebacklayout.SwipeBackActivityManager;
 import com.xxl.hello.main.di.component.DaggerAppComponent;
 
 import javax.inject.Inject;
@@ -102,6 +103,7 @@ public class HelloApplication extends BaseApplication implements MediaSelectorAp
         CacheUtils.init(this);
         LogUtils.init(NetworkConfig.isDebug());
         MediaSelector.init(this);
+        SwipeBackActivityManager.init(this);
     }
 
     //endregion

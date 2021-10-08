@@ -47,7 +47,7 @@ dependencies {
     implementation deps.androidx.appcompat
     implementation deps.androidx.constraintlayout
 
-    implementation deps.swipebacklayout
+//    implementation deps.swipebacklayout
 
     implementation deps.origin.core
     implementation deps.origin.service

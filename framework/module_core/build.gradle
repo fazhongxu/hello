@@ -49,7 +49,7 @@ dependencies {
     implementation deps.androidx.appcompat
     implementation deps.androidx.multidex
 
-    implementation deps.swipebacklayout
+//    implementation deps.swipebacklayout
 
     implementation deps.dagger.dagger
     annotationProcessor deps.dagger.processor
