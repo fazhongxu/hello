@@ -1,19 +1,3 @@
-/*
- * Tencent is pleased to support the open source community by making QMUI_Android available.
- *
- * Copyright (C) 2017-2018 THL A29 Limited, a Tencent company. All rights reserved.
- *
- * Licensed under the MIT License (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
- *
- * http://opensource.org/licenses/MIT
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
- * either express or implied. See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.xxl.hello.core.widget.swipebacklayout;
 
 import android.app.Activity;
@@ -33,75 +17,13 @@ import com.xxl.hello.core.utils.StatusBarUtil;
  * @author xxl
  * @date 2021./10/08
  */
-public class SwipeBackActivity extends InnerBaseActivity {
+public class SwipeBackActivity extends InnerBaseActivity  implements SwipeBackLayout.SwipeListener{
     private static final String TAG = "SwipeBackActivity";
     private SwipeBackLayout.ListenerRemover mListenerRemover;
     private SwipeBackgroundView mSwipeBackgroundView;
     private boolean mIsInSwipeBack = false;
 
-    private SwipeBackLayout.SwipeListener mSwipeListener = new SwipeBackLayout.SwipeListener() {
-
-        @Override
-        public void onScrollStateChange(int state, float scrollPercent) {
-            Log.i(TAG, "SwipeListener:onScrollStateChange: state = " + state + " ;scrollPercent = " + scrollPercent);
-            mIsInSwipeBack = state != SwipeBackLayout.STATE_IDLE;
-            if (state == SwipeBackLayout.STATE_IDLE) {
-                if (mSwipeBackgroundView != null) {
-                    if (scrollPercent <= 0.0F) {
-                        mSwipeBackgroundView.unBind();
-                        mSwipeBackgroundView = null;
-                    } else if (scrollPercent >= 1.0F) {
-                        // unBind mSwipeBackgroundView until onDestroy
-                        finish();
-                        int exitAnim = mSwipeBackgroundView.hasChildWindow() ?
-                                R.anim.swipe_back_exit_still : R.anim.swipe_back_exit;
-                        overridePendingTransition(R.anim.swipe_back_enter, exitAnim);
-                    }
-                }
-            }
-        }
-
-        @Override
-        public void onScroll(int edgeFlag, float scrollPercent) {
-            if (mSwipeBackgroundView != null) {
-                scrollPercent = Math.max(0f, Math.min(1f, scrollPercent));
-                int targetOffset = (int) (Math.abs(backViewInitOffset()) * (1 - scrollPercent));
-                SwipeBackLayout.offsetInScroll(mSwipeBackgroundView, edgeFlag, targetOffset);
-            }
-        }
-
-        @Override
-        public void onEdgeTouch(int edgeFlag) {
-            Log.i(TAG, "SwipeListener:onEdgeTouch: edgeFlag = " + edgeFlag);
-            onDragStart();
-            ViewGroup decorView = (ViewGroup) getWindow().getDecorView();
-            if (decorView != null) {
-                Activity prevActivity = SwipeBackActivityManager.getInstance()
-                        .getPenultimateActivity(SwipeBackActivity.this);
-                if (decorView.getChildAt(0) instanceof SwipeBackgroundView) {
-                    mSwipeBackgroundView = (SwipeBackgroundView) decorView.getChildAt(0);
-                } else {
-                    mSwipeBackgroundView = new SwipeBackgroundView(SwipeBackActivity.this);
-                    decorView.addView(mSwipeBackgroundView, 0, new FrameLayout.LayoutParams(
-                            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-                }
-                mSwipeBackgroundView.bind(prevActivity, SwipeBackActivity.this, restoreSubWindowWhenDragBack());
-                SwipeBackLayout.offsetInEdgeTouch(mSwipeBackgroundView, edgeFlag,
-                        Math.abs(backViewInitOffset()));
-            }
-        }
-
-        @Override
-        public void onScrollOverThreshold() {
-            Log.i(TAG, "SwipeListener:onEdgeTouch:onScrollOverThreshold");
-        }
-    };
-    private SwipeBackLayout.Callback mSwipeCallback = new SwipeBackLayout.Callback() {
-        @Override
-        public boolean canSwipeBack() {
-            return SwipeBackActivityManager.getInstance().canSwipeBack() && canDragBack();
-        }
-    };
+    private SwipeBackLayout.Callback mSwipeCallback = () -> SwipeBackActivityManager.getInstance().canSwipeBack() && canDragBack();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -124,7 +46,7 @@ public class SwipeBackActivity extends InnerBaseActivity {
         } else {
             swipeBackLayout.getContentView().setFitsSystemWindows(true);
         }
-        mListenerRemover = swipeBackLayout.addSwipeListener(mSwipeListener);
+        mListenerRemover = swipeBackLayout.addSwipeListener(this);
         super.setContentView(swipeBackLayout);
     }
 
@@ -140,7 +62,7 @@ public class SwipeBackActivity extends InnerBaseActivity {
             view.setFitsSystemWindows(true);
         }
         final SwipeBackLayout swipeBackLayout = SwipeBackLayout.wrap(view, dragBackEdge(), mSwipeCallback);
-        mListenerRemover = swipeBackLayout.addSwipeListener(mSwipeListener);
+        mListenerRemover = swipeBackLayout.addSwipeListener(this);
         return swipeBackLayout;
     }
 
@@ -220,5 +142,61 @@ public class SwipeBackActivity extends InnerBaseActivity {
      */
     protected boolean restoreSubWindowWhenDragBack() {
         return true;
+    }
+
+
+    @Override
+    public void onScrollStateChange(int state, float scrollPercent) {
+        Log.i(TAG, "SwipeListener:onScrollStateChange: state = " + state + " ;scrollPercent = " + scrollPercent);
+        mIsInSwipeBack = state != SwipeBackLayout.STATE_IDLE;
+        if (state == SwipeBackLayout.STATE_IDLE) {
+            if (mSwipeBackgroundView != null) {
+                if (scrollPercent <= 0.0F) {
+                    mSwipeBackgroundView.unBind();
+                    mSwipeBackgroundView = null;
+                } else if (scrollPercent >= 1.0F) {
+                    // unBind mSwipeBackgroundView until onDestroy
+                    finish();
+                    int exitAnim = mSwipeBackgroundView.hasChildWindow() ?
+                            R.anim.swipe_back_exit_still : R.anim.swipe_back_exit;
+                    overridePendingTransition(R.anim.swipe_back_enter, exitAnim);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onScroll(int edgeFlag, float scrollPercent) {
+        if (mSwipeBackgroundView != null) {
+            scrollPercent = Math.max(0f, Math.min(1f, scrollPercent));
+            int targetOffset = (int) (Math.abs(backViewInitOffset()) * (1 - scrollPercent));
+            SwipeBackLayout.offsetInScroll(mSwipeBackgroundView, edgeFlag, targetOffset);
+        }
+    }
+
+    @Override
+    public void onEdgeTouch(int edgeFlag) {
+        Log.i(TAG, "SwipeListener:onEdgeTouch: edgeFlag = " + edgeFlag);
+        onDragStart();
+        ViewGroup decorView = (ViewGroup) getWindow().getDecorView();
+        if (decorView != null) {
+            Activity prevActivity = SwipeBackActivityManager.getInstance()
+                    .getPenultimateActivity(SwipeBackActivity.this);
+            if (decorView.getChildAt(0) instanceof SwipeBackgroundView) {
+                mSwipeBackgroundView = (SwipeBackgroundView) decorView.getChildAt(0);
+            } else {
+                mSwipeBackgroundView = new SwipeBackgroundView(SwipeBackActivity.this);
+                decorView.addView(mSwipeBackgroundView, 0, new FrameLayout.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            }
+            mSwipeBackgroundView.bind(prevActivity, SwipeBackActivity.this, restoreSubWindowWhenDragBack());
+            SwipeBackLayout.offsetInEdgeTouch(mSwipeBackgroundView, edgeFlag,
+                    Math.abs(backViewInitOffset()));
+        }
+    }
+
+    @Override
+    public void onScrollOverThreshold() {
+        Log.i(TAG, "SwipeListener:onEdgeTouch:onScrollOverThreshold");
     }
 }

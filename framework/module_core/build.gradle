@@ -47,9 +47,8 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     implementation deps.androidx.appcompat
+    implementation deps.androidx.lifecycle_extensions
     implementation deps.androidx.multidex
-
-//    implementation deps.swipebacklayout
 
     implementation deps.dagger.dagger
     annotationProcessor deps.dagger.processor
