@@ -23,4 +23,9 @@
         <item name="shadow_bottom">@drawable/core_ic_shadow_bottom</item>
     </style>
 
+    <style name="MyAppBarStyle">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
 </resources>

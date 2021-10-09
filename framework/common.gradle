@@ -47,9 +47,8 @@ dependencies {
     implementation deps.origin.core
 
     implementation deps.androidx.appcompat
+    implementation deps.androidx.material
     implementation deps.androidx.constraintlayout
-
-//    implementation deps.swipebacklayout
 
     implementation deps.okhttp.okhttp
     implementation deps.okhttp.logging
