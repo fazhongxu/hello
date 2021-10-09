@@ -30,7 +30,6 @@ import android.view.WindowManager;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-//import com.qmuiteam.qmui.util.ColorUtils;
 import com.xxl.hello.core.utils.ColorUtils;
 
 import java.lang.ref.WeakReference;

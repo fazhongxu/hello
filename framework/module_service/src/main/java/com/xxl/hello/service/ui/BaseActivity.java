@@ -53,8 +53,6 @@ public abstract class BaseActivity<V extends BaseViewModel> extends SwipeBackAct
         if (eventBusWrapper != null) {
             eventBusWrapper.register(this);
         }
-        StatusBarUtil.setTranslucent(this);
-        StatusBarUtil.setLightMode(this);
         beforeSetContentView();
         setContentView();
         afterSetContentView();

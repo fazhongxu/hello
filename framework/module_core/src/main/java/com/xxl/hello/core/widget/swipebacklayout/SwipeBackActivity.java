@@ -25,9 +25,9 @@ import android.widget.FrameLayout;
 
 import androidx.annotation.Nullable;
 
-//import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
 import com.xxl.hello.core.R;
 import com.xxl.hello.core.utils.DisplayUtils;
+import com.xxl.hello.core.utils.StatusBarUtil;
 
 /**
  * @author xxl
@@ -106,8 +106,8 @@ public class SwipeBackActivity extends InnerBaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        QMUIStatusBarHelper.translucent(this);
-        // FIXME: 2021/10/8
+        StatusBarUtil.setTranslucent(this);
+        StatusBarUtil.setLightMode(this);
     }
 
     @Override

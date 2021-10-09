@@ -22,6 +22,7 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.os.Build;
 import android.os.Looper;
+import android.util.Log;
 
 import androidx.fragment.app.FragmentManager;
 
@@ -142,9 +143,8 @@ public class Utils {
         int backStackCount = fragmentManager.getBackStackEntryCount();
         if (backStackCount > 0) {
             if (backStackIndex >= backStackCount || backStackIndex < -backStackCount) {
-                // FIXME: 2021/10/8
-//                QMUILog.d("findAndModifyOpInBackStackRecord", "backStackIndex error: " +
-//                        "backStackIndex = " + backStackIndex + " ; backStackCount = " + backStackCount);
+                Log.d("findAndModify", "backStackIndex error: " +
+                        "backStackIndex = " + backStackIndex + " ; backStackCount = " + backStackCount);
                 return;
             }
             if (backStackIndex < 0) {
