@@ -10,7 +10,9 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.xxl.hello.core.data.router.AppRouterApi;
 import com.xxl.hello.core.listener.OnAppStatusChangedListener;
 import com.xxl.hello.core.utils.AppExpandUtils;
+import com.xxl.hello.core.utils.DisplayUtils;
 import com.xxl.hello.core.utils.LogUtils;
+import com.xxl.hello.core.utils.StatusBarUtil;
 import com.xxl.hello.core.utils.TestUtils;
 import com.xxl.hello.core.utils.ToastUtils;
 import com.xxl.hello.main.BR;
@@ -47,6 +49,15 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
     //endregion
 
     //region: 页面视图渲染
+
+    /**
+     * 设置标题栏布局
+     */
+    private void setupToolbarLayout() {
+        StatusBarUtil.setDarkMode(this);
+        final int statusBarHeight = StatusBarUtil.getStatusBarHeight(this);
+        mViewDataBinding.appBar.setPadding(DisplayUtils.dp2px(this,10),statusBarHeight,0,0);
+    }
 
     //endregion
 
@@ -103,6 +114,12 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
     }
 
     @Override
+    protected void beforeSetContentView() {
+        super.beforeSetContentView();
+        DisplayUtils.setFullScreen(this);
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         unregisterAppStatusChangedListener(this);
@@ -121,6 +138,7 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
      */
     @Override
     protected void setupLayout() {
+        setupToolbarLayout();
         registerAppStatusChangedListener(this);
         mMainViewModel.setObservableUserId(String.valueOf(TestUtils.currentTimeMillis()));
     }

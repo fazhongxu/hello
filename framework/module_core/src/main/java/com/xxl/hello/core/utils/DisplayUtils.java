@@ -16,9 +16,12 @@
 
 package com.xxl.hello.core.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.util.DisplayMetrics;
+import android.view.Window;
+import android.view.WindowManager;
 
 /**
  * @author xxl
@@ -126,6 +129,40 @@ public class DisplayUtils {
      */
     public static int px2sp(Context context, int px) {
         return (int) (px / getFontDensity(context) + 0.5);
+    }
+
+    /**
+     * 设置全屏
+     *
+     * @param activity
+     */
+    public static void setFullScreen(Activity activity) {
+        Window window = activity.getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
+    }
+
+
+    /**
+     * 取消全屏
+     *
+     * @param activity
+     */
+    public static void cancelFullScreen(Activity activity) {
+        Window window = activity.getWindow();
+        window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+    }
+
+    /**
+     * 判断是否全屏
+     *
+     * @param activity
+     * @return
+     */
+    public static boolean isFullScreen(Activity activity) {
+        WindowManager.LayoutParams params = activity.getWindow().getAttributes();
+        return (params.flags & WindowManager.LayoutParams.FLAG_FULLSCREEN) == WindowManager.LayoutParams.FLAG_FULLSCREEN;
     }
 
 }

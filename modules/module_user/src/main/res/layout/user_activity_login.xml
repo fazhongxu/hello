@@ -18,6 +18,17 @@
         android:background="@android:color/white"
         android:layout_height="match_parent">
 
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:text="666"
+            android:layout_width="match_parent"
+            android:paddingTop="45dp"
+            android:background="@color/colorPrimary"
+            android:fitsSystemWindows="true"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_height="wrap_content"/>
+
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_user_info"
             android:layout_width="wrap_content"
