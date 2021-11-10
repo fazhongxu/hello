@@ -11,7 +11,7 @@
     <com.xxl.hello.core.widget.FitsSystemLinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
+        android:background="@drawable/main_background_bottom_sheet_dialog"
         android:fitsSystemWindows="true">
 
         <androidx.appcompat.widget.AppCompatTextView

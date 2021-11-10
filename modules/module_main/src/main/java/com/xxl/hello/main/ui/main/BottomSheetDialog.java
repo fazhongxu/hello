@@ -1,7 +1,8 @@
 package com.xxl.hello.main.ui.main;
 
+import android.app.Dialog;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -25,12 +26,15 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
         return new BottomSheetDialog();
     }
 
-    @Nullable
+    @NonNull
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             @Nullable ViewGroup parent,
-                             @Nullable Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.main_layout_bottom_sheet_dialog, parent, false);
-        return rootView;
+    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        final Dialog dialog = super.onCreateDialog(savedInstanceState);
+
+        final View rootView = getLayoutInflater().inflate(R.layout.main_layout_bottom_sheet_dialog,null, false);
+        dialog.setContentView(rootView);
+        final ViewGroup parent = (ViewGroup) rootView.getParent();
+        parent.setBackgroundColor(Color.TRANSPARENT);
+        return dialog;
     }
 }
