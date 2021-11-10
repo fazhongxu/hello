@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,10 +32,14 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         final Dialog dialog = super.onCreateDialog(savedInstanceState);
 
-        final View rootView = getLayoutInflater().inflate(R.layout.main_layout_bottom_sheet_dialog,null, false);
+        final View rootView = getLayoutInflater().inflate(R.layout.main_layout_bottom_sheet_dialog, null, false);
         dialog.setContentView(rootView);
         final ViewGroup parent = (ViewGroup) rootView.getParent();
         parent.setBackgroundColor(Color.TRANSPARENT);
+
+        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         return dialog;
     }
+
+
 }

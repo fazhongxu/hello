@@ -11,12 +11,22 @@
     <com.xxl.hello.core.widget.FitsSystemLinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:background="@drawable/main_background_bottom_sheet_dialog"
         android:fitsSystemWindows="true">
 
+        <androidx.appcompat.widget.AppCompatEditText
+            android:layout_width="wrap_content"
+            android:hint="测试测试"
+            android:textSize="23dp"
+            android:textColor="@android:color/white"
+            android:layout_marginTop="50dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_height="wrap_content"/>
+
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="60dp"
             android:gravity="center"
             android:text="BottomSheetDialogFragment"
             android:textColor="@android:color/white"
