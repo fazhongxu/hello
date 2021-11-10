@@ -1,12 +1,18 @@
 package com.xxl.hello.main.ui.main;
 
 import android.app.Activity;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.xxl.hello.core.data.router.AppRouterApi;
 import com.xxl.hello.core.listener.OnAppStatusChangedListener;
 import com.xxl.hello.core.utils.AppExpandUtils;
@@ -56,7 +62,7 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
     private void setupToolbarLayout() {
         StatusBarUtil.setDarkMode(this);
         final int statusBarHeight = StatusBarUtil.getStatusBarHeight(this);
-        mViewDataBinding.appBar.setPadding(DisplayUtils.dp2px(this,10),statusBarHeight,0,0);
+        mViewDataBinding.appBar.setPadding(DisplayUtils.dp2px(this, 10), statusBarHeight, 0, 0);
     }
 
     //endregion
@@ -178,6 +184,7 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
     public void onTestClick() {
         UserRouterApi.Login.navigation();
     }
+
 
     //endregion
 
