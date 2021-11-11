@@ -1,5 +1,7 @@
 package com.xxl.hello.service.data.model.entity;
 
+import androidx.annotation.Keep;
+
 import com.xxl.hello.core.config.NetworkConfig;
 import com.xxl.hello.core.utils.TestUtils;
 import com.xxl.hello.service.data.model.enums.UserEnumsApi.UserSex;
@@ -14,6 +16,7 @@ import lombok.experimental.Accessors;
  * @author xxl.
  * @date 2021/7/16.
  */
+@Keep
 @Getter
 @Accessors(prefix = "m")
 public class LoginUserEntity {
