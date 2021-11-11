@@ -25,12 +25,7 @@ android {
     }
 
     signingConfigs {
-        debug {
-            storeFile file('../hello')
-            storePassword '123456'
-            keyAlias = 'hello'
-            keyPassword '123456'
-        }
+
         release {
             storeFile file('../hello')
             storePassword '123456'
@@ -40,6 +35,12 @@ android {
     }
 
     buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
