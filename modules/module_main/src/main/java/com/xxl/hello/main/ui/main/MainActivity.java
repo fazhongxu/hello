@@ -182,7 +182,9 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
      */
     @Override
     public void onTestClick() {
-        UserRouterApi.Login.navigation();
+//        UserRouterApi.Login.navigation();
+        BottomSheetDialog.newInstance()
+                .show(getSupportFragmentManager(),"");
     }
 
 
