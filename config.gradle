@@ -42,6 +42,8 @@ versions.picture_selector = "v2.6.1"
 
 versions.kprogresshud = "1.2.0"
 
+versions.adapter_helper = "3.0.4"
+
 ext.versions = versions
 
 deps.android_build_gradle = "com.android.tools.build:gradle:$build_versions.android_build_gradle"
@@ -123,6 +125,9 @@ def arouter = [:]
 arouter.arouter = "com.alibaba:arouter-api:$versions.arouter"
 arouter.arouter_processor = "com.alibaba:arouter-compiler:$versions.arouter"
 deps.arouter = arouter
+
+// BaseRecyclerViewAdapterHelper [https://github.com/CymChad/BaseRecyclerViewAdapterHelper]
+deps.adapter_helper = "com.github.CymChad:BaseRecyclerViewAdapterHelper:$versions.adapter_helper"
 
 def origin = [:]
 // 是否使用远程依赖 true使用远程依赖（远程私服存储的aar依赖）

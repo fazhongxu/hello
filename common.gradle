@@ -88,5 +88,7 @@ dependencies {
 
     implementation deps.arouter.arouter
     annotationProcessor deps.arouter.arouter_processor
+
+    implementation deps.adapter_helper
 }
 
