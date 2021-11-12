@@ -1,7 +1,10 @@
 package com.xxl.hello.main.ui.main;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,11 +16,19 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.luck.picture.lib.config.PictureConfig;
+import com.luck.picture.lib.config.PictureMimeType;
+import com.luck.picture.lib.entity.LocalMedia;
+import com.xxl.hello.core.config.CacheDirConfig;
 import com.xxl.hello.core.data.router.AppRouterApi;
+import com.xxl.hello.core.image.selector.MediaSelector;
 import com.xxl.hello.core.listener.OnAppStatusChangedListener;
 import com.xxl.hello.core.utils.AppExpandUtils;
 import com.xxl.hello.core.utils.DisplayUtils;
+import com.xxl.hello.core.utils.FFmpegUtils;
+import com.xxl.hello.core.utils.FileUtils;
 import com.xxl.hello.core.utils.LogUtils;
+import com.xxl.hello.core.utils.PathUtils;
 import com.xxl.hello.core.utils.StatusBarUtil;
 import com.xxl.hello.core.utils.TestUtils;
 import com.xxl.hello.core.utils.ToastUtils;
@@ -29,6 +40,9 @@ import com.xxl.hello.service.data.model.entity.LoginUserEntity;
 import com.xxl.hello.service.ui.BaseEventBusWrapper;
 import com.xxl.hello.service.ui.DataBindingActivity;
 import com.xxl.hello.widget.paths.UserRouterApi;
+
+import java.io.File;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -120,6 +134,38 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (MediaSelector.isPictureRequestCode(requestCode)) {
+                final List<LocalMedia> mediaList = MediaSelector.obtainMultipleResult(data);
+                final LocalMedia media = mediaList.get(0);
+                final Uri uri = Uri.parse(media.getPath());
+                final Uri targetUri = PathUtils.getUriByFilePath(PathUtils.getFilePathByUri(uri));
+
+                new Thread() {
+                    @Override
+                    public void run() {
+                        super.run();
+                        Log.e("aaa", "run: " + PathUtils.getFilePathByUri(uri));
+                        File file = new File(CacheDirConfig.SHARE_FILE_DIR, "123.pcm");
+                        boolean success = FileUtils.createFileByDeleteOldFile(file);
+                        if (success) {
+                            FFmpegUtils.mp3ToPcm(PathUtils.getFilePathByUri(uri), file.getAbsolutePath());
+                        }
+                        File file1 = new File(CacheDirConfig.SHARE_FILE_DIR, "456.mp3");
+                        FileUtils.createFileByDeleteOldFile(file1);
+                        FFmpegUtils.pcm2mp3(file.getAbsolutePath(),file1.getAbsolutePath());
+                        // TODO: 2021/11/12 转码后声音不清晰
+                        Log.e("aaaa", "run: " + file.getAbsolutePath());
+                    }
+                }
+                        .start();
+            }
+        }
+    }
+
+    @Override
     protected void beforeSetContentView() {
         super.beforeSetContentView();
         DisplayUtils.setFullScreen(this);
@@ -182,7 +228,10 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
      */
     @Override
     public void onTestClick() {
-        UserRouterApi.Login.navigation();
+//        UserRouterApi.Login.navigation();
+        MediaSelector.create(this)
+                .openGallery(PictureMimeType.ofAudio())
+                .forResult(PictureConfig.CHOOSE_REQUEST);
     }
 
     //endregion

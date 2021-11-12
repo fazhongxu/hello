@@ -84,4 +84,6 @@ dependencies {
     implementation deps.arouter.arouter
     annotationProcessor deps.arouter.arouter_processor
 
+    implementation deps.mobile_ffmpeg
+
 }
