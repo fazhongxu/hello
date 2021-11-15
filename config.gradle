@@ -37,6 +37,7 @@ versions.logger = "2.2.0"
 versions.arouter = "1.5.2"
 
 versions.luban = "1.1.8"
+versions.video_processor = "2.4.2"
 versions.glide = "4.12.0"
 versions.picture_selector = "v2.6.1"
 
@@ -84,6 +85,9 @@ deps.retrofit = retrofit
 
 //luban 图片压缩 [https://github.com/Curzibn/Luban]
 deps.luban = "top.zibin:Luban:$versions.luban"
+
+// videoProcessor 视频压缩 [https://github.com/yellowcath/VideoProcessor]
+deps.video_processor = "com.github.yellowcath:VideoProcessor:$versions.video_processor"
 
 //glide 图片加载 [https://github.com/bumptech/glide]
 def glide = [:]

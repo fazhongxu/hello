@@ -66,6 +66,8 @@ dependencies {
     implementation deps.rxpermission
 
     implementation deps.luban
+    implementation deps.video_processor
+
     compileOnly deps.glide.glide
     annotationProcessor deps.glide.glide_processor
     implementation deps.picture_selector
