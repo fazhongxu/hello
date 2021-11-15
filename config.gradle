@@ -4,10 +4,10 @@ ext.deps = [:]
 // build 相关配置
 def build_versions = [:]
 build_versions.android_build_gradle = "3.6.3"
-build_versions.compileSdkVersion = 30
-build_versions.buildToolsVersion = "30.0.1"
+build_versions.compileSdkVersion = 29
+build_versions.buildToolsVersion = "29.0.3"
 build_versions.minSdkVersion = 19
-build_versions.targetSdkVersion = 30
+build_versions.targetSdkVersion = 29
 build_versions.versionCode = 1
 build_versions.versionName = "1.0.0"
 ext.build_versions = build_versions
