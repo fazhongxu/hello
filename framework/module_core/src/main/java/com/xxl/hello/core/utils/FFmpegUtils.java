@@ -27,7 +27,7 @@ public class FFmpegUtils {
      */
     public static void mp3ToPcm(@NonNull final String inFilePath,
                                 @NonNull final String outFilePath) {
-        mp3ToPcm(inFilePath, outFilePath, 2, 1600);
+        mp3ToPcm(inFilePath, outFilePath, 2, 16000);
     }
 
     /**
@@ -57,7 +57,7 @@ public class FFmpegUtils {
      */
     public static void pcm2mp3(@NonNull final String inFilePath,
                                @NonNull final String outFilePath) {
-        pcm2mp3(inFilePath, outFilePath, 2, 1600);
+        pcm2mp3(inFilePath, outFilePath, 2, 16000);
     }
 
     /**
