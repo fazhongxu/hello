@@ -5,6 +5,8 @@ import android.os.Looper;
 import androidx.annotation.NonNull;
 
 import com.arthenica.mobileffmpeg.FFmpeg;
+import com.arthenica.mobileffmpeg.FFprobe;
+import com.arthenica.mobileffmpeg.MediaInformation;
 
 import java.util.Locale;
 
@@ -17,6 +19,19 @@ public class FFmpegUtils {
 
     private FFmpegUtils() {
         throw new UnsupportedOperationException("u can't instantiate me...");
+    }
+
+    /**
+     * 获取多媒体信息
+     *
+     * @param path path or uri of media file
+     * @return
+     */
+    public static MediaInformation getMediaInformation(@NonNull final String path) {
+        if (Thread.currentThread() == Looper.getMainLooper().getThread()) {
+            return null;
+        }
+        return FFprobe.getMediaInformation(path);
     }
 
     /**
