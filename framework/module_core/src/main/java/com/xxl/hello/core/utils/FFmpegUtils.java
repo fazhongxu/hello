@@ -25,27 +25,27 @@ public class FFmpegUtils {
      * @param inFilePath
      * @param outFilePath
      */
-    public static void mp3ToPcm(@NonNull final String inFilePath,
-                                @NonNull final String outFilePath) {
-        mp3ToPcm(inFilePath, outFilePath, 2, 16000);
+    public static void convertToPcm(@NonNull final String inFilePath,
+                                    @NonNull final String outFilePath) {
+        convertToPcm(inFilePath, outFilePath, 2, 16000);
     }
 
     /**
-     * mp3 to pcm
+     * 其他格式的音频转换为pcm格式的音频
      *
      * @param inFilePath
      * @param outFilePath
      * @param channelConfig 声道 （2双声道，1单声道）refrence https://segmentfault.com/a/1190000016652277?utm_source=tag-newest
      * @param sampleRate    采样率
      */
-    public static void mp3ToPcm(@NonNull final String inFilePath,
-                                @NonNull final String outFilePath,
-                                final int channelConfig,
-                                final int sampleRate) {
+    public static void convertToPcm(@NonNull final String inFilePath,
+                                    @NonNull final String outFilePath,
+                                    final int channelConfig,
+                                    final int sampleRate) {
         if (Thread.currentThread() == Looper.getMainLooper().getThread()) {
             return;
         }
-        final String command = String.format(Locale.getDefault(), "-hide_banner -y -i %s -acodec pcm_s16le -f s16le -ac %d -ar %d %s", inFilePath, channelConfig,sampleRate,outFilePath);
+        final String command = String.format(Locale.getDefault(), "-hide_banner -y -i %s -acodec pcm_s16le -f s16le -ac %d -ar %d %s", inFilePath, channelConfig, sampleRate, outFilePath);
         FFmpeg.execute(command);
     }
 

@@ -20,5 +20,5 @@ public class CacheDirConfig {
     /**
      * 分享缓存文件夹
      */
-    public static final String SHARE_FILE_DIR = PathUtils.getExtStoragePath() + File.separator + "hello_share_dir"+File.separator;
+    public static final String SHARE_FILE_DIR = PathUtils.getExtStoragePath() + File.separator + "hello_share";
 }

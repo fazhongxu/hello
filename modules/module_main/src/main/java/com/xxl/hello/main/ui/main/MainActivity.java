@@ -1,24 +1,20 @@
 package com.xxl.hello.main.ui.main;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
+import com.tbruyelle.rxpermissions3.RxPermissions;
 import com.xxl.hello.core.config.CacheDirConfig;
 import com.xxl.hello.core.data.router.AppRouterApi;
 import com.xxl.hello.core.image.selector.MediaSelector;
@@ -39,12 +35,13 @@ import com.xxl.hello.service.data.model.api.QueryUserInfoResponse;
 import com.xxl.hello.service.data.model.entity.LoginUserEntity;
 import com.xxl.hello.service.ui.BaseEventBusWrapper;
 import com.xxl.hello.service.ui.DataBindingActivity;
-import com.xxl.hello.widget.paths.UserRouterApi;
 
 import java.io.File;
 import java.util.List;
 
 import javax.inject.Inject;
+
+import io.reactivex.rxjava3.disposables.Disposable;
 
 /**
  * @author xxl
@@ -148,10 +145,14 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
                     public void run() {
                         super.run();
                         Log.e("aaa", "run: " + PathUtils.getFilePathByUri(uri));
+                        boolean isSuccess = FileUtils.createOrExistsDir(new File(CacheDirConfig.SHARE_FILE_DIR));
+                        if (!isSuccess) {
+                            return;
+                        }
                         File file = new File(CacheDirConfig.SHARE_FILE_DIR, "123.pcm");
                         boolean success = FileUtils.createFileByDeleteOldFile(file);
                         if (success) {
-                            FFmpegUtils.mp3ToPcm(PathUtils.getFilePathByUri(uri), file.getAbsolutePath());
+                            FFmpegUtils.convertToPcm(PathUtils.getFilePathByUri(uri), file.getAbsolutePath());
                         }
                         File file1 = new File(CacheDirConfig.SHARE_FILE_DIR, "456.mp3");
                         FileUtils.createFileByDeleteOldFile(file1);
@@ -229,9 +230,23 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
     @Override
     public void onTestClick() {
 //        UserRouterApi.Login.navigation();
-        MediaSelector.create(this)
-                .openGallery(PictureMimeType.ofAudio())
-                .forResult(PictureConfig.CHOOSE_REQUEST);
+        final RxPermissions rxPermissions = new RxPermissions(this);
+        final Disposable disposable = rxPermissions.request(Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.CAMERA)
+                .subscribe(isSuccess -> {
+                    if (isSuccess) {
+                        MediaSelector.create(this)
+                                .openGallery(PictureMimeType.ofAudio())
+                                .forResult(PictureConfig.CHOOSE_REQUEST);
+                    } else {
+                        ToastUtils.show(getString(com.xxl.hello.user.R.string.resources_permission_read_of_white_external_storage_failure_tips));
+                    }
+                }, throwable -> {
+                    ToastUtils.show(throwable.getMessage());
+                });
+//        mUserSettingViewModel.addCompositeDisposable(disposable);
+
     }
 
     //endregion
