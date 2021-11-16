@@ -1,5 +1,7 @@
 package com.xxl.hello.core.utils;
 
+import android.media.MediaMetadataRetriever;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -14,6 +16,15 @@ import io.reactivex.rxjava3.core.Observable;
  */
 public class VideoUtils {
 
+    /**
+     * 最大码率
+     */
+    //private static final int MAX_BITRATE = ;
+
+    /**
+     * 最小码率
+     */
+    //private static final int MIN_BITRATE = ;
     private VideoUtils() {
         throw new UnsupportedOperationException("u can't instantiate me...");
     }
@@ -52,7 +63,22 @@ public class VideoUtils {
     public static void doCompress(@NonNull final String inputVideoPath,
                                   @NonNull final String outputVideoPath,
                                   @Nullable final OnVideoProgressListener listener) throws Exception {
-        VideoProcessor.processor(AppUtils.getApplication())
+        int bitrate = 0;
+        MediaMetadataRetriever retriever = null;
+        try {
+            retriever = new MediaMetadataRetriever();
+            retriever.setDataSource(inputVideoPath);
+            // 码率
+            bitrate = Integer.parseInt(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_BITRATE));
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (retriever != null) {
+                retriever.release();
+            }
+        }
+
+        final VideoProcessor.Processor processor = VideoProcessor.processor(AppUtils.getApplication())
                 .input(inputVideoPath)
                 .output(outputVideoPath)
                 .progressListener(progress -> {
@@ -60,8 +86,12 @@ public class VideoUtils {
                     if (listener != null) {
                         listener.onProgress(progress);
                     }
-                })
-                .process();
+                });
+
+        if (bitrate > 0) {
+            processor.bitrate(bitrate / 2);
+        }
+        processor.process();
     }
 
     /**
