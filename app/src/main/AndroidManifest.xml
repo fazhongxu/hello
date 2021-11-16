@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
 
-    <uses-sdk tools:overrideLibrary="com.arthenica.mobileffmpeg"/>
+    <uses-sdk tools:overrideLibrary="com.arthenica.mobileffmpeg,com.hw.videoprocessor"/>
 
     <application
         android:name="com.xxl.hello.main.HelloApplication"
