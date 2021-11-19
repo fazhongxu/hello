@@ -93,6 +93,26 @@ public class UserRepositoryIml extends BaseRepositoryIml implements UserReposito
     }
 
     /**
+     * 设置用户同意"隐私协议"的状态
+     *
+     * @return
+     */
+    @Override
+    public boolean setAgreePrivacyPolicyStatus(final boolean isAgree){
+        return mUserLocalDataStoreModule.setAgreePrivacyPolicyStatus(isAgree);
+    }
+
+    /**
+     * 用户是否已经同意"隐私协议"
+     *
+     * @return
+     */
+    @Override
+    public boolean isAgreePrivacyPolicy() {
+        return mUserLocalDataStoreModule.isAgreePrivacyPolicy();
+    }
+
+    /**
      * 获取当前登录用户的信息
      *
      * @return

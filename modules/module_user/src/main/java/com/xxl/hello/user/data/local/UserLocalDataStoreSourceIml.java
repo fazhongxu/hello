@@ -3,6 +3,7 @@ package com.xxl.hello.user.data.local;
 import androidx.annotation.NonNull;
 
 import com.xxl.hello.service.data.local.prefs.PreferencesKit;
+import com.xxl.hello.service.data.local.prefs.api.UserLocalPreferences;
 import com.xxl.hello.service.data.local.prefs.api.UserPreferences;
 import com.xxl.hello.service.data.model.entity.LoginUserEntity;
 
@@ -32,8 +33,33 @@ public class UserLocalDataStoreSourceIml implements UserLocalDataStoreSource {
 
     //endregion
 
-    //region: 与登录用户信息相关
+    //region: 用户"隐私政策"相关
 
+    /**
+     * 设置用户同意"隐私协议"的状态
+     *
+     * @return
+     */
+    @Override
+    public boolean setAgreePrivacyPolicyStatus(final boolean isAgree) {
+        final UserLocalPreferences userLocalPreferences = mPreferencesKit.getUserLocalPreferences();
+        return userLocalPreferences.setAgreePrivacyPolicyStatus(isAgree);
+    }
+
+    /**
+     * 用户是否已经同意"隐私协议"
+     *
+     * @return
+     */
+    @Override
+    public boolean isAgreePrivacyPolicy() {
+        final UserLocalPreferences userLocalPreferences = mPreferencesKit.getUserLocalPreferences();
+        return userLocalPreferences.isAgreePrivacyPolicy();
+    }
+
+    //endregion
+
+    //region: 与登录用户信息相关
     /**
      * 设置当前登录的用户信息
      *

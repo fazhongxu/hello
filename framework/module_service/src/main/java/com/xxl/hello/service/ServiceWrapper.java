@@ -55,6 +55,15 @@ public class ServiceWrapper extends ContextWrapper {
         mApplication = application;
     }
 
+    /**
+     * 用户是否已经同意"隐私协议"
+     *
+     * @return
+     */
+    public boolean isAgreePrivacyPolicy() {
+        UserRepositoryApi userRepositoryApi = mDataRepositoryKit.getUserRepositoryApi();
+        return userRepositoryApi.isAgreePrivacyPolicy();
+    }
 
     /**
      * 获取当前用户ID

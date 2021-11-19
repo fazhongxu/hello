@@ -53,6 +53,15 @@ public class HelloApplicationWrapper extends ContextWrapper {
     }
 
     /**
+     * 用户是否已经同意"隐私协议"
+     *
+     * @return
+     */
+    public boolean isAgreePrivacyPolicy() {
+        return mServiceWrapper.isAgreePrivacyPolicy();
+    }
+
+    /**
      * 获取当前用户ID
      *
      * @return

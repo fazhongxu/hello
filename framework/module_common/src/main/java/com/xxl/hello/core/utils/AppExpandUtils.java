@@ -16,6 +16,25 @@ public class AppExpandUtils {
     }
 
     /**
+     * 用户是否已经同意"隐私协议"
+     *
+     * @return
+     */
+    public static boolean isAgreePrivacyPolicy() {
+        return getApplication() != null && getApplication().isAgreePrivacyPolicy();
+    }
+
+    /**
+     * 在用户统一"隐私政策"后初始化插件
+     */
+    public static void initPluginAfterAgreePrivacyPolicy() {
+        if (getApplication() == null) {
+            return;
+        }
+        getApplication().initPluginAfterAgreePrivacyPolicy();
+    }
+
+    /**
      * 获取当前登录用户的userId
      *
      * @return

@@ -25,7 +25,7 @@ public class PreferencesKitImpl implements PreferencesKit {
 
     //endregion
 
-    //region: 用户信息村粗
+    //region: 用户信息存储
 
     @Inject
     Lazy<UserLocalPreferences> mLocalPreferences;

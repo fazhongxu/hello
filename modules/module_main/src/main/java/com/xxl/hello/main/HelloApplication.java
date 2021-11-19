@@ -55,6 +55,16 @@ public class HelloApplication extends BaseApplication implements MediaSelectorAp
     }
 
     /**
+     * 用户是否已经同意"隐私协议"
+     *
+     * @return
+     */
+    @Override
+    public boolean isAgreePrivacyPolicy(){
+        return mApplicationWrapper.isAgreePrivacyPolicy();
+    }
+
+    /**
      * 获取当前用户ID
      *
      * @return

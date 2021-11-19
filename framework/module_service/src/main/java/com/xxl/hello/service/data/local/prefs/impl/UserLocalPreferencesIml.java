@@ -4,8 +4,8 @@ import androidx.annotation.NonNull;
 
 import com.tencent.mmkv.MMKV;
 import com.xxl.hello.core.config.AppConfig;
-import com.xxl.hello.service.data.local.prefs.api.UserLocalPreferences;
 import com.xxl.hello.core.utils.AppExpandUtils;
+import com.xxl.hello.service.data.local.prefs.api.UserLocalPreferences;
 
 /**
  * 用户模块本地数据存储
@@ -62,10 +62,61 @@ public class UserLocalPreferencesIml implements UserLocalPreferences {
         return isLogged ? getLoginUserLocalCache().decodeString(key) : mUserLocalCache.decodeString(key);
     }
 
+    /**
+     * 保存数据
+     *
+     * @param isLogged 是否需要跟着登录用户数据走
+     * @param key
+     * @param value
+     * @return
+     */
+    public boolean encode(final boolean isLogged,
+                          @NonNull final String key,
+                          final boolean value) {
+        return isLogged ? getLoginUserLocalCache().encode(key, value) : mUserLocalCache.encode(key, value);
+    }
+
+    /**
+     * 获取数据
+     *
+     * @param isLogged 是否需要跟着登录用户数据走
+     * @param key
+     * @return
+     */
+    public boolean decodeBool(final boolean isLogged,
+                              @NonNull final String key,
+                              final boolean defaultValue) {
+        return isLogged ? getLoginUserLocalCache().decodeBool(key) : mUserLocalCache.decodeBool(key, defaultValue);
+    }
+
     //endregion
 
-    //region: 用户信息相关
+    //region: 用户"隐私政策"相关
 
+    /**
+     * 用户"隐私政策"同意状态
+     */
+    public static final String PREF_KEY_SERVICE_PRIVACY_POLICY_AGREE_STATUS = "pref_key_service_privacy_policy_agree_status";
+
+    /**
+     * 设置用户同意"隐私协议"的状态
+     *
+     * @return
+     */
+    @Override
+    public boolean setAgreePrivacyPolicyStatus(final boolean isAgree) {
+        return encode(false, PREF_KEY_SERVICE_PRIVACY_POLICY_AGREE_STATUS, isAgree);
+    }
+
+    /**
+     * 用户是否已经同意"隐私协议"
+     *
+     * @return
+     */
+    @Override
+    public boolean isAgreePrivacyPolicy() {
+        return decodeBool(false, PREF_KEY_SERVICE_PRIVACY_POLICY_AGREE_STATUS, false);
+    }
 
     //endregion
 

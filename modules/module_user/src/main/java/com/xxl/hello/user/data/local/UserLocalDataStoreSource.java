@@ -2,6 +2,7 @@ package com.xxl.hello.user.data.local;
 
 import androidx.annotation.NonNull;
 
+import com.xxl.hello.service.data.local.prefs.api.UserLocalPreferences;
 import com.xxl.hello.service.data.model.entity.LoginUserEntity;
 
 /**
@@ -11,6 +12,20 @@ import com.xxl.hello.service.data.model.entity.LoginUserEntity;
  * @date 2021/7/16.
  */
 public interface UserLocalDataStoreSource {
+
+    /**
+     * 设置用户同意"隐私协议"的状态
+     *
+     * @return
+     */
+    boolean setAgreePrivacyPolicyStatus(final boolean isAgree);
+
+    /**
+     * 用户是否已经同意"隐私协议"
+     *
+     * @return
+     */
+    boolean isAgreePrivacyPolicy();
 
     /**
      * 设置当前登录的用户信息
