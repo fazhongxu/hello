@@ -46,6 +46,7 @@ versions.kprogresshud = "1.2.0"
 versions.mobile_ffmpeg = "4.4"
 
 versions.adapter_helper = "3.0.4"
+versions.base_popup = "3.2.0"
 
 versions.jsbridge = "1.0.4"
 versions.agentweb = "v4.1.9-androidx"
@@ -140,6 +141,9 @@ deps.mobile_ffmpeg = "com.arthenica:mobile-ffmpeg-full:$versions.mobile_ffmpeg"
 
 // BaseRecyclerViewAdapterHelper [https://github.com/CymChad/BaseRecyclerViewAdapterHelper]
 deps.adapter_helper = "com.github.CymChad:BaseRecyclerViewAdapterHelper:$versions.adapter_helper"
+
+// BasePopup [https://github.com/razerdp/BasePopup]
+deps.base_popup = "io.github.razerdp:BasePopup:$versions.base_popup"
 
 //jsbridge [https://github.com/lzyzsd/JsBridge]
 deps.jsbridge= "com.github.lzyzsd:jsbridge:$versions.jsbridge"

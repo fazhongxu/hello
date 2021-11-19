@@ -1,6 +1,8 @@
 package com.xxl.hello.main.ui.main;
 
 import android.app.Activity;
+import android.view.Gravity;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,6 +28,10 @@ import com.xxl.hello.service.ui.DataBindingActivity;
 import com.xxl.hello.widget.paths.UserRouterApi;
 
 import javax.inject.Inject;
+
+import razerdp.basepopup.QuickPopupBuilder;
+import razerdp.basepopup.QuickPopupConfig;
+import razerdp.widget.QuickPopup;
 
 /**
  * @author xxl
@@ -132,6 +138,9 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
     @Override
     protected void setupData() {
         LogUtils.d("当前登录用户ID..." + AppExpandUtils.getCurrentUserId());
+        if (!AppExpandUtils.isAgreePrivacyPolicy()) {
+            showPrivacyPolicyPopupWindow();
+        }
     }
 
     /**
@@ -177,7 +186,6 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
      */
     @Override
     public void onTestClick() {
-        AppExpandUtils.initPluginsAfterAgreePrivacyPolicy();
         UserRouterApi.Login.navigation();
     }
 
@@ -193,6 +201,38 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
     @Override
     public void onBackground(Activity activity) {
         ToastUtils.show(getString(R.string.resources_app_is_background_tips));
+    }
+
+    //endregion
+
+    //region: Fragment 操作
+
+    private QuickPopup mQuickPopup;
+
+    /**
+     * 弹出隐私政策弹窗
+     */
+    private void showPrivacyPolicyPopupWindow() {
+        final QuickPopupConfig quickPopupConfig = new QuickPopupConfig()
+                .withClick(R.id.tv_disagree, v -> {
+                    AppUtils.exitApp();
+                })
+                .withClick(R.id.tv_agree, v -> {
+                    if (mQuickPopup != null) {
+                        mQuickPopup.dismiss();
+                    }
+                    // TODO: 2021/11/20 保存本地，不再弹出 
+                    AppExpandUtils.initPluginsAfterAgreePrivacyPolicy();
+                })
+                .gravity(Gravity.CENTER);
+
+        mQuickPopup = QuickPopupBuilder.with(this)
+                .contentView(R.layout.main_window_layout_privacy_policy)
+                .width(ViewGroup.LayoutParams.MATCH_PARENT)
+                .height(ViewGroup.LayoutParams.WRAP_CONTENT)
+                .config(quickPopupConfig)
+                .build();
+        mQuickPopup.showPopupWindow();
     }
 
     //endregion

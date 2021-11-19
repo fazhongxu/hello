@@ -82,6 +82,8 @@ dependencies {
     implementation deps.dagger.android
     annotationProcessor deps.dagger.android_processor
 
+    implementation deps.base_popup
+
     implementation deps.mmkv
 
     implementation deps.evetbus

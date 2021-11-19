@@ -128,6 +128,18 @@ public class AppUtils {
         System.exit(0);
     }
 
+    /**
+     * 退出应用
+     */
+    public static void exitApp() {
+        if (getActivityList() != null) {
+            for (Activity activity : getActivityList()) {
+                activity.finish();
+            }
+        }
+        Process.killProcess(Process.myPid());
+        System.exit(0);
+    }
     //endregion
 
 }

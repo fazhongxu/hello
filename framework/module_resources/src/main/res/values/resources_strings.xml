@@ -7,8 +7,15 @@
     <string name="resources_app_is_foreground_tips">进入到前台</string>
     <string name="resources_app_is_background_tips">进入到后台</string>
 
+    <string name="resources_agree_text">同意</string>
+    <string name="resources_disagree_and_exit_text">不同意并退出</string>
+
     <string name="resources_compress_success_text">资源压缩成功</string>
     <string name="resources_compress_failure_text">资源压缩失败</string>
-
     <string name="resources_permission_read_of_white_external_storage_failure_tips">获取文件读写权限失败，请授权后操作</string>
+
+    <string name="resources_privacy_protected_title">隐私保护说明</string>
+    <string name="resources_service_agreement__title">《服务协议》</string>
+    <string name="resources_privacy_policy_title">《隐私政策》</string>
+
 </resources>
