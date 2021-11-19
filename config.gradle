@@ -47,6 +47,9 @@ versions.mobile_ffmpeg = "4.4"
 
 versions.adapter_helper = "3.0.4"
 
+versions.jsbridge = "1.0.4"
+versions.agentweb = "v4.1.9-androidx"
+
 ext.versions = versions
 
 deps.android_build_gradle = "com.android.tools.build:gradle:$build_versions.android_build_gradle"
@@ -137,6 +140,12 @@ deps.mobile_ffmpeg = "com.arthenica:mobile-ffmpeg-full:$versions.mobile_ffmpeg"
 
 // BaseRecyclerViewAdapterHelper [https://github.com/CymChad/BaseRecyclerViewAdapterHelper]
 deps.adapter_helper = "com.github.CymChad:BaseRecyclerViewAdapterHelper:$versions.adapter_helper"
+
+//jsbridge [https://github.com/lzyzsd/JsBridge]
+deps.jsbridge= "com.github.lzyzsd:jsbridge:$versions.jsbridge"
+
+//agentweb [https://github.com/Justson/AgentWeb]
+deps.agentweb= "com.github.Justson.AgentWeb:agentweb-core:$versions.agentweb"
 
 def origin = [:]
 // 是否使用远程依赖 true使用远程依赖（远程私服存储的aar依赖）
