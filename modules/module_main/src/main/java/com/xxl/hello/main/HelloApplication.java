@@ -103,17 +103,26 @@ public class HelloApplication extends BaseApplication implements MediaSelectorAp
      */
     private void init() {
         mApplicationWrapper.init(this);
-        initPlugins();
     }
 
     /**
      * 初始化组件
      */
-    private void initPlugins() {
+    @Override
+    public void initPlugins() {
+        super.initPlugins();
         CacheUtils.init(this);
         LogUtils.init(NetworkConfig.isDebug());
         MediaSelector.init(this);
         SwipeBackActivityManager.init(this);
+    }
+
+    /**
+     * 在用户统一"隐私政策"后初始化插件
+     */
+    @Override
+    public void initPluginsAfterAgreePrivacyPolicy() {
+        LogUtils.d("initPluginAfterAgreePrivacyPolicy");
     }
 
     //endregion

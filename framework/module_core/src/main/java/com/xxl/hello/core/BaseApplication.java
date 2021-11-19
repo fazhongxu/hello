@@ -2,10 +2,10 @@ package com.xxl.hello.core;
 
 import android.content.Context;
 
+import androidx.annotation.CallSuper;
 import androidx.multidex.MultiDex;
 
 import com.xxl.hello.core.utils.AppUtils;
-import com.xxl.hello.core.utils.LogUtils;
 import com.xxl.hello.core.utils.RouterUtils;
 
 import dagger.android.DaggerApplication;
@@ -34,18 +34,26 @@ public abstract class BaseApplication extends DaggerApplication {
      * 初始化
      */
     private void init() {
+        initPlugins();
+        if (isAgreePrivacyPolicy()) {
+            initPluginsAfterAgreePrivacyPolicy();
+        }
+    }
+
+    /**
+     * 初始化插件
+     */
+    @CallSuper
+    protected void initPlugins() {
         AppUtils.init(this, new ActivityLifecycleImpl());
         RouterUtils.init(this, isDebug());
-        if (isAgreePrivacyPolicy()) {
-            initPluginAfterAgreePrivacyPolicy();
-        }
     }
 
     /**
      * 在用户统一"隐私政策"后初始化插件
      */
-    public void initPluginAfterAgreePrivacyPolicy() {
-        LogUtils.d("initPluginAfterAgreePrivacyPolicy");
+    public void initPluginsAfterAgreePrivacyPolicy() {
+
     }
 
     //endregion

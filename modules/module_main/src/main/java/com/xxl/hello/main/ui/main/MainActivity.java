@@ -10,6 +10,7 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.xxl.hello.core.data.router.AppRouterApi;
 import com.xxl.hello.core.listener.OnAppStatusChangedListener;
 import com.xxl.hello.core.utils.AppExpandUtils;
+import com.xxl.hello.core.utils.AppUtils;
 import com.xxl.hello.core.utils.DisplayUtils;
 import com.xxl.hello.core.utils.LogUtils;
 import com.xxl.hello.core.utils.StatusBarUtil;
@@ -176,6 +177,7 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
      */
     @Override
     public void onTestClick() {
+        AppExpandUtils.initPluginsAfterAgreePrivacyPolicy();
         UserRouterApi.Login.navigation();
     }
 
