@@ -80,8 +80,12 @@ public class UserLocalDataStoreSourceIml implements UserLocalDataStoreSource {
         final UserPreferences<LoginUserEntity> userPreferences = mPreferencesKit.getUserPreferences();
 
         // FIXME: 2021/11/21 数据库测试代码，
-        final CacheDBDataService cacheDBDataService = mDBServiceKit.getCacheDBDataService();
-        cacheDBDataService.putCacheData("123", GsonUtils.toJson(loginUserEntity));
+        try {
+            final CacheDBDataService cacheDBDataService = mDBServiceKit.getCacheDBDataService();
+            cacheDBDataService.putCacheData("123", GsonUtils.toJson(loginUserEntity));
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
         return userPreferences.setCurrentLoginUserEntity(loginUserEntity);
@@ -97,9 +101,12 @@ public class UserLocalDataStoreSourceIml implements UserLocalDataStoreSource {
         final UserPreferences<LoginUserEntity> userPreferences = mPreferencesKit.getUserPreferences();
 
         // FIXME: 2021/11/21 数据库测试代码，
-        final CacheDBDataService cacheDBDataService = mDBServiceKit.getCacheDBDataService();
-        LoginUserEntity loginUserEntity = cacheDBDataService.getCacheData("123", LoginUserEntity.class);
-
+        try {
+            final CacheDBDataService cacheDBDataService = mDBServiceKit.getCacheDBDataService();
+            LoginUserEntity loginUserEntity = cacheDBDataService.getCacheData("123", LoginUserEntity.class);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
         return userPreferences.getCurrentLoginUserEntity();
     }

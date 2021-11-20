@@ -6,11 +6,13 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 
 import com.xxl.hello.core.config.NetworkConfig;
+import com.xxl.hello.core.utils.LogUtils;
 import com.xxl.hello.service.data.local.db.api.DBClientKit;
 import com.xxl.hello.service.data.local.db.entity.MyObjectBox;
 import com.xxl.hello.service.data.local.prefs.api.UserPreferences;
 
 import io.objectbox.BoxStore;
+import io.objectbox.android.AndroidObjectBrowser;
 
 /**
  * 数据库服务
@@ -77,6 +79,12 @@ public class ObjectBoxDBClientKit implements DBClientKit {
                     .androidContext(mApplication)
                     .name(dataBaseName)
                     .build();
+
+            if (NetworkConfig.isNetworkDebug()) {
+                final boolean start = new AndroidObjectBrowser(mOoxStore)
+                        .start(mApplication);
+                LogUtils.d("数据库网页浏览服务开启状态" + start);
+            }
             return true;
         }
     }
