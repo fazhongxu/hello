@@ -2,6 +2,9 @@ package com.xxl.hello.user.data.local;
 
 import androidx.annotation.NonNull;
 
+import com.xxl.hello.core.utils.GsonUtils;
+import com.xxl.hello.service.data.local.db.DBServiceKit;
+import com.xxl.hello.service.data.local.db.api.CacheDBDataService;
 import com.xxl.hello.service.data.local.prefs.PreferencesKit;
 import com.xxl.hello.service.data.local.prefs.api.UserLocalPreferences;
 import com.xxl.hello.service.data.local.prefs.api.UserPreferences;
@@ -22,13 +25,19 @@ public class UserLocalDataStoreSourceIml implements UserLocalDataStoreSource {
      */
     private final PreferencesKit mPreferencesKit;
 
+    /**
+     * 数据库服务集合
+     */
+    private final DBServiceKit mDBServiceKit;
+
     //endregion
 
     //region: 构造函数
 
-    public UserLocalDataStoreSourceIml(@NonNull final PreferencesKit preferencesKit) {
-        // DBClientKit
+    public UserLocalDataStoreSourceIml(@NonNull final PreferencesKit preferencesKit,
+                                       @NonNull final DBServiceKit dbServiceKit) {
         mPreferencesKit = preferencesKit;
+        mDBServiceKit = dbServiceKit;
     }
 
     //endregion
@@ -69,6 +78,12 @@ public class UserLocalDataStoreSourceIml implements UserLocalDataStoreSource {
     @Override
     public boolean setCurrentLoginUserEntity(@NonNull final LoginUserEntity loginUserEntity) {
         final UserPreferences<LoginUserEntity> userPreferences = mPreferencesKit.getUserPreferences();
+
+        // FIXME: 2021/11/21 数据库测试代码，
+        final CacheDBDataService cacheDBDataService = mDBServiceKit.getCacheDBDataService();
+        cacheDBDataService.putCacheData("123", GsonUtils.toJson(loginUserEntity));
+
+
         return userPreferences.setCurrentLoginUserEntity(loginUserEntity);
     }
 
@@ -80,6 +95,12 @@ public class UserLocalDataStoreSourceIml implements UserLocalDataStoreSource {
     @Override
     public LoginUserEntity getCurrentLoginUserEntity() {
         final UserPreferences<LoginUserEntity> userPreferences = mPreferencesKit.getUserPreferences();
+
+        // FIXME: 2021/11/21 数据库测试代码，
+        final CacheDBDataService cacheDBDataService = mDBServiceKit.getCacheDBDataService();
+        LoginUserEntity loginUserEntity = cacheDBDataService.getCacheData("123", LoginUserEntity.class);
+
+
         return userPreferences.getCurrentLoginUserEntity();
     }
 

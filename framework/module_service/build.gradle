@@ -1,4 +1,5 @@
 apply from: project.getRootDir().getAbsolutePath()+"/framework/common.gradle"
+apply plugin: 'io.objectbox'
 
 android {
 

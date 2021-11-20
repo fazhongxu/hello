@@ -36,6 +36,8 @@ versions.eventbus = "3.2.0"
 versions.logger = "2.2.0"
 versions.arouter = "1.5.2"
 
+versions.objectbox = "3.0.1"
+
 versions.luban = "1.1.8"
 versions.video_processor = "2.4.2"
 versions.glide = "4.12.0"
@@ -86,6 +88,9 @@ retrofit.retrofit = "com.squareup.retrofit2:retrofit:$versions.retrofit"
 retrofit.adapter = "com.squareup.retrofit2:adapter-rxjava3:$versions.retrofit"
 retrofit.converter = "com.squareup.retrofit2:converter-gson:$versions.retrofit"
 deps.retrofit = retrofit
+
+// objectbox [https://github.com/objectbox/objectbox-java]
+deps.objectboct_plugin = "io.objectbox:objectbox-gradle-plugin:$versions.objectbox"
 
 //luban 图片压缩 [https://github.com/Curzibn/Luban]
 deps.luban = "top.zibin:Luban:$versions.luban"

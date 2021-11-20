@@ -5,8 +5,8 @@ import androidx.annotation.NonNull;
 import com.xxl.hello.core.config.NetworkConfig;
 import com.xxl.hello.core.data.remote.ApiHeader;
 import com.xxl.hello.core.utils.LogUtils;
+import com.xxl.hello.service.data.local.db.impl.objectbox.ObjectBoxDataStoreModel;
 import com.xxl.hello.service.data.local.prefs.api.UserPreferences;
-import com.xxl.hello.service.data.model.entity.LoginUserEntity;
 import com.xxl.hello.service.di.module.ServiceDataStoreModule;
 import com.xxl.hello.service.qunlifier.ForBaseUrl;
 import com.xxl.hello.service.qunlifier.ForDebug;
@@ -15,6 +15,7 @@ import com.xxl.hello.service.qunlifier.ForNetworkEncryptKey;
 import com.xxl.hello.service.qunlifier.ForOkHttp;
 import com.xxl.hello.service.qunlifier.ForRetrofit;
 import com.xxl.hello.service.qunlifier.ForUserBaseUrl;
+import com.xxl.hello.service.qunlifier.ForUserPreference;
 import com.xxl.hello.service.qunlifier.ForUserRetrofit;
 import com.xxl.hello.user.di.module.UserDataStoreModule;
 
@@ -33,6 +34,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * @date 2021/7/15.
  */
 @Module(includes = {ServiceDataStoreModule.class,
+        ObjectBoxDataStoreModel.class,
         UserDataStoreModule.class})
 public class DataStoreModule {
 
@@ -118,7 +120,7 @@ public class DataStoreModule {
      */
     @Singleton
     @Provides
-    ApiHeader.ProtectedApiHeader provideProtectedApiHeader(@NonNull final UserPreferences userPreferences) {
+    ApiHeader.ProtectedApiHeader provideProtectedApiHeader(@ForUserPreference final UserPreferences userPreferences) {
         // TODO: 2021/8/16 登录后更新请求头信息 ApiHeader.ProtectedApiHeade#setAccessToken
         return new ApiHeader.ProtectedApiHeader("", userPreferences.getUserId(), userPreferences.getToken());
     }

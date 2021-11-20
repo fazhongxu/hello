@@ -1,0 +1,108 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "2:3631516036888578639",
+      "lastPropertyId": "7:8819788373673481066",
+      "name": "h_t_category",
+      "properties": [
+        {
+          "id": "1:21092620679740870",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:1193285676164918674",
+          "name": "create_time",
+          "type": 6,
+          "flags": 4
+        },
+        {
+          "id": "3:7140781925322789402",
+          "name": "update_time",
+          "type": 6,
+          "flags": 4
+        },
+        {
+          "id": "6:2381573113729031021",
+          "name": "category_id",
+          "indexId": "3:3711631168305981626",
+          "type": 6,
+          "flags": 44
+        },
+        {
+          "id": "7:8819788373673481066",
+          "name": "category_name",
+          "type": 6,
+          "flags": 4
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "3:7990796162817244516",
+      "lastPropertyId": "5:87371384951848420",
+      "name": "h_t_cache",
+      "properties": [
+        {
+          "id": "1:957839779336835069",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:4180756568344951746",
+          "name": "create_time",
+          "type": 6,
+          "flags": 4
+        },
+        {
+          "id": "3:3554454042617463733",
+          "name": "update_time",
+          "type": 6,
+          "flags": 4
+        },
+        {
+          "id": "4:1309710980296306708",
+          "name": "key",
+          "indexId": "4:4621489299255301347",
+          "type": 9,
+          "flags": 2080
+        },
+        {
+          "id": "5:87371384951848420",
+          "name": "value",
+          "type": 9
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "3:7990796162817244516",
+  "lastIndexId": "4:4621489299255301347",
+  "lastRelationId": "0:0",
+  "lastSequenceId": "0:0",
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
+  "retiredEntityUids": [
+    4122686768861803673
+  ],
+  "retiredIndexUids": [
+    8621124305891847238,
+    3058668176380650477
+  ],
+  "retiredPropertyUids": [
+    5782749857506433806,
+    4771350524416753187,
+    1024888924473940274,
+    3670042030348780013,
+    905625506260336678,
+    6085565255823294275,
+    8741076871043662149
+  ],
+  "retiredRelationUids": [],
+  "version": 1
+}

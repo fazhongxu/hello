@@ -12,6 +12,7 @@ import com.xxl.hello.core.utils.CacheUtils;
 import com.xxl.hello.core.utils.LogUtils;
 import com.xxl.hello.core.widget.swipebacklayout.SwipeBackActivityManager;
 import com.xxl.hello.main.di.component.DaggerAppComponent;
+import com.xxl.hello.service.data.local.db.api.DBClientKit;
 
 import javax.inject.Inject;
 

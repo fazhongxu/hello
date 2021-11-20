@@ -3,11 +3,8 @@ package com.xxl.hello.user.data.remote;
 import androidx.annotation.NonNull;
 
 import com.xxl.hello.core.data.remote.ApiHeader;
-import com.xxl.hello.service.data.local.prefs.PreferencesKit;
 import com.xxl.hello.service.qunlifier.ForRetrofit;
 import com.xxl.hello.service.qunlifier.ForUserRetrofit;
-import com.xxl.hello.user.data.local.UserLocalDataStoreSource;
-import com.xxl.hello.user.data.local.UserLocalDataStoreSourceIml;
 
 import javax.inject.Singleton;
 
@@ -23,12 +20,6 @@ import retrofit2.Retrofit;
  */
 @Module
 public class UserRemoteDataStoreModule {
-
-    @Singleton
-    @Provides
-    UserLocalDataStoreSource provideUserLocalDataStoreModule(@NonNull final PreferencesKit preferencesKit) {
-        return new UserLocalDataStoreSourceIml(preferencesKit);
-    }
 
     @Singleton
     @Provides

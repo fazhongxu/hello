@@ -71,8 +71,8 @@ public class UserRepositoryIml extends BaseRepositoryIml implements UserReposito
     @Override
     public void setCurrentLoginUserEntity(@NonNull final LoginUserEntity loginUserEntity,
                                           final boolean isNotice) {
-        final boolean isSucess = mUserLocalDataStoreModule.setCurrentLoginUserEntity(loginUserEntity);
-        if (isNotice && isSucess) {
+        final boolean isSuccess = mUserLocalDataStoreModule.setCurrentLoginUserEntity(loginUserEntity);
+        if (isNotice && isSuccess) {
             postEventBus(OnUserEventApi.OnUpdateUserInfoEvent.obtain(loginUserEntity));
         }
     }

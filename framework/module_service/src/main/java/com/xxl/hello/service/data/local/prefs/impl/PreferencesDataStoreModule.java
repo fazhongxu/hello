@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import com.xxl.hello.service.data.local.prefs.PreferencesKit;
 import com.xxl.hello.service.data.local.prefs.api.UserLocalPreferences;
 import com.xxl.hello.service.data.local.prefs.api.UserPreferences;
+import com.xxl.hello.service.qunlifier.ForUserPreference;
 
 import javax.inject.Singleton;
 
@@ -24,6 +25,7 @@ public class PreferencesDataStoreModule {
         return preferencesKit;
     }
 
+    @ForUserPreference
     @Singleton
     @Provides
     UserPreferences provideUserPreferences() {
