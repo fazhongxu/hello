@@ -48,6 +48,11 @@ public class ObjectBoxDBClientKit implements DBClientKit {
      */
     private final Application mApplication;
 
+    /**
+     * 当前打开的数据库名称
+     */
+    private String mDatabaseName;
+
     //endregion
 
     //region: 构造函数
@@ -73,8 +78,14 @@ public class ObjectBoxDBClientKit implements DBClientKit {
             if (TextUtils.isEmpty(targetUserId)) {
                 return false;
             }
-            closeDatabase();
+
             final String dataBaseName = buildDataBaseName(targetUserId);
+            if (TextUtils.equals(dataBaseName,mDatabaseName) && mOoxStore != null && !mOoxStore.isClosed()) {
+                return true;
+            }
+            mDatabaseName = dataBaseName;
+
+            closeDatabase();
             mOoxStore = MyObjectBox.builder()
                     .androidContext(mApplication)
                     .name(dataBaseName)
@@ -99,6 +110,7 @@ public class ObjectBoxDBClientKit implements DBClientKit {
                 return;
             }
             mOoxStore.close();
+            mOoxStore = null;
         }
     }
 
