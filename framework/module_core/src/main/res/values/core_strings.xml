@@ -1,4 +1,5 @@
 <resources>
     <string name="core_test">test</string>
     <string name="core_image_path_can_not_be_empty_tips">图片路径不能为空</string>
+    <string name="core_permission_read_of_white_external_storage_failure_tips">获取文件读写权限失败，请授权后操作</string>
 </resources>

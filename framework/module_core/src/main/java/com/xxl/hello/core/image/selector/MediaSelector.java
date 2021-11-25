@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.app.PictureAppMaster;
@@ -12,6 +14,7 @@ import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.style.PictureSelectorUIStyle;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,12 +35,32 @@ public class MediaSelector {
     }
 
     /**
+     * Start MediaSelector for Activity.
+     *
+     * @param activity
+     * @return MediaSelector instance.
+     */
+    public static MediaSelector create(FragmentActivity activity) {
+        return new MediaSelector(activity);
+    }
+
+    /**
+     * Start MediaSelector for Fragment.
+     *
+     * @param fragment
+     * @return MediaSelector instance.
+     */
+    public static MediaSelector create(Fragment fragment) {
+        return new MediaSelector(fragment);
+    }
+
+    /**
      * Start PictureSelector for Activity.
      *
      * @param activity
      * @return PictureSelector instance.
      */
-    public static PictureSelector create(Activity activity) {
+    public static PictureSelector createPictureSelector(Activity activity) {
         return PictureSelector.create(activity);
     }
 
@@ -47,8 +70,16 @@ public class MediaSelector {
      * @param fragment
      * @return PictureSelector instance.
      */
-    public static PictureSelector create(Fragment fragment) {
+    public static PictureSelector createPictureSelector(Fragment fragment) {
         return PictureSelector.create(fragment);
+    }
+
+    /**
+     * @param chooseMode Select the type of picture you want，all or Picture or Video .
+     * @return LocalMedia PictureSelectionModel
+     */
+    public MediaSelectionModel openGallery(int chooseMode) {
+        return new MediaSelectionModel(this,createPictureSelector(getActivity()), chooseMode);
     }
 
     /**
@@ -83,7 +114,36 @@ public class MediaSelector {
         return PictureConfig.CHOOSE_REQUEST == requestCode;
     }
 
-    private MediaSelector() {
+    private final WeakReference<FragmentActivity> mActivity;
+    private final WeakReference<Fragment> mFragment;
 
+    /**
+     * @return Activity.
+     */
+    @Nullable
+    FragmentActivity getActivity() {
+        return mActivity.get();
     }
+
+    /**
+     * @return Fragment.
+     */
+    @Nullable
+    Fragment getFragment() {
+        return mFragment != null ? mFragment.get() : null;
+    }
+
+    private MediaSelector(FragmentActivity activity) {
+        this(activity, null);
+    }
+
+    private MediaSelector(Fragment fragment) {
+        this(fragment.getActivity(), fragment);
+    }
+
+    private MediaSelector(FragmentActivity activity, Fragment fragment) {
+        mActivity = new WeakReference<>(activity);
+        mFragment = new WeakReference<>(fragment);
+    }
+
 }

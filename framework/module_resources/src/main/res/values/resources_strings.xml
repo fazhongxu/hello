@@ -12,7 +12,6 @@
 
     <string name="resources_compress_success_text">资源压缩成功</string>
     <string name="resources_compress_failure_text">资源压缩失败</string>
-    <string name="resources_permission_read_of_white_external_storage_failure_tips">获取文件读写权限失败，请授权后操作</string>
 
     <string name="resources_privacy_protected_title">隐私保护说明</string>
     <string name="resources_service_agreement__title">《服务协议》</string>
