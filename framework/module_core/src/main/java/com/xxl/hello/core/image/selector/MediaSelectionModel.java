@@ -39,6 +39,12 @@ public class MediaSelectionModel extends PictureSelectionModel {
         mMediaSelector = mediaSelector;
     }
 
+    @Override
+    public MediaSelectionModel isCompress(boolean isCompress) {
+        super.isCompress(isCompress);
+        return this;
+    }
+
     public void forResult() {
         this.forResult(PictureConfig.CHOOSE_REQUEST);
     }
