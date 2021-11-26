@@ -1,4 +1,4 @@
-package com.xxl.hello.main.ui.main;
+package com.xxl.hello.main.ui.main.dialog;
 
 import android.app.Dialog;
 import android.graphics.Color;

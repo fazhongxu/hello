@@ -85,6 +85,20 @@ public class MainViewModel extends BaseViewModel<MainActivityNavigator> {
 
     //endregion
 
+    //region: 与隐私政策相关
+
+    /**
+     * 设置用户同意"隐私协议"的状态
+     *
+     * @param isAgree
+     */
+    void setAgreePrivacyPolicyStatus(final boolean isAgree) {
+        final UserRepositoryApi userRepositoryApi = mDataRepositoryKit.getUserRepositoryApi();
+        userRepositoryApi.setAgreePrivacyPolicyStatus(isAgree);
+    }
+
+    //endregion
+
     //region: get or set
 
     /**

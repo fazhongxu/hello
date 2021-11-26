@@ -1,8 +1,6 @@
 package com.xxl.hello.main.ui.main;
 
 import android.app.Activity;
-import android.view.Gravity;
-import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,6 +19,7 @@ import com.xxl.hello.core.utils.ToastUtils;
 import com.xxl.hello.main.BR;
 import com.xxl.hello.main.R;
 import com.xxl.hello.main.databinding.ActivityMainBinding;
+import com.xxl.hello.main.ui.main.window.PrivacyPolicyPopupWindow;
 import com.xxl.hello.service.data.model.api.QueryUserInfoResponse;
 import com.xxl.hello.service.data.model.entity.LoginUserEntity;
 import com.xxl.hello.service.ui.BaseEventBusWrapper;
@@ -28,10 +27,6 @@ import com.xxl.hello.service.ui.DataBindingActivity;
 import com.xxl.hello.widget.paths.UserRouterApi;
 
 import javax.inject.Inject;
-
-import razerdp.basepopup.QuickPopupBuilder;
-import razerdp.basepopup.QuickPopupConfig;
-import razerdp.widget.QuickPopup;
 
 /**
  * @author xxl
@@ -155,6 +150,9 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
 
     @Override
     protected void requestData() {
+        if (!AppExpandUtils.isAgreePrivacyPolicy()) {
+            return;
+        }
         mMainViewModel.requestQueryUserInfo();
     }
 
@@ -207,37 +205,25 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
 
     //region: Fragment 操作
 
-    private QuickPopup mQuickPopup;
-
     /**
      * 弹出隐私政策弹窗
      */
     private void showPrivacyPolicyPopupWindow() {
-        final QuickPopupConfig quickPopupConfig = new QuickPopupConfig()
-                .withClick(R.id.tv_disagree, v -> {
+        PrivacyPolicyPopupWindow.from(this)
+                .setOnDisagreeClickListener(v -> {
                     AppUtils.exitApp();
                 })
-                .withClick(R.id.tv_agree, v -> {
-                    if (mQuickPopup != null) {
-                        mQuickPopup.dismiss();
-                    }
-                    // TODO: 2021/11/20 保存本地，不再弹出 
+                .setOnAgreeClickListener(v -> {
+                    mMainViewModel.setAgreePrivacyPolicyStatus(true);
                     AppExpandUtils.initPluginsAfterAgreePrivacyPolicy();
+                    requestData();
                 })
-                .gravity(Gravity.CENTER);
-
-        mQuickPopup = QuickPopupBuilder.with(this)
-                .contentView(R.layout.main_window_layout_privacy_policy)
-                .width(ViewGroup.LayoutParams.MATCH_PARENT)
-                .height(ViewGroup.LayoutParams.WRAP_CONTENT)
-                .config(quickPopupConfig)
-                .build();
-        mQuickPopup.showPopupWindow();
+                .showPopupWindow();
     }
 
     //endregion
 
-    //region: Event Bus 操作
+    //region: EventBus 操作
 
     /**
      * 刷新用户信息
