@@ -8,9 +8,11 @@ import androidx.annotation.Nullable;
 import androidx.databinding.ObservableBoolean;
 import androidx.lifecycle.AndroidViewModel;
 
+import com.xxl.hello.core.exception.ResponseException;
+import com.xxl.hello.core.exception.ResponseListener;
+import com.xxl.hello.core.rx.SchedulersProvider;
 import com.xxl.hello.core.utils.AppUtils;
 import com.xxl.hello.core.utils.LogUtils;
-import com.xxl.hello.core.rx.SchedulersProvider;
 
 import io.reactivex.rxjava3.core.ObservableTransformer;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
@@ -106,13 +108,28 @@ public class BaseViewModel<N> extends AndroidViewModel {
      * @param throwable
      */
     protected void setResponseException(@Nullable final Throwable throwable) {
+        setResponseException(throwable, null);
+    }
+
+    /**
+     * 处理异常
+     *
+     * @param throwable
+     * @param listener
+     */
+    protected void setResponseException(@Nullable final Throwable throwable,
+                                        @Nullable final ResponseListener listener) {
         if (throwable != null) {
-            // TODO: 2021/7/19 处理异常信息
-            Toast.makeText(AppUtils.getApplication(), throwable.getMessage(), Toast.LENGTH_SHORT).show();
-            LogUtils.e(throwable.getMessage());
+            final ResponseException exception = ResponseException.converter(throwable);
+            if (listener != null && listener.handleException(exception)) {
+                // TODO: 2021/7/19 处理异常信息
+            }
+            Toast.makeText(AppUtils.getApplication(), exception.getMessage(), Toast.LENGTH_SHORT).show();
+            LogUtils.e(exception.getMessage());
         }
         setViewLoading(false);
     }
+
 
     /**
      * 数据流线程切换 子线程->主线程
