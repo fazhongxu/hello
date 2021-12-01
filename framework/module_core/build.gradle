@@ -37,7 +37,6 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
 }
 
 dependencies {
@@ -56,6 +55,8 @@ dependencies {
     annotationProcessor deps.dagger.processor
     implementation deps.dagger.android
     annotationProcessor deps.dagger.android_processor
+
+    implementation deps.aspectjrt
 
     implementation deps.okhttp.okhttp
     implementation deps.okhttp.logging

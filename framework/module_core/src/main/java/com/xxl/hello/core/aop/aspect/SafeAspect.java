@@ -4,14 +4,12 @@ import android.text.TextUtils;
 
 import com.xxl.hello.core.aop.annotation.Safe;
 import com.xxl.hello.core.utils.LogUtils;
+import com.xxl.hello.core.utils.ReflectUtils;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.aspectj.lang.reflect.MethodSignature;
-
-import java.lang.reflect.Method;
 
 /**
  * @author xxl.
@@ -20,7 +18,7 @@ import java.lang.reflect.Method;
 @Aspect
 public class SafeAspect {
 
-    private static final String POINTCUT_METHOD = "execution(@com.test.core.aop.annotation.Safe * *(..))";
+    private static final String POINTCUT_METHOD = "execution(@com.xxl.hello.core.aop.annotation.Safe * *(..))";
 
     @Pointcut(POINTCUT_METHOD)
     public void onSafeMethod() {
@@ -28,40 +26,21 @@ public class SafeAspect {
     }
 
     @Around("onSafeMethod() && @annotation(safe)")
-    public Object doSafeMethod(final ProceedingJoinPoint joinPoint) throws Throwable {
-
-        MethodSignature signature = (MethodSignature) joinPoint.getSignature();
-        Method method = signature.getMethod();
-
-        Safe safe = method.getAnnotation(Safe.class);
-
+    public Object doSafeMethod(final ProceedingJoinPoint joinPoint, Safe safe) throws Throwable {
         Object result = null;
         try {
             result = joinPoint.proceed();
-        } catch (Throwable e) {
+        } catch (Exception e) {
             LogUtils.e(e);
             String callBack = safe.callBack();
             if (!TextUtils.isEmpty(callBack)) {
-//                try {
-//                    Reflect.on(joinPoint.getTarget()).call(callBack);
-//                } catch (ReflectException exception) {
-//                    exception.printStackTrace();
-//                    L.e("no method "+callBack);
-//                }
-//                ReflectUtils.reflect()
+                try {
+                    ReflectUtils.reflect(joinPoint.getTarget()).method(callBack,e);
+                }catch (Exception e1){
+                    LogUtils.e(e1);
+                }
             }
-
-//            if (Preconditions.isNotBlank(callBack)) {
-//
-//                try {
-//                    Reflect.on(joinPoint.getTarget()).call(callBack);
-//                } catch (ReflectException exception) {
-//                    exception.printStackTrace();
-//                    L.e("no method " + callBack);
-//                }
-//            }
         }
         return result;
     }
-
 }

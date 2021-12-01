@@ -9,8 +9,8 @@ import java.lang.annotation.Target;
  * @author xxl.
  * @date 2021/7/27.
  */
-@Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
 public @interface Safe {
 
     /**

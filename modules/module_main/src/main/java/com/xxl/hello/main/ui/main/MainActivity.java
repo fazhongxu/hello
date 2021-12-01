@@ -180,14 +180,21 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
         }
     }
 
-    /**
-     * 测试按钮点击
-     */
-    @Safe
     @Override
     public void onTestClick() {
 //        UserRouterApi.Login.navigation();
+        test();
+    }
+    /**
+     * 测试按钮点击
+     */
+    @Safe(callBack = "onErrorCallback")
+    private void test() {
         int a = 1/0;
+    }
+
+    private void onErrorCallback(@Nullable final Throwable throwable) {
+        ToastUtils.show("我是方法"+throwable.getMessage());
     }
 
     //endregion

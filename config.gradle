@@ -39,6 +39,7 @@ versions.arouter = "1.5.2"
 versions.objectbox = "3.0.1"
 
 versions.aspectjx_plugin = "2.0.10"
+versions.aspectjrt = "1.9.6"
 
 versions.luban = "1.1.8"
 versions.video_processor = "2.4.2"
@@ -96,6 +97,7 @@ deps.objectboct_plugin = "io.objectbox:objectbox-gradle-plugin:$versions.objectb
 
 // aspectjx aop [https://github.com/HujiangTechnology/gradle_plugin_android_aspectjx]
 deps.aspectjx_plugin = "com.hujiang.aspectjx:gradle-android-plugin-aspectjx:$versions.aspectjx_plugin"
+deps.aspectjrt = "org.aspectj:aspectjrt:$versions.aspectjrt"
 
 //luban 图片压缩 [https://github.com/Curzibn/Luban]
 deps.luban = "top.zibin:Luban:$versions.luban"
