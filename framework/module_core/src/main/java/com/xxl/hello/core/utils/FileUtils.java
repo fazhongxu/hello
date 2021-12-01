@@ -1752,7 +1752,7 @@ public final class FileUtils {
         return blockSize * availableSize;
     }
 
-    private static boolean isSpace(final String s) {
+    public static boolean isSpace(final String s) {
         if (s == null) {
             return true;
         }
