@@ -7,6 +7,7 @@ buildscript {
         classpath deps.android_build_gradle
         classpath deps.and_res_guard_gradle_plugin
         classpath deps.objectboct_plugin
+        classpath deps.aspectjx_plugin
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files

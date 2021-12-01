@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.xxl.hello.core.aop.annotation.Safe;
 import com.xxl.hello.core.data.router.AppRouterApi;
 import com.xxl.hello.core.listener.OnAppStatusChangedListener;
 import com.xxl.hello.core.utils.AppExpandUtils;
@@ -182,9 +183,11 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
     /**
      * 测试按钮点击
      */
+    @Safe
     @Override
     public void onTestClick() {
-        UserRouterApi.Login.navigation();
+//        UserRouterApi.Login.navigation();
+        int a = 1/0;
     }
 
     //endregion
