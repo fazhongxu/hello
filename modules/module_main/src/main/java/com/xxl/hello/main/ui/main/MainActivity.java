@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.xxl.hello.core.aop.annotation.Delay;
 import com.xxl.hello.core.aop.annotation.Safe;
 import com.xxl.hello.core.data.router.AppRouterApi;
 import com.xxl.hello.core.listener.OnAppStatusChangedListener;
@@ -181,6 +182,7 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
         }
     }
 
+    @Delay(delay = 200)
     @Override
     public void onTestClick() {
         UserRouterApi.Login.navigation();
@@ -225,13 +227,13 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
      */
     @Safe(callBack = "onErrorCallback")
     private void testCrash() {
-        int a = 1/0;
-        Log.e("aaa","错了错了");
+        int a = 1 / 0;
+        Log.e("aaa", "错了错了");
     }
 
     private void onErrorCallback(@Nullable final Throwable throwable) {
-        ToastUtils.show("我是错误回调"+throwable.getMessage());
-        Log.e("aaav","错了错了v");
+        ToastUtils.show("我是错误回调" + throwable.getMessage());
+        Log.e("aaav", "错了错了v");
     }
 
     //endregion
