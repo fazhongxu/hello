@@ -109,7 +109,7 @@ public class LoginActivityViewModel extends BaseViewModel<LoginActivityNavigator
     void setTargetUserInfo(@Nullable final LoginUserEntity targetLoginUserEntity) {
         mTargetLoginUserEntity = targetLoginUserEntity;
         if (mTargetLoginUserEntity != null) {
-            mObservableUserName.set(targetLoginUserEntity.getUserName() + "--" + targetLoginUserEntity.getUserId());
+            mObservableUserName.set(targetLoginUserEntity.getUserId());
         }
     }
 

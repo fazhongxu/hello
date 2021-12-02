@@ -121,7 +121,7 @@ public class LoginUserEntity {
         if (NetworkConfig.isNetworkDebug()) {
             return LoginUserEntity.obtain()
                     .setUserId(String.valueOf(TestUtils.getRandom()))
-                    .setUserName("六六六");
+                    .setUserName("six six");
         }
         throw new RuntimeException("仅测试环境可用");
     }
