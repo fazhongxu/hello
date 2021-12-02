@@ -21,7 +21,7 @@ public class ToastUtils {
     }
 
     public static void show(@NonNull final String message) {
-        show(message, Toast.LENGTH_LONG);
+        show(message, Toast.LENGTH_SHORT);
     }
 
     private static void show(@Nullable final CharSequence text, final int duration) {

@@ -1,6 +1,7 @@
 package com.xxl.hello.main.ui.main;
 
 import android.app.Activity;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -182,19 +183,7 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
 
     @Override
     public void onTestClick() {
-//        UserRouterApi.Login.navigation();
-        test();
-    }
-    /**
-     * 测试按钮点击
-     */
-    @Safe(callBack = "onErrorCallback")
-    private void test() {
-        int a = 1/0;
-    }
-
-    private void onErrorCallback(@Nullable final Throwable throwable) {
-        ToastUtils.show("我是方法"+throwable.getMessage());
+        UserRouterApi.Login.navigation();
     }
 
     //endregion
@@ -229,6 +218,20 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
                     requestData();
                 })
                 .showPopupWindow();
+    }
+
+    /**
+     * 测试按钮点击
+     */
+    @Safe(callBack = "onErrorCallback")
+    private void testCrash() {
+        int a = 1/0;
+        Log.e("aaa","错了错了");
+    }
+
+    private void onErrorCallback(@Nullable final Throwable throwable) {
+        ToastUtils.show("我是错误回调"+throwable.getMessage());
+        Log.e("aaav","错了错了v");
     }
 
     //endregion

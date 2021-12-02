@@ -5,6 +5,11 @@ aspectjx {
             'kotlin',
             'com.google',
             'com.squareup',
+            'com.tencent',
+            'com.github',
+            'io.github',
+            'io.reactivex',
+            'top.zibin',
             'com.alipay',
             'org.apache'
 }
