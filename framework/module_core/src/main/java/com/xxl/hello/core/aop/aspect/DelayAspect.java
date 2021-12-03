@@ -39,12 +39,12 @@ public class DelayAspect {
     private static final String POINTCUT_METHOD = "execution(@com.xxl.hello.core.aop.annotation.Delay * *(..))";
 
     @Pointcut(POINTCUT_METHOD)
-    public void onSafeMethod() {
+    public void onDelayMethod() {
 
     }
 
-    @Around("onSafeMethod() && @annotation(delay)")
-    public Object doSafeMethod(final ProceedingJoinPoint joinPoint, Delay delay) throws Throwable {
+    @Around("onDelayMethod() && @annotation(delay)")
+    public Object doDelayMethod(final ProceedingJoinPoint joinPoint, Delay delay) throws Throwable {
         Object result = null;
 
         long delayMills = delay.delay();

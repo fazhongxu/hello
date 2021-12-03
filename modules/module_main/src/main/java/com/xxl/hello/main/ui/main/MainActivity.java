@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.xxl.hello.core.aop.annotation.CheckNetwork;
 import com.xxl.hello.core.aop.annotation.Delay;
 import com.xxl.hello.core.aop.annotation.Safe;
 import com.xxl.hello.core.data.router.AppRouterApi;
@@ -163,6 +164,13 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
 
     //region: MainActivityNavigator
 
+    @CheckNetwork
+    @Delay(delay = 200)
+    @Override
+    public void onTestClick() {
+        UserRouterApi.Login.navigation();
+    }
+
     /**
      * 请求查询用户信息完成
      *
@@ -180,12 +188,6 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
         } else {
             mMainViewModel.setObservableUserId(String.valueOf(TestUtils.currentTimeMillis()));
         }
-    }
-
-    @Delay(delay = 200)
-    @Override
-    public void onTestClick() {
-        UserRouterApi.Login.navigation();
     }
 
     //endregion
