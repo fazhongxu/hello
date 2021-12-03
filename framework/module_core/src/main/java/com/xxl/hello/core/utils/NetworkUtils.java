@@ -90,17 +90,10 @@ public final class NetworkUtils {
      */
     @RequiresPermission(INTERNET)
     public static void isAvailableAsync(@NonNull final Utils.Consumer<Boolean> consumer) {
-        ThreadUtils.getCachedPool().execute(new Runnable() {
-            @Override
-            public void run() {
-                final boolean available = isAvailable();
-                ThreadUtils.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        consumer.accept(available);
-                    }
-                });
-            }
+        ThreadUtils.getCachedPool().execute(() -> {
+            @SuppressLint("MissingPermission")
+            final boolean available = isAvailable();
+            ThreadUtils.runOnUiThread(() -> consumer.accept(available));
         });
     }
 
@@ -114,7 +107,6 @@ public final class NetworkUtils {
     public static boolean isAvailable() {
         return isAvailableByDns() || isAvailableByPing(null);
     }
-
 
     /**
      * Return whether network is available using ping.
