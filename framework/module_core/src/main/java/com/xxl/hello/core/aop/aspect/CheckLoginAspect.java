@@ -31,6 +31,7 @@ public class CheckLoginAspect {
                 return joinPoint.proceed();
             }
             application.navigationToLogin();
+            return null;
         }
         return joinPoint.proceed();
     }

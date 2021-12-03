@@ -165,6 +165,7 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
 
     //region: MainActivityNavigator
 
+    @CheckLogin
     @CheckNetwork
     @Delay(delay = 200)
     @Override
