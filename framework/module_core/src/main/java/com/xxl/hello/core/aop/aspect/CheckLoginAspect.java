@@ -2,7 +2,6 @@ package com.xxl.hello.core.aop.aspect;
 
 import com.xxl.hello.core.BaseApplication;
 import com.xxl.hello.core.aop.annotation.CheckLogin;
-import com.xxl.hello.core.data.router.AppRouterApi;
 import com.xxl.hello.core.utils.AppUtils;
 
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -31,7 +30,7 @@ public class CheckLoginAspect {
             if (application.isLogin()) {
                 return joinPoint.proceed();
             }
-            AppRouterApi.navigationToLogin();
+            application.navigationToLogin();
         }
         return joinPoint.proceed();
     }

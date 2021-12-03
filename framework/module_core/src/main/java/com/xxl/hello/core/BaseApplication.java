@@ -91,6 +91,13 @@ public abstract class BaseApplication extends DaggerApplication {
     }
 
     /**
+     * 跳转到登录
+     */
+    public void navigationToLogin() {
+
+    }
+
+    /**
      * 网络环境是否是debug模式
      *
      * @return

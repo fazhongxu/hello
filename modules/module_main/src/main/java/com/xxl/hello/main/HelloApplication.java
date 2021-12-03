@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import com.luck.picture.lib.engine.PictureSelectorEngine;
 import com.xxl.hello.core.BaseApplication;
 import com.xxl.hello.core.config.NetworkConfig;
+import com.xxl.hello.core.data.router.AppRouterApi;
 import com.xxl.hello.core.image.selector.MediaSelector;
 import com.xxl.hello.core.image.selector.MediaSelectorApp;
 import com.xxl.hello.core.image.selector.PictureSelectorEngineImpl;
@@ -93,6 +94,14 @@ public class HelloApplication extends BaseApplication implements MediaSelectorAp
     @Override
     public boolean isLogin() {
         return !TextUtils.isEmpty(getCurrentUserId());
+    }
+
+    /**
+     * 跳转到登录
+     */
+    @Override
+    public void navigationToLogin() {
+        AppRouterApi.navigationToLogin();
     }
 
     /**
