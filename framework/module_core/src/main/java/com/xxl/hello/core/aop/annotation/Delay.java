@@ -6,6 +6,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * 延迟执行
+ *
  * @author xxl.
  * @date 2021/12/02.
  */

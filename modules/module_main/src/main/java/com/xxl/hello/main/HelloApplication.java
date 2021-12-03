@@ -1,6 +1,7 @@
 package com.xxl.hello.main;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.luck.picture.lib.engine.PictureSelectorEngine;
 import com.xxl.hello.core.BaseApplication;
@@ -12,7 +13,6 @@ import com.xxl.hello.core.utils.CacheUtils;
 import com.xxl.hello.core.utils.LogUtils;
 import com.xxl.hello.core.widget.swipebacklayout.SwipeBackActivityManager;
 import com.xxl.hello.main.di.component.DaggerAppComponent;
-import com.xxl.hello.service.data.local.db.api.DBClientKit;
 
 import javax.inject.Inject;
 
@@ -83,6 +83,16 @@ public class HelloApplication extends BaseApplication implements MediaSelectorAp
     @Override
     public boolean isDebug() {
         return sIsDebug;
+    }
+
+    /**
+     * 是否登录
+     *
+     * @return
+     */
+    @Override
+    public boolean isLogin() {
+        return !TextUtils.isEmpty(getCurrentUserId());
     }
 
     /**

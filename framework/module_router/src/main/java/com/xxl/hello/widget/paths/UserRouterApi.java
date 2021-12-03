@@ -1,5 +1,6 @@
 package com.xxl.hello.widget.paths;
 
+import com.xxl.hello.core.data.router.AppRouterApi;
 import com.xxl.hello.core.utils.RouterUtils;
 
 /**
@@ -13,7 +14,7 @@ public class UserRouterApi {
     /**
      * 用户模块名称
      */
-    private static final String MODULE_NAME = "/module_user";
+    private static final String MODULE_NAME = AppRouterApi.USER_MODULE_NAME;
 
     private UserRouterApi() {
 
@@ -24,10 +25,10 @@ public class UserRouterApi {
         /**
          * 登录页面路径
          */
-        public static final String PATH = MODULE_NAME + "/login";
+        public static final String PATH = AppRouterApi.LOGIN_PATH;
 
         public static void navigation() {
-            RouterUtils.navigation(PATH);
+            AppRouterApi.navigationToLogin();
         }
     }
 

@@ -6,6 +6,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * 做try catch操作，保证程序稳定性
+ *
  * @author xxl.
  * @date 2021/7/27.
  */

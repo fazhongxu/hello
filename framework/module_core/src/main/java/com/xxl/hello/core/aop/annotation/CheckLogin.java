@@ -6,13 +6,14 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 检查是否有网络，无网络提示用户
+ * 检查是否登录
  *
  * @author xxl.
- * @date 2021/12/03.
+ * @date 2021/12/3.
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.METHOD})
-public @interface CheckNetwork {
+@Target(ElementType.METHOD)
+public @interface CheckLogin {
 
 }
+
