@@ -5,6 +5,7 @@ import android.content.Context;
 import androidx.annotation.CallSuper;
 import androidx.multidex.MultiDex;
 
+import com.xxl.hello.core.listener.IApplication;
 import com.xxl.hello.core.utils.AppUtils;
 import com.xxl.hello.core.utils.RouterUtils;
 
@@ -14,7 +15,7 @@ import dagger.android.DaggerApplication;
  * @author xxl.
  * @date 2021/7/20.
  */
-public abstract class BaseApplication extends DaggerApplication {
+public abstract class BaseApplication extends DaggerApplication{
 
     //region: 页面生命周期
 
@@ -80,22 +81,6 @@ public abstract class BaseApplication extends DaggerApplication {
      * @return
      */
     public abstract boolean isDebug();
-
-    /**
-     * 是否登录
-     *
-     * @return
-     */
-    public boolean isLogin() {
-        return false;
-    }
-
-    /**
-     * 跳转到登录
-     */
-    public void navigationToLogin() {
-
-    }
 
     /**
      * 网络环境是否是debug模式

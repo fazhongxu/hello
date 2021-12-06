@@ -10,6 +10,7 @@ import com.xxl.hello.core.data.router.AppRouterApi;
 import com.xxl.hello.core.image.selector.MediaSelector;
 import com.xxl.hello.core.image.selector.MediaSelectorApp;
 import com.xxl.hello.core.image.selector.PictureSelectorEngineImpl;
+import com.xxl.hello.core.listener.IApplication;
 import com.xxl.hello.core.utils.CacheUtils;
 import com.xxl.hello.core.utils.LogUtils;
 import com.xxl.hello.core.widget.swipebacklayout.SwipeBackActivityManager;
@@ -24,7 +25,7 @@ import dagger.android.DaggerApplication;
  * @author xxl.
  * @date 2020/8/20.
  */
-public class HelloApplication extends BaseApplication implements MediaSelectorApp {
+public class HelloApplication extends BaseApplication implements IApplication, MediaSelectorApp  {
 
     //region: 成员变量
 
@@ -87,24 +88,6 @@ public class HelloApplication extends BaseApplication implements MediaSelectorAp
     }
 
     /**
-     * 是否登录
-     *
-     * @return
-     */
-    @Override
-    public boolean isLogin() {
-        return !TextUtils.isEmpty(getCurrentUserId());
-    }
-
-    /**
-     * 跳转到登录
-     */
-    @Override
-    public void navigationToLogin() {
-        AppRouterApi.navigationToLogin();
-    }
-
-    /**
      * 网络环境是否是debug模式
      *
      * @return
@@ -143,6 +126,28 @@ public class HelloApplication extends BaseApplication implements MediaSelectorAp
     @Override
     public void initPluginsAfterAgreePrivacyPolicy() {
         LogUtils.d("initPluginAfterAgreePrivacyPolicy");
+    }
+
+    //endregion
+
+    //region: IApplication
+
+    /**
+     * 是否登录
+     *
+     * @return
+     */
+    @Override
+    public boolean isLogin() {
+        return !TextUtils.isEmpty(getCurrentUserId());
+    }
+
+    /**
+     * 跳转到登录
+     */
+    @Override
+    public void navigationToLogin() {
+        AppRouterApi.navigationToLogin();
     }
 
     //endregion

@@ -8,7 +8,6 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.xxl.hello.core.aop.annotation.CheckLogin;
 import com.xxl.hello.core.aop.annotation.CheckNetwork;
 import com.xxl.hello.core.aop.annotation.Delay;
 import com.xxl.hello.core.aop.annotation.Safe;
@@ -165,7 +164,6 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
 
     //region: MainActivityNavigator
 
-    @CheckLogin
     @CheckNetwork
     @Delay(delay = 200)
     @Override

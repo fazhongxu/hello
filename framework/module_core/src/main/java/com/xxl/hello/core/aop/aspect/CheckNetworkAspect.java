@@ -12,6 +12,7 @@ import com.xxl.hello.core.utils.Utils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.DeclarePrecedence;
 import org.aspectj.lang.annotation.Pointcut;
 
 /**
@@ -21,6 +22,7 @@ import org.aspectj.lang.annotation.Pointcut;
  * @date 2021/12/1.
  */
 @Aspect
+@DeclarePrecedence("com.xxl.hello.core.aop.aspect.SafeAspect,*")
 public class CheckNetworkAspect {
 
     private static final String POINTCUT_METHOD = "execution(@com.xxl.hello.core.aop.annotation.CheckNetwork * *(..))";

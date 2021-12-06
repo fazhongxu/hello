@@ -11,6 +11,7 @@ import com.xxl.hello.core.utils.LogUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.DeclarePrecedence;
 import org.aspectj.lang.annotation.Pointcut;
 
 import java.util.concurrent.TimeUnit;
@@ -34,6 +35,7 @@ import io.reactivex.rxjava3.functions.Consumer;
  * @date 2021/12/02.
  */
 @Aspect
+@DeclarePrecedence("com.xxl.hello.core.aop.aspect.SafeAspect,*")
 public class DelayAspect {
 
     private static final String POINTCUT_METHOD = "execution(@com.xxl.hello.core.aop.annotation.Delay * *(..))";
