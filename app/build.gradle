@@ -25,6 +25,10 @@ android {
                 arguments = [AROUTER_MODULE_NAME: project.getName()]
             }
         }
+
+//        ndk {
+//            abiFilters "armeabi-v7a", "arm64-v8a"
+//        }
     }
 
     signingConfigs {
@@ -59,6 +63,18 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    splits {
+        abi {
+            enable true
+            reset()
+            // 分别打 32 和 64 的包，32（armeabi-v7a）的包可以同时支持运行在32位和64位操作系统上
+            // reference https://developer.android.google.cn/studio/build/configure-apk-splits#configure-abi-split
+            // https://blog.csdn.net/www851903307/article/details/80168601
+            include "armeabi-v7a", "arm64-v8a"
+        }
+    }
+
 }
 
 dependencies {
