@@ -1,12 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="BaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/resources_primary_color</item>
+        <item name="colorPrimaryDark">@color/resources_secondary_color</item>
+        <item name="colorAccent">@color/resources_accent_color</item>
+
+        <item name="h_common_primary_color">@color/resources_primary_color</item>
+        <item name="h_common_secondary_color">@color/resources_secondary_color</item>
+        <item name="h_common_white_color">@color/resources_white_color</item>
+
+        <item name="h_common_background_color">@color/resources_background_color</item>
+
+        <item name="h_common_text_title_color">@color/resources_text_title_color</item>
+        <item name="h_common_text_sub_title_color">@color/resources_text_sub_title_color</item>
+        <item name="h_common_text_content_color">@color/resources_text_content_color</item>
+
     </style>
 
     <style name="SplashTheme" parent="BaseTheme">
@@ -15,7 +26,7 @@
         <item name="android:windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
+        <item name="android:windowLayoutInDisplayCutoutMode" tools:ignore="NewApi">shortEdges</item>
     </style>
 
 </resources>

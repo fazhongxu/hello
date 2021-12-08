@@ -1,0 +1,42 @@
+<resources>
+
+    <style name="TextStyle" />
+
+    <!-- 标题相关-->
+    <style name="TextStyle.Title" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">?attr/h_common_text_title_color</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextStyle.Title.Regular" parent="TextStyle.Title">
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="TextStyle.Title.H15" parent="TextStyle.Title">
+        <item name="android:textSize">@dimen/resources_font_size_15</item>
+    </style>
+
+    <style name="TextStyle.Title.H15.Regular" parent="TextStyle.Title.Regular">
+        <item name="android:textSize">@dimen/resources_font_size_15</item>
+    </style>
+
+    <!-- 文本相关-->
+    <style name="TextStyle.Content" parent="TextStyle.Title">
+        <item name="android:textColor">?attr/h_common_text_content_color</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextStyle.Content.Regular" parent="TextStyle.Content">
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="TextStyle.Content.H15" parent="TextStyle.Content">
+        <item name="android:textSize">@dimen/resources_font_size_15</item>
+    </style>
+
+    <style name="TextStyle.Content.H15.Regular" parent="TextStyle.Content">
+        <item name="android:textSize">@dimen/resources_font_size_15</item>
+    </style>
+
+
+</resources>

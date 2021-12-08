@@ -8,6 +8,15 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.gargoylesoftware.htmlunit.Page;
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.DomElement;
+import com.gargoylesoftware.htmlunit.html.HtmlForm;
+import com.gargoylesoftware.htmlunit.html.HtmlInput;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.gargoylesoftware.htmlunit.html.HtmlSubmitInput;
+import com.google.gson.JsonObject;
 import com.xxl.hello.core.aop.annotation.CheckNetwork;
 import com.xxl.hello.core.aop.annotation.Delay;
 import com.xxl.hello.core.aop.annotation.Safe;
@@ -29,6 +38,13 @@ import com.xxl.hello.service.data.model.entity.LoginUserEntity;
 import com.xxl.hello.service.ui.BaseEventBusWrapper;
 import com.xxl.hello.service.ui.DataBindingActivity;
 import com.xxl.hello.widget.paths.UserRouterApi;
+
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -122,7 +138,7 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
     @Override
     protected void beforeSetContentView() {
         super.beforeSetContentView();
-        DisplayUtils.setFullScreen(this);
+//        DisplayUtils.setFullScreen(this);
     }
 
     @Override
