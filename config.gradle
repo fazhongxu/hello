@@ -3,7 +3,7 @@ ext.deps = [:]
 
 // build 相关配置
 def build_versions = [:]
-build_versions.android_build_gradle = "3.6.3"
+build_versions.android_build_gradle = "4.0.2"
 build_versions.compileSdkVersion = 29
 build_versions.buildToolsVersion = "29.0.3"
 build_versions.minSdkVersion = 19
@@ -158,10 +158,10 @@ deps.adapter_helper = "com.github.CymChad:BaseRecyclerViewAdapterHelper:$version
 deps.base_popup = "io.github.razerdp:BasePopup:$versions.base_popup"
 
 //jsbridge [https://github.com/lzyzsd/JsBridge]
-deps.jsbridge= "com.github.lzyzsd:jsbridge:$versions.jsbridge"
+deps.jsbridge = "com.github.lzyzsd:jsbridge:$versions.jsbridge"
 
 //agentweb [https://github.com/Justson/AgentWeb]
-deps.agentweb= "com.github.Justson.AgentWeb:agentweb-core:$versions.agentweb"
+deps.agentweb = "com.github.Justson.AgentWeb:agentweb-core:$versions.agentweb"
 
 def origin = [:]
 // 是否使用远程依赖 true使用远程依赖（远程私服存储的aar依赖）
@@ -189,6 +189,7 @@ origin.router = project(':framework:module_router')
 
 origin.main = project(':modules:module_main')
 origin.user = project(':modules:module_user')
+//origin.s = project.getRootDir().getAbsolutePath();
 
 def hello_nexus_maven_config = [:]
 hello_nexus_maven_config.userName = "admin"
@@ -196,13 +197,15 @@ hello_nexus_maven_config.password = "admin123"
 hello_nexus_maven_config.url = "http://127.0.0.1:8081/repository/hello_nexus/"
 ext.hello_nexus_maven_config = hello_nexus_maven_config
 
-static def addRepos(RepositoryHandler handler) {
+ def addRepos(RepositoryHandler handler) {
     handler.maven { url 'https://maven.aliyun.com/repository/google' }
     handler.maven { url 'https://maven.aliyun.com/repository/jcenter' }
     handler.maven { url 'http://maven.aliyun.com/nexus/content/groups/public' }
     handler.maven { url 'https://jitpack.io' }
     handler.mavenCentral()
     handler.google()
+    handler.flatDir { dirs project.getRootDir().getAbsolutePath() + "/module_libs" }
+
     //使用的时候添加仓库 私服仓库地址，连接不上打包会报错，暂时注释掉
     //handler.maven { url "http://127.0.0.1:8081/repository/hello_nexus/" }
 }

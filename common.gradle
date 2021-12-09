@@ -95,6 +95,6 @@ dependencies {
 
     implementation deps.adapter_helper
 
-    implementation deps.mobile_ffmpeg
+//    implementation deps.mobile_ffmpeg
 }
 

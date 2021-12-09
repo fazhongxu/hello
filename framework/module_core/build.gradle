@@ -90,6 +90,8 @@ dependencies {
     implementation deps.arouter.arouter
     annotationProcessor deps.arouter.arouter_processor
 
-    implementation deps.mobile_ffmpeg
+    implementation(name:'mobile-ffmpeg', ext:'aar')
+
+//    implementation deps.mobile_ffmpeg
 
 }
