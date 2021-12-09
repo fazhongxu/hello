@@ -197,16 +197,12 @@ hello_nexus_maven_config.url = "http://127.0.0.1:8081/repository/hello_nexus/"
 ext.hello_nexus_maven_config = hello_nexus_maven_config
 
 static def addRepos(RepositoryHandler handler) {
-    handler.google()
-    handler.jcenter()
-    handler.maven {
-        url 'http://maven.aliyun.com/nexus/content/groups/public/'
-    }
-    handler.maven {
-        url 'http://maven.aliyun.com/nexus/content/repositories/jcenter/'
-    }
-    handler.mavenCentral()
+    handler.maven { url 'https://maven.aliyun.com/repository/google' }
+    handler.maven { url 'https://maven.aliyun.com/repository/jcenter' }
+    handler.maven { url 'http://maven.aliyun.com/nexus/content/groups/public' }
     handler.maven { url 'https://jitpack.io' }
+    handler.mavenCentral()
+    handler.google()
     //使用的时候添加仓库 私服仓库地址，连接不上打包会报错，暂时注释掉
     //handler.maven { url "http://127.0.0.1:8081/repository/hello_nexus/" }
 }
