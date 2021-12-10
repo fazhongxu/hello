@@ -37,7 +37,7 @@ import io.reactivex.rxjava3.functions.Consumer;
 @DeclarePrecedence("com.xxl.core.aop.aspect.SafeAspect,*")
 public class DelayAspect {
 
-    private static final String POINTCUT_METHOD = "execution(@com.xxl.hello.core.aop.annotation.Delay * *(..))";
+    private static final String POINTCUT_METHOD = "execution(@com.xxl.core.aop.annotation.Delay * *(..))";
 
     @Pointcut(POINTCUT_METHOD)
     public void onDelayMethod() {

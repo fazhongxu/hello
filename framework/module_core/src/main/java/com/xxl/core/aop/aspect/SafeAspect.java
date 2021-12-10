@@ -40,7 +40,7 @@ import org.aspectj.lang.annotation.Pointcut;
 @Aspect
 public class SafeAspect {
 
-    private static final String POINTCUT_METHOD = "execution(@com.xxl.hello.core.aop.annotation.Safe * *(..))";
+    private static final String POINTCUT_METHOD = "execution(@com.xxl.core.aop.annotation.Safe * *(..))";
 
     @Pointcut(POINTCUT_METHOD)
     public void onSafeMethod() {

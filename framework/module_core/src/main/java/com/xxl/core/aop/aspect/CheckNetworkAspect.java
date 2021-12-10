@@ -25,7 +25,7 @@ import org.aspectj.lang.annotation.Pointcut;
 @DeclarePrecedence("com.xxl.core.aop.aspect.SafeAspect,*")
 public class CheckNetworkAspect {
 
-    private static final String POINTCUT_METHOD = "execution(@com.xxl.hello.core.aop.annotation.CheckNetwork * *(..))";
+    private static final String POINTCUT_METHOD = "execution(@com.xxl.core.aop.annotation.CheckNetwork * *(..))";
 
     @Pointcut(POINTCUT_METHOD)
     public void onCheckNetworkMethod() {

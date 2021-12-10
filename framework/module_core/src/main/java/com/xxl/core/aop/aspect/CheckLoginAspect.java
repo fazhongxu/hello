@@ -18,7 +18,7 @@ import org.aspectj.lang.annotation.Pointcut;
 @DeclarePrecedence("com.xxl.core.aop.aspect.SafeAspect,*")
 public class CheckLoginAspect {
 
-    private static final String POINTCUT_METHOD = "execution(@com.xxl.hello.core.aop.annotation.CheckLogin * *(..))";
+    private static final String POINTCUT_METHOD = "execution(@com.xxl.core.aop.annotation.CheckLogin * *(..))";
 
     @Pointcut(POINTCUT_METHOD)
     public void onCheckLoginMethod() {
