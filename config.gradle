@@ -149,7 +149,13 @@ arouter.arouter_processor = "com.alibaba:arouter-compiler:$versions.arouter"
 deps.arouter = arouter
 
 // mobile_ffmpeg [https://github.com/tanersener/mobile-ffmpeg]
-deps.mobile_ffmpeg = "com.arthenica:mobile-ffmpeg-full:$versions.mobile_ffmpeg"
+versions.mobile_ffmpeg_remote = false
+
+if (versions.mobile_ffmpeg_remote) {
+    deps.mobile_ffmpeg = "com.arthenica:mobile-ffmpeg-full:$versions.mobile_ffmpeg"
+}else {
+    deps.mobile_ffmpeg = files('module_libs/mobile-ffmpeg.aar')
+}
 
 // BaseRecyclerViewAdapterHelper [https://github.com/CymChad/BaseRecyclerViewAdapterHelper]
 deps.adapter_helper = "com.github.CymChad:BaseRecyclerViewAdapterHelper:$versions.adapter_helper"
