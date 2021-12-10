@@ -154,7 +154,7 @@ versions.mobile_ffmpeg_remote = false
 if (versions.mobile_ffmpeg_remote) {
     deps.mobile_ffmpeg = "com.arthenica:mobile-ffmpeg-full:$versions.mobile_ffmpeg"
 }else {
-    deps.mobile_ffmpeg = files('module_libs/mobile-ffmpeg.aar')
+    deps.mobile_ffmpeg = project(':module_libs')
 }
 
 // BaseRecyclerViewAdapterHelper [https://github.com/CymChad/BaseRecyclerViewAdapterHelper]

@@ -5,9 +5,12 @@ include ':framework:module_resources'
 include ':framework:module_widget'
 include ':framework:module_router'
 
+include ':module_libs'
+
 include ':app'
 include ':modules:module_main'
 include ':modules:module_user'
+
 
 
 
