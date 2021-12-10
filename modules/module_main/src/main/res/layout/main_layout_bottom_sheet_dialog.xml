@@ -8,7 +8,7 @@
 
     </data>
 
-    <com.xxl.hello.core.widget.FitsSystemLinearLayout
+    <com.xxl.core.widget.FitsSystemLinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -32,6 +32,6 @@
             android:textColor="@android:color/white"
             android:textSize="25sp" />
 
-    </com.xxl.hello.core.widget.FitsSystemLinearLayout>
+    </com.xxl.core.widget.FitsSystemLinearLayout>
 
 </layout>

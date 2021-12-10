@@ -4,16 +4,16 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.luck.picture.lib.engine.PictureSelectorEngine;
-import com.xxl.hello.core.BaseApplication;
-import com.xxl.hello.core.config.NetworkConfig;
-import com.xxl.hello.core.data.router.AppRouterApi;
-import com.xxl.hello.core.image.selector.MediaSelector;
-import com.xxl.hello.core.image.selector.MediaSelectorApp;
-import com.xxl.hello.core.image.selector.PictureSelectorEngineImpl;
-import com.xxl.hello.core.listener.IApplication;
-import com.xxl.hello.core.utils.CacheUtils;
-import com.xxl.hello.core.utils.LogUtils;
-import com.xxl.hello.core.widget.swipebacklayout.SwipeBackActivityManager;
+import com.xxl.core.BaseApplication;
+import com.xxl.hello.common.NetworkConfig;
+import com.xxl.core.data.router.AppRouterApi;
+import com.xxl.core.image.selector.MediaSelector;
+import com.xxl.core.image.selector.MediaSelectorApp;
+import com.xxl.core.image.selector.PictureSelectorEngineImpl;
+import com.xxl.core.listener.IApplication;
+import com.xxl.core.utils.CacheUtils;
+import com.xxl.core.utils.LogUtils;
+import com.xxl.core.widget.swipebacklayout.SwipeBackActivityManager;
 import com.xxl.hello.main.di.component.DaggerAppComponent;
 
 import javax.inject.Inject;

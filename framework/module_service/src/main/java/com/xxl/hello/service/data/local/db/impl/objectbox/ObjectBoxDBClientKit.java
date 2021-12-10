@@ -5,8 +5,8 @@ import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
-import com.xxl.hello.core.config.NetworkConfig;
-import com.xxl.hello.core.utils.LogUtils;
+import com.xxl.hello.common.NetworkConfig;
+import com.xxl.core.utils.LogUtils;
 import com.xxl.hello.service.data.local.db.api.DBClientKit;
 import com.xxl.hello.service.data.local.db.entity.MyObjectBox;
 import com.xxl.hello.service.data.local.prefs.api.UserPreferences;

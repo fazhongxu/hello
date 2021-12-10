@@ -14,7 +14,7 @@
             type="com.xxl.hello.user.ui.login.LoginActivityNavigator" />
     </data>
 
-    <com.xxl.hello.core.widget.FitsSystemLinearLayout
+    <com.xxl.core.widget.FitsSystemLinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true">
@@ -33,7 +33,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <com.xxl.hello.core.widget.CustomToolBar
+                <com.xxl.core.widget.CustomToolBar
                     android:id="@+id/tool_bar"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
@@ -78,7 +78,7 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </com.xxl.hello.core.widget.FitsSystemLinearLayout>
+    </com.xxl.core.widget.FitsSystemLinearLayout>
 
 
 </layout>

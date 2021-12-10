@@ -8,27 +8,18 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.gargoylesoftware.htmlunit.BrowserVersion;
-import com.gargoylesoftware.htmlunit.Page;
-import com.gargoylesoftware.htmlunit.WebClient;
-import com.gargoylesoftware.htmlunit.html.DomElement;
-import com.gargoylesoftware.htmlunit.html.HtmlForm;
-import com.gargoylesoftware.htmlunit.html.HtmlInput;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.gargoylesoftware.htmlunit.html.HtmlSubmitInput;
-import com.google.gson.JsonObject;
-import com.xxl.hello.core.aop.annotation.CheckNetwork;
-import com.xxl.hello.core.aop.annotation.Delay;
-import com.xxl.hello.core.aop.annotation.Safe;
-import com.xxl.hello.core.data.router.AppRouterApi;
-import com.xxl.hello.core.listener.OnAppStatusChangedListener;
-import com.xxl.hello.core.utils.AppExpandUtils;
-import com.xxl.hello.core.utils.AppUtils;
-import com.xxl.hello.core.utils.DisplayUtils;
-import com.xxl.hello.core.utils.LogUtils;
-import com.xxl.hello.core.utils.StatusBarUtil;
-import com.xxl.hello.core.utils.TestUtils;
-import com.xxl.hello.core.utils.ToastUtils;
+import com.xxl.core.aop.annotation.CheckNetwork;
+import com.xxl.core.aop.annotation.Delay;
+import com.xxl.core.aop.annotation.Safe;
+import com.xxl.core.data.router.AppRouterApi;
+import com.xxl.core.listener.OnAppStatusChangedListener;
+import com.xxl.core.utils.AppExpandUtils;
+import com.xxl.core.utils.AppUtils;
+import com.xxl.core.utils.DisplayUtils;
+import com.xxl.core.utils.LogUtils;
+import com.xxl.core.utils.StatusBarUtil;
+import com.xxl.core.utils.TestUtils;
+import com.xxl.core.utils.ToastUtils;
 import com.xxl.hello.main.BR;
 import com.xxl.hello.main.R;
 import com.xxl.hello.main.databinding.ActivityMainBinding;
@@ -37,14 +28,7 @@ import com.xxl.hello.service.data.model.api.QueryUserInfoResponse;
 import com.xxl.hello.service.data.model.entity.LoginUserEntity;
 import com.xxl.hello.service.ui.BaseEventBusWrapper;
 import com.xxl.hello.service.ui.DataBindingActivity;
-import com.xxl.hello.widget.paths.UserRouterApi;
-
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
+import com.xxl.hello.router.UserRouterApi;
 
 import javax.inject.Inject;
 

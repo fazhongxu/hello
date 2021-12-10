@@ -3,8 +3,8 @@ package com.xxl.hello.service.data.local.prefs.impl;
 import androidx.annotation.NonNull;
 
 import com.tencent.mmkv.MMKV;
-import com.xxl.hello.core.config.AppConfig;
-import com.xxl.hello.core.utils.AppExpandUtils;
+import com.xxl.hello.common.AppConfig;
+import com.xxl.core.utils.AppExpandUtils;
 import com.xxl.hello.service.data.local.prefs.api.UserLocalPreferences;
 
 /**

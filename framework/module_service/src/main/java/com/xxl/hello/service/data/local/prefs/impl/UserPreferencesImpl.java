@@ -5,9 +5,9 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 
 import com.tencent.mmkv.MMKV;
-import com.xxl.hello.core.config.AppConfig;
-import com.xxl.hello.core.utils.GsonUtils;
-import com.xxl.hello.core.utils.TestUtils;
+import com.xxl.hello.common.AppConfig;
+import com.xxl.core.utils.GsonUtils;
+import com.xxl.core.utils.TestUtils;
 import com.xxl.hello.service.data.local.prefs.api.UserPreferences;
 import com.xxl.hello.service.data.model.entity.LoginUserEntity;
 

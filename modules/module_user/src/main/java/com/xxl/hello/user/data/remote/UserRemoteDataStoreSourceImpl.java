@@ -2,8 +2,8 @@ package com.xxl.hello.user.data.remote;
 
 import androidx.annotation.NonNull;
 
-import com.xxl.hello.core.data.remote.ApiHeader;
-import com.xxl.hello.core.data.remote.BaseRemoteDataStoreSource;
+import com.xxl.core.data.remote.ApiHeader;
+import com.xxl.core.data.remote.BaseRemoteDataStoreSource;
 import com.xxl.hello.service.data.model.entity.LoginUserEntity;
 import com.xxl.hello.service.data.model.api.QueryUserInfoRequest;
 import com.xxl.hello.service.data.model.api.QueryUserInfoResponse;

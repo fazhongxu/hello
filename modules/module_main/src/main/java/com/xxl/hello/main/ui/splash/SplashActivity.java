@@ -7,7 +7,7 @@ import android.os.Handler;
 import androidx.annotation.Nullable;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.xxl.hello.core.data.router.AppRouterApi;
+import com.xxl.core.data.router.AppRouterApi;
 import com.xxl.hello.main.R;
 import com.xxl.hello.service.ui.SingleActivity;
 

@@ -8,11 +8,11 @@ import androidx.annotation.Nullable;
 import androidx.databinding.ObservableBoolean;
 import androidx.lifecycle.AndroidViewModel;
 
-import com.xxl.hello.core.exception.ResponseException;
-import com.xxl.hello.core.exception.ResponseListener;
-import com.xxl.hello.core.rx.SchedulersProvider;
-import com.xxl.hello.core.utils.AppUtils;
-import com.xxl.hello.core.utils.LogUtils;
+import com.xxl.core.exception.ResponseException;
+import com.xxl.core.exception.ResponseListener;
+import com.xxl.core.rx.SchedulersProvider;
+import com.xxl.core.utils.AppUtils;
+import com.xxl.core.utils.LogUtils;
 
 import io.reactivex.rxjava3.core.ObservableTransformer;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;

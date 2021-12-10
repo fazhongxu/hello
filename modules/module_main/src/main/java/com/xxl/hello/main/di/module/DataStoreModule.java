@@ -2,9 +2,9 @@ package com.xxl.hello.main.di.module;
 
 import androidx.annotation.NonNull;
 
-import com.xxl.hello.core.config.NetworkConfig;
-import com.xxl.hello.core.data.remote.ApiHeader;
-import com.xxl.hello.core.utils.LogUtils;
+import com.xxl.hello.common.NetworkConfig;
+import com.xxl.core.data.remote.ApiHeader;
+import com.xxl.core.utils.LogUtils;
 import com.xxl.hello.service.data.local.db.impl.objectbox.ObjectBoxDataStoreModel;
 import com.xxl.hello.service.data.local.prefs.api.UserPreferences;
 import com.xxl.hello.service.di.module.ServiceDataStoreModule;

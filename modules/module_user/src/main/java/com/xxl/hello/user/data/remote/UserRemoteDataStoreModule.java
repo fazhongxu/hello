@@ -2,7 +2,7 @@ package com.xxl.hello.user.data.remote;
 
 import androidx.annotation.NonNull;
 
-import com.xxl.hello.core.data.remote.ApiHeader;
+import com.xxl.core.data.remote.ApiHeader;
 import com.xxl.hello.service.qunlifier.ForRetrofit;
 import com.xxl.hello.service.qunlifier.ForUserRetrofit;
 

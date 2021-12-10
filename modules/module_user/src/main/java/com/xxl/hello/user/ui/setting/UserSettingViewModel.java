@@ -7,12 +7,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.ObservableField;
 
-import com.xxl.hello.core.config.CacheDirConfig;
-import com.xxl.hello.core.listener.OnResourcesCompressListener;
-import com.xxl.hello.core.utils.FileUtils;
-import com.xxl.hello.core.utils.ImageUtils;
-import com.xxl.hello.core.utils.StringUtils;
-import com.xxl.hello.core.utils.ToastUtils;
+import com.xxl.hello.common.CacheDirConfig;
+import com.xxl.core.listener.OnResourcesCompressListener;
+import com.xxl.core.utils.ImageUtils;
+import com.xxl.core.utils.StringUtils;
+import com.xxl.core.utils.ToastUtils;
 import com.xxl.hello.service.data.model.entity.LoginUserEntity;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.hello.service.ui.BaseViewModel;

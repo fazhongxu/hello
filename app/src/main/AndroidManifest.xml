@@ -44,7 +44,7 @@
         </provider>
 
         <meta-data
-            android:name="com.xxl.hello.core.image.loader.GlideImageModel"
+            android:name="com.xxl.core.image.loader.GlideImageModel"
             android:value="AppGlideModule" />
     </application>
 
