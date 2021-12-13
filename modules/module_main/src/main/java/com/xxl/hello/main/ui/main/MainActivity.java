@@ -24,11 +24,11 @@ import com.xxl.hello.main.BR;
 import com.xxl.hello.main.R;
 import com.xxl.hello.main.databinding.ActivityMainBinding;
 import com.xxl.hello.main.ui.main.window.PrivacyPolicyPopupWindow;
+import com.xxl.hello.router.UserRouterApi;
 import com.xxl.hello.service.data.model.api.QueryUserInfoResponse;
 import com.xxl.hello.service.data.model.entity.LoginUserEntity;
 import com.xxl.hello.service.ui.BaseEventBusWrapper;
 import com.xxl.hello.service.ui.DataBindingActivity;
-import com.xxl.hello.router.UserRouterApi;
 
 import javax.inject.Inject;
 
@@ -61,7 +61,7 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
      */
     private void setupToolbarLayout() {
         StatusBarUtil.setDarkMode(this);
-        final int statusBarHeight = StatusBarUtil.getStatusBarHeight(this);
+        final int statusBarHeight = StatusBarUtil.getStatusBarHeight();
         mViewDataBinding.appBar.setPadding(DisplayUtils.dp2px(this, 10), statusBarHeight, 0, 0);
     }
 

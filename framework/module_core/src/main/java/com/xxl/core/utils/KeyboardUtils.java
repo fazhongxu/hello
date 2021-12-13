@@ -178,7 +178,7 @@ public final class KeyboardUtils {
         Log.d("KeyboardUtils", "getDecorViewInvisibleHeight: "
                 + (decorView.getBottom() - outRect.bottom));
         int delta = Math.abs(decorView.getBottom() - outRect.bottom);
-        if (delta <= StatusBarUtil.getNavBarHeight(AppUtils.getApplication()) + StatusBarUtil.getStatusBarHeight(AppUtils.getApplication())) {
+        if (delta <= StatusBarUtil.getNavBarHeight(AppUtils.getApplication()) + StatusBarUtil.getStatusBarHeight()) {
             sDecorViewDelta = delta;
             return 0;
         }
@@ -283,13 +283,13 @@ public final class KeyboardUtils {
 
     private static int getContentViewInvisibleHeight(final Window window) {
         final View contentView = window.findViewById(android.R.id.content);
-        if (contentView == null) return 0;
+        if (contentView == null) {return 0;}
         final Rect outRect = new Rect();
         contentView.getWindowVisibleDisplayFrame(outRect);
         Log.d("KeyboardUtils", "getContentViewInvisibleHeight: "
                 + (contentView.getBottom() - outRect.bottom));
         int delta = Math.abs(contentView.getBottom() - outRect.bottom);
-        if (delta <= StatusBarUtil.getStatusBarHeight(AppUtils.getApplication()) + StatusBarUtil.getNavBarHeight(AppUtils.getApplication())) {
+        if (delta <= StatusBarUtil.getStatusBarHeight() + StatusBarUtil.getNavBarHeight(AppUtils.getApplication())) {
             return 0;
         }
         return delta;
