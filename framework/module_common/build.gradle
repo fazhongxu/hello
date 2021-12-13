@@ -37,13 +37,12 @@ android {
 
 uploadArchives {
     repositories.mavenDeployer {
-        // 修改为自己创建的仓库地址
-        repository(url: hello_nexus_maven_config.url) {
-            authentication(userName: hello_nexus_maven_config.userName, password: hello_nexus_maven_config.password)
+        repository(url: hello_maven_config.url) {
+            authentication(userName: hello_maven_config.userName, password: hello_maven_config.password)
         }
-        pom.version = versions.origin
-        pom.artifactId = "hello_nexus"
-        pom.groupId = "com.xxl.common"
+        pom.version = versions.common
+        pom.artifactId = "common"
+        pom.groupId = "com.xxl.hello.common"
     }
 }
 

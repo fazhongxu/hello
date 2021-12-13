@@ -1,8 +1,20 @@
 apply from: project.getRootDir().getAbsolutePath()+"/framework/common.gradle"
 apply plugin: 'io.objectbox'
+apply plugin: 'maven'
 
 android {
 
+}
+
+uploadArchives {
+    repositories.mavenDeployer {
+        repository(url: hello_maven_config.url) {
+            authentication(userName: hello_maven_config.userName, password: hello_maven_config.password)
+        }
+        pom.version = versions.service
+        pom.artifactId = "service"
+        pom.groupId = "com.xxl.hello.service"
+    }
 }
 
 dependencies {

@@ -39,6 +39,17 @@ android {
     }
 }
 
+uploadArchives {
+    repositories.mavenDeployer {
+        repository(url: origin_maven_config.url) {
+            authentication(userName: origin_maven_config.userName, password: origin_maven_config.password)
+        }
+        pom.version = versions.core
+        pom.artifactId = "core"
+        pom.groupId = "com.xxl.core"
+    }
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
@@ -90,8 +101,7 @@ dependencies {
     implementation deps.arouter.arouter
     annotationProcessor deps.arouter.arouter_processor
 
-//    implementation(name:'mobile-ffmpeg', ext:'aar')
-
+    //todo   暂时这样依赖，核心库发布后，使用远程会报错 ，暂时不使用远程的core库
     implementation deps.mobile_ffmpeg
 
 }

@@ -19,7 +19,13 @@ versions.appcompat = "1.2.0"
 versions.material = "1.3.0"
 versions.multidex = "2.0.1"
 versions.lifecycle_extensions = "2.2.0"
-versions.origin = "1.0.10"
+
+versions.origin = "1.0.11"
+versions.core = "1.0.1"
+versions.common = "1.0.0"
+versions.service = "1.0.0"
+versions.widget = "1.0.0"
+versions.user = "1.0.0"
 
 versions.swipebacklayout = "1.1.0"
 
@@ -149,12 +155,12 @@ arouter.arouter_processor = "com.alibaba:arouter-compiler:$versions.arouter"
 deps.arouter = arouter
 
 // mobile_ffmpeg [https://github.com/tanersener/mobile-ffmpeg]
-versions.mobile_ffmpeg_remote = false
+versions.mobile_ffmpeg_remote = true
 
 if (versions.mobile_ffmpeg_remote) {
     deps.mobile_ffmpeg = "com.arthenica:mobile-ffmpeg-full:$versions.mobile_ffmpeg"
 }else {
-    deps.mobile_ffmpeg = project(':module_libs')
+   // deps.mobile_ffmpeg = project(':module_libs')
 }
 
 // BaseRecyclerViewAdapterHelper [https://github.com/CymChad/BaseRecyclerViewAdapterHelper]
@@ -179,15 +185,22 @@ def origin = [:]
 versions.module_common_remote = false
 deps.origin = origin
 
-versions.module_service_remote = false;
+versions.module_service_remote = false
+versions.module_widget_remote = false
 
 if (versions.module_common_remote) {
-    origin.common = "com.xxl.common:hello_nexus:$versions.origin"
+    origin.common = "com.xxl.common:hello_nexus:$versions.common"
 } else {
     origin.common = project(':framework:module_common')
 }
 
-origin.core = project(':framework:module_core')
+versions.module_core_remote = false
+if (versions.module_core_remote) {
+    origin.core = "com.xxl.core:core:$versions.core"
+} else {
+    origin.core = project(':framework:module_core')
+}
+
 origin.service = project(':framework:module_service')
 origin.resources = project(':framework:module_resources')
 origin.widget = project(':framework:module_widget')
@@ -197,11 +210,19 @@ origin.main = project(':modules:module_main')
 origin.user = project(':modules:module_user')
 //origin.s = project.getRootDir().getAbsolutePath();
 
-def hello_nexus_maven_config = [:]
-hello_nexus_maven_config.userName = "admin"
-hello_nexus_maven_config.password = "admin123"
-hello_nexus_maven_config.url = "http://127.0.0.1:8081/repository/hello_nexus/"
-ext.hello_nexus_maven_config = hello_nexus_maven_config
+// 核心模块私服
+def origin_maven_config = [:]
+origin_maven_config.userName = "admin"
+origin_maven_config.password = "admin123"
+origin_maven_config.url = "http://127.0.0.1:8081/repository/origin"
+ext.origin_maven_config = origin_maven_config
+
+// 项目模块私服
+def hello_maven_config = [:]
+hello_maven_config.userName = "admin"
+hello_maven_config.password = "admin123"
+hello_maven_config.url = "http://127.0.0.1:8081/repository/hello"
+ext.hello_maven_config = hello_maven_config
 
  def addRepos(RepositoryHandler handler) {
     handler.maven { url 'https://maven.aliyun.com/repository/google' }
@@ -210,9 +231,10 @@ ext.hello_nexus_maven_config = hello_nexus_maven_config
     handler.maven { url 'https://jitpack.io' }
     handler.mavenCentral()
     handler.google()
+    handler.flatDir { dirs project.getRootDir().getAbsolutePath() + "/module_libs" }
 
-    //使用的时候添加仓库 私服仓库地址，连接不上打包会报错，暂时注释掉
-    //handler.maven { url "http://127.0.0.1:8081/repository/hello_nexus/" }
+     //使用的时候添加仓库 私服仓库地址，连接不上打包会报错，暂时注释掉
+//    handler.maven { url "http://127.0.0.1:8081/repository/origin/" }
 }
 
 ext.addRepos = this.&addRepos
