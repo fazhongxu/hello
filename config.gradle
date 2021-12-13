@@ -191,7 +191,6 @@ if (versions.module_core_remote) {
     origin.core = project(':framework:module_core')
 }
 
-
 def hello = [:]
 deps.hello = hello
 
