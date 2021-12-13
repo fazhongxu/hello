@@ -21,7 +21,7 @@ versions.multidex = "2.0.1"
 versions.lifecycle_extensions = "2.2.0"
 
 versions.origin = "1.0.11"
-versions.core = "1.0.1"
+versions.core = "1.0.5"
 versions.common = "1.0.0"
 versions.service = "1.0.0"
 versions.widget = "1.0.0"
@@ -155,12 +155,12 @@ arouter.arouter_processor = "com.alibaba:arouter-compiler:$versions.arouter"
 deps.arouter = arouter
 
 // mobile_ffmpeg [https://github.com/tanersener/mobile-ffmpeg]
-versions.mobile_ffmpeg_remote = true
+versions.mobile_ffmpeg_remote = false
 
 if (versions.mobile_ffmpeg_remote) {
     deps.mobile_ffmpeg = "com.arthenica:mobile-ffmpeg-full:$versions.mobile_ffmpeg"
 }else {
-   // deps.mobile_ffmpeg = project(':module_libs')
+    deps.mobile_ffmpeg = project(':module_libs')
 }
 
 // BaseRecyclerViewAdapterHelper [https://github.com/CymChad/BaseRecyclerViewAdapterHelper]
@@ -194,7 +194,7 @@ if (versions.module_common_remote) {
     origin.common = project(':framework:module_common')
 }
 
-versions.module_core_remote = false
+versions.module_core_remote = true
 if (versions.module_core_remote) {
     origin.core = "com.xxl.core:core:$versions.core"
 } else {
@@ -234,7 +234,7 @@ ext.hello_maven_config = hello_maven_config
     handler.flatDir { dirs project.getRootDir().getAbsolutePath() + "/module_libs" }
 
      //使用的时候添加仓库 私服仓库地址，连接不上打包会报错，暂时注释掉
-//    handler.maven { url "http://127.0.0.1:8081/repository/origin/" }
+    handler.maven { url "http://127.0.0.1:8081/repository/origin/" }
 }
 
 ext.addRepos = this.&addRepos

@@ -101,7 +101,6 @@ dependencies {
     implementation deps.arouter.arouter
     annotationProcessor deps.arouter.arouter_processor
 
-    //todo   暂时这样依赖，核心库发布后，使用远程会报错 ，暂时不使用远程的core库
-    implementation deps.mobile_ffmpeg
+    compileOnly deps.mobile_ffmpeg
 
 }
