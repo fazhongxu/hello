@@ -1,9 +1,5 @@
 apply from: project.getRootDir().getAbsolutePath()+"/common.gradle"
 
 dependencies {
-    implementation deps.origin.user
-    implementation 'org.jsoup:jsoup:1.14.3'
-    implementation 'xyz.nulldev.huandroid:huandroid:2.30.01'
-
-
+    implementation deps.hello.user
 }

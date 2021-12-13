@@ -89,14 +89,14 @@ dependencies {
     implementation deps.androidx.multidex
 
     implementation deps.origin.core
-    implementation deps.origin.service
-    implementation deps.origin.common
-    implementation deps.origin.resources
-    implementation deps.origin.widget
-    implementation deps.origin.router
+    implementation deps.hello.service
+    implementation deps.hello.common
+    implementation deps.hello.resources
+    implementation deps.hello.widget
+    implementation deps.hello.router
 
-    implementation deps.origin.main
-    implementation deps.origin.user
+    implementation deps.hello.main
+    implementation deps.hello.user
 
     implementation deps.okhttp.okhttp
     implementation deps.okhttp.logging

@@ -182,32 +182,36 @@ def origin = [:]
 // 多个模块 每次开发完成之后，升级一下私服的版本号，然后发布到私有服务上面
 // 不需要改动代码时，拉取下来的就是aar包，需要改动或者查看本地代码时，改为false用本地的library包
 // 可以改动这里的代码来查看本地的代码是引用到私有仓库还是本地
-versions.module_common_remote = false
 deps.origin = origin
 
-versions.module_service_remote = false
-versions.module_widget_remote = false
-
-if (versions.module_common_remote) {
-    origin.common = "com.xxl.common:hello_nexus:$versions.common"
-} else {
-    origin.common = project(':framework:module_common')
-}
-
-versions.module_core_remote = true
+versions.module_core_remote = false
 if (versions.module_core_remote) {
     origin.core = "com.xxl.core:core:$versions.core"
 } else {
     origin.core = project(':framework:module_core')
 }
 
-origin.service = project(':framework:module_service')
-origin.resources = project(':framework:module_resources')
-origin.widget = project(':framework:module_widget')
-origin.router = project(':framework:module_router')
 
-origin.main = project(':modules:module_main')
-origin.user = project(':modules:module_user')
+def hello = [:]
+deps.hello = hello
+
+versions.module_common_remote = false
+if (versions.module_common_remote) {
+    hello.common = "com.xxl.common:hello_nexus:$versions.common"
+} else {
+    hello.common = project(':framework:module_common')
+}
+
+versions.module_service_remote = false
+versions.module_widget_remote = false
+
+hello.service = project(':framework:module_service')
+hello.resources = project(':framework:module_resources')
+hello.widget = project(':framework:module_widget')
+hello.router = project(':framework:module_router')
+
+hello.main = project(':modules:module_main')
+hello.user = project(':modules:module_user')
 //origin.s = project.getRootDir().getAbsolutePath();
 
 // 核心模块私服
@@ -234,7 +238,7 @@ ext.hello_maven_config = hello_maven_config
     handler.flatDir { dirs project.getRootDir().getAbsolutePath() + "/module_libs" }
 
      //使用的时候添加仓库 私服仓库地址，连接不上打包会报错，暂时注释掉
-    handler.maven { url "http://127.0.0.1:8081/repository/origin/" }
+    //handler.maven { url "http://127.0.0.1:8081/repository/origin/" }
 }
 
 ext.addRepos = this.&addRepos

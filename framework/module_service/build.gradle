@@ -18,7 +18,7 @@ uploadArchives {
 }
 
 dependencies {
-    implementation deps.origin.common
-    implementation deps.origin.resources
+    implementation deps.hello.common
+    implementation deps.hello.resources
 }
 
