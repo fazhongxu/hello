@@ -211,7 +211,6 @@ hello.router = project(':framework:module_router')
 
 hello.main = project(':modules:module_main')
 hello.user = project(':modules:module_user')
-//origin.s = project.getRootDir().getAbsolutePath();
 
 // 核心模块私服
 def origin_maven_config = [:]
