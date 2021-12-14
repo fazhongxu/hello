@@ -21,14 +21,6 @@ import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.functions.Consumer;
 
 /**
- * <pre>
- *  example
- *
- *  @Delay(delay = 600)
- *  public void onTestClick() {
- *
- *  }
- * </pre>
  *
  * @author xxl.
  * @date 2021/12/02.

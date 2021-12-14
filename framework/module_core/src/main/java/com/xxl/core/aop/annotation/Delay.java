@@ -8,6 +8,15 @@ import java.lang.annotation.Target;
 /**
  * 延迟执行
  *
+ * <pre>
+ * example
+ *
+ * @Delay(delay = 600)
+ * public void onTestClick() {
+ *
+ * }
+ * </pre>
+ *
  * @author xxl.
  * @date 2021/12/02.
  */

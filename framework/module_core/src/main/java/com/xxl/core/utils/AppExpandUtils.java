@@ -1,6 +1,9 @@
 package com.xxl.core.utils;
 
+import android.app.Application;
+
 import com.xxl.core.BaseApplication;
+import com.xxl.core.listener.IApplication;
 
 /**
  * @author xxl.
@@ -41,6 +44,22 @@ public class AppExpandUtils {
      */
     public static String getCurrentUserId() {
         return getApplication() == null ? null : getApplication().getCurrentUserId();
+    }
+
+    /**
+     * 判断当前用户是否登录
+     *
+     * @return
+     */
+    public static boolean isLogin() {
+        final Application application = AppUtils.getApplication();
+        if (application == null) {
+            return false;
+        }
+        if (application instanceof IApplication) {
+            return ((IApplication) application).isLogin();
+        }
+        return false;
     }
 
     /**
