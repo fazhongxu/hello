@@ -12,6 +12,7 @@ import com.xxl.core.aop.annotation.CheckLogin;
 import com.xxl.core.aop.annotation.CheckNetwork;
 import com.xxl.core.aop.annotation.Delay;
 import com.xxl.core.aop.annotation.Safe;
+import com.xxl.core.aop.annotation.SingleClick;
 import com.xxl.core.data.router.AppRouterApi;
 import com.xxl.core.listener.OnAppStatusChangedListener;
 import com.xxl.core.utils.AppExpandUtils;
@@ -165,6 +166,7 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
 
     //region: MainActivityNavigator
 
+    @SingleClick
     @CheckLogin
     @CheckNetwork
     @Delay(delay = 200)
