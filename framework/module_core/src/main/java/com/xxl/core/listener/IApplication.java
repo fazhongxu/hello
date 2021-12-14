@@ -13,6 +13,10 @@ public interface IApplication {
      */
     boolean isLogin();
 
+    String getToken();
+
+    String getRealName();
+
     /**
      * 跳转到登录
      */

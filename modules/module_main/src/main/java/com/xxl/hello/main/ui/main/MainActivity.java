@@ -10,6 +10,8 @@ import androidx.lifecycle.ViewModelProvider;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.xxl.core.aop.annotation.CheckLogin;
 import com.xxl.core.aop.annotation.CheckNetwork;
+import com.xxl.core.aop.annotation.CheckRealName;
+import com.xxl.core.aop.annotation.CheckToken;
 import com.xxl.core.aop.annotation.Delay;
 import com.xxl.core.aop.annotation.Safe;
 import com.xxl.core.aop.annotation.SingleClick;
@@ -166,15 +168,11 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
 
     //region: MainActivityNavigator
 
-    @SingleClick
-    @CheckLogin
-    @CheckNetwork
-    @Delay(delay = 200)
+    @CheckToken
+    @CheckRealName
     @Override
     public void onTestClick() {
-        if (AppExpandUtils.isLogin()) {
-            UserRouterApi.Login.navigation();
-        }
+        Log.e("aaa", "onTestClick: " );
     }
 
     /**

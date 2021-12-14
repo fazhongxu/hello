@@ -142,6 +142,16 @@ public class HelloApplication extends BaseApplication implements IApplication, M
         return !TextUtils.isEmpty(getCurrentUserId());
     }
 
+    @Override
+    public String getToken(){
+        return "";
+    }
+
+    @Override
+    public String getRealName(){
+        return "666";
+    }
+
     /**
      * 跳转到登录
      */
