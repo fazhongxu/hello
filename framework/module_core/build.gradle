@@ -92,6 +92,8 @@ dependencies {
 
     implementation deps.kprogresshud
 
+    implementation deps.statemanager
+
     implementation deps.mmkv
 
     implementation deps.evetbus

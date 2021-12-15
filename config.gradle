@@ -27,7 +27,7 @@ versions.service = "1.0.0"
 versions.widget = "1.0.0"
 versions.user = "1.0.0"
 
-versions.swipebacklayout = "1.1.0"
+versions.statemanager = "1.0.0"
 
 versions.okhttp = "4.9.1"
 versions.retrofit = "2.9.0"
@@ -74,9 +74,6 @@ androidx.material = "com.google.android.material:material:$versions.material"
 androidx.multidex = "androidx.multidex:multidex:$versions.multidex"
 androidx.lifecycle_extensions = "androidx.lifecycle:lifecycle-extensions:$versions.lifecycle_extensions"
 deps.androidx = androidx
-
-//swipebacklayout [https://github.com/ikew0ng/SwipeBackLayout]
-deps.swipebacklayout = "me.imid.swipebacklayout.lib:library:$versions.swipebacklayout"
 
 def dagger = [:]
 dagger.dagger = "com.google.dagger:dagger:2.28.1"
@@ -131,6 +128,9 @@ deps.rxpermission = "com.github.tbruyelle:rxpermissions:$versions.rxpermission"
 
 //kprogresshud 进度条 [https://github.com/Kaopiz/KProgressHUD]
 deps.kprogresshud = "com.kaopiz:kprogresshud:$versions.kprogresshud"
+
+//statemanager [https://github.com/alibaba/StateManager]
+deps.statemanager = "com.alipictures:statemanager:$versions.statemanager"
 
 //logger [https://github.com/orhanobut/logger]
 deps.logger = "com.orhanobut:logger:$versions.logger"
