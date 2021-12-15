@@ -83,18 +83,7 @@ public class UserSettingActivity extends DataBindingActivity<UserSettingViewMode
                 final LocalMedia media = mediaList.get(0);
                 final Uri uri = Uri.parse(media.getPath());
                 final Uri targetUri = PathUtils.getUriByFilePath(PathUtils.getFilePathByUri(uri));
-//                mUserSettingViewModel.requestUpdateUserInfo(PathUtils.getFilePathByUri(uri));
-
-                String shareFileDir = CacheDirConfig.SHARE_FILE_DIR;
-                String s = new File(shareFileDir) + File.separator + "666.pcm";
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        FFmpegUtils.convertToPcm(PathUtils.getFilePathByUri(uri),s);
-                        FFmpegUtils.pcm2mp3(s,new File(shareFileDir+"/"+"888.mp3").getAbsolutePath());
-                    }
-                })
-                        .start();
+                mUserSettingViewModel.requestUpdateUserInfo(PathUtils.getFilePathByUri(uri));
             }
         }
     }
@@ -177,7 +166,7 @@ public class UserSettingActivity extends DataBindingActivity<UserSettingViewMode
     @Override
     public void onUserAvatarClick() {
         MediaSelector.create(this)
-                .openGallery(PictureMimeType.ofAudio())
+                .openGallery(PictureMimeType.ofImage())
                 .forResult();
     }
 
