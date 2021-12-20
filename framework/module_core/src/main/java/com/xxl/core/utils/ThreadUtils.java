@@ -1133,7 +1133,7 @@ public final class ThreadUtils {
                     try {
                         super.run();
                     } catch (Throwable t) {
-                        Log.e("ThreadUtils", "Request threw uncaught throwable", t);
+                        Log.e("ThreadUtils", "TestRequest threw uncaught throwable", t);
                     }
                 }
             };

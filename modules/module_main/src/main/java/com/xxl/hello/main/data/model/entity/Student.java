@@ -1,25 +1,24 @@
 package com.xxl.hello.main.data.model.entity;
 
+import com.xxl.core.data.model.enums.UserSex;
+
+import lombok.experimental.Accessors;
+
 /**
  * @author xxl.
  * @date 2021/7/15.
  */
+@Accessors(prefix = "m")
 public class Student {
 
-    //region: 成员变量
+    private String mSex;
 
-    //endregion
 
-    //region: 构造函数
+    public String getSex() {
+        return mSex;
+    }
 
-    //endregion
-
-    //region: 提供方法
-
-    //endregion
-
-    //region: 内部辅助方法
-
-    //endregion
-
+    public void setSex(@UserSex String sex) {
+        this.mSex = sex;
+    }
 }
