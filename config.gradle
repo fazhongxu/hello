@@ -233,7 +233,7 @@ ext.hello_maven_config = hello_maven_config
     handler.maven { url 'https://jitpack.io' }
     handler.mavenCentral()
     handler.google()
-    handler.flatDir { dirs project.getRootDir().getAbsolutePath() + "/module_libs" }
+//    handler.flatDir { dirs project.getRootDir().getAbsolutePath() + "/module_libs" }
 
      //使用的时候添加仓库 私服仓库地址，连接不上打包会报错，暂时注释掉
     //handler.maven { url "http://127.0.0.1:8081/repository/origin/" }
