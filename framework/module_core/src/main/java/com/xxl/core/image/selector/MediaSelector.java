@@ -105,12 +105,12 @@ public class MediaSelector {
     }
 
     /**
-     * 判断事发是图片选择页面请求码
+     * 判断是否是图片选择页面请求码
      *
      * @param requestCode
      * @return
      */
-    public static boolean isPictureRequestCode(final int requestCode) {
+    public static boolean isMediaRequestCode(final int requestCode) {
         return PictureConfig.CHOOSE_REQUEST == requestCode;
     }
 

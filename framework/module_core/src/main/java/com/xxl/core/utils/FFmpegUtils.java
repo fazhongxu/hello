@@ -94,4 +94,21 @@ public class FFmpegUtils {
         FFmpeg.execute(command);
     }
 
+    /**
+     * 从视频文件中抽取出音频文件
+     * <p>
+     * 返回Mp3格式的音频文件
+     *
+     * @param inputVideoPath  视频文件路径
+     * @param outputAudioPath 输出的音频文件路径
+     */
+    public static void extractAudioFromVideo(@NonNull final String inputVideoPath,
+                                      @NonNull final String outputAudioPath) {
+        if (Thread.currentThread() == Looper.getMainLooper().getThread()) {
+            return;
+        }
+        final String command = String.format("-y -i %s -vn -c:a libmp3lame -y %s", inputVideoPath, outputAudioPath);
+        FFmpeg.execute(command);
+    }
+
 }
