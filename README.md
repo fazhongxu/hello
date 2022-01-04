@@ -52,3 +52,18 @@ uploadArchives {
  8.命令打包
 
  ./gradlew resguardRelease
+
+ 9.adb查看页面信息
+
+ 查看当前栈顶的Activity
+ adb shell dumpsys activity | grep "mFocusedActivity"
+
+ 查看当前栈顶的Activity的Fragment
+ adb shell dumpsys activity your.package.name
+ 或adb shell dumpsys activity top
+
+ 搜索执行结果中，fragment 状态
+ mUserVisibleHint= true 的就是当前显示的fragment
+
+
+
