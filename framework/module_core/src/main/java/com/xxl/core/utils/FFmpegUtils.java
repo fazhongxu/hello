@@ -103,11 +103,31 @@ public class FFmpegUtils {
      * @param outputAudioPath 输出的音频文件路径
      */
     public static void extractAudioFromVideo(@NonNull final String inputVideoPath,
-                                      @NonNull final String outputAudioPath) {
+                                             @NonNull final String outputAudioPath) {
         if (Thread.currentThread() == Looper.getMainLooper().getThread()) {
             return;
         }
-        final String command = String.format("-y -i %s -vn -c:a libmp3lame -y %s", inputVideoPath, outputAudioPath);
+        extractAudioFromVideo(inputVideoPath, outputAudioPath, 1, 16000);
+    }
+
+    /**
+     * 从视频文件中抽取出音频文件
+     * <p>
+     * 返回Mp3格式的音频文件
+     *
+     * @param inputVideoPath  视频文件路径
+     * @param outputAudioPath 输出的音频文件路径
+     * @param channelConfig   声道数
+     * @param sampleRate      采样率
+     */
+    public static void extractAudioFromVideo(@NonNull final String inputVideoPath,
+                                             @NonNull final String outputAudioPath,
+                                             final int channelConfig,
+                                             final int sampleRate) {
+        if (Thread.currentThread() == Looper.getMainLooper().getThread()) {
+            return;
+        }
+        final String command = String.format(Locale.getDefault(), "-hide_banner -y -i %s -ac %d -ar %d -acodec pcm_s16le -c:a libmp3lame %s", inputVideoPath, channelConfig, sampleRate, outputAudioPath);
         FFmpeg.execute(command);
     }
 
