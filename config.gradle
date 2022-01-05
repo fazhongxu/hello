@@ -159,7 +159,7 @@ versions.mobile_ffmpeg_remote = false
 
 if (versions.mobile_ffmpeg_remote) {
     deps.mobile_ffmpeg = "com.arthenica:mobile-ffmpeg-full:$versions.mobile_ffmpeg"
-}else {
+} else {
     deps.mobile_ffmpeg = project(':module_libs')
 }
 
@@ -226,16 +226,14 @@ hello_maven_config.password = "admin123"
 hello_maven_config.url = "http://127.0.0.1:8081/repository/hello"
 ext.hello_maven_config = hello_maven_config
 
- def addRepos(RepositoryHandler handler) {
+def addRepos(RepositoryHandler handler) {
     handler.maven { url 'https://maven.aliyun.com/repository/google' }
     handler.maven { url 'https://maven.aliyun.com/repository/jcenter' }
     handler.maven { url 'http://maven.aliyun.com/nexus/content/groups/public' }
     handler.maven { url 'https://jitpack.io' }
     handler.mavenCentral()
     handler.google()
-//    handler.flatDir { dirs project.getRootDir().getAbsolutePath() + "/module_libs" }
-
-     //使用的时候添加仓库 私服仓库地址，连接不上打包会报错，暂时注释掉
+    //使用的时候添加仓库 私服仓库地址，连接不上打包会报错，暂时注释掉
     //handler.maven { url "http://127.0.0.1:8081/repository/origin/" }
 }
 
