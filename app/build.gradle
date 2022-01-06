@@ -3,6 +3,8 @@ apply from: '../and_res_guard.gradle'
 apply plugin: 'io.objectbox'
 apply plugin: 'android-aspectjx'
 apply from: '../aspectjx_excludes.gradle'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
 

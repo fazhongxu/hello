@@ -1,5 +1,4 @@
 apply from: project.getRootDir().getAbsolutePath()+"/common.gradle"
-
 dependencies {
     implementation deps.hello.user
 }
