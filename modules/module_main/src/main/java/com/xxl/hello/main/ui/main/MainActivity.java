@@ -1,5 +1,6 @@
 package com.xxl.hello.main.ui.main;
 
+import android.Manifest;
 import android.app.Activity;
 import android.util.Log;
 
@@ -8,11 +9,13 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.tbruyelle.rxpermissions3.RxPermissions;
 import com.xxl.core.aop.annotation.CheckLogin;
 import com.xxl.core.aop.annotation.CheckNetwork;
 import com.xxl.core.aop.annotation.Delay;
 import com.xxl.core.aop.annotation.Safe;
 import com.xxl.core.aop.annotation.SingleClick;
+import com.xxl.core.audio.AudioCapture;
 import com.xxl.core.data.router.AppRouterApi;
 import com.xxl.core.listener.OnAppStatusChangedListener;
 import com.xxl.core.utils.AppExpandUtils;
@@ -20,6 +23,7 @@ import com.xxl.core.utils.AppUtils;
 import com.xxl.core.utils.DisplayUtils;
 import com.xxl.core.utils.LogUtils;
 import com.xxl.core.utils.StatusBarUtil;
+import com.xxl.core.utils.StringUtils;
 import com.xxl.core.utils.TestUtils;
 import com.xxl.core.utils.ToastUtils;
 import com.xxl.hello.main.BR;
@@ -34,12 +38,15 @@ import com.xxl.hello.service.ui.DataBindingActivity;
 
 import javax.inject.Inject;
 
+import io.reactivex.rxjava3.disposables.Disposable;
+
 /**
  * @author xxl
  * @date 2021/07/16.
  */
 @Route(path = AppRouterApi.MAIN_PATH)
-public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMainBinding> implements MainActivityNavigator, OnAppStatusChangedListener {
+public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMainBinding> implements MainActivityNavigator, OnAppStatusChangedListener,
+        AudioCapture.OnAudioFrameCapturedListener {
 
     //region: 成员变量
 
@@ -131,6 +138,7 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
     protected void onDestroy() {
         super.onDestroy();
         unregisterAppStatusChangedListener(this);
+        AudioCapture.getInstance().release();
     }
 
     /**
@@ -164,14 +172,31 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
 
     //endregion
 
+    //region: OnAppStatusChangedListener
+
+    @Override
+    public void onForeground(Activity activity) {
+        ToastUtils.show(getString(R.string.resources_app_is_foreground_tips));
+    }
+
+    @Override
+    public void onBackground(Activity activity) {
+        ToastUtils.show(getString(R.string.resources_app_is_background_tips));
+    }
+
+    //endregion
+
     //region: MainActivityNavigator
 
-    @CheckLogin
+    @SingleClick
+//    @CheckLogin
     @CheckNetwork
     @Delay(delay = 200)
     @Override
     public void onTestClick() {
-        UserRouterApi.Login.navigation();
+//        UserRouterApi.Login.navigation();
+        audioCapture();
+        // TODO: 2022/1/10 音频存储 ，转码
     }
 
     /**
@@ -195,16 +220,32 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
 
     //endregion
 
-    //region: OnAppStatusChangedListener
+    //region: OnAudioFrameCapturedListener
 
+    /**
+     * 开始录音
+     */
     @Override
-    public void onForeground(Activity activity) {
-        ToastUtils.show(getString(R.string.resources_app_is_foreground_tips));
+    public void onStartRecord() {
+        mViewDataBinding.tvTest.setText(getString(R.string.core_stop_record_audio_text));
     }
 
+    /**
+     * 停止录音
+     */
     @Override
-    public void onBackground(Activity activity) {
-        ToastUtils.show(getString(R.string.resources_app_is_background_tips));
+    public void onStopRecord() {
+        mViewDataBinding.tvTest.setText(getString(R.string.core_start_record_audio_text));
+    }
+
+    /**
+     * 音频采集监听
+     *
+     * @param audioData
+     */
+    @Override
+    public void onAudioFrameCaptured(final byte[] audioData) {
+        LogUtils.d("音频数据" + "onAudioFrameCaptured: " + audioData);
     }
 
     //endregion
@@ -241,6 +282,29 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
         Log.e("aaav", "错了错了v");
     }
 
+    /**
+     * 音频采集
+     */
+    private void audioCapture() {
+        final RxPermissions rxPermissions = new RxPermissions(this);
+        Disposable disposable = rxPermissions.request(Manifest.permission.RECORD_AUDIO)
+                .subscribe(isSuccess -> {
+                    if (isSuccess) {
+                        if (AudioCapture.getInstance().isCaptureStarted()) {
+                            AudioCapture.getInstance().stopCapture();
+                            return;
+                        }
+                        AudioCapture.getInstance()
+                                .setOnAudioFrameCapturedListener(this)
+                                .startCapture();
+                    } else {
+                        ToastUtils.show(getString(R.string.core_permission_record_audio_failure_tips));
+                    }
+                }, throwable -> {
+                    ToastUtils.show(getString(R.string.core_permission_record_audio_failure_tips));
+                });
+    }
+
     //endregion
 
     //region: EventBus 操作
@@ -256,6 +320,7 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
         }
         mMainViewModel.setObservableUserId(targetUserEntity.getUserId());
     }
+
     //endregion
 
 }
