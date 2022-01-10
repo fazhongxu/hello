@@ -2,8 +2,7 @@ aspectjx {
     // 排除一些第三方库的包名（如Gson、LeakCanary 和 AOP 有冲突）
     exclude 'androidx',
             "android.support",
-            'org.jetbrains.kotlin',
-            "module-info",
+            'kotlin',
             'com.google',
             'com.squareup',
             'com.tencent',
