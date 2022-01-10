@@ -166,15 +166,12 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
 
     //region: MainActivityNavigator
 
-    @SingleClick
     @CheckLogin
     @CheckNetwork
     @Delay(delay = 200)
     @Override
     public void onTestClick() {
-        if (AppExpandUtils.isLogin()) {
-            UserRouterApi.Login.navigation();
-        }
+        UserRouterApi.Login.navigation();
     }
 
     /**
