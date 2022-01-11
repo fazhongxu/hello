@@ -10,7 +10,7 @@ import java.io.IOException;
  * @author xxl.
  * @date 2022/1/11.
  */
-public class MediaPlayerManager implements MediaPlayer.OnPreparedListener {
+public class MediaPlayerWrapper implements MediaPlayer.OnPreparedListener {
 
     //region: 成员变量
 
@@ -20,16 +20,16 @@ public class MediaPlayerManager implements MediaPlayer.OnPreparedListener {
 
     //region: 构造函数
 
-    private MediaPlayerManager() {
+    private MediaPlayerWrapper() {
 
     }
 
-    public static MediaPlayerManager getInstance() {
+    public static MediaPlayerWrapper getInstance() {
         return Holder.INSTANCE;
     }
 
     private static class Holder {
-        private static MediaPlayerManager INSTANCE = new MediaPlayerManager();
+        private static MediaPlayerWrapper INSTANCE = new MediaPlayerWrapper();
     }
 
     //endregion

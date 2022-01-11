@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
-import com.xxl.core.media.MediaPlayerManager;
+import com.xxl.core.media.MediaPlayerWrapper;
 import com.xxl.core.image.selector.MediaSelector;
 import com.xxl.core.utils.PathUtils;
 import com.xxl.hello.common.NetworkConfig;
@@ -87,7 +87,11 @@ public class UserSettingActivity extends DataBindingActivity<UserSettingViewMode
 //                mUserSettingViewModel.requestUpdateUserInfo(PathUtils.getFilePathByUri(uri));
 
                 filePath = PathUtils.getFilePathByUri(uri);
-                MediaPlayerManager.getInstance().play(filePath);
+
+
+
+
+                MediaPlayerWrapper.getInstance().play(filePath);
             }
         }
     }
@@ -171,10 +175,10 @@ public class UserSettingActivity extends DataBindingActivity<UserSettingViewMode
     public void onUserAvatarClick() {
 
         if (!TextUtils.isEmpty(filePath)) {
-            if (MediaPlayerManager.getInstance().isPlaying()) {
-                MediaPlayerManager.getInstance().pause();
+            if (MediaPlayerWrapper.getInstance().isPlaying()) {
+                MediaPlayerWrapper.getInstance().pause();
             } else {
-                MediaPlayerManager.getInstance().start();
+                MediaPlayerWrapper.getInstance().start();
             }
             return;
         }
