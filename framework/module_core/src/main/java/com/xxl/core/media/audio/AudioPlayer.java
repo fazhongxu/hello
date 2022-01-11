@@ -1,4 +1,4 @@
-package com.xxl.core.audio;
+package com.xxl.core.media.audio;
 
 import android.media.AudioFormat;
 import android.media.AudioManager;

@@ -2,6 +2,7 @@ package com.xxl.hello.user.ui.setting;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
@@ -9,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
+import com.xxl.core.media.MediaPlayerManager;
 import com.xxl.core.image.selector.MediaSelector;
 import com.xxl.core.utils.PathUtils;
 import com.xxl.hello.common.NetworkConfig;
@@ -71,6 +73,8 @@ public class UserSettingActivity extends DataBindingActivity<UserSettingViewMode
         return mUserSettingViewModel;
     }
 
+    String filePath;
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -79,8 +83,11 @@ public class UserSettingActivity extends DataBindingActivity<UserSettingViewMode
                 final List<LocalMedia> mediaList = MediaSelector.obtainMultipleResult(data);
                 final LocalMedia media = mediaList.get(0);
                 final Uri uri = Uri.parse(media.getPath());
-                final Uri targetUri = PathUtils.getUriByFilePath(PathUtils.getFilePathByUri(uri));
-                mUserSettingViewModel.requestUpdateUserInfo(PathUtils.getFilePathByUri(uri));
+//                final Uri targetUri = PathUtils.getUriByFilePath(PathUtils.getFilePathByUri(uri));
+//                mUserSettingViewModel.requestUpdateUserInfo(PathUtils.getFilePathByUri(uri));
+
+                filePath = PathUtils.getFilePathByUri(uri);
+                MediaPlayerManager.getInstance().play(filePath);
             }
         }
     }
@@ -162,9 +169,19 @@ public class UserSettingActivity extends DataBindingActivity<UserSettingViewMode
      */
     @Override
     public void onUserAvatarClick() {
+
+        if (!TextUtils.isEmpty(filePath)) {
+            if (MediaPlayerManager.getInstance().isPlaying()) {
+                MediaPlayerManager.getInstance().pause();
+            } else {
+                MediaPlayerManager.getInstance().start();
+            }
+            return;
+        }
         MediaSelector.create(this)
-                .openGallery(PictureMimeType.ofImage())
+                .openGallery(PictureMimeType.ofAudio())
                 .forResult();
+
     }
 
     /**

@@ -10,12 +10,11 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.tbruyelle.rxpermissions3.RxPermissions;
-import com.xxl.core.aop.annotation.CheckLogin;
 import com.xxl.core.aop.annotation.CheckNetwork;
 import com.xxl.core.aop.annotation.Delay;
 import com.xxl.core.aop.annotation.Safe;
 import com.xxl.core.aop.annotation.SingleClick;
-import com.xxl.core.audio.AudioCapture;
+import com.xxl.core.media.audio.AudioCapture;
 import com.xxl.core.data.router.AppRouterApi;
 import com.xxl.core.listener.OnAppStatusChangedListener;
 import com.xxl.core.utils.AppExpandUtils;
@@ -23,7 +22,6 @@ import com.xxl.core.utils.AppUtils;
 import com.xxl.core.utils.DisplayUtils;
 import com.xxl.core.utils.LogUtils;
 import com.xxl.core.utils.StatusBarUtil;
-import com.xxl.core.utils.StringUtils;
 import com.xxl.core.utils.TestUtils;
 import com.xxl.core.utils.ToastUtils;
 import com.xxl.hello.main.BR;
@@ -194,8 +192,8 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
     @Delay(delay = 200)
     @Override
     public void onTestClick() {
-//        UserRouterApi.Login.navigation();
-        audioCapture();
+        UserRouterApi.Login.navigation();
+//        audioCapture();
         // TODO: 2022/1/10 音频存储 ，转码
     }
 
