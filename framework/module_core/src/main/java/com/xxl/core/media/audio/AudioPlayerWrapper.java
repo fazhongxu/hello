@@ -1,4 +1,4 @@
-package com.xxl.core.media;
+package com.xxl.core.media.audio;
 
 import android.media.MediaPlayer;
 
@@ -7,10 +7,12 @@ import androidx.annotation.NonNull;
 import java.io.IOException;
 
 /**
+ * 音频播放包装
+ *
  * @author xxl.
  * @date 2022/1/11.
  */
-public class MediaPlayerWrapper implements MediaPlayer.OnPreparedListener {
+public class AudioPlayerWrapper implements MediaPlayer.OnPreparedListener {
 
     //region: 成员变量
 
@@ -21,20 +23,25 @@ public class MediaPlayerWrapper implements MediaPlayer.OnPreparedListener {
      */
     private boolean mIsAutoPlay;
 
+    /**
+     * 是否准备完毕
+     */
+    private boolean mIsPrepared;
+
     //endregion
 
     //region: 构造函数
 
-    private MediaPlayerWrapper() {
+    private AudioPlayerWrapper() {
 
     }
 
-    public static MediaPlayerWrapper getInstance() {
+    public static AudioPlayerWrapper getInstance() {
         return Holder.INSTANCE;
     }
 
     private static class Holder {
-        private static MediaPlayerWrapper INSTANCE = new MediaPlayerWrapper();
+        private static AudioPlayerWrapper INSTANCE = new AudioPlayerWrapper();
     }
 
     //endregion
@@ -43,7 +50,10 @@ public class MediaPlayerWrapper implements MediaPlayer.OnPreparedListener {
 
     @Override
     public void onPrepared(MediaPlayer mediaPlayer) {
-        mediaPlayer.start();
+        mIsPrepared = true;
+        if (mIsAutoPlay) {
+            start();
+        }
     }
 
     //endregion
@@ -60,12 +70,23 @@ public class MediaPlayerWrapper implements MediaPlayer.OnPreparedListener {
     }
 
     /**
-     * 播放
+     * 设置是否自动播放
+     *
+     * @param isAutoPlay
+     * @return
+     */
+    public AudioPlayerWrapper setAutoPlay(boolean isAutoPlay) {
+        this.mIsAutoPlay = isAutoPlay;
+        return this;
+    }
+
+    /**
+     * 准备播放
      *
      * @param filePath
      * @return
      */
-    public void play(@NonNull final String filePath) {
+    public void prepare(@NonNull final String filePath) {
         if (mMediaPlayer == null) {
             mMediaPlayer = new MediaPlayer();
         }
@@ -83,17 +104,23 @@ public class MediaPlayerWrapper implements MediaPlayer.OnPreparedListener {
      * 继续播放
      */
     public void start() {
-        if (mMediaPlayer != null) {
-            mMediaPlayer.start();
+        if (mMediaPlayer == null || mIsPrepared) {
+            return;
         }
+        mMediaPlayer.start();
     }
 
     /**
      * 暂停
      */
     public void pause() {
-        if (mMediaPlayer != null && mMediaPlayer.isPlaying()) {
-            mMediaPlayer.pause();
+        try {
+            if (mMediaPlayer != null && mMediaPlayer.isPlaying()) {
+                mMediaPlayer.pause();
+            }
+            mIsPrepared = false;
+        } catch (Throwable ignore) {
+
         }
     }
 
@@ -101,8 +128,13 @@ public class MediaPlayerWrapper implements MediaPlayer.OnPreparedListener {
      * 停止播放
      */
     public void stop() {
-        if (mMediaPlayer != null) {
-            mMediaPlayer.stop();
+        try {
+            if (mMediaPlayer != null) {
+                mMediaPlayer.stop();
+            }
+            mIsPrepared = false;
+        } catch (Throwable ignore) {
+
         }
     }
 
@@ -110,11 +142,16 @@ public class MediaPlayerWrapper implements MediaPlayer.OnPreparedListener {
      * 释放播放器
      */
     public void release() {
-        if (mMediaPlayer != null) {
-            mMediaPlayer.stop();
-            mMediaPlayer.reset();
-            mMediaPlayer.release();
-            mMediaPlayer = null;
+        try {
+            if (mMediaPlayer != null) {
+                mIsPrepared = false;
+                mMediaPlayer.stop();
+                mMediaPlayer.reset();
+                mMediaPlayer.release();
+                mMediaPlayer = null;
+            }
+        } catch (Throwable ignore) {
+
         }
     }
 

@@ -12,6 +12,7 @@ import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.xxl.core.media.MediaPlayerWrapper;
 import com.xxl.core.image.selector.MediaSelector;
+import com.xxl.core.media.audio.AudioPlayerWrapper;
 import com.xxl.core.utils.PathUtils;
 import com.xxl.hello.common.NetworkConfig;
 import com.xxl.hello.router.UserRouterApi;
@@ -89,9 +90,10 @@ public class UserSettingActivity extends DataBindingActivity<UserSettingViewMode
                 filePath = PathUtils.getFilePathByUri(uri);
 
 
-
-
-                MediaPlayerWrapper.getInstance().play(filePath);
+//                MediaPlayerWrapper.getInstance().play(filePath);
+                AudioPlayerWrapper.getInstance()
+                        .setAutoPlay(true)
+                        .prepare(filePath);
             }
         }
     }
@@ -175,11 +177,11 @@ public class UserSettingActivity extends DataBindingActivity<UserSettingViewMode
     public void onUserAvatarClick() {
 
         if (!TextUtils.isEmpty(filePath)) {
-            if (MediaPlayerWrapper.getInstance().isPlaying()) {
-                MediaPlayerWrapper.getInstance().pause();
-            } else {
-                MediaPlayerWrapper.getInstance().start();
-            }
+//            if (MediaPlayerWrapper.getInstance().isPlaying()) {
+//                MediaPlayerWrapper.getInstance().pause();
+//            } else {
+//                MediaPlayerWrapper.getInstance().start();
+//            }
             return;
         }
         MediaSelector.create(this)
