@@ -14,9 +14,9 @@ import com.xxl.core.aop.annotation.CheckNetwork;
 import com.xxl.core.aop.annotation.Delay;
 import com.xxl.core.aop.annotation.Safe;
 import com.xxl.core.aop.annotation.SingleClick;
-import com.xxl.core.media.audio.AudioCapture;
 import com.xxl.core.data.router.AppRouterApi;
 import com.xxl.core.listener.OnAppStatusChangedListener;
+import com.xxl.core.media.audio.AudioCapture;
 import com.xxl.core.utils.AppExpandUtils;
 import com.xxl.core.utils.AppUtils;
 import com.xxl.core.utils.DisplayUtils;
@@ -24,15 +24,17 @@ import com.xxl.core.utils.LogUtils;
 import com.xxl.core.utils.StatusBarUtil;
 import com.xxl.core.utils.TestUtils;
 import com.xxl.core.utils.ToastUtils;
+import com.xxl.hello.common.CacheDirConfig;
 import com.xxl.hello.main.BR;
 import com.xxl.hello.main.R;
 import com.xxl.hello.main.databinding.ActivityMainBinding;
 import com.xxl.hello.main.ui.main.window.PrivacyPolicyPopupWindow;
-import com.xxl.hello.router.UserRouterApi;
 import com.xxl.hello.service.data.model.api.QueryUserInfoResponse;
 import com.xxl.hello.service.data.model.entity.LoginUserEntity;
 import com.xxl.hello.service.ui.BaseEventBusWrapper;
 import com.xxl.hello.service.ui.DataBindingActivity;
+
+import java.io.File;
 
 import javax.inject.Inject;
 
@@ -192,8 +194,8 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
     @Delay(delay = 200)
     @Override
     public void onTestClick() {
-        UserRouterApi.Login.navigation();
-//        audioCapture();
+//        UserRouterApi.Login.navigation();
+        audioCapture();
         // TODO: 2022/1/10 音频存储 ，转码
     }
 
@@ -230,9 +232,11 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
 
     /**
      * 停止录音
+     *
+     * @param audioFile 音频文件
      */
     @Override
-    public void onStopRecord() {
+    public void onStopRecord(@NonNull final File audioFile){
         mViewDataBinding.tvTest.setText(getString(R.string.core_start_record_audio_text));
     }
 
@@ -285,7 +289,8 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
      */
     private void audioCapture() {
         final RxPermissions rxPermissions = new RxPermissions(this);
-        Disposable disposable = rxPermissions.request(Manifest.permission.RECORD_AUDIO)
+        Disposable disposable = rxPermissions.request(Manifest.permission.RECORD_AUDIO,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 .subscribe(isSuccess -> {
                     if (isSuccess) {
                         if (AudioCapture.getInstance().isCaptureStarted()) {
@@ -294,6 +299,7 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
                         }
                         AudioCapture.getInstance()
                                 .setOnAudioFrameCapturedListener(this)
+                                .setOutFilePath(CacheDirConfig.SHARE_FILE_DIR)
                                 .startCapture();
                     } else {
                         ToastUtils.show(getString(R.string.core_permission_record_audio_failure_tips));

@@ -4,9 +4,19 @@ import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
 import android.os.SystemClock;
+import android.text.TextUtils;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.xxl.core.utils.FileUtils;
+import com.xxl.core.utils.LogUtils;
+import com.xxl.core.utils.TimeUtils;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 /**
  * 音频采集类
@@ -36,6 +46,22 @@ public class AudioCapture {
 
     private OnAudioFrameCapturedListener mAudioFrameCapturedListener;
 
+    /**
+     * 录制状态
+     */
+    @AudioRecordState
+    private int mRecordState;
+
+    /**
+     * 输出文件路径
+     */
+    private String mOutFilePath;
+
+    /**
+     * 音频临时文件
+     */
+    private File mTempFile;
+
     //endregion
 
     //region: 构造函数
@@ -60,8 +86,28 @@ public class AudioCapture {
         return mIsCaptureStarted;
     }
 
+    /**
+     * 获取录制状态
+     *
+     * @return
+     */
+    public int getRecordState() {
+        return mRecordState;
+    }
+
     public AudioCapture setOnAudioFrameCapturedListener(@Nullable final OnAudioFrameCapturedListener listener) {
         mAudioFrameCapturedListener = listener;
+        return this;
+    }
+
+    /**
+     * 设置输出音频文件路径
+     *
+     * @param filePath
+     * @return
+     */
+    public AudioCapture setOutFilePath(@NonNull final String filePath) {
+        this.mOutFilePath = filePath;
         return this;
     }
 
@@ -80,6 +126,10 @@ public class AudioCapture {
      * @return
      */
     public boolean startCapture(int audioSource, int sampleRateInHz, int channelConfig, int audioFormat) {
+        if (TextUtils.isEmpty(mOutFilePath)) {
+            throw new IllegalArgumentException("必须设置音频文件输出路径！");
+        }
+        mTempFile = createAudioTempFile();
 
         if (mIsCaptureStarted) {
             Log.e(TAG, "Capture already started !");
@@ -106,6 +156,7 @@ public class AudioCapture {
         mCaptureThread.start();
 
         mIsCaptureStarted = true;
+        mRecordState = AudioRecordState.RECORDING;
 
         if (mAudioFrameCapturedListener != null) {
             mAudioFrameCapturedListener.onStartRecord();
@@ -140,9 +191,10 @@ public class AudioCapture {
         mAudioRecord.release();
 
         mIsCaptureStarted = false;
+        mRecordState = AudioRecordState.STOP;
 
         if (mAudioFrameCapturedListener != null) {
-            mAudioFrameCapturedListener.onStopRecord();
+            mAudioFrameCapturedListener.onStopRecord(mTempFile);
         }
 
         mAudioFrameCapturedListener = null;
@@ -161,6 +213,17 @@ public class AudioCapture {
 
     //region: 内部辅助方法
 
+    /**
+     * 创建音频录制文件
+     *
+     * @return
+     */
+    private File createAudioTempFile() {
+        String templateFilePath = String.format("%s%s", mOutFilePath + File.separator, TimeUtils.currentTimeMillis() + ".pcm");
+        FileUtils.createFileByDeleteOldFile(templateFilePath);
+        return new File(templateFilePath);
+    }
+
     //endregion
 
     //region: Inner Class AudioCaptureRunnable
@@ -169,24 +232,44 @@ public class AudioCapture {
 
         @Override
         public void run() {
+            FileOutputStream fos = null;
+            int state = mAudioRecord.getRecordingState();
+            try {
+                fos = new FileOutputStream(mTempFile);
+                while (!mIsLoopExit) {
 
-            while (!mIsLoopExit) {
+                    byte[] buffer = new byte[mMinBufferSize];
 
-                byte[] buffer = new byte[mMinBufferSize];
-
-                int ret = mAudioRecord.read(buffer, 0, mMinBufferSize);
-                if (ret == AudioRecord.ERROR_INVALID_OPERATION) {
-                    Log.e(TAG, "Error ERROR_INVALID_OPERATION");
-                } else if (ret == AudioRecord.ERROR_BAD_VALUE) {
-                    Log.e(TAG, "Error ERROR_BAD_VALUE");
-                } else {
-                    if (mAudioFrameCapturedListener != null) {
-                        mAudioFrameCapturedListener.onAudioFrameCaptured(buffer);
+                    int ret = mAudioRecord.read(buffer, 0, mMinBufferSize);
+                    if (ret == AudioRecord.ERROR_INVALID_OPERATION) {
+                        Log.e(TAG, "Error ERROR_INVALID_OPERATION");
+                    } else if (ret == AudioRecord.ERROR_BAD_VALUE) {
+                        Log.e(TAG, "Error ERROR_BAD_VALUE");
+                    } else {
+                        if (mAudioFrameCapturedListener != null) {
+                            mAudioFrameCapturedListener.onAudioFrameCaptured(buffer);
+                        }
+                        Log.d(TAG, "OK, Captured " + ret + " bytes !");
+                        if (state == AudioRecord.RECORDSTATE_RECORDING) {
+                            mRecordState = AudioRecordState.RECORDING;
+                            fos.write(buffer);
+                            fos.flush();
+                        }
                     }
-                    Log.d(TAG, "OK, Captured " + ret + " bytes !");
+                    SystemClock.sleep(10);
                 }
-
-                SystemClock.sleep(10);
+            } catch (Exception e) {
+                e.printStackTrace();
+                LogUtils.e(e);
+            } finally {
+                if (fos != null) {
+                    try {
+                        fos.flush();
+                        fos.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }
     }
@@ -207,8 +290,10 @@ public class AudioCapture {
 
         /**
          * 停止录音
+         *
+         * @param audioFile 音频文件
          */
-        void onStopRecord();
+        void onStopRecord(@NonNull final File audioFile);
 
         /**
          * 音频数据回调
