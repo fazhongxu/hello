@@ -237,6 +237,7 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
      */
     @Override
     public void onStopRecord(@NonNull final File audioFile){
+        LogUtils.d("音频文件-->"+audioFile.getAbsolutePath());
         mViewDataBinding.tvTest.setText(getString(R.string.core_start_record_audio_text));
     }
 

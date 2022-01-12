@@ -14,6 +14,8 @@ import java.lang.annotation.RetentionPolicy;
 @IntDef({
         AudioRecordState.RECORDING,
         AudioRecordState.STOP,
+        AudioRecordState.ERROR,
+        AudioRecordState.UNINITIALIZED,
 })
 @Retention(RetentionPolicy.SOURCE)
 public @interface AudioRecordState {
@@ -29,7 +31,12 @@ public @interface AudioRecordState {
     int STOP = 2;
 
     /**
-     * 已完成，暂停，继续 // TODO: 2022/1/12
+     * 错误
      */
-//    int COMPLETE = 3;
+    int ERROR = 3;
+
+    /**
+     * 未初始化
+     */
+    int UNINITIALIZED = 4;
 }

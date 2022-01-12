@@ -3,6 +3,7 @@ package com.xxl.core.media.audio;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
+import android.os.Handler;
 import android.os.SystemClock;
 import android.text.TextUtils;
 import android.util.Log;
@@ -11,12 +12,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.xxl.core.utils.FileUtils;
-import com.xxl.core.utils.LogUtils;
 import com.xxl.core.utils.TimeUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 
 /**
  * 音频采集类
@@ -26,7 +25,7 @@ import java.io.IOException;
  * @author xxl.
  * @date 2022/1/10.
  */
-public class AudioCapture {
+public class AudioCapture implements PcmEncoderAac.EncoderListener {
 
     //region: 成员变量
 
@@ -46,6 +45,8 @@ public class AudioCapture {
 
     private OnAudioFrameCapturedListener mAudioFrameCapturedListener;
 
+    private Handler mHandler = new Handler();
+
     /**
      * 录制状态
      */
@@ -58,9 +59,19 @@ public class AudioCapture {
     private String mOutFilePath;
 
     /**
-     * 音频临时文件
+     * 音频文件
      */
-    private File mTempFile;
+    private File mAudioFile;
+
+    /**
+     * 输出的音频流
+     */
+    private FileOutputStream mAudioOutputStream;
+
+    /**
+     * pcm to aac
+     */
+    private PcmEncoderAac mPcmEncoderAac;
 
     //endregion
 
@@ -129,16 +140,23 @@ public class AudioCapture {
         if (TextUtils.isEmpty(mOutFilePath)) {
             throw new IllegalArgumentException("必须设置音频文件输出路径！");
         }
-        mTempFile = createAudioTempFile();
+        mAudioFile = createAudioFile();
+        mAudioOutputStream = createFileOutputStream();
+
+        if (mPcmEncoderAac == null || mPcmEncoderAac.getSampleRate() != sampleRateInHz) {
+            mPcmEncoderAac = new PcmEncoderAac(sampleRateInHz, this);
+        }
 
         if (mIsCaptureStarted) {
             Log.e(TAG, "Capture already started !");
+            mRecordState = AudioRecordState.RECORDING;
             return false;
         }
 
         mMinBufferSize = AudioRecord.getMinBufferSize(sampleRateInHz, channelConfig, audioFormat);
         if (mMinBufferSize == AudioRecord.ERROR_BAD_VALUE) {
             Log.e(TAG, "Invalid parameter !");
+            mRecordState = AudioRecordState.ERROR;
             return false;
         }
         Log.d(TAG, "getMinBufferSize = " + mMinBufferSize + " bytes !");
@@ -146,6 +164,7 @@ public class AudioCapture {
         mAudioRecord = new AudioRecord(audioSource, sampleRateInHz, channelConfig, audioFormat, mMinBufferSize);
         if (mAudioRecord.getState() == AudioRecord.STATE_UNINITIALIZED) {
             Log.e(TAG, "AudioRecord initialize fail !");
+            mRecordState = AudioRecordState.UNINITIALIZED;
             return false;
         }
 
@@ -194,19 +213,28 @@ public class AudioCapture {
         mRecordState = AudioRecordState.STOP;
 
         if (mAudioFrameCapturedListener != null) {
-            mAudioFrameCapturedListener.onStopRecord(mTempFile);
+            mAudioFrameCapturedListener.onStopRecord(mAudioFile);
         }
-
         mAudioFrameCapturedListener = null;
-
-        Log.d(TAG, "Stop audio capture success !");
     }
 
     /**
      * 释放录音
      */
     public void release() {
-        stopCapture();
+        if (mAudioRecord == null) {
+            return;
+        }
+        try {
+            mIsLoopExit = true;
+            mIsCaptureStarted = false;
+            mRecordState = AudioRecordState.STOP;
+            mAudioRecord.stop();
+            mAudioRecord.release();
+            mHandler.removeCallbacksAndMessages(null);
+        } catch (Throwable e) {
+            Log.e(TAG, "AudioRecord release");
+        }
     }
 
     //endregion
@@ -218,10 +246,24 @@ public class AudioCapture {
      *
      * @return
      */
-    private File createAudioTempFile() {
-        String templateFilePath = String.format("%s%s", mOutFilePath + File.separator, TimeUtils.currentTimeMillis() + ".pcm");
-        FileUtils.createFileByDeleteOldFile(templateFilePath);
-        return new File(templateFilePath);
+    private File createAudioFile() {
+        String audioFilePath = String.format("%s%s", mOutFilePath + File.separator, TimeUtils.currentTimeMillis() + ".aac");
+        FileUtils.createFileByDeleteOldFile(audioFilePath);
+        return new File(audioFilePath);
+    }
+
+    /**
+     * 创建音频录制流
+     *
+     * @return
+     */
+    private FileOutputStream createFileOutputStream() {
+        try {
+            mAudioOutputStream = new FileOutputStream(mAudioFile);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return mAudioOutputStream;
     }
 
     //endregion
@@ -232,45 +274,49 @@ public class AudioCapture {
 
         @Override
         public void run() {
-            FileOutputStream fos = null;
             int state = mAudioRecord.getRecordingState();
-            try {
-                fos = new FileOutputStream(mTempFile);
-                while (!mIsLoopExit) {
+            while (!mIsLoopExit) {
 
-                    byte[] buffer = new byte[mMinBufferSize];
+                byte[] buffer = new byte[mMinBufferSize];
 
-                    int ret = mAudioRecord.read(buffer, 0, mMinBufferSize);
-                    if (ret == AudioRecord.ERROR_INVALID_OPERATION) {
-                        Log.e(TAG, "Error ERROR_INVALID_OPERATION");
-                    } else if (ret == AudioRecord.ERROR_BAD_VALUE) {
-                        Log.e(TAG, "Error ERROR_BAD_VALUE");
-                    } else {
-                        if (mAudioFrameCapturedListener != null) {
-                            mAudioFrameCapturedListener.onAudioFrameCaptured(buffer);
-                        }
-                        Log.d(TAG, "OK, Captured " + ret + " bytes !");
-                        if (state == AudioRecord.RECORDSTATE_RECORDING) {
-                            mRecordState = AudioRecordState.RECORDING;
-                            fos.write(buffer);
-                            fos.flush();
+                int ret = mAudioRecord.read(buffer, 0, mMinBufferSize);
+                if (ret == AudioRecord.ERROR_INVALID_OPERATION) {
+                    Log.e(TAG, "Error ERROR_INVALID_OPERATION");
+                    mRecordState = AudioRecordState.ERROR;
+                } else if (ret == AudioRecord.ERROR_BAD_VALUE) {
+                    Log.e(TAG, "Error ERROR_BAD_VALUE");
+                    mRecordState = AudioRecordState.ERROR;
+                } else {
+                    if (mAudioFrameCapturedListener != null) {
+                        mAudioFrameCapturedListener.onAudioFrameCaptured(buffer);
+                    }
+                    Log.d(TAG, "OK, Captured " + ret + " bytes !");
+                    if (state == AudioRecord.RECORDSTATE_RECORDING) {
+                        mRecordState = AudioRecordState.RECORDING;
+                        if (mPcmEncoderAac != null) {
+                            mPcmEncoderAac.encodeData(buffer);
                         }
                     }
-                    SystemClock.sleep(10);
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
-                LogUtils.e(e);
-            } finally {
-                if (fos != null) {
-                    try {
-                        fos.flush();
-                        fos.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
+                SystemClock.sleep(10);
             }
+        }
+    }
+
+    //endregion
+
+    //region: PcmEncoderAac.EncoderListener
+
+    @Override
+    public void encodeAAC(byte[] data) {
+        Log.d(TAG, "encodeAAC: " + data.length);
+        if (mAudioOutputStream == null) {
+            return;
+        }
+        try {
+            mAudioOutputStream.write(data);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
