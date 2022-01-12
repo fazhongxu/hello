@@ -212,10 +212,14 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
         mIsCaptureStarted = false;
         mRecordState = AudioRecordState.STOP;
 
+        closeAudioOutputStream();
         if (mAudioFrameCapturedListener != null) {
             mAudioFrameCapturedListener.onStopRecord(mAudioFile);
         }
+
         mAudioFrameCapturedListener = null;
+
+        Log.d(TAG, "Stop audio capture success !");
     }
 
     /**
@@ -317,6 +321,19 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
             mAudioOutputStream.write(data);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * 关闭音频流文件
+     */
+    private void closeAudioOutputStream() {
+        if (mAudioOutputStream != null) {
+            try {
+                mAudioOutputStream.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
