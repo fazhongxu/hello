@@ -230,7 +230,7 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
         mIsCaptureStarted = false;
         mRecordState = AudioRecordState.STOP;
 
-        if (mAudioRecordFormat == AudioRecordFormat.MP3) {
+        if (mAudioRecordFormat != AudioRecordFormat.AAC) {
             Thread thread = new Thread(new AudioTranscodeRunnable());
             thread.start();
             return;
