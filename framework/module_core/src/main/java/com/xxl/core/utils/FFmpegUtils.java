@@ -65,6 +65,36 @@ public class FFmpegUtils {
     }
 
     /**
+     * aac格式的音频转换为mp3
+     *
+     * @param inFilePath
+     * @param outFilePath
+     */
+    public static void aac2mp3(@NonNull final String inFilePath,
+                               @NonNull final String outFilePath) {
+        aac2mp3(inFilePath, outFilePath, 2, 16000);
+    }
+
+    /**
+     * aac格式的音频转换为mp3
+     *
+     * @param inFilePath
+     * @param outFilePath
+     * @param channelConfig
+     * @param sampleRate
+     */
+    public static void aac2mp3(@NonNull final String inFilePath,
+                               @NonNull final String outFilePath,
+                               final int channelConfig,
+                               final int sampleRate) {
+        if (Thread.currentThread() == Looper.getMainLooper().getThread()) {
+            return;
+        }
+        final String command = String.format(Locale.getDefault(), "-hide_banner -y -i %s -acodec libmp3lame -ac %d -ar %d %s", inFilePath, channelConfig, sampleRate, outFilePath);
+        FFmpeg.execute(command);
+    }
+
+    /**
      * pcm to mp3
      *
      * @param inFilePath

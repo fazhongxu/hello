@@ -17,9 +17,12 @@ import com.xxl.core.aop.annotation.SingleClick;
 import com.xxl.core.data.router.AppRouterApi;
 import com.xxl.core.listener.OnAppStatusChangedListener;
 import com.xxl.core.media.audio.AudioCapture;
+import com.xxl.core.media.audio.AudioRecordFormat;
 import com.xxl.core.utils.AppExpandUtils;
 import com.xxl.core.utils.AppUtils;
 import com.xxl.core.utils.DisplayUtils;
+import com.xxl.core.utils.FFmpegUtils;
+import com.xxl.core.utils.FileUtils;
 import com.xxl.core.utils.LogUtils;
 import com.xxl.core.utils.StatusBarUtil;
 import com.xxl.core.utils.TestUtils;
@@ -239,6 +242,14 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
     public void onStopRecord(@NonNull final File audioFile){
         LogUtils.d("音频文件-->"+audioFile.getAbsolutePath());
         mViewDataBinding.tvTest.setText(getString(R.string.core_start_record_audio_text));
+//
+//        new Thread() {
+//            @Override
+//            public void run() {
+//                FFmpegUtils.aac2mp3(audioFile.getAbsolutePath(), new File(audioFile.getAbsolutePath().replaceAll(".aac",".mp3")).getAbsolutePath());
+//            }
+//        }
+//                .start();
     }
 
     /**
@@ -299,8 +310,9 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
                             return;
                         }
                         AudioCapture.getInstance()
-                                .setOnAudioFrameCapturedListener(this)
+                                .setAudioRecordFormat(AudioRecordFormat.MP3)
                                 .setOutFilePath(CacheDirConfig.SHARE_FILE_DIR)
+                                .setOnAudioFrameCapturedListener(this)
                                 .startCapture();
                     } else {
                         ToastUtils.show(getString(R.string.core_permission_record_audio_failure_tips));

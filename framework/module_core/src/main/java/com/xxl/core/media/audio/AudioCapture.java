@@ -11,6 +11,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.xxl.core.utils.FFmpegUtils;
 import com.xxl.core.utils.FileUtils;
 import com.xxl.core.utils.TimeUtils;
 
@@ -73,6 +74,12 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
      */
     private PcmEncoderAac mPcmEncoderAac;
 
+    /**
+     * 音频录制格式
+     */
+    @AudioRecordFormat
+    private int mAudioRecordFormat = AudioRecordFormat.AAC;
+
     //endregion
 
     //region: 构造函数
@@ -112,6 +119,17 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
     }
 
     /**
+     * 设置音频录制格式 默认aac
+     *
+     * @param audioRecordFormat
+     * @return
+     */
+    public AudioCapture setAudioRecordFormat(@AudioRecordFormat int audioRecordFormat) {
+        this.mAudioRecordFormat = audioRecordFormat;
+        return this;
+    }
+
+    /**
      * 设置输出音频文件路径
      *
      * @param filePath
@@ -140,7 +158,7 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
         if (TextUtils.isEmpty(mOutFilePath)) {
             throw new IllegalArgumentException("必须设置音频文件输出路径！");
         }
-        mAudioFile = createAudioFile();
+        mAudioFile = createAudioAACFile();
         mAudioOutputStream = createFileOutputStream();
 
         if (mPcmEncoderAac == null || mPcmEncoderAac.getSampleRate() != sampleRateInHz) {
@@ -212,14 +230,13 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
         mIsCaptureStarted = false;
         mRecordState = AudioRecordState.STOP;
 
-        closeAudioOutputStream();
-        if (mAudioFrameCapturedListener != null) {
-            mAudioFrameCapturedListener.onStopRecord(mAudioFile);
+        if (mAudioRecordFormat == AudioRecordFormat.MP3) {
+            Thread thread = new Thread(new AudioTranscodeRunnable());
+            thread.start();
+            return;
         }
 
-        mAudioFrameCapturedListener = null;
-
-        Log.d(TAG, "Stop audio capture success !");
+        recordComplete(mAudioFile);
     }
 
     /**
@@ -246,12 +263,37 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
     //region: 内部辅助方法
 
     /**
+     * 录制完成
+     *
+     * @param outAudioFile 音频文件
+     */
+    private void recordComplete(@NonNull final File outAudioFile) {
+        closeAudioOutputStream();
+        if (mAudioFrameCapturedListener != null) {
+            mAudioFrameCapturedListener.onStopRecord(outAudioFile);
+        }
+
+        mAudioFrameCapturedListener = null;
+
+        Log.d(TAG, "Stop audio capture success !");
+    }
+
+    /**
+     * 创建音频录制文件(aac格式)
+     *
+     * @return
+     */
+    private File createAudioAACFile() {
+        return createAudioFile(TimeUtils.currentTimeMillis() + ".aac");
+    }
+
+    /**
      * 创建音频录制文件
      *
      * @return
      */
-    private File createAudioFile() {
-        String audioFilePath = String.format("%s%s", mOutFilePath + File.separator, TimeUtils.currentTimeMillis() + ".aac");
+    private File createAudioFile(@NonNull final String fileName) {
+        String audioFilePath = String.format("%s%s", mOutFilePath + File.separator, fileName);
         FileUtils.createFileByDeleteOldFile(audioFilePath);
         return new File(audioFilePath);
     }
@@ -308,6 +350,23 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
     }
 
     //endregion
+
+    //region: Inner Class AudioCaptureRunnable
+
+    private class AudioTranscodeRunnable implements Runnable {
+
+        @Override
+        public void run() {
+            if (mAudioRecordFormat == AudioRecordFormat.MP3) {
+                final String fileName = TimeUtils.currentTimeMillis() + ".mp3";
+                final File audioMp3File = createAudioFile(fileName);
+                FFmpegUtils.aac2mp3(mAudioFile.getAbsolutePath(), audioMp3File.getAbsolutePath());
+                FileUtils.deleteFile(mAudioFile);
+                mHandler.post(() -> recordComplete(audioMp3File));
+                return;
+            }
+        }
+    }
 
     //region: PcmEncoderAac.EncoderListener
 
