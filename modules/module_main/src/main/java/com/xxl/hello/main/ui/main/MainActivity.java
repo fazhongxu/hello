@@ -191,10 +191,10 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
 
     //region: MainActivityNavigator
 
-    @SingleClick
-//    @CheckLogin
-    @CheckNetwork
-    @Delay(delay = 200)
+//    @SingleClick
+////    @CheckLogin
+//    @CheckNetwork
+//    @Delay(delay = 200)
     @Override
     public void onTestClick() {
 //        UserRouterApi.Login.navigation();
@@ -242,14 +242,6 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
     public void onStopRecord(@NonNull final File audioFile){
         LogUtils.d("音频文件-->"+audioFile.getAbsolutePath());
         mViewDataBinding.tvTest.setText(getString(R.string.core_start_record_audio_text));
-//
-//        new Thread() {
-//            @Override
-//            public void run() {
-//                FFmpegUtils.aac2mp3(audioFile.getAbsolutePath(), new File(audioFile.getAbsolutePath().replaceAll(".aac",".mp3")).getAbsolutePath());
-//            }
-//        }
-//                .start();
     }
 
     /**

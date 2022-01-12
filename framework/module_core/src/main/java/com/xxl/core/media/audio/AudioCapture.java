@@ -11,6 +11,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.xxl.core.media.audio.utils.LameUtils;
 import com.xxl.core.utils.FFmpegUtils;
 import com.xxl.core.utils.FileUtils;
 import com.xxl.core.utils.TimeUtils;
@@ -164,6 +165,7 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
         if (mPcmEncoderAac == null || mPcmEncoderAac.getSampleRate() != sampleRateInHz) {
             mPcmEncoderAac = new PcmEncoderAac(sampleRateInHz, this);
         }
+        LameUtils.init(sampleRateInHz,1,sampleRateInHz,32);
 
         if (mIsCaptureStarted) {
             Log.e(TAG, "Capture already started !");
@@ -361,7 +363,6 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
                 final String fileName = TimeUtils.currentTimeMillis() + ".mp3";
                 final File audioMp3File = createAudioFile(fileName);
                 FFmpegUtils.aac2mp3(mAudioFile.getAbsolutePath(), audioMp3File.getAbsolutePath());
-                FileUtils.deleteFile(mAudioFile);
                 mHandler.post(() -> recordComplete(audioMp3File));
                 return;
             }
