@@ -70,6 +70,15 @@ public class AudioPlayerWrapper implements MediaPlayer.OnPreparedListener {
     }
 
     /**
+     * 是否准备完毕
+     *
+     * @return
+     */
+    public boolean isPrepared() {
+        return mMediaPlayer != null && mIsPrepared;
+    }
+
+    /**
      * 设置是否自动播放
      *
      * @param isAutoPlay

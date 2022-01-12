@@ -182,6 +182,17 @@ public class UserSettingActivity extends DataBindingActivity<UserSettingViewMode
 //            } else {
 //                MediaPlayerWrapper.getInstance().start();
 //            }
+            if (AudioPlayerWrapper.getInstance().isPlaying()) {
+                AudioPlayerWrapper.getInstance().pause();
+            }else {
+                if (AudioPlayerWrapper.getInstance().isPrepared()) {
+                    AudioPlayerWrapper.getInstance().start();
+                }else {
+                    AudioPlayerWrapper.getInstance()
+                            .setAutoPlay(true)
+                            .prepare(filePath);
+                }
+            }
             return;
         }
         MediaSelector.create(this)
