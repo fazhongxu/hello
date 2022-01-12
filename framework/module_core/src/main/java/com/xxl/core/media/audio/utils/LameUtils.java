@@ -9,7 +9,7 @@ package com.xxl.core.media.audio.utils;
 public class LameUtils {
 
     static {
-        System.loadLibrary("lamemp3");
+        System.loadLibrary("mp3lame");
     }
 
     public native static void close();

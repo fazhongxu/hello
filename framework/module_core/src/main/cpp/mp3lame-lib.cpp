@@ -1,6 +1,6 @@
 #include <jni.h>
 #include <string>
-#include "lamemp3-lib.h"
+#include "mp3lame-lib.h"
 #include "lame.h"
 #include "lame_global_flags.h"
 
