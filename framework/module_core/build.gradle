@@ -106,4 +106,7 @@ dependencies {
     // 仅参与编译，不参与打包，编译的时候本地有对应的aar，不报错，上传私服，不把aar打包进去，让项目不报错，分离aar和库
     compileOnly deps.mobile_ffmpeg
 
+    compileOnly deps.dkplayer.dkplayer
+    compileOnly deps.dkplayer.dkplayer_ijk
+
 }

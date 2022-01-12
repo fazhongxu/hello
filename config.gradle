@@ -63,6 +63,8 @@ versions.base_popup = "3.2.0"
 versions.jsbridge = "1.0.4"
 versions.agentweb = "v4.1.9-androidx"
 
+versions.dkplayer = "3.3.5"
+
 ext.versions = versions
 
 deps.android_build_gradle = "com.android.tools.build:gradle:$build_versions.android_build_gradle"
@@ -176,6 +178,12 @@ deps.jsbridge = "com.github.lzyzsd:jsbridge:$versions.jsbridge"
 
 //agentweb [https://github.com/Justson/AgentWeb]
 deps.agentweb = "com.github.Justson.AgentWeb:agentweb-core:$versions.agentweb"
+
+//dkplayer [https://github.com/Doikki/DKVideoPlayer]
+def dkplayer = [:]
+dkplayer.dkplayer = "xyz.doikki.android.dkplayer:dkplayer-java:$versions.dkplayer"
+dkplayer.dkplayer_ijk = "xyz.doikki.android.dkplayer:player-ijk:$versions.dkplayer"
+deps.dkplayer = dkplayer
 
 def origin = [:]
 // 是否使用远程依赖 true使用远程依赖（远程私服存储的aar依赖）

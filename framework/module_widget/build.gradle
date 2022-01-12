@@ -5,6 +5,7 @@ android {
 }
 
 dependencies {
-
+    api deps.dkplayer.dkplayer
+    api deps.dkplayer.dkplayer_ijk
 }
 

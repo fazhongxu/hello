@@ -132,5 +132,8 @@ dependencies {
     annotationProcessor deps.arouter.arouter_processor
 
     implementation deps.mobile_ffmpeg
+
+    implementation deps.dkplayer.dkplayer
+    implementation deps.dkplayer.dkplayer_ijk
 }
 
