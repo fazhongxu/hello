@@ -36,6 +36,8 @@ import com.xxl.hello.service.data.model.api.QueryUserInfoResponse;
 import com.xxl.hello.service.data.model.entity.LoginUserEntity;
 import com.xxl.hello.service.ui.BaseEventBusWrapper;
 import com.xxl.hello.service.ui.DataBindingActivity;
+import com.xxl.hello.widget.record.OnRecordListener;
+import com.xxl.hello.widget.record.RecordButton;
 
 import java.io.File;
 
@@ -163,6 +165,7 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
         setupToolbarLayout();
         registerAppStatusChangedListener(this);
         mMainViewModel.setObservableUserId(String.valueOf(TestUtils.currentTimeMillis()));
+        setupRecord();
     }
 
     @Override
@@ -191,7 +194,7 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
 
     //region: MainActivityNavigator
 
-//    @SingleClick
+    //    @SingleClick
 ////    @CheckLogin
 //    @CheckNetwork
 //    @Delay(delay = 200)
@@ -239,8 +242,8 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
      * @param audioFile 音频文件
      */
     @Override
-    public void onStopRecord(@NonNull final File audioFile){
-        LogUtils.d("音频文件-->"+audioFile.getAbsolutePath());
+    public void onStopRecord(@NonNull final File audioFile) {
+        LogUtils.d("音频文件-->" + audioFile.getAbsolutePath());
         mViewDataBinding.tvTest.setText(getString(R.string.core_start_record_audio_text));
     }
 
@@ -286,6 +289,33 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
     private void onErrorCallback(@Nullable final Throwable throwable) {
         ToastUtils.show("我是错误回调" + throwable.getMessage());
         Log.e("aaav", "错了错了v");
+    }
+
+    private void setupRecord() {
+        RecordButton recordButton = mViewDataBinding.recordBtn;
+        mViewDataBinding.recordBtn.setOnClickListener(v -> {
+            if (recordButton.isRunning()) {
+                recordButton.stop();
+            } else {
+                recordButton.start();
+            }
+        });
+        mViewDataBinding.recordBtn.setRecordListener(new OnRecordListener() {
+            @Override
+            public void onRecord() {
+
+            }
+
+            @Override
+            public void onRecordCancel() {
+
+            }
+
+            @Override
+            public void onRecordFinish() {
+
+            }
+        });
     }
 
     /**

@@ -6,4 +6,17 @@
         <attr name="civ_border_overlay" format="boolean" />
         <attr name="civ_circle_background_color" format="color" />
     </declare-styleable>
+
+    <declare-styleable name="RecordButton">
+        <attr name="buttonRadius" format="dimension"/>
+        <attr name="progressStroke" format="integer"/>
+        <attr name="buttonGap" format="dimension"/>
+        <attr name="buttonColor" format="color|reference"/>
+        <attr name="progressEmptyColor" format="color|reference"/>
+        <attr name="progressColor" format="color|reference"/>
+        <attr name="recordIcon" format="reference"/>
+        <attr name="stopIcon" format="reference"/>
+        <attr name="maxMillisecond" format="integer"/>
+    </declare-styleable>
+
 </resources>

@@ -69,6 +69,22 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_user_info"
                 tools:text="test" />
 
+            <com.xxl.hello.widget.record.RecordButton
+                android:id="@+id/recordBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintRight_toRightOf="parent"
+                app:buttonGap="10dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/tv_test"
+                android:layout_centerInParent="true"
+                app:buttonRadius="40dp"
+                app:maxMillisecond="10000"
+                app:progressColor="@color/colorPrimary"
+                app:progressStroke="15"
+                app:stopIcon="@drawable/ic_launcher"
+                app:recordIcon="@drawable/ic_voice_white" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.xxl.core.widget.FitsSystemLinearLayout>
 
