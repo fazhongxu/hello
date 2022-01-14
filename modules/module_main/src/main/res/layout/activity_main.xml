@@ -79,7 +79,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/tv_test"
                 android:layout_centerInParent="true"
                 app:buttonRadius="40dp"
-                app:maxMillisecond="10000"
+                app:maxMillisecond="60000"
                 app:progressColor="@color/colorPrimary"
                 app:progressStroke="15"
                 app:stopIcon="@drawable/ic_launcher"

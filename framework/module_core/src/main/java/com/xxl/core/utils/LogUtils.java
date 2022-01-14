@@ -58,38 +58,38 @@ public class LogUtils {
         });
     }
 
-    public static void i(@NonNull final String message) {
+    public static void i(@NonNull final String message,Object... objects) {
         if (!sIsDebug) {
             return;
         }
-        Logger.i(message);
+        Logger.i(message,objects);
     }
 
-    public static void d(@NonNull final String message) {
+    public static void d(@NonNull final String message,Object... objects) {
         if (!sIsDebug) {
             return;
         }
-        Logger.d(message);
+        Logger.d(message,objects);
     }
 
-    public static void w(@NonNull final String message) {
+    public static void w(@NonNull final String message,Object... objects) {
         if (!sIsDebug) {
             return;
         }
-        Logger.w(message);
+        Logger.w(message,objects);
     }
 
-    public static void e(@NonNull final String message) {
+    public static void e(@NonNull final String message,Object... objects) {
         if (!sIsDebug) {
             return;
         }
         if (TextUtils.isEmpty(message)){
             return;
         }
-        Logger.e(message);
+        Logger.e(message,objects);
     }
 
-    public static void e(@NonNull final Object object) {
+    public static void e(@NonNull final Object object,Object... objects) {
         if (!sIsDebug) {
             return;
         }

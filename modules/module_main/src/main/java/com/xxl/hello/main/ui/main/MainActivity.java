@@ -10,10 +10,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.tbruyelle.rxpermissions3.RxPermissions;
-import com.xxl.core.aop.annotation.CheckNetwork;
-import com.xxl.core.aop.annotation.Delay;
 import com.xxl.core.aop.annotation.Safe;
-import com.xxl.core.aop.annotation.SingleClick;
 import com.xxl.core.data.router.AppRouterApi;
 import com.xxl.core.listener.OnAppStatusChangedListener;
 import com.xxl.core.media.audio.AudioCapture;
@@ -21,8 +18,6 @@ import com.xxl.core.media.audio.AudioRecordFormat;
 import com.xxl.core.utils.AppExpandUtils;
 import com.xxl.core.utils.AppUtils;
 import com.xxl.core.utils.DisplayUtils;
-import com.xxl.core.utils.FFmpegUtils;
-import com.xxl.core.utils.FileUtils;
 import com.xxl.core.utils.LogUtils;
 import com.xxl.core.utils.StatusBarUtil;
 import com.xxl.core.utils.TestUtils;
@@ -296,9 +291,16 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
         mViewDataBinding.recordBtn.setOnClickListener(v -> {
             if (recordButton.isRunning()) {
                 recordButton.stop();
+                AudioCapture.getInstance().stopCapture();
             } else {
                 recordButton.start();
+                AudioCapture.getInstance()
+                        .setAudioRecordFormat(AudioRecordFormat.MP3)
+                        .setOutFilePath(CacheDirConfig.SHARE_FILE_DIR)
+                        .setOnAudioFrameCapturedListener(this)
+                        .startCapture();
             }
+//            audioCapture();
         });
         mViewDataBinding.recordBtn.setRecordListener(new OnRecordListener() {
             @Override
@@ -308,12 +310,12 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
 
             @Override
             public void onRecordCancel() {
-
+                AudioCapture.getInstance().stopCapture();
             }
 
             @Override
             public void onRecordFinish() {
-
+                AudioCapture.getInstance().stopCapture();
             }
         });
     }

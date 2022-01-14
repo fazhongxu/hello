@@ -6,7 +6,6 @@ import android.media.MediaRecorder;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.text.TextUtils;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,6 +13,7 @@ import androidx.annotation.Nullable;
 import com.xxl.core.media.audio.utils.LameUtils;
 import com.xxl.core.utils.FFmpegUtils;
 import com.xxl.core.utils.FileUtils;
+import com.xxl.core.utils.LogUtils;
 import com.xxl.core.utils.TimeUtils;
 
 import java.io.File;
@@ -165,25 +165,25 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
         if (mPcmEncoderAac == null || mPcmEncoderAac.getSampleRate() != sampleRateInHz) {
             mPcmEncoderAac = new PcmEncoderAac(sampleRateInHz, this);
         }
-        LameUtils.init(sampleRateInHz,1,sampleRateInHz,32);
+        LameUtils.init(sampleRateInHz, 1, sampleRateInHz, 32);
 
         if (mIsCaptureStarted) {
-            Log.e(TAG, "Capture already started !");
+            LogUtils.e(TAG, "Capture already started !");
             mRecordState = AudioRecordState.RECORDING;
             return false;
         }
 
         mMinBufferSize = AudioRecord.getMinBufferSize(sampleRateInHz, channelConfig, audioFormat);
         if (mMinBufferSize == AudioRecord.ERROR_BAD_VALUE) {
-            Log.e(TAG, "Invalid parameter !");
+            LogUtils.e(TAG, "Invalid parameter !");
             mRecordState = AudioRecordState.ERROR;
             return false;
         }
-        Log.d(TAG, "getMinBufferSize = " + mMinBufferSize + " bytes !");
+        LogUtils.d(TAG, "getMinBufferSize = " + mMinBufferSize + " bytes !");
 
         mAudioRecord = new AudioRecord(audioSource, sampleRateInHz, channelConfig, audioFormat, mMinBufferSize);
         if (mAudioRecord.getState() == AudioRecord.STATE_UNINITIALIZED) {
-            Log.e(TAG, "AudioRecord initialize fail !");
+            LogUtils.e(TAG, "AudioRecord initialize fail !");
             mRecordState = AudioRecordState.UNINITIALIZED;
             return false;
         }
@@ -201,7 +201,7 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
             mAudioFrameCapturedListener.onStartRecord();
         }
 
-        Log.d(TAG, "Start audio capture success !");
+        LogUtils.d(TAG, "Start audio capture success !");
 
         return true;
     }
@@ -256,7 +256,7 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
             mAudioRecord.release();
             mHandler.removeCallbacksAndMessages(null);
         } catch (Throwable e) {
-            Log.e(TAG, "AudioRecord release");
+            LogUtils.e(TAG, "AudioRecord release");
         }
     }
 
@@ -277,7 +277,7 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
 
         mAudioFrameCapturedListener = null;
 
-        Log.d(TAG, "Stop audio capture success !");
+        LogUtils.d(TAG, "Stop audio capture success !");
     }
 
     /**
@@ -329,16 +329,16 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
 
                 int ret = mAudioRecord.read(buffer, 0, mMinBufferSize);
                 if (ret == AudioRecord.ERROR_INVALID_OPERATION) {
-                    Log.e(TAG, "Error ERROR_INVALID_OPERATION");
+                    LogUtils.e(TAG, "Error ERROR_INVALID_OPERATION");
                     mRecordState = AudioRecordState.ERROR;
                 } else if (ret == AudioRecord.ERROR_BAD_VALUE) {
-                    Log.e(TAG, "Error ERROR_BAD_VALUE");
+                    LogUtils.e(TAG, "Error ERROR_BAD_VALUE");
                     mRecordState = AudioRecordState.ERROR;
                 } else {
                     if (mAudioFrameCapturedListener != null) {
                         mAudioFrameCapturedListener.onAudioFrameCaptured(buffer);
                     }
-                    Log.d(TAG, "OK, Captured " + ret + " bytes !");
+                    LogUtils.d(TAG, "OK, Captured " + ret + " bytes !");
                     if (state == AudioRecord.RECORDSTATE_RECORDING) {
                         mRecordState = AudioRecordState.RECORDING;
                         if (mPcmEncoderAac != null) {
@@ -373,7 +373,7 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
 
     @Override
     public void encodeAAC(byte[] data) {
-        Log.d(TAG, "encodeAAC: " + data.length);
+        LogUtils.d(TAG, "encodeAAC: " + data.length);
         if (mAudioOutputStream == null) {
             return;
         }

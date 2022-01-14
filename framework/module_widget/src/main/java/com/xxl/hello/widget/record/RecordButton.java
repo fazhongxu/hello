@@ -166,6 +166,7 @@ public class RecordButton extends View implements Animatable {
 
         bitmap = BitmapFactory.decodeResource(context.getResources(), recordIcon);
         recordStopBitmap = BitmapFactory.decodeResource(context.getResources(), recordStopIcon);
+
     }
 
     @Override
