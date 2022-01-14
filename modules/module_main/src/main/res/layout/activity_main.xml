@@ -74,14 +74,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintRight_toRightOf="parent"
-                app:buttonGap="10dp"
+                app:buttonGap="6dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintBottom_toTopOf="@+id/tv_test"
                 android:layout_centerInParent="true"
-                app:buttonRadius="40dp"
+                app:buttonRadius="30dp"
                 app:maxMillisecond="60000"
                 app:progressColor="@color/colorPrimary"
-                app:progressStroke="15"
+                app:progressStroke="8"
                 app:stopIcon="@mipmap/ic_launcher"
                 app:recordIcon="@mipmap/ic_voice_white" />
 
