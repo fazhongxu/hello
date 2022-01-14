@@ -82,8 +82,8 @@
                 app:maxMillisecond="60000"
                 app:progressColor="@color/colorPrimary"
                 app:progressStroke="15"
-                app:stopIcon="@drawable/ic_launcher"
-                app:recordIcon="@drawable/ic_voice_white" />
+                app:stopIcon="@mipmap/ic_launcher"
+                app:recordIcon="@mipmap/ic_voice_white" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.xxl.core.widget.FitsSystemLinearLayout>
