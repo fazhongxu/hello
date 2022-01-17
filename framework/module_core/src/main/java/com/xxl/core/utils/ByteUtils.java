@@ -1,5 +1,7 @@
 package com.xxl.core.utils;
 
+import android.util.Log;
+
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
@@ -17,8 +19,10 @@ public class ByteUtils {
         if(bytes==null){
             return null;
         }
-        short[] shorts = new short[bytes.length/2];
-        ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN).asShortBuffer().get(shorts);
+        int i = bytes.length / 2;
+        Log.e("aa", "bytesToShort: "+bytes.length+"--"+i);
+        short[] shorts = new short[i];
+        ByteBuffer.wrap(bytes).asShortBuffer().get(shorts);
         return shorts;
     }
     public static byte[] shortToBytes(short[] shorts) {

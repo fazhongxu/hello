@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.bumptech.glide.util.ByteBufferUtil;
 import com.xxl.core.media.audio.utils.LameUtils;
 import com.xxl.core.utils.ByteUtils;
 import com.xxl.core.utils.FFmpegUtils;
@@ -20,6 +21,7 @@ import com.xxl.core.utils.TimeUtils;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.nio.ByteBuffer;
 
 /**
  * 音频采集类
@@ -37,7 +39,11 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
 
     private static final int DEFAULT_SOURCE = MediaRecorder.AudioSource.MIC;
     private static final int DEFAULT_SAMPLE_RATE = 44100;
-    private static final int DEFAULT_CHANNEL_CONFIG = AudioFormat.CHANNEL_IN_STEREO;
+
+    private static final int DEFAULT_CHANNEL_CONFIG = AudioFormat.CHANNEL_IN_MONO;
+
+//    private static final int DEFAULT_CHANNEL_CONFIG = AudioFormat.CHANNEL_IN_STEREO;
+
     private static final int DEFAULT_AUDIO_FORMAT = AudioFormat.ENCODING_PCM_16BIT;
 
     private AudioRecord mAudioRecord;
@@ -166,6 +172,7 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
      * @param audioFormat
      * @return
      */
+    short[] buffer;
     public boolean startCapture(int audioSource, int sampleRateInHz, int channelConfig, int audioFormat) {
         if (TextUtils.isEmpty(mOutFilePath)) {
             throw new IllegalArgumentException("必须设置音频文件输出路径！");
@@ -174,10 +181,13 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
         audioMp3File = createAudioMp3File();
         mAudioOutputStream = createFileOutputStream();
 
+//        buffer = new short[sampleRateInHz * 2 * 5];
+
         if (mPcmEncoderAac == null || mPcmEncoderAac.getSampleRate() != sampleRateInHz) {
             mPcmEncoderAac = new PcmEncoderAac(sampleRateInHz, this);
         }
-        LameUtils.init(sampleRateInHz, 1, sampleRateInHz, 32);
+
+        LameUtils.init(sampleRateInHz, 2, sampleRateInHz, 64);
 
         if (mIsCaptureStarted) {
             LogUtils.e(TAG, "Capture already started !");
@@ -356,8 +366,8 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
             int state = mAudioRecord.getRecordingState();
             while (!mIsLoopExit) {
 
-                byte[] buffer = new byte[mMinBufferSize];
-
+//                byte[] byteBuffer = new byte[mMinBufferSize];
+                short[] buffer = new short[mMinBufferSize];
                 int ret = mAudioRecord.read(buffer, 0, mMinBufferSize);
                 if (ret == AudioRecord.ERROR_INVALID_OPERATION) {
                     LogUtils.e(TAG, "Error ERROR_INVALID_OPERATION");
@@ -367,22 +377,16 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
                     mRecordState = AudioRecordState.ERROR;
                 } else {
                     if (mAudioFrameCapturedListener != null) {
-                        mAudioFrameCapturedListener.onAudioFrameCaptured(buffer);
+//                        mAudioFrameCapturedListener.onAudioFrameCaptured(buffer);
                     }
                     LogUtils.d(TAG, "OK, Captured " + ret + " bytes !");
                     if (state == AudioRecord.RECORDSTATE_RECORDING) {
                         mRecordState = AudioRecordState.RECORDING;
                         if (mPcmEncoderAac != null) {
-                            mPcmEncoderAac.encodeData(buffer);
+//                            mPcmEncoderAac.encodeData();
                         }
-                        int size = buffer.length;
-                        short[] shortArray = new short[size];
-
-                        for (int index = 0; index < size; index++) {
-                            shortArray[index] = (short) buffer[index];
-                        }
-                        // TODO: 2022/1/14  
-                        mMp3EncodeThread.addTask(shortArray, ret);
+                        // TODO: 2022/1/14
+                        mMp3EncodeThread.addTask(buffer, ret);
                     }
                 }
                 SystemClock.sleep(10);
