@@ -13,6 +13,7 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.drawable.Animatable;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 
@@ -24,18 +25,25 @@ import org.jetbrains.annotations.Nullable;
 /**
  * 自定义录制按钮
  * <pre>
- *        <com.xxl.hello.widget.record.RecordButton
- *         android:id="@+id/recordBtn"
- *         android:layout_width="wrap_content"
- *         android:layout_height="wrap_content"
- *         app:buttonGap="10dp"
- *         android:layout_centerInParent="true"
- *         app:buttonRadius="40dp"
- *         app:maxMillisecond="10000"
- *         app:progressColor="@color/colorPrimary"
- *         app:progressStroke="15"
- *         app:stopIcon="@drawable/ic_launcher"
- *         app:recordIcon="@drawable/ic_keyboard_voice_white_36dp" />
+ *   <com.xxl.hello.widget.record.RecordButton
+ *       android:id="@+id/recordBtn"
+ *       android:layout_width="wrap_content"
+ *       android:layout_height="wrap_content"
+ *       android:layout_centerInParent="true"
+ *       app:buttonColor="#56BF6C"
+ *       app:buttonGap="2dp"
+ *       app:buttonRadius="33dp"
+ *       app:buttonRunningColor="#FFFFFF"
+ *       app:layout_constraintBottom_toTopOf="@+id/tv_test"
+ *       app:layout_constraintLeft_toLeftOf="parent"
+ *       app:layout_constraintRight_toRightOf="parent"
+ *       app:maxMillisecond="60000"
+ *       app:progressColor="#56BF6C"
+ *       app:progressEmptyColor="#4D56BF6C"
+ *       app:progressNormalColor="#F5F6F6"
+ *       app:progressStroke="15"
+ *       app:recordIcon="@mipmap/ic_voice_white"
+ *       app:stopIcon="@mipmap/ic_audio_record_stop" />
  * </pre>
  *
  * @author xxl.
@@ -47,8 +55,10 @@ public class RecordButton extends View implements Animatable {
      * values to draw
      */
     private Paint buttonPaint;
+    private Paint buttonRunningPaint;
     private Paint progressEmptyPaint;
     private Paint progressPaint;
+    private Paint progressNormalPaint;
     private RectF rectF;
 
     /**
@@ -82,6 +92,11 @@ public class RecordButton extends View implements Animatable {
     private int buttonColor;
 
     /**
+     * record button fill running color
+     */
+    private int buttonRunningColor;
+
+    /**
      * progress ring background color
      */
     private int progressEmptyColor;
@@ -90,6 +105,11 @@ public class RecordButton extends View implements Animatable {
      * progress ring arc color
      */
     private int progressColor;
+
+    /**
+     * progress ring arc normal color
+     */
+    private int progressNormalColor;
 
     /**
      * record icon res id
@@ -106,6 +126,17 @@ public class RecordButton extends View implements Animatable {
     private int currentMilliSecond;
 
     private int maxMilliSecond;
+
+    /**
+     * record zoom animation
+     */
+    private boolean enableZoomAnimation;
+
+    /**
+     * enable touch start
+     */
+    private boolean enableTouchStar;
+
     /**
      * progress starting degress for arc
      */
@@ -140,16 +171,24 @@ public class RecordButton extends View implements Animatable {
         progressStroke = typedArray.getInt(R.styleable.RecordButton_progressStroke, 10);
         buttonGap = typedArray.getDimension(R.styleable.RecordButton_buttonGap, getResources().getDisplayMetrics().scaledDensity * 8f);
         buttonColor = typedArray.getColor(R.styleable.RecordButton_buttonColor, Color.RED);
+        buttonRunningColor = typedArray.getColor(R.styleable.RecordButton_buttonRunningColor, buttonColor);
         progressEmptyColor = typedArray.getColor(R.styleable.RecordButton_progressEmptyColor, Color.LTGRAY);
         progressColor = typedArray.getColor(R.styleable.RecordButton_progressColor, Color.BLUE);
+        progressNormalColor = typedArray.getColor(R.styleable.RecordButton_progressNormalColor, Color.LTGRAY);
         recordIcon = typedArray.getResourceId(R.styleable.RecordButton_recordIcon, -1);
         recordStopIcon = typedArray.getResourceId(R.styleable.RecordButton_stopIcon, -1);
         maxMilliSecond = typedArray.getInt(R.styleable.RecordButton_maxMillisecond, 5000);
+        enableZoomAnimation = typedArray.getBoolean(R.styleable.RecordButton_enableZoomAnimation, true);
+        enableTouchStar = typedArray.getBoolean(R.styleable.RecordButton_enableTouchStart, false);
         typedArray.recycle();
 
         buttonPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         buttonPaint.setColor(buttonColor);
         buttonPaint.setStyle(Paint.Style.FILL);
+
+        buttonRunningPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        buttonRunningPaint.setColor(buttonRunningColor);
+        buttonRunningPaint.setStyle(Paint.Style.FILL);
 
         progressEmptyPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         progressEmptyPaint.setColor(progressEmptyColor);
@@ -161,6 +200,11 @@ public class RecordButton extends View implements Animatable {
         progressPaint.setStyle(Paint.Style.STROKE);
         progressPaint.setStrokeWidth(progressStroke);
         progressPaint.setStrokeCap(Paint.Cap.ROUND);
+
+        progressNormalPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        progressNormalPaint.setColor(progressNormalColor);
+        progressNormalPaint.setStyle(Paint.Style.STROKE);
+        progressNormalPaint.setStrokeWidth(progressStroke);
 
         rectF = new RectF();
 
@@ -176,10 +220,9 @@ public class RecordButton extends View implements Animatable {
         int cx = getWidth() / 2;
         int cy = getHeight() / 2;
 
-        canvas.drawCircle(cx, cy, buttonRadius, buttonPaint);
-        canvas.drawCircle(cx, cy, buttonRadius + buttonGap, progressEmptyPaint);
-
-        if (isRecording) {
+        canvas.drawCircle(cx, cy, buttonRadius, isRunning() ? buttonRunningPaint : buttonPaint);
+        canvas.drawCircle(cx, cy, buttonRadius + buttonGap, isRunning() ? progressNormalPaint : progressEmptyPaint);
+        if (isRunning()) {
             if (recordStopIcon != -1) {
                 canvas.drawBitmap(recordStopBitmap, (cx - recordStopBitmap.getHeight() / 2), (cy - recordStopBitmap.getWidth() / 2), null);
             }
@@ -233,20 +276,24 @@ public class RecordButton extends View implements Animatable {
         setMeasuredDimension(width, height);
     }
 
-//    @SuppressLint("ClickableViewAccessibility")
-//    @Override
-//    public boolean onTouchEvent(MotionEvent event) {
-//        switch (event.getAction()) {
-//            case MotionEvent.ACTION_DOWN:
-//                start();
-//                progressAnimate().start();
-//                return true;
-//            case MotionEvent.ACTION_UP:
-//                stop();
-//                return true;
-//        }
-//        return super.onTouchEvent(event);
-//    }
+    @SuppressLint("ClickableViewAccessibility")
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (!enableTouchStar) {
+            return super.onTouchEvent(event);
+        }
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                start();
+                progressAnimate().start();
+                return true;
+            case MotionEvent.ACTION_UP:
+                stop();
+                return true;
+            default:
+        }
+        return super.onTouchEvent(event);
+    }
 
     /**
      * record button scale animation starting
@@ -254,7 +301,9 @@ public class RecordButton extends View implements Animatable {
     @Override
     public void start() {
         this.isRecording = true;
-        this.scaleAnimation(1.1F, 1.1F);
+        if (enableZoomAnimation) {
+            this.scaleAnimation(1.1F, 1.1F);
+        }
         this.progressAnimate().start();
     }
 
@@ -265,7 +314,9 @@ public class RecordButton extends View implements Animatable {
     public void stop() {
         this.isRecording = false;
         this.currentMilliSecond = 0;
-        this.scaleAnimation(1.0F, 1.0F);
+        if (enableZoomAnimation) {
+            this.scaleAnimation(1.0F, 1.0F);
+        }
     }
 
     @Override
@@ -300,7 +351,7 @@ public class RecordButton extends View implements Animatable {
                 if (isRecording) {
                     setCurrentMilliSecond(value);
                     if (recordListener != null) {
-                        recordListener.onRecord();
+                        recordListener.onRecord(currentMilliSecond,maxMilliSecond);
                     }
                 } else {
                     animation.cancel();
@@ -329,8 +380,12 @@ public class RecordButton extends View implements Animatable {
         this.postInvalidate();
     }
 
-    public final int getCurrentMiliSecond() {
+    public final int getCurrentMilliSecond() {
         return this.currentMilliSecond;
+    }
+
+    public int getMaxMilliSecond() {
+        return maxMilliSecond;
     }
 
     public final void setButtonRadius(int buttonRadius) {

@@ -21,6 +21,7 @@ import com.xxl.core.utils.DisplayUtils;
 import com.xxl.core.utils.LogUtils;
 import com.xxl.core.utils.StatusBarUtil;
 import com.xxl.core.utils.TestUtils;
+import com.xxl.core.utils.TimeUtils;
 import com.xxl.core.utils.ToastUtils;
 import com.xxl.hello.common.CacheDirConfig;
 import com.xxl.hello.main.BR;
@@ -35,6 +36,7 @@ import com.xxl.hello.widget.record.OnRecordListener;
 import com.xxl.hello.widget.record.RecordButton;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 
 import javax.inject.Inject;
 
@@ -228,7 +230,7 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
      */
     @Override
     public void onStartRecord() {
-        mViewDataBinding.tvTest.setText(getString(R.string.core_stop_record_audio_text));
+        mViewDataBinding.tvTest.setText(getString(R.string.core_recording_text));
     }
 
     /**
@@ -303,18 +305,27 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
 //            audioCapture();
         });
         mViewDataBinding.recordBtn.setRecordListener(new OnRecordListener() {
+
+            final SimpleDateFormat safeDateFormat = TimeUtils.getSafeDateFormat("mm:ss");
+
             @Override
-            public void onRecord() {
+            public void onRecord(long currentTimeMills,
+                                 long totalTimeMills) {
+                long timeSpan = TimeUtils.getTimeSpan(totalTimeMills, currentTimeMills,TimeUtils.TimeConstants.MSEC);
+                Log.e("aa", "onRecord: "+TimeUtils.millis2String(timeSpan,safeDateFormat));
+                mViewDataBinding.tvDuration.setText(TimeUtils.millis2String(timeSpan,safeDateFormat));
 
             }
 
             @Override
             public void onRecordCancel() {
+                mViewDataBinding.tvDuration.setText(TimeUtils.millis2String(mViewDataBinding.recordBtn.getMaxMilliSecond(),safeDateFormat));
                 AudioCapture.getInstance().stopCapture();
             }
 
             @Override
             public void onRecordFinish() {
+                mViewDataBinding.tvDuration.setText(TimeUtils.millis2String(mViewDataBinding.recordBtn.getMaxMilliSecond(),safeDateFormat));
                 AudioCapture.getInstance().stopCapture();
             }
         });

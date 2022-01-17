@@ -10,8 +10,12 @@ public interface OnRecordListener {
 
     /**
      * 录制中
+     *
+     * @param currentTimeMills
+     * @param totalTimeMills
      */
-    void onRecord();
+    void onRecord(final long currentTimeMills,
+                  final long totalTimeMills);
 
     /**
      * 取消录制

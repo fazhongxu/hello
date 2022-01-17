@@ -11,14 +11,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.xxl.core.media.audio.utils.LameUtils;
-import com.xxl.core.utils.ByteUtils;
 import com.xxl.core.utils.FFmpegUtils;
 import com.xxl.core.utils.FileUtils;
 import com.xxl.core.utils.LogUtils;
 import com.xxl.core.utils.TimeUtils;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
 /**
@@ -63,9 +61,14 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
     private String mOutFilePath;
 
     /**
-     * 音频文件
+     * aac格式的音频文件
      */
     private File mAudioFile;
+
+    /**
+     * mp3格式的音频文件
+     */
+    private File audioMp3File;
 
     /**
      * 输出的音频流
@@ -82,13 +85,6 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
      */
     @AudioRecordFormat
     private int mAudioRecordFormat = AudioRecordFormat.AAC;
-
-    /**
-     * 自定义 每160帧作为一个周期，通知一下需要进行编码
-     */
-    private static final int FRAME_COUNT = 160;
-
-    private DataEncodeThread mMp3EncodeThread;
 
     //endregion
 
@@ -155,8 +151,6 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
                 DEFAULT_AUDIO_FORMAT);
     }
 
-    File audioMp3File;
-
     /**
      * 开始采集数据
      *
@@ -200,15 +194,6 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
             return false;
         }
 
-        try {
-            mMp3EncodeThread = new DataEncodeThread(audioMp3File, mMinBufferSize);
-            mMp3EncodeThread.start();
-            mAudioRecord.setRecordPositionUpdateListener(mMp3EncodeThread, mMp3EncodeThread.getHandler());
-            mAudioRecord.setPositionNotificationPeriod(FRAME_COUNT);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
         mAudioRecord.startRecording();
 
         mIsLoopExit = false;
@@ -247,7 +232,6 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
         if (mAudioRecord.getRecordingState() == AudioRecord.RECORDSTATE_RECORDING) {
             mAudioRecord.stop();
         }
-        mMp3EncodeThread.sendStopMessage();
 
         mAudioRecord.release();
 
@@ -375,14 +359,6 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
                         if (mPcmEncoderAac != null) {
                             mPcmEncoderAac.encodeData(buffer);
                         }
-                        int size = buffer.length;
-                        short[] shortArray = new short[size];
-
-                        for (int index = 0; index < size; index++) {
-                            shortArray[index] = (short) buffer[index];
-                        }
-                        // TODO: 2022/1/14  
-                        mMp3EncodeThread.addTask(shortArray, ret);
                     }
                 }
                 SystemClock.sleep(10);
@@ -399,10 +375,7 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
         @Override
         public void run() {
             if (mAudioRecordFormat == AudioRecordFormat.MP3) {
-//                final String fileName = TimeUtils.currentTimeMillis() + ".mp3";
-//                final File audioMp3File = createAudioFile(fileName);
-//                FFmpegUtils.aac2mp3(mAudioFile.getAbsolutePath(), audioMp3File.getAbsolutePath());
-                // TODO: 2022/1/14  
+                FFmpegUtils.aac2mp3(mAudioFile.getAbsolutePath(), audioMp3File.getAbsolutePath());
                 mHandler.post(() -> recordComplete(audioMp3File));
                 return;
             }

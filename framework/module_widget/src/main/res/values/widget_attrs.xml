@@ -12,11 +12,15 @@
         <attr name="progressStroke" format="integer"/>
         <attr name="buttonGap" format="dimension"/>
         <attr name="buttonColor" format="color|reference"/>
+        <attr name="buttonRunningColor" format="color|reference"/>
         <attr name="progressEmptyColor" format="color|reference"/>
         <attr name="progressColor" format="color|reference"/>
+        <attr name="progressNormalColor" format="color|reference"/>
         <attr name="recordIcon" format="reference"/>
         <attr name="stopIcon" format="reference"/>
         <attr name="maxMillisecond" format="integer"/>
+        <attr name="enableZoomAnimation" format="boolean"/>
+        <attr name="enableTouchStart" format="boolean"/>
     </declare-styleable>
 
 </resources>

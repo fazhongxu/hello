@@ -53,8 +53,22 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
+                android:visibility="gone"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="user info" />
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_duration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/recordBtn"
+                tools:text="" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_test"
@@ -73,17 +87,21 @@
                 android:id="@+id/recordBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintRight_toRightOf="parent"
-                app:buttonGap="6dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintBottom_toTopOf="@+id/tv_test"
                 android:layout_centerInParent="true"
-                app:buttonRadius="30dp"
+                app:buttonColor="#56BF6C"
+                app:buttonGap="2dp"
+                app:buttonRadius="33dp"
+                app:buttonRunningColor="#FFFFFF"
+                app:layout_constraintBottom_toTopOf="@+id/tv_test"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
                 app:maxMillisecond="60000"
-                app:progressColor="@color/colorPrimary"
-                app:progressStroke="8"
-                app:stopIcon="@mipmap/ic_launcher"
-                app:recordIcon="@mipmap/ic_voice_white" />
+                app:progressColor="#56BF6C"
+                app:progressEmptyColor="#4D56BF6C"
+                app:progressNormalColor="#F5F6F6"
+                app:progressStroke="15"
+                app:recordIcon="@mipmap/ic_voice_white"
+                app:stopIcon="@mipmap/ic_audio_record_stop" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.xxl.core.widget.FitsSystemLinearLayout>
