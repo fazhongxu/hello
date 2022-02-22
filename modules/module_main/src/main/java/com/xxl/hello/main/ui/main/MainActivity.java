@@ -10,7 +10,11 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.tbruyelle.rxpermissions3.RxPermissions;
+import com.xxl.core.aop.annotation.CheckLogin;
+import com.xxl.core.aop.annotation.CheckNetwork;
+import com.xxl.core.aop.annotation.Delay;
 import com.xxl.core.aop.annotation.Safe;
+import com.xxl.core.aop.annotation.SingleClick;
 import com.xxl.core.data.router.AppRouterApi;
 import com.xxl.core.listener.OnAppStatusChangedListener;
 import com.xxl.core.media.audio.AudioCapture;
@@ -28,6 +32,7 @@ import com.xxl.hello.main.BR;
 import com.xxl.hello.main.R;
 import com.xxl.hello.main.databinding.ActivityMainBinding;
 import com.xxl.hello.main.ui.main.window.PrivacyPolicyPopupWindow;
+import com.xxl.hello.router.UserRouterApi;
 import com.xxl.hello.service.data.model.api.QueryUserInfoResponse;
 import com.xxl.hello.service.data.model.entity.LoginUserEntity;
 import com.xxl.hello.service.ui.BaseEventBusWrapper;
@@ -191,15 +196,13 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
 
     //region: MainActivityNavigator
 
-    //    @SingleClick
-////    @CheckLogin
-//    @CheckNetwork
-//    @Delay(delay = 200)
+        @SingleClick
+    @CheckLogin
+    @CheckNetwork
+    @Delay(delay = 200)
     @Override
     public void onTestClick() {
-//        UserRouterApi.Login.navigation();
-        audioCapture();
-        // TODO: 2022/1/10 音频存储 ，转码
+        UserRouterApi.Login.navigation();
     }
 
     /**
@@ -302,7 +305,6 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
                         .setOnAudioFrameCapturedListener(this)
                         .startCapture();
             }
-//            audioCapture();
         });
         mViewDataBinding.recordBtn.setRecordListener(new OnRecordListener() {
 
