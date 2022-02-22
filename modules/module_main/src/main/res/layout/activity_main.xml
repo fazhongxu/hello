@@ -76,8 +76,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
+                android:visibility="visible"
                 android:onClick="@{()->navigator.onTestClick()}"
-                android:text="@{viewModel.observableUserId}"
+                android:text="12121212"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_user_info"
@@ -91,17 +92,18 @@
                 app:buttonColor="#56BF6C"
                 app:buttonGap="2dp"
                 app:buttonRadius="33dp"
+                android:visibility="gone"
                 app:buttonRunningColor="#FFFFFF"
                 app:layout_constraintBottom_toTopOf="@+id/tv_test"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:maxMillisecond="60000"
-                app:progressColor="#56BF6C"
-                app:progressEmptyColor="#4D56BF6C"
-                app:progressNormalColor="#F5F6F6"
+                app:progressColor="#4D56BF6C"
+                app:progressEmptyColor="@android:color/transparent"
+                app:progressNormalColor="#E5E5E5"
                 app:progressStroke="15"
-                app:recordIcon="@mipmap/ic_voice_white"
-                app:stopIcon="@mipmap/ic_audio_record_stop" />
+                app:recordIcon="@mipmap/ic_audio_document_record_by_robot_normal"
+                app:stopIcon="@mipmap/ic_audio_document_record_by_robot_recording" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.xxl.core.widget.FitsSystemLinearLayout>
