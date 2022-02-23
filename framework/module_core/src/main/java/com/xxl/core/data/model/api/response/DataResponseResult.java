@@ -18,10 +18,6 @@ public class DataResponseResult<T> extends ResponseResult<T> {
 
     //region: 构造函数
 
-    private DataResponseResult() {
-
-    }
-
     /**
      * 获取响应数据
      *
@@ -32,9 +28,6 @@ public class DataResponseResult<T> extends ResponseResult<T> {
         return mData;
     }
 
-    public final static DataResponseResult obtain() {
-        return new DataResponseResult();
-    }
 
     //endregion
 
