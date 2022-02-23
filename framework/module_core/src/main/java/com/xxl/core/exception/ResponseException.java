@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.gson.JsonParseException;
+import com.google.gson.annotations.SerializedName;
 
 import org.json.JSONException;
 
@@ -19,14 +20,22 @@ public class ResponseException extends Exception {
     //region: 成员变量
 
     /**
-     * 异常Code
+     * 请求Code
      */
+    @SerializedName("code")
     private int mCode;
 
     /**
-     * 异常信息
+     * 返回的信息
      */
+    @SerializedName("message")
     private String mMessage;
+
+    /**
+     * 返回的数据
+     */
+    @SerializedName("data")
+    private Object mData;
 
     //endregion
 

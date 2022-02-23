@@ -1,6 +1,8 @@
 package com.xxl.core.exception;
 
 /**
+ * 服务端响应code值
+ *
  * @author xxl.
  * @date 2021/11/26.
  */
@@ -11,7 +13,12 @@ public class ResponseCode {
     /**
      * 未知异常
      */
-    public static final int RESPONSE_CODE_UN_KNOW= -1;
+    public static final int RESPONSE_CODE_UN_KNOW = -1;
+
+    /**
+     * 请求成功
+     */
+    public static final int RESPONSE_CODE_SUCCESS = 200;
 
     /**
      * 解析异常
