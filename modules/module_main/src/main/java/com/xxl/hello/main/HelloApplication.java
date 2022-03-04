@@ -5,7 +5,6 @@ import android.text.TextUtils;
 
 import com.luck.picture.lib.engine.PictureSelectorEngine;
 import com.xxl.core.BaseApplication;
-import com.xxl.hello.common.NetworkConfig;
 import com.xxl.core.data.router.AppRouterApi;
 import com.xxl.core.image.selector.MediaSelector;
 import com.xxl.core.image.selector.MediaSelectorApp;
@@ -14,6 +13,7 @@ import com.xxl.core.listener.IApplication;
 import com.xxl.core.utils.CacheUtils;
 import com.xxl.core.utils.LogUtils;
 import com.xxl.core.widget.swipebacklayout.SwipeBackActivityManager;
+import com.xxl.hello.common.NetworkConfig;
 import com.xxl.hello.main.di.component.DaggerAppComponent;
 
 import javax.inject.Inject;
@@ -114,7 +114,7 @@ public class HelloApplication extends BaseApplication implements IApplication, M
     @Override
     public void initPlugins() {
         super.initPlugins();
-        CacheUtils.init(this);
+        CacheUtils.init(this,NetworkConfig.isDebug());
         LogUtils.init(NetworkConfig.isDebug());
         MediaSelector.init(this);
         SwipeBackActivityManager.init(this);

@@ -350,14 +350,18 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
                     LogUtils.e(TAG, "Error ERROR_BAD_VALUE");
                     mRecordState = AudioRecordState.ERROR;
                 } else {
+                    byte[] byteNew = new byte[buffer.length];
+
+                    AudioVolumeUtils.amplifyPCMData(buffer,buffer.length,byteNew,16, (float) AudioVolumeUtils.factor);
+
                     if (mAudioFrameCapturedListener != null) {
-                        mAudioFrameCapturedListener.onAudioFrameCaptured(buffer);
+                        mAudioFrameCapturedListener.onAudioFrameCaptured(byteNew);
                     }
                     LogUtils.d(TAG, "OK, Captured " + ret + " bytes !");
                     if (state == AudioRecord.RECORDSTATE_RECORDING) {
                         mRecordState = AudioRecordState.RECORDING;
                         if (mPcmEncoderAac != null) {
-                            mPcmEncoderAac.encodeData(buffer);
+                            mPcmEncoderAac.encodeData(byteNew);
                         }
                     }
                 }

@@ -17,7 +17,7 @@ public class CacheUtils {
     /**
      * 是否是debug模式
      */
-    private static boolean IS_DEBUG;
+    private static boolean sIsDebug;
 
     /**
      * 默认名称
@@ -41,8 +41,10 @@ public class CacheUtils {
      *
      * @param application
      */
-    public static void init(@NonNull final Application application) {
+    public static void init(@NonNull final Application application,
+                            final boolean isDebug) {
         MMKV.initialize(application);
+        sIsDebug = isDebug;
     }
 
     /**
@@ -51,7 +53,7 @@ public class CacheUtils {
      * @param isDebug
      */
     public static void setIsDebug(final boolean isDebug) {
-        IS_DEBUG = isDebug;
+        sIsDebug = isDebug;
     }
 
     /**
@@ -61,10 +63,9 @@ public class CacheUtils {
      * @param value
      * @return
      */
-    public static boolean encode(@NonNull final String mmapID,
-                                 @NonNull final String key,
+    public static boolean encode(@NonNull final String key,
                                  @NonNull final String value) {
-        final MMKV mmkv = MMKV.mmkvWithID(mmapID);
+        final MMKV mmkv = MMKV.mmkvWithID(getDefaultName());
         return mmkv.encode(key, value);
     }
 
@@ -94,6 +95,21 @@ public class CacheUtils {
         return mmkv.encode(key, value);
     }
 
+
+    /**
+     * 保存数据
+     *
+     * @param key
+     * @param value
+     * @return
+     */
+    public static boolean encode(@NonNull final String key,
+                                 @NonNull final boolean value) {
+        final MMKV mmkv = MMKV.mmkvWithID(getDefaultName());
+        return mmkv.encode(key, value);
+    }
+
+
     /**
      * 获取数据
      *
@@ -103,6 +119,17 @@ public class CacheUtils {
     public static boolean decodeBool(@NonNull final String mmapID,
                                      @NonNull final String key) {
         final MMKV mmkv = MMKV.mmkvWithID(mmapID);
+        return mmkv.decodeBool(key);
+    }
+
+    /**
+     * 获取数据
+     *
+     * @param key
+     * @return
+     */
+    public static boolean decodeBool(@NonNull final String key) {
+        final MMKV mmkv = MMKV.mmkvWithID(getDefaultName());
         return mmkv.decodeBool(key);
     }
 
@@ -116,7 +143,7 @@ public class CacheUtils {
      * @return
      */
     private static String getDefaultName() {
-        if (IS_DEBUG) {
+        if (sIsDebug) {
             return DEFAULT_NAME + "_DEBUG";
         }
         return DEFAULT_NAME;
