@@ -2,7 +2,11 @@ package com.xxl.hello.main.ui.main;
 
 import android.Manifest;
 import android.app.Activity;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
+import android.content.Context;
 import android.util.Log;
+import android.widget.RemoteViews;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,11 +36,12 @@ import com.xxl.hello.main.BR;
 import com.xxl.hello.main.R;
 import com.xxl.hello.main.databinding.ActivityMainBinding;
 import com.xxl.hello.main.ui.main.window.PrivacyPolicyPopupWindow;
-import com.xxl.hello.router.UserRouterApi;
 import com.xxl.hello.service.data.model.api.QueryUserInfoResponse;
 import com.xxl.hello.service.data.model.entity.LoginUserEntity;
 import com.xxl.hello.service.ui.BaseEventBusWrapper;
 import com.xxl.hello.service.ui.DataBindingActivity;
+import com.xxl.hello.main.ui.widget.HelloAppWidgetProvider;
+import com.xxl.hello.main.ui.widget.HelloAppWidgetUtils;
 import com.xxl.hello.widget.record.OnRecordListener;
 import com.xxl.hello.widget.record.RecordButton;
 
@@ -197,12 +202,14 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
     //region: MainActivityNavigator
 
         @SingleClick
-    @CheckLogin
+//    @CheckLogin
     @CheckNetwork
     @Delay(delay = 200)
     @Override
     public void onTestClick() {
-        UserRouterApi.Login.navigation();
+//        UserRouterApi.Login.navigation();
+            updateAppWidget(mViewDataBinding.tvTest.getText().toString());
+            finish();
     }
 
     /**
@@ -357,6 +364,17 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
                 }, throwable -> {
                     ToastUtils.show(getString(R.string.core_permission_record_audio_failure_tips));
                 });
+    }
+
+    /**
+     * 更新桌面小组件
+     * @param text
+     */
+    private void updateAppWidget(String text) {
+        ComponentName componentName = new ComponentName(this, HelloAppWidgetProvider.class);
+        getSharedPreferences(HelloAppWidgetProvider.APP_WIDGET_PROVIDER_SP_NAME, Context.MODE_PRIVATE).edit().putString(HelloAppWidgetProvider.APP_WIDGET_PROVIDER_TEST_KEY, text).apply();
+        RemoteViews remoteViews = HelloAppWidgetUtils.getRemoteViews(this,text);
+        AppWidgetManager.getInstance(this).updateAppWidget(componentName, remoteViews);
     }
 
     //endregion
