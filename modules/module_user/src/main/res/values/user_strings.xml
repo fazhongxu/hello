@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">module_user</string>
     <string name="user_login_text">login</string>
+    <string name="user_crm_shortcut_name">crm</string>
 </resources>

@@ -36,12 +36,13 @@ import com.xxl.hello.main.BR;
 import com.xxl.hello.main.R;
 import com.xxl.hello.main.databinding.ActivityMainBinding;
 import com.xxl.hello.main.ui.main.window.PrivacyPolicyPopupWindow;
+import com.xxl.hello.main.ui.widget.HelloAppWidgetProvider;
+import com.xxl.hello.main.ui.widget.HelloAppWidgetUtils;
+import com.xxl.hello.router.UserRouterApi;
 import com.xxl.hello.service.data.model.api.QueryUserInfoResponse;
 import com.xxl.hello.service.data.model.entity.LoginUserEntity;
 import com.xxl.hello.service.ui.BaseEventBusWrapper;
 import com.xxl.hello.service.ui.DataBindingActivity;
-import com.xxl.hello.main.ui.widget.HelloAppWidgetProvider;
-import com.xxl.hello.main.ui.widget.HelloAppWidgetUtils;
 import com.xxl.hello.widget.record.OnRecordListener;
 import com.xxl.hello.widget.record.RecordButton;
 
@@ -201,15 +202,13 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
 
     //region: MainActivityNavigator
 
-        @SingleClick
-//    @CheckLogin
+    @SingleClick
+    @CheckLogin
     @CheckNetwork
     @Delay(delay = 200)
     @Override
     public void onTestClick() {
-//        UserRouterApi.Login.navigation();
-            updateAppWidget(mViewDataBinding.tvTest.getText().toString());
-            finish();
+        UserRouterApi.Login.navigation();
     }
 
     /**

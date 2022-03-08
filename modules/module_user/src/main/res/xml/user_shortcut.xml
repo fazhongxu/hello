@@ -1,0 +1,17 @@
+
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="crm"
+        android:enabled="true"
+        android:icon="@drawable/user_ic_crm"
+        android:shortcutShortLabel="@string/user_crm_shortcut_name"
+        android:shortcutLongLabel="@string/user_crm_shortcut_name"
+        android:shortcutDisabledMessage="@string/user_crm_shortcut_name">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.xxl.hello"
+            android:targetClass="com.xxl.hello.user.ui.setting.UserSettingActivity" />
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+    <!-- Specify more shortcuts here. -->
+</shortcuts>
