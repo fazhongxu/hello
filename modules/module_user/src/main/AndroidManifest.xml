@@ -4,8 +4,7 @@
 
     <application>
         <activity android:name="com.xxl.hello.user.ui.login.LoginActivity" />
-        <activity android:name="com.xxl.hello.user.ui.setting.UserSettingActivity"
-            android:taskAffinity=""/>
+        <activity android:name="com.xxl.hello.user.ui.setting.UserSettingActivity"/>
 
     </application>
 

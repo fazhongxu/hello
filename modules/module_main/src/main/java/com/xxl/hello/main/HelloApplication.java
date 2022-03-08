@@ -1,7 +1,14 @@
 package com.xxl.hello.main;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.ShortcutInfo;
+import android.content.pm.ShortcutManager;
+import android.graphics.drawable.Icon;
+import android.os.Build;
 import android.text.TextUtils;
+
+import androidx.annotation.NonNull;
 
 import com.luck.picture.lib.engine.PictureSelectorEngine;
 import com.xxl.core.BaseApplication;
@@ -12,9 +19,16 @@ import com.xxl.core.image.selector.PictureSelectorEngineImpl;
 import com.xxl.core.listener.IApplication;
 import com.xxl.core.utils.CacheUtils;
 import com.xxl.core.utils.LogUtils;
+import com.xxl.core.utils.ObjectUtils;
+import com.xxl.core.utils.StringUtils;
 import com.xxl.core.widget.swipebacklayout.SwipeBackActivityManager;
 import com.xxl.hello.common.NetworkConfig;
+import com.xxl.hello.common.ShortcutConfig;
 import com.xxl.hello.main.di.component.DaggerAppComponent;
+import com.xxl.hello.user.ui.setting.UserSettingActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -25,7 +39,7 @@ import dagger.android.DaggerApplication;
  * @author xxl.
  * @date 2020/8/20.
  */
-public class HelloApplication extends BaseApplication implements IApplication, MediaSelectorApp  {
+public class HelloApplication extends BaseApplication implements IApplication, MediaSelectorApp {
 
     //region: 成员变量
 
@@ -63,7 +77,7 @@ public class HelloApplication extends BaseApplication implements IApplication, M
      * @return
      */
     @Override
-    public boolean isAgreePrivacyPolicy(){
+    public boolean isAgreePrivacyPolicy() {
         return mApplicationWrapper.isAgreePrivacyPolicy();
     }
 
@@ -114,10 +128,12 @@ public class HelloApplication extends BaseApplication implements IApplication, M
     @Override
     public void initPlugins() {
         super.initPlugins();
-        CacheUtils.init(this,NetworkConfig.isDebug());
+        CacheUtils.init(this, NetworkConfig.isDebug());
         LogUtils.init(NetworkConfig.isDebug());
         MediaSelector.init(this);
         SwipeBackActivityManager.init(this);
+//        registerShortcuts(this);
+        unRegisterShortcuts(this);
     }
 
     /**
@@ -173,6 +189,59 @@ public class HelloApplication extends BaseApplication implements IApplication, M
     public PictureSelectorEngine getPictureSelectorEngine() {
         return new PictureSelectorEngineImpl();
     }
+
+    //endregion
+
+    //region: shortcut
+
+    /**
+     * 注册shortcuts
+     *
+     * @param context
+     */
+    private static void registerShortcuts(@NonNull final Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+            ShortcutManager shortcutManager = context.getSystemService(ShortcutManager.class);
+            if (shortcutManager == null) {
+                return;
+            }
+            final List<ShortcutInfo> targetShortcuts = new ArrayList<>();
+
+            final Intent crmIntent = new Intent(context, UserSettingActivity.class);
+            crmIntent.setAction(Intent.ACTION_VIEW);
+
+            final ShortcutInfo shortcutInfoCrm = new ShortcutInfo.Builder(context, ShortcutConfig.CRM_SHORTCUT_ID)
+                    .setShortLabel(StringUtils.getString(R.string.main_crm_shortcut_name))
+                    .setIcon(Icon.createWithResource(context, R.drawable.main_ic_crm))
+                    .setIntent(crmIntent)
+                    .build();
+
+            targetShortcuts.add(shortcutInfoCrm);
+            shortcutManager.addDynamicShortcuts(targetShortcuts);
+        }
+    }
+
+
+    private static void unRegisterShortcuts(@NonNull final Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+            ShortcutManager shortcutManager = context.getSystemService(ShortcutManager.class);
+            if (shortcutManager == null) {
+                return;
+            }
+            List<String> shortcutIds = new ArrayList<>();
+            List<ShortcutInfo> pinnedShortcuts = shortcutManager.getPinnedShortcuts();
+            for (ShortcutInfo pinnedShortcut : pinnedShortcuts) {
+                if (ObjectUtils.equals(pinnedShortcut.getId(), ShortcutConfig.CRM_SHORTCUT_ID)) {
+                    shortcutIds.add(pinnedShortcut.getId());
+                }
+            }
+            shortcutIds.add(ShortcutConfig.CRM_SHORTCUT_ID);
+            LogUtils.d("aaa" + shortcutIds.toString());
+            shortcutManager.disableShortcuts(shortcutIds);
+            shortcutManager.removeDynamicShortcuts(shortcutIds);
+        }
+    }
+
 
     //endregion
 }
