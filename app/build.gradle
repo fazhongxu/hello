@@ -135,5 +135,7 @@ dependencies {
 
     implementation deps.dkplayer.dkplayer
     implementation deps.dkplayer.dkplayer_ijk
+
+    implementation deps.flyco_round_view
 }
 

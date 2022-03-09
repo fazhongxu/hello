@@ -65,6 +65,8 @@ versions.agentweb = "v4.1.9-androidx"
 
 versions.dkplayer = "3.3.5"
 
+versions.flyco_round_view = "1.1.4"
+
 ext.versions = versions
 
 deps.android_build_gradle = "com.android.tools.build:gradle:$build_versions.android_build_gradle"
@@ -184,6 +186,9 @@ def dkplayer = [:]
 dkplayer.dkplayer = "xyz.doikki.android.dkplayer:dkplayer-java:$versions.dkplayer"
 dkplayer.dkplayer_ijk = "xyz.doikki.android.dkplayer:player-ijk:$versions.dkplayer"
 deps.dkplayer = dkplayer
+
+//FlycoRoundView [https://github.com/H07000223/FlycoRoundView]
+deps.flyco_round_view = "com.flyco.roundview:FlycoRoundView_Lib:$versions.flyco_round_view@aar"
 
 def origin = [:]
 // 是否使用远程依赖 true使用远程依赖（远程私服存储的aar依赖）

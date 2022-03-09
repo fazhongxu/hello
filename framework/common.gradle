@@ -84,5 +84,7 @@ dependencies {
 //    implementation deps.mobile_ffmpeg
 
     implementation deps.adapter_helper
+
+    compileOnly deps.flyco_round_view
 }
 
