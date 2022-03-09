@@ -28,6 +28,7 @@ import com.xxl.hello.main.di.component.DaggerAppComponent;
 import com.xxl.hello.user.ui.setting.UserSettingActivity;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -132,8 +133,10 @@ public class HelloApplication extends BaseApplication implements IApplication, M
         LogUtils.init(NetworkConfig.isDebug());
         MediaSelector.init(this);
         SwipeBackActivityManager.init(this);
-//        registerShortcuts(this);
-        unRegisterShortcuts(this);
+        registerShortcuts(this);
+        List<String> shortcutIds = new ArrayList<>();
+        shortcutIds.add(ShortcutConfig.CRM_SHORTCUT_ID);
+//        unRegisterShortcuts(this,shortcutIds);
     }
 
     /**
@@ -192,7 +195,7 @@ public class HelloApplication extends BaseApplication implements IApplication, M
 
     //endregion
 
-    //region: shortcut
+    //region: shortcuts
 
     /**
      * 注册shortcuts
@@ -200,48 +203,55 @@ public class HelloApplication extends BaseApplication implements IApplication, M
      * @param context
      */
     private static void registerShortcuts(@NonNull final Context context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-            ShortcutManager shortcutManager = context.getSystemService(ShortcutManager.class);
-            if (shortcutManager == null) {
-                return;
-            }
-            final List<ShortcutInfo> targetShortcuts = new ArrayList<>();
-
-            final Intent crmIntent = new Intent(context, UserSettingActivity.class);
-            crmIntent.setAction(Intent.ACTION_VIEW);
-
-            final ShortcutInfo shortcutInfoCrm = new ShortcutInfo.Builder(context, ShortcutConfig.CRM_SHORTCUT_ID)
-                    .setShortLabel(StringUtils.getString(R.string.main_crm_shortcut_name))
-                    .setIcon(Icon.createWithResource(context, R.drawable.main_ic_crm))
-                    .setIntent(crmIntent)
-                    .build();
-
-            targetShortcuts.add(shortcutInfoCrm);
-            shortcutManager.addDynamicShortcuts(targetShortcuts);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N_MR1) {
+            return;
         }
+        ShortcutManager shortcutManager = context.getSystemService(ShortcutManager.class);
+        if (shortcutManager == null) {
+            return;
+        }
+        final List<ShortcutInfo> targetShortcuts = new ArrayList<>();
+
+        final Intent crmIntent = new Intent(context, UserSettingActivity.class);
+        crmIntent.setAction(Intent.ACTION_VIEW);
+
+        final ShortcutInfo shortcutInfoCrm = new ShortcutInfo.Builder(context, ShortcutConfig.CRM_SHORTCUT_ID)
+                .setShortLabel(StringUtils.getString(R.string.main_crm_shortcut_name))
+                .setIcon(Icon.createWithResource(context, R.drawable.main_ic_crm))
+                .setDisabledMessage(StringUtils.getString(R.string.main_crm_shortcut_disable))
+                .setIntent(crmIntent)
+                .build();
+
+        targetShortcuts.add(shortcutInfoCrm);
+        shortcutManager.addDynamicShortcuts(targetShortcuts);
     }
 
-
-    private static void unRegisterShortcuts(@NonNull final Context context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-            ShortcutManager shortcutManager = context.getSystemService(ShortcutManager.class);
-            if (shortcutManager == null) {
-                return;
-            }
-            List<String> shortcutIds = new ArrayList<>();
-            List<ShortcutInfo> pinnedShortcuts = shortcutManager.getPinnedShortcuts();
-            for (ShortcutInfo pinnedShortcut : pinnedShortcuts) {
-                if (ObjectUtils.equals(pinnedShortcut.getId(), ShortcutConfig.CRM_SHORTCUT_ID)) {
-                    shortcutIds.add(pinnedShortcut.getId());
-                }
-            }
-            shortcutIds.add(ShortcutConfig.CRM_SHORTCUT_ID);
-            LogUtils.d("aaa" + shortcutIds.toString());
-            shortcutManager.disableShortcuts(shortcutIds);
-            shortcutManager.removeDynamicShortcuts(shortcutIds);
+    /**
+     * 取消注册shortcuts
+     *
+     * @param context
+     * @param targetShortcutIds
+     */
+    private static void unRegisterShortcuts(@NonNull final Context context,
+                                            @NonNull List<String> targetShortcutIds) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N_MR1) {
+            return;
         }
-    }
+        ShortcutManager shortcutManager = context.getSystemService(ShortcutManager.class);
+        if (shortcutManager == null) {
+            return;
+        }
+        final List<String> shortcutIds = new ArrayList<>();
+        final List<ShortcutInfo> pinnedShortcuts = shortcutManager.getDynamicShortcuts();
+        for (ShortcutInfo pinnedShortcut : pinnedShortcuts) {
+            if (targetShortcutIds.contains(pinnedShortcut.getId())) {
+                shortcutIds.add(pinnedShortcut.getId());
+            }
+        }
+        shortcutManager.disableShortcuts(shortcutIds);
+        shortcutManager.removeDynamicShortcuts(shortcutIds);
 
+    }
 
     //endregion
 }

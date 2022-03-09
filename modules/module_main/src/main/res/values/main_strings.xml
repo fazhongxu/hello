@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">hello</string>
     <string name="main_crm_shortcut_name">dynamic crm</string>
+    <string name="main_crm_shortcut_disable">crm can not work</string>
 </resources>
