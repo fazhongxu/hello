@@ -4,12 +4,16 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.xxl.core.utils.LogUtils;
+import com.xxl.core.utils.ThreadUtils;
 import com.xxl.core.utils.ToastUtils;
 
 import java.util.Arrays;
+import java.util.Timer;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 系统桌面小组件
@@ -25,6 +29,7 @@ public class HelloAppWidgetProvider extends AppWidgetProvider {
     public static final String APP_WIDGET_PROVIDER_SP_NAME = "app_widget_provider_sp_name";
 
     public static final String APP_WIDGET_PROVIDER_TEST_KEY = "app_widget_provider_test_key";
+    private UpdateWidgetTimerTask mUpdateWidgetTimerTask;
 
     /**
      * 没接收一次广播消息就调用一次，使用频繁
@@ -43,6 +48,9 @@ public class HelloAppWidgetProvider extends AppWidgetProvider {
         }
     }
 
+
+    private Timer mUpdateWidgetTimer;
+
     /**
      * 每次更新都调用一次该方法，使用频繁
      *
@@ -60,6 +68,10 @@ public class HelloAppWidgetProvider extends AppWidgetProvider {
             String text = context.getSharedPreferences(APP_WIDGET_PROVIDER_SP_NAME, Context.MODE_PRIVATE).getString(APP_WIDGET_PROVIDER_TEST_KEY, "");
             RemoteViews remoteViews = HelloAppWidgetUtils.getRemoteViews(context, text);
             appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
+        }
+        if (mUpdateWidgetTimerTask == null) {
+            mUpdateWidgetTimerTask = new UpdateWidgetTimerTask(context);
+            ThreadUtils.executeByCachedAtFixRate(mUpdateWidgetTimerTask, 16000, TimeUnit.MILLISECONDS);
         }
     }
 
@@ -96,4 +108,35 @@ public class HelloAppWidgetProvider extends AppWidgetProvider {
         super.onDisabled(context);
         LogUtils.d("HelloAppWidgetProvider.. onDisabled");
     }
+
+    private class UpdateWidgetTimerTask extends ThreadUtils.Task {
+
+        private Context mContext;
+        public UpdateWidgetTimerTask(Context context) {
+            mContext = context;
+        }
+
+        @Override
+        public Object doInBackground() throws Throwable {
+            Log.e("aaa", "doInBackground: " );
+            return null;
+        }
+
+        @Override
+        public void onSuccess(Object result) {
+
+        }
+
+        @Override
+        public void onCancel() {
+
+        }
+
+        @Override
+        public void onFail(Throwable t) {
+
+        }
+
+    }
+
 }
