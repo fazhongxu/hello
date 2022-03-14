@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.widget.RemoteViews;
 
@@ -14,7 +15,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.tbruyelle.rxpermissions3.RxPermissions;
-import com.xxl.core.aop.annotation.CheckLogin;
 import com.xxl.core.aop.annotation.CheckNetwork;
 import com.xxl.core.aop.annotation.Delay;
 import com.xxl.core.aop.annotation.Safe;
@@ -38,7 +38,6 @@ import com.xxl.hello.main.databinding.ActivityMainBinding;
 import com.xxl.hello.main.ui.main.window.PrivacyPolicyPopupWindow;
 import com.xxl.hello.main.ui.widget.HelloAppWidgetProvider;
 import com.xxl.hello.main.ui.widget.HelloAppWidgetUtils;
-import com.xxl.hello.router.UserRouterApi;
 import com.xxl.hello.service.data.model.api.QueryUserInfoResponse;
 import com.xxl.hello.service.data.model.entity.LoginUserEntity;
 import com.xxl.hello.service.ui.BaseEventBusWrapper;
@@ -48,6 +47,7 @@ import com.xxl.hello.widget.record.RecordButton;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -203,12 +203,17 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
     //region: MainActivityNavigator
 
     @SingleClick
-    @CheckLogin
+//    @CheckLogin
     @CheckNetwork
     @Delay(delay = 200)
     @Override
     public void onTestClick() {
-        UserRouterApi.Login.navigation();
+//        Intent intent = new Intent(HelloAppWidgetProvider.ACTION_HELLO_APP_WIDGET_ON_CLICK);
+////        intent.setComponent(new ComponentName(getPackageName(),"com.xxl.hello.main.ui.widget.HelloAppWidgetProvider"));
+//        intent.setComponent(new ComponentName(getPackageName(),HelloAppWidgetProvider.class.getName()));
+//        sendBroadcast(intent);
+
+        updateAppWidget("");
     }
 
     /**
@@ -372,7 +377,9 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
     private void updateAppWidget(String text) {
         ComponentName componentName = new ComponentName(this, HelloAppWidgetProvider.class);
         getSharedPreferences(HelloAppWidgetProvider.APP_WIDGET_PROVIDER_SP_NAME, Context.MODE_PRIVATE).edit().putString(HelloAppWidgetProvider.APP_WIDGET_PROVIDER_TEST_KEY, text).apply();
-        RemoteViews remoteViews = HelloAppWidgetUtils.getRemoteViews(this,text);
+        ArrayList<String> objects = new ArrayList<>();
+        objects.add("1");
+        RemoteViews remoteViews = HelloAppWidgetUtils.getRemoteViews(this,objects);
         AppWidgetManager.getInstance(this).updateAppWidget(componentName, remoteViews);
     }
 

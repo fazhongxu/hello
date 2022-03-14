@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 
 import com.xxl.hello.main.HelloApplication;
 import com.xxl.hello.main.di.builder.AppActivityBuilder;
+import com.xxl.hello.main.di.builder.AppBroadcastReceiverBuilder;
 import com.xxl.hello.main.di.module.AppModule;
 import com.xxl.hello.main.di.module.DataStoreModule;
 
@@ -23,8 +24,9 @@ import dagger.android.AndroidInjector;
 @Singleton
 @Component(modules = {AndroidInjectionModule.class,
         AppModule.class,
+        DataStoreModule.class,
         AppActivityBuilder.class,
-        DataStoreModule.class})
+        AppBroadcastReceiverBuilder.class,})
 public interface AppComponent extends AndroidInjector<HelloApplication> {
 
     @Component.Builder

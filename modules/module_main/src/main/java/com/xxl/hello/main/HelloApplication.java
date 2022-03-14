@@ -7,6 +7,7 @@ import android.content.pm.ShortcutManager;
 import android.graphics.drawable.Icon;
 import android.os.Build;
 import android.text.TextUtils;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -63,6 +64,7 @@ public class HelloApplication extends BaseApplication implements IApplication, M
     public void onCreate() {
         super.onCreate();
         init();
+        Log.e("aaa", "onCreate: heihei"+System.currentTimeMillis());
     }
 
     @Override
@@ -145,6 +147,12 @@ public class HelloApplication extends BaseApplication implements IApplication, M
     @Override
     public void initPluginsAfterAgreePrivacyPolicy() {
         LogUtils.d("initPluginAfterAgreePrivacyPolicy");
+
+        try {
+            Thread.sleep(6000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     //endregion
