@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.tbruyelle.rxpermissions3.RxPermissions;
+import com.xxl.core.aop.annotation.CheckLogin;
 import com.xxl.core.aop.annotation.CheckNetwork;
 import com.xxl.core.aop.annotation.Delay;
 import com.xxl.core.aop.annotation.Safe;
@@ -203,17 +204,12 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
     //region: MainActivityNavigator
 
     @SingleClick
-//    @CheckLogin
+    @CheckLogin
     @CheckNetwork
     @Delay(delay = 200)
     @Override
     public void onTestClick() {
-//        Intent intent = new Intent(HelloAppWidgetProvider.ACTION_HELLO_APP_WIDGET_ON_CLICK);
-////        intent.setComponent(new ComponentName(getPackageName(),"com.xxl.hello.main.ui.widget.HelloAppWidgetProvider"));
-//        intent.setComponent(new ComponentName(getPackageName(),HelloAppWidgetProvider.class.getName()));
-//        sendBroadcast(intent);
-
-        updateAppWidget("");
+        AppRouterApi.navigationToLogin();
     }
 
     /**
@@ -368,19 +364,6 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
                 }, throwable -> {
                     ToastUtils.show(getString(R.string.core_permission_record_audio_failure_tips));
                 });
-    }
-
-    /**
-     * 更新桌面小组件
-     * @param text
-     */
-    private void updateAppWidget(String text) {
-        ComponentName componentName = new ComponentName(this, HelloAppWidgetProvider.class);
-        getSharedPreferences(HelloAppWidgetProvider.APP_WIDGET_PROVIDER_SP_NAME, Context.MODE_PRIVATE).edit().putString(HelloAppWidgetProvider.APP_WIDGET_PROVIDER_TEST_KEY, text).apply();
-        ArrayList<String> objects = new ArrayList<>();
-        objects.add("1");
-        RemoteViews remoteViews = HelloAppWidgetUtils.getRemoteViews(this,objects);
-        AppWidgetManager.getInstance(this).updateAppWidget(componentName, remoteViews);
     }
 
     //endregion
