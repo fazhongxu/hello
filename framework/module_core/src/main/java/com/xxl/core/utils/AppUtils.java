@@ -118,14 +118,16 @@ public class AppUtils {
      * 重启应用
      */
     public static void restartApp() {
-        AppRouterApi.navigationToSplash();
-        if (getActivityList() != null) {
-            for (Activity activity : getActivityList()) {
-                activity.finish();
+        if (!ListUtils.isEmpty(AppUtils.getActivityList())) {
+            for (Activity activity : AppUtils.getActivityList()) {
+                if (!activity.isFinishing()) {
+                    activity.finish();
+                }
             }
         }
+        AppRouterApi.navigationToSplash();
         Process.killProcess(Process.myPid());
-        System.exit(0);
+        System.exit(1);
     }
 
     /**

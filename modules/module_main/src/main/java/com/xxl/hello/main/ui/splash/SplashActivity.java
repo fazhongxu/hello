@@ -96,7 +96,7 @@ public class SplashActivity extends SingleActivity<SplashViewModel> {
                 return;
             }
             AppRouterApi.navigationWithFinish(this);
-        }, 2000);
+        }, 200);
     }
 
     //endregion

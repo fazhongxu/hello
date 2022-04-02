@@ -45,6 +45,20 @@ public class RouterUtils {
                 .navigation();
     }
 
+
+    /**
+     * 跳转到指定页面
+     *
+     * @param path
+     * @param flag Intent启动标识
+     */
+    public static void navigation(@NonNull final String path,
+                                  final int flag) {
+        ARouter.getInstance().build(path)
+                .withFlags(flag)
+                .navigation();
+    }
+
     /**
      * 跳转到指定页面
      *

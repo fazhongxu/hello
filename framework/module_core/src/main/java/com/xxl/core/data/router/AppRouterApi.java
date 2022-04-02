@@ -1,6 +1,7 @@
 package com.xxl.core.data.router;
 
 import android.app.Activity;
+import android.content.Intent;
 
 import androidx.annotation.NonNull;
 
@@ -57,7 +58,7 @@ public class AppRouterApi {
      * 导航到首页
      */
     public static void navigationToSplash() {
-        RouterUtils.navigation(SPLASH_PATH);
+        RouterUtils.navigation(SPLASH_PATH, Intent.FLAG_ACTIVITY_NEW_TASK);
     }
 
     //endregion
