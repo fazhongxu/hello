@@ -6,8 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ *
  * @author xxl.
  * @date 2022/4/2.
+ * reference https://blog.csdn.net/HUXU981598436/article/details/83821685
  */
 public class ListUtils {
 

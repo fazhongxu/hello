@@ -7,7 +7,6 @@ import android.content.pm.ShortcutManager;
 import android.graphics.drawable.Icon;
 import android.os.Build;
 import android.text.TextUtils;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -20,7 +19,6 @@ import com.xxl.core.image.selector.PictureSelectorEngineImpl;
 import com.xxl.core.listener.IApplication;
 import com.xxl.core.utils.CacheUtils;
 import com.xxl.core.utils.LogUtils;
-import com.xxl.core.utils.ObjectUtils;
 import com.xxl.core.utils.StringUtils;
 import com.xxl.core.widget.swipebacklayout.SwipeBackActivityManager;
 import com.xxl.hello.common.NetworkConfig;
@@ -29,7 +27,6 @@ import com.xxl.hello.main.di.component.DaggerAppComponent;
 import com.xxl.hello.user.ui.setting.UserSettingActivity;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -64,7 +61,6 @@ public class HelloApplication extends BaseApplication implements IApplication, M
     public void onCreate() {
         super.onCreate();
         init();
-        Log.e("aaa", "onCreate: heihei"+System.currentTimeMillis());
     }
 
     @Override
@@ -138,7 +134,7 @@ public class HelloApplication extends BaseApplication implements IApplication, M
         registerShortcuts(this);
         List<String> shortcutIds = new ArrayList<>();
         shortcutIds.add(ShortcutConfig.CRM_SHORTCUT_ID);
-//        unRegisterShortcuts(this,shortcutIds);
+        //unRegisterShortcuts(this,shortcutIds);
     }
 
     /**
@@ -149,7 +145,8 @@ public class HelloApplication extends BaseApplication implements IApplication, M
         LogUtils.d("initPluginAfterAgreePrivacyPolicy");
 
         try {
-            Thread.sleep(6000);
+            // TODO: 2022/4/2 模拟耗时操作
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

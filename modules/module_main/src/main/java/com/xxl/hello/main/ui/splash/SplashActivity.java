@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.xxl.core.data.router.AppRouterApi;
+import com.xxl.core.utils.LogUtils;
 import com.xxl.hello.main.R;
 import com.xxl.hello.service.ui.SingleActivity;
 
@@ -95,6 +96,7 @@ public class SplashActivity extends SingleActivity<SplashViewModel> {
             if (isFinishing()) {
                 return;
             }
+            // TODO: 2022/4/2  模拟数据请求 
             AppRouterApi.navigationWithFinish(this);
         }, 200);
     }
