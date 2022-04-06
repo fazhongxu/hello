@@ -9,6 +9,13 @@ package com.xxl.core.media.audio.utils;
 public class LameUtils {
 
     static {
+        // TODO: 2022/4/6 音频实时转码 需要用时，build.gradle 打开 cmake文件，才可以用，暂时注释掉（debug费时间）
+//        externalNativeBuild {
+//        cmake {
+//            path "src/main/cpp/CMakeLists.txt"
+//            version "3.10.2"
+//        }
+//    }
         System.loadLibrary("mp3lame");
     }
 
