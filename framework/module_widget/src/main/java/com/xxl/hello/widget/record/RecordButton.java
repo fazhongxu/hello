@@ -50,7 +50,6 @@ import org.jetbrains.annotations.Nullable;
  * @date 2022/1/13.
  */
 public class RecordButton extends View implements Animatable {
-
     /**
      * values to draw
      */
@@ -122,6 +121,8 @@ public class RecordButton extends View implements Animatable {
     private int recordStopIcon;
 
     private boolean isRecording;
+
+    private boolean isRecordCancel;
 
     private int currentMilliSecond;
 
@@ -242,33 +243,33 @@ public class RecordButton extends View implements Animatable {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         int size = (int) (buttonRadius * 2 + buttonGap * 2 + progressStroke + 30);
 
-        int widthMode = View.MeasureSpec.getMode(widthMeasureSpec);
-        int widthSize = View.MeasureSpec.getSize(widthMeasureSpec);
-        int heightMode = View.MeasureSpec.getMode(heightMeasureSpec);
-        int heightSize = View.MeasureSpec.getSize(heightMeasureSpec);
+        int widthMode = MeasureSpec.getMode(widthMeasureSpec);
+        int widthSize = MeasureSpec.getSize(widthMeasureSpec);
+        int heightMode = MeasureSpec.getMode(heightMeasureSpec);
+        int heightSize = MeasureSpec.getSize(heightMeasureSpec);
 
         int width;
         int height;
         switch (widthMode) {
-            case View.MeasureSpec.EXACTLY:
+            case MeasureSpec.EXACTLY:
                 width = widthSize;
                 break;
-            case View.MeasureSpec.AT_MOST:
+            case MeasureSpec.AT_MOST:
                 width = Math.min(size, widthSize);
                 break;
-            case View.MeasureSpec.UNSPECIFIED:
+            case MeasureSpec.UNSPECIFIED:
             default:
                 width = size;
         }
 
         switch (heightMode) {
-            case View.MeasureSpec.EXACTLY:
+            case MeasureSpec.EXACTLY:
                 height = heightSize;
                 break;
-            case View.MeasureSpec.AT_MOST:
+            case MeasureSpec.AT_MOST:
                 height = Math.min(size, heightSize);
                 break;
-            case View.MeasureSpec.UNSPECIFIED:
+            case MeasureSpec.UNSPECIFIED:
             default:
                 height = size;
         }
@@ -301,6 +302,7 @@ public class RecordButton extends View implements Animatable {
     @Override
     public void start() {
         this.isRecording = true;
+        this.isRecordCancel = false;
         if (enableZoomAnimation) {
             this.scaleAnimation(1.1F, 1.1F);
         }
@@ -313,6 +315,19 @@ public class RecordButton extends View implements Animatable {
     @Override
     public void stop() {
         this.isRecording = false;
+        this.isRecordCancel = false;
+        this.currentMilliSecond = 0;
+        if (enableZoomAnimation) {
+            this.scaleAnimation(1.0F, 1.0F);
+        }
+    }
+
+    /**
+     * record button scale animation stopping and cancel
+     */
+    public void cancel() {
+        this.isRecording = false;
+        this.isRecordCancel = true;
         this.currentMilliSecond = 0;
         if (enableZoomAnimation) {
             this.scaleAnimation(1.0F, 1.0F);
@@ -344,6 +359,10 @@ public class RecordButton extends View implements Animatable {
     private ObjectAnimator progressAnimate() {
         ObjectAnimator animator = ObjectAnimator.ofInt(this, "progress", currentMilliSecond, maxMilliSecond);
 
+        if (recordListener != null) {
+            recordListener.onButtonRecordStart();
+        }
+
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -351,20 +370,19 @@ public class RecordButton extends View implements Animatable {
                 if (isRecording) {
                     setCurrentMilliSecond(value);
                     if (recordListener != null) {
-                        recordListener.onRecord(currentMilliSecond,maxMilliSecond);
+                        recordListener.onButtonRecording(currentMilliSecond, maxMilliSecond);
                     }
                 } else {
                     animation.cancel();
                     isRecording = false;
-
                     if (recordListener != null) {
-                        recordListener.onRecordCancel();
+                        recordListener.onButtonRecordStop(isRecordCancel);
                     }
                 }
 
                 if (value == maxMilliSecond) {
                     if (recordListener != null) {
-                        recordListener.onRecordFinish();
+                        recordListener.onButtonRecordFinish();
                     }
                     stop();
                 }
@@ -388,6 +406,10 @@ public class RecordButton extends View implements Animatable {
         return maxMilliSecond;
     }
 
+    public void setMaxMilliSecond(int maxMilliSecond) {
+        this.maxMilliSecond = maxMilliSecond;
+    }
+
     public final void setButtonRadius(int buttonRadius) {
         this.buttonRadius = (float) buttonRadius;
     }
@@ -399,5 +421,4 @@ public class RecordButton extends View implements Animatable {
     public final void setRecordListener(@NotNull OnRecordListener recordListener) {
         this.recordListener = recordListener;
     }
-
 }

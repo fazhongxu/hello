@@ -10,7 +10,6 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.xxl.core.media.audio.utils.LameUtils;
 import com.xxl.core.utils.FFmpegUtils;
 import com.xxl.core.utils.FileUtils;
 import com.xxl.core.utils.LogUtils;
@@ -35,6 +34,7 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
 
     private static final int DEFAULT_SOURCE = MediaRecorder.AudioSource.MIC;
     private static final int DEFAULT_SAMPLE_RATE = 44100;
+
     private static final int DEFAULT_CHANNEL_CONFIG = AudioFormat.CHANNEL_IN_STEREO;
     private static final int DEFAULT_AUDIO_FORMAT = AudioFormat.ENCODING_PCM_16BIT;
 
@@ -44,6 +44,7 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
     private Thread mCaptureThread;
     private boolean mIsCaptureStarted = false;
     private volatile boolean mIsLoopExit = false;
+    private boolean mIsCancel = false;
 
     private OnAudioFrameCapturedListener mAudioFrameCapturedListener;
 
@@ -61,14 +62,14 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
     private String mOutFilePath;
 
     /**
-     * aac格式的音频文件
+     * 音频文件 aac
      */
     private File mAudioFile;
 
     /**
-     * mp3格式的音频文件
+     * 音频文件 mp3
      */
-    private File audioMp3File;
+    private File mAudioMp3File;
 
     /**
      * 输出的音频流
@@ -162,16 +163,18 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
      */
     public boolean startCapture(int audioSource, int sampleRateInHz, int channelConfig, int audioFormat) {
         if (TextUtils.isEmpty(mOutFilePath)) {
+            if (mAudioFrameCapturedListener != null) {
+                mAudioFrameCapturedListener.onRecordError(new Throwable("音频录制错误"));
+            }
             throw new IllegalArgumentException("必须设置音频文件输出路径！");
         }
         mAudioFile = createAudioAACFile();
-        audioMp3File = createAudioMp3File();
+        mAudioMp3File = createAudioMp3File();
         mAudioOutputStream = createFileOutputStream();
 
         if (mPcmEncoderAac == null || mPcmEncoderAac.getSampleRate() != sampleRateInHz) {
             mPcmEncoderAac = new PcmEncoderAac(sampleRateInHz, this);
         }
-        LameUtils.init(sampleRateInHz, 1, sampleRateInHz, 32);
 
         if (mIsCaptureStarted) {
             LogUtils.e(TAG, "Capture already started !");
@@ -183,6 +186,9 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
         if (mMinBufferSize == AudioRecord.ERROR_BAD_VALUE) {
             LogUtils.e(TAG, "Invalid parameter !");
             mRecordState = AudioRecordState.ERROR;
+            if (mAudioFrameCapturedListener != null) {
+                mAudioFrameCapturedListener.onRecordError(new Throwable("音频录制错误"));
+            }
             return false;
         }
         LogUtils.d(TAG, "getMinBufferSize = " + mMinBufferSize + " bytes !");
@@ -191,6 +197,9 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
         if (mAudioRecord.getState() == AudioRecord.STATE_UNINITIALIZED) {
             LogUtils.e(TAG, "AudioRecord initialize fail !");
             mRecordState = AudioRecordState.UNINITIALIZED;
+            if (mAudioFrameCapturedListener != null) {
+                mAudioFrameCapturedListener.onRecordError(new Throwable("音频录制错误"));
+            }
             return false;
         }
 
@@ -201,6 +210,7 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
         mCaptureThread.start();
 
         mIsCaptureStarted = true;
+        mIsCancel = false;
         mRecordState = AudioRecordState.RECORDING;
 
         if (mAudioFrameCapturedListener != null) {
@@ -238,6 +248,12 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
         mIsCaptureStarted = false;
         mRecordState = AudioRecordState.STOP;
 
+        if (mIsCancel) {
+            recordCanceled();
+            mRecordState = AudioRecordState.CANCEL;
+            return;
+        }
+
         if (mAudioRecordFormat != AudioRecordFormat.AAC) {
             Thread thread = new Thread(new AudioTranscodeRunnable());
             thread.start();
@@ -245,6 +261,15 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
         }
 
         recordComplete(mAudioFile);
+    }
+
+    /**
+     * 取消采集
+     * 取消采集会删除已经采集好的音频
+     */
+    public void cancelCapture() {
+        mIsCancel = true;
+        stopCapture();
     }
 
     /**
@@ -278,12 +303,34 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
     private void recordComplete(@NonNull final File outAudioFile) {
         closeAudioOutputStream();
         if (mAudioFrameCapturedListener != null) {
-            mAudioFrameCapturedListener.onStopRecord(outAudioFile);
+            mAudioFrameCapturedListener.onCompleteRecord(outAudioFile);
         }
 
         mAudioFrameCapturedListener = null;
 
         LogUtils.d(TAG, "Stop audio capture success !");
+    }
+
+    /**
+     * 录制完成
+     */
+    private void recordCanceled() {
+        closeAudioOutputStream();
+        if (mAudioFrameCapturedListener != null) {
+            mAudioFrameCapturedListener.onRecordCanceled();
+        }
+
+        if (FileUtils.isFileExists(mAudioFile)) {
+            FileUtils.deleteFile(mAudioFile);
+        }
+
+        if (FileUtils.isFileExists(mAudioMp3File)) {
+            FileUtils.deleteFile(mAudioMp3File);
+        }
+
+        mAudioFrameCapturedListener = null;
+
+        LogUtils.d(TAG, "Cancel audio capture success !");
     }
 
     /**
@@ -341,7 +388,6 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
             while (!mIsLoopExit) {
 
                 byte[] buffer = new byte[mMinBufferSize];
-
                 int ret = mAudioRecord.read(buffer, 0, mMinBufferSize);
                 if (ret == AudioRecord.ERROR_INVALID_OPERATION) {
                     LogUtils.e(TAG, "Error ERROR_INVALID_OPERATION");
@@ -350,18 +396,14 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
                     LogUtils.e(TAG, "Error ERROR_BAD_VALUE");
                     mRecordState = AudioRecordState.ERROR;
                 } else {
-                    byte[] byteNew = new byte[buffer.length];
-
-                    AudioVolumeUtils.amplifyPCMData(buffer,buffer.length,byteNew,16, (float) AudioVolumeUtils.factor);
-
                     if (mAudioFrameCapturedListener != null) {
-                        mAudioFrameCapturedListener.onAudioFrameCaptured(byteNew);
+                        mAudioFrameCapturedListener.onAudioFrameCaptured(buffer);
                     }
                     LogUtils.d(TAG, "OK, Captured " + ret + " bytes !");
                     if (state == AudioRecord.RECORDSTATE_RECORDING) {
                         mRecordState = AudioRecordState.RECORDING;
                         if (mPcmEncoderAac != null) {
-                            mPcmEncoderAac.encodeData(byteNew);
+                            mPcmEncoderAac.encodeData(buffer);
                         }
                     }
                 }
@@ -379,12 +421,17 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
         @Override
         public void run() {
             if (mAudioRecordFormat == AudioRecordFormat.MP3) {
-                FFmpegUtils.aac2mp3(mAudioFile.getAbsolutePath(), audioMp3File.getAbsolutePath());
-                mHandler.post(() -> recordComplete(audioMp3File));
+                FFmpegUtils.aac2mp3(mAudioFile.getAbsolutePath(), mAudioMp3File.getAbsolutePath());
+                if (FileUtils.isFileExists(mAudioFile)) {
+                    FileUtils.deleteFile(mAudioFile);
+                }
+                mHandler.post(() -> recordComplete(mAudioMp3File));
                 return;
             }
         }
     }
+
+    //endregion
 
     //region: PcmEncoderAac.EncoderListener
 
@@ -429,20 +476,39 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
         void onStartRecord();
 
         /**
-         * 停止录音
+         * 完成录音
          *
          * @param audioFile 音频文件
          */
-        void onStopRecord(@NonNull final File audioFile);
+        default void onCompleteRecord(@NonNull final File audioFile){
+
+        }
+
+        /**
+         * 录音取消
+         */
+        default void onRecordCanceled() {
+
+        }
+
+        /**
+         * 录音错误
+         *
+         * @param throwable
+         */
+        default void onRecordError(@NonNull final Throwable throwable){
+
+        }
 
         /**
          * 音频数据回调
          *
          * @param audioData
          */
-        void onAudioFrameCaptured(byte[] audioData);
+        default void onAudioFrameCaptured(byte[] audioData) {
+
+        }
     }
 
     //endregion
-
 }

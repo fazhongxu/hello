@@ -2,12 +2,7 @@ package com.xxl.hello.main.ui.main;
 
 import android.Manifest;
 import android.app.Activity;
-import android.appwidget.AppWidgetManager;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
-import android.widget.RemoteViews;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,8 +32,6 @@ import com.xxl.hello.main.BR;
 import com.xxl.hello.main.R;
 import com.xxl.hello.main.databinding.ActivityMainBinding;
 import com.xxl.hello.main.ui.main.window.PrivacyPolicyPopupWindow;
-import com.xxl.hello.main.ui.widget.HelloAppWidgetProvider;
-import com.xxl.hello.main.ui.widget.HelloAppWidgetUtils;
 import com.xxl.hello.service.data.model.api.QueryUserInfoResponse;
 import com.xxl.hello.service.data.model.entity.LoginUserEntity;
 import com.xxl.hello.service.ui.BaseEventBusWrapper;
@@ -48,7 +41,6 @@ import com.xxl.hello.widget.record.RecordButton;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -249,7 +241,7 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
      * @param audioFile 音频文件
      */
     @Override
-    public void onStopRecord(@NonNull final File audioFile) {
+    public void onCompleteRecord(@NonNull final File audioFile) {
         LogUtils.d("音频文件-->" + audioFile.getAbsolutePath());
         mViewDataBinding.tvTest.setText(getString(R.string.core_start_record_audio_text));
     }
@@ -301,69 +293,56 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
     private void setupRecord() {
         RecordButton recordButton = mViewDataBinding.recordBtn;
         mViewDataBinding.recordBtn.setOnClickListener(v -> {
-            if (recordButton.isRunning()) {
-                recordButton.stop();
-                AudioCapture.getInstance().stopCapture();
-            } else {
-                recordButton.start();
-                AudioCapture.getInstance()
-                        .setAudioRecordFormat(AudioRecordFormat.MP3)
-                        .setOutFilePath(CacheDirConfig.SHARE_FILE_DIR)
-                        .setOnAudioFrameCapturedListener(this)
-                        .startCapture();
-            }
+            final RxPermissions rxPermissions = new RxPermissions(this);
+            Disposable disposable = rxPermissions.request(Manifest.permission.RECORD_AUDIO,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    .subscribe(isSuccess -> {
+                        if (isSuccess) {
+                            if (recordButton.isRunning()) {
+                                recordButton.stop();
+                            } else {
+                                recordButton.start();
+                            }
+                        } else {
+                            ToastUtils.show(getString(R.string.core_permission_record_audio_failure_tips));
+                        }
+                    }, throwable -> {
+                        ToastUtils.show(getString(R.string.core_permission_record_audio_failure_tips));
+                    });
         });
         mViewDataBinding.recordBtn.setRecordListener(new OnRecordListener() {
 
             final SimpleDateFormat safeDateFormat = TimeUtils.getSafeDateFormat("mm:ss");
 
             @Override
-            public void onRecord(long currentTimeMills,
-                                 long totalTimeMills) {
-                long timeSpan = TimeUtils.getTimeSpan(totalTimeMills, currentTimeMills,TimeUtils.TimeConstants.MSEC);
-                Log.e("aa", "onRecord: "+TimeUtils.millis2String(timeSpan,safeDateFormat));
-                mViewDataBinding.tvDuration.setText(TimeUtils.millis2String(timeSpan,safeDateFormat));
-
+            public void onButtonRecordStart() {
+                AudioCapture.getInstance()
+                        .setAudioRecordFormat(AudioRecordFormat.MP3)
+                        .setOutFilePath(CacheDirConfig.SHARE_FILE_DIR)
+                        .setOnAudioFrameCapturedListener(MainActivity.this)
+                        .startCapture();
             }
 
             @Override
-            public void onRecordCancel() {
-                mViewDataBinding.tvDuration.setText(TimeUtils.millis2String(mViewDataBinding.recordBtn.getMaxMilliSecond(),safeDateFormat));
+            public void onButtonRecording(final long currentTimeMills,
+                                          final long totalTimeMills) {
+                long timeSpan = TimeUtils.getTimeSpan(totalTimeMills, currentTimeMills, TimeUtils.TimeConstants.MSEC);
+                Log.e("aa", "onRecord: " + TimeUtils.millis2String(timeSpan, safeDateFormat));
+                mViewDataBinding.tvDuration.setText(TimeUtils.millis2String(timeSpan, safeDateFormat));
+            }
+
+            @Override
+            public void onButtonRecordStop(boolean isCanceled) {
+                mViewDataBinding.tvDuration.setText(TimeUtils.millis2String(mViewDataBinding.recordBtn.getMaxMilliSecond(), safeDateFormat));
                 AudioCapture.getInstance().stopCapture();
             }
 
             @Override
-            public void onRecordFinish() {
-                mViewDataBinding.tvDuration.setText(TimeUtils.millis2String(mViewDataBinding.recordBtn.getMaxMilliSecond(),safeDateFormat));
+            public void onButtonRecordFinish() {
+                mViewDataBinding.tvDuration.setText(TimeUtils.millis2String(mViewDataBinding.recordBtn.getMaxMilliSecond(), safeDateFormat));
                 AudioCapture.getInstance().stopCapture();
             }
         });
-    }
-
-    /**
-     * 音频采集
-     */
-    private void audioCapture() {
-        final RxPermissions rxPermissions = new RxPermissions(this);
-        Disposable disposable = rxPermissions.request(Manifest.permission.RECORD_AUDIO,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                .subscribe(isSuccess -> {
-                    if (isSuccess) {
-                        if (AudioCapture.getInstance().isCaptureStarted()) {
-                            AudioCapture.getInstance().stopCapture();
-                            return;
-                        }
-                        AudioCapture.getInstance()
-                                .setAudioRecordFormat(AudioRecordFormat.MP3)
-                                .setOutFilePath(CacheDirConfig.SHARE_FILE_DIR)
-                                .setOnAudioFrameCapturedListener(this)
-                                .startCapture();
-                    } else {
-                        ToastUtils.show(getString(R.string.core_permission_record_audio_failure_tips));
-                    }
-                }, throwable -> {
-                    ToastUtils.show(getString(R.string.core_permission_record_audio_failure_tips));
-                });
     }
 
     //endregion

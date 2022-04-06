@@ -14,6 +14,7 @@ import java.lang.annotation.RetentionPolicy;
 @IntDef({
         AudioRecordState.RECORDING,
         AudioRecordState.STOP,
+        AudioRecordState.CANCEL,
         AudioRecordState.ERROR,
         AudioRecordState.UNINITIALIZED,
 })
@@ -31,12 +32,18 @@ public @interface AudioRecordState {
     int STOP = 2;
 
     /**
+     * 取消
+     */
+    int CANCEL = 3;
+
+    /**
      * 错误
      */
-    int ERROR = 3;
+    int ERROR = 4;
 
     /**
      * 未初始化
      */
-    int UNINITIALIZED = 4;
+    int UNINITIALIZED = 5;
+
 }

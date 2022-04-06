@@ -9,21 +9,28 @@ package com.xxl.hello.widget.record;
 public interface OnRecordListener {
 
     /**
+     * 开始录制
+     */
+    void onButtonRecordStart();
+
+    /**
      * 录制中
      *
      * @param currentTimeMills
      * @param totalTimeMills
      */
-    void onRecord(final long currentTimeMills,
-                  final long totalTimeMills);
+    void onButtonRecording(final long currentTimeMills,
+                           final long totalTimeMills);
 
     /**
-     * 取消录制
+     * 停止录制
+     *
+     * @param isCanceled 是否是取消录制
      */
-    void onRecordCancel();
+    void onButtonRecordStop(final boolean isCanceled);
 
     /**
      * 录制完成
      */
-    void onRecordFinish();
+    void onButtonRecordFinish();
 }
