@@ -68,6 +68,7 @@ dependencies {
     implementation deps.dagger.dagger
     annotationProcessor deps.dagger.processor
     implementation deps.dagger.android
+    implementation deps.dagger.android_support
     annotationProcessor deps.dagger.android_processor
 
     implementation deps.picture_selector
