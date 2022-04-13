@@ -123,7 +123,14 @@ glide.glide_processor = "com.github.bumptech.glide:compiler:$versions.glide"
 deps.glide = glide
 
 //pictureselector 图片选择 [https://github.com/LuckSiege/PictureSelector]
-deps.picture_selector = "io.github.lucksiege:pictureselector:$versions.picture_selector"
+
+versions.picture_selector_remote = true
+
+if (versions.picture_selector_remote) {
+    deps.picture_selector = "io.github.lucksiege:pictureselector:$versions.picture_selector"
+} else {
+    deps.picture_selector = project(':module_libs:lib_picture_selector')
+}
 
 //rxjava [https://github.com/ReactiveX/RxJava]
 deps.rxjava = "io.reactivex.rxjava3:rxjava:$versions.rxjava"
@@ -168,7 +175,7 @@ versions.mobile_ffmpeg_remote = false
 if (versions.mobile_ffmpeg_remote) {
     deps.mobile_ffmpeg = "com.arthenica:mobile-ffmpeg-full:$versions.mobile_ffmpeg"
 } else {
-    deps.mobile_ffmpeg = project(':module_libs')
+    deps.mobile_ffmpeg = project(':module_libs:lib_ffmpeg')
 }
 
 // BaseRecyclerViewAdapterHelper [https://github.com/CymChad/BaseRecyclerViewAdapterHelper]

@@ -5,7 +5,8 @@ include ':framework:module_resources'
 include ':framework:module_widget'
 include ':framework:module_router'
 
-include ':module_libs'
+include ':module_libs:lib_ffmpeg'
+include ':module_libs:lib_picture_selector'
 
 include ':app'
 include ':modules:module_main'
