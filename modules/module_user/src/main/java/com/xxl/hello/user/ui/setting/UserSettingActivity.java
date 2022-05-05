@@ -2,7 +2,6 @@ package com.xxl.hello.user.ui.setting;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
@@ -10,9 +9,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
-import com.xxl.core.media.MediaPlayerWrapper;
 import com.xxl.core.image.selector.MediaSelector;
-import com.xxl.core.media.audio.AudioPlayerWrapper;
 import com.xxl.core.utils.PathUtils;
 import com.xxl.hello.common.NetworkConfig;
 import com.xxl.hello.router.UserRouterApi;
@@ -74,8 +71,6 @@ public class UserSettingActivity extends DataBindingActivity<UserSettingViewMode
         return mUserSettingViewModel;
     }
 
-    String filePath;
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -84,16 +79,8 @@ public class UserSettingActivity extends DataBindingActivity<UserSettingViewMode
                 final List<LocalMedia> mediaList = MediaSelector.obtainMultipleResult(data);
                 final LocalMedia media = mediaList.get(0);
                 final Uri uri = Uri.parse(media.getPath());
-//                final Uri targetUri = PathUtils.getUriByFilePath(PathUtils.getFilePathByUri(uri));
-//                mUserSettingViewModel.requestUpdateUserInfo(PathUtils.getFilePathByUri(uri));
-
-                filePath = PathUtils.getFilePathByUri(uri);
-
-
-//                MediaPlayerWrapper.getInstance().play(filePath);
-                AudioPlayerWrapper.getInstance()
-                        .setAutoPlay(true)
-                        .prepare(filePath);
+                final Uri targetUri = PathUtils.getUriByFilePath(PathUtils.getFilePathByUri(uri));
+                mUserSettingViewModel.requestUpdateUserInfo(PathUtils.getFilePathByUri(uri));
             }
         }
     }
@@ -175,30 +162,9 @@ public class UserSettingActivity extends DataBindingActivity<UserSettingViewMode
      */
     @Override
     public void onUserAvatarClick() {
-
-        if (!TextUtils.isEmpty(filePath)) {
-//            if (MediaPlayerWrapper.getInstance().isPlaying()) {
-//                MediaPlayerWrapper.getInstance().pause();
-//            } else {
-//                MediaPlayerWrapper.getInstance().start();
-//            }
-            if (AudioPlayerWrapper.getInstance().isPlaying()) {
-                AudioPlayerWrapper.getInstance().pause();
-            }else {
-                if (AudioPlayerWrapper.getInstance().isPrepared()) {
-                    AudioPlayerWrapper.getInstance().start();
-                }else {
-                    AudioPlayerWrapper.getInstance()
-                            .setAutoPlay(true)
-                            .prepare(filePath);
-                }
-            }
-            return;
-        }
         MediaSelector.create(this)
-                .openGallery(PictureMimeType.ofAudio())
+                .openGallery(PictureMimeType.ofImage())
                 .forResult();
-
     }
 
     /**
