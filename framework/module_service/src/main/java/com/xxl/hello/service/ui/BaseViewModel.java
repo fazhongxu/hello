@@ -1,6 +1,7 @@
 package com.xxl.hello.service.ui;
 
 import android.app.Application;
+import android.os.Handler;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -10,6 +11,7 @@ import androidx.lifecycle.AndroidViewModel;
 
 import com.xxl.core.exception.ResponseException;
 import com.xxl.core.exception.ResponseListener;
+import com.xxl.core.manager.ExceptionServiceManager;
 import com.xxl.core.rx.SchedulersProvider;
 import com.xxl.core.utils.AppUtils;
 import com.xxl.core.utils.LogUtils;
@@ -46,6 +48,8 @@ public class BaseViewModel<N> extends AndroidViewModel {
      * 页面事件监听
      */
     private N mNavigator;
+
+    private Handler mHandler = new Handler();
 
     //endregion
 
@@ -103,6 +107,30 @@ public class BaseViewModel<N> extends AndroidViewModel {
     }
 
     /**
+     * 设置捕获异常
+     * 发送异常到bugly，不处理除了token失效的错误，打印log，不toast
+     *
+     * @param throwable
+     */
+    public void setCaughtException(@NonNull final Throwable throwable) {
+        final ResponseException exception = ResponseException.converter(throwable);
+        if (exception.isTokenInvalid()) {
+            setResponseException(throwable);
+            return;
+        }
+        try {
+            mHandler.post(() -> {
+                setViewLoading(false);
+                ExceptionServiceManager.postCaughtException(throwable);
+
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            ExceptionServiceManager.postCaughtException(throwable);
+        }
+    }
+
+    /**
      * 处理异常
      *
      * @param throwable
@@ -127,9 +155,12 @@ public class BaseViewModel<N> extends AndroidViewModel {
             Toast.makeText(AppUtils.getApplication(), exception.getMessage(), Toast.LENGTH_SHORT).show();
             LogUtils.e(exception.getMessage());
         }
-        setViewLoading(false);
-    }
+        mHandler.post(() -> {
+            setViewLoading(false);
+            ExceptionServiceManager.postCaughtException(throwable);
 
+        });
+    }
 
     /**
      * 数据流线程切换 子线程->主线程

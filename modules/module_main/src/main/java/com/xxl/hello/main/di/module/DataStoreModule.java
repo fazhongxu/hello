@@ -19,6 +19,10 @@ import com.xxl.hello.service.qunlifier.ForUserPreference;
 import com.xxl.hello.service.qunlifier.ForUserRetrofit;
 import com.xxl.hello.user.di.module.UserDataStoreModule;
 
+import org.xmlpull.v1.XmlPullParserFactory;
+
+import java.io.StringReader;
+
 import javax.inject.Singleton;
 
 import dagger.Module;

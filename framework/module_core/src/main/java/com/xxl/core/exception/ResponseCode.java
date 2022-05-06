@@ -21,6 +21,11 @@ public class ResponseCode {
     public static final int RESPONSE_CODE_SUCCESS = 200;
 
     /**
+     * token失效
+     */
+    public static final int RESPONSE_CODE_TOKEN_TOKEN_INVALID = 601;
+
+    /**
      * 解析异常
      */
     public static final int RESPONSE_CODE_PARSE_EXCEPTION = 1000;

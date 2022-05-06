@@ -61,6 +61,15 @@ public class ResponseException extends Exception {
     //region: 提供方法
 
     /**
+     * Token失效
+     *
+     * @return
+     */
+    public boolean isTokenInvalid() {
+        return mCode == ResponseCode.RESPONSE_CODE_TOKEN_TOKEN_INVALID;
+    }
+
+    /**
      * 异常转换
      *
      * @param throwable
