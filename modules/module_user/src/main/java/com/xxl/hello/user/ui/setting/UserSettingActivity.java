@@ -2,6 +2,7 @@ package com.xxl.hello.user.ui.setting;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
@@ -9,7 +10,9 @@ import androidx.lifecycle.ViewModelProvider;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
+import com.xxl.core.data.model.entity.MediaEntity;
 import com.xxl.core.image.selector.MediaSelector;
+import com.xxl.core.utils.MediaUtils;
 import com.xxl.core.utils.PathUtils;
 import com.xxl.hello.common.NetworkConfig;
 import com.xxl.hello.router.UserRouterApi;
@@ -163,7 +166,7 @@ public class UserSettingActivity extends DataBindingActivity<UserSettingViewMode
     @Override
     public void onUserAvatarClick() {
         MediaSelector.create(this)
-                .openGallery(PictureMimeType.ofImage())
+                .openGallery(PictureMimeType.ofAll())
                 .forResult();
     }
 

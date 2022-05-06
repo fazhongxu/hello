@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.hw.videoprocessor.VideoProcessor;
+import com.xxl.core.data.model.entity.MediaEntity;
 import com.xxl.core.rx.SchedulersProvider;
 
 import io.reactivex.rxjava3.core.Observable;
@@ -16,15 +17,6 @@ import io.reactivex.rxjava3.core.Observable;
  */
 public class VideoUtils {
 
-    /**
-     * 最大码率
-     */
-    //private static final int MAX_BITRATE = ;
-
-    /**
-     * 最小码率
-     */
-    //private static final int MIN_BITRATE = ;
     private VideoUtils() {
         throw new UnsupportedOperationException("u can't instantiate me...");
     }
@@ -39,17 +31,18 @@ public class VideoUtils {
     public static void compress(@NonNull final String inputVideoPath,
                                 @NonNull final String outputVideoPath,
                                 @NonNull final OnVideoProgressListener listener) {
+        final MediaEntity mediaInfo = MediaUtils.getMediaInfo(inputVideoPath);
         compressObservable(inputVideoPath, outputVideoPath, listener)
                 .compose(SchedulersProvider.applySchedulers())
                 .subscribe(isSuccess -> {
                     if (isSuccess) {
-                        listener.onComplete(outputVideoPath);
+                        listener.onComplete(outputVideoPath, mediaInfo.getWidth(), mediaInfo.getHeight());
                     } else {
-                        listener.onComplete(inputVideoPath);
+                        listener.onComplete(inputVideoPath, mediaInfo.getWidth(), mediaInfo.getHeight());
                     }
                 }, throwable -> {
                     LogUtils.e(throwable);
-                    listener.onComplete(inputVideoPath);
+                    listener.onComplete(inputVideoPath, mediaInfo.getWidth(), mediaInfo.getHeight());
                 });
     }
 
@@ -118,7 +111,17 @@ public class VideoUtils {
                 @Override
                 public void onComplete(String videoPath) {
                     if (listener != null) {
-                        listener.onComplete(videoPath);
+                        final MediaEntity mediaInfo = MediaUtils.getMediaInfo(videoPath);
+                        listener.onComplete(videoPath, mediaInfo.getWidth(), mediaInfo.getHeight());
+                    }
+                }
+
+                @Override
+                public void onComplete(String videoPath,
+                                       long videoWidth,
+                                       long videoHeight) {
+                    if (listener != null) {
+                        listener.onComplete(videoPath, videoWidth, videoHeight);
                     }
                 }
             };
@@ -143,10 +146,24 @@ public class VideoUtils {
 
         }
 
+
         /**
          * 压缩完成
          *
-         * @param videoPath // TODO: 2021/11/16 可加上视频宽高回调出去，Android MediaMetadataRetriever 编解码获取宽高
+         * @param videoPath
+         * @param videoWidth
+         * @param videoHeight
+         */
+        default void onComplete(final String videoPath,
+                                final long videoWidth,
+                                final long videoHeight) {
+            onComplete(videoPath);
+        }
+
+        /**
+         * 压缩完成
+         *
+         * @param videoPath
          */
         void onComplete(final String videoPath);
     }
