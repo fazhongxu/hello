@@ -12,6 +12,8 @@ android {
         versionCode build_versions.versionCode
         versionName build_versions.versionName
 
+        buildConfigField "String", "GIT_VERSION", "\"${gitGitVersionCode()}\""
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
 

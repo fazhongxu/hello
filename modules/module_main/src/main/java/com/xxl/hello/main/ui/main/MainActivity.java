@@ -29,6 +29,7 @@ import com.xxl.core.utils.TimeUtils;
 import com.xxl.core.utils.ToastUtils;
 import com.xxl.hello.common.CacheDirConfig;
 import com.xxl.hello.main.BR;
+import com.xxl.hello.main.BuildConfig;
 import com.xxl.hello.main.R;
 import com.xxl.hello.main.databinding.ActivityMainBinding;
 import com.xxl.hello.main.ui.main.window.PrivacyPolicyPopupWindow;

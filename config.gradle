@@ -10,6 +10,7 @@ build_versions.minSdkVersion = 19
 build_versions.targetSdkVersion = 29
 build_versions.versionCode = 1
 build_versions.versionName = "1.0.0"
+build_versions.abiFilters = "arm64-v8a,armeabi-v7a" //"armeabi-v7a , x86 , x86_64 , "
 ext.build_versions = build_versions
 
 def versions = [:]
@@ -263,3 +264,14 @@ def addRepos(RepositoryHandler handler) {
 }
 
 ext.addRepos = this.&addRepos
+
+def gitGitVersionCode = { ->
+    try {
+        return 'git rev-list HEAD --first-parent --count'.execute().text.trim().toInteger()
+    }
+    catch (ignored) {
+        return 1
+    }
+}
+
+ext.gitGitVersionCode = gitGitVersionCode
