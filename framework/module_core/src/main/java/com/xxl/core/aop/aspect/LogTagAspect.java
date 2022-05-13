@@ -31,7 +31,7 @@ public class LogTagAspect {
         Object result = joinPoint.proceed();
         if (logTag.level() == 0) {
             if (!TextUtils.isEmpty(logTag.tag())) {
-                LogUtils.d(logTag.tag() + " " + logTag.message());
+                LogUtils.d(logTag.tag() + " %s", logTag.message());
             } else {
                 LogUtils.d(logTag.message());
             }
