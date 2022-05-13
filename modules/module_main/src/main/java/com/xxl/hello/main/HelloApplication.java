@@ -128,7 +128,7 @@ public class HelloApplication extends BaseApplication implements IApplication, M
     public void initPlugins() {
         super.initPlugins();
         CacheUtils.init(this, NetworkConfig.isDebug());
-        LogUtils.init(NetworkConfig.isDebug());
+        LogUtils.init(NetworkConfig.isDebug(),"HELLO");
         MediaSelector.init(this);
         SwipeBackActivityManager.init(this);
         registerShortcuts(this);

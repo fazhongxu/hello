@@ -13,6 +13,7 @@ import com.tbruyelle.rxpermissions3.RxPermissions;
 import com.xxl.core.aop.annotation.CheckLogin;
 import com.xxl.core.aop.annotation.CheckNetwork;
 import com.xxl.core.aop.annotation.Delay;
+import com.xxl.core.aop.annotation.LogTag;
 import com.xxl.core.aop.annotation.Safe;
 import com.xxl.core.aop.annotation.SingleClick;
 import com.xxl.core.data.router.AppRouterApi;
@@ -29,7 +30,6 @@ import com.xxl.core.utils.TimeUtils;
 import com.xxl.core.utils.ToastUtils;
 import com.xxl.hello.common.CacheDirConfig;
 import com.xxl.hello.main.BR;
-import com.xxl.hello.main.BuildConfig;
 import com.xxl.hello.main.R;
 import com.xxl.hello.main.databinding.ActivityMainBinding;
 import com.xxl.hello.main.ui.main.window.PrivacyPolicyPopupWindow;
@@ -196,13 +196,14 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
 
     //region: MainActivityNavigator
 
+    @LogTag(tag = "aaa", message = "onTestClick")
     @SingleClick
     @CheckLogin
     @CheckNetwork
     @Delay(delay = 200)
     @Override
     public void onTestClick() {
-        AppRouterApi.navigationToLogin();
+//        AppRouterApi.navigationToLogin();
     }
 
     /**

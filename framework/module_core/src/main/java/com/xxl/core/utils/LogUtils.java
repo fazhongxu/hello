@@ -42,11 +42,12 @@ public class LogUtils {
      *
      * @param isDebug
      */
-    public static void init(final boolean isDebug) {
+    public static void init(final boolean isDebug,
+                            @NonNull final String logTag) {
         sIsDebug = isDebug;
 
         final FormatStrategy formatStrategy = PrettyFormatStrategy.newBuilder()
-                .tag("hello")
+                .tag(logTag)
                 .build();
 
         Logger.addLogAdapter(new AndroidLogAdapter(formatStrategy) {
