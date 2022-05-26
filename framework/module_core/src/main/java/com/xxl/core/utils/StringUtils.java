@@ -1,10 +1,17 @@
 package com.xxl.core.utils;
 
 import android.content.res.Resources;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 
 import androidx.annotation.ArrayRes;
+import androidx.annotation.ColorRes;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
+import androidx.core.content.ContextCompat;
 
 import java.util.IllegalFormatException;
 
@@ -13,12 +20,6 @@ import java.util.IllegalFormatException;
  * @date 2021/7/23.
  */
 public class StringUtils {
-
-    //region: 成员变量
-
-    //endregion
-
-    //region: 构造函数
 
     private StringUtils() {
 
@@ -237,14 +238,83 @@ public class StringUtils {
         return text;
     }
 
-    //endregion
+    /**
+     * 设置高亮
+     *
+     * @param content 内容
+     * @param keyword 关键字
+     * @param colorId 高亮颜色
+     */
+    public static Spannable setHighlightColorId(final String content,
+                                                final String keyword,
+                                                @ColorRes final int colorId) {
+        Spannable spannable = new SpannableString(content);
+        setHighlightColorId(spannable, keyword, colorId);
+        return spannable;
+    }
 
-    //region: 提供方法
+    /**
+     * 设置高亮
+     *
+     * @param content      内容
+     * @param keyword      关键字
+     * @param primaryColor 高亮颜色
+     */
+    public static Spannable setHighlightColor(final String content,
+                                              final String keyword,
+                                              final int primaryColor) {
+        Spannable spannable = new SpannableString(content);
+        setHighlightColor(spannable, keyword, primaryColor);
+        return spannable;
+    }
 
-    //endregion
+    /**
+     * 设置高亮
+     *
+     * @param spannable 内容
+     * @param keyword   关键字
+     * @param colorId   高亮颜色
+     */
+    public static void setHighlightColorId(final Spannable spannable,
+                                           final String keyword,
+                                           @ColorRes final int colorId) {
+        final int primaryColor = ContextCompat.getColor(AppUtils.getApplication().getApplicationContext(), colorId);
+        setHighlightColor(spannable, keyword, primaryColor);
+    }
 
-    //region: 内部辅助方法
+    /**
+     * 设置高亮
+     *
+     * @param spannable    内容
+     * @param keyword      关键字
+     * @param primaryColor 高亮颜色
+     */
+    public static void setHighlightColor(final Spannable spannable,
+                                         String keyword,
+                                         final int primaryColor) {
+        if (spannable == null || TextUtils.isEmpty(keyword)) {
+            return;
+        }
+        String content = spannable.toString();
+        if (!content.contains(keyword)) {
+            return;
+        }
+        content = content.toLowerCase();
+        keyword = keyword.toLowerCase();
 
-    //endregion
+        try {
+            String subString = content;
+            int start = 0;
+            while (!TextUtils.isEmpty(subString) && subString.contains(keyword)) {
+                start = start + subString.indexOf(keyword);
+                int end = start + keyword.length();
+                spannable.setSpan(new ForegroundColorSpan(primaryColor), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                subString = content.substring(end);
+                start = end;
+            }
+        } catch (Exception e) {
+            LogUtils.e(e);
+        }
+    }
 
 }
