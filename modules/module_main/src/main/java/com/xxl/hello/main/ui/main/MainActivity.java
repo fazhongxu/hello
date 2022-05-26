@@ -203,7 +203,7 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
     @Delay(delay = 200)
     @Override
     public void onTestClick() {
-//        AppRouterApi.navigationToLogin();
+        AppRouterApi.navigationToLogin();
     }
 
     /**

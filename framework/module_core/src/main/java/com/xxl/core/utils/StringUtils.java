@@ -8,7 +8,9 @@ import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 
 import androidx.annotation.ArrayRes;
+import androidx.annotation.ColorInt;
 import androidx.annotation.ColorRes;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.core.content.ContextCompat;
@@ -285,36 +287,34 @@ public class StringUtils {
     /**
      * 设置高亮
      *
-     * @param spannable    内容
-     * @param keyword      关键字
-     * @param primaryColor 高亮颜色
+     * @param spannable      内容
+     * @param keyword        关键字
+     * @param highLightColor 高亮颜色
      */
-    public static void setHighlightColor(final Spannable spannable,
-                                         String keyword,
-                                         final int primaryColor) {
-        if (spannable == null || TextUtils.isEmpty(keyword)) {
+    public static void setHighlightColor(@NonNull Spannable spannable,
+                                         @NonNull String keyword,
+                                         @ColorInt int highLightColor) {
+        if (TextUtils.isEmpty(spannable) || TextUtils.isEmpty(keyword)) {
             return;
         }
-        String content = spannable.toString();
+        final String content = spannable.toString().toLowerCase();
+        keyword = keyword.toLowerCase();
         if (!content.contains(keyword)) {
             return;
         }
-        content = content.toLowerCase();
-        keyword = keyword.toLowerCase();
-
+        String substring = content;
+        int start = 0;
         try {
-            String subString = content;
-            int start = 0;
-            while (!TextUtils.isEmpty(subString) && subString.contains(keyword)) {
-                start = start + subString.indexOf(keyword);
+            while (!TextUtils.isEmpty(substring) && substring.contains(keyword)) {
+                start = start + substring.indexOf(keyword);
                 int end = start + keyword.length();
-                spannable.setSpan(new ForegroundColorSpan(primaryColor), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                subString = content.substring(end);
+                final ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(highLightColor);
+                spannable.setSpan(foregroundColorSpan, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                substring = content.substring(end);
                 start = end;
             }
         } catch (Exception e) {
-            LogUtils.e(e);
+            e.printStackTrace();
         }
     }
-
 }
