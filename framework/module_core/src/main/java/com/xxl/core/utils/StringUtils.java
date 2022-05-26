@@ -294,11 +294,27 @@ public class StringUtils {
     public static void setHighlightColor(@NonNull Spannable spannable,
                                          @NonNull String keyword,
                                          @ColorInt int highLightColor) {
+        setHighlightColor(spannable, keyword, highLightColor, true);
+    }
+
+    /**
+     * 设置高亮
+     *
+     * @param spannable      内容
+     * @param keyword        关键字
+     * @param highLightColor 高亮颜色
+     * @param ignoreCase     是否忽略大小写
+     */
+    public static void setHighlightColor(@NonNull Spannable spannable,
+                                         @NonNull String keyword,
+                                         @ColorInt int highLightColor,
+                                         final boolean ignoreCase) {
         if (TextUtils.isEmpty(spannable) || TextUtils.isEmpty(keyword)) {
             return;
         }
-        final String content = spannable.toString().toLowerCase();
-        keyword = keyword.toLowerCase();
+
+        final String content = ignoreCase ? spannable.toString().toLowerCase() : spannable.toString();
+        keyword = ignoreCase ? keyword.toLowerCase() : keyword;
         if (!content.contains(keyword)) {
             return;
         }
