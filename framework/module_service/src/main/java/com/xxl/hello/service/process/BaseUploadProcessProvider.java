@@ -10,6 +10,7 @@ import com.xxl.core.utils.StringUtils;
 import com.xxl.hello.common.CacheDirConfig;
 import com.xxl.hello.service.R;
 import com.xxl.hello.service.data.local.db.entity.ResourcesUploadQueueDBEntity;
+import com.xxl.hello.service.data.model.enums.SystemEnumsApi.MediaType;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi.ResoucesUploadChannel;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.hello.service.upload.UploadService;
@@ -39,6 +40,7 @@ public abstract class BaseUploadProcessProvider extends BaseProcessProvider {
      *
      * @return
      */
+    @MediaType
     public abstract String getMediaType();
 
     /**
