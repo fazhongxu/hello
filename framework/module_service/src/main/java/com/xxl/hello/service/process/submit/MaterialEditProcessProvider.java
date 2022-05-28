@@ -6,12 +6,11 @@ import androidx.annotation.NonNull;
 
 import com.xxl.core.listener.OnRequestCallBack;
 import com.xxl.hello.service.data.local.db.entity.ResourcesUploadQueueDBEntity;
-import com.xxl.hello.service.data.model.api.MaterialAddRequest;
 import com.xxl.hello.service.data.model.api.MaterialEditRequest;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi.ResourcesSubmitType;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.hello.service.process.BaseSubmitProcessProvider;
-import com.xxl.hello.service.upload.UploadService;
+import com.xxl.hello.service.upload.api.UploadService;
 
 /**
  * 素材编辑

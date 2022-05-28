@@ -6,6 +6,7 @@ android {
 
 dependencies {
     implementation deps.hello.resources
+    implementation deps.hello.service
 
     api deps.dkplayer.dkplayer
     api deps.dkplayer.dkplayer_ijk

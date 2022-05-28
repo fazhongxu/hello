@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 
 import com.xxl.core.exception.ResponseException;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
-import com.xxl.hello.service.upload.UploadService;
+import com.xxl.hello.service.upload.api.UploadService;
 
 import org.greenrobot.eventbus.EventBus;
 

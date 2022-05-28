@@ -151,6 +151,18 @@ public class UserSettingActivity extends DataBindingActivity<UserSettingViewMode
     //region: UserSettingNavigator
 
     /**
+     * 请求添加上传资源到数据库完成
+     *
+     * @param isSuccess
+     */
+    @Override
+    public void onRequestPutResourcesUploadQueueDBEntites(Boolean isSuccess) {
+        if (isFinishing()) {
+            return;
+        }
+    }
+
+    /**
      * 更新用户信息完成
      *
      * @param targetUserEntity

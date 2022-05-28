@@ -9,17 +9,22 @@ import androidx.databinding.ObservableField;
 
 import com.xxl.core.listener.OnResourcesCompressListener;
 import com.xxl.core.utils.ImageUtils;
+import com.xxl.core.utils.LogUtils;
 import com.xxl.core.utils.StringUtils;
 import com.xxl.core.utils.ToastUtils;
 import com.xxl.hello.common.CacheDirConfig;
+import com.xxl.hello.service.data.local.db.entity.ResourcesUploadQueueDBEntity;
 import com.xxl.hello.service.data.model.entity.LoginUserEntity;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
-import com.xxl.hello.service.ui.BaseViewModel;
+import com.xxl.hello.service.data.repository.api.ResourceRepositoryApi;
 import com.xxl.hello.user.R;
 import com.xxl.hello.user.data.repository.UserRepository;
+import com.xxl.hello.widget.ui.model.resource.BaseResourceQueueViewModel;
 
 import java.io.File;
+import java.util.List;
 
+import io.reactivex.rxjava3.disposables.Disposable;
 import lombok.Getter;
 import lombok.experimental.Accessors;
 
@@ -30,7 +35,7 @@ import lombok.experimental.Accessors;
  * @date 2021/7/16.
  */
 @Accessors(prefix = "m")
-public class UserSettingViewModel extends BaseViewModel<UserSettingNavigator> {
+public class UserSettingViewModel extends BaseResourceQueueViewModel<UserSettingNavigator> {
 
     //region: 成员变量
 
@@ -75,7 +80,7 @@ public class UserSettingViewModel extends BaseViewModel<UserSettingNavigator> {
     public UserSettingViewModel(@NonNull final Application application,
                                 @NonNull final DataRepositoryKit dataRepositoryKit,
                                 @NonNull final UserRepository userRepository) {
-        super(application);
+        super(application, dataRepositoryKit);
         mDataRepositoryKit = dataRepositoryKit;
         mUserRepository = userRepository;
     }
@@ -83,6 +88,24 @@ public class UserSettingViewModel extends BaseViewModel<UserSettingNavigator> {
     //endregion
 
     //region: 与用户信息相关
+
+    /**
+     * 请求添加上传资源到数据库完成
+     *
+     * @param resourcesUploadQueueDBEntities
+     */
+    public void requestPutResourcesUploadQueueDBEntites(@NonNull final List<ResourcesUploadQueueDBEntity> resourcesUploadQueueDBEntities) {
+        final ResourceRepositoryApi resourceRepositoryApi = getDataRepositoryKit().getResourceRepositoryApi();
+        final Disposable disposable = resourceRepositoryApi.putResourcesUploadQueueDBEntities(resourcesUploadQueueDBEntities)
+                .compose(applySchedulers())
+                .subscribe(isSuccess -> {
+                    LogUtils.d("添加资源到队列完成" + isSuccess);
+                    getNavigator().onRequestPutResourcesUploadQueueDBEntites(isSuccess);
+                }, throwable -> {
+                    setResponseException(throwable);
+                });
+        addCompositeDisposable(disposable);
+    }
 
     /**
      * 请求更新用户信息

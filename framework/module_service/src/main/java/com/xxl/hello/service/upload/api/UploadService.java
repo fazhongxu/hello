@@ -1,4 +1,4 @@
-package com.xxl.hello.service.upload;
+package com.xxl.hello.service.upload.api;
 
 /**
  * 上传服务

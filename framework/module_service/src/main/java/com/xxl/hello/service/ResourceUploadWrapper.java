@@ -15,7 +15,7 @@ import com.xxl.hello.service.process.BaseUploadProcessProvider;
 import com.xxl.hello.service.process.OnResourcesUploadCallback;
 import com.xxl.hello.service.process.upload.ImageUploadProcessProvider;
 import com.xxl.hello.service.process.upload.VideoUploadProcessProvider;
-import com.xxl.hello.service.upload.UploadService;
+import com.xxl.hello.service.upload.api.UploadService;
 
 import java.util.LinkedHashMap;
 
@@ -76,7 +76,7 @@ public class ResourceUploadWrapper {
     /**
      * clear
      */
-    public void onCleared() {
+    void onCleared() {
         try {
             unregisterUploadProcessProvider();
         } catch (Exception e) {
@@ -124,7 +124,7 @@ public class ResourceUploadWrapper {
      * @param mediaType 媒体类型
      * @return
      */
-    public BaseUploadProcessProvider getUploadProcessProvider(@MediaType final String mediaType) {
+    private BaseUploadProcessProvider getUploadProcessProvider(@MediaType final String mediaType) {
         return mUploadProcessProviderMap.get(mediaType);
     }
 

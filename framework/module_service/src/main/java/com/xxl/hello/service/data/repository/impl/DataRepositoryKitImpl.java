@@ -2,6 +2,7 @@ package com.xxl.hello.service.data.repository.impl;
 
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.hello.service.data.repository.api.ConfigRepositoryApi;
+import com.xxl.hello.service.data.repository.api.ResourceRepositoryApi;
 import com.xxl.hello.service.data.repository.api.UserRepositoryApi;
 
 import javax.inject.Inject;
@@ -39,6 +40,20 @@ public class DataRepositoryKitImpl implements DataRepositoryKit {
     public ConfigRepositoryApi getConfigRepositoryApi() {
         return mConfigRepositoryApi.get();
     }
+
+    @Inject
+    Lazy<ResourceRepositoryApi> mResourceRepositoryApi;
+
+    /**
+     * 获取资源数据源接口
+     *
+     * @return
+     */
+    @Override
+    public ResourceRepositoryApi getResourceRepositoryApi() {
+        return mResourceRepositoryApi.get();
+    }
+
 
     @Inject
     Lazy<UserRepositoryApi> mUserRepositoryApi;

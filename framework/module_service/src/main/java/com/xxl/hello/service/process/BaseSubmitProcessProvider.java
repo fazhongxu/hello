@@ -8,7 +8,7 @@ import com.xxl.core.listener.OnRequestCallBack;
 import com.xxl.hello.service.data.local.db.entity.ResourcesUploadQueueDBEntity;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi.ResourcesSubmitType;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
-import com.xxl.hello.service.upload.UploadService;
+import com.xxl.hello.service.upload.api.UploadService;
 
 import lombok.experimental.Accessors;
 

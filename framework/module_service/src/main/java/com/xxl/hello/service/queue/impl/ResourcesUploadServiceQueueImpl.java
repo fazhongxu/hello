@@ -12,7 +12,7 @@ import com.xxl.hello.service.data.repository.DataRepositoryKit;
  * @author xxl.
  * @date 2022/5/27.
  */
-public class ResourcesUploadServiceQueue extends BaseServiceQueueImpl {
+public class ResourcesUploadServiceQueueImpl extends BaseServiceQueueImpl {
 
     //region: 成员变量
 
@@ -20,8 +20,8 @@ public class ResourcesUploadServiceQueue extends BaseServiceQueueImpl {
 
     //region: 构造函数
 
-    public ResourcesUploadServiceQueue(@NonNull final Application application,
-                                       @NonNull final DataRepositoryKit dataRepositoryKit) {
+    public ResourcesUploadServiceQueueImpl(@NonNull final Application application,
+                                           @NonNull final DataRepositoryKit dataRepositoryKit) {
         super(application, dataRepositoryKit);
         // TODO: 2022/5/27 线程池 
     }

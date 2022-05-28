@@ -13,7 +13,7 @@ import com.xxl.hello.service.data.local.db.entity.ResourcesUploadQueueDBEntity;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi.MediaType;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi.ResoucesUploadChannel;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
-import com.xxl.hello.service.upload.UploadService;
+import com.xxl.hello.service.upload.api.UploadService;
 
 /**
  * 资源上传处理

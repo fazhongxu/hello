@@ -9,7 +9,7 @@ import com.xxl.hello.service.data.model.enums.SystemEnumsApi.MediaType;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.hello.service.process.BaseUploadProcessProvider;
 import com.xxl.hello.service.process.OnResourcesCompressCallback;
-import com.xxl.hello.service.upload.UploadService;
+import com.xxl.hello.service.upload.api.UploadService;
 
 import java.io.File;
 

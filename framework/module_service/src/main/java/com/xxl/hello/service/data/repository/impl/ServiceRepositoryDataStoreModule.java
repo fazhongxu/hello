@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.hello.service.data.repository.api.ConfigRepositoryApi;
+import com.xxl.hello.service.data.repository.api.ResourceRepositoryApi;
 
 import javax.inject.Singleton;
 
@@ -27,5 +28,11 @@ public class ServiceRepositoryDataStoreModule {
     @Provides
     ConfigRepositoryApi provideConfigRepositoryImpl() {
         return new ConfigRepositoryImpl();
+    }
+
+    @Singleton
+    @Provides
+    ResourceRepositoryApi provideResourceRepositoryImpl() {
+        return new ResourcesRepositoryImpl();
     }
 }

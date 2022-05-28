@@ -10,7 +10,7 @@ import com.xxl.hello.service.data.model.api.MaterialAddRequest;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi.ResourcesSubmitType;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.hello.service.process.BaseSubmitProcessProvider;
-import com.xxl.hello.service.upload.UploadService;
+import com.xxl.hello.service.upload.api.UploadService;
 
 /**
  * 素材添加

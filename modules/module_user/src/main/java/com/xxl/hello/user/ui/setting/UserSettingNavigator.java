@@ -13,6 +13,13 @@ import com.xxl.hello.service.data.model.entity.LoginUserEntity;
 public interface UserSettingNavigator {
 
     /**
+     * 请求添加上传资源到数据库完成
+     *
+     * @param isSuccess
+     */
+    void onRequestPutResourcesUploadQueueDBEntites(Boolean isSuccess);
+
+    /**
      * 更新用户信息完成
      *
      * @param targetUserEntity
@@ -28,4 +35,6 @@ public interface UserSettingNavigator {
      * 切换网络环境点击
      */
     void onSwitchEnvironmentClick();
+
+
 }
