@@ -17,4 +17,8 @@
     <string name="resources_service_agreement__title">《服务协议》</string>
     <string name="resources_privacy_policy_title">《隐私政策》</string>
 
+    <string name="resources_file_upload_failure_can_not_support_type">上传失败，不支持的资源类型</string>
+    <string name="resources_file_upload_failure">文件上传失败，请稍后再试！</string>
+    <string name="resources_file_upload_failure_can_not_found_res">无法上传资源，请检查资源是否存在！</string>
+
 </resources>

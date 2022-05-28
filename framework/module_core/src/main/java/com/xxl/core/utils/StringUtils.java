@@ -333,4 +333,17 @@ public class StringUtils {
             e.printStackTrace();
         }
     }
+
+    /**
+     * 判断字符串是否是网络地址
+     *
+     * @param s
+     * @return
+     */
+    public static boolean isHttp(@Nullable final String s) {
+        if (isEmpty(s)) {
+            return false;
+        }
+        return s.toLowerCase().startsWith("http");
+    }
 }

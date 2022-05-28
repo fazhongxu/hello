@@ -7,11 +7,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.ObservableField;
 
-import com.xxl.hello.common.CacheDirConfig;
 import com.xxl.core.listener.OnResourcesCompressListener;
 import com.xxl.core.utils.ImageUtils;
 import com.xxl.core.utils.StringUtils;
 import com.xxl.core.utils.ToastUtils;
+import com.xxl.hello.common.CacheDirConfig;
 import com.xxl.hello.service.data.model.entity.LoginUserEntity;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.hello.service.ui.BaseViewModel;
@@ -92,16 +92,19 @@ public class UserSettingViewModel extends BaseViewModel<UserSettingNavigator> {
     void requestUpdateUserInfo(@NonNull final String avatarPath) {
         setViewLoading(true);
         final OnResourcesCompressListener listener = new OnResourcesCompressListener() {
+
             @Override
-            public void onSuccess(File file) {
+            public void onComplete(String filePath,
+                                   long width,
+                                   long height) {
                 final LoginUserEntity loginUserEntity = LoginUserEntity.obtain()
-                        .setUserAvatar(file.getAbsolutePath());
+                        .setUserAvatar(filePath);
                 submitUserInfoToService(loginUserEntity);
             }
 
             @Override
-            public void onError(Throwable e) {
-                setResponseException(e);
+            public void onFailure(Throwable throwable) {
+                setResponseException(throwable);
             }
         };
         handleImageCompress(avatarPath, listener);
@@ -147,13 +150,13 @@ public class UserSettingViewModel extends BaseViewModel<UserSettingNavigator> {
                 new ImageUtils.OnSimpleCompressListener() {
                     @Override
                     public void onSuccess(File file) {
-                        listener.onSuccess(file);
+                        listener.onComplete(file.getAbsolutePath(), 0, 0);
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         ToastUtils.show(StringUtils.getString(R.string.resources_compress_failure_text) + e.getMessage());
-                        listener.onError(e);
+                        listener.onFailure(e);
                     }
                 });
     }

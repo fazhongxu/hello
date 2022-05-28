@@ -60,6 +60,9 @@ dependencies {
     implementation deps.rxandroid
     implementation deps.rxpermission
 
+    implementation deps.luban
+    implementation deps.video_processor
+
     implementation deps.kprogresshud
 
     compileOnly deps.lombok.lombok

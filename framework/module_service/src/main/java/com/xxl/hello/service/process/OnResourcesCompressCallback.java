@@ -1,13 +1,14 @@
-package com.xxl.core.listener;
+package com.xxl.hello.service.process;
 
 import com.xxl.core.manager.ExceptionServiceManager;
 
 /**
- * @Description 资源压缩回调监听
- * @Author: xxl
- * @Date: 2021/8/29 12:35 AM
+ * 资源压缩回调
+ *
+ * @author : xxl
+ * @date 2022/5/28.
  **/
-public interface OnResourcesCompressListener {
+public interface OnResourcesCompressCallback {
 
     /**
      * 压缩完成
