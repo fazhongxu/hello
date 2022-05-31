@@ -10,7 +10,12 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.tbruyelle.rxpermissions3.RxPermissions;
+import com.xxl.core.aop.annotation.CheckLogin;
+import com.xxl.core.aop.annotation.CheckNetwork;
+import com.xxl.core.aop.annotation.Delay;
+import com.xxl.core.aop.annotation.LogTag;
 import com.xxl.core.aop.annotation.Safe;
+import com.xxl.core.aop.annotation.SingleClick;
 import com.xxl.core.data.router.AppRouterApi;
 import com.xxl.core.listener.OnAppStatusChangedListener;
 import com.xxl.core.media.audio.AudioCapture;
@@ -37,16 +42,10 @@ import com.xxl.hello.widget.record.RecordButton;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
-import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.core.ObservableSource;
 import io.reactivex.rxjava3.disposables.Disposable;
-import io.reactivex.rxjava3.functions.BooleanSupplier;
-import io.reactivex.rxjava3.functions.Consumer;
-import io.reactivex.rxjava3.functions.Function;
 
 /**
  * @author xxl
@@ -197,44 +196,16 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
 
     //region: MainActivityNavigator
 
-
-    boolean mIsSuccess;
-
+    @LogTag(tag = "aaa", message = "onTestClick")
+    @SingleClick
+    @CheckLogin
+    @Safe
+    @CheckNetwork
+    @Delay(delay = 200)
     @Override
     public void onTestClick() {
-        mIsSuccess = false;
-        final Disposable disposable = Observable.intervalRange(1, 3, 1000, 1000, TimeUnit.MILLISECONDS)
-                .takeWhile(aLong -> !mIsSuccess)
-                .flatMap((Function<Long, ObservableSource<String>>) aLong -> {
-                    return generateStringObservable()
-                            .onErrorResumeNext(new Function<Throwable, ObservableSource<? extends String>>() {
-                                @Override
-                                public ObservableSource<? extends String> apply(Throwable throwable) throws Throwable {
-                                    return Observable.just("oh my gold");
-                                }
-                            })
-                            .onErrorReturn(new Function<Throwable, String>() {
-                                @Override
-                                public String apply(Throwable throwable) throws Throwable {
-                                    return "我错了我特么错了 你找点别的事儿干吧！！";
-                                }
-                            })
-                            .map(s -> s + aLong);
-                })
-                .subscribe(string -> {
-                    mIsSuccess = string.endsWith("2");
-                    Log.e("aaa", "accept: " + string);
-                });
-        getViewModel().addCompositeDisposable(disposable);
-    }
+        AppRouterApi.navigationToLogin();
 
-    private Observable<String> generateStringObservable() {
-
-        return Observable.create(emitter -> {
-            int a = 1 /0;
-            emitter.onNext("test string ");
-            emitter.onComplete();
-        });
     }
 
     /**

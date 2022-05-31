@@ -23,13 +23,13 @@ import lombok.Getter;
 import lombok.experimental.Accessors;
 
 /**
- * 资源上传包装类
+ * 资源处理包装类
  *
  * @author xxl.
  * @date 2022/5/28.
  */
 @Accessors(prefix = "m")
-public class ResourceUploadWrapper {
+public class ResourceProcessWrapper {
 
     //region: 成员变量
 
@@ -60,9 +60,10 @@ public class ResourceUploadWrapper {
 
     //region: 构造函数
 
-    public ResourceUploadWrapper(@NonNull final Application application,
-                                 @NonNull final DataRepositoryKit dataRepositoryKit,
-                                 @NonNull final UploadService uploadService) {
+    public ResourceProcessWrapper(@NonNull final Application application,
+                                  @NonNull final DataRepositoryKit dataRepositoryKit,
+                                  @NonNull final UploadService uploadService,
+                                  @NonNull final UploadService tencentUploadService) {
         mApplication = application;
         mDataRepositoryKit = dataRepositoryKit;
         mUploadService = uploadService;
@@ -112,7 +113,7 @@ public class ResourceUploadWrapper {
      */
     private void registerUploadProcessProvider(@NonNull final BaseUploadProcessProvider targetUploadProcessProvider) {
         final String mediaType = targetUploadProcessProvider.getMediaType();
-        if (!TextUtils.isEmpty(mediaType)) {
+        if (TextUtils.isEmpty(mediaType)) {
             throw new RuntimeException("未找到资源处理模板");
         }
         mUploadProcessProviderMap.put(mediaType, targetUploadProcessProvider);
@@ -149,7 +150,7 @@ public class ResourceUploadWrapper {
     public void onUpload(@NonNull final ResourcesUploadQueueDBEntity targetResourcesUploadQueueDBEntity,
                          final boolean isForever,
                          @NonNull final OnResourcesUploadCallback callBack) {
-        final BaseUploadProcessProvider uploadProcessProvider = getUploadProcessProvider(targetResourcesUploadQueueDBEntity.getResourceType());
+        final BaseUploadProcessProvider uploadProcessProvider = getUploadProcessProvider(targetResourcesUploadQueueDBEntity.getMediaType());
         if (uploadProcessProvider != null) {
             uploadProcessProvider.onUpload(targetResourcesUploadQueueDBEntity, isForever, callBack);
         } else {

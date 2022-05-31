@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentActivity;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.app.PictureAppMaster;
 import com.luck.picture.lib.config.PictureConfig;
+import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.style.PictureSelectorUIStyle;
 
@@ -79,7 +80,7 @@ public class MediaSelector {
      * @return LocalMedia PictureSelectionModel
      */
     public MediaSelectionModel openGallery(int chooseMode) {
-        return new MediaSelectionModel(this,createPictureSelector(getActivity()), chooseMode);
+        return new MediaSelectionModel(this, createPictureSelector(getActivity()), chooseMode);
     }
 
     /**
@@ -90,6 +91,16 @@ public class MediaSelector {
     public PictureSelectorUIStyle ofDefaultStyle() {
         final PictureSelectorUIStyle pictureSelectorStyle = PictureSelectorUIStyle.ofDefaultStyle();
         return pictureSelectorStyle;
+    }
+
+    /**
+     * isVideo
+     *
+     * @param mimeType
+     * @return
+     */
+    public static boolean isVideo(String mimeType) {
+        return PictureMimeType.isHasVideo(mimeType);
     }
 
     /**

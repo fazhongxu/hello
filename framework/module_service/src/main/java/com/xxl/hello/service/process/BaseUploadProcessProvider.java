@@ -163,7 +163,7 @@ public abstract class BaseUploadProcessProvider extends BaseProcessProvider {
         getHandler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                callback.onComplete("http://github.com");
+                callback.onComplete("https://"+waitUploadPath);
             }
         }, 2000);
 

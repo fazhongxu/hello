@@ -9,6 +9,7 @@ import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.hello.service.ui.BaseViewModel;
 
 import java.util.List;
+import java.util.UUID;
 
 import lombok.Getter;
 import lombok.experimental.Accessors;
@@ -29,6 +30,12 @@ public abstract class BaseResourceQueueViewModel<N> extends BaseViewModel<N> {
      */
     @Getter
     private DataRepositoryKit mDataRepositoryKit;
+
+    /**
+     * 任务ID
+     */
+    @Getter
+    private String mTaskId = UUID.randomUUID().toString();
 
     //endregion
 

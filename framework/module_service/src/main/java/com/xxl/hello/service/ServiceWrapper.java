@@ -30,16 +30,34 @@ public class ServiceWrapper extends ContextWrapper {
      */
     private final DataRepositoryKit mDataRepositoryKit;
 
+    /**
+     * 资源处理服务
+     */
+    private final ResourcesProcessService mResourcesProcessService;
+
     //endregion
 
     //region: 构造函数
 
     public ServiceWrapper(@NonNull final Application application,
-                          @NonNull final DataRepositoryKit dataRepositoryKit) {
+                          @NonNull final DataRepositoryKit dataRepositoryKit,
+                          @NonNull final ResourcesProcessService resourcesProcessService) {
         super(application);
         mApplication = application;
         mDataRepositoryKit = dataRepositoryKit;
+        mResourcesProcessService = resourcesProcessService;
+    }
 
+    //endregion
+
+    //region: 页面生命周期
+
+    public void onCleared() {
+        try {
+            mResourcesProcessService.onCleared();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     //endregion
@@ -53,6 +71,13 @@ public class ServiceWrapper extends ContextWrapper {
      */
     public void init(@NonNull final Application application) {
         mApplication = application;
+    }
+
+    /**
+     * 用户退出
+     */
+    public void logout() {
+        onCleared();
     }
 
     /**

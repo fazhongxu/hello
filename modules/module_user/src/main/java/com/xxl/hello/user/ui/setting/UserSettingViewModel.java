@@ -1,20 +1,28 @@
 package com.xxl.hello.user.ui.setting;
 
 import android.app.Application;
+import android.net.Uri;
 import android.os.Handler;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.ObservableField;
 
+import com.luck.picture.lib.config.PictureMimeType;
+import com.luck.picture.lib.entity.LocalMedia;
+import com.xxl.core.image.selector.MediaSelector;
 import com.xxl.core.listener.OnResourcesCompressListener;
 import com.xxl.core.utils.ImageUtils;
+import com.xxl.core.utils.ListUtils;
 import com.xxl.core.utils.LogUtils;
+import com.xxl.core.utils.MediaUtils;
+import com.xxl.core.utils.PathUtils;
 import com.xxl.core.utils.StringUtils;
 import com.xxl.core.utils.ToastUtils;
 import com.xxl.hello.common.CacheDirConfig;
 import com.xxl.hello.service.data.local.db.entity.ResourcesUploadQueueDBEntity;
 import com.xxl.hello.service.data.model.entity.LoginUserEntity;
+import com.xxl.hello.service.data.model.enums.SystemEnumsApi;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.hello.service.data.repository.api.ResourceRepositoryApi;
 import com.xxl.hello.user.R;
@@ -22,6 +30,7 @@ import com.xxl.hello.user.data.repository.UserRepository;
 import com.xxl.hello.widget.ui.model.resource.BaseResourceQueueViewModel;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.rxjava3.disposables.Disposable;
@@ -90,17 +99,37 @@ public class UserSettingViewModel extends BaseResourceQueueViewModel<UserSetting
     //region: 与用户信息相关
 
     /**
-     * 请求添加上传资源到数据库完成
+     * 请求添加上传资源到数据库
+     *
+     * @param targetMedias
+     */
+    public void requestPutResourcesUploadQueueDBEntities(@NonNull final ArrayList<LocalMedia> targetMedias) {
+        if (ListUtils.isEmpty(targetMedias)) {
+            return;
+        }
+        final List<ResourcesUploadQueueDBEntity> targetResourcesUploadQueueDBEntities = new ArrayList<>();
+        for (LocalMedia localMedia : targetMedias) {
+            final ResourcesUploadQueueDBEntity resourcesUploadQueueDBEntity = new ResourcesUploadQueueDBEntity();
+            resourcesUploadQueueDBEntity.setSubmitTaskId(getTaskId())
+                    .setMediaType(MediaSelector.isVideo(localMedia.getMimeType()) ? SystemEnumsApi.MediaType.VIDEO : SystemEnumsApi.MediaType.IMAGE)
+                    .setWaitUploadUrl(PathUtils.getFilePathByUri(Uri.parse(localMedia.getPath())));
+            targetResourcesUploadQueueDBEntities.add(resourcesUploadQueueDBEntity);
+        }
+        requestPutResourcesUploadQueueDBEntities(targetResourcesUploadQueueDBEntities);
+    }
+
+    /**
+     * 请求添加上传资源到数据库
      *
      * @param resourcesUploadQueueDBEntities
      */
-    public void requestPutResourcesUploadQueueDBEntites(@NonNull final List<ResourcesUploadQueueDBEntity> resourcesUploadQueueDBEntities) {
+    public void requestPutResourcesUploadQueueDBEntities(@NonNull final List<ResourcesUploadQueueDBEntity> resourcesUploadQueueDBEntities) {
         final ResourceRepositoryApi resourceRepositoryApi = getDataRepositoryKit().getResourceRepositoryApi();
         final Disposable disposable = resourceRepositoryApi.putResourcesUploadQueueDBEntities(resourcesUploadQueueDBEntities)
                 .compose(applySchedulers())
                 .subscribe(isSuccess -> {
                     LogUtils.d("添加资源到队列完成" + isSuccess);
-                    getNavigator().onRequestPutResourcesUploadQueueDBEntites(isSuccess);
+                    getNavigator().onRequestPutResourcesUploadQueueDBEntities(isSuccess);
                 }, throwable -> {
                     setResponseException(throwable);
                 });

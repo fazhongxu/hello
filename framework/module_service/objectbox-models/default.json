@@ -74,10 +74,66 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "4:7199460617421727528",
+      "lastPropertyId": "10:6626992189879122435",
+      "name": "h_t_resources_upload_queue",
+      "properties": [
+        {
+          "id": "1:3805402928810479286",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:1274843485981446739",
+          "name": "create_time",
+          "type": 6
+        },
+        {
+          "id": "3:9081436759556150633",
+          "name": "update_time",
+          "type": 6
+        },
+        {
+          "id": "4:2629232579545061550",
+          "name": "resources_upload_id",
+          "indexId": "5:4874288013459335657",
+          "type": 9,
+          "flags": 2080
+        },
+        {
+          "id": "5:6291876718063205716",
+          "name": "upload_url",
+          "type": 9
+        },
+        {
+          "id": "6:8530101592331739105",
+          "name": "wait_upload_path",
+          "type": 9
+        },
+        {
+          "id": "8:8630964478805344977",
+          "name": "uploadChannel",
+          "type": 5
+        },
+        {
+          "id": "9:6031752689016253314",
+          "name": "submit_task_id",
+          "type": 9
+        },
+        {
+          "id": "10:6626992189879122435",
+          "name": "media_type",
+          "type": 9
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "3:7990796162817244516",
-  "lastIndexId": "4:4621489299255301347",
+  "lastEntityId": "4:7199460617421727528",
+  "lastIndexId": "5:4874288013459335657",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
   "modelVersion": 5,
@@ -96,7 +152,8 @@
     3670042030348780013,
     905625506260336678,
     6085565255823294275,
-    8741076871043662149
+    8741076871043662149,
+    6586329927414903290
   ],
   "retiredRelationUids": [],
   "version": 1

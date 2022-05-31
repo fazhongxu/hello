@@ -4,12 +4,16 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 
+import com.xxl.core.utils.FileUtils;
+import com.xxl.core.utils.TimeUtils;
 import com.xxl.core.utils.VideoUtils;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi.MediaType;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.hello.service.process.BaseUploadProcessProvider;
 import com.xxl.hello.service.process.OnResourcesCompressCallback;
 import com.xxl.hello.service.upload.api.UploadService;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author xxl.
@@ -54,25 +58,30 @@ public class VideoUploadProcessProvider extends BaseUploadProcessProvider {
     @Override
     public void handleCompress(@NonNull final String waitCompressUrl,
                                @NonNull final OnResourcesCompressCallback callback) {
-        VideoUtils.compress(waitCompressUrl, getCompressionDir(), new VideoUtils.OnVideoProgressListener() {
+        final String targetFilePath = getCompressionDir() + TimeUtils.currentTimeMillis();
+        if (FileUtils.createOrExistsFile(targetFilePath)) {
+            VideoUtils.compress(waitCompressUrl, targetFilePath, new VideoUtils.OnVideoProgressListener() {
 
-            @Override
-            public void onComplete(String videoPath,
-                                   long videoWidth,
-                                   long videoHeight) {
-                callback.onComplete(videoPath, videoWidth, videoHeight);
-            }
+                @Override
+                public void onComplete(String videoPath,
+                                       long videoWidth,
+                                       long videoHeight) {
+                    callback.onComplete(videoPath, videoWidth, videoHeight);
+                }
 
-            @Override
-            public void onComplete(String videoPath) {
-                callback.onComplete(videoPath, 0, 0);
-            }
+                @Override
+                public void onComplete(String videoPath) {
+                    callback.onComplete(videoPath, 0, 0);
+                }
 
-            @Override
-            public void onProgress(float progress) {
-                callback.onProgress(progress);
-            }
-        });
+                @Override
+                public void onProgress(float progress) {
+                    callback.onProgress(progress);
+                }
+            });
+        } else {
+            callback.onComplete(waitCompressUrl, 0, 0);
+        }
     }
 
     //endregion

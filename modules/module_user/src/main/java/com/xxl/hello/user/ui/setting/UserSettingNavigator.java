@@ -17,7 +17,7 @@ public interface UserSettingNavigator {
      *
      * @param isSuccess
      */
-    void onRequestPutResourcesUploadQueueDBEntites(Boolean isSuccess);
+    void onRequestPutResourcesUploadQueueDBEntities(Boolean isSuccess);
 
     /**
      * 更新用户信息完成

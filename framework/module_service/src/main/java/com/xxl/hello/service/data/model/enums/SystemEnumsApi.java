@@ -88,4 +88,69 @@ public class SystemEnumsApi {
     }
 
     //endregion
+
+
+    //region: 资源上传的状态
+
+    @IntDef({
+            ResourceUploadStatus.FAILURE,
+            ResourceUploadStatus.NONE,
+            ResourceUploadStatus.UPLOADING,
+            ResourceUploadStatus.WAIT_SUBMIT,
+    })
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface ResourceUploadStatus {
+
+        /**
+         * 上传失败
+         */
+        int FAILURE = -1;
+
+        /**
+         * 默认状态，未开始
+         */
+        int NONE = 0;
+
+        /**
+         * 正在上传中
+         */
+        int UPLOADING = 1;
+
+        /**
+         * 等待提交
+         */
+        int WAIT_SUBMIT = 2;
+
+
+    }
+
+    //endregion
+
+    //region: 队列运行状态
+
+    @IntDef({ServiceQueueRunningStatus.NULL,
+            ServiceQueueRunningStatus.IDLE,
+            ServiceQueueRunningStatus.RUNNING,
+    })
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface ServiceQueueRunningStatus {
+
+        /**
+         * 空状态(队列未运行），需要重新检查设置队列状态
+         */
+        int NULL = -1;
+
+        /**
+         * 空闲，可直接使用
+         */
+        int IDLE = 0;
+
+        /**
+         * 队列运行中
+         */
+        int RUNNING = 1;
+    }
+
+    //endregion
+
 }

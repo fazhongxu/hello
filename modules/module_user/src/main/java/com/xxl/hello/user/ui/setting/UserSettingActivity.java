@@ -2,7 +2,9 @@ package com.xxl.hello.user.ui.setting;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
@@ -12,17 +14,22 @@ import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.xxl.core.data.model.entity.MediaEntity;
 import com.xxl.core.image.selector.MediaSelector;
+import com.xxl.core.utils.ListUtils;
 import com.xxl.core.utils.MediaUtils;
 import com.xxl.core.utils.PathUtils;
 import com.xxl.hello.common.NetworkConfig;
 import com.xxl.hello.router.UserRouterApi;
+import com.xxl.hello.service.data.local.db.entity.ResourcesUploadQueueDBEntity;
 import com.xxl.hello.service.data.model.entity.LoginUserEntity;
+import com.xxl.hello.service.data.model.event.SystemEventApi;
 import com.xxl.hello.service.qunlifier.ForUserBaseUrl;
+import com.xxl.hello.service.ui.BaseEventBusWrapper;
 import com.xxl.hello.service.ui.DataBindingActivity;
 import com.xxl.hello.user.BR;
 import com.xxl.hello.user.R;
 import com.xxl.hello.user.databinding.UserActivitySettingBinding;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -50,6 +57,12 @@ public class UserSettingActivity extends DataBindingActivity<UserSettingViewMode
     @Inject
     String mBaseUrl;
 
+    /**
+     * 用户设置页面EventBus通知事件监听
+     */
+    @Inject
+    UserSettingActivityEventBusWrapper mEventBusWrapper;
+
     //endregion
 
     //region: 页面生命周期
@@ -75,6 +88,11 @@ public class UserSettingActivity extends DataBindingActivity<UserSettingViewMode
     }
 
     @Override
+    protected UserSettingActivityEventBusWrapper getEventBusWrapper() {
+        return mEventBusWrapper;
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
@@ -83,7 +101,8 @@ public class UserSettingActivity extends DataBindingActivity<UserSettingViewMode
                 final LocalMedia media = mediaList.get(0);
                 final Uri uri = Uri.parse(media.getPath());
                 final Uri targetUri = PathUtils.getUriByFilePath(PathUtils.getFilePathByUri(uri));
-                mUserSettingViewModel.requestUpdateUserInfo(PathUtils.getFilePathByUri(uri));
+//                mUserSettingViewModel.requestUpdateUserInfo(PathUtils.getFilePathByUri(uri));
+                mUserSettingViewModel.requestPutResourcesUploadQueueDBEntities(new ArrayList<>(mediaList));
             }
         }
     }
@@ -97,7 +116,6 @@ public class UserSettingActivity extends DataBindingActivity<UserSettingViewMode
     public int getViewModelVariable() {
         return BR.viewModel;
     }
-
 
     /**
      * 获取data binding 内的 Navigator
@@ -156,7 +174,7 @@ public class UserSettingActivity extends DataBindingActivity<UserSettingViewMode
      * @param isSuccess
      */
     @Override
-    public void onRequestPutResourcesUploadQueueDBEntites(Boolean isSuccess) {
+    public void onRequestPutResourcesUploadQueueDBEntities(Boolean isSuccess) {
         if (isFinishing()) {
             return;
         }
@@ -204,11 +222,31 @@ public class UserSettingActivity extends DataBindingActivity<UserSettingViewMode
         mUserSettingViewModel.setNetworkConfig(networkConfigInfo);
     }
 
+
     //endregion
 
     //region: EventBus 操作
 
-
+    /**
+     * 处理素材发布到服务端的操作
+     *
+     * @param event
+     */
+    public void handleMaterialSubmitToServiceEvent(@NonNull final SystemEventApi.OnMaterialSubmitToServiceEvent event) {
+        if (isFinishing()) {
+            return;
+        }
+        CharSequence text = mViewDataBinding.tvTest.getText();
+        StringBuilder sb = new StringBuilder(text);
+        for (ResourcesUploadQueueDBEntity resourcesUploadQueueDBEntity : event.getTargetResourcesUploadQueueDBEntities()) {
+            String url = resourcesUploadQueueDBEntity.getUploadUrl().replaceAll("WeiPu", "test")
+                    .replace("微商","");
+            sb.append(url)
+                    .append("\n");
+        }
+        mViewDataBinding.tvTest.setText(sb);
+        mViewDataBinding.scScrollView.fullScroll(View.FOCUS_DOWN);
+    }
     //endregion
 
 
