@@ -9,12 +9,12 @@ import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.hello.service.upload.api.UploadService;
 
 /**
- * 七牛上传服务实现类
+ * 腾讯云上传服务实现类
  *
  * @author xxl.
  * @date 2022/5/28.
  */
-public class QiNiuUploadServiceImpl implements UploadService {
+public class TencentUploadServiceImpl implements UploadService {
 
     //region: 成员变量
 
@@ -22,8 +22,8 @@ public class QiNiuUploadServiceImpl implements UploadService {
 
     //region: 构造函数
 
-    public QiNiuUploadServiceImpl(@NonNull final Application application,
-                                  @NonNull final DataRepositoryKit dataRepositoryKit) {
+    public TencentUploadServiceImpl(@NonNull final Application application,
+                                    @NonNull final DataRepositoryKit dataRepositoryKit) {
 
     }
 
@@ -39,7 +39,8 @@ public class QiNiuUploadServiceImpl implements UploadService {
      */
     @Override
     public void onStart(@NonNull String key) {
-        Log.e("aaa", "onStart: 我是七牛云上传" + key);    }
+        Log.e("aaa", "onStart: 我是腾讯云上传" + key);
+    }
 
     /**
      * 上传完成

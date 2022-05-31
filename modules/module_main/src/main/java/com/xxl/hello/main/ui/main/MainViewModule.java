@@ -7,7 +7,10 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.hello.service.qunlifier.ForApplication;
+import com.xxl.hello.service.qunlifier.ForQiNiuUpload;
+import com.xxl.hello.service.qunlifier.ForTencentUpload;
 import com.xxl.hello.service.ui.ViewModelProviderFactory;
+import com.xxl.hello.service.upload.api.UploadService;
 
 import dagger.Module;
 import dagger.Provides;
@@ -21,8 +24,9 @@ public class MainViewModule  {
 
     @Provides
     MainViewModel provideMainViewModel(@ForApplication final Application application,
-                                       @NonNull final DataRepositoryKit dataRepositoryKit){
-        return new MainViewModel(application,dataRepositoryKit);
+                                       @NonNull final DataRepositoryKit dataRepositoryKit,
+                                       @ForTencentUpload final UploadService uploadService){
+        return new MainViewModel(application,dataRepositoryKit,uploadService);
     }
 
     @Provides

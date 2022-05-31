@@ -5,8 +5,6 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
-import com.xxl.hello.service.queue.api.ResourcesUploadServiceQueue;
-import com.xxl.hello.service.queue.impl.ResourcesUploadServiceQueueImpl;
 import com.xxl.hello.service.qunlifier.ForApplication;
 import com.xxl.hello.service.qunlifier.ForQiNiuUpload;
 import com.xxl.hello.service.qunlifier.ForTencentUpload;
@@ -51,9 +49,9 @@ public class UploadDataStoreModule {
     @ForTencentUpload
     @Singleton
     @Provides
-    UploadService provideTecentUploadService(@ForApplication final Application application,
-                                             @NonNull final DataRepositoryKit dataRepositoryKit) {
-        return new TecentUploadServiceImpl(application, dataRepositoryKit);
+    UploadService provideTencentUploadService(@ForApplication final Application application,
+                                              @NonNull final DataRepositoryKit dataRepositoryKit) {
+        return new TencentUploadServiceImpl(application, dataRepositoryKit);
     }
 
 

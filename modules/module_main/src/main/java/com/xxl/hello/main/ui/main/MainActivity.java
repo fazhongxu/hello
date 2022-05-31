@@ -37,6 +37,7 @@ import com.xxl.hello.service.data.model.api.QueryUserInfoResponse;
 import com.xxl.hello.service.data.model.entity.LoginUserEntity;
 import com.xxl.hello.service.ui.BaseEventBusWrapper;
 import com.xxl.hello.service.ui.DataBindingActivity;
+import com.xxl.hello.service.upload.api.UploadService;
 import com.xxl.hello.widget.record.OnRecordListener;
 import com.xxl.hello.widget.record.RecordButton;
 
@@ -194,18 +195,12 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
 
     //endregion
 
+
     //region: MainActivityNavigator
 
-    @LogTag(tag = "aaa", message = "onTestClick")
-    @SingleClick
-    @CheckLogin
-    @Safe
-    @CheckNetwork
-    @Delay(delay = 200)
     @Override
     public void onTestClick() {
-        AppRouterApi.navigationToLogin();
-
+        getViewModel().getUploadService().onStart("123");
     }
 
     /**

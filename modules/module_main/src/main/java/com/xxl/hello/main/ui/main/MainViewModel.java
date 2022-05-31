@@ -1,6 +1,7 @@
 package com.xxl.hello.main.ui.main;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.ObservableField;
@@ -10,7 +11,9 @@ import com.xxl.hello.service.data.model.api.QueryUserInfoRequest;
 import com.xxl.hello.service.data.model.entity.LoginUserEntity;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.hello.service.data.repository.api.UserRepositoryApi;
+import com.xxl.hello.service.qunlifier.ForQiNiuUpload;
 import com.xxl.hello.service.ui.BaseViewModel;
+import com.xxl.hello.service.upload.api.UploadService;
 
 import io.reactivex.rxjava3.disposables.Disposable;
 import lombok.Getter;
@@ -44,14 +47,19 @@ public class MainViewModel extends BaseViewModel<MainActivityNavigator> {
     @Getter
     private ObservableField<String> mObservableUserInfo = new ObservableField<>();
 
+    @Getter
+    private final UploadService mUploadService;
+
     //endregion
 
     //region: 构造函数
 
     public MainViewModel(@NonNull final Application application,
-                         @NonNull final DataRepositoryKit dataRepositoryKit) {
+                         @NonNull final DataRepositoryKit dataRepositoryKit,
+                         @NonNull final UploadService uploadService) {
         super(application);
         mDataRepositoryKit = dataRepositoryKit;
+        mUploadService = uploadService;
     }
 
     //endregion
