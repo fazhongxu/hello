@@ -13,14 +13,12 @@ import com.xxl.hello.user.data.model.api.UserLoginRequest;
 import com.xxl.hello.user.data.repository.UserRepository;
 
 import io.reactivex.rxjava3.disposables.Disposable;
-import lombok.Getter;
-import lombok.experimental.Accessors;
+
 
 /**
  * @author xxl.
  * @date 2021/7/16.
  */
-@Accessors(prefix = "m")
 public class LoginActivityViewModel extends BaseViewModel<LoginActivityNavigator> {
 
     //region: 成员变量
@@ -38,19 +36,16 @@ public class LoginActivityViewModel extends BaseViewModel<LoginActivityNavigator
     /**
      * 用户昵称
      */
-    @Getter
     private ObservableField<String> mObservableUserName = new ObservableField<>();
 
     /**
      * 当前网络环境信息
      */
-    @Getter
     private ObservableField<String> mObservableNetworkConfig = new ObservableField<>();
 
     /**
      * 用户信息
      */
-    @Getter
     private LoginUserEntity mTargetLoginUserEntity;
 
     //endregion
@@ -100,6 +95,14 @@ public class LoginActivityViewModel extends BaseViewModel<LoginActivityNavigator
     //endregion
 
     //region: get or set
+
+    public ObservableField<String> getObservableUserName() {
+        return mObservableUserName;
+    }
+
+    public ObservableField<String> getObservableNetworkConfig() {
+        return mObservableNetworkConfig;
+    }
 
     /**
      * 设置用户信息

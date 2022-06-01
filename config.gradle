@@ -153,6 +153,7 @@ deps.logger = "com.orhanobut:logger:$versions.logger"
 
 //lombok getter setter [https://github.com/projectlombok/lombok]
 //配合 android Studio  lombok 插件使用 只需要添加注解即可，不需要手动写get set 代码
+// FIXME: 2022/6/1  加入kotlin 后，暂时不用lombok kapt 编译通不过 解决不了的话，后续就不用lombok 了
 def lombok = [:]
 lombok.lombok = "org.projectlombok:lombok:$versions.lombok"
 lombok.lombok_processor = "org.projectlombok:lombok:$versions.lombok"

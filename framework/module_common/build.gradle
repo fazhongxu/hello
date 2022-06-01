@@ -73,10 +73,6 @@ dependencies {
     implementation deps.rxjava
     implementation deps.rxandroid
 
-    compileOnly deps.lombok.lombok
-//    kapt deps.lombok.lombok_processor
-    annotationProcessor deps.lombok.lombok_processor
-
     implementation deps.mmkv
 
     implementation deps.evetbus

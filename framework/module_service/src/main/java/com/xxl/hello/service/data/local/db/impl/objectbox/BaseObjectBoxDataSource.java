@@ -6,8 +6,6 @@ import com.xxl.hello.service.data.local.db.entity.BaseDBEntity;
 
 import io.objectbox.BoxStore;
 import io.objectbox.Property;
-import lombok.Getter;
-import lombok.experimental.Accessors;
 
 /**
  * 数据表操作基础服务
@@ -15,7 +13,6 @@ import lombok.experimental.Accessors;
  * @Author: xxl
  * @Date: 2021/11/20 11:38 PM
  **/
-@Accessors(prefix = "m")
 public abstract class BaseObjectBoxDataSource<E extends BaseDBEntity> {
 
     //region: 成员变量
@@ -23,7 +20,6 @@ public abstract class BaseObjectBoxDataSource<E extends BaseDBEntity> {
     /**
      * 数据库服务
      */
-    @Getter
     private ObjectBoxDBClientKit mObjectBoxDBClientKit;
 
     //endregion
@@ -48,6 +44,10 @@ public abstract class BaseObjectBoxDataSource<E extends BaseDBEntity> {
     //endregion
 
     //region: 提供方法
+
+    public ObjectBoxDBClientKit getObjectBoxDBClientKit() {
+        return mObjectBoxDBClientKit;
+    }
 
     /**
      * 获取ObjectBox数据库

@@ -5,7 +5,7 @@ import androidx.annotation.NonNull;
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.NameInDb;
 import io.objectbox.annotation.Unique;
-import lombok.Getter;
+
 
 /**
  * 数据缓存
@@ -13,7 +13,6 @@ import lombok.Getter;
  * @Author: xxl
  * @Date: 2021/11/21 1:10 AM
  **/
-@Getter
 @Entity
 @NameInDb("h_t_cache")
 public class CacheDBEntity extends BaseDBEntity<CacheDBEntity> {
@@ -40,6 +39,15 @@ public class CacheDBEntity extends BaseDBEntity<CacheDBEntity> {
     //endregion
 
     //region: 提供方法
+
+
+    public String getKey() {
+        return key;
+    }
+
+    public String getValue() {
+        return value;
+    }
 
     public CacheDBEntity setKey(@NonNull final String key) {
         this.key = key;

@@ -1,14 +1,11 @@
 package com.xxl.hello.service.data.model.entity;
 
 import androidx.annotation.Keep;
+import androidx.annotation.NonNull;
 
-import com.xxl.hello.common.NetworkConfig;
 import com.xxl.core.utils.TestUtils;
+import com.xxl.hello.common.NetworkConfig;
 import com.xxl.hello.service.data.model.enums.UserEnumsApi.UserSex;
-
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.experimental.Accessors;
 
 /**
  * 登录用户信息
@@ -17,8 +14,6 @@ import lombok.experimental.Accessors;
  * @date 2021/7/16.
  */
 @Keep
-@Getter
-@Accessors(prefix = "m")
 public class LoginUserEntity {
 
     //region: 成员变量
@@ -71,7 +66,19 @@ public class LoginUserEntity {
      * @return
      */
     public boolean isMale() {
-        return getSex() == UserSex.MALE;
+        return mSex == UserSex.MALE;
+    }
+
+    public String getUserId(){
+        return mUserId;
+    }
+
+    public String getUserName() {
+        return mUserName;
+    }
+
+    public String getAvatar() {
+        return mAvatar;
     }
 
     /**

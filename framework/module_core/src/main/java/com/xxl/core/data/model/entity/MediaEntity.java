@@ -5,9 +5,6 @@ import androidx.annotation.NonNull;
 
 import java.util.UUID;
 
-import lombok.Getter;
-import lombok.experimental.Accessors;
-
 /**
  * 多媒体信息
  *
@@ -15,8 +12,6 @@ import lombok.experimental.Accessors;
  * @date 2022/5/6.
  */
 @Keep
-@Accessors(prefix = "m")
-@Getter
 public class MediaEntity {
 
     //region: 成员变量
@@ -67,17 +62,17 @@ public class MediaEntity {
 
     //region: 提供方法
 
-//    public long getWidth() {
-//        return mWidth;
-//    }
-//
-//    public long getHeight() {
-//        return mHeight;
-//    }
-//
-//    public long getDuration() {
-//        return mDuration;
-//    }
+    public long getWidth() {
+        return mWidth;
+    }
+
+    public long getHeight() {
+        return mHeight;
+    }
+
+    public long getDuration() {
+        return mDuration;
+    }
 
     /**
      * 设置媒体ID

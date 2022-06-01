@@ -5,8 +5,7 @@ import androidx.annotation.Keep;
 import com.google.gson.annotations.SerializedName;
 import com.xxl.core.data.model.api.response.DataResponseResult;
 
-import lombok.Getter;
-import lombok.experimental.Accessors;
+
 
 /**
  * 查询用户信息响应数据
@@ -15,8 +14,6 @@ import lombok.experimental.Accessors;
  * @date 2021/7/27.
  */
 @Keep
-@Getter
-@Accessors(prefix = "m")
 public class QueryUserInfoResponseTest extends DataResponseResult<QueryUserInfoResponseTest> {
 
     //region: 成员变量
@@ -61,8 +58,6 @@ public class QueryUserInfoResponseTest extends DataResponseResult<QueryUserInfoR
     //region: Inner Class Content
 
     @Keep
-    @Getter
-    @Accessors(prefix = "m")
     public static class Content {
 
 

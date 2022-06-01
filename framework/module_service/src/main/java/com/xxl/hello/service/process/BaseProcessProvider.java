@@ -13,14 +13,11 @@ import org.greenrobot.eventbus.EventBus;
 
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
-import lombok.Getter;
-import lombok.experimental.Accessors;
 
 /**
  * @author xxl.
  * @date 2022/5/28.
  */
-@Accessors(prefix = "m")
 public abstract class BaseProcessProvider {
 
     //region: 成员变量
@@ -28,19 +25,16 @@ public abstract class BaseProcessProvider {
     /**
      * 上下文
      */
-    @Getter
     private Application mApplication;
 
     /**
      * 数据服务接口集合
      */
-    @Getter
     private final DataRepositoryKit mDataRepositoryKit;
 
     /**
      * 上传服务
      */
-    @Getter
     private final UploadService mUploadService;
 
     /**
@@ -51,7 +45,6 @@ public abstract class BaseProcessProvider {
     /**
      * Handler
      */
-    @Getter
     private Handler mHandler = new Handler();
 
     //endregion
@@ -70,6 +63,23 @@ public abstract class BaseProcessProvider {
 
 
     //region: 页面生命周期
+
+    public Handler getHandler() {
+        return mHandler;
+    }
+
+
+    public Application getApplication() {
+        return mApplication;
+    }
+
+    public DataRepositoryKit getDataRepositoryKit() {
+        return mDataRepositoryKit;
+    }
+
+    public UploadService getUploadService() {
+        return mUploadService;
+    }
 
     /**
      * add Disposable

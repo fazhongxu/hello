@@ -8,15 +8,12 @@ import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.hello.service.queue.api.ResourcesUploadServiceQueue;
 import com.xxl.hello.service.upload.api.UploadService;
 
-import lombok.experimental.Accessors;
-
 /**
  * 资源处理服务
  *
  * @author xxl.
  * @date 2022/5/30.
  */
-@Accessors(prefix = "m")
 public class ResourcesProcessService extends BaseService {
 
     //region: 成员变量

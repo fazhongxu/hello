@@ -19,8 +19,7 @@ import com.xxl.core.utils.LogUtils;
 import io.reactivex.rxjava3.core.ObservableTransformer;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
-import lombok.Getter;
-import lombok.experimental.Accessors;
+
 
 /**
  * 页面视图模型
@@ -28,7 +27,6 @@ import lombok.experimental.Accessors;
  * @author xxl.
  * @date 2021/7/16.
  */
-@Accessors(prefix = "m")
 public class BaseViewModel<N> extends AndroidViewModel {
 
     //region: 成员变量
@@ -36,7 +34,6 @@ public class BaseViewModel<N> extends AndroidViewModel {
     /**
      * 进度加载状态
      */
-    @Getter
     private ObservableBoolean mViewLoading = new ObservableBoolean();
 
     /**
@@ -77,6 +74,10 @@ public class BaseViewModel<N> extends AndroidViewModel {
             mCompositeDisposable.dispose();
             mCompositeDisposable.clear();
         }
+    }
+
+    public ObservableBoolean getViewLoading() {
+        return mViewLoading;
     }
 
     /**

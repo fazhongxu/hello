@@ -68,10 +68,6 @@ dependencies {
 
     implementation deps.kprogresshud
 
-    compileOnly deps.lombok.lombok
-//    kapt deps.lombok.lombok_processor
-    kapt deps.lombok.lombok_processor
-
     implementation deps.dagger.dagger
     kapt deps.dagger.processor
     implementation deps.dagger.android

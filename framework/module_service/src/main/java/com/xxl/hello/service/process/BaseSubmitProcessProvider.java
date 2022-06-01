@@ -10,7 +10,7 @@ import com.xxl.hello.service.data.model.enums.SystemEnumsApi.ResourcesSubmitType
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.hello.service.upload.api.UploadService;
 
-import lombok.experimental.Accessors;
+
 
 /**
  * 资源提交处理
@@ -18,7 +18,6 @@ import lombok.experimental.Accessors;
  * @author xxl.
  * @date 2022/5/28.
  */
-@Accessors(prefix = "m")
 public abstract class BaseSubmitProcessProvider<T> extends BaseProcessProvider {
 
     //region: 构造函数

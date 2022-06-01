@@ -125,10 +125,6 @@ dependencies {
     kapt deps.glide.glide_processor
     implementation deps.picture_selector
 
-    compileOnly deps.lombok.lombok
-//    kapt deps.lombok.lombok_processor
-    kapt deps.lombok.lombok_processor
-
     implementation deps.mmkv
 
     implementation deps.evetbus

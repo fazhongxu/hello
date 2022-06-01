@@ -5,7 +5,7 @@ import com.xxl.core.utils.TimeUtils;
 import io.objectbox.annotation.BaseEntity;
 import io.objectbox.annotation.Id;
 import io.objectbox.annotation.NameInDb;
-import lombok.Getter;
+
 
 /**
  * 数据表基础实体类
@@ -21,7 +21,6 @@ public abstract class BaseDBEntity<T extends BaseDBEntity> {
     /**
      * ID
      */
-    @Getter
     @Id
     @NameInDb("id")
     private long id;
@@ -29,14 +28,12 @@ public abstract class BaseDBEntity<T extends BaseDBEntity> {
     /**
      * 创建时间
      */
-    @Getter
     @NameInDb("create_time")
     private long createTime;
 
     /**
      * 更新时间
      */
-    @Getter
     @NameInDb("update_time")
     private long updateTime;
 
@@ -52,6 +49,19 @@ public abstract class BaseDBEntity<T extends BaseDBEntity> {
     //endregion
 
     //region: 提供方法
+
+    public long getId() {
+        return id;
+    }
+
+    public long getCreateTime() {
+        return createTime;
+    }
+
+    public long getUpdateTime() {
+        return updateTime;
+    }
+
 
     /**
      * 设置id

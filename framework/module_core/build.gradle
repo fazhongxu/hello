@@ -98,10 +98,6 @@ dependencies {
 
     implementation deps.rxpermission
 
-    compileOnly deps.lombok.lombok
-    kapt deps.lombok.lombok_processor
-//    annotationProcessor deps.lombok.lombok_processor
-
     implementation deps.luban
     implementation deps.video_processor
 

@@ -1,8 +1,6 @@
 package com.xxl.hello.user.data.model.api;
 
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.experimental.Accessors;
+import androidx.annotation.NonNull;
 
 /**
  * 用户登录请求参数
@@ -10,8 +8,6 @@ import lombok.experimental.Accessors;
  * @author xxl.
  * @date 2021/7/16.
  */
-@Getter
-@Accessors(prefix = "m")
 public class UserLoginRequest {
 
     //region: 成员变量

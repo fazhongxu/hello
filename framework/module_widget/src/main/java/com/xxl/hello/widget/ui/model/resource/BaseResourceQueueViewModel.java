@@ -11,8 +11,7 @@ import com.xxl.hello.service.ui.BaseViewModel;
 import java.util.List;
 import java.util.UUID;
 
-import lombok.Getter;
-import lombok.experimental.Accessors;
+
 
 /**
  * 资源处理队列ViewModel
@@ -20,7 +19,6 @@ import lombok.experimental.Accessors;
  * @author xxl.
  * @date 2022/5/28.
  */
-@Accessors(prefix = "m")
 public abstract class BaseResourceQueueViewModel<N> extends BaseViewModel<N> {
 
     //region: 成员变量
@@ -28,13 +26,11 @@ public abstract class BaseResourceQueueViewModel<N> extends BaseViewModel<N> {
     /**
      * 数据服务接口集合
      */
-    @Getter
     private DataRepositoryKit mDataRepositoryKit;
 
     /**
      * 任务ID
      */
-    @Getter
     private String mTaskId = UUID.randomUUID().toString();
 
     //endregion
@@ -50,6 +46,14 @@ public abstract class BaseResourceQueueViewModel<N> extends BaseViewModel<N> {
     //endregion
 
     //region: 资源上传相关
+
+    public DataRepositoryKit getDataRepositoryKit() {
+        return mDataRepositoryKit;
+    }
+
+    public String getTaskId() {
+        return mTaskId;
+    }
 
     // TODO: 2022/5/28 把资源添加到数据库，然后运行队列服务，开始压缩，上传，最后提交服务端
 

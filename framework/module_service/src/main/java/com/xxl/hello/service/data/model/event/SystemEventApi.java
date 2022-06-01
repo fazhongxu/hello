@@ -6,9 +6,6 @@ import com.xxl.hello.service.data.local.db.entity.ResourcesUploadQueueDBEntity;
 
 import java.util.List;
 
-import lombok.Getter;
-import lombok.experimental.Accessors;
-
 /**
  * 系统模块EventBus
  *
@@ -30,14 +27,16 @@ public class SystemEventApi {
     /**
      * 资源添加到队列更新通知事件
      */
-    @Accessors(prefix = "m")
     public static final class OnPutResources2UploadQueueEvent {
 
         /**
          * 资源上传队列数据
          */
-        @Getter
         private final List<ResourcesUploadQueueDBEntity> mTargetResourcesUploadQueueDBEntities;
+
+        public List<ResourcesUploadQueueDBEntity> getTargetResourcesUploadQueueDBEntities() {
+            return mTargetResourcesUploadQueueDBEntities;
+        }
 
         private OnPutResources2UploadQueueEvent(@NonNull final List<ResourcesUploadQueueDBEntity> targetResourcesUploadQueueDBEntities) {
             mTargetResourcesUploadQueueDBEntities = targetResourcesUploadQueueDBEntities;
@@ -55,14 +54,16 @@ public class SystemEventApi {
     /**
      * 素材提交到服务端通知
      */
-    @Accessors(prefix = "m")
     public static final class OnMaterialSubmitToServiceEvent {
 
         /**
          * 资源上传队列数据
          */
-        @Getter
         private final List<ResourcesUploadQueueDBEntity> mTargetResourcesUploadQueueDBEntities;
+
+        public List<ResourcesUploadQueueDBEntity> getTargetResourcesUploadQueueDBEntities() {
+            return mTargetResourcesUploadQueueDBEntities;
+        }
 
         private OnMaterialSubmitToServiceEvent(@NonNull final List<ResourcesUploadQueueDBEntity> targetResourcesUploadQueueDBEntities) {
             mTargetResourcesUploadQueueDBEntities = targetResourcesUploadQueueDBEntities;

@@ -16,8 +16,7 @@ import com.xxl.hello.service.ui.BaseViewModel;
 import com.xxl.hello.service.upload.api.UploadService;
 
 import io.reactivex.rxjava3.disposables.Disposable;
-import lombok.Getter;
-import lombok.experimental.Accessors;
+
 
 /**
  * 首页数据模型
@@ -25,7 +24,6 @@ import lombok.experimental.Accessors;
  * @author xxl
  * @date 2021/07/16.
  */
-@Accessors(prefix = "m")
 public class MainViewModel extends BaseViewModel<MainActivityNavigator> {
 
     //region: 成员变量
@@ -38,16 +36,13 @@ public class MainViewModel extends BaseViewModel<MainActivityNavigator> {
     /**
      * 用户ID
      */
-    @Getter
     private ObservableField<String> mObservableUserId = new ObservableField<>();
 
     /**
      * 用户信息
      */
-    @Getter
     private ObservableField<String> mObservableUserInfo = new ObservableField<>();
 
-    @Getter
     private final UploadService mUploadService;
 
     //endregion
@@ -108,6 +103,18 @@ public class MainViewModel extends BaseViewModel<MainActivityNavigator> {
     //endregion
 
     //region: get or set
+
+    public UploadService getUploadService() {
+        return mUploadService;
+    }
+
+    public ObservableField<String> getObservableUserId() {
+        return mObservableUserId;
+    }
+
+    public ObservableField<String> getObservableUserInfo() {
+        return mObservableUserInfo;
+    }
 
     /**
      * 设置用户ID

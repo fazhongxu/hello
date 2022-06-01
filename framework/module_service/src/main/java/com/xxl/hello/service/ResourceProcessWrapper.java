@@ -19,8 +19,7 @@ import com.xxl.hello.service.upload.api.UploadService;
 
 import java.util.LinkedHashMap;
 
-import lombok.Getter;
-import lombok.experimental.Accessors;
+
 
 /**
  * 资源处理包装类
@@ -28,7 +27,6 @@ import lombok.experimental.Accessors;
  * @author xxl.
  * @date 2022/5/28.
  */
-@Accessors(prefix = "m")
 public class ResourceProcessWrapper {
 
     //region: 成员变量
@@ -36,19 +34,16 @@ public class ResourceProcessWrapper {
     /**
      * 上下文
      */
-    @Getter
     private Application mApplication;
 
     /**
      * 数据服务接口集合
      */
-    @Getter
     private DataRepositoryKit mDataRepositoryKit;
 
     /**
      * 上传服务
      */
-    @Getter
     private final UploadService mUploadService;
 
     /**
@@ -73,6 +68,18 @@ public class ResourceProcessWrapper {
     //endregion
 
     //region: 页面生命周期
+
+    public Application getApplication() {
+        return mApplication;
+    }
+
+    public DataRepositoryKit getDataRepositoryKit() {
+        return mDataRepositoryKit;
+    }
+
+    public UploadService getUploadService() {
+        return mUploadService;
+    }
 
     /**
      * clear

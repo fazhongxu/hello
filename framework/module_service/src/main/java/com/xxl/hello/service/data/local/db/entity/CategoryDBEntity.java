@@ -4,7 +4,7 @@ import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Index;
 import io.objectbox.annotation.NameInDb;
 import io.objectbox.annotation.Unique;
-import lombok.Getter;
+
 
 /**
  * 分类表
@@ -12,7 +12,6 @@ import lombok.Getter;
  * @Author: xxl
  * @Date: 2021/11/20 11:33 PM
  **/
-@Getter
 @Entity
 @NameInDb("h_t_category")
 public class CategoryDBEntity extends BaseDBEntity<CategoryDBEntity> {
@@ -40,6 +39,14 @@ public class CategoryDBEntity extends BaseDBEntity<CategoryDBEntity> {
     //endregion
 
     //region: 提供方法
+
+    public long getCategoryId() {
+        return categoryId;
+    }
+
+    public long getCategoryName() {
+        return categoryName;
+    }
 
     //endregion
 }

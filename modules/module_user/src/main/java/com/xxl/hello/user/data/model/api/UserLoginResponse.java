@@ -5,8 +5,7 @@ import androidx.annotation.NonNull;
 
 import com.xxl.hello.service.data.model.entity.LoginUserEntity;
 
-import lombok.Getter;
-import lombok.experimental.Accessors;
+
 
 /**
  * 用户登录响应数据
@@ -15,8 +14,6 @@ import lombok.experimental.Accessors;
  * @date 2021/7/16.
  */
 @Keep
-@Getter
-@Accessors(prefix = "m")
 public class UserLoginResponse {
 
     //region: 成员变量
@@ -41,6 +38,11 @@ public class UserLoginResponse {
     //endregion
 
     //region: 提供方法
+
+
+    public LoginUserEntity getLoginUserEntity() {
+        return mLoginUserEntity;
+    }
 
     /**
      * 设置用户信息

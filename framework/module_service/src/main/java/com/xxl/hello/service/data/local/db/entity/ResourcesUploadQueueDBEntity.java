@@ -9,7 +9,6 @@ import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Index;
 import io.objectbox.annotation.NameInDb;
 import io.objectbox.annotation.Unique;
-import lombok.Getter;
 
 /**
  * 资源上传队列数据信息
@@ -17,7 +16,6 @@ import lombok.Getter;
  * @author xxl.
  * @date 2022/5/27.
  */
-@Getter
 @Entity
 @NameInDb("h_t_resources_upload_queue")
 public class ResourcesUploadQueueDBEntity extends BaseDBEntity<ResourcesUploadQueueDBEntity> {
@@ -78,6 +76,31 @@ public class ResourcesUploadQueueDBEntity extends BaseDBEntity<ResourcesUploadQu
     //endregion
 
     //region: 提供方法
+
+    public String getResourcesUploadId(){
+        return resourcesUploadId;
+    }
+
+    public String getSubmitTaskId() {
+        return submitTaskId;
+    }
+
+    public int getUploadChannel() {
+        return uploadChannel;
+    }
+
+    public String getUploadUrl() {
+        return uploadUrl;
+    }
+
+
+    public String getWaitUploadPath() {
+        return waitUploadPath;
+    }
+
+    public String getMediaType() {
+        return mediaType;
+    }
 
     /**
      * 设置任务ID
