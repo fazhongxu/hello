@@ -67,6 +67,18 @@ public class MediaEntity {
 
     //region: 提供方法
 
+//    public long getWidth() {
+//        return mWidth;
+//    }
+//
+//    public long getHeight() {
+//        return mHeight;
+//    }
+//
+//    public long getDuration() {
+//        return mDuration;
+//    }
+
     /**
      * 设置媒体ID
      *

@@ -1,8 +1,9 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
 apply from: '../and_res_guard.gradle'
 apply plugin: 'io.objectbox'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'android-aspectjx'
 apply from: '../aspectjx_excludes.gradle'
 
@@ -24,9 +25,9 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments = [AROUTER_MODULE_NAME: project.getName()]
+        kapt {
+            arguments {
+                arg("AROUTER_MODULE_NAME", project.getName())
             }
         }
 
@@ -111,28 +112,29 @@ dependencies {
     implementation deps.retrofit.converter
 
     implementation deps.dagger.dagger
-    annotationProcessor deps.dagger.processor
+    kapt deps.dagger.processor
     implementation deps.dagger.android
     implementation deps.dagger.android_support
-    annotationProcessor deps.dagger.android_processor
+    kapt deps.dagger.android_processor
 
     implementation deps.rxjava
     implementation deps.rxandroid
 
     implementation deps.luban
     implementation deps.glide.glide
-    annotationProcessor deps.glide.glide_processor
+    kapt deps.glide.glide_processor
     implementation deps.picture_selector
 
     compileOnly deps.lombok.lombok
-    annotationProcessor deps.lombok.lombok_processor
+//    kapt deps.lombok.lombok_processor
+    kapt deps.lombok.lombok_processor
 
     implementation deps.mmkv
 
     implementation deps.evetbus
 
     implementation deps.arouter.arouter
-    annotationProcessor deps.arouter.arouter_processor
+    kapt deps.arouter.arouter_processor
 
     implementation deps.mobile_ffmpeg
 

@@ -39,7 +39,7 @@ versions.rxjava = "3.0.13"
 versions.rxandroid = "3.0.0"
 versions.rxpermission = "0.12"
 
-versions.lombok = "1.18.20"
+versions.lombok = "1.18.24"
 versions.mmkv = "1.2.10"
 versions.eventbus = "3.2.0"
 versions.logger = "2.2.0"

@@ -1,6 +1,8 @@
 apply plugin: 'com.android.library'
 apply plugin: 'maven'
 apply plugin: 'android-aspectjx'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion build_versions.compileSdkVersion
@@ -15,9 +17,9 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
 
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments = [AROUTER_MODULE_NAME: project.getName()]
+        kapt {
+            arguments {
+                arg("AROUTER_MODULE_NAME", project.getName())
             }
         }
 
@@ -78,11 +80,10 @@ dependencies {
     implementation deps.androidx.multidex
 
     implementation deps.dagger.dagger
-    annotationProcessor deps.dagger.processor
+    kapt deps.dagger.processor
     implementation deps.dagger.android
     implementation deps.dagger.android_support
-
-    annotationProcessor deps.dagger.android_processor
+    kapt deps.dagger.android_processor
 
     implementation deps.aspectjrt
 
@@ -98,13 +99,14 @@ dependencies {
     implementation deps.rxpermission
 
     compileOnly deps.lombok.lombok
-    annotationProcessor deps.lombok.lombok_processor
+    kapt deps.lombok.lombok_processor
+//    annotationProcessor deps.lombok.lombok_processor
 
     implementation deps.luban
     implementation deps.video_processor
 
     compileOnly deps.glide.glide
-    annotationProcessor deps.glide.glide_processor
+    kapt deps.glide.glide_processor
     implementation deps.picture_selector
 
     implementation deps.kprogresshud
@@ -118,7 +120,7 @@ dependencies {
     implementation deps.logger
 
     implementation deps.arouter.arouter
-    annotationProcessor deps.arouter.arouter_processor
+    kapt deps.arouter.arouter_processor
 
     // 仅参与编译，不参与打包，编译的时候本地有对应的aar，不报错，上传私服，不把aar打包进去，让项目不报错，分离aar和库
     compileOnly deps.mobile_ffmpeg
