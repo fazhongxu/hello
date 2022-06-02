@@ -37,7 +37,6 @@ public class TimeUtils {
      */
     public static void initialize() {
         new Thread() {
-
             @Override
             public void run() {
                 try {
