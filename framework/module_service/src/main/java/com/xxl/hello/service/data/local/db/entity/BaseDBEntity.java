@@ -42,8 +42,8 @@ public abstract class BaseDBEntity<T extends BaseDBEntity> {
     //region: 构造函数
 
     public BaseDBEntity() {
-        createTime = TimeUtils.currentTimeMillis();
-        updateTime = TimeUtils.currentTimeMillis();
+        createTime = TimeUtils.currentServiceTimeMillis();
+        updateTime = TimeUtils.currentServiceTimeMillis();
     }
 
     //endregion

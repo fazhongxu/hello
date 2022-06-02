@@ -5,6 +5,8 @@ import android.annotation.SuppressLint;
 import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
 
+import com.instacart.library.truetime.TrueTime;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.text.DateFormat;
@@ -31,7 +33,53 @@ public class TimeUtils {
     }
 
     /**
-     * 获取当前时间戳
+     * 初始化时间
+     */
+    public static void initialize() {
+        new Thread() {
+
+            @Override
+            public void run() {
+                try {
+                    TrueTime.build()
+                            .withNtpHost("ntp1.aliyun.com")
+                            .initialize();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    initializeBackup();
+                }
+            }
+        }.start();
+    }
+
+    /**
+     * 初始化备用时间
+     */
+    private static void initializeBackup() {
+        try {
+            TrueTime.build()
+                    .initialize();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 获取当前服务器时间戳
+     *
+     * @return
+     */
+    public static long currentServiceTimeMillis() {
+        try {
+            return TrueTime.now().getTime();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return System.currentTimeMillis();
+    }
+
+    /**
+     * 当前本地时间戳
      *
      * @return
      */
@@ -409,7 +457,7 @@ public class TimeUtils {
      * @return the current time in milliseconds
      */
     public static long getNowMills() {
-        return System.currentTimeMillis();
+        return currentServiceTimeMillis();
     }
 
     /**
@@ -419,7 +467,7 @@ public class TimeUtils {
      * @return the current formatted time string
      */
     public static String getNowString() {
-        return millis2String(System.currentTimeMillis(), getDefaultFormat());
+        return millis2String(currentServiceTimeMillis(), getDefaultFormat());
     }
 
     /**
@@ -429,7 +477,7 @@ public class TimeUtils {
      * @return the current formatted time string
      */
     public static String getNowString(@NonNull final DateFormat format) {
-        return millis2String(System.currentTimeMillis(), format);
+        return millis2String(currentServiceTimeMillis(), format);
     }
 
     /**
@@ -514,7 +562,7 @@ public class TimeUtils {
      * @return the time span by now, in unit
      */
     public static long getTimeSpanByNow(final long millis, @TimeConstants.Unit final int unit) {
-        return getTimeSpan(millis, System.currentTimeMillis(), unit);
+        return getTimeSpan(millis, currentServiceTimeMillis(), unit);
     }
 
     /**
@@ -594,7 +642,7 @@ public class TimeUtils {
      * @return the fit time span by now
      */
     public static String getFitTimeSpanByNow(final long millis, final int precision) {
-        return getFitTimeSpan(millis, System.currentTimeMillis(), precision);
+        return getFitTimeSpan(millis, currentServiceTimeMillis(), precision);
     }
 
     /**
@@ -673,7 +721,7 @@ public class TimeUtils {
      * </ul>
      */
     public static String getFriendlyTimeSpanByNow(final long millis) {
-        long now = System.currentTimeMillis();
+        long now = currentServiceTimeMillis();
         long span = now - millis;
         if (span < 0) {
             // U can read http://www.apihome.cn/api/java/Formatter.html to understand it.
@@ -1533,8 +1581,8 @@ public class TimeUtils {
         return CHINESE_ZODIAC[year % 12];
     }
 
-    private static final int[]    ZODIAC_FLAGS = {20, 19, 21, 21, 21, 22, 23, 23, 23, 24, 23, 22};
-    private static final String[] ZODIAC       = {
+    private static final int[] ZODIAC_FLAGS = {20, 19, 21, 21, 21, 22, 23, 23, 23, 24, 23, 22};
+    private static final String[] ZODIAC = {
             "水瓶座", "双鱼座", "白羊座", "金牛座", "双子座", "巨蟹座",
             "狮子座", "处女座", "天秤座", "天蝎座", "射手座", "摩羯座"
     };
@@ -1607,10 +1655,14 @@ public class TimeUtils {
     }
 
     static String millis2FitTimeSpan(long millis, int precision) {
-        if (precision <= 0) {return null;}
+        if (precision <= 0) {
+            return null;
+        }
         precision = Math.min(precision, 5);
         String[] units = {"天", "小时", "分钟", "秒", "毫秒"};
-        if (millis == 0){ return 0 + units[precision - 1];}
+        if (millis == 0) {
+            return 0 + units[precision - 1];
+        }
         StringBuilder sb = new StringBuilder();
         if (millis < 0) {
             sb.append("-");
@@ -1630,10 +1682,10 @@ public class TimeUtils {
     public final static class TimeConstants {
 
         public static final int MSEC = 1;
-        public static final int SEC  = 1000;
-        public static final int MIN  = 60000;
+        public static final int SEC = 1000;
+        public static final int MIN = 60000;
         public static final int HOUR = 3600000;
-        public static final int DAY  = 86400000;
+        public static final int DAY = 86400000;
 
         @IntDef({MSEC, SEC, MIN, HOUR, DAY})
         @Retention(RetentionPolicy.SOURCE)

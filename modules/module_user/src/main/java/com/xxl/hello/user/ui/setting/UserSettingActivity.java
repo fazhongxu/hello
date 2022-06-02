@@ -2,8 +2,7 @@ package com.xxl.hello.user.ui.setting;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -12,10 +11,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
-import com.xxl.core.data.model.entity.MediaEntity;
 import com.xxl.core.image.selector.MediaSelector;
-import com.xxl.core.utils.ListUtils;
-import com.xxl.core.utils.MediaUtils;
 import com.xxl.core.utils.PathUtils;
 import com.xxl.hello.common.NetworkConfig;
 import com.xxl.hello.router.UserRouterApi;
@@ -23,7 +19,6 @@ import com.xxl.hello.service.data.local.db.entity.ResourcesUploadQueueDBEntity;
 import com.xxl.hello.service.data.model.entity.LoginUserEntity;
 import com.xxl.hello.service.data.model.event.SystemEventApi;
 import com.xxl.hello.service.qunlifier.ForUserBaseUrl;
-import com.xxl.hello.service.ui.BaseEventBusWrapper;
 import com.xxl.hello.service.ui.DataBindingActivity;
 import com.xxl.hello.user.BR;
 import com.xxl.hello.user.R;
@@ -238,12 +233,15 @@ public class UserSettingActivity extends DataBindingActivity<UserSettingViewMode
         }
         CharSequence text = mViewDataBinding.tvTest.getText();
         StringBuilder sb = new StringBuilder(text);
+        String avatar="";
         for (ResourcesUploadQueueDBEntity resourcesUploadQueueDBEntity : event.getTargetResourcesUploadQueueDBEntities()) {
-            String url = resourcesUploadQueueDBEntity.getUploadUrl().replaceAll("WeiPu", "test")
-                    .replace("微商","");
-            sb.append(url)
+            sb.append(resourcesUploadQueueDBEntity.getUploadUrl())
                     .append("\n");
+            if (TextUtils.isEmpty(avatar)) {
+                avatar = resourcesUploadQueueDBEntity.getWaitUploadPath();
+            }
         }
+        setupUserAvatar(avatar);
         mViewDataBinding.tvTest.setText(sb);
         mViewDataBinding.scScrollView.fullScroll(View.FOCUS_DOWN);
     }

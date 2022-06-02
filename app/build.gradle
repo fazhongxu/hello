@@ -95,6 +95,9 @@ dependencies {
     implementation deps.androidx.constraintlayout
     implementation deps.androidx.multidex
 
+    implementation deps.true_time.true_time
+    implementation deps.true_time.true_time_extension
+
     implementation deps.origin.core
     implementation deps.hello.service
     implementation deps.hello.common

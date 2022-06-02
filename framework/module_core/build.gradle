@@ -79,6 +79,9 @@ dependencies {
     implementation deps.androidx.lifecycle_extensions
     implementation deps.androidx.multidex
 
+    implementation deps.true_time.true_time
+    implementation deps.true_time.true_time_extension
+
     implementation deps.dagger.dagger
     kapt deps.dagger.processor
     implementation deps.dagger.android

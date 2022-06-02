@@ -339,7 +339,7 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
      * @return
      */
     private File createAudioAACFile() {
-        return createAudioFile(TimeUtils.currentTimeMillis() + ".aac");
+        return createAudioFile(TimeUtils.currentServiceTimeMillis() + ".aac");
     }
 
     /**
@@ -348,7 +348,7 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
      * @return
      */
     private File createAudioMp3File() {
-        return createAudioFile(TimeUtils.currentTimeMillis() + ".mp3");
+        return createAudioFile(TimeUtils.currentServiceTimeMillis() + ".mp3");
     }
 
     /**

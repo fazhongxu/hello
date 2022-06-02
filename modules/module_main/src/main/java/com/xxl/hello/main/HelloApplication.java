@@ -20,6 +20,7 @@ import com.xxl.core.listener.IApplication;
 import com.xxl.core.utils.CacheUtils;
 import com.xxl.core.utils.LogUtils;
 import com.xxl.core.utils.StringUtils;
+import com.xxl.core.utils.TimeUtils;
 import com.xxl.core.widget.swipebacklayout.SwipeBackActivityManager;
 import com.xxl.hello.common.NetworkConfig;
 import com.xxl.hello.common.ShortcutConfig;
@@ -128,7 +129,7 @@ public class HelloApplication extends BaseApplication implements IApplication, M
     public void initPlugins() {
         super.initPlugins();
         CacheUtils.init(this, NetworkConfig.isDebug());
-        LogUtils.init(NetworkConfig.isDebug(),"HELLO");
+        LogUtils.init(NetworkConfig.isDebug(), "HELLO");
         MediaSelector.init(this);
         SwipeBackActivityManager.init(this);
         registerShortcuts(this);
@@ -145,6 +146,7 @@ public class HelloApplication extends BaseApplication implements IApplication, M
         LogUtils.d("initPluginAfterAgreePrivacyPolicy");
 
         try {
+            TimeUtils.initialize();
             // TODO: 2022/4/2 模拟耗时操作
             Thread.sleep(1000);
         } catch (InterruptedException e) {
