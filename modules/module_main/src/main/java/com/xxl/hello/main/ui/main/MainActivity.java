@@ -2,7 +2,10 @@ package com.xxl.hello.main.ui.main;
 
 import android.Manifest;
 import android.app.Activity;
+import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -10,6 +13,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.tbruyelle.rxpermissions3.RxPermissions;
+import com.tencent.smtt.sdk.QbSdk;
+import com.tencent.smtt.sdk.TbsReaderView;
 import com.xxl.core.aop.annotation.CheckLogin;
 import com.xxl.core.aop.annotation.CheckNetwork;
 import com.xxl.core.aop.annotation.Delay;
@@ -46,6 +51,7 @@ import java.text.SimpleDateFormat;
 import javax.inject.Inject;
 
 import io.reactivex.rxjava3.disposables.Disposable;
+import okhttp3.Cache;
 
 /**
  * @author xxl
@@ -198,13 +204,50 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
 
     @LogTag(tag = "aaa", message = "onTestClick")
     @SingleClick
-    @CheckLogin
+//    @CheckLogin
     @Safe
     @CheckNetwork
     @Delay(delay = 200)
     @Override
     public void onTestClick() {
-        AppRouterApi.navigationToLogin();
+//        AppRouterApi.navigationToLogin();
+
+        TbsReaderView tbsReaderView = new TbsReaderView(this, new TbsReaderView.ReaderCallback() {
+            @Override
+            public void onCallBackAction(Integer integer, Object o, Object o1) {
+
+            }
+        });
+        mViewDataBinding.llRootContainer.addView(tbsReaderView,0,new LinearLayout.LayoutParams(-1,-1));
+
+        String externalStorageState = Environment.getExternalStorageDirectory().getAbsolutePath();
+        File file1 = new File(externalStorageState, "123.pdf");
+
+        Log.e("aaa", "onTestClick: "+file1.exists() );
+        boolean preOpen = tbsReaderView.preOpen(getFileType(file1.getAbsolutePath()), false);
+        if (preOpen) {
+            Bundle bundle = new Bundle();
+            bundle.putString(TbsReaderView.KEY_FILE_PATH, file1.getAbsolutePath());
+//            bundle.putString(TbsReaderView.KEY_TEMP_PATH,file1.getParent());
+            bundle.putString(TbsReaderView.KEY_TEMP_PATH,CacheDirConfig.TBS_CACHE_DIR);
+            tbsReaderView.openFile(bundle);
+        }
+    }
+
+    /**
+     * * 获取文件扩展名
+     *
+     * @param filePath 文件名
+     * @return 扩展名
+     */
+    public String getFileType(String filePath) {
+        if ((filePath != null) && (filePath.length() > 0)) {
+            int dot = filePath.lastIndexOf('.');
+            if ((dot > -1) && (dot < (filePath.length() - 1))) {
+                return filePath.substring(dot + 1);
+            }
+        }
+        return null;
     }
 
     /**

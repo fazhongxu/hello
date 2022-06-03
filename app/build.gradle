@@ -60,17 +60,6 @@ android {
             shrinkResources true // 移除未使用的资源
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
-
-//            applicationVariants.all { variant ->
-//                variant.outputs.each { output ->
-//                    def outputFile = output.outputFile
-//                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
-//                        //***就是自定义的文件名
-//                        def fileName = "app_v${defaultConfig.versionName}_${gitGitVersionCode()}.apk"
-//                        output.outputFile = new File(outputFile.parent, fileName)
-//                    }
-//                }
-//            }
         }
     }
 
@@ -141,5 +130,7 @@ dependencies {
     implementation deps.dkplayer.dkplayer_ijk
 
     implementation deps.flyco_round_view
+
+    implementation deps.tbs
 }
 

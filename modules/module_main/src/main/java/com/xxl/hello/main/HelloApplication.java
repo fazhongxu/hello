@@ -24,6 +24,7 @@ import com.xxl.core.utils.TimeUtils;
 import com.xxl.core.widget.swipebacklayout.SwipeBackActivityManager;
 import com.xxl.hello.common.NetworkConfig;
 import com.xxl.hello.common.ShortcutConfig;
+import com.xxl.hello.common.TbsConfig;
 import com.xxl.hello.main.di.component.DaggerAppComponent;
 import com.xxl.hello.user.ui.setting.UserSettingActivity;
 
@@ -147,6 +148,7 @@ public class HelloApplication extends BaseApplication implements IApplication, M
 
         try {
             TimeUtils.initialize();
+            TbsConfig.initX5Environment(this);
             // TODO: 2022/4/2 模拟耗时操作
             Thread.sleep(1000);
         } catch (InterruptedException e) {

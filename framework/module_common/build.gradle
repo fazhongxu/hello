@@ -81,6 +81,9 @@ dependencies {
 
     implementation deps.arouter.arouter
     kapt deps.arouter.arouter_processor
+
+    compileOnly deps.tbs
+
 }
 
 // module gradle-> other->makejar  即可在module build->libs看到生成的文件

@@ -71,6 +71,8 @@ versions.dkplayer = "3.3.5"
 
 versions.flyco_round_view = "1.1.4"
 
+versions.tbs = "44181"
+
 ext.versions = versions
 
 deps.android_build_gradle = "com.android.tools.build:gradle:$build_versions.android_build_gradle"
@@ -208,6 +210,10 @@ deps.dkplayer = dkplayer
 
 //FlycoRoundView [https://github.com/H07000223/FlycoRoundView]
 deps.flyco_round_view = "com.flyco.roundview:FlycoRoundView_Lib:$versions.flyco_round_view@aar"
+
+// tbs [https://x5.tencent.com/docs/access.html]
+deps.tbs = "com.tencent.tbs:tbssdk:$versions.tbs"
+
 
 def origin = [:]
 // 是否使用远程依赖 true使用远程依赖（远程私服存储的aar依赖）

@@ -90,5 +90,7 @@ dependencies {
     implementation deps.adapter_helper
 
     compileOnly deps.flyco_round_view
+
+    compileOnly deps.tbs
 }
 
