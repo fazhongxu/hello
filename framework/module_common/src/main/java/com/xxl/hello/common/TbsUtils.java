@@ -1,9 +1,10 @@
 package com.xxl.hello.common;
 
-import android.app.Application;
+import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
 
+import androidx.annotation.IntRange;
 import androidx.annotation.NonNull;
 
 import com.tencent.smtt.sdk.QbSdk;
@@ -13,8 +14,18 @@ import com.tencent.smtt.sdk.TbsReaderView;
 import com.xxl.core.utils.FileUtils;
 import com.xxl.core.utils.LogUtils;
 
+import java.io.File;
+
 /**
  * Tbs工具类
+ * <pre>
+ *     版本号获取，看对应sdk的版本
+ *     tbs 内核获取方法，下载tbsdemo或者自己接入tbs后，写一个x5内核的webview,加载 http://debugtbs.qq.com
+ *     app 加载http报错，application加入 android:usesCleartextTraffic="true"，
+ *     如果webview 跳转系统地址，webview shouldOverrideUrlLoading
+ *     找到tbs调试，有很多图标的页面，找到安装线上内核，看log，就可以看到tbs服务端返回的链接地址
+ *     44181 版本内核下载地址 https://tbs.imtt.qq.com/others/release/x5/tbs_core_045947_20220121205348_nolog_fs_obfs_arm64-v8a_release.tbs
+ * </pre>
  *
  * @author xxl.
  * @date 2022/6/4.
@@ -40,7 +51,7 @@ public class TbsUtils {
     /**
      * 初始化X5环境
      */
-    public static void initX5Environment(@NonNull final Application application) {
+    public static void initX5Environment(@NonNull final Context context) {
         try {
             /* 设置允许移动网络下进行内核下载。默认不下载，会导致部分一直用移动网络的用户无法使用x5内核 */
             QbSdk.setDownloadWithoutWifi(true);
@@ -90,24 +101,42 @@ public class TbsUtils {
                 @Override
                 public void onViewInitFinished(boolean isX5) {
                     sTbsCoreInitFinished = isX5;
-                    LogUtils.d(TAG + " onCoreInitFinished " + isX5);
+                    String corePath = CacheDirConfig.SHARE_FILE_DIR + File.separator + "x5.tbs.apk";
+                    LogUtils.d(TAG + " onCoreInitFinished " + isX5 +"--"+FileUtils.isFileExists(corePath));
+
+                    if (!isX5) {
+                        installLocalTbsCore(context, 44181,corePath);
+                    }
                 }
             };
 
             QbSdk.setTbsListener(tbsListener);
-            QbSdk.preInit(application, preInitCallback);
-            QbSdk.initX5Environment(application, preInitCallback);
+            QbSdk.preInit(context, preInitCallback);
+            QbSdk.initX5Environment(context, preInitCallback);
 
-            final boolean needDownload = TbsDownloader.needDownload(application, TbsDownloader.DOWNLOAD_OVERSEA_TBS);
+            final boolean needDownload = TbsDownloader.needDownload(context, TbsDownloader.DOWNLOAD_OVERSEA_TBS);
             LogUtils.d(TAG + " needDownload " + needDownload);
             if (needDownload) {
-                TbsDownloader.startDownload(application);
+                TbsDownloader.startDownload(context);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * 安装本地tbs内核
+     *
+     * @param context            上下文
+     * @param tbsCoreVersionName 本地tbs版本号
+     * @param tbsLocalPath       本地tbs文件路径  x5.tbs.apk 形式的路径
+     */
+    public static void installLocalTbsCore(@NonNull final Context context,
+                                           @IntRange final int tbsCoreVersionName,
+                                           @NonNull final String tbsLocalPath) {
+        QbSdk.reset(context);
+        QbSdk.installLocalTbsCore(context, tbsCoreVersionName, tbsLocalPath);
+    }
 
     /**
      * 获取文件扩展名

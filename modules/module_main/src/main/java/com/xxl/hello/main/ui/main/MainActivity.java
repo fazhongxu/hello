@@ -215,7 +215,7 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
     @SingleClick
 //    @CheckLogin
     @Safe
-    @CheckNetwork
+//    @CheckNetwork
     @Delay(delay = 200)
     @Override
     public void onTestClick() {
