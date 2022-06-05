@@ -28,7 +28,9 @@ import com.xxl.core.media.audio.AudioRecordFormat;
 import com.xxl.core.utils.AppExpandUtils;
 import com.xxl.core.utils.AppUtils;
 import com.xxl.core.utils.DisplayUtils;
+import com.xxl.core.utils.FileUtils;
 import com.xxl.core.utils.LogUtils;
+import com.xxl.core.utils.ResourceUtils;
 import com.xxl.core.utils.StatusBarUtil;
 import com.xxl.core.utils.TestUtils;
 import com.xxl.core.utils.TimeUtils;
@@ -227,11 +229,14 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
 
             }
         });
-        mViewDataBinding.llRootContainer.addView(mTbsReaderView, 0, new LinearLayout.LayoutParams(-1, -1));
+//        mViewDataBinding.llRootContainer.addView(mTbsReaderView, 0, new LinearLayout.LayoutParams(-1, -1));
 
         String externalStorageState = Environment.getExternalStorageDirectory().getAbsolutePath();
-        File file1 = new File(externalStorageState, "123.pdf");
-        TbsUtils.openFile(mTbsReaderView, file1.getAbsolutePath());
+//        File file1 = new File(externalStorageState, "123.pdf");
+//        TbsUtils.openFile(mTbsReaderView, file1.getAbsolutePath());
+
+        boolean isCopy = ResourceUtils.copyFileFromAssets("x5_44181.tbs", FileUtils.getDiskCacheDir()+File.separator+"x5.tbs.apk");
+        Log.e("aa", "onTestClick: "+isCopy );
     }
 
     /**

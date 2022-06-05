@@ -10,11 +10,14 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.StatFs;
 import android.text.TextUtils;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
@@ -22,9 +25,11 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -59,7 +64,8 @@ public final class FileUtils {
     /**
      * io读写的buffer大小，默认和BufferedOutputStream默认的大小相等
      */
-    private static int sBufferSize = 8192;
+    private static final int BUFFER_SIZE = 8192;
+
 
     private FileUtils() {
         throw new UnsupportedOperationException("u can't instantiate me...");
@@ -640,38 +646,149 @@ public final class FileUtils {
     public static boolean writeFileFromIS(final File file,
                                           final InputStream is,
                                           final boolean append) {
-        if (!createOrExistsFile(file) || is == null) {
+        return writeFileFromIS(file, is, append, null);
+    }
+
+    /**
+     * Write file from input stream.
+     *
+     * @param filePath The path of file.
+     * @param is       The input stream.
+     * @return {@code true}: success<br>{@code false}: fail
+     */
+    public static boolean writeFileFromIS(final String filePath,
+                                          final InputStream is) {
+        return writeFileFromIS(getFileByPath(filePath), is, false, null);
+    }
+
+    /**
+     * Write file from input stream.
+     *
+     * @param file     The file.
+     * @param is       The input stream.
+     * @param append   True to append, false otherwise.
+     * @param listener The progress update listener.
+     * @return {@code true}: success<br>{@code false}: fail
+     */
+    public static boolean writeFileFromIS(final File file,
+                                          final InputStream is,
+                                          final boolean append,
+                                          final OnProgressUpdateListener listener) {
+        if (is == null || !createOrExistsFile(file)) {
+            Log.e("FileUtils", "create file <" + file + "> failed.");
             return false;
         }
         OutputStream os = null;
         try {
-            os = new BufferedOutputStream(new FileOutputStream(file, append));
-            byte[] data = new byte[sBufferSize];
-            int len;
-            while ((len = is.read(data, 0, sBufferSize)) != -1) {
-                os.write(data, 0, len);
+            os = new BufferedOutputStream(new FileOutputStream(file, append), BUFFER_SIZE);
+            if (listener == null) {
+                byte[] data = new byte[BUFFER_SIZE];
+                for (int len; (len = is.read(data)) != -1; ) {
+                    os.write(data, 0, len);
+                }
+            } else {
+                double totalSize = is.available();
+                int curSize = 0;
+                listener.onProgressUpdate(0);
+                byte[] data = new byte[BUFFER_SIZE];
+                for (int len; (len = is.read(data)) != -1; ) {
+                    os.write(data, 0, len);
+                    curSize += len;
+                    listener.onProgressUpdate(curSize / totalSize);
+                }
             }
-            os.flush();
             return true;
         } catch (IOException e) {
             e.printStackTrace();
             return false;
         } finally {
             try {
-                if (is != null) {
-                    is.close();
-                }
-            } catch (Exception e) {
+                is.close();
+            } catch (IOException e) {
                 e.printStackTrace();
             }
             try {
                 if (os != null) {
                     os.close();
                 }
-            } catch (Exception e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    /**
+     * Input stream to bytes.
+     */
+    public static byte[] inputStream2Bytes(final InputStream is) {
+        if (is == null) {
+            return null;
+        }
+        return input2OutputStream(is).toByteArray();
+    }
+
+    /**
+     * Input stream to output stream.
+     */
+    public static ByteArrayOutputStream input2OutputStream(final InputStream is) {
+        if (is == null) {
+            return null;
+        }
+        try {
+            ByteArrayOutputStream os = new ByteArrayOutputStream();
+            byte[] b = new byte[BUFFER_SIZE];
+            int len;
+            while ((len = is.read(b, 0, BUFFER_SIZE)) != -1) {
+                os.write(b, 0, len);
+            }
+            return os;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            try {
+                is.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static List<String> inputStream2Lines(final InputStream is) {
+        return inputStream2Lines(is, "");
+    }
+
+    public static List<String> inputStream2Lines(final InputStream is,
+                                                 final String charsetName) {
+        BufferedReader reader = null;
+        try {
+            List<String> list = new ArrayList<>();
+            reader = new BufferedReader(new InputStreamReader(is, getSafeCharset(charsetName)));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                list.add(line);
+            }
+            return list;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            try {
+                if (reader != null) {
+                    reader.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private static String getSafeCharset(String charsetName) {
+        String cn = charsetName;
+        if (StringUtils.isSpace(charsetName) || !Charset.isSupported(charsetName)) {
+            cn = "UTF-8";
+        }
+        return cn;
     }
 
     //=======================文件复制=======================//
@@ -1808,5 +1925,9 @@ public final class FileUtils {
 
     public interface OnReplaceListener {
         boolean onReplace();
+    }
+
+    public interface OnProgressUpdateListener {
+        void onProgressUpdate(double progress);
     }
 }
