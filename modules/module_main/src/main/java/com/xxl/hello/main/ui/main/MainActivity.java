@@ -34,6 +34,7 @@ import com.xxl.core.utils.TestUtils;
 import com.xxl.core.utils.TimeUtils;
 import com.xxl.core.utils.ToastUtils;
 import com.xxl.hello.common.CacheDirConfig;
+import com.xxl.hello.common.TbsUtils;
 import com.xxl.hello.main.BR;
 import com.xxl.hello.main.R;
 import com.xxl.hello.main.databinding.ActivityMainBinding;
@@ -62,6 +63,11 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
         AudioCapture.OnAudioFrameCapturedListener {
 
     //region: 成员变量
+
+    /**
+     * Tbs显示视图
+     */
+    private TbsReaderView mTbsReaderView;
 
     /**
      * 首页数据模型
@@ -152,6 +158,9 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
         super.onDestroy();
         unregisterAppStatusChangedListener(this);
         AudioCapture.getInstance().release();
+        if (mTbsReaderView != null) {
+            mTbsReaderView.onStop();
+        }
     }
 
     /**
@@ -212,42 +221,17 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
     public void onTestClick() {
 //        AppRouterApi.navigationToLogin();
 
-        TbsReaderView tbsReaderView = new TbsReaderView(this, new TbsReaderView.ReaderCallback() {
+        mTbsReaderView = new TbsReaderView(this, new TbsReaderView.ReaderCallback() {
             @Override
             public void onCallBackAction(Integer integer, Object o, Object o1) {
 
             }
         });
-        mViewDataBinding.llRootContainer.addView(tbsReaderView,0,new LinearLayout.LayoutParams(-1,-1));
+        mViewDataBinding.llRootContainer.addView(mTbsReaderView, 0, new LinearLayout.LayoutParams(-1, -1));
 
         String externalStorageState = Environment.getExternalStorageDirectory().getAbsolutePath();
         File file1 = new File(externalStorageState, "123.pdf");
-
-        Log.e("aaa", "onTestClick: "+file1.exists() );
-        boolean preOpen = tbsReaderView.preOpen(getFileType(file1.getAbsolutePath()), false);
-        if (preOpen) {
-            Bundle bundle = new Bundle();
-            bundle.putString(TbsReaderView.KEY_FILE_PATH, file1.getAbsolutePath());
-//            bundle.putString(TbsReaderView.KEY_TEMP_PATH,file1.getParent());
-            bundle.putString(TbsReaderView.KEY_TEMP_PATH,CacheDirConfig.TBS_CACHE_DIR);
-            tbsReaderView.openFile(bundle);
-        }
-    }
-
-    /**
-     * * 获取文件扩展名
-     *
-     * @param filePath 文件名
-     * @return 扩展名
-     */
-    public String getFileType(String filePath) {
-        if ((filePath != null) && (filePath.length() > 0)) {
-            int dot = filePath.lastIndexOf('.');
-            if ((dot > -1) && (dot < (filePath.length() - 1))) {
-                return filePath.substring(dot + 1);
-            }
-        }
-        return null;
+        TbsUtils.openFile(mTbsReaderView, file1.getAbsolutePath());
     }
 
     /**

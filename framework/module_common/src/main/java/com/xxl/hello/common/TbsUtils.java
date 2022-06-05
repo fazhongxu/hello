@@ -1,21 +1,25 @@
 package com.xxl.hello.common;
 
 import android.app.Application;
+import android.os.Bundle;
+import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
 import com.tencent.smtt.sdk.QbSdk;
 import com.tencent.smtt.sdk.TbsDownloader;
 import com.tencent.smtt.sdk.TbsListener;
+import com.tencent.smtt.sdk.TbsReaderView;
+import com.xxl.core.utils.FileUtils;
 import com.xxl.core.utils.LogUtils;
 
 /**
- * Tbs配置
+ * Tbs工具类
  *
  * @author xxl.
  * @date 2022/6/4.
  */
-public class TbsConfig {
+public class TbsUtils {
 
     private static final String TAG = "Tbs";
 
@@ -105,7 +109,89 @@ public class TbsConfig {
     }
 
 
-    private TbsConfig() {
+    /**
+     * 获取文件扩展名
+     *
+     * @param filePath 包含文件名称的文件路径
+     * @return 扩展名
+     */
+    public static String getFileType(String filePath) {
+        if (TextUtils.isEmpty(filePath)) {
+            return null;
+        }
+        int lastIndex = filePath.lastIndexOf(".");
+        if (lastIndex > 0) {
+            return filePath.substring(lastIndex + 1);
+        }
+        return null;
+    }
+
+    /**
+     * 预打开文件
+     *
+     * @param targetTbsReaderView 目标视图
+     * @param targetFilePath      目标文件路径
+     * @return 是否可以打开文件，true可以打开，false反之
+     */
+    public static boolean preOpen(@NonNull final TbsReaderView targetTbsReaderView,
+                                  @NonNull final String targetFilePath) {
+        return targetTbsReaderView.preOpen(targetFilePath, false);
+    }
+
+    /**
+     * 打开文件
+     *
+     * @param targetTbsReaderView 目标视图
+     * @param targetFilePath      目标文件路径
+     * @return 是否打开成功，true则打开成功，false反之
+     */
+    public static boolean openFile(@NonNull final TbsReaderView targetTbsReaderView,
+                                   @NonNull final String targetFilePath) {
+        return openFile(targetTbsReaderView, targetFilePath, CacheDirConfig.TBS_CACHE_DIR);
+    }
+
+    /**
+     * 打开文件
+     *
+     * @param targetTbsReaderView 目标视图
+     * @param targetFilePath      目标文件路径
+     * @param targetTempFilePath  目标临时文件夹路径
+     * @return 是否打开成功，true则打开成功，false反之
+     */
+    public static boolean openFile(@NonNull final TbsReaderView targetTbsReaderView,
+                                   @NonNull final String targetFilePath,
+                                   @NonNull final String targetTempFilePath) {
+        return openFile(targetTbsReaderView, targetFilePath, targetTempFilePath, null);
+    }
+
+    /**
+     * 打开文件
+     *
+     * @param targetTbsReaderView 目标视图
+     * @param targetFilePath      目标文件路径
+     * @param targetTempFilePath  目标临时文件夹路径
+     * @param targetFileExtension 文件扩展名称 如 pdf
+     * @return 是否打开成功，true则打开成功，false反之
+     */
+    public static boolean openFile(@NonNull final TbsReaderView targetTbsReaderView,
+                                   @NonNull final String targetFilePath,
+                                   @NonNull final String targetTempFilePath,
+                                   @NonNull final String targetFileExtension) {
+        if (!FileUtils.isFileExists(targetFilePath)) {
+            return false;
+        }
+        boolean preOpen = targetTbsReaderView.preOpen(TextUtils.isEmpty(targetFileExtension) ? getFileType(targetFilePath) : targetFileExtension, false);
+        if (preOpen) {
+            Bundle bundle = new Bundle();
+            bundle.putString(TbsReaderView.KEY_FILE_PATH, targetFilePath);
+            bundle.putString(TbsReaderView.KEY_TEMP_PATH, targetTempFilePath);
+            targetTbsReaderView.openFile(bundle);
+        }
+        return preOpen;
+    }
+
+
+    private TbsUtils() {
 
     }
 
