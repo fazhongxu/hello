@@ -3,9 +3,6 @@ package com.xxl.hello.main;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ShortcutInfo;
-import android.content.pm.ShortcutManager;
-import android.graphics.drawable.Icon;
-import android.os.Build;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
@@ -134,9 +131,6 @@ public class HelloApplication extends BaseApplication implements IApplication, M
         MediaSelector.init(this);
         SwipeBackActivityManager.init(this);
         registerShortcuts(this);
-        List<String> shortcutIds = new ArrayList<>();
-        shortcutIds.add(ShortcutConfig.CRM_SHORTCUT_ID);
-        //unRegisterShortcuts(this,shortcutIds);
     }
 
     /**
@@ -212,54 +206,14 @@ public class HelloApplication extends BaseApplication implements IApplication, M
      * @param context
      */
     private static void registerShortcuts(@NonNull final Context context) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N_MR1) {
-            return;
-        }
-        ShortcutManager shortcutManager = context.getSystemService(ShortcutManager.class);
-        if (shortcutManager == null) {
-            return;
-        }
-        final List<ShortcutInfo> targetShortcuts = new ArrayList<>();
-
         final Intent crmIntent = new Intent(context, UserSettingActivity.class);
         crmIntent.setAction(Intent.ACTION_VIEW);
-
-        final ShortcutInfo shortcutInfoCrm = new ShortcutInfo.Builder(context, ShortcutConfig.CRM_SHORTCUT_ID)
-                .setShortLabel(StringUtils.getString(R.string.main_crm_shortcut_name))
-                .setIcon(Icon.createWithResource(context, R.drawable.main_ic_crm))
-                .setDisabledMessage(StringUtils.getString(R.string.main_crm_shortcut_disable))
-                .setIntent(crmIntent)
-                .build();
-
-        targetShortcuts.add(shortcutInfoCrm);
-        shortcutManager.addDynamicShortcuts(targetShortcuts);
-    }
-
-    /**
-     * 取消注册shortcuts
-     *
-     * @param context
-     * @param targetShortcutIds
-     */
-    private static void unRegisterShortcuts(@NonNull final Context context,
-                                            @NonNull List<String> targetShortcutIds) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N_MR1) {
-            return;
+        final ShortcutInfo crmShortcutInfo = ShortcutConfig.buildShortcutInfo(context, crmIntent, ShortcutConfig.CRM_SHORTCUT_ID, StringUtils.getString(R.string.main_crm_shortcut_name), R.drawable.main_ic_crm, StringUtils.getString(R.string.main_crm_shortcut_disable));
+        final List<ShortcutInfo> shortcutInfoList = new ArrayList<>();
+        if (crmShortcutInfo != null) {
+            shortcutInfoList.add(crmShortcutInfo);
         }
-        ShortcutManager shortcutManager = context.getSystemService(ShortcutManager.class);
-        if (shortcutManager == null) {
-            return;
-        }
-        final List<String> shortcutIds = new ArrayList<>();
-        final List<ShortcutInfo> pinnedShortcuts = shortcutManager.getDynamicShortcuts();
-        for (ShortcutInfo pinnedShortcut : pinnedShortcuts) {
-            if (targetShortcutIds.contains(pinnedShortcut.getId())) {
-                shortcutIds.add(pinnedShortcut.getId());
-            }
-        }
-        shortcutManager.disableShortcuts(shortcutIds);
-        shortcutManager.removeDynamicShortcuts(shortcutIds);
-
+        ShortcutConfig.registerShortcuts(context, shortcutInfoList);
     }
 
     //endregion
