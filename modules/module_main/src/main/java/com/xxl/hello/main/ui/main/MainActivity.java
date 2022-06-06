@@ -13,6 +13,8 @@ import androidx.lifecycle.ViewModelProvider;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.tbruyelle.rxpermissions3.RxPermissions;
 import com.tencent.smtt.sdk.TbsReaderView;
+import com.xxl.core.aop.annotation.CheckLogin;
+import com.xxl.core.aop.annotation.CheckNetwork;
 import com.xxl.core.aop.annotation.Delay;
 import com.xxl.core.aop.annotation.LogTag;
 import com.xxl.core.aop.annotation.Safe;
@@ -59,11 +61,6 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
         AudioCapture.OnAudioFrameCapturedListener {
 
     //region: 成员变量
-
-    /**
-     * Tbs显示视图
-     */
-    private TbsReaderView mTbsReaderView;
 
     /**
      * 首页数据模型
@@ -154,9 +151,6 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
         super.onDestroy();
         unregisterAppStatusChangedListener(this);
         AudioCapture.getInstance().release();
-        if (mTbsReaderView != null) {
-            mTbsReaderView.onStop();
-        }
     }
 
     /**
@@ -209,29 +203,13 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
 
     @LogTag(tag = "aaa", message = "onTestClick")
     @SingleClick
-//    @CheckLogin
+    @CheckLogin
     @Safe
-//    @CheckNetwork
+    @CheckNetwork
     @Delay(delay = 200)
     @Override
     public void onTestClick() {
-//        AppRouterApi.navigationToLogin();
-
-        mTbsReaderView = new TbsReaderView(this, new TbsReaderView.ReaderCallback() {
-            @Override
-            public void onCallBackAction(Integer integer, Object o, Object o1) {
-
-            }
-        });
-        mViewDataBinding.llRootContainer.addView(mTbsReaderView, 0, new LinearLayout.LayoutParams(-1, -1));
-
-        String externalStorageState = Environment.getExternalStorageDirectory().getAbsolutePath();
-        File file1 = new File(externalStorageState, "123.pdf");
-        TbsUtils.openFile(mTbsReaderView, file1.getAbsolutePath());
-
-//        String corePath = CacheDirConfig.CACHE_DIR + "x5.tbs_44181.apk";
-//        boolean isCopySuccess = ResourceUtils.copyFileFromAssets("x5_44181.tbs", corePath);
-//        Log.e("aa", "onTestClick: " + isCopySuccess);
+        AppRouterApi.navigationToLogin();
     }
 
     /**
