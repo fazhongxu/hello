@@ -25,6 +25,7 @@ import com.xxl.core.utils.AppExpandUtils;
 import com.xxl.core.utils.AppUtils;
 import com.xxl.core.utils.DisplayUtils;
 import com.xxl.core.utils.LogUtils;
+import com.xxl.core.utils.ResourceUtils;
 import com.xxl.core.utils.StatusBarUtil;
 import com.xxl.core.utils.TestUtils;
 import com.xxl.core.utils.TimeUtils;
@@ -226,7 +227,11 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
 
         String externalStorageState = Environment.getExternalStorageDirectory().getAbsolutePath();
         File file1 = new File(externalStorageState, "123.pdf");
-        TbsUtils.openFile(mTbsReaderView,file1.getAbsolutePath());
+        TbsUtils.openFile(mTbsReaderView, file1.getAbsolutePath());
+
+//        String corePath = CacheDirConfig.CACHE_DIR + "x5.tbs_44181.apk";
+//        boolean isCopySuccess = ResourceUtils.copyFileFromAssets("x5_44181.tbs", corePath);
+//        Log.e("aa", "onTestClick: " + isCopySuccess);
     }
 
     /**
