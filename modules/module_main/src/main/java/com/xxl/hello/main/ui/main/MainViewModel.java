@@ -16,6 +16,7 @@ import com.xxl.hello.service.ui.BaseViewModel;
 import com.xxl.hello.service.upload.api.UploadService;
 
 import io.reactivex.rxjava3.disposables.Disposable;
+import okhttp3.OkHttpClient;
 
 
 /**

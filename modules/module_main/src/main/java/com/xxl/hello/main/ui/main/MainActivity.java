@@ -2,7 +2,6 @@ package com.xxl.hello.main.ui.main;
 
 import android.Manifest;
 import android.app.Activity;
-import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.widget.LinearLayout;
@@ -13,10 +12,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.tbruyelle.rxpermissions3.RxPermissions;
-import com.tencent.smtt.sdk.QbSdk;
 import com.tencent.smtt.sdk.TbsReaderView;
-import com.xxl.core.aop.annotation.CheckLogin;
-import com.xxl.core.aop.annotation.CheckNetwork;
 import com.xxl.core.aop.annotation.Delay;
 import com.xxl.core.aop.annotation.LogTag;
 import com.xxl.core.aop.annotation.Safe;
@@ -28,9 +24,7 @@ import com.xxl.core.media.audio.AudioRecordFormat;
 import com.xxl.core.utils.AppExpandUtils;
 import com.xxl.core.utils.AppUtils;
 import com.xxl.core.utils.DisplayUtils;
-import com.xxl.core.utils.FileUtils;
 import com.xxl.core.utils.LogUtils;
-import com.xxl.core.utils.ResourceUtils;
 import com.xxl.core.utils.StatusBarUtil;
 import com.xxl.core.utils.TestUtils;
 import com.xxl.core.utils.TimeUtils;
@@ -54,7 +48,6 @@ import java.text.SimpleDateFormat;
 import javax.inject.Inject;
 
 import io.reactivex.rxjava3.disposables.Disposable;
-import okhttp3.Cache;
 
 /**
  * @author xxl
@@ -229,14 +222,11 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
 
             }
         });
-//        mViewDataBinding.llRootContainer.addView(mTbsReaderView, 0, new LinearLayout.LayoutParams(-1, -1));
+        mViewDataBinding.llRootContainer.addView(mTbsReaderView, 0, new LinearLayout.LayoutParams(-1, -1));
 
         String externalStorageState = Environment.getExternalStorageDirectory().getAbsolutePath();
-//        File file1 = new File(externalStorageState, "123.pdf");
-//        TbsUtils.openFile(mTbsReaderView, file1.getAbsolutePath());
-
-        boolean isCopy = ResourceUtils.copyFileFromAssets("x5_44181.tbs", FileUtils.getDiskCacheDir()+File.separator+"x5.tbs.apk");
-        Log.e("aa", "onTestClick: "+isCopy );
+        File file1 = new File(externalStorageState, "123.pdf");
+        TbsUtils.openFile(mTbsReaderView,file1.getAbsolutePath());
     }
 
     /**

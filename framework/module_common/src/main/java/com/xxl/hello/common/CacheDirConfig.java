@@ -12,6 +12,11 @@ import java.io.File;
 public class CacheDirConfig {
 
     /**
+     * 缓存文件夹
+     */
+    public static final String CACHE_DIR = PathUtils.getAppExtCachePath();
+
+    /**
      * 图片压缩缓存文件夹
      */
     public static final String COMPRESSION_FILE_DIR = PathUtils.getAppExtCachePath() + "/.compression_file_dir";

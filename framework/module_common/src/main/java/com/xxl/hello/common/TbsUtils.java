@@ -3,14 +3,18 @@ package com.xxl.hello.common;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 
 import androidx.annotation.IntRange;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.tencent.smtt.sdk.QbSdk;
 import com.tencent.smtt.sdk.TbsDownloader;
 import com.tencent.smtt.sdk.TbsListener;
 import com.tencent.smtt.sdk.TbsReaderView;
+import com.xxl.core.listener.OnRequestCallBack;
+import com.xxl.core.utils.DownloadUtil;
 import com.xxl.core.utils.FileUtils;
 import com.xxl.core.utils.LogUtils;
 
@@ -33,6 +37,23 @@ import java.io.File;
 public class TbsUtils {
 
     private static final String TAG = "Tbs";
+
+    /**
+     * Tbs内核文件网络路径，可换成自己服务端存储
+     * 44181 版本内核下载地址 https://tbs.imtt.qq.com/others/release/x5/tbs_core_045947_20220121205348_nolog_fs_obfs_arm64-v8a_release.tbs
+     */
+    public static final String TBS_CORE_FILE_BACK_UP_URL = "https://raw.githubusercontent.com/fazhongxu/hello/feature/tbs/app/src/main/assets/x5_44181.tbs";
+
+    /**
+     * tbs 内核地址 测试的时候，可以用免费的服务器暂时实现文件存储
+     * https://www.wenshushu.cn/
+     */
+    public static final String TBS_CORE_FILE_URL = "https://down.wss.show/o99nahj/8/hs/8hs2o99nahj?cdn_sign=1654503455-13-0-2a3bafeacfa79cec1bdfdfbd96f14325&exp=1200&response-content-disposition=attachment%3B%20filename%3D%22x5.tbs_44181.apk%22%3B%20filename%2A%3Dutf-8%27%27x5.tbs_44181.apk";
+
+    /**
+     * tbs 内核版本号
+     */
+    private static final int TBS_CORE_VERSION_CODE = 44181;
 
     /**
      * Tbs内核是否加载完成
@@ -71,7 +92,10 @@ public class TbsUtils {
                  */
                 @Override
                 public void onInstallFinish(int stateCode) {
-                    LogUtils.d(TAG + " onInstallFinish" + stateCode);
+                    LogUtils.d(TAG + " onInstallFinish " + stateCode);
+                    if (stateCode == 200 || stateCode == 232) {
+                        sTbsCoreInitFinished = true;
+                    }
                 }
 
                 /**
@@ -101,11 +125,11 @@ public class TbsUtils {
                 @Override
                 public void onViewInitFinished(boolean isX5) {
                     sTbsCoreInitFinished = isX5;
-                    String corePath = CacheDirConfig.SHARE_FILE_DIR + File.separator + "x5.tbs.apk";
-                    LogUtils.d(TAG + " onCoreInitFinished " + isX5 +"--"+FileUtils.isFileExists(corePath));
-
+                    LogUtils.d(TAG + " onCoreInitFinished " + isX5);
                     if (!isX5) {
-                        installLocalTbsCore(context, 44181,corePath);
+                        downloadTbs(TBS_CORE_FILE_URL, CacheDirConfig.CACHE_DIR, "x5.tbs.apk", filePath -> {
+                            installLocalTbsCore(context, TBS_CORE_VERSION_CODE, filePath);
+                        });
                     }
                 }
             };
@@ -116,12 +140,50 @@ public class TbsUtils {
 
             final boolean needDownload = TbsDownloader.needDownload(context, TbsDownloader.DOWNLOAD_OVERSEA_TBS);
             LogUtils.d(TAG + " needDownload " + needDownload);
-            if (needDownload) {
+            if (!needDownload) {
                 TbsDownloader.startDownload(context);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 下载tbs
+     *
+     * @param tbsCoreUrl
+     * @param desDir
+     * @param desFileName
+     * @param callBack
+     */
+    public static void downloadTbs(@Nullable final String tbsCoreUrl,
+                                   @NonNull final String desDir,
+                                   @NonNull final String desFileName,
+                                   @Nullable OnRequestCallBack<String> callBack) {
+        DownloadUtil.get()
+                .download(tbsCoreUrl, desDir, desFileName, new DownloadUtil.OnDownloadListener() {
+
+                    @Override
+                    public void onDownloadSuccess(File file) {
+                        LogUtils.d(TAG + " onDownloadSuccess: " + file.getAbsolutePath());
+                        if (callBack != null) {
+                            callBack.onSuccess(file.getAbsolutePath());
+                        }
+                    }
+
+                    @Override
+                    public void onDownloading(int progress) {
+                        Log.d(TAG, " onDownloading: " + progress);
+                    }
+
+                    @Override
+                    public void onDownloadFailed(Throwable e) {
+                        LogUtils.d(TAG + " onDownloadFailed: " + e.getMessage());
+                        if (callBack != null) {
+                            callBack.onFailure(e);
+                        }
+                    }
+                });
     }
 
     /**
@@ -134,6 +196,9 @@ public class TbsUtils {
     public static void installLocalTbsCore(@NonNull final Context context,
                                            @IntRange final int tbsCoreVersionName,
                                            @NonNull final String tbsLocalPath) {
+        if (!FileUtils.isFileExists(tbsLocalPath)) {
+            return;
+        }
         QbSdk.reset(context);
         QbSdk.installLocalTbsCore(context, tbsCoreVersionName, tbsLocalPath);
     }

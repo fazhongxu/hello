@@ -664,6 +664,21 @@ public final class FileUtils {
     /**
      * Write file from input stream.
      *
+     * @param filePath The path of file.
+     * @param is       The input stream.
+     * @param append   是否追加在文件末
+     * @return {@code true}: success<br>{@code false}: fail
+     */
+    public static boolean writeFileFromIS(final String filePath,
+                                          final InputStream is,
+                                          final boolean append) {
+        return writeFileFromIS(getFileByPath(filePath), is, append, null);
+    }
+
+
+    /**
+     * Write file from input stream.
+     *
      * @param file     The file.
      * @param is       The input stream.
      * @param append   True to append, false otherwise.
