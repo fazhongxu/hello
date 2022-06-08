@@ -53,6 +53,11 @@ android {
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
+
+            aaptOptions {
+                // 排除assets资源 格式为 '!qaa.js:!ccc.css:!bbb.t:'
+                ignoreAssetsPattern '!x5_44181.tbs'
+            }
         }
 
         release {
@@ -60,6 +65,11 @@ android {
             shrinkResources true // 移除未使用的资源
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
+
+            aaptOptions {
+                // 排除assets资源 格式为 '!qaa.js:!ccc.css:!bbb.t:'
+                ignoreAssetsPattern '!x5_44181.tbs'
+            }
         }
     }
 
