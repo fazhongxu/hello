@@ -10,13 +10,17 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.xxl.core.media.audio.utils.LameUtils;
 import com.xxl.core.utils.FFmpegUtils;
 import com.xxl.core.utils.FileUtils;
 import com.xxl.core.utils.LogUtils;
 import com.xxl.core.utils.TimeUtils;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 
 /**
  * 音频采集类
@@ -35,7 +39,11 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
     private static final int DEFAULT_SOURCE = MediaRecorder.AudioSource.MIC;
     private static final int DEFAULT_SAMPLE_RATE = 44100;
 
-    private static final int DEFAULT_CHANNEL_CONFIG = AudioFormat.CHANNEL_IN_STEREO;
+//    private static final int DEFAULT_CHANNEL_CONFIG = AudioFormat.CHANNEL_IN_STEREO;
+
+    // FIXME: 2022/6/8  Lame实时转mp3 目前只能单通道，双通道录音出来很慢，原因待检查
+    private static final int DEFAULT_CHANNEL_CONFIG = AudioFormat.CHANNEL_IN_MONO;
+
     private static final int DEFAULT_AUDIO_FORMAT = AudioFormat.ENCODING_PCM_16BIT;
 
     private AudioRecord mAudioRecord;
@@ -152,6 +160,13 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
                 DEFAULT_AUDIO_FORMAT);
     }
 
+    DataEncodeThread mMp3EncodeThread;
+
+    /**
+     * 自定义 每160帧作为一个周期，通知一下需要进行编码
+     */
+    private static final int FRAME_COUNT = 160;
+
     /**
      * 开始采集数据
      *
@@ -175,6 +190,8 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
         if (mPcmEncoderAac == null || mPcmEncoderAac.getSampleRate() != sampleRateInHz) {
             mPcmEncoderAac = new PcmEncoderAac(sampleRateInHz, this);
         }
+
+        LameUtils.init(sampleRateInHz, 1, sampleRateInHz, 32);
 
         if (mIsCaptureStarted) {
             LogUtils.e(TAG, "Capture already started !");
@@ -201,6 +218,15 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
                 mAudioFrameCapturedListener.onRecordError(new Throwable("音频录制错误"));
             }
             return false;
+        }
+
+        try {
+            mMp3EncodeThread = new DataEncodeThread(mAudioMp3File, mMinBufferSize);
+            mMp3EncodeThread.start();
+            mAudioRecord.setRecordPositionUpdateListener(mMp3EncodeThread, mMp3EncodeThread.getHandler());
+            mAudioRecord.setPositionNotificationPeriod(FRAME_COUNT);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         mAudioRecord.startRecording();
@@ -247,6 +273,8 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
 
         mIsCaptureStarted = false;
         mRecordState = AudioRecordState.STOP;
+
+        mMp3EncodeThread.sendStopMessage();
 
         if (mIsCancel) {
             recordCanceled();
@@ -387,7 +415,7 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
             int state = mAudioRecord.getRecordingState();
             while (!mIsLoopExit) {
 
-                byte[] buffer = new byte[mMinBufferSize];
+                short[] buffer = new short[mMinBufferSize];
                 int ret = mAudioRecord.read(buffer, 0, mMinBufferSize);
                 if (ret == AudioRecord.ERROR_INVALID_OPERATION) {
                     LogUtils.e(TAG, "Error ERROR_INVALID_OPERATION");
@@ -397,19 +425,39 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
                     mRecordState = AudioRecordState.ERROR;
                 } else {
                     if (mAudioFrameCapturedListener != null) {
-                        mAudioFrameCapturedListener.onAudioFrameCaptured(buffer);
+                        //mAudioFrameCapturedListener.onAudioFrameCaptured(buffer);
                     }
                     LogUtils.d(TAG, "OK, Captured " + ret + " bytes !");
                     if (state == AudioRecord.RECORDSTATE_RECORDING) {
                         mRecordState = AudioRecordState.RECORDING;
                         if (mPcmEncoderAac != null) {
-                            mPcmEncoderAac.encodeData(buffer);
+                            //mPcmEncoderAac.encodeData(buffer);
                         }
+
+//                        int size = buffer.length;
+//                        short[] shortArray = new short[size];
+//
+//                        for (int index = 0; index < size; index++) {
+//                            shortArray[index] = (short) buffer[index];
+//                        }
+                        // TODO: 2022/1/14
+//                        mMp3EncodeThread.addTask(bytesToShort(buffer), ret);
+                        mMp3EncodeThread.addTask(buffer, ret);
+
                     }
                 }
                 SystemClock.sleep(10);
             }
         }
+    }
+
+    public static short[] bytesToShort(byte[] bytes) {
+        if (bytes == null) {
+            return null;
+        }
+        short[] shorts = new short[bytes.length / 2];
+        ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN).asShortBuffer().get(shorts);
+        return shorts;
     }
 
     //endregion
@@ -480,7 +528,7 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
          *
          * @param audioFile 音频文件
          */
-        default void onCompleteRecord(@NonNull final File audioFile){
+        default void onCompleteRecord(@NonNull final File audioFile) {
 
         }
 
@@ -496,7 +544,7 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
          *
          * @param throwable
          */
-        default void onRecordError(@NonNull final Throwable throwable){
+        default void onRecordError(@NonNull final Throwable throwable) {
 
         }
 
