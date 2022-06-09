@@ -66,4 +66,35 @@ uploadArchives {
  mUserVisibleHint= true 的就是当前显示的fragment
 
 
+ 技术要点
+
+ 1.mvvm 架构 dagger2 运用 ，dagger2+Retrofit+okhttp 搭建网络框架，ARouter 实现路由
+
+ 2.aspectjx 实现AOP面向切面编程，try catch 、登录检测、网络检测等
+
+ 3.nexus搭建私服,上传本地核心库和对应模块库，实现切换本地和远程库代码
+
+ 4.实现本地aar和远程aar切换
+
+ 5.objectbox mmkv 存储封装
+
+ 6.音频录制封装，支持aac 和 mp3 格式录制
+
+ 7.FFmpeg 音频转码、添加背景音乐、调节音频音量、视频中提出音频
+
+ 8.实现图片压缩和视频压缩三方代码隔离，tbs简单封装，引入一些常用工具类，简单封装
+
+ 9.调通Jenkins自动化打包，打包失败发送消息到钉钉，打包成功把apk 发送到钉钉机器人
+
+ 10.引入AndRes 实现资源压缩和一键打包
+
+ 11.隐私政策同意后初始化三方框架
+
+
+
+
+
+
+
+
 
