@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.tbruyelle.rxpermissions3.RxPermissions;
 import com.tencent.smtt.sdk.TbsReaderView;
+import com.xxl.core.aop.annotation.Async;
 import com.xxl.core.aop.annotation.CheckLogin;
 import com.xxl.core.aop.annotation.CheckNetwork;
 import com.xxl.core.aop.annotation.Delay;
@@ -26,6 +27,8 @@ import com.xxl.core.media.audio.AudioRecordFormat;
 import com.xxl.core.utils.AppExpandUtils;
 import com.xxl.core.utils.AppUtils;
 import com.xxl.core.utils.DisplayUtils;
+import com.xxl.core.utils.FFmpegUtils;
+import com.xxl.core.utils.ListUtils;
 import com.xxl.core.utils.LogUtils;
 import com.xxl.core.utils.ResourceUtils;
 import com.xxl.core.utils.StatusBarUtil;
@@ -47,10 +50,21 @@ import com.xxl.hello.widget.record.RecordButton;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.ObservableEmitter;
+import io.reactivex.rxjava3.core.ObservableOnSubscribe;
+import io.reactivex.rxjava3.core.ObservableSource;
 import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.functions.Consumer;
+import io.reactivex.rxjava3.functions.Function;
 
 /**
  * @author xxl
@@ -203,13 +217,27 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
 
     @LogTag(tag = "aaa", message = "onTestClick")
     @SingleClick
-    @CheckLogin
+//    @CheckLogin
     @Safe
     @CheckNetwork
     @Delay(delay = 200)
     @Override
+    @Async
     public void onTestClick() {
-        AppRouterApi.navigationToLogin();
+////        AppRouterApi.navigationToLogin();
+//
+        String audio = CacheDirConfig.SHARE_FILE_DIR + File.separator + "1.mp3";
+        String video = CacheDirConfig.SHARE_FILE_DIR + File.separator + "3.mp4";
+        String backgroundMusic = CacheDirConfig.SHARE_FILE_DIR + File.separator + "2.mp3";
+
+        String video1 = CacheDirConfig.SHARE_FILE_DIR + File.separator + "5.mp3";
+
+//        String audio1 = CacheDirConfig.SHARE_FILE_DIR + File.separator + TimeUtils.currentTimeMillis() + ".mp3";
+//        FFmpegUtils.addBackgroundMusic(audio, backgroundMusic, audio1);
+
+//        String audio3 = CacheDirConfig.SHARE_FILE_DIR + File.separator + "调节音量的" + ".mp3";
+//        FFmpegUtils.adjustVolume(audio,audio3);
+
     }
 
     /**
@@ -252,6 +280,18 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
     public void onCompleteRecord(@NonNull final File audioFile) {
         LogUtils.d("音频文件-->" + audioFile.getAbsolutePath());
         mViewDataBinding.tvTest.setText(getString(R.string.core_start_record_audio_text));
+
+        String audio = CacheDirConfig.SHARE_FILE_DIR + File.separator + "1.mp3";
+        String audio1 = CacheDirConfig.SHARE_FILE_DIR + File.separator + TimeUtils.currentTimeMillis()+"--" + ".mp3";
+        String audio2 = CacheDirConfig.SHARE_FILE_DIR + File.separator + TimeUtils.currentTimeMillis()+"录音背景音乐" + ".mp3";
+
+        new Thread(){
+            @Override
+            public void run() {
+                FFmpegUtils.adjustVolumeSub5db(audio,audio1);
+                FFmpegUtils.addBackgroundMusic(audioFile.getAbsolutePath(), audio1, audio2);
+            }
+        }.start();
     }
 
     /**

@@ -161,4 +161,71 @@ public class FFmpegUtils {
         FFmpeg.execute(command);
     }
 
+    /**
+     * 添加背景音乐
+     *
+     * @param inputAudioPath           目标音频文件路径
+     * @param inputBackgroundMusicPath 背景音乐文件路径
+     * @param outputAudioPath          输出音频文件路径
+     */
+    public static void addBackgroundMusic(@NonNull final String inputAudioPath,
+                                          @NonNull final String inputBackgroundMusicPath,
+                                          @NonNull final String outputAudioPath) {
+        addBackgroundMusic(inputAudioPath, inputBackgroundMusicPath, outputAudioPath, 1, 16000);
+    }
+
+    /**
+     * 添加背景音乐
+     *
+     * @param inputAudioPath           目标音频文件路径
+     * @param inputBackgroundMusicPath 背景音乐文件路径
+     * @param outputAudioPath          输出音频文件路径
+     */
+    public static void addBackgroundMusic(@NonNull final String inputAudioPath,
+                                          @NonNull final String inputBackgroundMusicPath,
+                                          @NonNull final String outputAudioPath,
+                                          final int channelConfig,
+                                          final int sampleRate) {
+        if (Thread.currentThread() == Looper.getMainLooper().getThread()) {
+            return;
+        }
+        final String command = String.format(Locale.getDefault(), "-hide_banner -y -i %s -i %s -filter_complex amix=inputs=2:duration=first:dropout_transition=2 -vn -vsync 2 %s", inputAudioPath, inputBackgroundMusicPath, outputAudioPath);
+        FFmpeg.execute(command);
+    }
+
+    /**
+     * 调节音量
+     * ​最高分贝（max_volume）为0.0 b，平均分贝（max_volume）为-17.5db
+     * volume=-5dB 降低5分贝，volume=5dB 提高5分贝
+     *
+     * @param inputAudioPath  目标音频文件路径
+     * @param outputAudioPath 背景音乐文件路径
+     */
+    public static void adjustVolumeSub5db(@NonNull final String inputAudioPath,
+                                          @NonNull final String outputAudioPath) {
+        if (Thread.currentThread() == Looper.getMainLooper().getThread()) {
+            return;
+        }
+        final String command = String.format(Locale.getDefault(), "-hide_banner -y -i %s -filter volume=-5dB -vn -vsync 2 %s", inputAudioPath, outputAudioPath);
+        FFmpeg.execute(command);
+    }
+
+    /**
+     * 调节音量
+     * ​最高分贝（max_volume）为0.0 b，平均分贝（max_volume）为-17.5db
+     * volume=-5dB 降低5分贝，volume=5dB 提高5分贝
+     *
+     * @param inputAudioPath  目标音频文件路径
+     * @param outputAudioPath 背景音乐文件路径
+     */
+    public static void adjustVolumeAdd5db(@NonNull final String inputAudioPath,
+                                          @NonNull final String outputAudioPath) {
+        if (Thread.currentThread() == Looper.getMainLooper().getThread()) {
+            return;
+        }
+        final String command = String.format(Locale.getDefault(), "-hide_banner -y -i %s -filter volume=5dB -vn -vsync 2 %s", inputAudioPath, outputAudioPath);
+        FFmpeg.execute(command);
+    }
+
+
 }
