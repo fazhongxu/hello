@@ -11,6 +11,12 @@ import com.arthenica.mobileffmpeg.MediaInformation;
 import java.util.Locale;
 
 /**
+ * <pre>
+ *   reference
+ *   https://www.ruanyifeng.com/blog/2020/01/ffmpeg.html
+ *   https://www.zhihu.com/question/300182407
+ *   http://quanzhan.applemei.com/webStack/TlRjek1BPT0=
+ * <pre/>
  * @author xxl.
  * @date 2021/11/12.
  */
