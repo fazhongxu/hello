@@ -195,7 +195,10 @@ public class FFmpegUtils {
         if (Thread.currentThread() == Looper.getMainLooper().getThread()) {
             return;
         }
-        final String command = String.format(Locale.getDefault(), "-hide_banner -y -i %s -i %s -filter_complex amix=inputs=2:duration=first:dropout_transition=2 -vn -vsync 2 %s", inputAudioPath, inputBackgroundMusicPath, outputAudioPath);
+        // -stream_loop -1 循环输入源
+        // -filter_complex amix=inputs=2:duration=first:dropout_transition=2 混合音乐 inputs=2 2 表示混合音乐数量
+        // -vn 去除视频流
+        final String command = String.format(Locale.getDefault(), "-hide_banner -y -i %s  -stream_loop -1 -i %s -filter_complex amix=inputs=2:duration=first:dropout_transition=2 -vn -vsync 2 %s", inputAudioPath, inputBackgroundMusicPath, outputAudioPath);
         FFmpeg.execute(command);
     }
 
