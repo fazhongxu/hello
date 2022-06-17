@@ -1,13 +1,19 @@
 package com.xxl.core.utils;
 
 import android.os.Looper;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
+import com.arthenica.mobileffmpeg.Config;
+import com.arthenica.mobileffmpeg.ExecuteCallback;
 import com.arthenica.mobileffmpeg.FFmpeg;
 import com.arthenica.mobileffmpeg.FFprobe;
 import com.arthenica.mobileffmpeg.MediaInformation;
+import com.xxl.core.listener.OnRequestCallBack;
 
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -168,6 +174,48 @@ public class FFmpegUtils {
     }
 
     /**
+     * 音频拼接
+     *
+     * @param inputAudioPaths 目标音频文件路径
+     * @param outputAudioPath 输出音频文件路径
+     */
+    public static void concatAudio(@NonNull final List<String> inputAudioPaths,
+                                   @NonNull final String outputAudioPath) {
+        concatAudio(inputAudioPaths, outputAudioPath, null);
+    }
+
+
+    /**
+     * 音频拼接
+     *
+     * @param inputAudioPaths 目标音频文件路径
+     * @param outputAudioPath 输出音频文件路径
+     */
+    public static void concatAudio(@NonNull final List<String> inputAudioPaths,
+                                   @NonNull final String outputAudioPath,
+                                   @Nullable final OnRequestCallBack<Boolean> callBack) {
+        if (Thread.currentThread() == Looper.getMainLooper().getThread() || ListUtils.isEmpty(inputAudioPaths)) {
+            return;
+        }
+        final StringBuilder command = new StringBuilder("-hide_banner ")
+                .append("-y ");
+        for (String inputAudioPath : inputAudioPaths) {
+            command.append("-i ")
+                    .append(inputAudioPath)
+                    .append(" ");
+        }
+        command.append("-filter_complex ")
+                .append("concat=n=" + ListUtils.getSize(inputAudioPaths) + ":v=0:a=1 ")
+                .append("-vn ")
+                .append(outputAudioPath);
+        executeAsync(command.toString(), isSuccess -> {
+            if (callBack != null) {
+                callBack.onSuccess(isSuccess);
+            }
+        });
+    }
+
+    /**
      * 添加背景音乐
      *
      * @param inputAudioPath           目标音频文件路径
@@ -234,6 +282,35 @@ public class FFmpegUtils {
         }
         final String command = String.format(Locale.getDefault(), "-hide_banner -y -i %s -filter volume=5dB -vn -vsync 2 %s", inputAudioPath, outputAudioPath);
         FFmpeg.execute(command);
+    }
+
+    /**
+     * 异步执行
+     *
+     * @param command  命令
+     * @param callBack 回调
+     */
+    public static void executeAsync(@NonNull final String command,
+                                    @Nullable final OnRequestCallBack<Boolean> callBack) {
+        FFmpeg.executeAsync(command, new ExecuteCallback() {
+            @Override
+            public void apply(final long executionId, final int returnCode) {
+                if (returnCode == Config.RETURN_CODE_SUCCESS) {
+                    if (callBack != null) {
+                        callBack.onSuccess(true);
+                    }
+                    LogUtils.d(String.format(Locale.getDefault(), "FFmpeg Async command execution completed successfully."));
+                    return;
+                }
+                if (returnCode == Config.RETURN_CODE_CANCEL) {
+                    LogUtils.e(String.format(Locale.getDefault(), "FFmpeg Async command execution cancelled by user."));
+                }
+                LogUtils.e(String.format(Locale.getDefault(), "FFmpeg Async command execution failed with returnCode=%d.", returnCode));
+                if (callBack != null) {
+                    callBack.onSuccess(false);
+                }
+            }
+        });
     }
 
 

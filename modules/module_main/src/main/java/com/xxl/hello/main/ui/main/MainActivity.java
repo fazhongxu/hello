@@ -217,27 +217,27 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
 
     @LogTag(tag = "aaa", message = "onTestClick")
     @SingleClick
-//    @CheckLogin
     @Safe
     @CheckNetwork
     @Delay(delay = 200)
     @Override
     @Async
     public void onTestClick() {
-////        AppRouterApi.navigationToLogin();
 //
         String audio = CacheDirConfig.SHARE_FILE_DIR + File.separator + "1.mp3";
-        String video = CacheDirConfig.SHARE_FILE_DIR + File.separator + "3.mp4";
-        String backgroundMusic = CacheDirConfig.SHARE_FILE_DIR + File.separator + "2.mp3";
+        String audio2 = CacheDirConfig.SHARE_FILE_DIR + File.separator + "2.mp3";
 
-        String video1 = CacheDirConfig.SHARE_FILE_DIR + File.separator + "5.mp3";
 
-//        String audio1 = CacheDirConfig.SHARE_FILE_DIR + File.separator + TimeUtils.currentTimeMillis() + ".mp3";
-//        FFmpegUtils.addBackgroundMusic(audio, backgroundMusic, audio1);
+//        String outAudio = CacheDirConfig.SHARE_FILE_DIR + File.separator + TimeUtils.currentTimeMillis() + ".mp3";
+        String outAudio = CacheDirConfig.SHARE_FILE_DIR + File.separator + "concat" + ".mp3";
 
-//        String audio3 = CacheDirConfig.SHARE_FILE_DIR + File.separator + "调节音量的" + ".mp3";
-//        FFmpegUtils.adjustVolume(audio,audio3);
-
+        List<String> audioPaths = new ArrayList<>();
+        audioPaths.add(audio);
+        audioPaths.add(audio2);
+        long currentTimeMillis = TimeUtils.currentServiceTimeMillis();
+        Log.e("aa", "onTestClick: " + currentTimeMillis);
+        FFmpegUtils.concatAudio(audioPaths, outAudio);
+        Log.e("aav", "onTestClick: " + (TimeUtils.currentServiceTimeMillis() - currentTimeMillis));
     }
 
     /**
@@ -282,13 +282,13 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
         mViewDataBinding.tvTest.setText(getString(R.string.core_start_record_audio_text));
 
         String audio = CacheDirConfig.SHARE_FILE_DIR + File.separator + "1.mp3";
-        String audio1 = CacheDirConfig.SHARE_FILE_DIR + File.separator + TimeUtils.currentTimeMillis()+"--" + ".mp3";
-        String audio2 = CacheDirConfig.SHARE_FILE_DIR + File.separator + TimeUtils.currentTimeMillis()+"录音背景音乐" + ".mp3";
+        String audio1 = CacheDirConfig.SHARE_FILE_DIR + File.separator + TimeUtils.currentTimeMillis() + "--" + ".mp3";
+        String audio2 = CacheDirConfig.SHARE_FILE_DIR + File.separator + TimeUtils.currentTimeMillis() + "录音背景音乐" + ".mp3";
 
-        new Thread(){
+        new Thread() {
             @Override
             public void run() {
-                FFmpegUtils.adjustVolumeSub5db(audio,audio1);
+                FFmpegUtils.adjustVolumeSub5db(audio, audio1);
                 FFmpegUtils.addBackgroundMusic(audioFile.getAbsolutePath(), audio1, audio2);
             }
         }.start();
