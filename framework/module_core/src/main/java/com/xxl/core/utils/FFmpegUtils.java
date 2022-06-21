@@ -3,6 +3,7 @@ package com.xxl.core.utils;
 import android.os.Looper;
 import android.util.Log;
 
+import androidx.annotation.IntRange;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -264,6 +265,26 @@ public class FFmpegUtils {
             return;
         }
         final String command = String.format(Locale.getDefault(), "-hide_banner -y -i %s -filter volume=-5dB -vn -vsync 2 %s", inputAudioPath, outputAudioPath);
+        FFmpeg.execute(command);
+    }
+
+    /**
+     * 调节音量
+     * ​最高分贝（max_volume）为0.0 b，平均分贝（max_volume）为-17.5db
+     * volume=-5dB 降低5分贝，volume=5dB 提高5分贝
+     *
+     * @param inputAudioPath  目标音频文件路径
+     * @param outputAudioPath 背景音乐文件路径
+     * @param outputVolume    音量大小0-100，0为静音，100 为原声，150为1.5呗，200为2倍
+     */
+    public static void adjustVolume(@NonNull final String inputAudioPath,
+                                    @NonNull final String outputAudioPath,
+                                    final int outputVolume) {
+        if (Thread.currentThread() == Looper.getMainLooper().getThread()) {
+            return;
+        }
+        float volume = outputVolume * 1.0F / 100;
+        final String command = String.format(Locale.getDefault(), "-hide_banner -y -i %s -filter volume=%s -vn -vsync 2 %s", inputAudioPath, volume, outputAudioPath);
         FFmpeg.execute(command);
     }
 
