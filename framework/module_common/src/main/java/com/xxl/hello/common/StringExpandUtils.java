@@ -2,8 +2,15 @@ package com.xxl.hello.common;
 
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.TextUtils;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.xxl.core.utils.StringUtils;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * @author xxl.
@@ -26,6 +33,40 @@ public class StringExpandUtils {
         final Spannable spannable = new SpannableString(content);
         StringUtils.setHighlightColorId(spannable, keyword, R.color.colorPrimary);
         return spannable;
+    }
+
+    /**
+     * 解析url 中的key value
+     * https://www.baidu.com/s?uid=1212&type=3&audio_id=1200
+     * 返回 uid,1212,type,3 的key value 组成的map
+     *
+     * @param targetUrl
+     * @return
+     */
+    private Map<String, String> parseUrlKey(@Nullable final String targetUrl) {
+        final Map<String, String> map = new LinkedHashMap<>();
+        if (TextUtils.isEmpty(targetUrl)) {
+            return map;
+        }
+        try {
+            int index = targetUrl.indexOf("?");
+            if (index <= 0) {
+                return map;
+            }
+            final String url = targetUrl.substring(index + 1);
+            final String[] splits = url.split("&");
+            if (splits.length > 0) {
+                for (String keyValue : splits) {
+                    String[] s = keyValue.split("=");
+                    if (s.length > 1) {
+                        map.put(s[0], s[1]);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return map;
     }
 
 }

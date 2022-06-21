@@ -2,9 +2,7 @@ package com.xxl.hello.main.ui.main;
 
 import android.Manifest;
 import android.app.Activity;
-import android.os.Environment;
 import android.util.Log;
-import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,9 +10,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.tbruyelle.rxpermissions3.RxPermissions;
-import com.tencent.smtt.sdk.TbsReaderView;
 import com.xxl.core.aop.annotation.Async;
-import com.xxl.core.aop.annotation.CheckLogin;
 import com.xxl.core.aop.annotation.CheckNetwork;
 import com.xxl.core.aop.annotation.Delay;
 import com.xxl.core.aop.annotation.LogTag;
@@ -30,13 +26,11 @@ import com.xxl.core.utils.DisplayUtils;
 import com.xxl.core.utils.FFmpegUtils;
 import com.xxl.core.utils.ListUtils;
 import com.xxl.core.utils.LogUtils;
-import com.xxl.core.utils.ResourceUtils;
 import com.xxl.core.utils.StatusBarUtil;
 import com.xxl.core.utils.TestUtils;
 import com.xxl.core.utils.TimeUtils;
 import com.xxl.core.utils.ToastUtils;
 import com.xxl.hello.common.CacheDirConfig;
-import com.xxl.hello.common.TbsUtils;
 import com.xxl.hello.main.BR;
 import com.xxl.hello.main.R;
 import com.xxl.hello.main.databinding.ActivityMainBinding;
@@ -50,21 +44,12 @@ import com.xxl.hello.widget.record.RecordButton;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Locale;
+import java.util.Map;
 
 import javax.inject.Inject;
 
-import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.core.ObservableEmitter;
-import io.reactivex.rxjava3.core.ObservableOnSubscribe;
-import io.reactivex.rxjava3.core.ObservableSource;
 import io.reactivex.rxjava3.disposables.Disposable;
-import io.reactivex.rxjava3.functions.Consumer;
-import io.reactivex.rxjava3.functions.Function;
 
 /**
  * @author xxl
@@ -223,21 +208,7 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
     @Override
     @Async
     public void onTestClick() {
-//
-        String audio = CacheDirConfig.SHARE_FILE_DIR + File.separator + "1.mp3";
-        String audio2 = CacheDirConfig.SHARE_FILE_DIR + File.separator + "2.mp3";
-
-
-//        String outAudio = CacheDirConfig.SHARE_FILE_DIR + File.separator + TimeUtils.currentTimeMillis() + ".mp3";
-        String outAudio = CacheDirConfig.SHARE_FILE_DIR + File.separator + "concat" + ".mp3";
-
-        List<String> audioPaths = new ArrayList<>();
-        audioPaths.add(audio);
-        audioPaths.add(audio2);
-        long currentTimeMillis = TimeUtils.currentServiceTimeMillis();
-        Log.e("aa", "onTestClick: " + currentTimeMillis);
-        FFmpegUtils.concatAudio(audioPaths, outAudio);
-        Log.e("aav", "onTestClick: " + (TimeUtils.currentServiceTimeMillis() - currentTimeMillis));
+        AppRouterApi.navigationToLogin();
     }
 
     /**
