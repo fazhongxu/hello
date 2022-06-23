@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.xxl.core.BaseApplication;
 import com.xxl.core.listener.IApplication;
+import com.xxl.kit.AppUtils;
 
 /**
  * @author xxl.

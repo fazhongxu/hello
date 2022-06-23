@@ -11,7 +11,7 @@ import com.xxl.hello.common.CacheDirConfig;
 import com.xxl.hello.service.R;
 import com.xxl.hello.service.data.local.db.entity.ResourcesUploadQueueDBEntity;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi.MediaType;
-import com.xxl.hello.service.data.model.enums.SystemEnumsApi.ResoucesUploadChannel;
+import com.xxl.hello.service.data.model.enums.SystemEnumsApi.ResourcesUploadChannel;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.hello.service.upload.api.UploadService;
 
@@ -108,7 +108,7 @@ public abstract class BaseUploadProcessProvider extends BaseProcessProvider {
      */
     public void onUpload(@NonNull final String waitUploadPath,
                          final boolean isForever,
-                         @ResoucesUploadChannel final int uploadChannel,
+                         @ResourcesUploadChannel final int uploadChannel,
                          @NonNull final OnResourcesUploadCallback callback) {
         if (FileUtils.isFile(waitUploadPath)) {
             handleUpload(waitUploadPath, isForever, uploadChannel, callback);
@@ -129,7 +129,7 @@ public abstract class BaseUploadProcessProvider extends BaseProcessProvider {
      */
     protected void handleUpload(@NonNull final String waitUploadPath,
                                 final boolean isForever,
-                                @ResoucesUploadChannel final int uploadChannel,
+                                @ResourcesUploadChannel final int uploadChannel,
                                 @NonNull final OnResourcesUploadCallback callback) {
         final OnResourcesCompressCallback onResourcesCompressCallback = new OnResourcesCompressCallback() {
 
@@ -158,7 +158,7 @@ public abstract class BaseUploadProcessProvider extends BaseProcessProvider {
      */
     protected void upload(@NonNull final String waitUploadPath,
                           final boolean isForever,
-                          @ResoucesUploadChannel final int uploadChannel,
+                          @ResourcesUploadChannel final int uploadChannel,
                           @NonNull final OnResourcesUploadCallback callback) {
         getHandler().postDelayed(new Runnable() {
             @Override

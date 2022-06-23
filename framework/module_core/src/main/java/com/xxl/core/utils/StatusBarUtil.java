@@ -20,6 +20,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.xxl.core.R;
+import com.xxl.kit.AppUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;

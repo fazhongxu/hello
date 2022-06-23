@@ -6,8 +6,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.xxl.core.listener.ActivityLifecycle;
-import com.xxl.core.listener.OnAppStatusChangedListener;
+import com.xxl.kit.ActivityLifecycle;
+import com.xxl.kit.OnAppStatusChangedListener;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

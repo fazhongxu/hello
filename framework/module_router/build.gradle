@@ -39,6 +39,7 @@ android {
 
 dependencies {
     implementation deps.origin.core
+    implementation deps.origin.kit
 
     implementation deps.arouter.arouter
     kapt deps.arouter.arouter_processor

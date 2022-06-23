@@ -6,6 +6,8 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.RawRes;
 import androidx.core.content.ContextCompat;
 
+import com.xxl.kit.AppUtils;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;

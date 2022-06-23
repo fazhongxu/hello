@@ -12,7 +12,6 @@ import com.luck.picture.lib.entity.LocalMedia;
 import com.xxl.core.image.selector.MediaSelector;
 import com.xxl.core.listener.OnResourcesCompressListener;
 import com.xxl.core.utils.ImageUtils;
-import com.xxl.core.utils.ListUtils;
 import com.xxl.core.utils.LogUtils;
 import com.xxl.core.utils.PathUtils;
 import com.xxl.core.utils.StringUtils;
@@ -26,6 +25,7 @@ import com.xxl.hello.service.data.repository.api.ResourceRepositoryApi;
 import com.xxl.hello.user.R;
 import com.xxl.hello.user.data.repository.UserRepository;
 import com.xxl.hello.widget.ui.model.resource.BaseResourceQueueViewModel;
+import com.xxl.kit.ListUtils;
 
 import java.io.File;
 import java.util.ArrayList;

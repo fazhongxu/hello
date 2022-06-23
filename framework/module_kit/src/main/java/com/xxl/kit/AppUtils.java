@@ -1,14 +1,10 @@
-package com.xxl.core.utils;
+package com.xxl.kit;
 
 import android.app.Activity;
 import android.app.Application;
 import android.os.Process;
 
 import androidx.annotation.NonNull;
-
-import com.xxl.core.data.router.AppRouterApi;
-import com.xxl.core.listener.ActivityLifecycle;
-import com.xxl.core.listener.OnAppStatusChangedListener;
 
 import java.util.List;
 

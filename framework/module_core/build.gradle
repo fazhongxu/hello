@@ -79,6 +79,8 @@ dependencies {
     implementation deps.androidx.lifecycle_extensions
     implementation deps.androidx.multidex
 
+    implementation deps.origin.kit
+
     implementation deps.true_time.true_time
     implementation deps.true_time.true_time_extension
 

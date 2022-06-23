@@ -6,6 +6,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.xxl.kit.AppUtils;
+
 /**
  * @author xxl.
  * @date 2021/7/27.

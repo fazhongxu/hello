@@ -15,6 +15,8 @@ import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.core.content.ContextCompat;
 
+import com.xxl.kit.AppUtils;
+
 import java.util.IllegalFormatException;
 
 /**

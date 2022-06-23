@@ -9,7 +9,6 @@ import androidx.annotation.NonNull;
 
 import com.luck.picture.lib.engine.PictureSelectorEngine;
 import com.xxl.core.BaseApplication;
-import com.xxl.core.data.router.AppRouterApi;
 import com.xxl.core.image.selector.MediaSelector;
 import com.xxl.core.image.selector.MediaSelectorApp;
 import com.xxl.core.image.selector.PictureSelectorEngineImpl;
@@ -24,6 +23,7 @@ import com.xxl.hello.common.ShortcutConfig;
 import com.xxl.hello.common.TbsUtils;
 import com.xxl.hello.main.di.component.DaggerAppComponent;
 import com.xxl.hello.user.ui.setting.UserSettingActivity;
+import com.xxl.kit.AppRouterApi;
 
 import java.util.ArrayList;
 import java.util.List;

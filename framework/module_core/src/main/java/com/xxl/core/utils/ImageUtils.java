@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 
 import com.xxl.core.R;
+import com.xxl.kit.AppUtils;
 
 import java.io.File;
 

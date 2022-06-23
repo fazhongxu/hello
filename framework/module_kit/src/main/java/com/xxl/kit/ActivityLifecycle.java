@@ -1,4 +1,4 @@
-package com.xxl.core.listener;
+package com.xxl.kit;
 
 import android.app.Activity;
 import android.app.Application;

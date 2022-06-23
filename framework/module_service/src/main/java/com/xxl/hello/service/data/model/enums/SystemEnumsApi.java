@@ -49,11 +49,11 @@ public class SystemEnumsApi {
 
     //region: 资源上传渠道
 
-    @IntDef({ResoucesUploadChannel.QI_NIU,
-            ResoucesUploadChannel.TENCENT,
+    @IntDef({ResourcesUploadChannel.QI_NIU,
+            ResourcesUploadChannel.TENCENT,
     })
     @Retention(RetentionPolicy.SOURCE)
-    public @interface ResoucesUploadChannel {
+    public @interface ResourcesUploadChannel {
 
         /**
          * 七牛云

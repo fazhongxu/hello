@@ -5,6 +5,8 @@ import android.os.Vibrator;
 
 import androidx.annotation.RequiresPermission;
 
+import com.xxl.kit.AppUtils;
+
 import static android.Manifest.permission.VIBRATE;
 
 /**

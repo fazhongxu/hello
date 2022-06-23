@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import com.hw.videoprocessor.VideoProcessor;
 import com.xxl.core.data.model.entity.MediaEntity;
 import com.xxl.core.rx.SchedulersProvider;
+import com.xxl.kit.AppUtils;
 
 import io.reactivex.rxjava3.core.Observable;
 

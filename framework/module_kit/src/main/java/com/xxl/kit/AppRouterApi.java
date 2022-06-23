@@ -1,11 +1,9 @@
-package com.xxl.core.data.router;
+package com.xxl.kit;
 
 import android.app.Activity;
 import android.content.Intent;
 
 import androidx.annotation.NonNull;
-
-import com.xxl.core.utils.RouterUtils;
 
 /**
  * app路由

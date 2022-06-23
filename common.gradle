@@ -53,6 +53,7 @@ dependencies {
     implementation deps.androidx.constraintlayout
 
     implementation deps.origin.core
+    implementation deps.origin.kit
     implementation deps.hello.service
     implementation deps.hello.common
     implementation deps.hello.router

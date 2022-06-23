@@ -14,6 +14,8 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import com.xxl.kit.AppUtils;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;

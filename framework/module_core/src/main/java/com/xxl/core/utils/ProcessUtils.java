@@ -28,6 +28,8 @@ import java.util.Set;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresPermission;
 
+import com.xxl.kit.AppUtils;
+
 import static android.Manifest.permission.KILL_BACKGROUND_PROCESSES;
 
 /**

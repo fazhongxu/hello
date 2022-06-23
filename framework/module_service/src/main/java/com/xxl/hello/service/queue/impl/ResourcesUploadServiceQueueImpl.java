@@ -6,7 +6,6 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.xxl.core.utils.ListUtils;
 import com.xxl.core.utils.ObjectUtils;
 import com.xxl.hello.service.ResourceProcessWrapper;
 import com.xxl.hello.service.data.local.db.entity.ResourcesUploadQueueDBEntity;
@@ -16,6 +15,7 @@ import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.hello.service.data.repository.api.ResourceRepositoryApi;
 import com.xxl.hello.service.process.OnResourcesUploadCallback;
 import com.xxl.hello.service.queue.api.ResourcesUploadServiceQueue;
+import com.xxl.kit.ListUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

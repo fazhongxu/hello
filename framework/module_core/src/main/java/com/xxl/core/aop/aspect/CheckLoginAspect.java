@@ -2,7 +2,7 @@ package com.xxl.core.aop.aspect;
 
 import com.xxl.core.aop.annotation.CheckLogin;
 import com.xxl.core.listener.IApplication;
-import com.xxl.core.utils.AppUtils;
+import com.xxl.kit.AppUtils;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;

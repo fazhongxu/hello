@@ -20,6 +20,8 @@ import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 
+import com.xxl.kit.AppUtils;
+
 import java.lang.reflect.Field;
 
 /**
@@ -39,7 +41,7 @@ public final class KeyboardUtils {
      * Show the soft input.
      */
     public static void showSoftInput() {
-        InputMethodManager imm = (InputMethodManager)AppUtils.getApplication().getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) AppUtils.getApplication().getSystemService(Context.INPUT_METHOD_SERVICE);
         if (imm == null) {
             return;
         }

@@ -1,9 +1,7 @@
 package com.xxl.core.utils;
 
 import android.os.Looper;
-import android.util.Log;
 
-import androidx.annotation.IntRange;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -13,6 +11,7 @@ import com.arthenica.mobileffmpeg.FFmpeg;
 import com.arthenica.mobileffmpeg.FFprobe;
 import com.arthenica.mobileffmpeg.MediaInformation;
 import com.xxl.core.listener.OnRequestCallBack;
+import com.xxl.kit.ListUtils;
 
 import java.util.List;
 import java.util.Locale;

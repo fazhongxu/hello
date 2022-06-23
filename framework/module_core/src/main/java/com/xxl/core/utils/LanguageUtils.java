@@ -11,6 +11,8 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.xxl.kit.AppUtils;
+
 import java.util.Locale;
 
 /**

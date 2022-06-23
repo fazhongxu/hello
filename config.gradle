@@ -232,6 +232,13 @@ if (versions.module_core_remote) {
     origin.core = project(':framework:module_core')
 }
 
+versions.module_kit_remote = false
+if (versions.module_kit_remote) {
+    origin.kit = "com.xxl.kit:kit:$versions.kit"
+} else {
+    origin.kit = project(':framework:module_kit')
+}
+
 def hello = [:]
 deps.hello = hello
 

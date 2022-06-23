@@ -10,7 +10,7 @@ import android.os.Build;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 
-import com.xxl.core.utils.ListUtils;
+import com.xxl.kit.ListUtils;
 
 import java.util.ArrayList;
 import java.util.List;

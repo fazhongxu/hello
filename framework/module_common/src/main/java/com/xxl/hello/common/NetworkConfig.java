@@ -1,8 +1,8 @@
 package com.xxl.hello.common;
 
 import com.xxl.core.utils.AppExpandUtils;
-import com.xxl.core.utils.AppUtils;
 import com.xxl.core.utils.CacheUtils;
+import com.xxl.kit.AppUtils;
 
 /**
  * @author xxl.

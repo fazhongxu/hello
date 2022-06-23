@@ -3,7 +3,7 @@ package com.xxl.hello.service.data.local.db.entity;
 import androidx.annotation.NonNull;
 
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi.MediaType;
-import com.xxl.hello.service.data.model.enums.SystemEnumsApi.ResoucesUploadChannel;
+import com.xxl.hello.service.data.model.enums.SystemEnumsApi.ResourcesUploadChannel;
 
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Index;
@@ -57,7 +57,7 @@ public class ResourcesUploadQueueDBEntity extends BaseDBEntity<ResourcesUploadQu
     /**
      * 上传渠道
      */
-    @ResoucesUploadChannel
+    @ResourcesUploadChannel
     @NameInDb("uploadChannel")
     private int uploadChannel;
 

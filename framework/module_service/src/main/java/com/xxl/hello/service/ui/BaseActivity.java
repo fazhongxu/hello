@@ -9,9 +9,9 @@ import androidx.databinding.Observable;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.kaopiz.kprogresshud.KProgressHUD;
-import com.xxl.core.listener.OnAppStatusChangedListener;
-import com.xxl.core.utils.AppUtils;
 import com.xxl.core.widget.swipebacklayout.SwipeBackActivity;
+import com.xxl.kit.AppUtils;
+import com.xxl.kit.OnAppStatusChangedListener;
 
 import javax.inject.Inject;
 

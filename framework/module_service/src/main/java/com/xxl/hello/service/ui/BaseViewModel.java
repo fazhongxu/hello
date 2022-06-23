@@ -13,8 +13,8 @@ import com.xxl.core.exception.ResponseException;
 import com.xxl.core.exception.ResponseListener;
 import com.xxl.core.manager.ExceptionServiceManager;
 import com.xxl.core.rx.SchedulersProvider;
-import com.xxl.core.utils.AppUtils;
 import com.xxl.core.utils.LogUtils;
+import com.xxl.kit.AppUtils;
 
 import io.reactivex.rxjava3.core.ObservableTransformer;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;

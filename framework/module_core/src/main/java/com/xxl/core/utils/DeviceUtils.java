@@ -16,6 +16,8 @@ import android.text.TextUtils;
 import androidx.annotation.RequiresApi;
 import androidx.annotation.RequiresPermission;
 
+import com.xxl.kit.AppUtils;
+
 import java.io.File;
 import java.net.InetAddress;
 import java.net.NetworkInterface;

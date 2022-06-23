@@ -18,6 +18,8 @@ import android.text.format.Formatter;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresPermission;
 
+import com.xxl.kit.AppUtils;
+
 import java.lang.reflect.Method;
 import java.net.InetAddress;
 import java.net.InterfaceAddress;
