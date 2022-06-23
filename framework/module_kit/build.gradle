@@ -1,4 +1,6 @@
 apply plugin: 'com.android.library'
+apply plugin: 'maven'
+apply plugin: 'android-aspectjx'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
@@ -37,59 +39,25 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+}
 
+uploadArchives {
+    repositories.mavenDeployer {
+        repository(url: origin_maven_config.url) {
+            authentication(userName: origin_maven_config.userName, password: origin_maven_config.password)
+        }
+        pom.version = versions.kit
+        pom.artifactId = "kit"
+        pom.groupId = "com.xxl.kit"
+    }
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
-    implementation deps.origin.core
 
-    implementation deps.androidx.appcompat
-    implementation deps.androidx.material
-    implementation deps.androidx.constraintlayout
-
-    implementation deps.okhttp.okhttp
-    implementation deps.okhttp.logging
-    implementation deps.retrofit.retrofit
-    implementation deps.retrofit.adapter
-    implementation deps.retrofit.converter
-
-    implementation deps.rxjava
-    implementation deps.rxandroid
-    implementation deps.rxpermission
-
-    implementation deps.luban
-    implementation deps.video_processor
-
-    implementation deps.kprogresshud
-
-    implementation deps.dagger.dagger
-    kapt deps.dagger.processor
-    implementation deps.dagger.android
-    implementation deps.dagger.android_support
-    kapt deps.dagger.android_processor
-
-    implementation deps.picture_selector
-
-    implementation deps.mmkv
-
-    implementation deps.evetbus
-
-    implementation deps.logger
-
-    implementation deps.arouter.arouter
-    kapt deps.arouter.arouter_processor
-
-//    implementation deps.mobile_ffmpeg
-
-    implementation deps.adapter_helper
-
-    compileOnly deps.flyco_round_view
-
-    compileOnly deps.tbs
 }
-

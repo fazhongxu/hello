@@ -27,6 +27,7 @@ versions.true_time = "3.5"
 
 versions.origin = "1.0.11"
 versions.core = "1.0.5"
+versions.kit = "1.0.0"
 versions.common = "1.0.0"
 versions.service = "1.0.0"
 versions.widget = "1.0.0"
