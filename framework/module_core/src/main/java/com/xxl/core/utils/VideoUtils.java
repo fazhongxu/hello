@@ -6,10 +6,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.hw.videoprocessor.VideoProcessor;
-import com.xxl.core.data.model.entity.MediaEntity;
 import com.xxl.core.rx.SchedulersProvider;
 import com.xxl.kit.AppUtils;
 import com.xxl.kit.LogUtils;
+import com.xxl.kit.MediaUtils;
 
 import io.reactivex.rxjava3.core.Observable;
 
@@ -33,7 +33,7 @@ public class VideoUtils {
     public static void compress(@NonNull final String inputVideoPath,
                                 @NonNull final String outputVideoPath,
                                 @NonNull final OnVideoProgressListener listener) {
-        final MediaEntity mediaInfo = MediaUtils.getMediaInfo(inputVideoPath);
+        final MediaUtils.MediaEntity mediaInfo = MediaUtils.getMediaInfo(inputVideoPath);
         compressObservable(inputVideoPath, outputVideoPath, listener)
                 .compose(SchedulersProvider.applySchedulers())
                 .subscribe(isSuccess -> {
@@ -113,7 +113,7 @@ public class VideoUtils {
                 @Override
                 public void onComplete(String videoPath) {
                     if (listener != null) {
-                        final MediaEntity mediaInfo = MediaUtils.getMediaInfo(videoPath);
+                        final MediaUtils.MediaEntity mediaInfo = MediaUtils.getMediaInfo(videoPath);
                         listener.onComplete(videoPath, mediaInfo.getWidth(), mediaInfo.getHeight());
                     }
                 }

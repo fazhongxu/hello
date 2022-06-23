@@ -18,7 +18,7 @@ import java.util.Locale;
  * @author xxl.
  * @date 2021/12/01.
  */
-public class LanguageUtils {
+public final class LanguageUtils {
 
     private static final String KEY_LOCALE = "KEY_LOCALE";
     private static final String VALUE_FOLLOW_SYSTEM = "VALUE_FOLLOW_SYSTEM";

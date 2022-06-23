@@ -15,7 +15,7 @@ import top.zibin.luban.OnCompressListener;
  * @Author: xxl
  * @Date: 2021/8/29 12:24 AM
  **/
-public class ImageUtils {
+public final class ImageUtils {
 
     /**
      * 图片压缩

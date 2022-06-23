@@ -16,7 +16,7 @@ import com.orhanobut.logger.PrettyFormatStrategy;
  * @author xxl.
  * @date 2021/7/23.
  */
-public class LogUtils {
+public final class LogUtils {
 
     //region: 成员变量
 

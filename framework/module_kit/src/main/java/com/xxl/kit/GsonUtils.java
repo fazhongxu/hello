@@ -19,7 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author xxl.
  * @date 2021/7/20.
  */
-public class GsonUtils {
+public final class GsonUtils {
 
     private static final Gson GSON = new Gson();
 

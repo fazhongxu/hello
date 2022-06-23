@@ -11,7 +11,7 @@ import java.util.List;
  * @date 2022/4/2.
  * reference https://blog.csdn.net/HUXU981598436/article/details/83821685
  */
-public class ListUtils {
+public final class ListUtils {
 
     /** default join separator **/
     public static final String DEFAULT_JOIN_SEPARATOR = ",";

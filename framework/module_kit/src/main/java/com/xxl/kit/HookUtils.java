@@ -12,7 +12,7 @@ import java.lang.reflect.Proxy;
 /**
  * reference https://dongdaima.com/article/60875
  */
-public class HookUtils {
+public final class HookUtils {
 
     private static WifiInfo cacheWifiInfo = null;
 

@@ -21,7 +21,7 @@ import java.util.IllegalFormatException;
  * @author xxl.
  * @date 2021/7/23.
  */
-public class StringUtils {
+public final class StringUtils {
 
     private StringUtils() {
 
