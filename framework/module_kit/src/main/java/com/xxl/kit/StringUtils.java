@@ -1,4 +1,4 @@
-package com.xxl.core.utils;
+package com.xxl.kit;
 
 import android.content.res.Resources;
 import android.text.Spannable;
@@ -14,8 +14,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.core.content.ContextCompat;
-
-import com.xxl.kit.AppUtils;
 
 import java.util.IllegalFormatException;
 

@@ -1,4 +1,4 @@
-package com.xxl.core.utils;
+package com.xxl.kit;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;

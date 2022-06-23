@@ -4,10 +4,9 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.xxl.core.utils.StringUtils;
+import com.xxl.kit.StringUtils;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

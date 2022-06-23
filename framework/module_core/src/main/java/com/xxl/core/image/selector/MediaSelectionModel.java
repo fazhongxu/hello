@@ -7,8 +7,8 @@ import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.tbruyelle.rxpermissions3.RxPermissions;
 import com.xxl.core.R;
-import com.xxl.core.utils.StringUtils;
-import com.xxl.core.utils.ToastUtils;
+import com.xxl.kit.StringUtils;
+import com.xxl.kit.ToastUtils;
 
 import io.reactivex.rxjava3.disposables.Disposable;
 

@@ -14,7 +14,7 @@ import android.view.WindowManager;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.xxl.core.utils.ColorUtils;
+import com.xxl.kit.ColorUtils;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;

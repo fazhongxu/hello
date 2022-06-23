@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.xxl.core.utils;
+package com.xxl.kit;
 
 import androidx.annotation.ColorInt;
 

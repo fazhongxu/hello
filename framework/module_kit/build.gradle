@@ -61,4 +61,7 @@ dependencies {
     
     compileOnly deps.arouter.arouter
     kapt deps.arouter.arouter_processor
+
+    compileOnly deps.true_time.true_time
+    compileOnly deps.true_time.true_time_extension
 }

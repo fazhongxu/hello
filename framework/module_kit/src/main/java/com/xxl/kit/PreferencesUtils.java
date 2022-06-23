@@ -1,12 +1,10 @@
-package com.xxl.core.utils;
+package com.xxl.kit;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 
 import androidx.annotation.NonNull;
-
-import com.xxl.kit.AppUtils;
 
 import java.util.Collections;
 import java.util.HashMap;

@@ -10,8 +10,8 @@ import android.widget.FrameLayout;
 import androidx.annotation.Nullable;
 
 import com.xxl.core.R;
-import com.xxl.core.utils.DisplayUtils;
-import com.xxl.core.utils.StatusBarUtil;
+import com.xxl.kit.DisplayUtils;
+import com.xxl.kit.StatusBarUtil;
 
 /**
  * @author xxl

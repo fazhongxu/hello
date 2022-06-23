@@ -1,5 +1,7 @@
 package com.xxl.core.utils;
 
+import com.xxl.kit.FileUtils;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;

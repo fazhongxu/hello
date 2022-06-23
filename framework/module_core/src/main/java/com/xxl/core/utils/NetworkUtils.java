@@ -19,6 +19,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresPermission;
 
 import com.xxl.kit.AppUtils;
+import com.xxl.kit.ShellUtils;
+import com.xxl.kit.ThreadUtils;
+import com.xxl.kit.Utils;
 
 import java.lang.reflect.Method;
 import java.net.InetAddress;

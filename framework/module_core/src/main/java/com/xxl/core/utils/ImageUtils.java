@@ -6,6 +6,8 @@ import androidx.annotation.NonNull;
 
 import com.xxl.core.R;
 import com.xxl.kit.AppUtils;
+import com.xxl.kit.FileUtils;
+import com.xxl.kit.StringUtils;
 
 import java.io.File;
 

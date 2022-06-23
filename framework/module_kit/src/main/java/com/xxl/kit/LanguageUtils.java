@@ -1,4 +1,4 @@
-package com.xxl.core.utils;
+package com.xxl.kit;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,8 +10,6 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
-import com.xxl.kit.AppUtils;
 
 import java.util.Locale;
 

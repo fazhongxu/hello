@@ -6,7 +6,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.xxl.core.utils.ObjectUtils;
+import com.xxl.kit.ObjectUtils;
 import com.xxl.hello.service.ResourceProcessWrapper;
 import com.xxl.hello.service.data.local.db.entity.ResourcesUploadQueueDBEntity;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi.ServiceQueueRunningStatus;

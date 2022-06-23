@@ -1,5 +1,5 @@
 
-package com.xxl.core.utils;
+package com.xxl.kit;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -15,6 +15,7 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 
 import com.xxl.kit.AppUtils;
+import com.xxl.kit.StringUtils;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;

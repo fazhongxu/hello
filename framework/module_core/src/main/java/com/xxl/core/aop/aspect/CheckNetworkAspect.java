@@ -5,9 +5,9 @@ import android.annotation.SuppressLint;
 import com.xxl.core.R;
 import com.xxl.core.aop.annotation.CheckNetwork;
 import com.xxl.core.utils.NetworkUtils;
-import com.xxl.core.utils.StringUtils;
-import com.xxl.core.utils.ToastUtils;
-import com.xxl.core.utils.Utils;
+import com.xxl.kit.StringUtils;
+import com.xxl.kit.ToastUtils;
+import com.xxl.kit.Utils;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;

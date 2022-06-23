@@ -6,7 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.xxl.core.utils.LogUtils;
-import com.xxl.core.utils.ToastUtils;
+import com.xxl.kit.ToastUtils;
 import com.xxl.hello.service.qunlifier.ForUserBaseUrl;
 
 import javax.inject.Inject;

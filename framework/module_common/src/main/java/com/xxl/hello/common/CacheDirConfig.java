@@ -1,6 +1,6 @@
 package com.xxl.hello.common;
 
-import com.xxl.core.utils.PathUtils;
+import com.xxl.kit.PathUtils;
 
 import java.io.File;
 

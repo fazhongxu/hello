@@ -4,8 +4,8 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 
-import com.xxl.core.utils.FileUtils;
-import com.xxl.core.utils.TimeUtils;
+import com.xxl.kit.FileUtils;
+import com.xxl.kit.TimeUtils;
 import com.xxl.core.utils.VideoUtils;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi.MediaType;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;

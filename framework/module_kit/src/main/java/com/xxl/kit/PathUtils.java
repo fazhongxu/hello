@@ -1,4 +1,4 @@
-package com.xxl.core.utils;
+package com.xxl.kit;
 
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -17,8 +17,6 @@ import android.text.TextUtils;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.content.FileProvider;
-
-import com.xxl.kit.AppUtils;
 
 import java.io.File;
 import java.io.IOException;

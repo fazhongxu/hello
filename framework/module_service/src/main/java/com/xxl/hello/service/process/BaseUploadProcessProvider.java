@@ -5,8 +5,8 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 
 import com.xxl.core.exception.ResponseCode;
-import com.xxl.core.utils.FileUtils;
-import com.xxl.core.utils.StringUtils;
+import com.xxl.kit.FileUtils;
+import com.xxl.kit.StringUtils;
 import com.xxl.hello.common.CacheDirConfig;
 import com.xxl.hello.service.R;
 import com.xxl.hello.service.data.local.db.entity.ResourcesUploadQueueDBEntity;

@@ -2,6 +2,8 @@ package com.xxl.core.utils;
 
 import android.util.Log;
 
+import com.xxl.kit.FileUtils;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;

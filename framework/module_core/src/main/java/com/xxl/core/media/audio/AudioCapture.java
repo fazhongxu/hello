@@ -11,9 +11,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.xxl.core.utils.FFmpegUtils;
-import com.xxl.core.utils.FileUtils;
+import com.xxl.kit.FileUtils;
 import com.xxl.core.utils.LogUtils;
-import com.xxl.core.utils.TimeUtils;
+import com.xxl.kit.TimeUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;

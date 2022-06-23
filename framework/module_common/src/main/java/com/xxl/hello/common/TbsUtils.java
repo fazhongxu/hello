@@ -15,7 +15,7 @@ import com.tencent.smtt.sdk.TbsListener;
 import com.tencent.smtt.sdk.TbsReaderView;
 import com.xxl.core.listener.OnRequestCallBack;
 import com.xxl.core.utils.DownloadUtil;
-import com.xxl.core.utils.FileUtils;
+import com.xxl.kit.FileUtils;
 import com.xxl.core.utils.LogUtils;
 
 import java.io.File;

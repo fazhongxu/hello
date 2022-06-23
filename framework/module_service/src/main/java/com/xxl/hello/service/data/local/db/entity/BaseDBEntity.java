@@ -1,6 +1,6 @@
 package com.xxl.hello.service.data.local.db.entity;
 
-import com.xxl.core.utils.TimeUtils;
+import com.xxl.kit.TimeUtils;
 
 import io.objectbox.annotation.BaseEntity;
 import io.objectbox.annotation.Id;

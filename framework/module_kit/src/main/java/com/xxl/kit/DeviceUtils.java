@@ -1,4 +1,4 @@
-package com.xxl.core.utils;
+package com.xxl.kit;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -15,8 +15,6 @@ import android.text.TextUtils;
 
 import androidx.annotation.RequiresApi;
 import androidx.annotation.RequiresPermission;
-
-import com.xxl.kit.AppUtils;
 
 import java.io.File;
 import java.net.InetAddress;

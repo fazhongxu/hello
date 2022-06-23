@@ -7,6 +7,8 @@ import androidx.annotation.RawRes;
 import androidx.core.content.ContextCompat;
 
 import com.xxl.kit.AppUtils;
+import com.xxl.kit.FileUtils;
+import com.xxl.kit.StringUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
