@@ -24,7 +24,6 @@ import com.xxl.core.utils.AppExpandUtils;
 import com.xxl.core.utils.AppUtils;
 import com.xxl.core.utils.DisplayUtils;
 import com.xxl.core.utils.FFmpegUtils;
-import com.xxl.core.utils.ListUtils;
 import com.xxl.core.utils.LogUtils;
 import com.xxl.core.utils.StatusBarUtil;
 import com.xxl.core.utils.TestUtils;
@@ -44,8 +43,6 @@ import com.xxl.hello.widget.record.RecordButton;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 import javax.inject.Inject;
 

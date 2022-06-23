@@ -189,6 +189,29 @@ public class ResourcesUploadServiceQueueImpl extends BaseServiceQueueImpl implem
         }
     }
 
+    /**
+     * 处理上传成功
+     *
+     * @param targetUploadQueueDBEntity
+     */
+    private void handlerUploadSuccess(@NonNull final ResourcesUploadQueueDBEntity targetUploadQueueDBEntity) {
+        synchronized (this) {
+            // TODO:2022/6/23 设置标致为等待提交，存入数据库 ，发送事件通知提交队列处理，开始下一条
+        }
+    }
+
+    /**
+     * 处理上传失败
+     *
+     * @param targetUploadQueueDBEntity
+     */
+    private void handlerUploadFailure(@NonNull final ResourcesUploadQueueDBEntity targetUploadQueueDBEntity) {
+        synchronized (this) {
+            // TODO: 2022/6/23 设置标致为上传失败，存入数据库，存入失败原因，开始下一条
+        }
+    }
+
+
     private void pollingUploadTask(@NonNull final ResourcesUploadQueueDBEntity targetUploadQueueDBEntity) {
         synchronized (this) {
             mExecutingResourceMap.remove(targetUploadQueueDBEntity);
@@ -220,7 +243,7 @@ public class ResourcesUploadServiceQueueImpl extends BaseServiceQueueImpl implem
         Log.e("aa", "onEventMainThread: " + ListUtils.getSize(targetResourcesUploadQueueDBEntities));
         if (isIdleStatus()) {
             checkService();
-        }else {
+        } else {
             startService();
         }
     }
