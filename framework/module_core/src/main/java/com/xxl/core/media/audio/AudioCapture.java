@@ -3,6 +3,7 @@ package com.xxl.core.media.audio;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.text.TextUtils;
@@ -51,6 +52,12 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
     private Handler mHandler = new Handler();
 
     /**
+     * 倒计时
+     * // TODO: 2022/6/23 处理倒计时 
+     */
+    private CountDownTimer mCountDoanTimmer;
+
+    /**
      * 录制状态
      */
     @AudioRecordState
@@ -87,12 +94,17 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
     @AudioRecordFormat
     private int mAudioRecordFormat = AudioRecordFormat.AAC;
 
+    /**
+     * 录音最大时长
+     */
+    private long mMaxDuration = Integer.MAX_VALUE;
+
     //endregion
 
     //region: 构造函数
 
     private AudioCapture() {
-
+        
     }
 
     public final static AudioCapture getInstance() {
@@ -133,6 +145,17 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
      */
     public AudioCapture setAudioRecordFormat(@AudioRecordFormat int audioRecordFormat) {
         this.mAudioRecordFormat = audioRecordFormat;
+        return this;
+    }
+
+    /**
+     * 设置最大录制时长
+     *
+     * @param maxDuration
+     * @return
+     */
+    public AudioCapture setMaxDuration(final long maxDuration) {
+        this.mMaxDuration = maxDuration;
         return this;
     }
 
@@ -203,6 +226,9 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
             return false;
         }
 
+        mCountDoanTimmer = new RecordCountDownTimer(mMaxDuration,1000);
+        mCountDoanTimmer.start();
+        
         mAudioRecord.startRecording();
 
         mIsLoopExit = false;
@@ -377,6 +403,27 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
     }
 
     //endregion
+    
+    //region: Inner Class RecordCountDownTimer
+    
+    private class RecordCountDownTimer extends CountDownTimer {
+
+        public RecordCountDownTimer(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+        }
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+            
+        }
+
+        @Override
+        public void onFinish() {
+
+        }
+    }
+    
+    //endregion
 
     //region: Inner Class AudioCaptureRunnable
 
@@ -480,7 +527,7 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
          *
          * @param audioFile 音频文件
          */
-        default void onCompleteRecord(@NonNull final File audioFile){
+        default void onCompleteRecord(@NonNull final File audioFile) {
 
         }
 
@@ -496,7 +543,7 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
          *
          * @param throwable
          */
-        default void onRecordError(@NonNull final Throwable throwable){
+        default void onRecordError(@NonNull final Throwable throwable) {
 
         }
 
@@ -511,4 +558,5 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
     }
 
     //endregion
+    
 }
