@@ -6,6 +6,7 @@ import androidx.annotation.CallSuper;
 import androidx.multidex.MultiDex;
 
 import com.xxl.core.utils.AppUtils;
+import com.xxl.core.utils.ProcessUtils;
 import com.xxl.core.utils.RouterUtils;
 
 import dagger.android.DaggerApplication;
@@ -14,13 +15,14 @@ import dagger.android.DaggerApplication;
  * @author xxl.
  * @date 2021/7/20.
  */
-public abstract class BaseApplication extends DaggerApplication{
+public abstract class BaseApplication extends DaggerApplication {
 
     //region: 页面生命周期
 
     @Override
     public void onCreate() {
         super.onCreate();
+        AppUtils.init(this, new ActivityLifecycleImpl());
         init();
     }
 
@@ -34,7 +36,9 @@ public abstract class BaseApplication extends DaggerApplication{
      * 初始化
      */
     private void init() {
-        initPlugins();
+        if (isMainProcess()) {
+            initPlugins();
+        }
         if (isAgreePrivacyPolicy()) {
             initPluginsAfterAgreePrivacyPolicy();
         }
@@ -45,7 +49,6 @@ public abstract class BaseApplication extends DaggerApplication{
      */
     @CallSuper
     protected void initPlugins() {
-        AppUtils.init(this, new ActivityLifecycleImpl());
         RouterUtils.init(this, isDebug());
     }
 
@@ -87,6 +90,19 @@ public abstract class BaseApplication extends DaggerApplication{
      * @return
      */
     public abstract boolean isNetworkDebug();
+
+    //endregion
+
+    //region: 内部辅助方法
+
+    /**
+     * 判断是否是主进程
+     *
+     * @return
+     */
+    protected boolean isMainProcess() {
+        return ProcessUtils.isMainProcess();
+    }
 
     //endregion
 
