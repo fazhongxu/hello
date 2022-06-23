@@ -14,7 +14,7 @@ import com.xxl.core.image.selector.MediaSelectorApp;
 import com.xxl.core.image.selector.PictureSelectorEngineImpl;
 import com.xxl.core.listener.IApplication;
 import com.xxl.core.utils.CacheUtils;
-import com.xxl.core.utils.LogUtils;
+import com.xxl.kit.LogUtils;
 import com.xxl.kit.StringUtils;
 import com.xxl.kit.TimeUtils;
 import com.xxl.core.widget.swipebacklayout.SwipeBackActivityManager;

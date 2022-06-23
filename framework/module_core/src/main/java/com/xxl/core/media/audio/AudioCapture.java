@@ -10,9 +10,9 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.xxl.core.utils.FFmpegUtils;
+import com.xxl.kit.FFmpegUtils;
 import com.xxl.kit.FileUtils;
-import com.xxl.core.utils.LogUtils;
+import com.xxl.kit.LogUtils;
 import com.xxl.kit.TimeUtils;
 
 import java.io.File;

@@ -2,7 +2,7 @@ package com.xxl.hello.service.data.local.db.impl.objectbox;
 
 import androidx.annotation.NonNull;
 
-import com.xxl.core.utils.GsonUtils;
+import com.xxl.kit.GsonUtils;
 import com.xxl.hello.service.data.local.db.api.CacheDBDataService;
 import com.xxl.hello.service.data.local.db.entity.CacheDBEntity;
 import com.xxl.hello.service.data.local.db.entity.CacheDBEntity_;

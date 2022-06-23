@@ -4,7 +4,7 @@ import android.annotation.SuppressLint;
 
 import com.xxl.core.R;
 import com.xxl.core.aop.annotation.CheckNetwork;
-import com.xxl.core.utils.NetworkUtils;
+import com.xxl.kit.NetworkUtils;
 import com.xxl.kit.StringUtils;
 import com.xxl.kit.ToastUtils;
 import com.xxl.kit.Utils;

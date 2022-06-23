@@ -1,8 +1,6 @@
-package com.xxl.core.listener;
+package com.xxl.kit;
 
 import androidx.annotation.Nullable;
-
-import com.xxl.core.manager.ExceptionServiceManager;
 
 /**
  * 通用接口回调

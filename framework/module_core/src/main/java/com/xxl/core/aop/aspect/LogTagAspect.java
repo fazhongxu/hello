@@ -3,7 +3,7 @@ package com.xxl.core.aop.aspect;
 import android.text.TextUtils;
 
 import com.xxl.core.aop.annotation.LogTag;
-import com.xxl.core.utils.LogUtils;
+import com.xxl.kit.LogUtils;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;

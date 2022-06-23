@@ -5,6 +5,7 @@ import android.media.MediaMetadataRetriever;
 import androidx.annotation.NonNull;
 
 import com.xxl.core.data.model.entity.MediaEntity;
+import com.xxl.kit.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;

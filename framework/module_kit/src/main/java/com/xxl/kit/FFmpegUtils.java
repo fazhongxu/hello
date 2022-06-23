@@ -1,4 +1,4 @@
-package com.xxl.core.utils;
+package com.xxl.kit;
 
 import android.os.Looper;
 
@@ -10,8 +10,6 @@ import com.arthenica.mobileffmpeg.ExecuteCallback;
 import com.arthenica.mobileffmpeg.FFmpeg;
 import com.arthenica.mobileffmpeg.FFprobe;
 import com.arthenica.mobileffmpeg.MediaInformation;
-import com.xxl.core.listener.OnRequestCallBack;
-import com.xxl.kit.ListUtils;
 
 import java.util.List;
 import java.util.Locale;

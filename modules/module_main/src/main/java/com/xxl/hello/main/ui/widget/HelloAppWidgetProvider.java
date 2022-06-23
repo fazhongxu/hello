@@ -5,7 +5,7 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 
-import com.xxl.core.utils.LogUtils;
+import com.xxl.kit.LogUtils;
 import com.xxl.kit.ToastUtils;
 import com.xxl.hello.service.qunlifier.ForUserBaseUrl;
 

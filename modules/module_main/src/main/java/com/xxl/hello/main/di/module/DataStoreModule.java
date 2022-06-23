@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 
 import com.xxl.hello.common.NetworkConfig;
 import com.xxl.core.data.remote.ApiHeader;
-import com.xxl.core.utils.LogUtils;
+import com.xxl.kit.LogUtils;
 import com.xxl.hello.service.data.local.db.impl.objectbox.ObjectBoxDataStoreModel;
 import com.xxl.hello.service.data.local.prefs.api.UserPreferences;
 import com.xxl.hello.service.di.module.ServiceDataStoreModule;
@@ -18,10 +18,6 @@ import com.xxl.hello.service.qunlifier.ForUserBaseUrl;
 import com.xxl.hello.service.qunlifier.ForUserPreference;
 import com.xxl.hello.service.qunlifier.ForUserRetrofit;
 import com.xxl.hello.user.di.module.UserDataStoreModule;
-
-import org.xmlpull.v1.XmlPullParserFactory;
-
-import java.io.StringReader;
 
 import javax.inject.Singleton;
 

@@ -1,4 +1,4 @@
-package com.xxl.core.utils;
+package com.xxl.kit;
 
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
@@ -17,11 +17,6 @@ import android.text.format.Formatter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresPermission;
-
-import com.xxl.kit.AppUtils;
-import com.xxl.kit.ShellUtils;
-import com.xxl.kit.ThreadUtils;
-import com.xxl.kit.Utils;
 
 import java.lang.reflect.Method;
 import java.net.InetAddress;

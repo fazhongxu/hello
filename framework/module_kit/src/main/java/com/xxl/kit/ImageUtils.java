@@ -1,13 +1,8 @@
-package com.xxl.core.utils;
+package com.xxl.kit;
 
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
-
-import com.xxl.core.R;
-import com.xxl.kit.AppUtils;
-import com.xxl.kit.FileUtils;
-import com.xxl.kit.StringUtils;
 
 import java.io.File;
 

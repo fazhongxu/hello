@@ -1,6 +1,6 @@
 package com.xxl.core.listener;
 
-import com.xxl.core.manager.ExceptionServiceManager;
+import com.xxl.kit.ExceptionServiceManager;
 
 /**
  * @Description 资源压缩回调监听

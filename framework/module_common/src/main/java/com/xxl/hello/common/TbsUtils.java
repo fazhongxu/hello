@@ -13,10 +13,10 @@ import com.tencent.smtt.sdk.QbSdk;
 import com.tencent.smtt.sdk.TbsDownloader;
 import com.tencent.smtt.sdk.TbsListener;
 import com.tencent.smtt.sdk.TbsReaderView;
-import com.xxl.core.listener.OnRequestCallBack;
-import com.xxl.core.utils.DownloadUtil;
+import com.xxl.kit.OnRequestCallBack;
+import com.xxl.kit.DownloadUtil;
 import com.xxl.kit.FileUtils;
-import com.xxl.core.utils.LogUtils;
+import com.xxl.kit.LogUtils;
 
 import java.io.File;
 

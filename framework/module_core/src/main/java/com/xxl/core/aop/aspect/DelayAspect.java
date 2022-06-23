@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment;
 
 import com.xxl.core.aop.annotation.Delay;
 import com.xxl.core.rx.SchedulersProvider;
-import com.xxl.core.utils.LogUtils;
+import com.xxl.kit.LogUtils;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;

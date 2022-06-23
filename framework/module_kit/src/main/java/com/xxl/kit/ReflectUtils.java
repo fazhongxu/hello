@@ -1,4 +1,4 @@
-package com.xxl.core.utils;
+package com.xxl.kit;
 
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Constructor;

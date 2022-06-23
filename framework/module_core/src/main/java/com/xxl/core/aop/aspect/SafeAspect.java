@@ -3,8 +3,8 @@ package com.xxl.core.aop.aspect;
 import android.text.TextUtils;
 
 import com.xxl.core.aop.annotation.Safe;
-import com.xxl.core.utils.LogUtils;
-import com.xxl.core.utils.ReflectUtils;
+import com.xxl.kit.LogUtils;
+import com.xxl.kit.ReflectUtils;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;

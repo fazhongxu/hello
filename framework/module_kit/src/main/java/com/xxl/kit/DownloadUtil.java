@@ -1,6 +1,4 @@
-package com.xxl.core.utils;
-
-import com.xxl.kit.FileUtils;
+package com.xxl.kit;
 
 import java.io.File;
 import java.io.FileOutputStream;

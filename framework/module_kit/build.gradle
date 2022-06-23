@@ -58,10 +58,20 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    
-    compileOnly deps.arouter.arouter
-    kapt deps.arouter.arouter_processor
+
+    compileOnly deps.gson
+    compileOnly deps.logger
 
     compileOnly deps.true_time.true_time
     compileOnly deps.true_time.true_time_extension
+
+    compileOnly deps.okhttp.okhttp
+    compileOnly deps.okhttp.logging
+
+    compileOnly deps.arouter.arouter
+    kapt deps.arouter.arouter_processor
+
+    compileOnly deps.mobile_ffmpeg
+
+    compileOnly deps.luban
 }

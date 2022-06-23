@@ -1,4 +1,4 @@
-package com.xxl.core.utils;
+package com.xxl.kit;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;

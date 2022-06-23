@@ -6,7 +6,7 @@ import androidx.annotation.CallSuper;
 import androidx.multidex.MultiDex;
 
 import com.xxl.kit.AppUtils;
-import com.xxl.core.utils.ProcessUtils;
+import com.xxl.kit.ProcessUtils;
 import com.xxl.kit.RouterUtils;
 
 import dagger.android.DaggerApplication;

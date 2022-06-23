@@ -1,4 +1,4 @@
-package com.xxl.core.utils;
+package com.xxl.kit;
 
 import android.annotation.SuppressLint;
 import android.app.Notification;

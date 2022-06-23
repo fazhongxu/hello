@@ -4,7 +4,7 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 
-import com.xxl.core.utils.ImageUtils;
+import com.xxl.kit.ImageUtils;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi.MediaType;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.hello.service.process.BaseUploadProcessProvider;
