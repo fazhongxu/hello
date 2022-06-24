@@ -36,6 +36,7 @@ import com.xxl.kit.AppUtils;
 import com.xxl.kit.DisplayUtils;
 import com.xxl.kit.FFmpegUtils;
 import com.xxl.kit.LogUtils;
+import com.xxl.kit.MediaUtils;
 import com.xxl.kit.OnAppStatusChangedListener;
 import com.xxl.kit.StatusBarUtil;
 import com.xxl.kit.TimeUtils;
@@ -246,7 +247,8 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
      */
     @Override
     public void onCompleteRecord(@NonNull final File audioFile) {
-        LogUtils.d("音频文件-->" + audioFile.getAbsolutePath());
+        MediaUtils.MediaEntity mediaInfo = MediaUtils.getMediaInfo(audioFile.getAbsolutePath());
+        LogUtils.d("音频文件-->" + audioFile.getAbsolutePath()+"--"+mediaInfo.getDuration());
         mViewDataBinding.tvTest.setText(getString(R.string.core_start_record_audio_text));
 
         String audio = CacheDirConfig.SHARE_FILE_DIR + File.separator + "1.mp3";

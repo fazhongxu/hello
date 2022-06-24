@@ -53,9 +53,8 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
 
     /**
      * 倒计时
-     * // TODO: 2022/6/23 处理倒计时 
      */
-    private CountDownTimer mCountDoanTimmer;
+    private CountDownTimer mCountDoanTimer;
 
     /**
      * 录制状态
@@ -95,16 +94,16 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
     private int mAudioRecordFormat = AudioRecordFormat.AAC;
 
     /**
-     * 录音最大时长
+     * 录音最大时长，默认不限制
      */
-    private long mMaxDuration = Integer.MAX_VALUE;
+    private long mMaxDuration = -1;
 
     //endregion
 
     //region: 构造函数
 
     private AudioCapture() {
-        
+
     }
 
     public final static AudioCapture getInstance() {
@@ -226,14 +225,23 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
             return false;
         }
 
-        mCountDoanTimmer = new RecordCountDownTimer(mMaxDuration,1000);
-        mCountDoanTimmer.start();
-        
+        if (mCountDoanTimer != null) {
+            mCountDoanTimer.cancel();
+        }
+
+        if (mMaxDuration > 0) {
+            mCountDoanTimer = new RecordCountDownTimer(mMaxDuration, 5);
+        }
+
         mAudioRecord.startRecording();
 
         mIsLoopExit = false;
         mCaptureThread = new Thread(new AudioCaptureRunnable());
         mCaptureThread.start();
+
+        if (mCountDoanTimer != null) {
+            mCountDoanTimer.start();
+        }
 
         mIsCaptureStarted = true;
         mIsCancel = false;
@@ -312,6 +320,9 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
             mAudioRecord.stop();
             mAudioRecord.release();
             mHandler.removeCallbacksAndMessages(null);
+            if (mCountDoanTimer != null) {
+                mCountDoanTimer.cancel();
+            }
         } catch (Throwable e) {
             LogUtils.e(TAG, "AudioRecord release");
         }
@@ -403,9 +414,9 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
     }
 
     //endregion
-    
+
     //region: Inner Class RecordCountDownTimer
-    
+
     private class RecordCountDownTimer extends CountDownTimer {
 
         public RecordCountDownTimer(long millisInFuture, long countDownInterval) {
@@ -414,15 +425,17 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
 
         @Override
         public void onTick(long millisUntilFinished) {
-            
+
         }
 
         @Override
         public void onFinish() {
-
+            if (isCaptureStarted() || !mIsLoopExit) {
+                stopCapture();
+            }
         }
     }
-    
+
     //endregion
 
     //region: Inner Class AudioCaptureRunnable
@@ -558,5 +571,5 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
     }
 
     //endregion
-    
+
 }
