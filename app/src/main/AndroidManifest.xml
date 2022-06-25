@@ -10,7 +10,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
 
-    <uses-sdk tools:overrideLibrary="com.arthenica.mobileffmpeg,com.hw.videoprocessor"/>
+    <uses-sdk tools:overrideLibrary="com.arthenica.mobileffmpeg,com.arthenica.ffmpegkit,com.hw.videoprocessor"/>
 
     <application
         android:name="com.xxl.hello.main.HelloApplication"

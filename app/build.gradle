@@ -135,7 +135,7 @@ dependencies {
     implementation deps.arouter.arouter
     kapt deps.arouter.arouter_processor
 
-    implementation deps.mobile_ffmpeg
+    implementation deps.ffmpeg_kit
 
     implementation deps.dkplayer.dkplayer
     implementation deps.dkplayer.dkplayer_ijk

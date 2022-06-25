@@ -61,7 +61,7 @@ versions.picture_selector = "v2.6.1"
 
 versions.kprogresshud = "1.2.0"
 
-versions.mobile_ffmpeg = "4.4"
+versions.ffmpeg_kit = "4.5.1-1"
 
 versions.adapter_helper = "3.0.4"
 versions.base_popup = "3.2.0"
@@ -184,13 +184,13 @@ arouter.arouter = "com.alibaba:arouter-api:$versions.arouter"
 arouter.arouter_processor = "com.alibaba:arouter-compiler:$versions.arouter"
 deps.arouter = arouter
 
-// mobile_ffmpeg [https://github.com/tanersener/mobile-ffmpeg]
-versions.mobile_ffmpeg_remote = false
-
-if (versions.mobile_ffmpeg_remote) {
-    deps.mobile_ffmpeg = "com.arthenica:mobile-ffmpeg-full:$versions.mobile_ffmpeg"
+// ffmpeg_kit [https://github.com/tanersener/ffmpeg-kit]
+versions.ffmpeg_kit_remote = true
+if (versions.ffmpeg_kit_remote) {
+    deps.ffmpeg_kit = "com.arthenica:ffmpeg-kit-full-gpl:$versions.ffmpeg_kit"
 } else {
-    deps.mobile_ffmpeg = project(':module_libs:lib_ffmpeg')
+    // TODO: 2022/6/24
+    deps.ffmpeg_kit = project(':module_libs:lib_ffmpeg')
 }
 
 // BaseRecyclerViewAdapterHelper [https://github.com/CymChad/BaseRecyclerViewAdapterHelper]

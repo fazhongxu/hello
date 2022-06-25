@@ -54,7 +54,7 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
     /**
      * 倒计时
      */
-    private CountDownTimer mCountDoanTimer;
+    private CountDownTimer mCountDownTimer;
 
     /**
      * 录制状态
@@ -225,12 +225,12 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
             return false;
         }
 
-        if (mCountDoanTimer != null) {
-            mCountDoanTimer.cancel();
+        if (mCountDownTimer != null) {
+            mCountDownTimer.cancel();
         }
 
         if (mMaxDuration > 0) {
-            mCountDoanTimer = new RecordCountDownTimer(mMaxDuration, 5);
+            mCountDownTimer = new RecordCountDownTimer(mMaxDuration, 5);
         }
 
         mAudioRecord.startRecording();
@@ -239,8 +239,8 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
         mCaptureThread = new Thread(new AudioCaptureRunnable());
         mCaptureThread.start();
 
-        if (mCountDoanTimer != null) {
-            mCountDoanTimer.start();
+        if (mCountDownTimer != null) {
+            mCountDownTimer.start();
         }
 
         mIsCaptureStarted = true;
@@ -320,8 +320,8 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
             mAudioRecord.stop();
             mAudioRecord.release();
             mHandler.removeCallbacksAndMessages(null);
-            if (mCountDoanTimer != null) {
-                mCountDoanTimer.cancel();
+            if (mCountDownTimer != null) {
+                mCountDownTimer.cancel();
             }
         } catch (Throwable e) {
             LogUtils.e(TAG, "AudioRecord release");

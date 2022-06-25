@@ -2,7 +2,11 @@ package com.xxl.hello.main.ui.main;
 
 import android.Manifest;
 import android.app.Activity;
+import android.os.Build;
+import android.text.Html;
+import android.text.Spanned;
 import android.util.Log;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -204,9 +208,18 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
     @CheckNetwork
     @Delay(delay = 200)
     @Override
-    @Async
+//    @Async
     public void onTestClick() {
-        AppRouterApi.navigationToLogin();
+        // TODO: 2022/6/24  
+//        AppRouterApi.navigationToLogin();
+        String inputVideo = CacheDirConfig.SHARE_FILE_DIR + File.separator + "1.mp4";
+        String outputVideo = CacheDirConfig.SHARE_FILE_DIR + File.separator + "2.mp4";
+//        FFmpegUtils.removeVideoWatermark(inputVideo,outputVideo);
+
+
+//        String string = "<span style ='text-decoration:underline;'>这将加下划线</span>";
+
+
     }
 
     /**
@@ -258,8 +271,8 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
         new Thread() {
             @Override
             public void run() {
-                FFmpegUtils.adjustVolumeSub5db(audio, audio1);
-                FFmpegUtils.addBackgroundMusic(audioFile.getAbsolutePath(), audio1, audio2);
+//                FFmpegUtils.adjustVolumeSub5db(audio, audio1);
+//                FFmpegUtils.addBackgroundMusic(audioFile.getAbsolutePath(), audio1, audio2);
             }
         }.start();
     }
@@ -313,7 +326,8 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
         mViewDataBinding.recordBtn.setOnClickListener(v -> {
             final RxPermissions rxPermissions = new RxPermissions(this);
             Disposable disposable = rxPermissions.request(Manifest.permission.RECORD_AUDIO,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.CAPTURE_AUDIO_OUTPUT)
                     .subscribe(isSuccess -> {
                         if (isSuccess) {
                             if (recordButton.isRunning()) {

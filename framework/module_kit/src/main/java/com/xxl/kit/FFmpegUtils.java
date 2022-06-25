@@ -5,17 +5,19 @@ import android.os.Looper;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.arthenica.mobileffmpeg.Config;
-import com.arthenica.mobileffmpeg.ExecuteCallback;
-import com.arthenica.mobileffmpeg.FFmpeg;
-import com.arthenica.mobileffmpeg.FFprobe;
-import com.arthenica.mobileffmpeg.MediaInformation;
+import com.arthenica.ffmpegkit.FFmpegKit;
+import com.arthenica.ffmpegkit.FFmpegSession;
+import com.arthenica.ffmpegkit.FFmpegSessionCompleteCallback;
+import com.arthenica.ffmpegkit.FFprobeKit;
+import com.arthenica.ffmpegkit.MediaInformation;
+import com.arthenica.ffmpegkit.ReturnCode;
 
 import java.util.List;
 import java.util.Locale;
 
 /**
  * <pre>
+ *   https://github.com/tanersener/ffmpeg-kit
  *   reference
  *   https://www.ruanyifeng.com/blog/2020/01/ffmpeg.html
  *   https://www.zhihu.com/question/300182407
@@ -25,7 +27,6 @@ import java.util.Locale;
  * @date 2021/11/12.
  */
 public class FFmpegUtils {
-
 
     private FFmpegUtils() {
         throw new UnsupportedOperationException("u can't instantiate me...");
@@ -41,7 +42,7 @@ public class FFmpegUtils {
         if (Thread.currentThread() == Looper.getMainLooper().getThread()) {
             return null;
         }
-        return FFprobe.getMediaInformation(path);
+        return FFprobeKit.getMediaInformation(path).getMediaInformation();
     }
 
     /**
@@ -71,7 +72,7 @@ public class FFmpegUtils {
             return;
         }
         final String command = String.format(Locale.getDefault(), "-hide_banner -y -i %s -acodec pcm_s16le -f s16le -ac %d -ar %d %s", inFilePath, channelConfig, sampleRate, outFilePath);
-        FFmpeg.execute(command);
+        FFprobeKit.execute(command);
     }
 
     /**
@@ -101,7 +102,7 @@ public class FFmpegUtils {
             return;
         }
         final String command = String.format(Locale.getDefault(), "-hide_banner -y -i %s -acodec libmp3lame -ac %d -ar %d %s", inFilePath, channelConfig, sampleRate, outFilePath);
-        FFmpeg.execute(command);
+        FFmpegKit.execute(command);
     }
 
     /**
@@ -131,7 +132,7 @@ public class FFmpegUtils {
             return;
         }
         final String command = String.format(Locale.getDefault(), "-hide_banner -y -ac %d -ar %d -f s16le -i %s -b:a 32k -c:a libshine -q:a 8 %s", channelConfig, sampleRate, inFilePath, outFilePath);
-        FFmpeg.execute(command);
+        FFmpegKit.execute(command);
     }
 
     /**
@@ -168,7 +169,7 @@ public class FFmpegUtils {
             return;
         }
         final String command = String.format(Locale.getDefault(), "-hide_banner -y -i %s -ac %d -ar %d -acodec pcm_s16le -c:a libmp3lame %s", inputVideoPath, channelConfig, sampleRate, outputAudioPath);
-        FFmpeg.execute(command);
+        FFmpegKit.execute(command);
     }
 
     /**
@@ -245,7 +246,7 @@ public class FFmpegUtils {
         // -filter_complex amix=inputs=2:duration=first:dropout_transition=2 混合音乐 inputs=2 2 表示混合音乐数量
         // -vn 去除视频流
         final String command = String.format(Locale.getDefault(), "-hide_banner -y -i %s  -stream_loop -1 -i %s -filter_complex amix=inputs=2:duration=first:dropout_transition=2 -vn -vsync 2 %s", inputAudioPath, inputBackgroundMusicPath, outputAudioPath);
-        FFmpeg.execute(command);
+        FFmpegKit.execute(command);
     }
 
     /**
@@ -262,7 +263,7 @@ public class FFmpegUtils {
             return;
         }
         final String command = String.format(Locale.getDefault(), "-hide_banner -y -i %s -filter volume=-5dB -vn -vsync 2 %s", inputAudioPath, outputAudioPath);
-        FFmpeg.execute(command);
+        FFmpegKit.execute(command);
     }
 
     /**
@@ -282,7 +283,7 @@ public class FFmpegUtils {
         }
         float volume = outputVolume * 1.0F / 100;
         final String command = String.format(Locale.getDefault(), "-hide_banner -y -i %s -filter volume=%s -vn -vsync 2 %s", inputAudioPath, volume, outputAudioPath);
-        FFmpeg.execute(command);
+        FFmpegKit.execute(command);
     }
 
     /**
@@ -299,7 +300,24 @@ public class FFmpegUtils {
             return;
         }
         final String command = String.format(Locale.getDefault(), "-hide_banner -y -i %s -filter volume=5dB -vn -vsync 2 %s", inputAudioPath, outputAudioPath);
-        FFmpeg.execute(command);
+        FFmpegKit.execute(command);
+    }
+
+
+    /**
+     * 视频水印去除
+     *
+     * @param inputVideoPath
+     * @param outputVideoPath
+     */
+    public static void removeVideoWatermark(@NonNull final String inputVideoPath,
+                                            @NonNull final String outputVideoPath) {
+        // TODO: 2022/6/24  位置信息
+        if (Thread.currentThread() == Looper.getMainLooper().getThread()) {
+            return;
+        }
+        final String command = String.format(Locale.getDefault(), "-hide_banner -y -i %s -vf delogo=x=%s:y=%s:w=300:h=100:show=0 %s", inputVideoPath, 10, 10, outputVideoPath);
+        FFmpegKit.execute(command);
     }
 
     /**
@@ -310,20 +328,22 @@ public class FFmpegUtils {
      */
     public static void executeAsync(@NonNull final String command,
                                     @Nullable final OnRequestCallBack<Boolean> callBack) {
-        FFmpeg.executeAsync(command, new ExecuteCallback() {
+        FFmpegKit.executeAsync(command, new FFmpegSessionCompleteCallback() {
             @Override
-            public void apply(final long executionId, final int returnCode) {
-                if (returnCode == Config.RETURN_CODE_SUCCESS) {
+            public void apply(FFmpegSession session) {
+                ReturnCode returnCode = session.getReturnCode();
+                if (returnCode.isValueSuccess()) {
                     if (callBack != null) {
                         callBack.onSuccess(true);
                     }
                     LogUtils.d(String.format(Locale.getDefault(), "FFmpeg Async command execution completed successfully."));
                     return;
                 }
-                if (returnCode == Config.RETURN_CODE_CANCEL) {
+                if (returnCode.isValueCancel()) {
                     LogUtils.e(String.format(Locale.getDefault(), "FFmpeg Async command execution cancelled by user."));
+                } else {
+                    LogUtils.e(String.format(Locale.getDefault(), "FFmpeg Async command execution failed with returnCode=%d.", returnCode));
                 }
-                LogUtils.e(String.format(Locale.getDefault(), "FFmpeg Async command execution failed with returnCode=%d.", returnCode));
                 if (callBack != null) {
                     callBack.onSuccess(false);
                 }

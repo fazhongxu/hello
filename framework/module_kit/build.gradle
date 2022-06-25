@@ -71,7 +71,7 @@ dependencies {
     compileOnly deps.arouter.arouter
     kapt deps.arouter.arouter_processor
 
-    compileOnly deps.mobile_ffmpeg
+    compileOnly deps.ffmpeg_kit
 
     compileOnly deps.luban
 }
