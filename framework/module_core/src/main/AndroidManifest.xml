@@ -1,2 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.xxl.core" />
+    package="com.xxl.core">
+
+    <application>
+        <activity android:name=".widget.web.CommonWebActivity" />
+    </application>
+
+</manifest>

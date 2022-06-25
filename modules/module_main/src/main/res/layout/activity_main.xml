@@ -16,11 +16,11 @@
     </data>
 
     <com.xxl.core.widget.FitsSystemLinearLayout
-        android:layout_width="match_parent"
         android:id="@+id/ll_root_container"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:fitsSystemWindows="true">
+        android:fitsSystemWindows="true"
+        android:orientation="vertical">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -52,10 +52,10 @@
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
                 android:text="@{viewModel.observableUserInfo}"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                android:visibility="gone"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="user info" />
 
@@ -67,9 +67,9 @@
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/recordBtn"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintBottom_toTopOf="@+id/recordBtn"
                 tools:text="" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -78,9 +78,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
-                android:visibility="visible"
                 android:onClick="@{()->navigator.onTestClick()}"
                 android:text="@{viewModel.observableUserId}"
+                android:visibility="visible"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_user_info"
@@ -91,6 +91,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+                android:visibility="gone"
                 app:buttonColor="#56BF6C"
                 app:buttonGap="2dp"
                 app:buttonRadius="33dp"
@@ -99,7 +100,6 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:maxMillisecond="60000"
-                android:visibility="gone"
                 app:progressColor="#56BF6C"
                 app:progressEmptyColor="#4D56BF6C"
                 app:progressNormalColor="#F5F6F6"
@@ -108,6 +108,7 @@
                 app:stopIcon="@mipmap/ic_audio_record_stop" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </com.xxl.core.widget.FitsSystemLinearLayout>
 
 </layout>

@@ -16,6 +16,7 @@ import com.xxl.core.aop.annotation.Delay;
 import com.xxl.core.aop.annotation.LogTag;
 import com.xxl.core.aop.annotation.Safe;
 import com.xxl.core.aop.annotation.SingleClick;
+import com.xxl.core.data.router.SystemRouterApi;
 import com.xxl.core.media.audio.AudioCapture;
 import com.xxl.core.media.audio.AudioRecordFormat;
 import com.xxl.core.utils.AppExpandUtils;
@@ -206,7 +207,10 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
     @Override
     @Async
     public void onTestClick() {
-        AppRouterApi.navigationToLogin();
+//        AppRouterApi.navigationToLogin();
+        SystemRouterApi.WebView
+                .newBuilder("https://www.baidu.com")
+                .navigation(this);
     }
 
     /**
@@ -248,7 +252,7 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
     @Override
     public void onCompleteRecord(@NonNull final File audioFile) {
         MediaUtils.MediaEntity mediaInfo = MediaUtils.getMediaInfo(audioFile.getAbsolutePath());
-        LogUtils.d("音频文件-->" + audioFile.getAbsolutePath()+"--"+mediaInfo.getDuration());
+        LogUtils.d("音频文件-->" + audioFile.getAbsolutePath() + "--" + mediaInfo.getDuration());
         mViewDataBinding.tvTest.setText(getString(R.string.core_start_record_audio_text));
 
         String audio = CacheDirConfig.SHARE_FILE_DIR + File.separator + "1.mp3";
