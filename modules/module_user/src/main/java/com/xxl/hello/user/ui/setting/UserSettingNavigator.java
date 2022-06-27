@@ -32,6 +32,11 @@ public interface UserSettingNavigator {
     void onUserAvatarClick();
 
     /**
+     * 关于我点击
+     */
+    void onAboutMeClick();
+
+    /**
      * 切换网络环境点击
      */
     void onSwitchEnvironmentClick();

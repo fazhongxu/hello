@@ -11,7 +11,9 @@ import androidx.lifecycle.ViewModelProvider;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
+import com.xxl.core.data.router.SystemRouterApi;
 import com.xxl.core.image.selector.MediaSelector;
+import com.xxl.hello.common.AppConfig;
 import com.xxl.kit.PathUtils;
 import com.xxl.hello.common.NetworkConfig;
 import com.xxl.hello.router.UserRouterApi;
@@ -196,6 +198,15 @@ public class UserSettingActivity extends DataBindingActivity<UserSettingViewMode
     }
 
     /**
+     * 关于我点击
+     */
+    @Override
+    public void onAboutMeClick() {
+        SystemRouterApi.WebView.newBuilder("https://www.github.com/" + AppConfig.User.GITHUB_USER_NAME)
+                .navigation(this);
+    }
+
+    /**
      * 切换网络环境点击
      */
     @Override
@@ -233,7 +244,7 @@ public class UserSettingActivity extends DataBindingActivity<UserSettingViewMode
         }
         CharSequence text = mViewDataBinding.tvTest.getText();
         StringBuilder sb = new StringBuilder(text);
-        String avatar="";
+        String avatar = "";
         for (ResourcesUploadQueueDBEntity resourcesUploadQueueDBEntity : event.getTargetResourcesUploadQueueDBEntities()) {
             sb.append(resourcesUploadQueueDBEntity.getUploadUrl())
                     .append("\n");

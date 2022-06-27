@@ -3,7 +3,6 @@ package com.xxl.hello.main.ui.main;
 import android.Manifest;
 import android.app.Activity;
 import android.util.Log;
-import android.webkit.WebView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,12 +16,10 @@ import com.xxl.core.aop.annotation.Delay;
 import com.xxl.core.aop.annotation.LogTag;
 import com.xxl.core.aop.annotation.Safe;
 import com.xxl.core.aop.annotation.SingleClick;
-import com.xxl.core.data.router.SystemRouterApi;
 import com.xxl.core.media.audio.AudioCapture;
 import com.xxl.core.media.audio.AudioRecordFormat;
 import com.xxl.core.utils.AppExpandUtils;
 import com.xxl.core.utils.TestUtils;
-import com.xxl.core.widget.web.RefreshWebView;
 import com.xxl.hello.common.CacheDirConfig;
 import com.xxl.hello.main.BR;
 import com.xxl.hello.main.R;
@@ -209,11 +206,7 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
     @Override
     @Async
     public void onTestClick() {
-//        AppRouterApi.navigationToLogin();
-        SystemRouterApi.WebView
-                .newBuilder("https://www.baidu.com")
-//                .newBuilder("https://www.jianshu.com/p/87525401bdfe/")
-                .navigation(this);
+        AppRouterApi.navigationToLogin();
     }
 
     /**
