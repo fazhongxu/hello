@@ -27,9 +27,7 @@ class ScrollWebView @JvmOverloads constructor(context: Context?, attrs: Attribut
 
     override fun onScrollChanged(l: Int, t: Int, oldl: Int, oldt: Int) {
         super.onScrollChanged(l, t, oldl, oldt)
-        if (mListener != null) {
-            mListener!!.onWebScrollChanged(l, t, oldl, oldt)
-        }
+        mListener?.onWebScrollChanged(l, t, oldl, oldt)
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {

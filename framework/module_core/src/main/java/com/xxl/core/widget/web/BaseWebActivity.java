@@ -8,7 +8,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 
-import com.alibaba.android.arouter.launcher.ARouter;
 import com.google.android.material.appbar.AppBarLayout;
 import com.xxl.core.R;
 import com.xxl.core.widget.swipebacklayout.SwipeBackActivity;
@@ -82,7 +81,7 @@ public abstract class BaseWebActivity extends SwipeBackActivity implements Refre
      * 初始化web
      */
     protected void initWebView(@NonNull final RefreshWebView refreshWebView) {
-        refreshWebView.setOnWebCallBack(this);
+        refreshWebView.setWebCallBack(this);
         refreshWebView.loadUrl(mUrl);
     }
 
@@ -125,6 +124,11 @@ public abstract class BaseWebActivity extends SwipeBackActivity implements Refre
         if (!TextUtils.isEmpty(title)) {
             mToolbar.setTitle(title);
         }
+    }
+
+    @Override
+    public void onProgressChanged(WebView view, int newProgress) {
+
     }
 
     //endregion
