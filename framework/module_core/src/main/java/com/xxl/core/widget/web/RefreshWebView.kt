@@ -1,5 +1,8 @@
 package com.xxl.core.widget.web
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
@@ -9,6 +12,7 @@ import android.util.AttributeSet
 import android.view.KeyEvent
 import android.view.View
 import android.view.View.OnKeyListener
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.webkit.*
 import android.widget.FrameLayout
 import android.widget.ProgressBar
@@ -69,6 +73,16 @@ open class RefreshWebView @JvmOverloads constructor(context: Context, attrs: Att
      * 是否显示进度条
      */
     var showProgress = true
+
+    /**
+     * 当前加载进度
+     */
+    private var currentProgress = 0
+
+    /**
+     * 进度动画是否开启
+     */
+    private var isAnimStart = false
 
     //endregion
 
@@ -146,13 +160,28 @@ open class RefreshWebView @JvmOverloads constructor(context: Context, attrs: Att
 
             override fun onProgressChanged(view: WebView?, newProgress: Int) {
                 super.onProgressChanged(view, newProgress)
-                LogUtils.d(TAG + "onProgressChanged" + newProgress)
+                currentProgress = progressBar!!.progress
+                LogUtils.d(TAG + "onProgressChanged" + newProgress + "--" + currentProgress)
                 if (newProgress == 100) {
-                    progressBar?.visibility = View.GONE
+                    if (isAnimStart) {
+                        isAnimStart = false
+                        progressBar?.setProgress(newProgress)
+                        setProgressSmooth(progressBar!!.progress, object : AnimatorListenerAdapter() {
+                            override fun onAnimationEnd(animation: Animator?) {
+                                progressBar?.visibility = View.GONE
+                                progressBar?.progress = 0
+                            }
+                        })
+                    }
                 } else {
-                    if (showProgress && progressBar?.visibility != View.VISIBLE) {
-                        progressBar?.visibility = View.VISIBLE
-                        progressBar?.progress = newProgress
+                    if (showProgress) {
+                        if (progressBar?.visibility != View.VISIBLE) {
+                            progressBar?.visibility = View.VISIBLE
+                        }
+                        if (!isAnimStart) {
+                            isAnimStart = true
+                            setProgressSmooth(newProgress)
+                        }
                     }
                 }
                 onWebCallBack?.onProgressChanged(view, newProgress)
@@ -175,6 +204,7 @@ open class RefreshWebView @JvmOverloads constructor(context: Context, attrs: Att
 
             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
                 super.onPageStarted(view, url, favicon)
+                isAnimStart = false
                 LogUtils.d(TAG + "onPageFinished")
             }
 
@@ -219,6 +249,24 @@ open class RefreshWebView @JvmOverloads constructor(context: Context, attrs: Att
      */
     open fun initProgress(progressBar: ProgressBar?) {
         progressBar?.visibility = if (showProgress) View.VISIBLE else View.GONE
+    }
+
+    /**
+     * 设置进度条平滑移动
+     */
+    private fun setProgressSmooth(progress: Int, animatorListenerAdapter: AnimatorListenerAdapter? = null) {
+        val animator = ObjectAnimator.ofInt(progressBar, "progress", currentProgress, progress)
+        animator.duration = 1000
+        animator.interpolator = AccelerateDecelerateInterpolator()
+        animator.addUpdateListener {
+            onAnimationEnd()
+        }
+        animator.addListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator?) {
+                animatorListenerAdapter?.onAnimationEnd(animation)
+            }
+        })
+        animator.start()
     }
 
     //endregion
