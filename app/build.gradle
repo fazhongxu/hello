@@ -144,7 +144,7 @@ dependencies {
 
     implementation deps.tbs
 
-    implementation deps.aria.core
-    kapt deps.aria.aira_processor
+//    implementation deps.aria.core
+//    kapt deps.aria.aira_processor
 }
 

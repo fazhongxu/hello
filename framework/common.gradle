@@ -90,8 +90,8 @@ dependencies {
     compileOnly deps.flyco_round_view
 
     compileOnly deps.tbs
-
-    compileOnly deps.aria.core
-    kapt deps.aria.aira_processor
+//
+//    compileOnly deps.aria.core
+//    kapt deps.aria.aira_processor
 }
 

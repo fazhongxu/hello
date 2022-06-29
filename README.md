@@ -66,7 +66,7 @@ uploadArchives {
  mUserVisibleHint= true 的就是当前显示的fragment
 
  查看依赖关系 并输出log到指定txt文件
- ./gradlew app:dependencies >app/build/deps.txt
+ gradlew app:dependencies >app/build/deps.txt
 
 
  技术要点
