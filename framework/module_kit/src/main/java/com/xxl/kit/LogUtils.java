@@ -59,38 +59,49 @@ public final class LogUtils {
         });
     }
 
-    public static void i(@NonNull final String message,Object... objects) {
+    public static void i(@NonNull final String message, Object... objects) {
         if (!sIsDebug) {
             return;
         }
-        Logger.i(message,objects);
+        Logger.i(message, objects);
     }
 
-    public static void d(@NonNull final String message,Object... objects) {
+    public static void d(@NonNull final String message, Object... objects) {
         if (!sIsDebug) {
             return;
         }
-        Logger.d(message,objects);
+        Logger.d(message, objects);
     }
 
-    public static void w(@NonNull final String message,Object... objects) {
+    public static void d(@NonNull final String message, boolean printStack) {
         if (!sIsDebug) {
             return;
         }
-        Logger.w(message,objects);
+        if (printStack) {
+            Logger.d(String.format("%s %s", getStackTrace(new Exception()), message));
+            return;
+        }
+        Logger.d(message);
     }
 
-    public static void e(@NonNull final String message,Object... objects) {
+    public static void w(@NonNull final String message, Object... objects) {
         if (!sIsDebug) {
             return;
         }
-        if (TextUtils.isEmpty(message)){
-            return;
-        }
-        Logger.e(message,objects);
+        Logger.w(message, objects);
     }
 
-    public static void e(@NonNull final Object object,Object... objects) {
+    public static void e(@NonNull final String message, Object... objects) {
+        if (!sIsDebug) {
+            return;
+        }
+        if (TextUtils.isEmpty(message)) {
+            return;
+        }
+        Logger.e(message, objects);
+    }
+
+    public static void e(@NonNull final Object object, Object... objects) {
         if (!sIsDebug) {
             return;
         }
@@ -102,6 +113,24 @@ public final class LogUtils {
                 Logger.e(json);
             }
         }
+    }
+
+    /**
+     * 获取任务堆栈信息
+     *
+     * @return
+     */
+    public static String getStackTrace(Exception exception) {
+        try {
+            StackTraceElement stackTraceElement = exception.getStackTrace()[1];
+            String methodName = stackTraceElement.getMethodName();
+            String fileName = stackTraceElement.getFileName();
+            int lineNumber = stackTraceElement.getLineNumber();
+            return String.format("class %s method %s lineNumber %s", fileName.substring(0, fileName.indexOf(".")), methodName, lineNumber);
+        } catch (Exception e) {
+
+        }
+        return "";
     }
 
     //endregion

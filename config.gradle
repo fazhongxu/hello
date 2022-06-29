@@ -75,6 +75,8 @@ versions.flyco_round_view = "1.1.4"
 
 versions.tbs = "44181"
 
+versions.aria = "3.8.16"
+
 ext.versions = versions
 
 deps.android_build_gradle = "com.android.tools.build:gradle:$build_versions.android_build_gradle"
@@ -98,45 +100,45 @@ dagger.android_support = "com.google.dagger:dagger-android-support:$versions.dag
 dagger.android_processor = "com.google.dagger:dagger-android-processor:$versions.dagger"
 deps.dagger = dagger
 
-// true time [https://github.com/instacart/truetime-android]
+// true time https://github.com/instacart/truetime-android
 def true_time = [:]
 true_time.true_time = "com.github.instacart.truetime-android:library:$versions.true_time"
 true_time.true_time_extension = "com.github.instacart.truetime-android:library-extension-rx:$versions.true_time"
 deps.true_time = true_time
 
-// okhttp [https://github.com/square/okhttp]
+// okhttp https://github.com/square/okhttp
 def okhttp = [:]
 okhttp.okhttp = "com.squareup.okhttp3:okhttp:$versions.okhttp"
 okhttp.logging = "com.squareup.okhttp3:logging-interceptor:$versions.okhttp"
 deps.okhttp = okhttp
 
-//retrofit [https://github.com/square/retrofit]
+//retrofit https://github.com/square/retrofit
 def retrofit = [:]
 retrofit.retrofit = "com.squareup.retrofit2:retrofit:$versions.retrofit"
 retrofit.adapter = "com.squareup.retrofit2:adapter-rxjava3:$versions.retrofit"
 retrofit.converter = "com.squareup.retrofit2:converter-gson:$versions.retrofit"
 deps.retrofit = retrofit
 
-// objectbox [https://github.com/objectbox/objectbox-java]
+// objectbox https://github.com/objectbox/objectbox-java
 deps.objectboct_plugin = "io.objectbox:objectbox-gradle-plugin:$versions.objectbox"
 
-// aspectjx aop [https://github.com/HujiangTechnology/gradle_plugin_android_aspectjx]
+// aspectjx aop https://github.com/HujiangTechnology/gradle_plugin_android_aspectjx
 deps.aspectjx_plugin = "com.hujiang.aspectjx:gradle-android-plugin-aspectjx:$versions.aspectjx_plugin"
 deps.aspectjrt = "org.aspectj:aspectjrt:$versions.aspectjrt"
 
-//luban 图片压缩 [https://github.com/Curzibn/Luban]
+//luban 图片压缩 https://github.com/Curzibn/Luban
 deps.luban = "top.zibin:Luban:$versions.luban"
 
-// videoProcessor 视频压缩 [https://github.com/yellowcath/VideoProcessor]
+// videoProcessor 视频压缩 https://github.com/yellowcath/VideoProcessor
 deps.video_processor = "com.github.yellowcath:VideoProcessor:$versions.video_processor"
 
-//glide 图片加载 [https://github.com/bumptech/glide]
+//glide 图片加载 https://github.com/bumptech/glide
 def glide = [:]
 glide.glide = "com.github.bumptech.glide:glide:$versions.glide"
 glide.glide_processor = "com.github.bumptech.glide:compiler:$versions.glide"
 deps.glide = glide
 
-//pictureselector 图片选择 [https://github.com/LuckSiege/PictureSelector]
+//pictureselector 图片选择 https://github.com/LuckSiege/PictureSelector
 
 versions.picture_selector_remote = true
 
@@ -146,25 +148,25 @@ if (versions.picture_selector_remote) {
     deps.picture_selector = project(':module_libs:lib_picture_selector')
 }
 
-//rxjava [https://github.com/ReactiveX/RxJava]
+//rxjava https://github.com/ReactiveX/RxJava
 deps.rxjava = "io.reactivex.rxjava3:rxjava:$versions.rxjava"
 
-//rxandroid [https://github.com/ReactiveX/RxAndroid]
+//rxandroid https://github.com/ReactiveX/RxAndroid
 deps.rxandroid = "io.reactivex.rxjava3:rxandroid:$versions.rxandroid"
 
-//rxpermission [https://github.com/tbruyelle/RxPermissions]
+//rxpermission https://github.com/tbruyelle/RxPermissions
 deps.rxpermission = "com.github.tbruyelle:rxpermissions:$versions.rxpermission"
 
-//kprogresshud 进度条 [https://github.com/Kaopiz/KProgressHUD]
+//kprogresshud 进度条 https://github.com/Kaopiz/KProgressHUD
 deps.kprogresshud = "com.kaopiz:kprogresshud:$versions.kprogresshud"
 
-//statemanager [https://github.com/alibaba/StateManager]
+//statemanager https://github.com/alibaba/StateManager
 deps.statemanager = "com.alipictures:statemanager:$versions.statemanager"
 
-//logger [https://github.com/orhanobut/logger]
+//logger https://github.com/orhanobut/logger
 deps.logger = "com.orhanobut:logger:$versions.logger"
 
-//lombok getter setter [https://github.com/projectlombok/lombok]
+//lombok getter setter https://github.com/projectlombok/lombok
 //配合 android Studio  lombok 插件使用 只需要添加注解即可，不需要手动写get set 代码
 // FIXME: 2022/6/1  加入kotlin 后，暂时不用lombok kapt 编译通不过 解决不了的话，后续就不用lombok 了
 def lombok = [:]
@@ -172,19 +174,19 @@ lombok.lombok = "org.projectlombok:lombok:$versions.lombok"
 lombok.lombok_processor = "org.projectlombok:lombok:$versions.lombok"
 deps.lombok = lombok
 
-// mmkv 数据存储 代替sp [https://github.com/Tencent/MMKV]
+// mmkv 数据存储 代替sp https://github.com/Tencent/MMKV
 deps.mmkv = "com.tencent:mmkv-static:$versions.mmkv"
 
-// EventBus 事件通知[https://github.com/greenrobot/EventBus]
+// EventBus 事件通知 https://github.com/greenrobot/EventBus
 deps.evetbus = "org.greenrobot:eventbus:$versions.eventbus"
 
-// Arouter 路由通信 [https://github.com/alibaba/ARouter]
+// Arouter 路由通信 https://github.com/alibaba/ARouter
 def arouter = [:]
 arouter.arouter = "com.alibaba:arouter-api:$versions.arouter"
 arouter.arouter_processor = "com.alibaba:arouter-compiler:$versions.arouter"
 deps.arouter = arouter
 
-// mobile_ffmpeg [https://github.com/tanersener/mobile-ffmpeg]
+// mobile_ffmpeg https://github.com/tanersener/mobile-ffmpeg
 versions.mobile_ffmpeg_remote = false
 
 if (versions.mobile_ffmpeg_remote) {
@@ -193,29 +195,35 @@ if (versions.mobile_ffmpeg_remote) {
     deps.mobile_ffmpeg = project(':module_libs:lib_ffmpeg')
 }
 
-// BaseRecyclerViewAdapterHelper [https://github.com/CymChad/BaseRecyclerViewAdapterHelper]
+// BaseRecyclerViewAdapterHelper https://github.com/CymChad/BaseRecyclerViewAdapterHelper
 deps.adapter_helper = "com.github.CymChad:BaseRecyclerViewAdapterHelper:$versions.adapter_helper"
 
-// BasePopup [https://github.com/razerdp/BasePopup]
+// BasePopup https://github.com/razerdp/BasePopup
 deps.base_popup = "io.github.razerdp:BasePopup:$versions.base_popup"
 
-//jsbridge [https://github.com/lzyzsd/JsBridge]
+//jsbridge https://github.com/lzyzsd/JsBridge
 deps.jsbridge = "com.github.lzyzsd:jsbridge:$versions.jsbridge"
 
-//agentweb [https://github.com/Justson/AgentWeb]
+//agentweb https://github.com/Justson/AgentWeb
 deps.agentweb = "com.github.Justson.AgentWeb:agentweb-core:$versions.agentweb"
 
-//dkplayer [https://github.com/Doikki/DKVideoPlayer]
+//dkplayer https://github.com/Doikki/DKVideoPlayer
 def dkplayer = [:]
 dkplayer.dkplayer = "xyz.doikki.android.dkplayer:dkplayer-java:$versions.dkplayer"
 dkplayer.dkplayer_ijk = "xyz.doikki.android.dkplayer:player-ijk:$versions.dkplayer"
 deps.dkplayer = dkplayer
 
-//FlycoRoundView [https://github.com/H07000223/FlycoRoundView]
+//FlycoRoundView https://github.com/H07000223/FlycoRoundView
 deps.flyco_round_view = "com.flyco.roundview:FlycoRoundView_Lib:$versions.flyco_round_view@aar"
 
-// tbs [https://x5.tencent.com/docs/access.html]
+// tbs https://x5.tencent.com/docs/access.html
 deps.tbs = "com.tencent.tbs:tbssdk:$versions.tbs"
+
+// aria https://github.com/AriaLyy/Aria
+def aria = [:]
+aria.core = "me.laoyuyu.aria:core:$versions.aria"
+aria.aira_processor = "me.laoyuyu.aria:compiler:$versions.aria"
+deps.aria = aria
 
 
 def origin = [:]

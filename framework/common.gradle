@@ -85,12 +85,13 @@ dependencies {
     implementation deps.arouter.arouter
     kapt deps.arouter.arouter_processor
 
-//    implementation deps.mobile_ffmpeg
-
     implementation deps.adapter_helper
 
     compileOnly deps.flyco_round_view
 
     compileOnly deps.tbs
+
+    compileOnly deps.aria.core
+    kapt deps.aria.aira_processor
 }
 

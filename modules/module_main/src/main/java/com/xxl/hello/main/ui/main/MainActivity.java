@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.tbruyelle.rxpermissions3.RxPermissions;
-import com.xxl.core.aop.annotation.Async;
 import com.xxl.core.aop.annotation.CheckNetwork;
 import com.xxl.core.aop.annotation.Delay;
 import com.xxl.core.aop.annotation.LogTag;
@@ -204,7 +203,6 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
     @CheckNetwork
     @Delay(delay = 200)
     @Override
-    @Async
     public void onTestClick() {
         AppRouterApi.navigationToLogin();
     }

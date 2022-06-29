@@ -129,4 +129,6 @@ dependencies {
     compileOnly deps.dkplayer.dkplayer
     compileOnly deps.dkplayer.dkplayer_ijk
 
+    compileOnly deps.aria.core
+    kapt deps.aria.aira_processor
 }

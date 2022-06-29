@@ -143,5 +143,8 @@ dependencies {
     implementation deps.flyco_round_view
 
     implementation deps.tbs
+
+    implementation deps.aria.core
+    kapt deps.aria.aira_processor
 }
 
