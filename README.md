@@ -65,6 +65,9 @@ uploadArchives {
  搜索执行结果中，fragment 状态
  mUserVisibleHint= true 的就是当前显示的fragment
 
+ 查看依赖关系 并输出log到指定txt文件
+ ./gradlew app:dependencies >app/build/deps.txt
+
 
  技术要点
 
