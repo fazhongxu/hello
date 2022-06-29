@@ -371,7 +371,7 @@ open class RefreshWebView @JvmOverloads constructor(context: Context, attrs: Att
      * 判断是否是http
      */
     private fun isHttp(url: String?): Boolean {
-        return url?.toLowerCase(Locale.getDefault())?.startsWith("https") ?: false
+        return url?.toLowerCase(Locale.getDefault())?.startsWith("http") ?: false
     }
 
     //endregion
