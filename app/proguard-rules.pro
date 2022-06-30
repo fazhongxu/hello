@@ -227,3 +227,17 @@
     *;
 }
 
+#aria
+-dontwarn com.arialyy.aria.**
+-keep class com.arialyy.aria.**{*;}
+-keep class **$$DownloadListenerProxy{ *; }
+-keep class **$$UploadListenerProxy{ *; }
+-keep class **$$DownloadGroupListenerProxy{ *; }
+-keep class **$$DGSubListenerProxy{ *; }
+-keepclasseswithmembernames class * {
+    @Download.* <methods>;
+    @Upload.* <methods>;
+    @DownloadGroup.* <methods>;
+}
+
+

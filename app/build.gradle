@@ -114,6 +114,8 @@ dependencies {
     implementation deps.retrofit.adapter
     implementation deps.retrofit.converter
 
+    implementation deps.aspectjrt
+
     implementation deps.dagger.dagger
     kapt deps.dagger.processor
     implementation deps.dagger.android
@@ -144,7 +146,7 @@ dependencies {
 
     implementation deps.tbs
 
-//    implementation deps.aria.core
-//    kapt deps.aria.aira_processor
+    implementation deps.aria.core
+    kapt deps.aria.aira_processor
 }
 

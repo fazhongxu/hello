@@ -12,4 +12,5 @@ aspectjx {
             'top.zibin',
             'com.alipay',
             'org.apache'
+            'versions.9'
 }
