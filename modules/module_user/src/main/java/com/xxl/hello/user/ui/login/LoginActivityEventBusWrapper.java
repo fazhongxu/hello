@@ -31,9 +31,8 @@ public class LoginActivityEventBusWrapper extends BaseEventBusWrapper<LoginActiv
     //region: 用户信息更新通知事件
 
     /**
-     * 在主线程监听用户信息更新的通知事件
-     * <p>
-     * 监听用户信息更新{@link LoginUserEntity} 通知事件
+     * 监听{@link OnUserEventApi.OnUpdateUserInfoEvent} 通知事件
+     * 通知 {@link LoginUserEntity} 数据更新
      *
      * @param event
      */
