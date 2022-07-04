@@ -479,12 +479,11 @@ public final class DeviceUtils {
         if (udid == null) {
             synchronized (DeviceUtils.class) {
                 if (udid == null) {
-                    // FIXME: 2021/11/17
-//                    final String id = UtilsBridge.getSpUtils4Utils().getString(KEY_UDID, null);
-//                    if (id != null) {
-//                        udid = id;
-//                        return udid;
-//                    }
+                    final String id = PreferencesUtils.getInstance().getString(KEY_UDID, null);
+                    if (id != null) {
+                        udid = id;
+                        return udid;
+                    }
                     return getUniqueDeviceIdReal(prefix);
                 }
             }
@@ -505,8 +504,7 @@ public final class DeviceUtils {
 
     private static String saveUdid(String prefix, String id) {
         udid = getUdid(prefix, id);
-        // FIXME: 2021/11/17
-        // UtilsBridge.getSpUtils4Utils().put(KEY_UDID, udid);
+        PreferencesUtils.getInstance().put(KEY_UDID, udid);
         return udid;
     }
 
