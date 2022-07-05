@@ -10,14 +10,6 @@ import androidx.annotation.NonNull;
  */
 public interface DownloadListener {
 
-    // 开始下载
-    // 下载进度
-    // 下载完成
-    // 下载失败
-    // 停止下载
-    // 继续下载
-    // 取消下载
-
     /**
      * 下载预处理完成
      *
@@ -28,22 +20,66 @@ public interface DownloadListener {
     }
 
     /**
-     * 开始下载
+     * 下载开始
+     *
+     * @param taskEntity
      */
-    default void onStart() {
+    default void onTaskStart(@NonNull final DownloadTaskEntity taskEntity) {
 
     }
 
     /**
-     * 下载进度
+     * 下载完成
      *
-     * @param totalSize
-     * @param currentSize
+     * @param taskEntity
      */
-    default void onProgress(int totalSize,
-                            int currentSize) {
+    default void onTaskComplete(@NonNull final DownloadTaskEntity taskEntity) {
 
     }
 
+    /**
+     * 下载中
+     *
+     * @param taskEntity
+     */
+    default void onTaskRunning(@NonNull final DownloadTaskEntity taskEntity) {
+
+    }
+
+    /**
+     * 下载停止
+     *
+     * @param taskEntity
+     */
+    default void onTaskStop(@NonNull final DownloadTaskEntity taskEntity) {
+
+    }
+
+    /**
+     * 下载继续
+     *
+     * @param taskEntity
+     */
+    default void onTaskResume(@NonNull final DownloadTaskEntity taskEntity) {
+
+    }
+
+    /**
+     * 下载失败
+     *
+     * @param taskEntity
+     */
+    default void onTaskFail(@NonNull final DownloadTaskEntity taskEntity) {
+
+    }
+
+    /**
+     * 下载取消
+     *
+     * @param taskEntity
+     */
+    default void onTaskCancel(@NonNull final DownloadTaskEntity taskEntity) {
+
+    }
 
 }

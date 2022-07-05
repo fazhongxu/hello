@@ -3,8 +3,8 @@ package com.xxl.core.service.download.aira;
 import androidx.annotation.NonNull;
 
 import com.arialyy.aria.core.task.DownloadTask;
-import com.xxl.core.service.download.DownloadTaskEntity;
 import com.xxl.core.service.download.DownloadState;
+import com.xxl.core.service.download.DownloadTaskEntity;
 
 /**
  * aria 下载任务信息
@@ -49,6 +49,26 @@ public class AriaDownloadTaskEntity implements DownloadTaskEntity {
     @Override
     public String getSavePath() {
         return mDownloadTask == null ? "" : mDownloadTask.getFilePath();
+    }
+
+    /**
+     * 获取文件大小
+     *
+     * @return
+     */
+    @Override
+    public long getFileSize() {
+        return mDownloadTask == null ? 0L : mDownloadTask.getFileSize();
+    }
+
+    /**
+     * 获取当前进度
+     *
+     * @return
+     */
+    @Override
+    public long getCurrentProgress(){
+        return mDownloadTask == null ? 0L : mDownloadTask.getCurrentProgress();
     }
 
     /**

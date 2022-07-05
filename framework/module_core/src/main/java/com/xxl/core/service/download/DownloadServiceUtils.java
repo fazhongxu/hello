@@ -3,7 +3,6 @@ package com.xxl.core.service.download;
 import android.app.Application;
 
 import com.arialyy.aria.core.Aria;
-import com.xxl.kit.DeviceUtils;
 import com.xxl.kit.EncryptUtils;
 
 /**

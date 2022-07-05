@@ -46,4 +46,20 @@ public interface DownloadService {
      * @return
      */
     void stopDownloadTask(@Nullable final DownloadTaskInfo downloadTaskInfo);
+
+    /**
+     * 取消下载任务
+     *
+     * @param downloadTaskInfo 下载任务信息
+     * @return
+     */
+    void cancelDownloadTask(@Nullable final DownloadTaskInfo downloadTaskInfo);
+
+    /**
+     * 恢复下载任务
+     *
+     * @param downloadTaskInfo 下载任务信息
+     * @return
+     */
+    void resumeDownloadTask(@Nullable final DownloadTaskInfo downloadTaskInfo);
 }

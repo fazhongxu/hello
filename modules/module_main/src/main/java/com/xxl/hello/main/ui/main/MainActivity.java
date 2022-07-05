@@ -17,6 +17,11 @@ import com.xxl.core.aop.annotation.Safe;
 import com.xxl.core.aop.annotation.SingleClick;
 import com.xxl.core.media.audio.AudioCapture;
 import com.xxl.core.media.audio.AudioRecordFormat;
+import com.xxl.core.service.download.DownloadListener;
+import com.xxl.core.service.download.DownloadOptions;
+import com.xxl.core.service.download.DownloadService;
+import com.xxl.core.service.download.DownloadTaskEntity;
+import com.xxl.core.service.download.aira.AriaDownloadServiceImpl;
 import com.xxl.core.utils.AppExpandUtils;
 import com.xxl.core.utils.TestUtils;
 import com.xxl.hello.common.CacheDirConfig;
@@ -34,6 +39,7 @@ import com.xxl.kit.AppRouterApi;
 import com.xxl.kit.AppUtils;
 import com.xxl.kit.DisplayUtils;
 import com.xxl.kit.FFmpegUtils;
+import com.xxl.kit.FileUtils;
 import com.xxl.kit.LogUtils;
 import com.xxl.kit.MediaUtils;
 import com.xxl.kit.OnAppStatusChangedListener;
@@ -204,7 +210,14 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
     @Delay(delay = 200)
     @Override
     public void onTestClick() {
-        AppRouterApi.navigationToLogin();
+//        AppRouterApi.navigationToLogin();
+        File file = new File(CacheDirConfig.SHARE_FILE_DIR, "we_chat.apk");
+        DownloadService downloadService = new AriaDownloadServiceImpl();
+        downloadService.register(AppUtils.getApplication(),null);
+        DownloadOptions downloadOptions = DownloadOptions.create()
+                .setUrl("https://1118dfac5964fa6c2cfcd469c4600b5682645896a433005e.dlied1.cdntips.net/imtt.dd.qq.com/sjy.10001/sjy.00004/16891/apk/9010B1C89F43DFD72ECD04B258D24C9B.apk?mkey=62c4067a00002f9c&f=0000&fsname=com.tencent.mm_8.0.24_2180.apk&csr=3554&cip=2409:8a00:79b2:fd70:6912:aff3:d186:8651&proto=https")
+                .setFilePath(file.getAbsolutePath());
+        downloadService.createDownloadTask(this,downloadOptions);
     }
 
     /**

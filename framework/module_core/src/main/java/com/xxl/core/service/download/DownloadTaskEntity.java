@@ -21,6 +21,20 @@ public interface DownloadTaskEntity {
     String getSavePath();
 
     /**
+     * 获取文件大小
+     *
+     * @return
+     */
+    long getFileSize();
+
+    /**
+     * 获取当前进度
+     *
+     * @return
+     */
+    long getCurrentProgress();
+
+    /**
      * 获取任务状态
      *
      * @return

@@ -13,6 +13,7 @@ import com.xxl.core.image.selector.MediaSelector;
 import com.xxl.core.image.selector.MediaSelectorApp;
 import com.xxl.core.image.selector.PictureSelectorEngineImpl;
 import com.xxl.core.listener.IApplication;
+import com.xxl.core.service.download.DownloadServiceUtils;
 import com.xxl.core.utils.CacheUtils;
 import com.xxl.kit.LogUtils;
 import com.xxl.kit.StringUtils;
@@ -142,6 +143,7 @@ public class HelloApplication extends BaseApplication implements IApplication, M
 
         try {
             TimeUtils.initialize();
+            DownloadServiceUtils.init(this,isDebug());
             TbsUtils.initX5Environment(this);
             // TODO: 2022/4/2 模拟耗时操作
             Thread.sleep(1000);
