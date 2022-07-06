@@ -254,15 +254,17 @@ public class AriaDownloadServiceImpl implements DownloadService {
      * 任务下载失败
      *
      * @param task
+     * @param exception
      */
     @Download.onTaskFail
-    void onTaskFail(@Nullable final DownloadTask task) {
+    void onTaskFail(@Nullable final DownloadTask task,
+                    @NonNull final Exception exception) {
         if (task != null && DownloadServiceUtils.isDebug()) {
             LogUtils.d(TAG + "onTaskFail " + task.getTaskName());
         }
         if (!ListUtils.isEmpty(mDownloadListeners)) {
             for (DownloadListener downloadListener : mDownloadListeners) {
-                downloadListener.onTaskFail(AriaDownloadTaskEntity.obtain(task));
+                downloadListener.onTaskFail(AriaDownloadTaskEntity.obtain(task), exception);
             }
         }
     }

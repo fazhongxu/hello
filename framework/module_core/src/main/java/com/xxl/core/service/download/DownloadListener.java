@@ -1,6 +1,7 @@
 package com.xxl.core.service.download;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * 下载监听
@@ -68,8 +69,11 @@ public interface DownloadListener {
      * 下载失败
      *
      * @param taskEntity
+     * @param throwable
+     * @param
      */
-    default void onTaskFail(@NonNull final DownloadTaskEntity taskEntity) {
+    default void onTaskFail(@NonNull final DownloadTaskEntity taskEntity,
+                            @Nullable final Throwable throwable) {
 
     }
 

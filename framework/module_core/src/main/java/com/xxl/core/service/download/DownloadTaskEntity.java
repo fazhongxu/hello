@@ -16,7 +16,7 @@ public interface DownloadTaskEntity {
     String getKey();
 
     /**
-     * 获取文件地址
+     * 获取文件保存路径
      */
     String getSavePath();
 
