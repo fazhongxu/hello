@@ -72,6 +72,7 @@ public class AriaDownloadServiceImpl implements DownloadService {
 
     @Override
     public void unRegister(@Nullable DownloadListener downloadListener) {
+        Aria.download(this).unRegister();
         if (!ListUtils.isEmpty(mDownloadListeners)) {
             mDownloadListeners.remove(downloadListener);
         }

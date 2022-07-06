@@ -98,6 +98,61 @@ public class DownloadTask {
         return mTaskState;
     }
 
+    /**
+     * 设置下载key
+     *
+     * @param downloadKey
+     * @return
+     */
+    public DownloadTask setDownloadKey(String downloadKey) {
+        this.mDownloadKey = downloadKey;
+        return this;
+    }
+
+    /**
+     * 设置下载保存路径
+     *
+     * @param fileSavePath
+     * @return
+     */
+    public DownloadTask setFileSavePath(String fileSavePath) {
+        this.mFileSavePath = fileSavePath;
+        return this;
+    }
+
+    /**
+     * 设置文件大小
+     *
+     * @param fileSize
+     * @return
+     */
+    public DownloadTask setFileSize(final long fileSize) {
+        this.mFileSize = fileSize;
+        return this;
+    }
+
+    /**
+     * 设置当前进度
+     *
+     * @param currentProgress
+     * @return
+     */
+    public DownloadTask setCurrentProgress(final long currentProgress) {
+        this.mCurrentProgress = currentProgress;
+        return this;
+    }
+
+    /**
+     * 设置任务状态
+     *
+     * @param taskState
+     * @return
+     */
+    public DownloadTask setTaskState(@DownloadState int taskState) {
+        this.mTaskState = taskState;
+        return this;
+    }
+
     //endregion
 
 }

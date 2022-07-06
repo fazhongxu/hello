@@ -22,7 +22,7 @@ import java.util.List;
  * @author xxl.
  * @date 2022/7/5.
  */
-public class HelloDownloadService implements DownloadService, HelloDownloadWrapper.OnDownloadListener {
+public class HelloDownloadServiceImpl implements DownloadService, HelloDownloadWrapper.OnDownloadListener {
 
     //region: 成员变量
 
@@ -40,7 +40,7 @@ public class HelloDownloadService implements DownloadService, HelloDownloadWrapp
 
     //region: 构造函数
 
-    public HelloDownloadService() {
+    public HelloDownloadServiceImpl() {
 
     }
 
@@ -55,7 +55,9 @@ public class HelloDownloadService implements DownloadService, HelloDownloadWrapp
     @Override
     public void register(@NonNull Application application,
                          @Nullable DownloadListener downloadListener) {
-
+        if (downloadListener != null) {
+            mDownloadListeners.add(downloadListener);
+        }
     }
 
     /**
@@ -66,6 +68,9 @@ public class HelloDownloadService implements DownloadService, HelloDownloadWrapp
     @Override
     public void unRegister(@Nullable DownloadListener downloadListener) {
 
+        if (downloadListener != null) {
+            mDownloadListeners.remove(downloadListener);
+        }
     }
 
     /**
@@ -78,7 +83,12 @@ public class HelloDownloadService implements DownloadService, HelloDownloadWrapp
     @Override
     public DownloadTaskInfo createDownloadTask(@NonNull Object object,
                                                @NonNull DownloadOptions downloadOptions) {
-        return null;
+        final int taskId = HelloDownloadWrapper.getInstance()
+                .create(downloadOptions.getUrl(), downloadOptions.getFilePath(), this);
+
+        return DownloadTaskInfo.create(downloadOptions.getTargetDownloadTag())
+                .setTaskId(String.valueOf(taskId))
+                .setUrl(downloadOptions.getUrl());
     }
 
     /**
@@ -147,7 +157,7 @@ public class HelloDownloadService implements DownloadService, HelloDownloadWrapp
         }
         if (!ListUtils.isEmpty(mDownloadListeners)) {
             for (DownloadListener downloadListener : mDownloadListeners) {
-                downloadListener.onTaskComplete(HelloDownloadTaskEntity.obtain(downloadTask));
+                downloadListener.onTaskRunning(HelloDownloadTaskEntity.obtain(downloadTask));
             }
         }
     }
