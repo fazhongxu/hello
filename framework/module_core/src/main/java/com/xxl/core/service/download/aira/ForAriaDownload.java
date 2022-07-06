@@ -6,7 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import javax.inject.Qualifier;
 
 /**
- * Aira下载
+ * Aria下载
  *
  * @author xxl.
  * @date 2022/7/6.
