@@ -21,6 +21,8 @@ import com.xxl.core.service.download.DownloadListener;
 import com.xxl.core.service.download.DownloadOptions;
 import com.xxl.core.service.download.DownloadService;
 import com.xxl.core.service.download.DownloadTaskEntity;
+import com.xxl.core.service.download.aira.ForAriaDownload;
+import com.xxl.core.service.download.hello.ForHelloDownload;
 import com.xxl.core.service.download.hello.HelloDownloadServiceImpl;
 import com.xxl.core.utils.AppExpandUtils;
 import com.xxl.core.utils.TestUtils;
@@ -202,7 +204,15 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
 
     //endregion
 
+    String mUrl = "https://480ad2efbb4b2c849ee2a20a88aa42ee.dlied1.cdntips.net/imtt.dd.qq.com/sjy.10001/sjy.00004/16891/apk/CE7F27C1367BF652DE806E66A8141E5A.apk?mkey=62c50caa72fe26cd&f=0000&fsname=com.duowan.mobile_8.11.1_123710.apk&csr=3554&cip=114.254.0.56&proto=https";
+
+    private String mFilePath = new File(CacheDirConfig.SHARE_FILE_DIR, "123.apk").getAbsolutePath();
+
     //region: MainActivityNavigator
+
+    @ForHelloDownload
+    @Inject
+    DownloadService mDownloadService;
 
     @LogTag(tag = "aaa", message = "onTestClick")
     @SingleClick
@@ -211,45 +221,17 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
     @Delay(delay = 200)
     @Override
     public void onTestClick() {
-//        AppRouterApi.navigationToLogin();
-        //String url = "https://1118dfac5964fa6c2cfcd469c4600b5682645896a433005e.dlied1.cdntips.net/imtt.dd.qq.com/sjy.10001/sjy.00004/16891/apk/9010B1C89F43DFD72ECD04B258D24C9B.apk?mkey=62c4067a00002f9c&f=0000&fsname=com.tencent.mm_8.0.24_2180.apk&csr=3554&cip=2409:8a00:79b2:fd70:6912:aff3:d186:8651&proto=https";
-        String url = "https://5c342f8ce691dbf71b71e1cb0398bd20.dlied1.cdntips.net/imtt.dd.qq.com/sjy.10001/sjy.00004/16891/apk/7A0D8A60D1284B01CCC67D608139BABA.apk?mkey=62c507b772fe26cd&f=9634&fsname=com.tencent.mobileqq_8.8.98_3002.apk&csr=3554&cip=114.254.0.56&proto=https";
-
-        String url1 = "https://480ad2efbb4b2c849ee2a20a88aa42ee.dlied1.cdntips.net/imtt.dd.qq.com/sjy.10001/sjy.00004/16891/apk/CE7F27C1367BF652DE806E66A8141E5A.apk?mkey=62c50caa72fe26cd&f=0000&fsname=com.duowan.mobile_8.11.1_123710.apk&csr=3554&cip=114.254.0.56&proto=https";
-        File file = new File(CacheDirConfig.SHARE_FILE_DIR, "we_chat.apk");
-        File file1 = new File(CacheDirConfig.SHARE_FILE_DIR, "we_chat1.apk");
-//        DownloadService downloadService = new AriaDownloadServiceImpl();
-        DownloadService downloadService = new HelloDownloadServiceImpl();
-        downloadService.register(AppUtils.getApplication(), new DownloadListener() {
+        mDownloadService.register(AppUtils.getApplication(), new DownloadListener() {
 
             @Override
             public void onTaskComplete(@NonNull DownloadTaskEntity taskEntity) {
-                Log.e("aa", "onTaskComplete: "+taskEntity.getKey() );
-            }
 
-            @Override
-            public void onTaskRunning(@NonNull DownloadTaskEntity taskEntity) {
-                Log.e("aa", "onTaskRunning: "+taskEntity.getKey() +"--"+taskEntity.getCurrentProgress());
-            }
-
-            @Override
-            public void onTaskFail(@NonNull DownloadTaskEntity taskEntity,
-                                   @Nullable Throwable throwable) {
-                Log.e("aa", "onTaskFail: "+taskEntity.getKey() +"--"+throwable.getMessage());
             }
         });
         DownloadOptions downloadOptions = DownloadOptions.create()
-                .setUrl(url)
-                .setFilePath(file.getAbsolutePath());
-
-        DownloadOptions downloadOptions1 = DownloadOptions.create()
-                .setUrl(url1)
-                .setFilePath(file1.getAbsolutePath());
-//
-        downloadService.createDownloadTask(this,downloadOptions);
-//
-        downloadService.createDownloadTask(this,downloadOptions1);
-
+                .setUrl(mUrl)
+                .setFilePath(mFilePath);
+        mDownloadService.createDownloadTask(this, downloadOptions);
     }
 
     /**

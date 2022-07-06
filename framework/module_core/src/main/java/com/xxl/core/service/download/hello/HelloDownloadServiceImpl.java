@@ -55,6 +55,9 @@ public class HelloDownloadServiceImpl implements DownloadService, HelloDownloadW
     @Override
     public void register(@NonNull Application application,
                          @Nullable DownloadListener downloadListener) {
+        if (DownloadServiceUtils.isDebug()) {
+            LogUtils.d(TAG + "download register");
+        }
         if (downloadListener != null) {
             mDownloadListeners.add(downloadListener);
         }

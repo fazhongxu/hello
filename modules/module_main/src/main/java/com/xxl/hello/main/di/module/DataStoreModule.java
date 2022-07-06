@@ -1,9 +1,17 @@
 package com.xxl.hello.main.di.module;
 
+import android.app.Application;
+
 import androidx.annotation.NonNull;
 
+import com.xxl.core.service.download.DownloadService;
+import com.xxl.core.service.download.aira.AriaDownloadServiceImpl;
+import com.xxl.core.service.download.aira.ForAriaDownload;
+import com.xxl.core.service.download.hello.ForHelloDownload;
+import com.xxl.core.service.download.hello.HelloDownloadServiceImpl;
 import com.xxl.hello.common.NetworkConfig;
 import com.xxl.core.data.remote.ApiHeader;
+import com.xxl.hello.service.qunlifier.ForApplication;
 import com.xxl.kit.LogUtils;
 import com.xxl.hello.service.data.local.db.impl.objectbox.ObjectBoxDataStoreModel;
 import com.xxl.hello.service.data.local.prefs.api.UserPreferences;
@@ -200,6 +208,36 @@ public class DataStoreModule {
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
                 .build();
+    }
+
+    //endregion
+
+    //region: 构建下载服务相关对象
+
+    /**
+     * 构建Aria下载服务
+     *
+     * @param application
+     * @return
+     */
+    @ForAriaDownload
+    @Singleton
+    @Provides
+    DownloadService provideAriaDownloadServiceImpl(@ForApplication Application application) {
+        return new AriaDownloadServiceImpl();
+    }
+
+    /**
+     * 构建Aria下载服务
+     *
+     * @param application
+     * @return
+     */
+    @ForHelloDownload
+    @Singleton
+    @Provides
+    DownloadService provideHelloDownloadServiceImpl(@ForApplication Application application) {
+        return new HelloDownloadServiceImpl();
     }
 
     //endregion

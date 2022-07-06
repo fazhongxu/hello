@@ -61,6 +61,9 @@ public class AriaDownloadServiceImpl implements DownloadService {
     @Override
     public void register(@NonNull Application application,
                          @Nullable DownloadListener downloadListener) {
+        if (DownloadServiceUtils.isDebug()) {
+            LogUtils.d(TAG + "download register");
+        }
         if (AriaManager.getInstance() == null) {
             Aria.init(application);
         }
