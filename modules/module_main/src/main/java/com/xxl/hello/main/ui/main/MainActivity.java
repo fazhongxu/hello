@@ -2,6 +2,7 @@ package com.xxl.hello.main.ui.main;
 
 import android.Manifest;
 import android.app.Activity;
+import android.text.Spannable;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -17,6 +18,7 @@ import com.xxl.core.media.audio.AudioRecordFormat;
 import com.xxl.core.utils.AppExpandUtils;
 import com.xxl.core.utils.TestUtils;
 import com.xxl.hello.common.CacheDirConfig;
+import com.xxl.hello.common.StringExpandUtils;
 import com.xxl.hello.main.BR;
 import com.xxl.hello.main.R;
 import com.xxl.hello.main.databinding.ActivityMainBinding;
@@ -31,6 +33,7 @@ import com.xxl.kit.AppRouterApi;
 import com.xxl.kit.AppUtils;
 import com.xxl.kit.DisplayUtils;
 import com.xxl.kit.FFmpegUtils;
+import com.xxl.kit.ListUtils;
 import com.xxl.kit.LogUtils;
 import com.xxl.kit.MediaUtils;
 import com.xxl.kit.OnAppStatusChangedListener;
@@ -40,6 +43,10 @@ import com.xxl.kit.ToastUtils;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 
@@ -194,11 +201,31 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
 
     //region: MainActivityNavigator
 
+    static final String REGEX = "\\w+@\\w+\\.\\w+";
+
     @CheckNetwork
     @Safe
     @Override
     public void onTestClick() {
-        AppRouterApi.navigationToLogin();
+
+        String string = "This is my 163 email 123abc@163.com ,This is my qq email 1234@qq.com,I'm so happy!";
+        Pattern pattern = Pattern.compile(REGEX);
+        Matcher matcher = pattern.matcher(string);
+        List<String> groups = new ArrayList<>();
+        while (matcher.find()) {
+            groups.add(matcher.group());
+        }
+        Spannable spannable = null;
+        if (!ListUtils.isEmpty(groups)) {
+            for (String group : groups) {
+                if (spannable == null) {
+                    spannable = StringExpandUtils.buildHighlightPrimaryColor(string, group);
+                } else {
+                    spannable = StringExpandUtils.buildHighlightPrimaryColor(spannable, group);
+                }
+            }
+        }
+        mViewDataBinding.tvTest.setText(spannable == null ? string : spannable);
     }
 
     /**

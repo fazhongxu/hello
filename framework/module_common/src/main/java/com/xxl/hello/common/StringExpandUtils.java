@@ -35,6 +35,19 @@ public class StringExpandUtils {
     }
 
     /**
+     * 构建高亮文本
+     *
+     * @param content 内容
+     * @param keyword 关键字
+     */
+    public static Spannable buildHighlightPrimaryColor(final Spannable content,
+                                                       final String keyword) {
+        final Spannable spannable = new SpannableString(content);
+        StringUtils.setHighlightColorId(spannable, keyword, R.color.colorPrimary);
+        return spannable;
+    }
+
+    /**
      * 解析url 中的key value
      * https://www.baidu.com/s?uid=1212&type=3&audio_id=1200
      * 返回 uid,1212,type,3 的key value 组成的map
