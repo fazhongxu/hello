@@ -2,7 +2,9 @@ package com.xxl.hello.main.ui.main;
 
 import android.Manifest;
 import android.app.Activity;
-import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -18,7 +20,6 @@ import com.xxl.core.media.audio.AudioRecordFormat;
 import com.xxl.core.utils.AppExpandUtils;
 import com.xxl.core.utils.TestUtils;
 import com.xxl.hello.common.CacheDirConfig;
-import com.xxl.hello.common.StringExpandUtils;
 import com.xxl.hello.main.BR;
 import com.xxl.hello.main.R;
 import com.xxl.hello.main.databinding.ActivityMainBinding;
@@ -31,9 +32,9 @@ import com.xxl.hello.widget.record.OnRecordListener;
 import com.xxl.hello.widget.record.RecordButton;
 import com.xxl.kit.AppRouterApi;
 import com.xxl.kit.AppUtils;
+import com.xxl.kit.ColorUtils;
 import com.xxl.kit.DisplayUtils;
 import com.xxl.kit.FFmpegUtils;
-import com.xxl.kit.ListUtils;
 import com.xxl.kit.LogUtils;
 import com.xxl.kit.MediaUtils;
 import com.xxl.kit.OnAppStatusChangedListener;
@@ -215,15 +216,12 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
         while (matcher.find()) {
             groups.add(matcher.group());
         }
-        Spannable spannable = null;
-        if (!ListUtils.isEmpty(groups)) {
-            for (String group : groups) {
-                if (spannable == null) {
-                    spannable = StringExpandUtils.buildHighlightPrimaryColor(string, group);
-                } else {
-                    spannable = StringExpandUtils.buildHighlightPrimaryColor(spannable, group);
-                }
-            }
+        SpannableString spannable = new SpannableString(string);
+        for (String group : groups) {
+            int start = string.indexOf(group);
+            int end =start+group.length();
+            ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(ColorUtils.getColor(R.color.resources_primary_color));
+            spannable.setSpan(foregroundColorSpan,start,end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
         mViewDataBinding.tvTest.setText(spannable == null ? string : spannable);
     }
