@@ -11,19 +11,9 @@ import androidx.lifecycle.ViewModelProvider;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.tbruyelle.rxpermissions3.RxPermissions;
 import com.xxl.core.aop.annotation.CheckNetwork;
-import com.xxl.core.aop.annotation.Delay;
-import com.xxl.core.aop.annotation.LogTag;
 import com.xxl.core.aop.annotation.Safe;
-import com.xxl.core.aop.annotation.SingleClick;
 import com.xxl.core.media.audio.AudioCapture;
 import com.xxl.core.media.audio.AudioRecordFormat;
-import com.xxl.core.service.download.DownloadListener;
-import com.xxl.core.service.download.DownloadOptions;
-import com.xxl.core.service.download.DownloadService;
-import com.xxl.core.service.download.DownloadTaskEntity;
-import com.xxl.core.service.download.aira.ForAriaDownload;
-import com.xxl.core.service.download.hello.ForHelloDownload;
-import com.xxl.core.service.download.hello.HelloDownloadServiceImpl;
 import com.xxl.core.utils.AppExpandUtils;
 import com.xxl.core.utils.TestUtils;
 import com.xxl.hello.common.CacheDirConfig;
@@ -50,8 +40,6 @@ import com.xxl.kit.ToastUtils;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -204,34 +192,13 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
 
     //endregion
 
-    String mUrl = "https://480ad2efbb4b2c849ee2a20a88aa42ee.dlied1.cdntips.net/imtt.dd.qq.com/sjy.10001/sjy.00004/16891/apk/CE7F27C1367BF652DE806E66A8141E5A.apk?mkey=62c50caa72fe26cd&f=0000&fsname=com.duowan.mobile_8.11.1_123710.apk&csr=3554&cip=114.254.0.56&proto=https";
-
-    private String mFilePath = new File(CacheDirConfig.SHARE_FILE_DIR, "123.apk").getAbsolutePath();
-
     //region: MainActivityNavigator
 
-    @ForHelloDownload
-    @Inject
-    DownloadService mDownloadService;
-
-    @LogTag(tag = "aaa", message = "onTestClick")
-    @SingleClick
-    @Safe
     @CheckNetwork
-    @Delay(delay = 200)
+    @Safe
     @Override
     public void onTestClick() {
-        mDownloadService.register(AppUtils.getApplication(), new DownloadListener() {
-
-            @Override
-            public void onTaskComplete(@NonNull DownloadTaskEntity taskEntity) {
-
-            }
-        });
-        DownloadOptions downloadOptions = DownloadOptions.create()
-                .setUrl(mUrl)
-                .setFilePath(mFilePath);
-        mDownloadService.createDownloadTask(this, downloadOptions);
+        AppRouterApi.navigationToLogin();
     }
 
     /**
