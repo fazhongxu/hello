@@ -355,7 +355,7 @@ public class RecordButton extends View implements Animatable {
      *
      * @return progress animate
      */
-    @SuppressLint("ObjectAnimatorBinding")
+    @SuppressLint({"ObjectAnimatorBinding", "SoonBlockedPrivateApi"})
     private ObjectAnimator progressAnimate() {
         ObjectAnimator animator = ObjectAnimator.ofInt(this, "progress", currentMilliSecond, maxMilliSecond);
 
@@ -363,6 +363,7 @@ public class RecordButton extends View implements Animatable {
             recordListener.onButtonRecordStart();
         }
 
+        AnimatorUtils.resetDurationScale(animator);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {

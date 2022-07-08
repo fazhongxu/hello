@@ -91,7 +91,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:visibility="gone"
+                android:visibility="visible"
                 app:buttonColor="#56BF6C"
                 app:buttonGap="2dp"
                 app:buttonRadius="33dp"
