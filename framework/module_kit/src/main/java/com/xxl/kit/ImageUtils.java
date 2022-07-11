@@ -2391,7 +2391,7 @@ public final class ImageUtils {
         if (FileUtils.createOrExistsDir(targetDir)) {
             Luban.with(AppUtils.getApplication())
                     .load(imagePath)
-                    .ignoreBy(100)
+                    .ignoreBy(800)
                     .setTargetDir(targetDir)
                     .filter(new CompressionPredicate() {
                         @Override
