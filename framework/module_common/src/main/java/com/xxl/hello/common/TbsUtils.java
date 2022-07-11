@@ -140,7 +140,7 @@ public class TbsUtils {
 
             final boolean needDownload = TbsDownloader.needDownload(context, TbsDownloader.DOWNLOAD_OVERSEA_TBS);
             LogUtils.d(TAG + " needDownload " + needDownload);
-            if (!needDownload) {
+            if (needDownload) {
                 TbsDownloader.startDownload(context);
             }
         } catch (Exception e) {
