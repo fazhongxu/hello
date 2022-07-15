@@ -54,7 +54,7 @@ versions.objectbox = "3.0.1"
 versions.aspectjx_plugin = "2.0.10"
 versions.aspectjrt = "1.9.6"
 
-versions.luban = "1.1.8"
+versions.luban = "1.0.0"
 versions.video_processor = "2.4.2"
 versions.glide = "4.12.0"
 versions.picture_selector = "v2.6.1"
@@ -127,7 +127,7 @@ deps.aspectjx_plugin = "com.hujiang.aspectjx:gradle-android-plugin-aspectjx:$ver
 deps.aspectjrt = "org.aspectj:aspectjrt:$versions.aspectjrt"
 
 //luban 图片压缩 https://github.com/Curzibn/Luban
-deps.luban = "top.zibin:Luban:$versions.luban"
+deps.luban = "top.zibin:Luban-turbo:$versions.luban"
 
 // videoProcessor 视频压缩 https://github.com/yellowcath/VideoProcessor
 deps.video_processor = "com.github.yellowcath:VideoProcessor:$versions.video_processor"
