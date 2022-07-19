@@ -9,7 +9,7 @@ import com.xxl.hello.common.AppConfig;
 import com.xxl.kit.GsonUtils;
 import com.xxl.core.utils.TestUtils;
 import com.xxl.hello.service.data.local.prefs.api.UserPreferences;
-import com.xxl.hello.service.data.model.entity.LoginUserEntity;
+import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
 
 /**
  * 用户信息存储

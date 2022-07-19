@@ -74,6 +74,21 @@ public final class ViewUtils {
     }
 
     /**
+     * set view setOnClickListener
+     *
+     * @param targetView
+     * @param listener
+     */
+    public static void setOnClickListener(View targetView,
+                                          View.OnClickListener listener) {
+        if (targetView == null) {
+            return;
+        }
+        targetView.setOnClickListener(listener);
+    }
+
+
+    /**
      * set text
      *
      * @param targetTextView

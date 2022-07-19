@@ -221,6 +221,7 @@ public final class ListUtils {
 
     /**
      * get last item
+     *
      * @param sourceList
      * @param <V>
      * @return
@@ -232,6 +233,7 @@ public final class ListUtils {
 
     /**
      * get last item
+     *
      * @param sourceList
      * @param <V>
      * @return
@@ -239,6 +241,21 @@ public final class ListUtils {
     @SuppressWarnings("unchecked")
     public static <V> V getLast(List<V> sourceList) {
         return (sourceList == null || sourceList.size() == 0) ? null : sourceList.get(sourceList.size() - 1);
+    }
+
+    /**
+     * get item
+     *
+     * @param sourceList
+     * @param position
+     * @param <V>
+     * @return
+     */
+    public static <V> V getItem(List<V> sourceList, int position) {
+        if (sourceList == null || sourceList.size() == 0 || position >= sourceList.size()) {
+            return null;
+        }
+        return sourceList.get(position);
     }
 
     /**

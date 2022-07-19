@@ -2,7 +2,7 @@ package com.xxl.hello.main.ui.main;
 
 import androidx.annotation.NonNull;
 
-import com.xxl.hello.service.data.model.entity.LoginUserEntity;
+import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
 import com.xxl.hello.service.data.model.event.OnUserEventApi;
 import com.xxl.hello.service.ui.BaseEventBusWrapper;
 

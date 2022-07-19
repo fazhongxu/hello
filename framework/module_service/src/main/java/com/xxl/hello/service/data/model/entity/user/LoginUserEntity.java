@@ -1,4 +1,4 @@
-package com.xxl.hello.service.data.model.entity;
+package com.xxl.hello.service.data.model.entity.user;
 
 import androidx.annotation.Keep;
 import androidx.annotation.NonNull;

@@ -34,6 +34,7 @@
             android:scaleType="centerCrop"
             app:civ_border_color="@android:color/transparent"
             app:civ_border_overlay="true"
+            android:onLongClick="@{()->navigator.onUserAvatarLongClick()}"
             app:civ_border_width="2dp"
             app:imageUrl="@{viewModel.observableUserAvatarUrl}"
             app:layout_constraintBottom_toBottomOf="parent"

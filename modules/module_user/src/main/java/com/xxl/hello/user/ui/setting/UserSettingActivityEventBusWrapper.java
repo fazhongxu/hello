@@ -2,11 +2,8 @@ package com.xxl.hello.user.ui.setting;
 
 import androidx.annotation.NonNull;
 
-import com.xxl.hello.service.data.model.entity.LoginUserEntity;
-import com.xxl.hello.service.data.model.event.OnUserEventApi;
 import com.xxl.hello.service.data.model.event.SystemEventApi;
 import com.xxl.hello.service.ui.BaseEventBusWrapper;
-import com.xxl.hello.user.ui.login.LoginActivity;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;

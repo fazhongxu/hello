@@ -12,6 +12,7 @@ import com.xxl.core.service.download.hello.HelloDownloadServiceImpl;
 import com.xxl.hello.common.NetworkConfig;
 import com.xxl.core.data.remote.ApiHeader;
 import com.xxl.hello.service.qunlifier.ForApplication;
+import com.xxl.hello.widget.di.module.WidgetDataStoreModule;
 import com.xxl.kit.LogUtils;
 import com.xxl.hello.service.data.local.db.impl.objectbox.ObjectBoxDataStoreModel;
 import com.xxl.hello.service.data.local.prefs.api.UserPreferences;
@@ -42,6 +43,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * @date 2021/7/15.
  */
 @Module(includes = {ServiceDataStoreModule.class,
+        WidgetDataStoreModule.class,
         ObjectBoxDataStoreModel.class,
         UserDataStoreModule.class})
 public class DataStoreModule {

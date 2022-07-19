@@ -21,4 +21,7 @@
     <string name="resources_file_upload_failure">文件上传失败，请稍后再试！</string>
     <string name="resources_file_upload_failure_can_not_found_res">无法上传资源，请检查资源是否存在！</string>
 
+    <string name="resources_we_chat">微信</string>
+    <string name="resources_friend_circle">朋友圈</string>
+
 </resources>

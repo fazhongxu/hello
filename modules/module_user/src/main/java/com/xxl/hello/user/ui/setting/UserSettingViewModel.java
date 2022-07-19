@@ -18,7 +18,7 @@ import com.xxl.kit.StringUtils;
 import com.xxl.kit.ToastUtils;
 import com.xxl.hello.common.CacheDirConfig;
 import com.xxl.hello.service.data.local.db.entity.ResourcesUploadQueueDBEntity;
-import com.xxl.hello.service.data.model.entity.LoginUserEntity;
+import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.hello.service.data.repository.api.ResourceRepositoryApi;

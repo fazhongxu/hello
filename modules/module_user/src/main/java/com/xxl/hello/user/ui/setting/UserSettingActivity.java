@@ -14,17 +14,24 @@ import com.luck.picture.lib.entity.LocalMedia;
 import com.xxl.core.data.router.SystemRouterApi;
 import com.xxl.core.image.selector.MediaSelector;
 import com.xxl.hello.common.AppConfig;
-import com.xxl.kit.PathUtils;
 import com.xxl.hello.common.NetworkConfig;
 import com.xxl.hello.router.UserRouterApi;
 import com.xxl.hello.service.data.local.db.entity.ResourcesUploadQueueDBEntity;
-import com.xxl.hello.service.data.model.entity.LoginUserEntity;
+import com.xxl.hello.service.data.model.entity.share.ImageShareResoucesEntity;
+import com.xxl.hello.service.data.model.entity.share.ShareOperateItem;
+import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
+import com.xxl.hello.service.data.model.enums.SystemEnumsApi;
 import com.xxl.hello.service.data.model.event.SystemEventApi;
 import com.xxl.hello.service.qunlifier.ForUserBaseUrl;
 import com.xxl.hello.service.ui.DataBindingActivity;
 import com.xxl.hello.user.BR;
 import com.xxl.hello.user.R;
 import com.xxl.hello.user.databinding.UserActivitySettingBinding;
+import com.xxl.hello.widget.share.OnShareItemOperate;
+import com.xxl.hello.widget.share.ResourcesShareWindow;
+import com.xxl.hello.widget.share.api.ResourcesSharePickerKit;
+import com.xxl.kit.PathUtils;
+import com.xxl.kit.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +67,12 @@ public class UserSettingActivity extends DataBindingActivity<UserSettingViewMode
     @Inject
     UserSettingActivityEventBusWrapper mEventBusWrapper;
 
+    /**
+     * 资源分享器
+     */
+    @Inject
+    ResourcesSharePickerKit mResourcesSharePickerKit;
+
     //endregion
 
     //region: 页面生命周期
@@ -82,6 +95,12 @@ public class UserSettingActivity extends DataBindingActivity<UserSettingViewMode
         mUserSettingViewModel = new ViewModelProvider(this, mViewModelProviderFactory).get(UserSettingViewModel.class);
         mUserSettingViewModel.setNavigator(this);
         return mUserSettingViewModel;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mResourcesSharePickerKit.unregister();
     }
 
     @Override
@@ -138,6 +157,7 @@ public class UserSettingActivity extends DataBindingActivity<UserSettingViewMode
      */
     @Override
     protected void setupLayout() {
+        mResourcesSharePickerKit.register(this);
         mUserSettingViewModel.setObservableUserAvatarUrl("https://avatars.githubusercontent.com/u/24353536?s=400&u=43f37f2e73f15a1dfad58f0d63c35418715a5621&v=4");
     }
 
@@ -195,6 +215,30 @@ public class UserSettingActivity extends DataBindingActivity<UserSettingViewMode
         MediaSelector.create(this)
                 .openGallery(PictureMimeType.ofAll())
                 .forResult();
+    }
+
+    /**
+     * 用户头像长按点击
+     *
+     * @return
+     */
+    @Override
+    public boolean onUserAvatarLongClick() {
+        mResourcesSharePickerKit.showSharePicker(this, ImageShareResoucesEntity.obtain(),new OnShareItemOperate() {
+
+            @Override
+            public boolean onClick(@NonNull ResourcesShareWindow window,
+                                   @NonNull ShareOperateItem operateItem,
+                                   @NonNull View targetView,
+                                   int position) {
+                if (operateItem.getOperateType() == SystemEnumsApi.ShareOperateType.WE_CHAT_CIRCLE) {
+                    ToastUtils.normal("自定义点击事件"+operateItem.getTitle()).show();
+                    return true;
+                }
+                return false;
+            }
+        });
+        return true;
     }
 
     /**

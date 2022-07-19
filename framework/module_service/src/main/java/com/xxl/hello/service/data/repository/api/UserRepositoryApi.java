@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 
 import com.xxl.hello.service.data.model.api.QueryUserInfoRequest;
 import com.xxl.hello.service.data.model.api.QueryUserInfoResponse;
-import com.xxl.hello.service.data.model.entity.LoginUserEntity;
+import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
 
 import io.reactivex.rxjava3.core.Observable;
 
