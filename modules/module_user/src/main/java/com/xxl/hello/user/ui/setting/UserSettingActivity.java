@@ -35,7 +35,6 @@ import com.xxl.kit.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import javax.inject.Inject;
 
@@ -61,6 +60,11 @@ public class UserSettingActivity extends DataBindingActivity<UserSettingViewMode
     @ForUserBaseUrl
     @Inject
     String mBaseUrl;
+
+    /**
+     * 点击次数
+     */
+    private int mClickCount;
 
     /**
      * 用户设置页面EventBus通知事件监听
@@ -225,8 +229,7 @@ public class UserSettingActivity extends DataBindingActivity<UserSettingViewMode
      */
     @Override
     public boolean onUserAvatarLongClick() {
-        final Random random = new Random();
-        if (random.nextInt(2) == 0) {
+        if (++mClickCount % 3 == 0) {
             mResourcesSharePickerKit.operateHandle(this, ShareOperateType.WE_CHAT, ImageShareResoucesEntity.obtain());
             return true;
         }
