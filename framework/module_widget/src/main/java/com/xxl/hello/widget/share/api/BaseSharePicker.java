@@ -6,6 +6,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.xxl.hello.service.data.model.entity.share.BaseShareResourcesEntity;
+import com.xxl.hello.service.data.model.enums.SystemEnumsApi;
+import com.xxl.hello.service.data.model.enums.SystemEnumsApi.ShareOperateType;
 import com.xxl.hello.widget.share.OnShareItemOperate;
 
 import java.util.List;
@@ -31,6 +33,17 @@ public interface BaseSharePicker<T extends BaseShareResourcesEntity> {
      * 取消注册
      */
     void unregister();
+
+    /**
+     * 操作处理（用于页面单独写，功能想用统一实现的情况）
+     *
+     * @param activity                   上下文
+     * @param operateType                操作类型
+     * @param targetShareResourcesEntity 资源分享实体
+     */
+    void operateHandle(@NonNull final Activity activity,
+                       @ShareOperateType final int operateType,
+                       @NonNull final T targetShareResourcesEntity);
 
     /**
      * 展示分享弹窗

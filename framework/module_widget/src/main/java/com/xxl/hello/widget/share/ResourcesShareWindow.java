@@ -13,7 +13,9 @@ import androidx.annotation.Nullable;
 
 import com.xxl.hello.service.data.model.entity.share.BaseShareResourcesEntity;
 import com.xxl.hello.service.data.model.entity.share.ShareOperateItem;
+import com.xxl.hello.service.data.model.enums.SystemEnumsApi;
 import com.xxl.hello.widget.R;
+import com.xxl.kit.StringUtils;
 import com.xxl.kit.ViewUtils;
 
 import java.util.List;
@@ -73,6 +75,33 @@ public class ResourcesShareWindow extends BasePopupWindow {
 
     //region: 提供方法
 
+    /**
+     * 构建微信分享操作
+     *
+     * @param handle
+     * @return
+     */
+    public static <T> ShareOperateItem buildWeChatAction(@NonNull final ShareOperateItem.OnItemHandle<T> handle) {
+        return ShareOperateItem.obtain()
+                .setOperateType(SystemEnumsApi.ShareOperateType.WE_CHAT)
+                .setTitle(StringUtils.getString(R.string.resources_we_chat))
+                .setIcon(R.drawable.resources_ic_we_chat)
+                .setOnItemHandle(handle);
+    }
+
+    /**
+     * 构建微信朋友圈分享操作
+     *
+     * @param handle
+     * @return
+     */
+    public static <T> ShareOperateItem buildWeChatCircleAction(@NonNull final ShareOperateItem.OnItemHandle<T> handle) {
+        return ShareOperateItem.obtain()
+                .setOperateType(SystemEnumsApi.ShareOperateType.WE_CHAT_CIRCLE)
+                .setTitle(StringUtils.getString(R.string.resources_friend_circle))
+                .setIcon(R.drawable.resources_ic_we_chat_circle)
+                .setOnItemHandle(handle);
+    }
 
     /**
      * 添加条目

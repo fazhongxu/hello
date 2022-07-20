@@ -72,6 +72,9 @@ public class ImageSharePickerImpl extends BaseSharePickerImpl<ImageShareResouces
      */
     @Override
     public void onWeChatActionClick(@NonNull ImageShareResoucesEntity targetShareResourcesEntity) {
+        if (isActivityFinishing()) {
+            return;
+        }
         // TODO: 2022/7/19
         ToastUtils.normal("点击了微信分享").show();
     }
@@ -83,6 +86,9 @@ public class ImageSharePickerImpl extends BaseSharePickerImpl<ImageShareResouces
      */
     @Override
     public void onWeChatCircleActionClick(@NonNull ImageShareResoucesEntity targetShareResourcesEntity) {
+        if (isActivityFinishing()) {
+            return;
+        }
         // TODO: 2022/7/19
         ToastUtils.normal("点击了朋友圈分享").show();
     }

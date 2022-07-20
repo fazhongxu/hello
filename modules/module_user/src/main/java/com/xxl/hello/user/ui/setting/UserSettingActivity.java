@@ -20,7 +20,7 @@ import com.xxl.hello.service.data.local.db.entity.ResourcesUploadQueueDBEntity;
 import com.xxl.hello.service.data.model.entity.share.ImageShareResoucesEntity;
 import com.xxl.hello.service.data.model.entity.share.ShareOperateItem;
 import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
-import com.xxl.hello.service.data.model.enums.SystemEnumsApi;
+import com.xxl.hello.service.data.model.enums.SystemEnumsApi.ShareOperateType;
 import com.xxl.hello.service.data.model.event.SystemEventApi;
 import com.xxl.hello.service.qunlifier.ForUserBaseUrl;
 import com.xxl.hello.service.ui.DataBindingActivity;
@@ -35,6 +35,7 @@ import com.xxl.kit.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.inject.Inject;
 
@@ -224,15 +225,20 @@ public class UserSettingActivity extends DataBindingActivity<UserSettingViewMode
      */
     @Override
     public boolean onUserAvatarLongClick() {
-        mResourcesSharePickerKit.showSharePicker(this, ImageShareResoucesEntity.obtain(),new OnShareItemOperate() {
+        final Random random = new Random();
+        if (random.nextInt(2) == 0) {
+            mResourcesSharePickerKit.operateHandle(this, ShareOperateType.WE_CHAT, ImageShareResoucesEntity.obtain());
+            return true;
+        }
+        mResourcesSharePickerKit.showSharePicker(this, ImageShareResoucesEntity.obtain(), new OnShareItemOperate() {
 
             @Override
             public boolean onClick(@NonNull ResourcesShareWindow window,
                                    @NonNull ShareOperateItem operateItem,
                                    @NonNull View targetView,
                                    int position) {
-                if (operateItem.getOperateType() == SystemEnumsApi.ShareOperateType.WE_CHAT_CIRCLE) {
-                    ToastUtils.normal("自定义点击事件"+operateItem.getTitle()).show();
+                if (operateItem.getOperateType() == ShareOperateType.WE_CHAT_CIRCLE) {
+                    ToastUtils.normal("自定义点击事件" + operateItem.getTitle()).show();
                     window.dismiss();
                     return true;
                 }

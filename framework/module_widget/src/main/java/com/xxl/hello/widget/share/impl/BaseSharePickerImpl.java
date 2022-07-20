@@ -10,15 +10,12 @@ import androidx.annotation.Nullable;
 import com.xxl.core.service.download.DownloadService;
 import com.xxl.hello.service.data.model.entity.share.BaseShareResourcesEntity;
 import com.xxl.hello.service.data.model.entity.share.ShareOperateItem;
-import com.xxl.hello.service.data.model.entity.share.ShareOperateItem.OnItemHandle;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi.ShareOperateType;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
-import com.xxl.hello.widget.R;
 import com.xxl.hello.widget.share.OnShareItemOperate;
 import com.xxl.hello.widget.share.ResourcesShareWindow;
 import com.xxl.hello.widget.share.api.BaseSharePicker;
 import com.xxl.kit.ListUtils;
-import com.xxl.kit.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,6 +74,8 @@ public abstract class BaseSharePickerImpl<T extends BaseShareResourcesEntity> im
     @Override
     public void register(@NonNull Activity activity) {
         mActivity = activity;
+
+        // TODO: 2022/7/20 分享onActivityResult 回调注册 
     }
 
     /**
@@ -85,6 +84,35 @@ public abstract class BaseSharePickerImpl<T extends BaseShareResourcesEntity> im
     @Override
     public void unregister() {
         // TODO: 2022/7/19  取消网络请求啥的
+    }
+
+    /**
+     * 当前页面是否关闭
+     *
+     * @return
+     */
+    protected boolean isActivityFinishing() {
+        synchronized (this) {
+            return mActivity == null || mActivity.isFinishing();
+        }
+    }
+
+    /**
+     * 操作处理（用于页面单独写，功能想用统一实现的情况）
+     *
+     * @param activity                   上下文
+     * @param operateType                操作类型
+     * @param targetShareResourcesEntity 资源分享实体
+     */
+    @Override
+    public void operateHandle(@NonNull final Activity activity,
+                              @ShareOperateType final int operateType,
+                              @NonNull final T targetShareResourcesEntity) {
+        register(activity);
+        final ShareOperateItem operateItem = buildOperateItem(operateType);
+        if (operateItem != null) {
+            operateItem.onClick(targetShareResourcesEntity);
+        }
     }
 
     /**
@@ -115,40 +143,12 @@ public abstract class BaseSharePickerImpl<T extends BaseShareResourcesEntity> im
     protected ShareOperateItem buildOperateItem(@ShareOperateType int operateType) {
         switch (operateType) {
             case ShareOperateType.WE_CHAT:
-                return buildWeChatAction(this::onWeChatActionClick);
+                return ResourcesShareWindow.buildWeChatAction(this::onWeChatActionClick);
             case ShareOperateType.WE_CHAT_CIRCLE:
-                return buildWeChatCircleAction(this::onWeChatCircleActionClick);
+                return ResourcesShareWindow.buildWeChatCircleAction(this::onWeChatCircleActionClick);
             default:
                 return null;
         }
-    }
-
-    /**
-     * 构建微信分享操作
-     *
-     * @param handle
-     * @return
-     */
-    public ShareOperateItem buildWeChatAction(@NonNull final OnItemHandle<T> handle) {
-        return ShareOperateItem.obtain()
-                .setOperateType(ShareOperateType.WE_CHAT)
-                .setTitle(StringUtils.getString(R.string.resources_we_chat))
-                .setIcon(R.drawable.resources_ic_we_chat)
-                .setOnItemHandle(handle);
-    }
-
-    /**
-     * 构建微信朋友圈分享操作
-     *
-     * @param handle
-     * @return
-     */
-    public ShareOperateItem buildWeChatCircleAction(@NonNull final OnItemHandle<T> handle) {
-        return ShareOperateItem.obtain()
-                .setOperateType(ShareOperateType.WE_CHAT_CIRCLE)
-                .setTitle(StringUtils.getString(R.string.resources_friend_circle))
-                .setIcon(R.drawable.resources_ic_we_chat_circle)
-                .setOnItemHandle(handle);
     }
 
     /**
@@ -230,7 +230,9 @@ public abstract class BaseSharePickerImpl<T extends BaseShareResourcesEntity> im
      * @param targetShareResourcesEntity
      */
     public void onWeChatActionClick(@NonNull T targetShareResourcesEntity) {
-
+        if (isActivityFinishing()) {
+            return;
+        }
     }
 
     /**
@@ -239,7 +241,9 @@ public abstract class BaseSharePickerImpl<T extends BaseShareResourcesEntity> im
      * @param targetShareResourcesEntity
      */
     public void onWeChatCircleActionClick(@NonNull T targetShareResourcesEntity) {
-
+        if (isActivityFinishing()) {
+            return;
+        }
     }
 
     //endregion

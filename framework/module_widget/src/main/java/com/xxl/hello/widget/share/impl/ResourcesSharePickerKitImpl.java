@@ -10,6 +10,8 @@ import com.xxl.core.service.download.DownloadService;
 import com.xxl.hello.service.data.model.entity.share.BaseShareResourcesEntity;
 import com.xxl.hello.service.data.model.entity.share.ImageShareResoucesEntity;
 import com.xxl.hello.service.data.model.entity.share.VideoShareResoucesEntity;
+import com.xxl.hello.service.data.model.enums.SystemEnumsApi;
+import com.xxl.hello.service.data.model.enums.SystemEnumsApi.ShareOperateType;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi.ShareResourcesType;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.hello.widget.share.OnShareItemOperate;
@@ -105,6 +107,23 @@ public class ResourcesSharePickerKitImpl implements ResourcesSharePickerKit {
             for (BaseSharePicker picker : mSharePickerMap.values()) {
                 picker.unregister();
             }
+        }
+    }
+
+    /**
+     * 操作处理（用于页面单独写，功能想用统一实现的情况）
+     *
+     * @param activity                   上下文
+     * @param operateType                操作类型
+     * @param targetShareResourcesEntity 资源分享实体
+     */
+    @Override
+    public void operateHandle(@NonNull final Activity activity,
+                              @ShareOperateType final int operateType,
+                              @NonNull final BaseShareResourcesEntity targetShareResourcesEntity) {
+        final BaseSharePicker sharePicker = getSharePicker(targetShareResourcesEntity);
+        if (sharePicker != null) {
+            sharePicker.operateHandle(activity, operateType, targetShareResourcesEntity);
         }
     }
 
