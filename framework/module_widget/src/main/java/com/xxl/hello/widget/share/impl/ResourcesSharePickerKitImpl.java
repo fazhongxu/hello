@@ -100,7 +100,7 @@ public class ResourcesSharePickerKitImpl implements ResourcesSharePickerKit {
      */
     @Override
     public void unregister() {
-        // TODO: 2022/7/19  取消网络请求,销毁分享数据，ShareUtils#unregister
+        // TODO: 2022/7/19  取消网络请求,销毁分享数据，ShareUtils#release
         synchronized (this) {
             for (BaseSharePicker picker : mSharePickerMap.values()) {
                 picker.unregister();

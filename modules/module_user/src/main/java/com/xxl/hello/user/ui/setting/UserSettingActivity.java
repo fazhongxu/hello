@@ -233,6 +233,7 @@ public class UserSettingActivity extends DataBindingActivity<UserSettingViewMode
                                    int position) {
                 if (operateItem.getOperateType() == SystemEnumsApi.ShareOperateType.WE_CHAT_CIRCLE) {
                     ToastUtils.normal("自定义点击事件"+operateItem.getTitle()).show();
+                    window.dismiss();
                     return true;
                 }
                 return false;
