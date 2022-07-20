@@ -15,6 +15,7 @@ import com.xxl.core.image.selector.PictureSelectorEngineImpl;
 import com.xxl.core.listener.IApplication;
 import com.xxl.core.service.download.DownloadServiceUtils;
 import com.xxl.core.utils.CacheUtils;
+import com.xxl.hello.common.ShareConfig;
 import com.xxl.kit.LogUtils;
 import com.xxl.kit.StringUtils;
 import com.xxl.kit.TimeUtils;
@@ -139,8 +140,8 @@ public class HelloApplication extends BaseApplication implements IApplication, M
      */
     @Override
     public void initPluginsAfterAgreePrivacyPolicy() {
+        super.initPluginsAfterAgreePrivacyPolicy();
         LogUtils.d("initPluginAfterAgreePrivacyPolicy");
-
         try {
             TimeUtils.initialize();
             DownloadServiceUtils.init(this,isDebug());
@@ -150,6 +151,36 @@ public class HelloApplication extends BaseApplication implements IApplication, M
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 获取分享 appkey
+     *
+     * @return
+     */
+    @Override
+    public String getShareAppKey() {
+        return ShareConfig.APP_KEY;
+    }
+
+    /**
+     * 获取分享Secret
+     *
+     * @return
+     */
+    @Override
+    public String getShareSecret() {
+        return ShareConfig.APP_SECRET;
+    }
+
+    /**
+     * 获取分享渠道
+     *
+     * @return
+     */
+    @Override
+    public String getChannel() {
+        return ShareConfig.CHANNEL;
     }
 
     //endregion

@@ -77,6 +77,14 @@ versions.tbs = "44181"
 
 versions.aria = "3.8.16"
 
+versions.umeng_common = "9.5.0"
+versions.umeng_asms = "1.6.3"
+versions.umeng_share = "7.1.9"
+
+versions.sina = "11.11.1@aar"
+versions.we_chat = "6.8.0"
+versions.qq = "3.52.0"
+
 ext.versions = versions
 
 deps.android_build_gradle = "com.android.tools.build:gradle:$build_versions.android_build_gradle"
@@ -225,6 +233,30 @@ aria.core = "me.laoyuyu.aria:core:$versions.aria"
 aria.aira_processor = "me.laoyuyu.aria:compiler:$versions.aria"
 deps.aria = aria
 
+// umeng https://devs.umeng.com/
+// 最新sdk 查看地址 https://github.com/umeng/MultiFunctionAndroidMavenDemo-master/blob/master/app/build.gradle
+def umeng = [:]
+//必选
+umeng.umeng_common = "com.umeng.umsdk:common:$versions.umeng_common"
+//必选
+umeng.umeng_asms = "com.umeng.umsdk:asms:$versions.umeng_asms"
+//分享必选核心库
+umeng.umeng_share_core = "com.umeng.umsdk:share-core:$versions.umeng_share"
+// 分享可选
+umeng.umeng_share_qq = "com.umeng.umsdk:share-qq:$versions.umeng_share"
+umeng.umeng_share_we_chat = "com.umeng.umsdk:share-wx:$versions.umeng_share"
+umeng.umeng_share_sina = "com.umeng.umsdk:share-sina:$versions.umeng_share"
+deps.umeng = umeng
+
+//微信官方依赖库 微信必选
+deps.we_chat = "com.tencent.mm.opensdk:wechat-sdk-android-without-mta:$versions.we_chat"
+
+// https://wiki.connect.qq.com/%e4%ba%92%e8%81%94sdk%e6%94%af%e6%8c%81maven
+//QQ 官方依赖库 QQ必选 https://wiki.connect.qq.com/qq%e7%99%bb%e5%bd%95
+deps.qq = "com.tencent.tauth:qqopensdk:$versions.qq"
+
+// 新浪微博官方SDK 微博必选
+deps.sina = "io.github.sinaweibosdk:core:$versions.sina"
 
 def origin = [:]
 // 是否使用远程依赖 true使用远程依赖（远程私服存储的aar依赖）

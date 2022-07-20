@@ -8,6 +8,7 @@ import androidx.multidex.MultiDex;
 import com.xxl.kit.AppUtils;
 import com.xxl.kit.ProcessUtils;
 import com.xxl.kit.RouterUtils;
+import com.xxl.kit.ShareUtils;
 
 import dagger.android.DaggerApplication;
 
@@ -50,18 +51,47 @@ public abstract class BaseApplication extends DaggerApplication {
     @CallSuper
     protected void initPlugins() {
         RouterUtils.init(this, isDebug());
+        ShareUtils.preInit(this, getShareAppKey(), getChannel(), isDebug());
     }
 
     /**
      * 在用户统一"隐私政策"后初始化插件
      */
     public void initPluginsAfterAgreePrivacyPolicy() {
+        setupShare();
+    }
 
+    /**
+     * 设置分享相关
+     */
+    public void setupShare() {
+        ShareUtils.init(this,getShareAppKey(),getShareSecret(),getChannel(),isDebug());
     }
 
     //endregion
 
     //region: 提供方法
+
+    /**
+     * 获取分享 appkey
+     *
+     * @return
+     */
+    public abstract String getShareAppKey();
+
+    /**
+     * 获取分享Secret
+     *
+     * @return
+     */
+    public abstract String getShareSecret();
+
+    /**
+     * 获取分享渠道
+     *
+     * @return
+     */
+    public abstract String getChannel();
 
     /**
      * 用户是否已经同意"隐私协议"
