@@ -11,11 +11,6 @@ import androidx.databinding.ObservableField;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.xxl.core.image.selector.MediaSelector;
 import com.xxl.core.listener.OnResourcesCompressListener;
-import com.xxl.kit.ImageUtils;
-import com.xxl.kit.LogUtils;
-import com.xxl.kit.PathUtils;
-import com.xxl.kit.StringUtils;
-import com.xxl.kit.ToastUtils;
 import com.xxl.hello.common.CacheDirConfig;
 import com.xxl.hello.service.data.local.db.entity.ResourcesUploadQueueDBEntity;
 import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
@@ -25,7 +20,11 @@ import com.xxl.hello.service.data.repository.api.ResourceRepositoryApi;
 import com.xxl.hello.user.R;
 import com.xxl.hello.user.data.repository.UserRepository;
 import com.xxl.hello.widget.ui.model.resource.BaseResourceQueueViewModel;
+import com.xxl.kit.ImageUtils;
 import com.xxl.kit.ListUtils;
+import com.xxl.kit.LogUtils;
+import com.xxl.kit.PathUtils;
+import com.xxl.kit.ToastUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -198,7 +197,7 @@ public class UserSettingViewModel extends BaseResourceQueueViewModel<UserSetting
 
                     @Override
                     public void onError(Throwable e) {
-                        ToastUtils.show(StringUtils.getString(R.string.resources_compress_failure_text) + e.getMessage());
+                        ToastUtils.error(R.string.resources_compress_failure_text).show();
                         listener.onFailure(e);
                     }
                 });

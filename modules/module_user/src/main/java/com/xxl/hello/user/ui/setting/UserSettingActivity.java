@@ -241,7 +241,7 @@ public class UserSettingActivity extends DataBindingActivity<UserSettingViewMode
                                    @NonNull View targetView,
                                    int position) {
                 if (operateItem.getOperateType() == ShareOperateType.WE_CHAT_CIRCLE) {
-                    ToastUtils.normal("自定义点击事件" + operateItem.getTitle()).show();
+                    ToastUtils.success("自定义点击事件" + operateItem.getTitle()).show();
                     window.dismiss();
                     return true;
                 }

@@ -45,7 +45,7 @@ public class CheckNetworkAspect {
                         throwable.printStackTrace();
                     }
                 } else {
-                    ToastUtils.show(StringUtils.getString(R.string.core_network_error_tips));
+                    ToastUtils.error(StringUtils.getString(R.string.core_network_error_tips)).show();
                 }
             }
         });

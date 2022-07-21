@@ -76,7 +76,7 @@ public class ImageSharePickerImpl extends BaseSharePickerImpl<ImageShareResouces
             return;
         }
         // TODO: 2022/7/19
-        ToastUtils.normal("点击了微信分享").show();
+        ToastUtils.success("点击了微信分享").show();
     }
 
     /**
@@ -90,7 +90,7 @@ public class ImageSharePickerImpl extends BaseSharePickerImpl<ImageShareResouces
             return;
         }
         // TODO: 2022/7/19
-        ToastUtils.normal("点击了朋友圈分享").show();
+        ToastUtils.success("点击了朋友圈分享").show();
     }
 
     //endregion

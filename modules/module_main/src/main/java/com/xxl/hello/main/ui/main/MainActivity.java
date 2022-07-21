@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.util.Log;
 
+import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
@@ -182,12 +183,12 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
 
     @Override
     public void onForeground(Activity activity) {
-        ToastUtils.show(getString(R.string.resources_app_is_foreground_tips));
+        ToastUtils.success(R.string.resources_app_is_foreground_tips).show();
     }
 
     @Override
     public void onBackground(Activity activity) {
-        ToastUtils.show(getString(R.string.resources_app_is_background_tips));
+        ToastUtils.success(R.string.resources_app_is_background_tips).show();
     }
 
     //endregion
@@ -295,8 +296,9 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
         Log.e("aaa", "错了错了");
     }
 
+    @Keep
     private void onErrorCallback(@Nullable final Throwable throwable) {
-        ToastUtils.show("我是错误回调" + throwable.getMessage());
+        ToastUtils.success("我是错误回调" + throwable.getMessage()).show();
         Log.e("aaav", "错了错了v");
     }
 
@@ -314,10 +316,10 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
                                 recordButton.start();
                             }
                         } else {
-                            ToastUtils.show(getString(R.string.core_permission_record_audio_failure_tips));
+                            ToastUtils.warning(R.string.core_permission_record_audio_failure_tips).show();
                         }
                     }, throwable -> {
-                        ToastUtils.show(getString(R.string.core_permission_record_audio_failure_tips));
+                        ToastUtils.warning(R.string.core_permission_record_audio_failure_tips).show();
                     });
         });
         mViewDataBinding.recordBtn.setRecordListener(new OnRecordListener() {

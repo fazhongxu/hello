@@ -5,9 +5,9 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 
+import com.xxl.hello.service.qunlifier.ForUserBaseUrl;
 import com.xxl.kit.LogUtils;
 import com.xxl.kit.ToastUtils;
-import com.xxl.hello.service.qunlifier.ForUserBaseUrl;
 
 import javax.inject.Inject;
 
@@ -48,7 +48,7 @@ public class HelloAppWidgetProvider extends AppWidgetProvider {
         LogUtils.d("HelloAppWidgetProvider.. onReceive"+System.currentTimeMillis());
         //这里判断是自己的action，做自己的事情，比如小工具被点击了要干啥
         if (ACTION_HELLO_APP_WIDGET_ON_CLICK.equals(intent.getAction())) {
-            ToastUtils.normal("HelloAppWidgetProvider onReceive 被调用了 ").show();
+            ToastUtils.success("HelloAppWidgetProvider onReceive 被调用了 ").show();
         }
     }
 

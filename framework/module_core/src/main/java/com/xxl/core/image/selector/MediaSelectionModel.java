@@ -7,7 +7,6 @@ import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.tbruyelle.rxpermissions3.RxPermissions;
 import com.xxl.core.R;
-import com.xxl.kit.StringUtils;
 import com.xxl.kit.ToastUtils;
 
 import io.reactivex.rxjava3.disposables.Disposable;
@@ -63,10 +62,10 @@ public class MediaSelectionModel extends PictureSelectionModel {
                     if (isSuccess) {
                         super.forResult(requestCode);
                     } else {
-                        ToastUtils.show(StringUtils.getString(R.string.core_permission_read_of_white_external_storage_failure_tips));
+                        ToastUtils.error(R.string.core_permission_read_of_white_external_storage_failure_tips).show();
                     }
                 }, throwable -> {
-                    ToastUtils.show(throwable.getMessage());
+                    ToastUtils.error(throwable.getMessage()).show();
                 });
     }
 
