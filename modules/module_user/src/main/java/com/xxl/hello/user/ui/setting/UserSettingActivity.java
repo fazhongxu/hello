@@ -30,6 +30,7 @@ import com.xxl.hello.user.databinding.UserActivitySettingBinding;
 import com.xxl.hello.widget.share.OnShareItemOperate;
 import com.xxl.hello.widget.share.ResourcesShareWindow;
 import com.xxl.hello.widget.share.api.ResourcesSharePickerKit;
+import com.xxl.kit.MomentShareUtils;
 import com.xxl.kit.PathUtils;
 import com.xxl.kit.ToastUtils;
 
@@ -242,6 +243,7 @@ public class UserSettingActivity extends DataBindingActivity<UserSettingViewMode
                                    int position) {
                 if (operateItem.getOperateType() == ShareOperateType.WE_CHAT_CIRCLE) {
                     ToastUtils.success("自定义点击事件" + operateItem.getTitle()).show();
+                    MomentShareUtils.shareImagesToWeChatCircle(UserSettingActivity.this,"","");
                     window.dismiss();
                     return true;
                 }
