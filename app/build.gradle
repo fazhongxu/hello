@@ -155,6 +155,9 @@ dependencies {
     implementation deps.umeng.umeng_asms
     implementation deps.umeng.umeng_share_core
 
+    implementation deps.umeng.umeng_push
+
+    implementation deps.umeng.umeng_share_board
     implementation deps.umeng.umeng_share_qq
     implementation deps.umeng.umeng_share_we_chat
     implementation deps.umeng.umeng_share_sina

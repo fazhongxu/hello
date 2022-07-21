@@ -78,6 +78,9 @@ dependencies {
     compileOnly deps.umeng.umeng_asms
     compileOnly deps.umeng.umeng_share_core
 
+    compileOnly deps.umeng.umeng_push
+
+    compileOnly deps.umeng.umeng_share_board
     compileOnly deps.umeng.umeng_share_qq
     compileOnly deps.umeng.umeng_share_we_chat
     compileOnly deps.umeng.umeng_share_sina

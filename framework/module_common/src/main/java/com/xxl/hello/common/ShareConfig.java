@@ -9,15 +9,14 @@ package com.xxl.hello.common;
 public class ShareConfig {
 
     /**
-     * app secret
-     * // TODO: 2022/7/20
+     * app key
      */
-    public static final String APP_KEY = "";
+    public static final String APP_KEY = "62d8efb288ccdf4b7ed9b4c3";
 
     /**
      * app secret
      */
-    public static final String APP_SECRET = "";
+    public static final String APP_SECRET = "pntsbzgny2vpyhitmoasmtuovlqveyyq";
 
     /**
      * 渠道

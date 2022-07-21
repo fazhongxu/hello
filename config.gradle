@@ -80,6 +80,7 @@ versions.aria = "3.8.16"
 versions.umeng_common = "9.5.0"
 versions.umeng_asms = "1.6.3"
 versions.umeng_share = "7.1.9"
+versions.umeng_push = "6.5.3"
 
 versions.sina = "11.11.1@aar"
 versions.we_chat = "6.8.0"
@@ -240,9 +241,14 @@ def umeng = [:]
 umeng.umeng_common = "com.umeng.umsdk:common:$versions.umeng_common"
 //必选
 umeng.umeng_asms = "com.umeng.umsdk:asms:$versions.umeng_asms"
+
+//友盟Push依赖（必须）
+umeng.umeng_push = "com.umeng.umsdk:push:$versions.umeng_push"
+
 //分享必选核心库
 umeng.umeng_share_core = "com.umeng.umsdk:share-core:$versions.umeng_share"
 // 分享可选
+umeng.umeng_share_board = "com.umeng.umsdk:share-board:$versions.umeng_share"
 umeng.umeng_share_qq = "com.umeng.umsdk:share-qq:$versions.umeng_share"
 umeng.umeng_share_we_chat = "com.umeng.umsdk:share-wx:$versions.umeng_share"
 umeng.umeng_share_sina = "com.umeng.umsdk:share-sina:$versions.umeng_share"

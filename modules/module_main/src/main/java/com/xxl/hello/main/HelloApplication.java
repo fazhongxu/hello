@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 
 import com.luck.picture.lib.engine.PictureSelectorEngine;
+import com.umeng.socialize.PlatformConfig;
 import com.xxl.core.BaseApplication;
 import com.xxl.core.image.selector.MediaSelector;
 import com.xxl.core.image.selector.MediaSelectorApp;
@@ -143,14 +144,27 @@ public class HelloApplication extends BaseApplication implements IApplication, M
         super.initPluginsAfterAgreePrivacyPolicy();
         LogUtils.d("initPluginAfterAgreePrivacyPolicy");
         try {
+            initSharePlatform();
             TimeUtils.initialize();
-            DownloadServiceUtils.init(this,isDebug());
+            DownloadServiceUtils.init(this, isDebug());
             TbsUtils.initX5Environment(this);
-            // TODO: 2022/4/2 模拟耗时操作
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 初始化分享平台
+     */
+    private void initSharePlatform() {
+        // TODO: 2022/7/21 key
+        // app id,app secret
+        PlatformConfig.setWeixin("wxdc1e388c3822c80b", "3baf1193c85774b3fd9d18447d76cab0");
+        PlatformConfig.setWXFileProvider("com.xxl.hello.fileprovider");
+        PlatformConfig.setQQZone("101830139", "5d63ae8858f1caab67715ccd6c18d7a5");
+        PlatformConfig.setQQFileProvider("com.xxl.hello.fileprovider");
+        PlatformConfig.setSinaWeibo("3921700954", "04b48b094faeb16683c32669824ebdad", "http://sns.whalecloud.com");
+        PlatformConfig.setSinaFileProvider("com.xxl.hello.fileprovider");
     }
 
     /**
