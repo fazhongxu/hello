@@ -3,7 +3,7 @@
     <color name="kit_toast_default_text_color">#FFFFFF</color>
     <color name="kit_toast_error_color">#D50000</color>
     <color name="kit_toast_info_color">#3F51B5</color>
-    <color name="kit_toast_success_color">#2F9DD8</color>
+    <color name="kit_toast_success_color">#19BE6B</color>
     <color name="kit_toast_warning_color">#FFA900</color>
     <color name="kit_toast_toast_normal_color">#353A3E</color>
 </resources>

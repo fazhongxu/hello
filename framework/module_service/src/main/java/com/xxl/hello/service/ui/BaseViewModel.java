@@ -2,7 +2,6 @@ package com.xxl.hello.service.ui;
 
 import android.app.Application;
 import android.os.Handler;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -11,10 +10,10 @@ import androidx.lifecycle.AndroidViewModel;
 
 import com.xxl.core.exception.ResponseException;
 import com.xxl.core.exception.ResponseListener;
-import com.xxl.kit.ExceptionServiceManager;
 import com.xxl.core.rx.SchedulersProvider;
+import com.xxl.kit.ExceptionServiceManager;
 import com.xxl.kit.LogUtils;
-import com.xxl.kit.AppUtils;
+import com.xxl.kit.ToastUtils;
 
 import io.reactivex.rxjava3.core.ObservableTransformer;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
@@ -153,13 +152,12 @@ public class BaseViewModel<N> extends AndroidViewModel {
             if (listener != null && listener.handleException(exception)) {
                 // TODO: 2021/7/19 处理异常信息
             }
-            Toast.makeText(AppUtils.getApplication(), exception.getMessage(), Toast.LENGTH_SHORT).show();
+            ToastUtils.error(exception.getMessage()).show();
             LogUtils.e(exception.getMessage());
         }
         mHandler.post(() -> {
             setViewLoading(false);
             ExceptionServiceManager.postCaughtException(throwable);
-
         });
     }
 
