@@ -6,7 +6,7 @@ package com.xxl.hello.service.data.model.entity.share;
  * @author xxl.
  * @date 2022/7/18.
  */
-public class MiniProgramShareResoucesEntity extends BaseShareResourcesEntity<MiniProgramShareResoucesEntity> {
+public class MiniProgramShareResourceEntity extends BaseShareResourceEntity<MiniProgramShareResourceEntity> {
 
     //region: 成员变量
 
@@ -14,12 +14,12 @@ public class MiniProgramShareResoucesEntity extends BaseShareResourcesEntity<Min
 
     //region: 构造函数
 
-    private MiniProgramShareResoucesEntity() {
+    private MiniProgramShareResourceEntity() {
 
     }
 
-    public final static MiniProgramShareResoucesEntity obtain() {
-        return new MiniProgramShareResoucesEntity();
+    public final static MiniProgramShareResourceEntity obtain() {
+        return new MiniProgramShareResourceEntity();
     }
 
     //endregion

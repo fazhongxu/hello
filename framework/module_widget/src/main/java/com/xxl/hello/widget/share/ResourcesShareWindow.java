@@ -11,7 +11,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.xxl.hello.service.data.model.entity.share.BaseShareResourcesEntity;
 import com.xxl.hello.service.data.model.entity.share.ShareOperateItem;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi;
 import com.xxl.hello.widget.R;

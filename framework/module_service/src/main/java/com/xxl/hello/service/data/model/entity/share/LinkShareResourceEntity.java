@@ -1,12 +1,12 @@
 package com.xxl.hello.service.data.model.entity.share;
 
 /**
- * 图片分享数据
+ * 链接分享数据
  *
  * @author xxl.
  * @date 2022/7/18.
  */
-public class ImageShareResoucesEntity extends BaseShareResourcesEntity<ImageShareResoucesEntity> {
+public class LinkShareResourceEntity extends BaseShareResourceEntity<LinkShareResourceEntity> {
 
     //region: 成员变量
 
@@ -14,12 +14,12 @@ public class ImageShareResoucesEntity extends BaseShareResourcesEntity<ImageShar
 
     //region: 构造函数
 
-    private ImageShareResoucesEntity() {
+    private LinkShareResourceEntity() {
 
     }
 
-    public final static ImageShareResoucesEntity obtain() {
-        return new ImageShareResoucesEntity();
+    public final static LinkShareResourceEntity obtain() {
+        return new LinkShareResourceEntity();
     }
 
     //endregion

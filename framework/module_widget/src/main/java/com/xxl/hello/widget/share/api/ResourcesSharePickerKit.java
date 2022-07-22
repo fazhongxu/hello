@@ -5,8 +5,7 @@ import android.app.Activity;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.xxl.hello.service.data.model.entity.share.BaseShareResourcesEntity;
-import com.xxl.hello.service.data.model.enums.SystemEnumsApi;
+import com.xxl.hello.service.data.model.entity.share.BaseShareResourceEntity;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi.ShareOperateType;
 import com.xxl.hello.widget.share.OnShareItemOperate;
 
@@ -47,7 +46,7 @@ public interface ResourcesSharePickerKit {
      */
     void operateHandle(@NonNull final Activity activity,
                        @ShareOperateType final int operateType,
-                       @NonNull final BaseShareResourcesEntity targetShareResourcesEntity);
+                       @NonNull final BaseShareResourceEntity targetShareResourcesEntity);
 
     /**
      * 展示分享弹窗
@@ -56,7 +55,7 @@ public interface ResourcesSharePickerKit {
      * @param targetShareResourcesEntity 资源分享实体
      */
     void showSharePicker(@NonNull final Activity activity,
-                         @NonNull final BaseShareResourcesEntity targetShareResourcesEntity);
+                         @NonNull final BaseShareResourceEntity targetShareResourcesEntity);
 
     /**
      * 展示分享弹窗
@@ -66,7 +65,7 @@ public interface ResourcesSharePickerKit {
      * @param operate                    自定义操作事件
      */
     void showSharePicker(@NonNull final Activity activity,
-                         @NonNull final BaseShareResourcesEntity targetShareResourcesEntity,
+                         @NonNull final BaseShareResourceEntity targetShareResourcesEntity,
                          @Nullable final OnShareItemOperate operate);
 
     /**
@@ -78,7 +77,7 @@ public interface ResourcesSharePickerKit {
      */
     void showSharePicker(@NonNull final Activity activity,
                          @NonNull final List<Integer> operateTypes,
-                         @NonNull final BaseShareResourcesEntity targetShareResourcesEntity);
+                         @NonNull final BaseShareResourceEntity targetShareResourcesEntity);
 
     /**
      * 展示分享弹窗
@@ -90,7 +89,7 @@ public interface ResourcesSharePickerKit {
      */
     void showSharePicker(@NonNull final Activity activity,
                          @NonNull final List<Integer> operateTypes,
-                         @NonNull final BaseShareResourcesEntity targetShareResourcesEntity,
+                         @NonNull final BaseShareResourceEntity targetShareResourcesEntity,
                          @Nullable final OnShareItemOperate operate);
 
     /**

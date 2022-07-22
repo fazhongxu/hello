@@ -1,6 +1,6 @@
 package com.xxl.hello.widget.share.api;
 
-import com.xxl.hello.service.data.model.entity.share.LinkShareResoucesEntity;
+import com.xxl.hello.service.data.model.entity.share.LinkShareResourceEntity;
 
 /**
  * 链接分享器
@@ -8,6 +8,6 @@ import com.xxl.hello.service.data.model.entity.share.LinkShareResoucesEntity;
  * @author xxl.
  * @date 2022/7/18.
  */
-public interface LinkSharePicker extends BaseSharePicker<LinkShareResoucesEntity> {
+public interface LinkSharePicker extends BaseSharePicker<LinkShareResourceEntity> {
 
 }

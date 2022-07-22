@@ -1,18 +1,26 @@
 package com.xxl.hello.service.data.model.entity.share;
 
 /**
- * 资源分享实体基础类
+ * 文本分享数据
  *
  * @author xxl.
  * @date 2022/7/18.
  */
-public abstract class BaseShareResourcesEntity<T extends BaseShareResourcesEntity> {
+public class TextShareResourceEntity extends BaseShareResourceEntity<TextShareResourceEntity> {
 
     //region: 成员变量
 
     //endregion
 
     //region: 构造函数
+
+    private TextShareResourceEntity() {
+
+    }
+
+    public final static TextShareResourceEntity obtain() {
+        return new TextShareResourceEntity();
+    }
 
     //endregion
 

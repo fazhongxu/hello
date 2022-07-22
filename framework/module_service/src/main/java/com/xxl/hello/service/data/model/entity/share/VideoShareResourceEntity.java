@@ -6,7 +6,7 @@ package com.xxl.hello.service.data.model.entity.share;
  * @author xxl.
  * @date 2022/7/18.
  */
-public class VideoShareResoucesEntity extends BaseShareResourcesEntity<VideoShareResoucesEntity> {
+public class VideoShareResourceEntity extends BaseShareResourceEntity<VideoShareResourceEntity> {
 
     //region: 成员变量
 
@@ -14,12 +14,12 @@ public class VideoShareResoucesEntity extends BaseShareResourcesEntity<VideoShar
 
     //region: 构造函数
 
-    private VideoShareResoucesEntity() {
+    private VideoShareResourceEntity() {
 
     }
 
-    public final static VideoShareResoucesEntity obtain() {
-        return new VideoShareResoucesEntity();
+    public final static VideoShareResourceEntity obtain() {
+        return new VideoShareResourceEntity();
     }
 
     //endregion

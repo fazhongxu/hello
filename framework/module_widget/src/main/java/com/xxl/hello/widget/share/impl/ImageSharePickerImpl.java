@@ -5,8 +5,10 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 
+import com.xxl.core.data.model.entity.MediaEntity;
 import com.xxl.core.service.download.DownloadService;
-import com.xxl.hello.service.data.model.entity.share.ImageShareResoucesEntity;
+import com.xxl.hello.service.data.model.entity.share.ImageShareResourceEntity;
+import com.xxl.hello.service.data.model.entity.share.ShareMediaEntity;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi.ShareOperateType;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.hello.widget.share.api.ImageSharePicker;
@@ -21,7 +23,7 @@ import java.util.List;
  * @author xxl.
  * @date 2022/7/18.
  */
-public class ImageSharePickerImpl extends BaseSharePickerImpl<ImageShareResoucesEntity> implements ImageSharePicker {
+public class ImageSharePickerImpl extends BaseSharePickerImpl<ImageShareResourceEntity> implements ImageSharePicker {
 
     //region: 构造函数
 
@@ -56,7 +58,7 @@ public class ImageSharePickerImpl extends BaseSharePickerImpl<ImageShareResouces
      * @return
      */
     @Override
-    public List<Integer> getDefaultOperateTypes(@NonNull final ImageShareResoucesEntity targetShareResourcesEntity) {
+    public List<Integer> getDefaultOperateTypes(@NonNull final ImageShareResourceEntity targetShareResourcesEntity) {
         return Arrays.asList(
                 ShareOperateType.WE_CHAT,
                 ShareOperateType.WE_CHAT_SEND_TO_FRIEND,
@@ -71,12 +73,13 @@ public class ImageSharePickerImpl extends BaseSharePickerImpl<ImageShareResouces
      * @param targetShareResourcesEntity
      */
     @Override
-    public void onWeChatActionClick(@NonNull ImageShareResoucesEntity targetShareResourcesEntity) {
+    public void onWeChatActionClick(@NonNull ImageShareResourceEntity targetShareResourcesEntity) {
         if (isActivityFinishing()) {
             return;
         }
         // TODO: 2022/7/19
         ToastUtils.success("点击了微信分享").show();
+        final List<ShareMediaEntity> shareMediaEntities = targetShareResourcesEntity.getShareMediaEntities();
     }
 
     /**
@@ -85,7 +88,7 @@ public class ImageSharePickerImpl extends BaseSharePickerImpl<ImageShareResouces
      * @param targetShareResourcesEntity
      */
     @Override
-    public void onWeChatCircleActionClick(@NonNull ImageShareResoucesEntity targetShareResourcesEntity) {
+    public void onWeChatCircleActionClick(@NonNull ImageShareResourceEntity targetShareResourcesEntity) {
         if (isActivityFinishing()) {
             return;
         }

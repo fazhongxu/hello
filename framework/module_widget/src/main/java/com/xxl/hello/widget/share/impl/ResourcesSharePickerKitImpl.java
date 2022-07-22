@@ -7,10 +7,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.xxl.core.service.download.DownloadService;
-import com.xxl.hello.service.data.model.entity.share.BaseShareResourcesEntity;
-import com.xxl.hello.service.data.model.entity.share.ImageShareResoucesEntity;
-import com.xxl.hello.service.data.model.entity.share.VideoShareResoucesEntity;
-import com.xxl.hello.service.data.model.enums.SystemEnumsApi;
+import com.xxl.hello.service.data.model.entity.share.BaseShareResourceEntity;
+import com.xxl.hello.service.data.model.entity.share.ImageShareResourceEntity;
+import com.xxl.hello.service.data.model.entity.share.VideoShareResourceEntity;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi.ShareOperateType;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi.ShareResourcesType;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
@@ -120,7 +119,7 @@ public class ResourcesSharePickerKitImpl implements ResourcesSharePickerKit {
     @Override
     public void operateHandle(@NonNull final Activity activity,
                               @ShareOperateType final int operateType,
-                              @NonNull final BaseShareResourcesEntity targetShareResourcesEntity) {
+                              @NonNull final BaseShareResourceEntity targetShareResourcesEntity) {
         final BaseSharePicker sharePicker = getSharePicker(targetShareResourcesEntity);
         if (sharePicker != null) {
             sharePicker.operateHandle(activity, operateType, targetShareResourcesEntity);
@@ -135,7 +134,7 @@ public class ResourcesSharePickerKitImpl implements ResourcesSharePickerKit {
      */
     @Override
     public void showSharePicker(@NonNull final Activity activity,
-                                @NonNull final BaseShareResourcesEntity targetShareResourcesEntity) {
+                                @NonNull final BaseShareResourceEntity targetShareResourcesEntity) {
         showSharePicker(activity, targetShareResourcesEntity, null);
     }
 
@@ -148,7 +147,7 @@ public class ResourcesSharePickerKitImpl implements ResourcesSharePickerKit {
      */
     @Override
     public void showSharePicker(@NonNull Activity activity,
-                                @NonNull BaseShareResourcesEntity targetShareResourcesEntity,
+                                @NonNull BaseShareResourceEntity targetShareResourcesEntity,
                                 @Nullable OnShareItemOperate operate) {
         showSharePicker(activity, new ArrayList<>(), targetShareResourcesEntity, operate);
     }
@@ -163,7 +162,7 @@ public class ResourcesSharePickerKitImpl implements ResourcesSharePickerKit {
     @Override
     public void showSharePicker(@NonNull final Activity activity,
                                 @NonNull final List<Integer> operateTypes,
-                                @NonNull final BaseShareResourcesEntity targetShareResourcesEntity) {
+                                @NonNull final BaseShareResourceEntity targetShareResourcesEntity) {
         showSharePicker(activity, operateTypes, targetShareResourcesEntity, null);
     }
 
@@ -177,7 +176,7 @@ public class ResourcesSharePickerKitImpl implements ResourcesSharePickerKit {
      */
     @Override
     public void showSharePicker(@NonNull Activity activity, @NonNull List<Integer> operateTypes,
-                                @NonNull BaseShareResourcesEntity targetShareResourcesEntity,
+                                @NonNull BaseShareResourceEntity targetShareResourcesEntity,
                                 @Nullable OnShareItemOperate operate) {
         final BaseSharePicker sharePicker = getSharePicker(targetShareResourcesEntity);
         if (sharePicker != null) {
@@ -189,10 +188,10 @@ public class ResourcesSharePickerKitImpl implements ResourcesSharePickerKit {
 
     //region: 提供方法
 
-    private BaseSharePicker getSharePicker(@NonNull final BaseShareResourcesEntity targetShareResourcesEntity) {
-        if (targetShareResourcesEntity instanceof ImageShareResoucesEntity) {
+    private BaseSharePicker getSharePicker(@NonNull final BaseShareResourceEntity targetShareResourcesEntity) {
+        if (targetShareResourcesEntity instanceof ImageShareResourceEntity) {
             return getImageSharePicker();
-        } else if (targetShareResourcesEntity instanceof VideoShareResoucesEntity) {
+        } else if (targetShareResourcesEntity instanceof VideoShareResourceEntity) {
             return getVideoSharePicker();
         }
         return null;

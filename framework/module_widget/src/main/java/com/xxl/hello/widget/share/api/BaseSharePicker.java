@@ -5,8 +5,7 @@ import android.app.Activity;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.xxl.hello.service.data.model.entity.share.BaseShareResourcesEntity;
-import com.xxl.hello.service.data.model.enums.SystemEnumsApi;
+import com.xxl.hello.service.data.model.entity.share.BaseShareResourceEntity;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi.ShareOperateType;
 import com.xxl.hello.widget.share.OnShareItemOperate;
 
@@ -18,7 +17,7 @@ import java.util.List;
  * @author xxl.
  * @date 2022/7/18.
  */
-public interface BaseSharePicker<T extends BaseShareResourcesEntity> {
+public interface BaseSharePicker<T extends BaseShareResourceEntity> {
 
     //region: 页面生命周期
 

@@ -6,7 +6,7 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 
 import com.xxl.core.service.download.DownloadService;
-import com.xxl.hello.service.data.model.entity.share.VideoShareResoucesEntity;
+import com.xxl.hello.service.data.model.entity.share.VideoShareResourceEntity;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi.ShareOperateType;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.hello.widget.share.api.VideoSharePicker;
@@ -20,7 +20,7 @@ import java.util.List;
  * @author xxl.
  * @date 2022/7/18.
  */
-public class VideoSharePickerImpl extends BaseSharePickerImpl<VideoShareResoucesEntity> implements VideoSharePicker {
+public class VideoSharePickerImpl extends BaseSharePickerImpl<VideoShareResourceEntity> implements VideoSharePicker {
 
     //region: 构造函数
 
@@ -55,7 +55,7 @@ public class VideoSharePickerImpl extends BaseSharePickerImpl<VideoShareResouces
      * @return
      */
     @Override
-    public List<Integer> getDefaultOperateTypes(@NonNull final VideoShareResoucesEntity targetShareResourcesEntity) {
+    public List<Integer> getDefaultOperateTypes(@NonNull final VideoShareResourceEntity targetShareResourcesEntity) {
         return Arrays.asList(
                 ShareOperateType.WE_CHAT,
                 ShareOperateType.WE_CHAT_SEND_TO_FRIEND,

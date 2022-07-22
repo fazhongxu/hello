@@ -14,10 +14,11 @@ import com.luck.picture.lib.entity.LocalMedia;
 import com.xxl.core.data.router.SystemRouterApi;
 import com.xxl.core.image.selector.MediaSelector;
 import com.xxl.hello.common.AppConfig;
+import com.xxl.hello.common.CacheDirConfig;
 import com.xxl.hello.common.NetworkConfig;
 import com.xxl.hello.router.UserRouterApi;
 import com.xxl.hello.service.data.local.db.entity.ResourcesUploadQueueDBEntity;
-import com.xxl.hello.service.data.model.entity.share.ImageShareResoucesEntity;
+import com.xxl.hello.service.data.model.entity.share.ImageShareResourceEntity;
 import com.xxl.hello.service.data.model.entity.share.ShareOperateItem;
 import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi.ShareOperateType;
@@ -30,10 +31,13 @@ import com.xxl.hello.user.databinding.UserActivitySettingBinding;
 import com.xxl.hello.widget.share.OnShareItemOperate;
 import com.xxl.hello.widget.share.ResourcesShareWindow;
 import com.xxl.hello.widget.share.api.ResourcesSharePickerKit;
+import com.xxl.kit.FileUtils;
 import com.xxl.kit.MomentShareUtils;
 import com.xxl.kit.PathUtils;
 import com.xxl.kit.ToastUtils;
 
+import java.io.File;
+import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -231,10 +235,10 @@ public class UserSettingActivity extends DataBindingActivity<UserSettingViewMode
     @Override
     public boolean onUserAvatarLongClick() {
         if (++mClickCount % 3 == 0) {
-            mResourcesSharePickerKit.operateHandle(this, ShareOperateType.WE_CHAT, ImageShareResoucesEntity.obtain());
+            mResourcesSharePickerKit.operateHandle(this, ShareOperateType.WE_CHAT, ImageShareResourceEntity.obtain());
             return true;
         }
-        mResourcesSharePickerKit.showSharePicker(this, ImageShareResoucesEntity.obtain(), new OnShareItemOperate() {
+        mResourcesSharePickerKit.showSharePicker(this, ImageShareResourceEntity.obtain(), new OnShareItemOperate() {
 
             @Override
             public boolean onClick(@NonNull ResourcesShareWindow window,
@@ -243,7 +247,19 @@ public class UserSettingActivity extends DataBindingActivity<UserSettingViewMode
                                    int position) {
                 if (operateItem.getOperateType() == ShareOperateType.WE_CHAT_CIRCLE) {
                     ToastUtils.success("自定义点击事件" + operateItem.getTitle()).show();
-                    MomentShareUtils.shareImagesToWeChatCircle(UserSettingActivity.this,"","");
+                    final List<File> files = FileUtils.listFilesInDirWithFilter(CacheDirConfig.SHARE_FILE_DIR, new FileFilter() {
+                        @Override
+                        public boolean accept(File pathname) {
+                            return pathname.getName().endsWith(".jpg")
+                                    || pathname.getName().endsWith(".jpeg")
+                                    || pathname.getName().endsWith(".png");
+                        }
+                    });
+                    final List<String> imagePaths = new ArrayList<>();
+                    for (File file : files) {
+                        imagePaths.add(file.getAbsolutePath());
+                    }
+                    MomentShareUtils.shareSingleImageToWeChatMoment(UserSettingActivity.this, imagePaths.size() > 0 ? imagePaths.get(0) : "");
                     window.dismiss();
                     return true;
                 }
