@@ -48,7 +48,7 @@ public class TbsUtils {
      * tbs 内核地址 测试的时候，可以用免费的服务器暂时实现文件存储
      * https://www.wenshushu.cn/
      */
-    public static final String TBS_CORE_FILE_URL = "https://down.wss.show/o99nahj/8/hs/8hs2o99nahj?cdn_sign=1654503455-13-0-2a3bafeacfa79cec1bdfdfbd96f14325&exp=1200&response-content-disposition=attachment%3B%20filename%3D%22x5.tbs_44181.apk%22%3B%20filename%2A%3Dutf-8%27%27x5.tbs_44181.apk";
+    public static final String TBS_CORE_FILE_URL = "https://down.wss.show/o0w53v0/8/vr/8vrro0w53v0?cdn_sign=1658725294-85-0-d213bc4636af5c07bf892f1959778bf1&exp=1200&response-content-disposition=attachment%3B%20filename%3D%22x5_44181.tbs%22%3B%20filename%2A%3Dutf-8%27%27x5_44181.tbs";
 
     /**
      * tbs 内核版本号
@@ -165,9 +165,14 @@ public class TbsUtils {
 
                     @Override
                     public void onDownloadSuccess(File file) {
-                        LogUtils.d(TAG + " onDownloadSuccess: " + file.getAbsolutePath());
+                        LogUtils.d(TAG + " onDownloadSuccess: " + file.getAbsolutePath() + " " + FileUtils.getFileLength(file.getAbsolutePath()));
                         if (callBack != null) {
-                            callBack.onSuccess(file.getAbsolutePath());
+                            if (FileUtils.getFileLength(file.getAbsolutePath()) > 0) {
+                                callBack.onSuccess(file.getAbsolutePath());
+                            } else {
+                                LogUtils.d(TAG + " onDownloadFailed: file is empty");
+                                callBack.onFailure(new Throwable("file is empty"));
+                            }
                         }
                     }
 
