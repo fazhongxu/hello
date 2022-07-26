@@ -127,6 +127,10 @@ dependencies {
     implementation deps.rxjava
     implementation deps.rxandroid
 
+    implementation deps.rxpermission
+
+    implementation deps.agentweb
+
     implementation deps.luban
     implementation deps.glide.glide
     kapt deps.glide.glide_processor
@@ -165,6 +169,7 @@ dependencies {
     implementation deps.we_chat
     implementation deps.qq
     implementation deps.sina
+
 
 }
 

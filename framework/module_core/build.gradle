@@ -100,7 +100,9 @@ dependencies {
     implementation deps.rxjava
     implementation deps.rxandroid
 
-    implementation deps.rxpermission
+    compileOnly deps.rxpermission
+
+    compileOnly deps.agentweb
 
     implementation deps.luban
     implementation deps.video_processor

@@ -67,7 +67,7 @@ versions.adapter_helper = "3.0.4"
 versions.base_popup = "3.2.0"
 
 versions.jsbridge = "1.0.4"
-versions.agentweb = "v4.1.9-androidx"
+versions.agentweb = "v5.0.0-alpha.1-androidx"
 
 versions.dkplayer = "3.3.5"
 
