@@ -1,4 +1,4 @@
-package com.xxl.hello.common;
+package com.xxl.hello.common.config;
 
 /**
  * 分享配置

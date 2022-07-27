@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 import com.xxl.core.exception.ResponseCode;
 import com.xxl.kit.FileUtils;
 import com.xxl.kit.StringUtils;
-import com.xxl.hello.common.CacheDirConfig;
+import com.xxl.hello.common.config.CacheDirConfig;
 import com.xxl.hello.service.R;
 import com.xxl.hello.service.data.local.db.entity.ResourcesUploadQueueDBEntity;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi.MediaType;

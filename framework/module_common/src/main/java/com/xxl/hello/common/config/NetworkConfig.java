@@ -1,4 +1,4 @@
-package com.xxl.hello.common;
+package com.xxl.hello.common.config;
 
 import com.xxl.core.utils.AppExpandUtils;
 import com.xxl.core.utils.CacheUtils;

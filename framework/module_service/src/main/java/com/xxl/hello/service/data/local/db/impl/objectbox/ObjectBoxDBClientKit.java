@@ -5,7 +5,7 @@ import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
-import com.xxl.hello.common.NetworkConfig;
+import com.xxl.hello.common.config.NetworkConfig;
 import com.xxl.kit.LogUtils;
 import com.xxl.hello.service.data.local.db.api.DBClientKit;
 import com.xxl.hello.service.data.local.db.entity.MyObjectBox;

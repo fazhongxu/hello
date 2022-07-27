@@ -1,4 +1,4 @@
-package com.xxl.hello.common;
+package com.xxl.hello.common.config;
 
 import android.content.Context;
 import android.content.Intent;

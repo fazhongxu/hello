@@ -1,4 +1,4 @@
-package com.xxl.hello.common;
+package com.xxl.hello.common.utils;
 
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -6,6 +6,7 @@ import android.text.TextUtils;
 
 import androidx.annotation.Nullable;
 
+import com.xxl.hello.common.R;
 import com.xxl.kit.StringUtils;
 
 import java.util.LinkedHashMap;

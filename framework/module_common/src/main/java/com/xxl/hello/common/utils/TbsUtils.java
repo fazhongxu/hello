@@ -1,4 +1,4 @@
-package com.xxl.hello.common;
+package com.xxl.hello.common.utils;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -13,6 +13,7 @@ import com.tencent.smtt.sdk.QbSdk;
 import com.tencent.smtt.sdk.TbsDownloader;
 import com.tencent.smtt.sdk.TbsListener;
 import com.tencent.smtt.sdk.TbsReaderView;
+import com.xxl.hello.common.config.CacheDirConfig;
 import com.xxl.kit.OnRequestCallBack;
 import com.xxl.kit.DownloadUtil;
 import com.xxl.kit.FileUtils;

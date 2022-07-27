@@ -9,7 +9,7 @@ import com.xxl.core.service.download.aira.AriaDownloadServiceImpl;
 import com.xxl.core.service.download.aira.ForAriaDownload;
 import com.xxl.core.service.download.hello.ForHelloDownload;
 import com.xxl.core.service.download.hello.HelloDownloadServiceImpl;
-import com.xxl.hello.common.NetworkConfig;
+import com.xxl.hello.common.config.NetworkConfig;
 import com.xxl.core.data.remote.ApiHeader;
 import com.xxl.hello.service.qunlifier.ForApplication;
 import com.xxl.hello.widget.di.module.WidgetDataStoreModule;

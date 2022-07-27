@@ -11,7 +11,7 @@ import androidx.databinding.ObservableField;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.xxl.core.image.selector.MediaSelector;
 import com.xxl.core.listener.OnResourcesCompressListener;
-import com.xxl.hello.common.CacheDirConfig;
+import com.xxl.hello.common.config.CacheDirConfig;
 import com.xxl.hello.service.data.local.db.entity.ResourcesUploadQueueDBEntity;
 import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi;

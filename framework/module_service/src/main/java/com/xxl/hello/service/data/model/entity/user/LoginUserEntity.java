@@ -4,7 +4,7 @@ import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 
 import com.xxl.core.utils.TestUtils;
-import com.xxl.hello.common.NetworkConfig;
+import com.xxl.hello.common.config.NetworkConfig;
 import com.xxl.hello.service.data.model.enums.UserEnumsApi.UserSex;
 
 /**
