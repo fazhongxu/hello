@@ -274,7 +274,7 @@ public class UserSettingActivity extends DataBindingActivity<UserSettingViewMode
      */
     @Override
     public void onAboutMeClick() {
-        SystemRouterApi.WebView.newBuilder("https://www.github.com/" + AppConfig.User.GITHUB_USER_NAME)
+        SystemRouterApi.WebView.newBuilder("https://www.github.com/" + AppConfig.User.GITHUB_USER_NAME + "/hello")
                 .navigation(this);
     }
 
