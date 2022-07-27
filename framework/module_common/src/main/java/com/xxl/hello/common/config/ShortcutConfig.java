@@ -9,6 +9,7 @@ import android.os.Build;
 
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.xxl.kit.ListUtils;
 
@@ -37,11 +38,11 @@ public class ShortcutConfig {
      * @return
      */
     public static ShortcutInfo buildShortcutInfo(@NonNull final Context context,
-                                                @NonNull final Intent intent,
-                                                @NonNull final String id,
-                                                @NonNull final String shortLabel,
-                                                @DrawableRes final int iconRes,
-                                                @NonNull final String disableMessage) {
+                                                 @NonNull final Intent intent,
+                                                 @NonNull final String id,
+                                                 @NonNull final String shortLabel,
+                                                 @DrawableRes final int iconRes,
+                                                 @NonNull final String disableMessage) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N_MR1) {
             return null;
         }
@@ -52,6 +53,22 @@ public class ShortcutConfig {
                 .setIntent(intent)
                 .build();
 
+    }
+
+    /**
+     * 注册shortcuts
+     *
+     * @param context
+     * @param targetShortcutInfo
+     */
+    public static void registerShortcut(@NonNull final Context context,
+                                        @Nullable final ShortcutInfo targetShortcutInfo) {
+        if (targetShortcutInfo == null) {
+            return;
+        }
+        final List<ShortcutInfo> shortcutInfoList = new ArrayList<>();
+        shortcutInfoList.add(targetShortcutInfo);
+        registerShortcuts(context, shortcutInfoList);
     }
 
     /**
