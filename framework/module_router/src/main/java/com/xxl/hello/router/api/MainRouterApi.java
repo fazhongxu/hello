@@ -1,4 +1,4 @@
-package com.xxl.hello.router;
+package com.xxl.hello.router.api;
 
 import com.xxl.kit.AppRouterApi;
 

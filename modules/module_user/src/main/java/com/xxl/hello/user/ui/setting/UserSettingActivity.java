@@ -16,7 +16,7 @@ import com.xxl.core.image.selector.MediaSelector;
 import com.xxl.hello.common.config.AppConfig;
 import com.xxl.hello.common.config.CacheDirConfig;
 import com.xxl.hello.common.config.NetworkConfig;
-import com.xxl.hello.router.UserRouterApi;
+import com.xxl.hello.router.api.UserRouterApi;
 import com.xxl.hello.service.data.local.db.entity.ResourcesUploadQueueDBEntity;
 import com.xxl.hello.service.data.model.entity.share.ImageShareResourceEntity;
 import com.xxl.hello.service.data.model.entity.share.ShareOperateItem;
