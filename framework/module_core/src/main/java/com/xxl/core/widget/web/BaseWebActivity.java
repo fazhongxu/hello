@@ -3,6 +3,7 @@ package com.xxl.core.widget.web;
 import android.graphics.Bitmap;
 import android.net.http.SslError;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.ViewGroup;
 import android.webkit.SslErrorHandler;
 import android.webkit.ValueCallback;
@@ -99,6 +100,18 @@ public abstract class BaseWebActivity extends SwipeBackActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        final WebView webView = getWebView();
+        if (webView != null) {
+            if (webView.canGoBack()) {
+                webView.goBack();
+                return;
+            }
+        }
+        super.onBackPressed();
+    }
+
     /**
      * 是否允许注入路由
      *
@@ -155,6 +168,10 @@ public abstract class BaseWebActivity extends SwipeBackActivity {
         getWebView().setScrollBarSize(0);
     }
 
+    //endregion
+
+    //region: WebView配置相关
+
     private WebChromeClient mWebChromeClient = new WebChromeClient() {
         @Override
         public void onReceivedTitle(WebView view, String title) {
@@ -203,10 +220,6 @@ public abstract class BaseWebActivity extends SwipeBackActivity {
     protected JsAccessEntrace getJsAccessEntrace() {
         return mAgentWeb.getJsAccessEntrace();
     }
-
-    //endregion
-
-    //region: WebView配置相关
 
     //endregion
 
