@@ -2,6 +2,7 @@ package com.xxl.hello.main.ui.main;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Intent;
 import android.util.Log;
 
 import androidx.annotation.Keep;
@@ -11,7 +12,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.tbruyelle.rxpermissions3.RxPermissions;
-import com.xxl.core.aop.annotation.CheckNetwork;
+import com.xxl.core.aop.annotation.CheckLogin;
 import com.xxl.core.aop.annotation.Safe;
 import com.xxl.core.media.audio.AudioCapture;
 import com.xxl.core.media.audio.AudioRecordFormat;
@@ -141,6 +142,19 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
     }
 
     @Override
+    protected void onActivityResult(int requestCode,
+                                    int resultCode,
+                                    @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode != RESULT_OK) {
+            return;
+        }
+        if (AppRouterApi.Login.isRequestCode(requestCode)) {
+            ToastUtils.success(R.string.resources_login_success).show();
+        }
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         unregisterAppStatusChangedListener(this);
@@ -195,11 +209,10 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
 
     //region: MainActivityNavigator
 
-    @CheckNetwork
-    @Safe
+    @CheckLogin
     @Override
     public void onTestClick() {
-        AppRouterApi.navigationToLogin();
+        AppRouterApi.Login.navigationToLogin(this);
     }
 
     /**

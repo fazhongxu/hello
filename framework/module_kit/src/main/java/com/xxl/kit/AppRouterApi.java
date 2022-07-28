@@ -77,11 +77,57 @@ public class AppRouterApi {
         RouterUtils.navigationWithFinish(activity, MAIN_PATH);
     }
 
-    /**
-     * 导航到登录页
-     */
-    public static void navigationToLogin() {
-        RouterUtils.navigation(LOGIN_PATH);
+    //endregion
+
+    //region: 登录路由相关
+
+    public static class Login {
+
+        /**
+         * 登录页请求码
+         */
+        public static final int LOGIN_REQUEST_CODE = 10011;
+
+        /**
+         * 设置页面返回结果
+         *
+         * @param activity
+         */
+        public static void setActivityResult(@NonNull final Activity activity) {
+            final Intent intent = new Intent();
+            activity.setResult(Activity.RESULT_OK, intent);
+            activity.finish();
+        }
+
+        /**
+         * 判断是否是登录页面的请求码 (默认请求码才可以用此方法）
+         *
+         * @param requestCode
+         * @return
+         */
+        public static boolean isRequestCode(final int requestCode) {
+            return LOGIN_REQUEST_CODE == requestCode;
+        }
+
+        /**
+         * 导航到登录页
+         *
+         * @param activity
+         */
+        public static void navigationToLogin(@NonNull final Activity activity) {
+            navigationToLogin(activity, LOGIN_REQUEST_CODE);
+        }
+
+        /**
+         * 导航到登录页
+         *
+         * @param activity
+         * @param requestCode
+         */
+        public static void navigationToLogin(@NonNull final Activity activity,
+                                             final int requestCode) {
+            RouterUtils.navigation(activity, LOGIN_PATH, requestCode);
+        }
     }
 
     //endregion

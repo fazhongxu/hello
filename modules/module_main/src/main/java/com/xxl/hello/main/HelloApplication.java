@@ -17,6 +17,7 @@ import com.xxl.core.listener.IApplication;
 import com.xxl.core.service.download.DownloadServiceUtils;
 import com.xxl.core.utils.CacheUtils;
 import com.xxl.hello.common.config.ShareConfig;
+import com.xxl.kit.AppUtils;
 import com.xxl.kit.LogUtils;
 import com.xxl.kit.StringUtils;
 import com.xxl.kit.TimeUtils;
@@ -216,7 +217,11 @@ public class HelloApplication extends BaseApplication implements IApplication, M
      */
     @Override
     public void navigationToLogin() {
-        AppRouterApi.navigationToLogin();
+        if (AppUtils.getTopActivity() == null) {
+            LogUtils.e("AppUtils.getTopActivity() is null");
+            return;
+        }
+        AppRouterApi.Login.navigationToLogin(AppUtils.getTopActivity());
     }
 
     //endregion

@@ -1,5 +1,9 @@
 package com.xxl.hello.router.api;
 
+import android.app.Activity;
+
+import androidx.annotation.NonNull;
+
 import com.xxl.kit.AppRouterApi;
 import com.xxl.kit.RouterUtils;
 
@@ -27,8 +31,8 @@ public class UserRouterApi {
          */
         public static final String PATH = AppRouterApi.LOGIN_PATH;
 
-        public static void navigation() {
-            AppRouterApi.navigationToLogin();
+        public static void navigation(@NonNull final Activity activity) {
+            AppRouterApi.Login.navigationToLogin(activity);
         }
     }
 

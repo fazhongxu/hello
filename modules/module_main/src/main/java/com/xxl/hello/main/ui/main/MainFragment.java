@@ -2,14 +2,16 @@ package com.xxl.hello.main.ui.main;
 
 import android.view.View;
 
-import com.xxl.hello.service.ui.BaseFragment;
-import com.xxl.hello.service.ui.BaseViewModel;
+import com.xxl.hello.main.BR;
+import com.xxl.hello.main.R;
+import com.xxl.hello.main.databinding.MainFragmentBinding;
+import com.xxl.hello.service.ui.DataBindingFragment;
 
 /**
  * @author xxl.
  * @date 2022/4/8.
  */
-public class MainFragment extends BaseFragment {
+public class MainFragment extends DataBindingFragment<MainViewModel, MainFragmentBinding> {
 
     //region: 成员变量
 
@@ -21,6 +23,10 @@ public class MainFragment extends BaseFragment {
         return new MainFragment();
     }
 
+    //endregion
+
+    //region: 页面生命周期
+
     /**
      * 获取视图资源ID
      *
@@ -28,7 +34,7 @@ public class MainFragment extends BaseFragment {
      */
     @Override
     protected int getLayoutRes() {
-        return 0;
+        return R.layout.main_fragment;
     }
 
     /**
@@ -37,7 +43,7 @@ public class MainFragment extends BaseFragment {
      * @return
      */
     @Override
-    protected BaseViewModel createViewModel() {
+    protected MainViewModel createViewModel() {
         return null;
     }
 
@@ -48,7 +54,7 @@ public class MainFragment extends BaseFragment {
      */
     @Override
     public int getViewModelVariable() {
-        return 0;
+        return BR.viewModel;
     }
 
     /**
@@ -58,7 +64,7 @@ public class MainFragment extends BaseFragment {
      */
     @Override
     public int getViewNavigatorVariable() {
-        return 0;
+        return BR.navigator;
     }
 
     /**
@@ -78,10 +84,6 @@ public class MainFragment extends BaseFragment {
     protected void setupLayout(View view) {
 
     }
-
-    //endregion
-
-    //region: 页面生命周期
 
     //endregion
 

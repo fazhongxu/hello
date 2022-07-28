@@ -1,5 +1,7 @@
 package com.xxl.hello.user.ui.login;
 
+import android.content.Intent;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -13,6 +15,7 @@ import com.xxl.hello.user.BR;
 import com.xxl.hello.user.R;
 import com.xxl.hello.user.data.model.api.UserLoginResponse;
 import com.xxl.hello.user.databinding.UserActivityLoginBinding;
+import com.xxl.kit.AppRouterApi;
 
 import javax.inject.Inject;
 
@@ -126,6 +129,7 @@ public class LoginActivity extends DataBindingActivity<LoginActivityViewModel, U
     @Override
     public void onRequestLoginComplete(@NonNull final UserLoginResponse loginResponse) {
         mLoginActivityViewModel.setTargetUserInfo(loginResponse.getLoginUserEntity());
+        AppRouterApi.Login.setActivityResult(this);
     }
 
     /**
