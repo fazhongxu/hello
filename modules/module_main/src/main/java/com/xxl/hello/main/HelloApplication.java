@@ -16,21 +16,18 @@ import com.xxl.core.image.selector.PictureSelectorEngineImpl;
 import com.xxl.core.listener.IApplication;
 import com.xxl.core.service.download.DownloadServiceUtils;
 import com.xxl.core.utils.CacheUtils;
-import com.xxl.hello.common.config.ShareConfig;
-import com.xxl.kit.AppUtils;
-import com.xxl.kit.LogUtils;
-import com.xxl.kit.StringUtils;
-import com.xxl.kit.TimeUtils;
 import com.xxl.core.widget.swipebacklayout.SwipeBackActivityManager;
 import com.xxl.hello.common.config.NetworkConfig;
+import com.xxl.hello.common.config.ShareConfig;
 import com.xxl.hello.common.config.ShortcutConfig;
 import com.xxl.hello.common.utils.TbsUtils;
 import com.xxl.hello.main.di.component.DaggerAppComponent;
 import com.xxl.hello.user.ui.setting.UserSettingActivity;
 import com.xxl.kit.AppRouterApi;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.xxl.kit.AppUtils;
+import com.xxl.kit.LogUtils;
+import com.xxl.kit.StringUtils;
+import com.xxl.kit.TimeUtils;
 
 import javax.inject.Inject;
 
@@ -214,14 +211,20 @@ public class HelloApplication extends BaseApplication implements IApplication, M
 
     /**
      * 跳转到登录
+     *
+     * @param requestCode
      */
     @Override
-    public void navigationToLogin() {
+    public void navigationToLogin(int requestCode) {
         if (AppUtils.getTopActivity() == null) {
             LogUtils.e("AppUtils.getTopActivity() is null");
             return;
         }
-        AppRouterApi.Login.navigationToLogin(AppUtils.getTopActivity());
+        if (requestCode > 0) {
+            AppRouterApi.Login.navigation(AppUtils.getTopActivity(), requestCode);
+            return;
+        }
+        AppRouterApi.Login.navigation(AppUtils.getTopActivity());
     }
 
     //endregion

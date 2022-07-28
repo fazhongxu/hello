@@ -209,10 +209,11 @@ public class MainActivity extends DataBindingActivity<MainViewModel, ActivityMai
 
     //region: MainActivityNavigator
 
+    @Safe
     @CheckLogin
     @Override
     public void onTestClick() {
-        AppRouterApi.Login.navigationToLogin(this);
+        AppRouterApi.Login.navigation(this);
     }
 
     /**

@@ -114,8 +114,8 @@ public class AppRouterApi {
          *
          * @param activity
          */
-        public static void navigationToLogin(@NonNull final Activity activity) {
-            navigationToLogin(activity, LOGIN_REQUEST_CODE);
+        public static void navigation(@NonNull final Activity activity) {
+            navigation(activity, LOGIN_REQUEST_CODE);
         }
 
         /**
@@ -124,8 +124,8 @@ public class AppRouterApi {
          * @param activity
          * @param requestCode
          */
-        public static void navigationToLogin(@NonNull final Activity activity,
-                                             final int requestCode) {
+        public static void navigation(@NonNull final Activity activity,
+                                      final int requestCode) {
             RouterUtils.navigation(activity, LOGIN_PATH, requestCode);
         }
     }

@@ -15,6 +15,10 @@ public interface IApplication {
 
     /**
      * 跳转到登录
+     *
+     * @param requestCode
      */
-    void navigationToLogin();
+    default void navigationToLogin(int requestCode) {
+
+    }
 }

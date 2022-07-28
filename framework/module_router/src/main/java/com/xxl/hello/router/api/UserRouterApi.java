@@ -32,7 +32,7 @@ public class UserRouterApi {
         public static final String PATH = AppRouterApi.LOGIN_PATH;
 
         public static void navigation(@NonNull final Activity activity) {
-            AppRouterApi.Login.navigationToLogin(activity);
+            AppRouterApi.Login.navigation(activity);
         }
     }
 

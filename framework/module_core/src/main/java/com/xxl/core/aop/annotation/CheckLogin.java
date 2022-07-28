@@ -15,5 +15,12 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface CheckLogin {
 
+    /**
+     * 页面请求码,默认可以不传（如果页面有多处登录且登录后要做进一步的业务，
+     * 则传对应请求码，以便在onActivityResult区分进一步做对应的业务）
+     *
+     * @return
+     */
+    int requestCode() default 0;
 }
 
