@@ -41,7 +41,8 @@ public class MainEventBusWrapper extends BaseEventBusWrapper<MainActivity> {
     public void onEventMainThreed(@NonNull final OnUserEventApi.OnUpdateUserInfoEvent event) {
         final MainActivity activity = getActivity();
         if (activity != null) {
-            activity.refreshUserInfo(event.getTargetUserEntity());
+            // TODO: 2022/7/28  
+//            activity.refreshUserInfo(event.getTargetUserEntity());
         }
     }
 

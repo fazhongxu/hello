@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+
+import com.alibaba.android.arouter.facade.Postcard;
 
 /**
  * app路由
@@ -127,6 +130,20 @@ public class AppRouterApi {
         public static void navigation(@NonNull final Activity activity,
                                       final int requestCode) {
             RouterUtils.navigation(activity, LOGIN_PATH, requestCode);
+        }
+
+        /**
+         * 导航到登录页
+         *
+         * @param fragment
+         * @param requestCode
+         */
+        public static void navigation(@NonNull final Fragment fragment,
+                                      final int requestCode) {
+            Postcard postcard = RouterUtils.buildPostcard(LOGIN_PATH);
+            RouterUtils.completion(postcard);
+            Intent intent = new Intent(fragment.getActivity(), postcard.getDestination());
+            fragment.startActivityForResult(intent, requestCode);
         }
     }
 

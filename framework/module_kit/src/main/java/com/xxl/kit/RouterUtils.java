@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.alibaba.android.arouter.core.LogisticsCenter;
 import com.alibaba.android.arouter.facade.Postcard;
 import com.alibaba.android.arouter.facade.callback.NavCallback;
 import com.alibaba.android.arouter.launcher.ARouter;
@@ -196,6 +197,16 @@ public class RouterUtils {
     public static Postcard buildPostcard(@NonNull final String path) {
         return ARouter.getInstance()
                 .build(path);
+    }
+
+    public static void completion(@NonNull final Postcard postcard) {
+        LogisticsCenter.completion(postcard);
+    }
+
+    public static Class<?> getDestination(@NonNull final String path) {
+        Postcard postcard = RouterUtils.buildPostcard(path);
+        RouterUtils.completion(postcard);
+        return postcard.getDestination();
     }
 
     /**

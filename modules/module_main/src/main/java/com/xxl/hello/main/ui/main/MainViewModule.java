@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.hello.service.qunlifier.ForApplication;
-import com.xxl.hello.service.qunlifier.ForQiNiuUpload;
 import com.xxl.hello.service.qunlifier.ForTencentUpload;
 import com.xxl.hello.service.ui.ViewModelProviderFactory;
 import com.xxl.hello.service.upload.api.UploadService;

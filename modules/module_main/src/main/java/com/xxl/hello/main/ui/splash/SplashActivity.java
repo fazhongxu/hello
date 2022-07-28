@@ -59,26 +59,6 @@ public class SplashActivity extends SingleActivity<SplashViewModel> {
     }
 
     /**
-     * 获取data binding 内的 ViewModel
-     *
-     * @return
-     */
-    @Override
-    public int getViewModelVariable() {
-        return 0;
-    }
-
-    /**
-     * 获取data binding 内的 Navigator
-     *
-     * @return
-     */
-    @Override
-    public int getViewNavigatorVariable() {
-        return 0;
-    }
-
-    /**
      * 设置数据
      */
     @Override

@@ -43,6 +43,20 @@ public abstract class DataBindingActivity<V extends BaseViewModel, T extends Vie
     }
 
     /**
+     * 获取data binding 内的 ViewModel
+     *
+     * @return
+     */
+    public abstract int getViewModelVariable();
+
+    /**
+     * 获取data binding 内的 Navigator
+     *
+     * @return
+     */
+    public abstract int getViewNavigatorVariable();
+
+    /**
      * 创建ViewModel数据模型后
      */
     @Override

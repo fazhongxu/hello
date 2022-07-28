@@ -16,14 +16,21 @@ import com.xxl.kit.OnAppStatusChangedListener;
 import javax.inject.Inject;
 
 import dagger.android.AndroidInjection;
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.HasAndroidInjector;
 
 /**
  * @author xxl.
  * @date 2021/7/19.
  */
-public abstract class BaseActivity<V extends BaseViewModel> extends SwipeBackActivity {
+public abstract class BaseActivity<V extends BaseViewModel> extends SwipeBackActivity
+        implements HasAndroidInjector {
 
     //region: 成员变量
+
+//    @Inject
+    protected DispatchingAndroidInjector<Object> mFragmentDispatchingAndroidInjector;
 
     @Inject
     protected ViewModelProvider.Factory mViewModelProviderFactory;
@@ -72,6 +79,11 @@ public abstract class BaseActivity<V extends BaseViewModel> extends SwipeBackAct
         }
     }
 
+    @Override
+    public AndroidInjector<Object> androidInjector() {
+        return mFragmentDispatchingAndroidInjector;
+    }
+
     /**
      * 获取视图资源ID
      *
@@ -97,20 +109,6 @@ public abstract class BaseActivity<V extends BaseViewModel> extends SwipeBackAct
     }
 
     /**
-     * 获取data binding 内的 ViewModel
-     *
-     * @return
-     */
-    public abstract int getViewModelVariable();
-
-    /**
-     * 获取data binding 内的 Navigator
-     *
-     * @return
-     */
-    public abstract int getViewNavigatorVariable();
-
-    /**
      * 创建ViewModel数据模型后
      */
     protected void afterCreateVieModel() {
@@ -129,12 +127,16 @@ public abstract class BaseActivity<V extends BaseViewModel> extends SwipeBackAct
     /**
      * 设置数据
      */
-    protected abstract void setupData();
+    protected void setupData() {
+
+    }
 
     /**
      * 设置页面视图
      */
-    protected abstract void setupLayout();
+    protected void setupLayout() {
+
+    }
 
     /**
      * 请求数据
