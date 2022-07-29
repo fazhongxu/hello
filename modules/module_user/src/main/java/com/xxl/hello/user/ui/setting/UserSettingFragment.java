@@ -141,8 +141,7 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
 
     @Override
     protected void setupLayout(@NonNull View view) {
-        // TODO: 2022/7/29
-//        mResourcesSharePickerKit.register(this);
+        mResourcesSharePickerKit.register(this);
         mUserSettingModel.setObservableUserAvatarUrl("https://avatars.githubusercontent.com/u/24353536?s=400&u=43f37f2e73f15a1dfad58f0d63c35418715a5621&v=4");
     }
 

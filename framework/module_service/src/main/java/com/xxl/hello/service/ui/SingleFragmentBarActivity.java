@@ -72,7 +72,7 @@ public abstract class SingleFragmentBarActivity<F extends Fragment> extends Sing
         mCustomToolBar = findViewById(R.id.tool_bar);
         StatusBarUtil.setDarkMode(this);
         final int statusBarHeight = StatusBarUtil.getStatusBarHeight();
-        mAppBarLayout.setPadding(DisplayUtils.dp2px(this, 10), statusBarHeight, 0, 0);
+        mAppBarLayout.setPadding(DisplayUtils.dp2px(this, 15), statusBarHeight - DisplayUtils.dp2px(this, 20), DisplayUtils.dp2px(this, 15), 0);
 
         if (getToolbarTitle() != 0) {
             mCustomToolBar.setTitle(getToolbarTitle());

@@ -29,10 +29,10 @@ public class ImageSharePickerImpl extends BaseSharePickerImpl<ImageShareResource
     //region: 构造函数
 
     protected ImageSharePickerImpl(@NonNull Application application,
-                                   @NonNull Fragment activity,
+                                   @NonNull Fragment fragment,
                                    @NonNull DownloadService downloadService,
                                    @NonNull DataRepositoryKit dataRepositoryKit) {
-        super(application, activity, downloadService, dataRepositoryKit);
+        super(application, fragment, downloadService, dataRepositoryKit);
     }
 
     /**
