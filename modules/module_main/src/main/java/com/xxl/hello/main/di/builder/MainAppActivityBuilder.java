@@ -1,7 +1,7 @@
 package com.xxl.hello.main.di.builder;
 
 import com.xxl.hello.main.ui.main.MainActivity;
-import com.xxl.hello.main.ui.main.MainViewModule;
+import com.xxl.hello.main.ui.main.MainFragmentProvider;
 import com.xxl.hello.main.ui.splash.SplashActivity;
 import com.xxl.hello.main.ui.splash.SplashViewModule;
 
@@ -28,6 +28,6 @@ public abstract class MainAppActivityBuilder {
      *
      * @return
      */
-    @ContributesAndroidInjector(modules = MainViewModule.class)
+    @ContributesAndroidInjector(modules = MainFragmentProvider.class)
     abstract MainActivity bindMainActivityBuilder();
 }

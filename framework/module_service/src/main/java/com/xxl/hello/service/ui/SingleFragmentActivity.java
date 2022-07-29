@@ -5,15 +5,24 @@ import androidx.fragment.app.FragmentManager;
 
 import com.xxl.hello.service.R;
 
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.HasAndroidInjector;
+
 /**
- * 带Toolbar 样式的单个activity页面
+ * 单个Fragment在Activity页面
  *
  * @author xxl.
  * @date 2021/7/19.
  */
-public abstract class SingleBarActivity<F extends Fragment> extends BaseActivity {
+public abstract class SingleFragmentActivity<F extends Fragment> extends BaseActivity implements HasAndroidInjector {
 
     //region: 成员变量
+
+    @Inject
+    DispatchingAndroidInjector<Object> mAndroidInjector;
 
     /**
      * fragment
@@ -126,6 +135,11 @@ public abstract class SingleBarActivity<F extends Fragment> extends BaseActivity
                         .commit();
             }
         }
+    }
+
+    @Override
+    public AndroidInjector<Object> androidInjector() {
+        return mAndroidInjector;
     }
 
 

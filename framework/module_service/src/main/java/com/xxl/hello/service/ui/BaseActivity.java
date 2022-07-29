@@ -25,14 +25,14 @@ import dagger.android.HasAndroidInjector;
  * @date 2021/7/19.
  */
 public abstract class BaseActivity<V extends BaseViewModel> extends SwipeBackActivity
-        implements HasAndroidInjector {
+      /*  implements HasAndroidInjector*/ {
 
     //region: 成员变量
 
 //    @Inject
-    protected DispatchingAndroidInjector<Object> mFragmentDispatchingAndroidInjector;
+//    DispatchingAndroidInjector<Object> mAndroidInjector;
 
-    @Inject
+    //    @Inject // TODO: 2022/7/29
     protected ViewModelProvider.Factory mViewModelProviderFactory;
 
     /**
@@ -79,10 +79,10 @@ public abstract class BaseActivity<V extends BaseViewModel> extends SwipeBackAct
         }
     }
 
-    @Override
-    public AndroidInjector<Object> androidInjector() {
-        return mFragmentDispatchingAndroidInjector;
-    }
+//    @Override
+//    public AndroidInjector<Object> androidInjector() {
+//        return mAndroidInjector;
+//    }
 
     /**
      * 获取视图资源ID

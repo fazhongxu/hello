@@ -3,7 +3,6 @@ package com.xxl.hello.main.ui.main;
 import android.view.View;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.xxl.core.aop.annotation.CheckLogin;
@@ -20,7 +19,7 @@ import com.xxl.hello.service.ui.DataBindingFragment;
  * @author xxl.
  * @date 2022/4/8.
  */
-public class MainFragment extends Fragment/*DataBindingFragment<MainViewModel, MainFragmentBinding>*/ implements MainActivityNavigator{
+public class MainFragment extends DataBindingFragment<MainViewModel, MainFragmentBinding> implements MainActivityNavigator{
 
     //region: 成员变量
 
@@ -41,65 +40,65 @@ public class MainFragment extends Fragment/*DataBindingFragment<MainViewModel, M
 
     //region: 页面生命周期
 
-//    /**
-//     * 获取视图资源ID
-//     *
-//     * @return
-//     */
-//    @Override
-//    protected int getLayoutRes() {
-//        return R.layout.main_fragment;
-//    }
-//
-//    /**
-//     * 创建ViewModel数据模型
-//     *
-//     * @return
-//     */
-//    @Override
-//    protected MainViewModel createViewModel() {
-//        mMainViewModel = new ViewModelProvider(this, mViewModelProviderFactory).get(MainViewModel.class);
-//        mMainViewModel.setNavigator(this);
-//        return mMainViewModel;
-//    }
-//
-//    /**
-//     * 获取data binding 内的 ViewModel
-//     *
-//     * @return
-//     */
-//    @Override
-//    public int getViewModelVariable() {
-//        return BR.viewModel;
-//    }
-//
-//    /**
-//     * 获取data binding 内的 Navigator
-//     *
-//     * @return
-//     */
-//    @Override
-//    public int getViewNavigatorVariable() {
-//        return BR.navigator;
-//    }
-//
-//    /**
-//     * 设置数据
-//     */
-//    @Override
-//    protected void setupData() {
-//
-//    }
-//
-//    /**
-//     * 设置页面视图
-//     *
-//     * @param view
-//     */
-//    @Override
-//    protected void setupLayout(View view) {
-//
-//    }
+    /**
+     * 获取视图资源ID
+     *
+     * @return
+     */
+    @Override
+    protected int getLayoutRes() {
+        return R.layout.main_fragment;
+    }
+
+    /**
+     * 创建ViewModel数据模型
+     *
+     * @return
+     */
+    @Override
+    protected MainViewModel createViewModel() {
+        mMainViewModel = new ViewModelProvider(this, mViewModelProviderFactory).get(MainViewModel.class);
+        mMainViewModel.setNavigator(this);
+        return mMainViewModel;
+    }
+
+    /**
+     * 获取data binding 内的 ViewModel
+     *
+     * @return
+     */
+    @Override
+    public int getViewModelVariable() {
+        return BR.viewModel;
+    }
+
+    /**
+     * 获取data binding 内的 Navigator
+     *
+     * @return
+     */
+    @Override
+    public int getViewNavigatorVariable() {
+        return BR.navigator;
+    }
+
+    /**
+     * 设置数据
+     */
+    @Override
+    protected void setupData() {
+
+    }
+
+    /**
+     * 设置页面视图
+     *
+     * @param view
+     */
+    @Override
+    protected void setupLayout(View view) {
+
+    }
 
     //endregion
 
