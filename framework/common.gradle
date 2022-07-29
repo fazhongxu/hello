@@ -87,14 +87,16 @@ dependencies {
 
     implementation deps.adapter_helper
 
-    compileOnly deps.flyco_round_view
+    implementation deps.flyco_round_view
 
-    compileOnly deps.tbs
+    implementation deps.tbs
 
-    compileOnly deps.aria.core
+    implementation deps.aria.core
     kapt deps.aria.aira_processor
 
     implementation deps.base_popup
+
+    implementation deps.agentweb
 
 }
 

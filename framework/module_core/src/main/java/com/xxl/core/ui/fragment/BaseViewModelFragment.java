@@ -14,6 +14,7 @@ import androidx.databinding.Observable;
 import androidx.databinding.ViewDataBinding;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.xxl.core.ui.BaseEventBusWrapper;
 import com.xxl.core.ui.BaseViewModel;
@@ -69,6 +70,10 @@ public abstract class BaseViewModelFragment<V extends BaseViewModel, T extends V
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (enableRouterInject()) {
+            ARouter.getInstance().inject(this);
+        }
     }
 
     @Nullable
@@ -143,7 +148,6 @@ public abstract class BaseViewModelFragment<V extends BaseViewModel, T extends V
      * @return
      */
     public abstract int getViewNavigatorVariable();
-
 
     protected ViewModelProvider getViewModelProvider() {
         return new ViewModelProvider(this, getViewModelProviderFactory());
@@ -247,6 +251,15 @@ public abstract class BaseViewModelFragment<V extends BaseViewModel, T extends V
      */
     protected boolean enableInjection() {
         return true;
+    }
+
+    /**
+     * 是否需要注入路由
+     *
+     * @return
+     */
+    protected boolean enableRouterInject() {
+        return false;
     }
 
     /**
