@@ -3,7 +3,7 @@ package com.xxl.hello.user.ui.setting;
 import androidx.annotation.NonNull;
 
 import com.xxl.hello.service.data.model.event.SystemEventApi;
-import com.xxl.hello.service.ui.BaseEventBusWrapper;
+import com.xxl.core.ui.BaseEventBusWrapper;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;

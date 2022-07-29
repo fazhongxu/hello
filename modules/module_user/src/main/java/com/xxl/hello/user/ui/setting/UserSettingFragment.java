@@ -22,7 +22,7 @@ import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi.ShareOperateType;
 import com.xxl.hello.service.data.model.event.SystemEventApi;
 import com.xxl.hello.service.qunlifier.ForUserBaseUrl;
-import com.xxl.hello.service.ui.BaseViewModelFragment;
+import com.xxl.core.ui.fragment.BaseViewModelFragment;
 import com.xxl.hello.user.BR;
 import com.xxl.hello.user.R;
 import com.xxl.hello.user.databinding.UserFragmentSettingBinding;
@@ -176,7 +176,7 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
      */
     @Override
     public void onRequestPutResourcesUploadQueueDBEntities(Boolean isSuccess) {
-        if (isFinishing()) {
+        if (isActivityFinishing()) {
             return;
         }
     }
@@ -284,7 +284,7 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
      * @param event
      */
     public void handleMaterialSubmitToServiceEvent(@NonNull final SystemEventApi.OnMaterialSubmitToServiceEvent event) {
-        if (isFinishing()) {
+        if (isActivityFinishing()) {
             return;
         }
         CharSequence text = mViewDataBinding.tvTest.getText();

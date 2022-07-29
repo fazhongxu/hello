@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 import com.xxl.core.utils.TestUtils;
 import com.xxl.hello.router.api.UserRouterApi;
 import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
-import com.xxl.hello.service.ui.BaseViewModelFragment;
+import com.xxl.core.ui.fragment.BaseViewModelFragment;
 import com.xxl.hello.user.BR;
 import com.xxl.hello.user.R;
 import com.xxl.hello.user.data.model.api.UserLoginResponse;

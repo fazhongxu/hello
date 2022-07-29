@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.hello.service.qunlifier.ForApplication;
-import com.xxl.hello.service.ui.ViewModelProviderFactory;
+import com.xxl.core.ui.ViewModelProviderFactory;
 import com.xxl.hello.user.data.repository.UserRepository;
 
 import dagger.Module;

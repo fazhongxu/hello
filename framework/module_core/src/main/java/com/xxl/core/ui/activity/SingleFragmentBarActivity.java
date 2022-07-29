@@ -1,4 +1,4 @@
-package com.xxl.hello.service.ui;
+package com.xxl.core.ui.activity;
 
 import android.os.Bundle;
 
@@ -7,8 +7,8 @@ import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.appbar.AppBarLayout;
+import com.xxl.core.R;
 import com.xxl.core.widget.CustomToolBar;
-import com.xxl.hello.service.R;
 import com.xxl.kit.DisplayUtils;
 import com.xxl.kit.StatusBarUtil;
 

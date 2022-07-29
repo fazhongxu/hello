@@ -5,7 +5,7 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
-import com.xxl.hello.service.ui.BaseViewModel;
+import com.xxl.core.ui.BaseViewModel;
 
 /**
  * 启动页数据模型

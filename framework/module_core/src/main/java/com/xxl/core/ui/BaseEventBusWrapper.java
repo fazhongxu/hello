@@ -1,4 +1,6 @@
-package com.xxl.hello.service.ui;
+package com.xxl.core.ui;
+
+import com.xxl.core.ui.fragment.BaseViewModelFragment;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -52,6 +54,10 @@ public abstract class BaseEventBusWrapper<T extends BaseViewModelFragment> {
      */
     public T getFragment() {
         return mWeakReference.get();
+    }
+
+    public BaseViewModel getViewModel() {
+        return getFragment().getViewModel();
     }
 
     //endregion

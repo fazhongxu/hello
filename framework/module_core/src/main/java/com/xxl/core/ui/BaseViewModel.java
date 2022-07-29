@@ -1,4 +1,4 @@
-package com.xxl.hello.service.ui;
+package com.xxl.core.ui;
 
 import android.app.Application;
 import android.os.Handler;

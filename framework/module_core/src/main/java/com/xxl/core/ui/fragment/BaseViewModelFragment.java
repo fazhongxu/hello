@@ -1,4 +1,4 @@
-package com.xxl.hello.service.ui;
+package com.xxl.core.ui.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -7,17 +7,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.LayoutRes;
-import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.Observable;
 import androidx.databinding.ViewDataBinding;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.kaopiz.kprogresshud.KProgressHUD;
+import com.xxl.core.ui.BaseEventBusWrapper;
+import com.xxl.core.ui.BaseViewModel;
 import com.xxl.kit.AppUtils;
 import com.xxl.kit.OnAppStatusChangedListener;
 
@@ -26,11 +25,12 @@ import javax.inject.Inject;
 import dagger.android.support.AndroidSupportInjection;
 
 /**
+ * 带ViewModel的Fragment基础类
+ *
  * @author xxl.
  * @date 2022/4/8.
- * // TODO: 2022/4/8 待完善的Fragment基础类
  */
-public abstract class BaseViewModelFragment<V extends BaseViewModel, T extends ViewDataBinding> extends Fragment {
+public abstract class BaseViewModelFragment<V extends BaseViewModel, T extends ViewDataBinding> extends BaseFragment {
 
     //region: 成员变量
 
@@ -164,7 +164,7 @@ public abstract class BaseViewModelFragment<V extends BaseViewModel, T extends V
      *
      * @return
      */
-    protected V getViewModel() {
+    public V getViewModel() {
         return mViewModel;
     }
 
@@ -276,7 +276,7 @@ public abstract class BaseViewModelFragment<V extends BaseViewModel, T extends V
      *
      * @return
      */
-    public boolean isFinishing() {
+    public boolean isActivityFinishing() {
         if (getActivity() == null) {
             return true;
         }

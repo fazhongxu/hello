@@ -1,17 +1,14 @@
 package com.xxl.hello.main.ui.splash;
 
-import android.content.Intent;
-import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
+import com.xxl.core.ui.fragment.BaseViewModelFragment;
 import com.xxl.hello.main.BR;
 import com.xxl.hello.main.R;
 import com.xxl.hello.main.databinding.MainFragmentBinding;
-import com.xxl.hello.service.ui.BaseViewModelFragment;
 import com.xxl.kit.AppRouterApi;
 
 /**
@@ -86,7 +83,7 @@ public class SplashFragment extends BaseViewModelFragment<SplashViewModel, MainF
     @Override
     protected void setupLayout(@NonNull final View view) {
         new Handler().postDelayed(() -> {
-            if (isFinishing()) {
+            if (isActivityFinishing()) {
                 return;
             }
             // TODO: 2022/4/2  模拟数据请求

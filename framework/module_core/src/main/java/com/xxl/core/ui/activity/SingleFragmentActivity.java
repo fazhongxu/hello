@@ -1,9 +1,12 @@
-package com.xxl.hello.service.ui;
+package com.xxl.core.ui.activity;
+
+import android.content.Intent;
+import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.xxl.hello.service.R;
+import com.xxl.core.R;
 
 /**
  * 单个Fragment在Activity页面
@@ -64,6 +67,18 @@ public abstract class SingleFragmentActivity<F extends Fragment> extends BaseAct
         } else {
             mCurrentFragment = (F) fm.findFragmentById(getContainerViewId());
         }
+    }
+
+    public Bundle getExtras() {
+        final Intent intent = getIntent();
+        Bundle extras = null;
+        if (intent != null) {
+            extras = intent.getExtras();
+        }
+        if (extras == null) {
+            return new Bundle();
+        }
+        return extras;
     }
 
     /**

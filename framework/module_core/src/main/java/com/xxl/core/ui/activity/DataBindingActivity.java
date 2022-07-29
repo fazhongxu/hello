@@ -1,4 +1,4 @@
-package com.xxl.hello.service.ui;
+package com.xxl.core.ui.activity;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;

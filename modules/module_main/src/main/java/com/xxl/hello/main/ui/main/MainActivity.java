@@ -1,8 +1,12 @@
 package com.xxl.hello.main.ui.main;
 
+import android.content.Intent;
+
+import androidx.annotation.Nullable;
+
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.xxl.core.ui.activity.SingleFragmentBarActivity;
 import com.xxl.hello.main.R;
-import com.xxl.hello.service.ui.SingleFragmentBarActivity;
 import com.xxl.kit.AppRouterApi;
 
 /**
@@ -21,12 +25,24 @@ public class MainActivity extends SingleFragmentBarActivity<MainFragment> {
      */
     @Override
     public MainFragment createFragment() {
-        return MainFragment.newInstance();
+        return MainFragment.newInstance(getExtras());
     }
 
     @Override
     protected int getToolbarTitle() {
         return R.string.main_title;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode,
+                                    int resultCode,
+                                    @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode != RESULT_OK) {
+            return;
+        }
+        final MainFragment fragment = getCurrentFragment();
+        fragment.handleActivityResult(requestCode,data);
     }
 
     //endregion

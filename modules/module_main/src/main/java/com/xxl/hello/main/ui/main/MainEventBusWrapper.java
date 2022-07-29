@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 
 import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
 import com.xxl.hello.service.data.model.event.OnUserEventApi;
-import com.xxl.hello.service.ui.BaseEventBusWrapper;
+import com.xxl.core.ui.BaseEventBusWrapper;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;

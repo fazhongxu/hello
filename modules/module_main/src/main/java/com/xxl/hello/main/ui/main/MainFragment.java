@@ -2,19 +2,22 @@ package com.xxl.hello.main.ui.main;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.tbruyelle.rxpermissions3.RxPermissions;
 import com.xxl.core.aop.annotation.Safe;
 import com.xxl.core.media.audio.AudioCapture;
 import com.xxl.core.media.audio.AudioCapture.OnAudioFrameCapturedListener;
 import com.xxl.core.media.audio.AudioRecordFormat;
+import com.xxl.core.ui.BaseEventBusWrapper;
+import com.xxl.core.ui.fragment.BaseViewModelFragment;
 import com.xxl.core.utils.AppExpandUtils;
 import com.xxl.core.utils.TestUtils;
 import com.xxl.hello.common.config.CacheDirConfig;
@@ -24,7 +27,6 @@ import com.xxl.hello.main.databinding.MainFragmentBinding;
 import com.xxl.hello.main.ui.main.window.PrivacyPolicyPopupWindow;
 import com.xxl.hello.service.data.model.api.QueryUserInfoResponse;
 import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
-import com.xxl.hello.service.ui.BaseViewModelFragment;
 import com.xxl.hello.widget.record.OnRecordListener;
 import com.xxl.hello.widget.record.RecordButton;
 import com.xxl.kit.AppRouterApi;
@@ -38,6 +40,8 @@ import com.xxl.kit.ToastUtils;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+
+import javax.inject.Inject;
 
 import io.reactivex.rxjava3.disposables.Disposable;
 
@@ -55,12 +59,20 @@ public class MainFragment extends BaseViewModelFragment<MainViewModel, MainFragm
      */
     private MainViewModel mMainViewModel;
 
+    /**
+     * 首页EventBus通知事件监听
+     */
+    @Inject
+    MainEventBusWrapper mMainEventBusWrapper;
+
     //endregion
 
     //region: 构造函数
 
-    public final static MainFragment newInstance() {
-        return new MainFragment();
+    public final static MainFragment newInstance(@NonNull final Bundle bundle) {
+        final MainFragment mainFragment = new MainFragment();
+        mainFragment.setArguments(bundle);
+        return mainFragment;
     }
 
     //endregion
@@ -87,6 +99,11 @@ public class MainFragment extends BaseViewModelFragment<MainViewModel, MainFragm
         mMainViewModel = createViewModel(MainViewModel.class);
         mMainViewModel.setNavigator(this);
         return mMainViewModel;
+    }
+
+    @Override
+    protected BaseEventBusWrapper getEventBusWrapper() {
+        return mMainEventBusWrapper;
     }
 
     /**
@@ -325,6 +342,21 @@ public class MainFragment extends BaseViewModelFragment<MainViewModel, MainFragm
             return;
         }
         mMainViewModel.setObservableUserId(targetUserEntity.getUserId());
+    }
+
+    /**
+     * 处理页面结果
+     *
+     * @param requestCode
+     * @param data
+     */
+    public void handleActivityResult(final int requestCode, @Nullable Intent data) {
+        if (isActivityFinishing()) {
+            return;
+        }
+        if (AppRouterApi.Login.isRequestCode(requestCode)) {
+            ToastUtils.success(R.string.resources_login_success).show();
+        }
     }
 
     //endregion
