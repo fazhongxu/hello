@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_gravity="center_vertical"
-        app:title="main"
+        app:title=""
         app:titleTextColor="@android:color/white" />
 
 </com.google.android.material.appbar.AppBarLayout>

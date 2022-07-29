@@ -22,7 +22,7 @@ import io.reactivex.rxjava3.disposables.Disposable;
  * @author xxl
  * @date 2021/07/16.
  */
-public class MainViewModel extends BaseViewModel<MainActivityNavigator> {
+public class MainViewModel extends BaseViewModel<MainNavigator> {
 
     //region: 成员变量
 

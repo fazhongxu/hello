@@ -7,12 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.LayoutRes;
+import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.Observable;
 import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.kaopiz.kprogresshud.KProgressHUD;
@@ -141,6 +143,21 @@ public abstract class BaseViewModelFragment<V extends BaseViewModel, T extends V
      * @return
      */
     public abstract int getViewNavigatorVariable();
+
+
+    protected ViewModelProvider getViewModelProvider() {
+        return new ViewModelProvider(this, getViewModelProviderFactory());
+    }
+
+    /**
+     * 创建ViewModel
+     *
+     * @param modelClass
+     * @return
+     */
+    protected V createViewModel(@NonNull Class<V> modelClass) {
+        return getViewModelProvider().get(modelClass);
+    }
 
     /**
      * 获取ViewModel数据模型

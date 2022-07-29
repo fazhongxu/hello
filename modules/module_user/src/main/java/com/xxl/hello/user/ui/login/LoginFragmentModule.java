@@ -18,17 +18,17 @@ import dagger.Provides;
  * @date 2021/7/16.
  */
 @Module
-public class LoginActivityViewModule {
+public class LoginFragmentModule {
 
     @Provides
-    LoginActivityViewModel provideLoginActivityViewModel(@ForApplication final Application application,
-                                                         @NonNull final DataRepositoryKit dataRepositoryKit,
-                                                         @NonNull final UserRepository userRepository) {
-        return new LoginActivityViewModel(application,dataRepositoryKit,userRepository);
+    LoginViewModel provideLoginActivityViewModel(@ForApplication final Application application,
+                                                 @NonNull final DataRepositoryKit dataRepositoryKit,
+                                                 @NonNull final UserRepository userRepository) {
+        return new LoginViewModel(application,dataRepositoryKit,userRepository);
     }
 
     @Provides
-    ViewModelProvider.Factory provideLoginActivityViewModelFactory(@NonNull final LoginActivityViewModel viewModel) {
+    ViewModelProvider.Factory provideLoginActivityViewModelFactory(@NonNull final LoginViewModel viewModel) {
         return new ViewModelProviderFactory<>(viewModel);
     }
 

@@ -46,7 +46,7 @@ import io.reactivex.rxjava3.disposables.Disposable;
  * @date 2022/4/8.
  */
 public class MainFragment extends BaseViewModelFragment<MainViewModel, MainFragmentBinding>
-        implements MainActivityNavigator, OnAppStatusChangedListener, OnAudioFrameCapturedListener {
+        implements MainNavigator, OnAppStatusChangedListener, OnAudioFrameCapturedListener {
 
     //region: 成员变量
 
@@ -84,7 +84,7 @@ public class MainFragment extends BaseViewModelFragment<MainViewModel, MainFragm
      */
     @Override
     protected MainViewModel createViewModel() {
-        mMainViewModel = new ViewModelProvider(this, mViewModelProviderFactory).get(MainViewModel.class);
+        mMainViewModel = createViewModel(MainViewModel.class);
         mMainViewModel.setNavigator(this);
         return mMainViewModel;
     }
@@ -134,7 +134,7 @@ public class MainFragment extends BaseViewModelFragment<MainViewModel, MainFragm
 
     //endregion
 
-    //region: MainActivityNavigator
+    //region: MainNavigator
 
     @Safe
     @Override

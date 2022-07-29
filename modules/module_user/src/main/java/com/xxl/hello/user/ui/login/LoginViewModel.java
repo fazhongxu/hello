@@ -19,7 +19,7 @@ import io.reactivex.rxjava3.disposables.Disposable;
  * @author xxl.
  * @date 2021/7/16.
  */
-public class LoginActivityViewModel extends BaseViewModel<LoginActivityNavigator> {
+public class LoginViewModel extends BaseViewModel<LoginNavigator> {
 
     //region: 成员变量
 
@@ -52,9 +52,9 @@ public class LoginActivityViewModel extends BaseViewModel<LoginActivityNavigator
 
     //region: 构造函数
 
-    public LoginActivityViewModel(@NonNull final Application application,
-                                  @NonNull final DataRepositoryKit dataRepositoryKit,
-                                  @NonNull final UserRepository userRepository) {
+    public LoginViewModel(@NonNull final Application application,
+                          @NonNull final DataRepositoryKit dataRepositoryKit,
+                          @NonNull final UserRepository userRepository) {
         super(application);
         mDataRepositoryKit = dataRepositoryKit;
         mUserRepository = userRepository;

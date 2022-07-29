@@ -8,7 +8,7 @@ import com.xxl.hello.service.data.model.api.QueryUserInfoResponse;
  * @author xxl
  * @date 2021/07/16.
  */
-public interface MainActivityNavigator {
+public interface MainNavigator {
 
     /**
      * 请求查询用户信息完成

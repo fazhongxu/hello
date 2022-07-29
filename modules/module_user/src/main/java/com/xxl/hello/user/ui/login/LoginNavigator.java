@@ -8,7 +8,7 @@ import com.xxl.hello.user.data.model.api.UserLoginResponse;
  * @author xxl.
  * @date 2021/7/16.
  */
-public interface LoginActivityNavigator {
+public interface LoginNavigator {
 
     /**
      * 请求登录完成

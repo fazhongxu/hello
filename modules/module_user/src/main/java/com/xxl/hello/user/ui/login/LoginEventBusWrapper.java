@@ -17,12 +17,12 @@ import javax.inject.Inject;
  * @author xxl.
  * @date 2021/7/23.
  */
-public class LoginActivityEventBusWrapper extends BaseEventBusWrapper {
+public class LoginEventBusWrapper extends BaseEventBusWrapper<LoginFragment> {
 
     //region: 构造函数
 
     @Inject
-    public LoginActivityEventBusWrapper() {
+    public LoginEventBusWrapper() {
 
     }
 
@@ -38,11 +38,10 @@ public class LoginActivityEventBusWrapper extends BaseEventBusWrapper {
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThreed(@NonNull final OnUserEventApi.OnUpdateUserInfoEvent event) {
-        // TODO: 2022/7/29  
-//        final LoginActivity activity = getActivity();
-//        if (activity != null) {
-//            activity.refreshUserInfo(event.getTargetUserEntity());
-//        }
+        final LoginFragment fragment = getFragment();
+        if (fragment != null) {
+            fragment.refreshUserInfo(event.getTargetUserEntity());
+        }
     }
 
     //endregion

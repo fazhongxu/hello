@@ -6,6 +6,6 @@ package com.xxl.hello.main.ui.splash;
  * @author xxl
  * @date 2021/08/13.
  */
-public interface SplashActivityNavigator {
+public interface SplashNavigator {
 
 }
