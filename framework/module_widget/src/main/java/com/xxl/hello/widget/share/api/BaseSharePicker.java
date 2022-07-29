@@ -1,7 +1,5 @@
 package com.xxl.hello.widget.share.api;
 
-import android.app.Activity;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -25,26 +23,14 @@ public interface BaseSharePicker<T extends BaseShareResourceEntity> {
     /**
      * 注册
      *
-     * @param activity
+     * @param fragment
      */
-    void register(@NonNull Activity activity);
+    void register(@NonNull Fragment fragment);
 
     /**
      * 取消注册
      */
     void unregister();
-
-    /**
-     * 操作处理（用于页面单独写，功能想用统一实现的情况）
-     *
-     * @param activity                   上下文
-     * @param operateType                操作类型
-     * @param targetShareResourcesEntity 资源分享实体
-     */
-    @Deprecated
-    void operateHandle(@NonNull final Activity activity,
-                       @ShareOperateType final int operateType,
-                       @NonNull final T targetShareResourcesEntity);
 
     /**
      * 操作处理（用于页面单独写，功能想用统一实现的情况）
@@ -60,23 +46,23 @@ public interface BaseSharePicker<T extends BaseShareResourceEntity> {
     /**
      * 展示分享弹窗
      *
-     * @param activity
+     * @param fragment
      * @param targetShareResourcesEntity
      * @param operateTypes
      */
-    void showSharePicker(@NonNull final Activity activity,
+    void showSharePicker(@NonNull final Fragment fragment,
                          @NonNull final List<Integer> operateTypes,
                          @NonNull final T targetShareResourcesEntity);
 
     /**
      * 展示分享弹窗
      *
-     * @param targetActivity
+     * @param fragment
      * @param targetShareResourcesEntity
      * @param operateTypes
      * @param operate
      */
-    void showSharePicker(@NonNull final Activity targetActivity,
+    void showSharePicker(@NonNull final Fragment fragment,
                          @NonNull final List<Integer> operateTypes,
                          @NonNull final T targetShareResourcesEntity,
                          @Nullable final OnShareItemOperate operate);

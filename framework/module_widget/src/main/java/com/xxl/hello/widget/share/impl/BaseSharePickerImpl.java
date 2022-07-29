@@ -1,6 +1,5 @@
 package com.xxl.hello.widget.share.impl;
 
-import android.app.Activity;
 import android.app.Application;
 import android.view.View;
 
@@ -45,22 +44,22 @@ public abstract class BaseSharePickerImpl<T extends BaseShareResourceEntity> imp
     private DataRepositoryKit mDataRepositoryKit;
 
     /**
-     * activity
+     * fragment
      */
-    private Activity mActivity;
+    private Fragment mFragment;
 
     //endregion
 
     //region: 构造函数
 
     public BaseSharePickerImpl(@NonNull Application application,
-                               @NonNull final Activity activity,
+                               @NonNull Fragment fragment,
                                @NonNull DownloadService downloadService,
                                @NonNull DataRepositoryKit dataRepositoryKit) {
         mApplication = application;
         mDownloadService = downloadService;
         mDataRepositoryKit = dataRepositoryKit;
-        register(activity);
+        register(fragment);
     }
 
     //endregion
@@ -70,11 +69,11 @@ public abstract class BaseSharePickerImpl<T extends BaseShareResourceEntity> imp
     /**
      * 注册
      *
-     * @param activity
+     * @param fragment
      */
     @Override
-    public void register(@NonNull Activity activity) {
-        mActivity = activity;
+    public void register(@NonNull Fragment fragment) {
+        mFragment = fragment;
 
         // TODO: 2022/7/20 分享onActivityResult 回调注册 
     }
@@ -94,25 +93,7 @@ public abstract class BaseSharePickerImpl<T extends BaseShareResourceEntity> imp
      */
     protected boolean isActivityFinishing() {
         synchronized (this) {
-            return mActivity == null || mActivity.isFinishing();
-        }
-    }
-
-    /**
-     * 操作处理（用于页面单独写，功能想用统一实现的情况）
-     *
-     * @param activity                   上下文
-     * @param operateType                操作类型
-     * @param targetShareResourcesEntity 资源分享实体
-     */
-    @Override
-    public void operateHandle(@NonNull final Activity activity,
-                              @ShareOperateType final int operateType,
-                              @NonNull final T targetShareResourcesEntity) {
-        register(activity);
-        final ShareOperateItem operateItem = buildOperateItem(operateType);
-        if (operateItem != null) {
-            operateItem.onClick(targetShareResourcesEntity);
+            return mFragment == null || mFragment.getActivity() == null || mFragment.getActivity().isFinishing();
         }
     }
 
@@ -127,8 +108,7 @@ public abstract class BaseSharePickerImpl<T extends BaseShareResourceEntity> imp
     public void operateHandle(@NonNull final Fragment fragment,
                               @ShareOperateType final int operateType,
                               @NonNull final T targetShareResourcesEntity) {
-        register(fragment.getActivity());
-        // TODO: 2022/7/29 注册换成 fragment
+        register(fragment);
         final ShareOperateItem operateItem = buildOperateItem(operateType);
         if (operateItem != null) {
             operateItem.onClick(targetShareResourcesEntity);
@@ -182,46 +162,46 @@ public abstract class BaseSharePickerImpl<T extends BaseShareResourceEntity> imp
     /**
      * 展示分享弹窗
      *
-     * @param activity
+     * @param fragment
      * @param operateTypes
      * @param targetShareResourcesEntity
      */
     @Override
-    public void showSharePicker(@NonNull Activity activity,
+    public void showSharePicker(@NonNull Fragment fragment,
                                 @NonNull List<Integer> operateTypes,
                                 @NonNull T targetShareResourcesEntity) {
-        showSharePicker(activity, operateTypes, targetShareResourcesEntity, null);
+        showSharePicker(fragment, operateTypes, targetShareResourcesEntity, null);
     }
 
     /**
      * 展示分享弹窗
      *
-     * @param activity
+     * @param fragment
      * @param targetShareResourcesEntity
      * @param operateTypes
      * @param operate
      */
     @Override
-    public void showSharePicker(@NonNull final Activity activity,
+    public void showSharePicker(@NonNull final Fragment fragment,
                                 @NonNull final List<Integer> operateTypes,
                                 @NonNull final T targetShareResourcesEntity,
                                 @Nullable final OnShareItemOperate operate) {
         if (ListUtils.isEmpty(operateTypes)) {
-            showShareWindow(activity, buildOperateItems(getDefaultOperateTypes(targetShareResourcesEntity)), targetShareResourcesEntity, operate);
+            showShareWindow(fragment, buildOperateItems(getDefaultOperateTypes(targetShareResourcesEntity)), targetShareResourcesEntity, operate);
         } else {
-            showShareWindow(activity, buildOperateItems(operateTypes), targetShareResourcesEntity, operate);
+            showShareWindow(fragment, buildOperateItems(operateTypes), targetShareResourcesEntity, operate);
         }
     }
 
     /**
      * 展示分享弹窗
      *
-     * @param activity
+     * @param fragment
      * @param targetShareResourcesEntity
      * @param operateItems
      * @param operate
      */
-    private void showShareWindow(@NonNull final Activity activity,
+    private void showShareWindow(@NonNull final Fragment fragment,
                                  @NonNull final List<ShareOperateItem> operateItems,
                                  @NonNull final T targetShareResourcesEntity,
                                  @Nullable final OnShareItemOperate operate) {
@@ -238,7 +218,7 @@ public abstract class BaseSharePickerImpl<T extends BaseShareResourceEntity> imp
                 return false;
             }
         };
-        ResourcesShareWindow.from(activity)
+        ResourcesShareWindow.from(fragment)
                 .addItems(operateItems)
                 .setOnItemClickListener(onShareItemOperate)
                 .show();

@@ -1,7 +1,5 @@
 package com.xxl.hello.widget.share.api;
 
-import android.app.Activity;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -25,9 +23,9 @@ public interface ResourcesSharePickerKit {
     /**
      * 注册
      *
-     * @param activity
+     * @param fragment
      */
-    void register(@NonNull final Activity activity);
+    void register(@NonNull final Fragment fragment);
 
     /**
      * 取消注册
@@ -37,18 +35,6 @@ public interface ResourcesSharePickerKit {
     //endregion
 
     //region: 提供方法
-
-    /**
-     * 操作处理（用于页面单独写，功能想用统一实现的情况）
-     *
-     * @param activity                   上下文
-     * @param operateType                操作类型
-     * @param targetShareResourcesEntity 资源分享实体
-     */
-    @Deprecated
-    void operateHandle(@NonNull final Activity activity,
-                       @ShareOperateType final int operateType,
-                       @NonNull final BaseShareResourceEntity targetShareResourcesEntity);
 
     /**
      * 操作处理（用于页面单独写，功能想用统一实现的情况）
@@ -64,43 +50,43 @@ public interface ResourcesSharePickerKit {
     /**
      * 展示分享弹窗
      *
-     * @param activity                   上下文
+     * @param fragment                fragment
      * @param targetShareResourcesEntity 资源分享实体
      */
-    void showSharePicker(@NonNull final Activity activity,
+    void showSharePicker(@NonNull final Fragment fragment,
                          @NonNull final BaseShareResourceEntity targetShareResourcesEntity);
 
     /**
      * 展示分享弹窗
      *
-     * @param activity                   上下文
+     * @param fragment                fragment
      * @param targetShareResourcesEntity 资源分享实体
      * @param operate                    自定义操作事件
      */
-    void showSharePicker(@NonNull final Activity activity,
+    void showSharePicker(@NonNull final Fragment fragment,
                          @NonNull final BaseShareResourceEntity targetShareResourcesEntity,
                          @Nullable final OnShareItemOperate operate);
 
     /**
      * 展示分享弹窗
      *
-     * @param activity                   上下文
+     * @param fragment                fragment
      * @param operateTypes               操作类型
      * @param targetShareResourcesEntity 资源分享实体
      */
-    void showSharePicker(@NonNull final Activity activity,
+    void showSharePicker(@NonNull final Fragment fragment,
                          @NonNull final List<Integer> operateTypes,
                          @NonNull final BaseShareResourceEntity targetShareResourcesEntity);
 
     /**
      * 展示分享弹窗
      *
-     * @param activity                   上下文
+     * @param fragment                fragment
      * @param operateTypes               操作类型
      * @param targetShareResourcesEntity 资源分享实体
      * @param operate                    自定义操作事件
      */
-    void showSharePicker(@NonNull final Activity activity,
+    void showSharePicker(@NonNull final Fragment fragment,
                          @NonNull final List<Integer> operateTypes,
                          @NonNull final BaseShareResourceEntity targetShareResourcesEntity,
                          @Nullable final OnShareItemOperate operate);

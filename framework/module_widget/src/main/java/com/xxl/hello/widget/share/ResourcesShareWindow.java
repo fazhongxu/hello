@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import com.xxl.hello.service.data.model.entity.share.ShareOperateItem;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi;
@@ -45,16 +46,16 @@ public class ResourcesShareWindow extends BasePopupWindow {
 
     //region: 构造函数
 
-    public ResourcesShareWindow(@NonNull final Context context) {
-        super(context);
+    public ResourcesShareWindow(@NonNull final Fragment fragment) {
+        super(fragment);
         setPopupGravity(Gravity.BOTTOM)
                 .setWidth(MATCH_PARENT)
                 .setHeight(WRAP_CONTENT);
         setupLayout();
     }
 
-    public static ResourcesShareWindow from(@NonNull final Context context) {
-        return new ResourcesShareWindow(context);
+    public static ResourcesShareWindow from(@NonNull final Fragment fragment) {
+        return new ResourcesShareWindow(fragment);
     }
 
     //endregion

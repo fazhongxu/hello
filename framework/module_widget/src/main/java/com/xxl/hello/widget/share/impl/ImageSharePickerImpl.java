@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
 import com.xxl.core.data.model.entity.MediaEntity;
 import com.xxl.core.service.download.DownloadService;
@@ -28,7 +29,7 @@ public class ImageSharePickerImpl extends BaseSharePickerImpl<ImageShareResource
     //region: 构造函数
 
     protected ImageSharePickerImpl(@NonNull Application application,
-                                   @NonNull final Activity activity,
+                                   @NonNull Fragment activity,
                                    @NonNull DownloadService downloadService,
                                    @NonNull DataRepositoryKit dataRepositoryKit) {
         super(application, activity, downloadService, dataRepositoryKit);
@@ -37,14 +38,14 @@ public class ImageSharePickerImpl extends BaseSharePickerImpl<ImageShareResource
     /**
      * 构建图片分享器
      *
-     * @param activity
+     * @param fragment
      * @return
      */
     public static ImageSharePickerImpl create(@NonNull final Application application,
-                                              @NonNull final Activity activity,
+                                              @NonNull final Fragment fragment,
                                               @NonNull final DownloadService downloadService,
                                               @NonNull DataRepositoryKit dataRepositoryKit) {
-        return new ImageSharePickerImpl(application, activity, downloadService, dataRepositoryKit);
+        return new ImageSharePickerImpl(application, fragment, downloadService, dataRepositoryKit);
     }
 
     //endregion

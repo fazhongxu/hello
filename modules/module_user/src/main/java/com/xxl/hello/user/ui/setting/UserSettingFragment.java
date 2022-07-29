@@ -12,27 +12,23 @@ import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.xxl.core.data.router.SystemRouterApi;
 import com.xxl.core.image.selector.MediaSelector;
-import com.xxl.core.utils.TestUtils;
 import com.xxl.hello.common.config.AppConfig;
 import com.xxl.hello.common.config.CacheDirConfig;
 import com.xxl.hello.common.config.NetworkConfig;
-import com.xxl.hello.router.api.UserRouterApi;
 import com.xxl.hello.service.data.local.db.entity.ResourcesUploadQueueDBEntity;
 import com.xxl.hello.service.data.model.entity.share.ImageShareResourceEntity;
 import com.xxl.hello.service.data.model.entity.share.ShareOperateItem;
 import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
-import com.xxl.hello.service.data.model.enums.SystemEnumsApi;
+import com.xxl.hello.service.data.model.enums.SystemEnumsApi.ShareOperateType;
 import com.xxl.hello.service.data.model.event.SystemEventApi;
 import com.xxl.hello.service.qunlifier.ForUserBaseUrl;
 import com.xxl.hello.service.ui.BaseViewModelFragment;
 import com.xxl.hello.user.BR;
 import com.xxl.hello.user.R;
-import com.xxl.hello.user.data.model.api.UserLoginResponse;
 import com.xxl.hello.user.databinding.UserFragmentSettingBinding;
 import com.xxl.hello.widget.share.OnShareItemOperate;
 import com.xxl.hello.widget.share.ResourcesShareWindow;
 import com.xxl.hello.widget.share.api.ResourcesSharePickerKit;
-import com.xxl.kit.AppRouterApi;
 import com.xxl.kit.FileUtils;
 import com.xxl.kit.MomentShareUtils;
 import com.xxl.kit.PathUtils;
@@ -214,38 +210,37 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
     @Override
     public boolean onUserAvatarLongClick() {
         if (++mClickCount % 3 == 0) {
-            mResourcesSharePickerKit.operateHandle(this, SystemEnumsApi.ShareOperateType.WE_CHAT, ImageShareResourceEntity.obtain());
+            mResourcesSharePickerKit.operateHandle(this, ShareOperateType.WE_CHAT, ImageShareResourceEntity.obtain());
             return true;
         }
-        // TODO: 2022/7/29 待改造为 fragment
-//        mResourcesSharePickerKit.showSharePicker(this, ImageShareResourceEntity.obtain(), new OnShareItemOperate() {
-//
-//            @Override
-//            public boolean onClick(@NonNull ResourcesShareWindow window,
-//                                   @NonNull ShareOperateItem operateItem,
-//                                   @NonNull View targetView,
-//                                   int position) {
-//                if (operateItem.getOperateType() == SystemEnumsApi.ShareOperateType.WE_CHAT_CIRCLE) {
-//                    ToastUtils.success("自定义点击事件" + operateItem.getTitle()).show();
-//                    final List<File> files = FileUtils.listFilesInDirWithFilter(CacheDirConfig.SHARE_FILE_DIR, new FileFilter() {
-//                        @Override
-//                        public boolean accept(File pathname) {
-//                            return pathname.getName().endsWith(".jpg")
-//                                    || pathname.getName().endsWith(".jpeg")
-//                                    || pathname.getName().endsWith(".png");
-//                        }
-//                    });
-//                    final List<String> imagePaths = new ArrayList<>();
-//                    for (File file : files) {
-//                        imagePaths.add(file.getAbsolutePath());
-//                    }
-//                    MomentShareUtils.shareSingleImageToWeChatMoment(getActivity(), imagePaths.size() > 0 ? imagePaths.get(0) : "");
-//                    window.dismiss();
-//                    return true;
-//                }
-//                return false;
-//            }
-//        });
+        mResourcesSharePickerKit.showSharePicker(this, ImageShareResourceEntity.obtain(), new OnShareItemOperate() {
+
+            @Override
+            public boolean onClick(@NonNull ResourcesShareWindow window,
+                                   @NonNull ShareOperateItem operateItem,
+                                   @NonNull View targetView,
+                                   int position) {
+                if (operateItem.getOperateType() == ShareOperateType.WE_CHAT_CIRCLE) {
+                    ToastUtils.success("自定义点击事件" + operateItem.getTitle()).show();
+                    final List<File> files = FileUtils.listFilesInDirWithFilter(CacheDirConfig.SHARE_FILE_DIR, new FileFilter() {
+                        @Override
+                        public boolean accept(File pathname) {
+                            return pathname.getName().endsWith(".jpg")
+                                    || pathname.getName().endsWith(".jpeg")
+                                    || pathname.getName().endsWith(".png");
+                        }
+                    });
+                    final List<String> imagePaths = new ArrayList<>();
+                    for (File file : files) {
+                        imagePaths.add(file.getAbsolutePath());
+                    }
+                    MomentShareUtils.shareSingleImageToWeChatMoment(getActivity(), imagePaths.size() > 0 ? imagePaths.get(0) : "");
+                    window.dismiss();
+                    return true;
+                }
+                return false;
+            }
+        });
         return true;
     }
 

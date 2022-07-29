@@ -1,9 +1,9 @@
 package com.xxl.hello.widget.share.impl;
 
-import android.app.Activity;
 import android.app.Application;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
 import com.xxl.core.service.download.DownloadService;
 import com.xxl.hello.service.data.model.entity.share.VideoShareResourceEntity;
@@ -25,23 +25,23 @@ public class VideoSharePickerImpl extends BaseSharePickerImpl<VideoShareResource
     //region: 构造函数
 
     protected VideoSharePickerImpl(@NonNull Application application,
-                                   @NonNull final Activity activity,
+                                   @NonNull Fragment fragment,
                                    @NonNull DownloadService downloadService,
                                    @NonNull DataRepositoryKit dataRepositoryKit) {
-        super(application,activity,downloadService, dataRepositoryKit);
+        super(application, fragment, downloadService, dataRepositoryKit);
     }
 
     /**
      * 构建图片分享器
      *
-     * @param activity
+     * @param fragment
      * @return
      */
     public static VideoSharePickerImpl create(@NonNull final Application application,
-                                              @NonNull final Activity activity,
+                                              @NonNull final Fragment fragment,
                                               @NonNull final DownloadService downloadService,
                                               @NonNull DataRepositoryKit dataRepositoryKit) {
-        return new VideoSharePickerImpl(application,activity, downloadService, dataRepositoryKit);
+        return new VideoSharePickerImpl(application, fragment, downloadService, dataRepositoryKit);
     }
 
     //endregion

@@ -50,9 +50,9 @@ public class ResourcesSharePickerKitImpl implements ResourcesSharePickerKit {
     private DataRepositoryKit mDataRepositoryKit;
 
     /**
-     * activity
+     * fragment
      */
-    private Activity mActivity;
+    private Fragment mFragment;
 
     /**
      * 分享器集合
@@ -88,12 +88,12 @@ public class ResourcesSharePickerKitImpl implements ResourcesSharePickerKit {
     /**
      * 注册
      *
-     * @param activity
+     * @param fragment
      */
     @Override
-    public void register(@NonNull Activity activity) {
+    public void register(@NonNull Fragment fragment) {
         synchronized (this) {
-            mActivity = activity;
+            mFragment = fragment;
         }
     }
 
@@ -110,22 +110,6 @@ public class ResourcesSharePickerKitImpl implements ResourcesSharePickerKit {
         }
     }
 
-    /**
-     * 操作处理（用于页面单独写，功能想用统一实现的情况）
-     *
-     * @param activity                   上下文
-     * @param operateType                操作类型
-     * @param targetShareResourcesEntity 资源分享实体
-     */
-    @Override
-    public void operateHandle(@NonNull final Activity activity,
-                              @ShareOperateType final int operateType,
-                              @NonNull final BaseShareResourceEntity targetShareResourcesEntity) {
-        final BaseSharePicker sharePicker = getSharePicker(targetShareResourcesEntity);
-        if (sharePicker != null) {
-            sharePicker.operateHandle(activity, operateType, targetShareResourcesEntity);
-        }
-    }
 
     /**
      * 操作处理（用于页面单独写，功能想用统一实现的情况）
@@ -147,58 +131,60 @@ public class ResourcesSharePickerKitImpl implements ResourcesSharePickerKit {
     /**
      * 展示分享弹窗
      *
-     * @param activity                   上下文
+     * @param fragment                   fragment
      * @param targetShareResourcesEntity 资源分享实体
      */
     @Override
-    public void showSharePicker(@NonNull final Activity activity,
+    public void showSharePicker(@NonNull Fragment fragment,
                                 @NonNull final BaseShareResourceEntity targetShareResourcesEntity) {
-        showSharePicker(activity, targetShareResourcesEntity, null);
+        showSharePicker(fragment, targetShareResourcesEntity, null);
     }
+
 
     /**
      * 展示分享弹窗
      *
-     * @param activity                   上下文
+     * @param fragment                   fragment
      * @param targetShareResourcesEntity 资源分享实体
      * @param operate                    自定义操作事件，根据类型，return true则自己处理事件
      */
     @Override
-    public void showSharePicker(@NonNull Activity activity,
+    public void showSharePicker(@NonNull Fragment fragment,
                                 @NonNull BaseShareResourceEntity targetShareResourcesEntity,
                                 @Nullable OnShareItemOperate operate) {
-        showSharePicker(activity, new ArrayList<>(), targetShareResourcesEntity, operate);
+        showSharePicker(fragment, new ArrayList<>(), targetShareResourcesEntity, operate);
     }
 
     /**
      * 展示分享弹窗
      *
-     * @param activity                   上下文
+     * @param fragment                   fragment
      * @param operateTypes               操作类型
      * @param targetShareResourcesEntity 资源分享实体
      */
     @Override
-    public void showSharePicker(@NonNull final Activity activity,
+    public void showSharePicker(@NonNull Fragment fragment,
                                 @NonNull final List<Integer> operateTypes,
                                 @NonNull final BaseShareResourceEntity targetShareResourcesEntity) {
-        showSharePicker(activity, operateTypes, targetShareResourcesEntity, null);
+        showSharePicker(fragment, operateTypes, targetShareResourcesEntity, null);
     }
 
     /**
      * 展示分享弹窗
      *
-     * @param activity                   上下文
+     * @param fragment                   fragment
      * @param operateTypes               操作类型
      * @param targetShareResourcesEntity 资源分享实体
      * @param operate                    自定义操作事件
      */
     @Override
-    public void showSharePicker(@NonNull Activity activity, @NonNull List<Integer> operateTypes,
+    public void showSharePicker(@NonNull Fragment fragment,
+                                @NonNull List<Integer> operateTypes,
                                 @NonNull BaseShareResourceEntity targetShareResourcesEntity,
                                 @Nullable OnShareItemOperate operate) {
         final BaseSharePicker sharePicker = getSharePicker(targetShareResourcesEntity);
         if (sharePicker != null) {
-            sharePicker.showSharePicker(activity, operateTypes, targetShareResourcesEntity, operate);
+            sharePicker.showSharePicker(fragment, operateTypes, targetShareResourcesEntity, operate);
         }
     }
 
@@ -224,7 +210,7 @@ public class ResourcesSharePickerKitImpl implements ResourcesSharePickerKit {
     public ImageSharePicker getImageSharePicker() {
         synchronized (this) {
             if (mImageSharePicker == null) {
-                mImageSharePicker = ImageSharePickerImpl.create(mApplication, mActivity, mDownloadService, mDataRepositoryKit);
+                mImageSharePicker = ImageSharePickerImpl.create(mApplication, mFragment, mDownloadService, mDataRepositoryKit);
                 mSharePickerMap.put(ShareResourcesType.IMAGE, mImageSharePicker);
             }
             return mImageSharePicker;
@@ -240,7 +226,7 @@ public class ResourcesSharePickerKitImpl implements ResourcesSharePickerKit {
     public VideoSharePicker getVideoSharePicker() {
         synchronized (this) {
             if (mVideoSharePicker == null) {
-                mVideoSharePicker = VideoSharePickerImpl.create(mApplication, mActivity, mDownloadService, mDataRepositoryKit);
+                mVideoSharePicker = VideoSharePickerImpl.create(mApplication,mFragment, mDownloadService, mDataRepositoryKit);
                 mSharePickerMap.put(ShareResourcesType.VIDEO, mImageSharePicker);
             }
             return mVideoSharePicker;
