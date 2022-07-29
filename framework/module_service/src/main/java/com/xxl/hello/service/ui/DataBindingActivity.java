@@ -1,7 +1,5 @@
 package com.xxl.hello.service.ui;
 
-import android.view.LayoutInflater;
-
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 
@@ -9,7 +7,7 @@ import androidx.databinding.ViewDataBinding;
  * @author xxl.
  * @date 2021/7/19.
  */
-public abstract class DataBindingActivity<V extends BaseViewModel, T extends ViewDataBinding> extends BaseActivity<V> {
+public abstract class DataBindingActivity<T extends ViewDataBinding> extends BaseActivity {
 
     /**
      * 页面绑定视图
@@ -68,7 +66,6 @@ public abstract class DataBindingActivity<V extends BaseViewModel, T extends Vie
      * 设置data binding 绑定数据和事件所需参数
      */
     protected void setVariable() {
-        mViewDataBinding.setVariable(getViewModelVariable(),getViewModel());
         mViewDataBinding.setVariable(getViewNavigatorVariable(),this);
         mViewDataBinding.executePendingBindings();
     }

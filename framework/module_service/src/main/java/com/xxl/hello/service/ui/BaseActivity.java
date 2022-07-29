@@ -5,10 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.databinding.Observable;
-import androidx.lifecycle.ViewModelProvider;
 
-import com.kaopiz.kprogresshud.KProgressHUD;
 import com.xxl.core.widget.swipebacklayout.SwipeBackActivity;
 import com.xxl.kit.AppUtils;
 import com.xxl.kit.OnAppStatusChangedListener;
@@ -24,27 +21,13 @@ import dagger.android.HasAndroidInjector;
  * @author xxl.
  * @date 2021/7/19.
  */
-@Deprecated // TODO: 2022/7/29 回头换不带BaseViewModel BaseActivity1
-public abstract class BaseActivity<V extends BaseViewModel> extends SwipeBackActivity
-        /*  implements HasAndroidInjector*/ {
+public abstract class BaseActivity extends SwipeBackActivity
+     implements HasAndroidInjector {
 
     //region: 成员变量
 
-//    @Inject
-//    DispatchingAndroidInjector<Object> mAndroidInjector;
-
-    @Inject // TODO: 2022/7/29
-    protected ViewModelProvider.Factory mViewModelProviderFactory;
-
-    /**
-     * ViewModel数据模型
-     */
-    protected V mViewModel;
-
-    /**
-     * 进度条
-     */
-    protected KProgressHUD mKProgressHUD;
+    @Inject
+    DispatchingAndroidInjector<Object> mAndroidInjector;
 
     //endregion
 
@@ -56,34 +39,14 @@ public abstract class BaseActivity<V extends BaseViewModel> extends SwipeBackAct
             AndroidInjection.inject(this);
         }
         super.onCreate(savedInstanceState);
-        final BaseEventBusWrapper eventBusWrapper = getEventBusWrapper();
-        if (eventBusWrapper != null) {
-//            eventBusWrapper.register(this);
-        }
         beforeSetContentView();
         setContentView();
         afterSetContentView();
-        mViewModel = createViewModel();
-        setupLoadingLayout();
         afterCreateVieModel();
         setupData();
         setupLayout();
         requestData();
     }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        final BaseEventBusWrapper eventBusWrapper = getEventBusWrapper();
-        if (eventBusWrapper != null) {
-            eventBusWrapper.unRegister();
-        }
-    }
-
-//    @Override
-//    public AndroidInjector<Object> androidInjector() {
-//        return mAndroidInjector;
-//    }
 
     /**
      * 获取视图资源ID
@@ -94,35 +57,10 @@ public abstract class BaseActivity<V extends BaseViewModel> extends SwipeBackAct
     protected abstract int getLayoutRes();
 
     /**
-     * 创建ViewModel数据模型
-     *
-     * @return
-     */
-    protected abstract V createViewModel();
-
-    /**
-     * 获取EventBus事件监听类
-     *
-     * @return
-     */
-    protected BaseEventBusWrapper getEventBusWrapper() {
-        return null;
-    }
-
-    /**
      * 创建ViewModel数据模型后
      */
     protected void afterCreateVieModel() {
 
-    }
-
-    /**
-     * 获取ViewModel数据模型
-     *
-     * @return
-     */
-    protected V getViewModel() {
-        return mViewModel;
     }
 
     /**
@@ -168,37 +106,6 @@ public abstract class BaseActivity<V extends BaseViewModel> extends SwipeBackAct
     }
 
     /**
-     * loading状态相关视图
-     */
-    protected void setupLoadingLayout() {
-        if (mViewModel == null) {
-            return;
-        }
-        mKProgressHUD = KProgressHUD.create(BaseActivity.this)
-                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
-                .setCancellable(true)
-                .setAnimationSpeed(2)
-                .setDimAmount(0.5f);
-
-        mViewModel.getViewLoading().addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
-            @Override
-            public void onPropertyChanged(Observable sender,
-                                          int propertyId) {
-                final boolean isLoading = mViewModel.getViewLoading().get();
-                if (mKProgressHUD == null) {
-                    return;
-                }
-                if (isLoading) {
-                    mKProgressHUD.show();
-                } else {
-                    mKProgressHUD.dismiss();
-                }
-
-            }
-        });
-    }
-
-    /**
      * 是否需要依赖注入
      *
      * @return
@@ -223,6 +130,15 @@ public abstract class BaseActivity<V extends BaseViewModel> extends SwipeBackAct
      */
     protected void unregisterAppStatusChangedListener(@NonNull final OnAppStatusChangedListener listener) {
         AppUtils.removeOnAppStatusChangedListener(listener);
+    }
+
+    //endregion
+
+    //region: HasAndroidInjector
+
+    @Override
+    public AndroidInjector<Object> androidInjector() {
+        return mAndroidInjector;
     }
 
     //endregion

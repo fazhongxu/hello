@@ -1,6 +1,7 @@
 package com.xxl.hello.main.ui.main;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.xxl.hello.main.R;
 import com.xxl.hello.service.ui.SingleFragmentBarActivity;
 import com.xxl.kit.AppRouterApi;
 
@@ -21,6 +22,11 @@ public class MainActivity extends SingleFragmentBarActivity<MainFragment> {
     @Override
     public MainFragment createFragment() {
         return MainFragment.newInstance();
+    }
+
+    @Override
+    protected int getToolbarTitle() {
+        return R.string.main_title;
     }
 
     //endregion

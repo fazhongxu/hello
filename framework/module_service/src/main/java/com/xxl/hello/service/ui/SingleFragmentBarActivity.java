@@ -3,9 +3,11 @@ package com.xxl.hello.service.ui;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.appbar.AppBarLayout;
+import com.xxl.core.widget.CustomToolBar;
 import com.xxl.hello.service.R;
 import com.xxl.kit.DisplayUtils;
 import com.xxl.kit.StatusBarUtil;
@@ -24,6 +26,11 @@ public abstract class SingleFragmentBarActivity<F extends Fragment> extends Sing
      * app bar
      */
     private AppBarLayout mAppBarLayout;
+
+    /**
+     * tool bar
+     */
+    private CustomToolBar mCustomToolBar;
 
     //endregion
 
@@ -62,10 +69,23 @@ public abstract class SingleFragmentBarActivity<F extends Fragment> extends Sing
      */
     protected void setupToolbarLayout() {
         mAppBarLayout = findViewById(R.id.app_bar);
+        mCustomToolBar = findViewById(R.id.tool_bar);
         StatusBarUtil.setDarkMode(this);
         final int statusBarHeight = StatusBarUtil.getStatusBarHeight();
         mAppBarLayout.setPadding(DisplayUtils.dp2px(this, 10), statusBarHeight, 0, 0);
+
+        if (getToolbarTitle() != 0) {
+            mCustomToolBar.setTitle(getToolbarTitle());
+        }
     }
+
+    /**
+     * 获取toolbar标题
+     *
+     * @return
+     */
+    @StringRes
+    protected abstract int getToolbarTitle();
 
     //endregion
 }

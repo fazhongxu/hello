@@ -11,7 +11,7 @@ import com.xxl.hello.service.R;
  * @author xxl.
  * @date 2021/7/19.
  */
-public abstract class SingleFragmentActivity<F extends Fragment> extends BaseActivity1 {
+public abstract class SingleFragmentActivity<F extends Fragment> extends BaseActivity {
 
     //region: 成员变量
 

@@ -3,6 +3,7 @@ package com.xxl.hello.user.ui.login;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.xxl.hello.router.api.UserRouterApi;
 import com.xxl.hello.service.ui.SingleFragmentBarActivity;
+import com.xxl.hello.user.R;
 
 /**
  * @author xxl.
@@ -21,6 +22,11 @@ public class LoginActivity extends SingleFragmentBarActivity<LoginFragment> {
     @Override
     public LoginFragment createFragment() {
         return LoginFragment.newInstance();
+    }
+
+    @Override
+    protected int getToolbarTitle() {
+        return R.string.resources_login_title;
     }
 
     //endregion

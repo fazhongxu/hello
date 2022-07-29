@@ -3,6 +3,7 @@ package com.xxl.hello.user.ui.setting;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.xxl.hello.router.api.UserRouterApi;
 import com.xxl.hello.service.ui.SingleFragmentBarActivity;
+import com.xxl.hello.user.R;
 
 /**
  * 用户设置页面
@@ -18,6 +19,11 @@ public class UserSettingActivity extends SingleFragmentBarActivity<UserSettingFr
     @Override
     public UserSettingFragment createFragment() {
         return UserSettingFragment.newInstance();
+    }
+
+    @Override
+    protected int getToolbarTitle() {
+        return R.string.user_setting_title;
     }
 
     //endregion

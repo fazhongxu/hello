@@ -10,6 +10,7 @@
     <string name="resources_agree_text">同意</string>
     <string name="resources_disagree_and_exit_text">不同意并退出</string>
 
+    <string name="resources_login_title">login</string>
     <string name="resources_login_success">登录成功</string>
 
     <string name="resources_compress_success_text">资源压缩成功</string>
