@@ -1,7 +1,7 @@
 package com.xxl.hello.main.ui.main;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.xxl.hello.service.ui.SingleFragmentActivity;
+import com.xxl.hello.service.ui.SingleFragmentBarActivity;
 import com.xxl.kit.AppRouterApi;
 
 /**
@@ -9,7 +9,7 @@ import com.xxl.kit.AppRouterApi;
  * @date 2021/07/16.
  */
 @Route(path = AppRouterApi.MAIN_PATH)
-public class MainActivity extends SingleFragmentActivity<MainFragment> {
+public class MainActivity extends SingleFragmentBarActivity<MainFragment> {
 
     /**
      * 创建Fragment

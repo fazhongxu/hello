@@ -9,7 +9,9 @@ import android.view.ViewGroup;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
 import androidx.databinding.Observable;
+import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -26,12 +28,16 @@ import dagger.android.support.AndroidSupportInjection;
  * @date 2022/4/8.
  * // TODO: 2022/4/8 待完善的Fragment基础类
  */
-public abstract class BaseFragment<V extends BaseViewModel> extends Fragment {
+public abstract class BaseViewModelFragment<V extends BaseViewModel, T extends ViewDataBinding> extends Fragment {
 
     //region: 成员变量
 
-    @Inject
-    protected ViewModelProvider.Factory mViewModelProviderFactory;
+    protected View mRootView;
+
+    /**
+     * 页面绑定视图
+     */
+    protected T mViewDataBinding;
 
     /**
      * ViewModel数据模型
@@ -43,10 +49,12 @@ public abstract class BaseFragment<V extends BaseViewModel> extends Fragment {
      */
     protected KProgressHUD mKProgressHUD;
 
+    @Inject
+    protected ViewModelProvider.Factory mViewModelProviderFactory;
+
     //endregion
 
     //region: 页面生命周期
-
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -66,17 +74,21 @@ public abstract class BaseFragment<V extends BaseViewModel> extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View rootView = LayoutInflater.from(getContext()).inflate(getLayoutRes(), null);
+        mRootView = LayoutInflater.from(getContext()).inflate(getLayoutRes(), container, false);
+        mViewDataBinding = DataBindingUtil.bind(mRootView);
         mViewModel = createViewModel();
         setupData();
-        setupLayout(rootView);
-        return rootView;
+        setupLoadingLayout();
+        setupLayout(mRootView);
+        return mRootView;
     }
 
     @Override
     public void onViewCreated(@NonNull View view,
                               @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        setBindingVariable();
+        mViewDataBinding.executePendingBindings();
     }
 
 
@@ -128,19 +140,16 @@ public abstract class BaseFragment<V extends BaseViewModel> extends Fragment {
     public abstract int getViewNavigatorVariable();
 
     /**
-     * 创建ViewModel数据模型后
-     */
-    protected void afterCreateVieModel() {
-
-    }
-
-    /**
      * 获取ViewModel数据模型
      *
      * @return
      */
     protected V getViewModel() {
         return mViewModel;
+    }
+
+    protected ViewModelProvider.Factory getViewModelProviderFactory() {
+        return mViewModelProviderFactory;
     }
 
     /**
@@ -154,6 +163,24 @@ public abstract class BaseFragment<V extends BaseViewModel> extends Fragment {
      * @param view
      */
     protected abstract void setupLayout(View view);
+
+    /**
+     * 获取页面绑定视图
+     *
+     * @return
+     */
+    public T getViewDataBinding() {
+        return mViewDataBinding;
+    }
+
+    /**
+     * 设置data binding 绑定数据和事件所需参数
+     */
+    protected void setBindingVariable() {
+        mViewDataBinding.setVariable(getViewModelVariable(), getViewModel());
+        mViewDataBinding.setVariable(getViewNavigatorVariable(), this);
+        mViewDataBinding.executePendingBindings();
+    }
 
     /**
      * 请求数据

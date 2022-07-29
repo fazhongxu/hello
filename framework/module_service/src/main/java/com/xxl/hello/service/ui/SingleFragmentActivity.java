@@ -5,24 +5,15 @@ import androidx.fragment.app.FragmentManager;
 
 import com.xxl.hello.service.R;
 
-import javax.inject.Inject;
-
-import dagger.android.AndroidInjector;
-import dagger.android.DispatchingAndroidInjector;
-import dagger.android.HasAndroidInjector;
-
 /**
  * 单个Fragment在Activity页面
  *
  * @author xxl.
  * @date 2021/7/19.
  */
-public abstract class SingleFragmentActivity<F extends Fragment> extends BaseActivity implements HasAndroidInjector {
+public abstract class SingleFragmentActivity<F extends Fragment> extends BaseActivity1 {
 
     //region: 成员变量
-
-    @Inject
-    DispatchingAndroidInjector<Object> mAndroidInjector;
 
     /**
      * fragment
@@ -35,17 +26,7 @@ public abstract class SingleFragmentActivity<F extends Fragment> extends BaseAct
 
     @Override
     protected int getLayoutRes() {
-        return R.layout.core_activity_single_bar;
-    }
-
-    /**
-     * 创建ViewModel数据模型
-     *
-     * @return
-     */
-    @Override
-    protected BaseViewModel createViewModel() {
-        return null;
+        return R.layout.core_activity_single_fragment;
     }
 
     /**
@@ -70,7 +51,7 @@ public abstract class SingleFragmentActivity<F extends Fragment> extends BaseAct
      * @return
      */
     public int getContainerViewId() {
-        return R.id.ll_root_container;
+        return R.id.ll_container;
     }
 
     @Override
@@ -91,6 +72,10 @@ public abstract class SingleFragmentActivity<F extends Fragment> extends BaseAct
      * @return
      */
     public F getCurrentFragment() {
+        if (mCurrentFragment == null) {
+            FragmentManager fm = getSupportFragmentManager();
+            mCurrentFragment = (F) fm.findFragmentById(getContainerViewId());
+        }
         return mCurrentFragment;
     }
 
@@ -136,12 +121,6 @@ public abstract class SingleFragmentActivity<F extends Fragment> extends BaseAct
             }
         }
     }
-
-    @Override
-    public AndroidInjector<Object> androidInjector() {
-        return mAndroidInjector;
-    }
-
 
     //endregion
 }

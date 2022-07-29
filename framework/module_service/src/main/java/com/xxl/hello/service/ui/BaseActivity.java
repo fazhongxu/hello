@@ -24,15 +24,16 @@ import dagger.android.HasAndroidInjector;
  * @author xxl.
  * @date 2021/7/19.
  */
+@Deprecated // TODO: 2022/7/29 回头换不带BaseViewModel BaseActivity1
 public abstract class BaseActivity<V extends BaseViewModel> extends SwipeBackActivity
-      /*  implements HasAndroidInjector*/ {
+        /*  implements HasAndroidInjector*/ {
 
     //region: 成员变量
 
 //    @Inject
 //    DispatchingAndroidInjector<Object> mAndroidInjector;
 
-    //    @Inject // TODO: 2022/7/29
+    @Inject // TODO: 2022/7/29
     protected ViewModelProvider.Factory mViewModelProviderFactory;
 
     /**
