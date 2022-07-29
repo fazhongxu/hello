@@ -80,7 +80,7 @@ public class MediaSelector {
      * @return LocalMedia PictureSelectionModel
      */
     public MediaSelectionModel openGallery(int chooseMode) {
-        return new MediaSelectionModel(this, createPictureSelector(getActivity()), chooseMode);
+        return new MediaSelectionModel(this, getFragment() != null ? createPictureSelector(getFragment()) : createPictureSelector(getActivity()), chooseMode);
     }
 
     /**

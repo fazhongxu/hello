@@ -3,7 +3,7 @@ package com.xxl.hello.user.di.builder;
 import com.xxl.hello.user.ui.login.LoginActivity;
 import com.xxl.hello.user.ui.login.LoginFragmentProvider;
 import com.xxl.hello.user.ui.setting.UserSettingActivity;
-import com.xxl.hello.user.ui.setting.UserSettingActivityViewModule;
+import com.xxl.hello.user.ui.setting.UserSettingFragmentProvider;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -18,6 +18,6 @@ public abstract class UserActivityBuilder {
     @ContributesAndroidInjector(modules = {LoginFragmentProvider.class})
     abstract LoginActivity bindLoginActivityBuilder();
 
-    @ContributesAndroidInjector(modules = {UserSettingActivityViewModule.class})
+    @ContributesAndroidInjector(modules = {UserSettingFragmentProvider.class})
     abstract UserSettingActivity bindUserSettingActivityBuilder();
 }

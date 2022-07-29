@@ -38,7 +38,7 @@ import io.reactivex.rxjava3.disposables.Disposable;
  * @author xxl.
  * @date 2021/7/16.
  */
-public class UserSettingViewModel extends BaseResourceQueueViewModel<UserSettingNavigator> {
+public class UserSettingModel extends BaseResourceQueueViewModel<UserSettingNavigator> {
 
     //region: 成员变量
 
@@ -76,9 +76,9 @@ public class UserSettingViewModel extends BaseResourceQueueViewModel<UserSetting
 
     //region: 构造函数
 
-    public UserSettingViewModel(@NonNull final Application application,
-                                @NonNull final DataRepositoryKit dataRepositoryKit,
-                                @NonNull final UserRepository userRepository) {
+    public UserSettingModel(@NonNull final Application application,
+                            @NonNull final DataRepositoryKit dataRepositoryKit,
+                            @NonNull final UserRepository userRepository) {
         super(application, dataRepositoryKit);
         mDataRepositoryKit = dataRepositoryKit;
         mUserRepository = userRepository;

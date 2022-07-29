@@ -5,6 +5,7 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import com.xxl.core.service.download.DownloadService;
 import com.xxl.hello.service.data.model.entity.share.BaseShareResourceEntity;
@@ -123,6 +124,23 @@ public class ResourcesSharePickerKitImpl implements ResourcesSharePickerKit {
         final BaseSharePicker sharePicker = getSharePicker(targetShareResourcesEntity);
         if (sharePicker != null) {
             sharePicker.operateHandle(activity, operateType, targetShareResourcesEntity);
+        }
+    }
+
+    /**
+     * 操作处理（用于页面单独写，功能想用统一实现的情况）
+     *
+     * @param fragment                   fragment
+     * @param operateType                操作类型
+     * @param targetShareResourcesEntity 资源分享实体
+     */
+    @Override
+    public void operateHandle(@NonNull final Fragment fragment,
+                              @ShareOperateType final int operateType,
+                              @NonNull final BaseShareResourceEntity targetShareResourcesEntity) {
+        final BaseSharePicker sharePicker = getSharePicker(targetShareResourcesEntity);
+        if (sharePicker != null) {
+            sharePicker.operateHandle(fragment, operateType, targetShareResourcesEntity);
         }
     }
 

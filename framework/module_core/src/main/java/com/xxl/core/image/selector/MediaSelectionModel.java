@@ -50,11 +50,16 @@ public class MediaSelectionModel extends PictureSelectionModel {
 
     @Override
     public void forResult(int requestCode) {
-        if (mMediaSelector.getActivity() == null) {
+        if (mMediaSelector.getActivity() == null && mMediaSelector.getFragment() == null) {
             super.forResult(requestCode);
             return;
         }
-        final RxPermissions rxPermissions = new RxPermissions(mMediaSelector.getActivity());
+        RxPermissions rxPermissions;
+        if (mMediaSelector.getFragment() != null) {
+            rxPermissions = new RxPermissions(mMediaSelector.getFragment());
+        } else {
+            rxPermissions = new RxPermissions(mMediaSelector.getActivity());
+        }
         final Disposable disposable = rxPermissions.request(Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.CAMERA)

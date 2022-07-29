@@ -16,12 +16,12 @@ import javax.inject.Inject;
  * @author xxl.
  * @date 2021/7/23.
  */
-public class UserSettingActivityEventBusWrapper extends BaseEventBusWrapper {
+public class UserSettingEventBusWrapper extends BaseEventBusWrapper<UserSettingFragment> {
 
     //region: 构造函数
 
     @Inject
-    public UserSettingActivityEventBusWrapper() {
+    public UserSettingEventBusWrapper() {
 
     }
 
@@ -36,11 +36,10 @@ public class UserSettingActivityEventBusWrapper extends BaseEventBusWrapper {
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThreed(@NonNull final SystemEventApi.OnMaterialSubmitToServiceEvent event) {
-//        final UserSettingActivity activity = getActivity();
-//        if (activity != null) {
-//            activity.handleMaterialSubmitToServiceEvent(event);
-//        }
-        // TODO: 2022/7/29  
+        final UserSettingFragment fragment = getFragment();
+        if (fragment != null) {
+            fragment.handleMaterialSubmitToServiceEvent(event);
+        }
     }
 
     //endregion

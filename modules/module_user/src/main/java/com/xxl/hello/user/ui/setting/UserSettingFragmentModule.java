@@ -18,17 +18,17 @@ import dagger.Provides;
  * @date 2021/7/16.
  */
 @Module
-public class UserSettingActivityViewModule {
+public class UserSettingFragmentModule {
 
     @Provides
-    UserSettingViewModel provideUserSettingViewModel(@ForApplication final Application application,
-                                                     @NonNull final DataRepositoryKit dataRepositoryKit,
-                                                     @NonNull final UserRepository userRepository) {
-        return new UserSettingViewModel(application, dataRepositoryKit, userRepository);
+    UserSettingModel provideUserSettingViewModel(@ForApplication final Application application,
+                                                 @NonNull final DataRepositoryKit dataRepositoryKit,
+                                                 @NonNull final UserRepository userRepository) {
+        return new UserSettingModel(application, dataRepositoryKit, userRepository);
     }
 
     @Provides
-    ViewModelProvider.Factory provideUserSettingActivityViewModelFactory(@NonNull final UserSettingViewModel viewModel) {
+    ViewModelProvider.Factory provideUserSettingActivityViewModelFactory(@NonNull final UserSettingModel viewModel) {
         return new ViewModelProviderFactory<>(viewModel);
     }
 
