@@ -114,7 +114,10 @@ public class MainFragment extends BaseViewModelFragment<MainViewModel, MainFragm
      */
     @Override
     protected void setupData() {
-
+        LogUtils.d("当前登录用户ID..." + AppExpandUtils.getCurrentUserId());
+        if (!AppExpandUtils.isAgreePrivacyPolicy()) {
+            showPrivacyPolicyPopupWindow();
+        }
     }
 
     /**
@@ -123,9 +126,10 @@ public class MainFragment extends BaseViewModelFragment<MainViewModel, MainFragm
      * @param view
      */
     @Override
-    protected void setupLayout(View view) {
+    protected void setupLayout(@NonNull final View view) {
         registerAppStatusChangedListener(this);
         mMainViewModel.setObservableUserId(String.valueOf(TestUtils.currentTimeMillis()));
+        setupRecord();
     }
 
     //endregion

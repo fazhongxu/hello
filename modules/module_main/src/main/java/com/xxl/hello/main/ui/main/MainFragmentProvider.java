@@ -18,5 +18,3 @@ public abstract class MainFragmentProvider {
     @ContributesAndroidInjector(modules = MainFragmentModule.class)
     abstract MainFragment bindMainFragmentFactory();
 }
-
- //TODO: 2022/7/28 Fragment dagger注入失败，待解决

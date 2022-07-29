@@ -3,7 +3,7 @@ package com.xxl.hello.main.di.builder;
 import com.xxl.hello.main.ui.main.MainActivity;
 import com.xxl.hello.main.ui.main.MainFragmentProvider;
 import com.xxl.hello.main.ui.splash.SplashActivity;
-import com.xxl.hello.main.ui.splash.SplashViewModule;
+import com.xxl.hello.main.ui.splash.SplashFragmentProvider;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -20,7 +20,7 @@ public abstract class MainAppActivityBuilder {
      *
      * @return
      */
-    @ContributesAndroidInjector(modules = SplashViewModule.class)
+    @ContributesAndroidInjector(modules = SplashFragmentProvider.class)
     abstract SplashActivity bindSplashActivityBuilder();
 
     /**

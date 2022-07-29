@@ -10,7 +10,7 @@ import java.lang.ref.WeakReference;
  * @author xxl.
  * @date 2021/7/23.
  */
-public abstract class BaseEventBusWrapper<T extends BaseActivity> {
+public abstract class BaseEventBusWrapper<T extends BaseViewModelFragment> {
 
     //region: 成员变量
 
@@ -50,7 +50,7 @@ public abstract class BaseEventBusWrapper<T extends BaseActivity> {
      *
      * @return
      */
-    public T getActivity() {
+    public T getFragment() {
         return mWeakReference.get();
     }
 

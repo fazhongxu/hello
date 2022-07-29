@@ -58,7 +58,7 @@ public abstract class BaseActivity<V extends BaseViewModel> extends SwipeBackAct
         super.onCreate(savedInstanceState);
         final BaseEventBusWrapper eventBusWrapper = getEventBusWrapper();
         if (eventBusWrapper != null) {
-            eventBusWrapper.register(this);
+//            eventBusWrapper.register(this);
         }
         beforeSetContentView();
         setContentView();

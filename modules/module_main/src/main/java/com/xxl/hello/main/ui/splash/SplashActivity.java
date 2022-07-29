@@ -2,13 +2,12 @@ package com.xxl.hello.main.ui.splash;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 
 import androidx.annotation.Nullable;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.xxl.hello.main.R;
-import com.xxl.hello.service.ui.SingleActivity;
+import com.xxl.hello.service.ui.SingleFragmentActivity;
 import com.xxl.kit.AppRouterApi;
 
 /**
@@ -18,14 +17,23 @@ import com.xxl.kit.AppRouterApi;
  * @date 2021/8/13.
  */
 @Route(path = AppRouterApi.SPLASH_PATH)
-public class SplashActivity extends SingleActivity<SplashViewModel> {
+public class SplashActivity extends SingleFragmentActivity<SplashFragment> {
 
     //region: 页面生命周期
+
+    /**
+     * 创建Fragment
+     *
+     * @return
+     */
+    @Override
+    public SplashFragment createFragment() {
+        return SplashFragment.newInstance();
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         // 判断当前activity是不是所在任务栈的根
         if (!this.isTaskRoot()) {
             final Intent intent = getIntent();
@@ -38,46 +46,14 @@ public class SplashActivity extends SingleActivity<SplashViewModel> {
         }
     }
 
-    /**
-     * 获取视图资源ID
-     *
-     * @return
-     */
     @Override
     protected int getLayoutRes() {
-        return R.layout.activity_splash;
+        return R.layout.core_layout_transparent;
     }
 
-    /**
-     * 创建ViewModel数据模型
-     *
-     * @return
-     */
     @Override
-    protected SplashViewModel createViewModel() {
-        return null;
-    }
-
-    /**
-     * 设置数据
-     */
-    @Override
-    protected void setupData() {
-
-    }
-
-    /**
-     * 设置页面视图
-     */
-    @Override
-    protected void setupLayout() {
-        new Handler().postDelayed(() -> {
-            if (isFinishing()) {
-                return;
-            }
-            // TODO: 2022/4/2  模拟数据请求 
-            AppRouterApi.navigationWithFinish(this);
-        }, 200);
+    protected boolean canDragBack() {
+        return false;
     }
 
     //endregion

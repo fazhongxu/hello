@@ -16,7 +16,7 @@ import javax.inject.Inject;
  * @author xxl.
  * @date 2021/7/23.
  */
-public class UserSettingActivityEventBusWrapper extends BaseEventBusWrapper<UserSettingActivity> {
+public class UserSettingActivityEventBusWrapper extends BaseEventBusWrapper {
 
     //region: 构造函数
 
@@ -36,10 +36,11 @@ public class UserSettingActivityEventBusWrapper extends BaseEventBusWrapper<User
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThreed(@NonNull final SystemEventApi.OnMaterialSubmitToServiceEvent event) {
-        final UserSettingActivity activity = getActivity();
-        if (activity != null) {
-            activity.handleMaterialSubmitToServiceEvent(event);
-        }
+//        final UserSettingActivity activity = getActivity();
+//        if (activity != null) {
+//            activity.handleMaterialSubmitToServiceEvent(event);
+//        }
+        // TODO: 2022/7/29  
     }
 
     //endregion

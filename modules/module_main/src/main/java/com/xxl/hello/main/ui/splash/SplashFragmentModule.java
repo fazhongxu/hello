@@ -19,7 +19,7 @@ import dagger.Provides;
  * @date 2021/08/13.
  */
 @Module
-public class SplashViewModule {
+public class SplashFragmentModule {
 
     @Provides
     SplashViewModel provideSplashViewModel(@ForApplication final Application application,

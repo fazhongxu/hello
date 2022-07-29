@@ -17,7 +17,7 @@ import javax.inject.Inject;
  * @author xxl.
  * @date 2021/7/23.
  */
-public class MainEventBusWrapper extends BaseEventBusWrapper {
+public class MainEventBusWrapper extends BaseEventBusWrapper<MainFragment> {
 
     //region: 构造函数
 
@@ -39,11 +39,10 @@ public class MainEventBusWrapper extends BaseEventBusWrapper {
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThreed(@NonNull final OnUserEventApi.OnUpdateUserInfoEvent event) {
-//        final MainActivity activity = getActivity();
-//        if (activity != null) {
-//            // TODO: 2022/7/28
-////            activity.refreshUserInfo(event.getTargetUserEntity());
-//        }
+        final MainFragment mainFragment = getFragment();
+        if (mainFragment != null) {
+            mainFragment.refreshUserInfo(event.getTargetUserEntity());
+        }
     }
 
     //endregion

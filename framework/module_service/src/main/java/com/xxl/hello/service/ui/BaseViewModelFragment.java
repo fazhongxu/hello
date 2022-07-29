@@ -89,8 +89,11 @@ public abstract class BaseViewModelFragment<V extends BaseViewModel, T extends V
         super.onViewCreated(view, savedInstanceState);
         setBindingVariable();
         mViewDataBinding.executePendingBindings();
+        final BaseEventBusWrapper eventBusWrapper = getEventBusWrapper();
+        if (eventBusWrapper != null) {
+            eventBusWrapper.register(this);
+        }
     }
-
 
     @Override
     public void onDestroy() {
@@ -162,7 +165,7 @@ public abstract class BaseViewModelFragment<V extends BaseViewModel, T extends V
      *
      * @param view
      */
-    protected abstract void setupLayout(View view);
+    protected abstract void setupLayout(@NonNull final View view);
 
     /**
      * 获取页面绑定视图
@@ -245,6 +248,22 @@ public abstract class BaseViewModelFragment<V extends BaseViewModel, T extends V
      */
     protected void unregisterAppStatusChangedListener(@NonNull final OnAppStatusChangedListener listener) {
         AppUtils.removeOnAppStatusChangedListener(listener);
+    }
+
+    //endregion
+
+    //region: Fragment 方法
+
+    /**
+     * 判断当前页面是否关闭
+     *
+     * @return
+     */
+    public boolean isFinishing() {
+        if (getActivity() == null) {
+            return true;
+        }
+        return getActivity().isFinishing();
     }
 
     //endregion
