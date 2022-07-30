@@ -35,6 +35,17 @@ public class CommonWebActivity extends SingleFragmentBarActivity<CommonWebFragme
         return 0;
     }
 
+    @Override
+    public void onBackPressed() {
+        final CommonWebFragment fragment = getCurrentFragment();
+        if (fragment != null) {
+            if (fragment.onBackPressed()) {
+                return;
+            }
+        }
+        super.onBackPressed();
+    }
+
     //endregion
 
 }

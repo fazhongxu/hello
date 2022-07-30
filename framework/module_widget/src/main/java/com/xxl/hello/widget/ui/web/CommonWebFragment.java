@@ -123,4 +123,25 @@ public class CommonWebFragment extends BaseWebFragment<CommonWebViewModel, Widge
 
     //endregion
 
+    //region: Activity 操作
+
+    /**
+     * 返回按键处理
+     *
+     * @return
+     */
+    public boolean onBackPressed() {
+        if (isActivityFinishing()) {
+            return false;
+        }
+        if (getWebView() != null && getWebView().canGoBack()) {
+            getWebView().goBack();
+            return true;
+        }
+        return false;
+    }
+
+    //endregion
+
+
 }
