@@ -120,6 +120,12 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mResourcesSharePickerKit.unregister();
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {

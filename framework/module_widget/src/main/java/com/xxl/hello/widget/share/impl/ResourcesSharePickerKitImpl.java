@@ -107,6 +107,7 @@ public class ResourcesSharePickerKitImpl implements ResourcesSharePickerKit {
             for (BaseSharePicker picker : mSharePickerMap.values()) {
                 picker.unregister();
             }
+            mSharePickerMap.clear();
         }
     }
 
