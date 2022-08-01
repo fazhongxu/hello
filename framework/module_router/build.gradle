@@ -41,6 +41,8 @@ dependencies {
     implementation deps.origin.core
     implementation deps.origin.kit
 
+    implementation deps.hello.resources
+
     implementation deps.arouter.arouter
     kapt deps.arouter.arouter_processor
 }
