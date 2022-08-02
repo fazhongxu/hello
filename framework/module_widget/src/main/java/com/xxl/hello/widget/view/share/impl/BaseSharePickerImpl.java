@@ -1,4 +1,4 @@
-package com.xxl.hello.widget.share.impl;
+package com.xxl.hello.widget.view.share.impl;
 
 import android.app.Application;
 import android.view.View;
@@ -12,9 +12,9 @@ import com.xxl.hello.service.data.model.entity.share.BaseShareResourceEntity;
 import com.xxl.hello.service.data.model.entity.share.ShareOperateItem;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi.ShareOperateType;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
-import com.xxl.hello.widget.share.OnShareItemOperate;
-import com.xxl.hello.widget.share.ResourcesShareWindow;
-import com.xxl.hello.widget.share.api.BaseSharePicker;
+import com.xxl.hello.widget.view.share.OnShareItemOperate;
+import com.xxl.hello.widget.view.share.ResourcesShareWindow;
+import com.xxl.hello.widget.view.share.api.BaseSharePicker;
 import com.xxl.kit.ListUtils;
 
 import java.util.ArrayList;

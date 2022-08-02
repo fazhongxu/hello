@@ -1,4 +1,4 @@
-package com.xxl.hello.widget.share.impl;
+package com.xxl.hello.widget.view.share.impl;
 
 import android.app.Application;
 
@@ -9,7 +9,7 @@ import com.xxl.core.service.download.DownloadService;
 import com.xxl.hello.service.data.model.entity.share.VideoShareResourceEntity;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi.ShareOperateType;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
-import com.xxl.hello.widget.share.api.VideoSharePicker;
+import com.xxl.hello.widget.view.share.api.VideoSharePicker;
 
 import java.util.Arrays;
 import java.util.List;

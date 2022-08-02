@@ -1,4 +1,4 @@
-package com.xxl.hello.widget.share.api;
+package com.xxl.hello.widget.view.share.api;
 
 import com.xxl.hello.service.data.model.entity.share.ImageShareResourceEntity;
 

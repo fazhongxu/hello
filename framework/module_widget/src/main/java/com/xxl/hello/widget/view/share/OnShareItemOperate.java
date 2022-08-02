@@ -1,4 +1,4 @@
-package com.xxl.hello.widget.share;
+package com.xxl.hello.widget.view.share;
 
 import android.view.View;
 

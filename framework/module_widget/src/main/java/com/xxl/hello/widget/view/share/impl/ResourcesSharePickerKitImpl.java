@@ -1,6 +1,5 @@
-package com.xxl.hello.widget.share.impl;
+package com.xxl.hello.widget.view.share.impl;
 
-import android.app.Activity;
 import android.app.Application;
 
 import androidx.annotation.NonNull;
@@ -14,11 +13,11 @@ import com.xxl.hello.service.data.model.entity.share.VideoShareResourceEntity;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi.ShareOperateType;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi.ShareResourcesType;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
-import com.xxl.hello.widget.share.OnShareItemOperate;
-import com.xxl.hello.widget.share.api.BaseSharePicker;
-import com.xxl.hello.widget.share.api.ImageSharePicker;
-import com.xxl.hello.widget.share.api.ResourcesSharePickerKit;
-import com.xxl.hello.widget.share.api.VideoSharePicker;
+import com.xxl.hello.widget.view.share.OnShareItemOperate;
+import com.xxl.hello.widget.view.share.api.BaseSharePicker;
+import com.xxl.hello.widget.view.share.api.ImageSharePicker;
+import com.xxl.hello.widget.view.share.api.ResourcesSharePickerKit;
+import com.xxl.hello.widget.view.share.api.VideoSharePicker;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;

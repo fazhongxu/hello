@@ -1,4 +1,4 @@
-package com.xxl.hello.widget.share.api;
+package com.xxl.hello.widget.view.share.api;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment;
 
 import com.xxl.hello.service.data.model.entity.share.BaseShareResourceEntity;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi.ShareOperateType;
-import com.xxl.hello.widget.share.OnShareItemOperate;
+import com.xxl.hello.widget.view.share.OnShareItemOperate;
 
 import java.util.List;
 

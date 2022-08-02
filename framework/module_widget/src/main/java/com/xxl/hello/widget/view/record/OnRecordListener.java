@@ -1,4 +1,4 @@
-package com.xxl.hello.widget.record;
+package com.xxl.hello.widget.view.record;
 
 /**
  * 录制按钮事件监听

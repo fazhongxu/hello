@@ -1,4 +1,4 @@
-package com.xxl.hello.widget.record;
+package com.xxl.hello.widget.view.record;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;

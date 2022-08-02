@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.xxl.hello.widget;
+package com.xxl.hello.widget.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -45,6 +45,8 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.AppCompatImageView;
+
+import com.xxl.hello.widget.R;
 
 /**
  * CircleImageView

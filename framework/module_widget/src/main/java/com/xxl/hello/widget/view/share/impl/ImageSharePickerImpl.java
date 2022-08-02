@@ -1,18 +1,16 @@
-package com.xxl.hello.widget.share.impl;
+package com.xxl.hello.widget.view.share.impl;
 
-import android.app.Activity;
 import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.xxl.core.data.model.entity.MediaEntity;
 import com.xxl.core.service.download.DownloadService;
 import com.xxl.hello.service.data.model.entity.share.ImageShareResourceEntity;
 import com.xxl.hello.service.data.model.entity.share.ShareMediaEntity;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi.ShareOperateType;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
-import com.xxl.hello.widget.share.api.ImageSharePicker;
+import com.xxl.hello.widget.view.share.api.ImageSharePicker;
 import com.xxl.kit.ToastUtils;
 
 import java.util.Arrays;
