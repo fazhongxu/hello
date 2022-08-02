@@ -1,4 +1,4 @@
-package com.xxl.hello.widget.view;
+package com.xxl.hello.widget.ui.view;
 
 import android.content.Context;
 import android.util.AttributeSet;

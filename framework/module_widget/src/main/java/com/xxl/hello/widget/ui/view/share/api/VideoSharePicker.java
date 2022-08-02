@@ -1,4 +1,4 @@
-package com.xxl.hello.widget.view.share.api;
+package com.xxl.hello.widget.ui.view.share.api;
 
 import com.xxl.hello.service.data.model.entity.share.VideoShareResourceEntity;
 

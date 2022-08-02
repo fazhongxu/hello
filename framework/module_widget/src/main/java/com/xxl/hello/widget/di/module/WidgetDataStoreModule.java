@@ -7,8 +7,8 @@ import androidx.annotation.NonNull;
 import com.xxl.core.service.download.DownloadService;
 import com.xxl.core.service.download.aira.ForAriaDownload;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
-import com.xxl.hello.widget.view.share.api.ResourcesSharePickerKit;
-import com.xxl.hello.widget.view.share.impl.ResourcesSharePickerKitImpl;
+import com.xxl.hello.widget.ui.view.share.api.ResourcesSharePickerKit;
+import com.xxl.hello.widget.ui.view.share.impl.ResourcesSharePickerKitImpl;
 
 import dagger.Module;
 import dagger.Provides;

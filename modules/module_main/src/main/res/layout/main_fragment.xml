@@ -61,7 +61,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_user_info"
             tools:text="test" />
 
-        <com.xxl.hello.widget.view.record.RecordButton
+        <com.xxl.hello.widget.ui.view.record.RecordButton
             android:id="@+id/recordBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

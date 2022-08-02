@@ -1,4 +1,4 @@
-package com.xxl.hello.widget.view.share;
+package com.xxl.hello.widget.ui.view.share;
 
 import android.view.Gravity;
 import android.view.LayoutInflater;

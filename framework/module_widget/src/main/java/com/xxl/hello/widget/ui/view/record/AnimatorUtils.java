@@ -1,4 +1,4 @@
-package com.xxl.hello.widget.view.record;
+package com.xxl.hello.widget.ui.view.record;
 
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
