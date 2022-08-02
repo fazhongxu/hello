@@ -1,5 +1,7 @@
 package com.xxl.kit;
 
+import android.os.CountDownTimer;
+
 /**
  * 倒计时包装类
  *
@@ -8,16 +10,30 @@ package com.xxl.kit;
  */
 public class CountDownWrapper {
 
+    private CountDownTimer mCountDownTimer;
+
     private PreciseCountdown mPreciseCountdown;
+
+    /**
+     * 是否是自定义精确的倒计时
+     */
+    private boolean mIsPrecise;
 
     private OnCountDownCallback mCallBack;
 
-    private CountDownWrapper(OnCountDownCallback callback) {
+    private CountDownWrapper(final boolean isPrecise,
+                             OnCountDownCallback callback) {
+        mIsPrecise = isPrecise;
         mCallBack = callback;
     }
 
     public static CountDownWrapper create(OnCountDownCallback callback) {
-        return new CountDownWrapper(callback);
+        return new CountDownWrapper(true, callback);
+    }
+
+    public static CountDownWrapper create(boolean isPrecise,
+                                          OnCountDownCallback callback) {
+        return new CountDownWrapper(isPrecise, callback);
     }
 
     public void start(long millisInFuture) {
@@ -26,34 +42,54 @@ public class CountDownWrapper {
 
     public void start(long millisInFuture, long countDownInterval) {
         cancel();
-        mPreciseCountdown = new PreciseCountdown(millisInFuture, countDownInterval) {
+        if (mIsPrecise) {
+            mPreciseCountdown = new PreciseCountdown(millisInFuture, countDownInterval) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    if (mCallBack != null) {
+                        mCallBack.onTick(millisUntilFinished);
+                    }
+                }
+
+                @Override
+                public void onFinished() {
+                    if (mCallBack != null) {
+                        mCallBack.onFinish();
+                    }
+                }
+            };
+            mPreciseCountdown.start();
+            return;
+        }
+        mCountDownTimer = new CountDownTimer(millisInFuture, countDownInterval) {
 
             @Override
-            public void onTick(long timeLeft) {
+            public void onTick(long millisUntilFinished) {
                 if (mCallBack != null) {
-                    mCallBack.onTick(timeLeft);
+                    mCallBack.onTick(millisUntilFinished);
                 }
             }
 
             @Override
-            public void onFinished() {
+            public void onFinish() {
                 if (mCallBack != null) {
                     mCallBack.onFinish();
                 }
             }
         };
-        mPreciseCountdown.start();
+        mCountDownTimer.start();
     }
 
     public void cancel() {
+        if (mCountDownTimer != null) {
+            mCountDownTimer.cancel();
+        }
+
         if (mPreciseCountdown != null) {
             mPreciseCountdown.stop();
         }
     }
 
-    /**
-     * Call this when there's no further use for this timer
-     */
     public void dispose() {
         if (mPreciseCountdown != null) {
             mPreciseCountdown.dispose();

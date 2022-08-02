@@ -2388,32 +2388,7 @@ public final class ImageUtils {
             listener.onError(new Throwable(StringUtils.getString(R.string.core_image_path_can_not_be_empty_tips)));
             return;
         }
-        // TODO: 2022/7/11 图片模糊的情况，是否需要改成Bitmap的压缩，最大宽高，1280，30000
-        // 判断宽高比，最大宽高不能超过30000
-        // 基础宽高比为1280 1920
         if (FileUtils.createOrExistsDir(targetDir)) {
-//            try {
-//                Bitmap bitmap = compressBySampleSize(getBitmap(imagePath), 1280, 1920);
-//                if (bitmap != null) {
-//                    File targetFile = new File(targetDir, TimeUtils.currentServiceTimeMillis() + ".jpeg");
-//                    boolean isSuccess = save(bitmap,targetFile, Bitmap.CompressFormat.JPEG);
-//                    if (isSuccess) {
-//                        if (listener != null) {
-//                            listener.onSuccess(new File(targetFile.getAbsolutePath()));
-//                        }
-//                    }else {
-//                        if (listener != null) {
-//                            listener.onSuccess(new File(imagePath));
-//                        }
-//                    }
-//                }
-//            }catch (Exception e) {
-//                e.printStackTrace();
-//                if (listener != null) {
-//                    listener.onSuccess(new File(imagePath));
-//                }
-//            }
-
             Luban.with(AppUtils.getApplication())
                     .load(imagePath)
                     .ignoreBy(800)
@@ -2431,7 +2406,6 @@ public final class ImageUtils {
                 listener.onSuccess(new File(imagePath));
             }
         }
-
     }
 
     public abstract static class OnSimpleCompressListener implements OnCompressListener {
