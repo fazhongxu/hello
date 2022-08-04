@@ -48,6 +48,7 @@ versions.mmkv = "1.2.10"
 versions.eventbus = "3.2.0"
 versions.logger = "2.2.0"
 versions.arouter = "1.5.2"
+versions.arouter_register = "1.0.2"
 
 versions.objectbox = "3.0.1"
 
@@ -193,6 +194,7 @@ deps.evetbus = "org.greenrobot:eventbus:$versions.eventbus"
 def arouter = [:]
 arouter.arouter = "com.alibaba:arouter-api:$versions.arouter"
 arouter.arouter_processor = "com.alibaba:arouter-compiler:$versions.arouter"
+arouter.register = "com.alibaba:arouter-register:$versions.arouter_register"
 deps.arouter = arouter
 
 // mobile_ffmpeg https://github.com/tanersener/mobile-ffmpeg

@@ -1,40 +1,20 @@
-apply plugin: 'com.android.library'
+apply from: project.getRootDir().getAbsolutePath()+"/framework/common.gradle"
+apply plugin: 'io.objectbox'
 apply plugin: 'maven'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion build_versions.compileSdkVersion
-    buildToolsVersion build_versions.buildToolsVersion
 
-    defaultConfig {
-        minSdkVersion build_versions.minSdkVersion
-        targetSdkVersion build_versions.targetSdkVersion
-        versionCode build_versions.versionCode
-        versionName build_versions.versionName
+}
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles 'consumer-rules.pro'
-
-        kapt {
-            arguments {
-                arg("AROUTER_MODULE_NAME", project.getName())
-            }
-        }
-    }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-
+uploadArchives {
+//    repositories.mavenDeployer {
+//        repository(url: hello_maven_config.url) {
+//            authentication(userName: hello_maven_config.userName, password: hello_maven_config.password)
+//        }
+//        pom.version = versions.router
+//        pom.artifactId = "router"
+//        pom.groupId = "com.xxl.hello.router"
+//    }
 }
 
 dependencies {
@@ -42,7 +22,4 @@ dependencies {
     implementation deps.origin.kit
 
     implementation deps.hello.resources
-
-    implementation deps.arouter.arouter
-    kapt deps.arouter.arouter_processor
 }
