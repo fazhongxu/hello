@@ -2,6 +2,7 @@ package com.xxl.hello.main.ui.splash;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -35,6 +36,7 @@ public class SplashActivity extends SingleFragmentActivity<SplashFragment> {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // 判断当前activity是不是所在任务栈的根
+        Log.e("aaa", "onCreate: "+isTaskRoot() );
         if (!this.isTaskRoot()) {
             final Intent intent = getIntent();
             if (intent != null) {
