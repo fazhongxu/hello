@@ -1,4 +1,6 @@
 apply from: project.getRootDir().getAbsolutePath()+"/common.gradle"
 dependencies {
     implementation deps.hello.user
+    implementation("androidx.window:window:1.1.0-alpha02")
+
 }
