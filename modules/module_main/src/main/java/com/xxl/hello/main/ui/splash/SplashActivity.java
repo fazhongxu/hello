@@ -44,6 +44,13 @@ public class SplashActivity extends SingleFragmentActivity<SplashFragment> {
                 }
             }
         }
+
+        if (getIntent() != null) {
+            if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0) {
+                finish();
+                return;
+            }
+        }
     }
 
     @Override

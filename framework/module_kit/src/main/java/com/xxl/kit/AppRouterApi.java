@@ -55,11 +55,20 @@ public class AppRouterApi {
 
     //region: 启动页路由相关
 
-    /**
-     * 导航到首页
-     */
-    public static void navigationToSplash() {
-        RouterUtils.navigationWithFlag(SPLASH_PATH, Intent.FLAG_ACTIVITY_NEW_TASK);
+    public static class Splash {
+        /**
+         * 导航到首页
+         */
+        public static void navigation() {
+            RouterUtils.navigationWithFlag(SPLASH_PATH, Intent.FLAG_ACTIVITY_NEW_TASK);
+        }
+
+        /**
+         * 导航到首页
+         */
+        public static void navigationAndClearTop() {
+            RouterUtils.navigationAndClearTop(SPLASH_PATH);
+        }
     }
 
     //endregion
