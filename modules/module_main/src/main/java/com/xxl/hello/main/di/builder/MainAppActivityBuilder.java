@@ -1,5 +1,7 @@
 package com.xxl.hello.main.di.builder;
 
+import com.xxl.hello.main.ui.jump.SchemeJumpActivity;
+import com.xxl.hello.main.ui.jump.SchemeJumpFragmentProvider;
 import com.xxl.hello.main.ui.main.MainActivity;
 import com.xxl.hello.main.ui.main.MainFragmentProvider;
 import com.xxl.hello.main.ui.splash.SplashActivity;
@@ -30,4 +32,14 @@ public abstract class MainAppActivityBuilder {
      */
     @ContributesAndroidInjector(modules = MainFragmentProvider.class)
     abstract MainActivity bindMainActivityBuilder();
+
+    /**
+     * 绑定scheme跳转处理页
+     *
+     * @return
+     */
+    @ContributesAndroidInjector(modules = SchemeJumpFragmentProvider.class)
+    abstract SchemeJumpActivity bindSchemeJumpActivityBuilder();
+
+
 }

@@ -12,6 +12,7 @@ import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.xxl.core.data.router.SystemRouterApi;
 import com.xxl.core.image.selector.MediaSelector;
+import com.xxl.core.ui.fragment.BaseViewModelFragment;
 import com.xxl.hello.common.config.AppConfig;
 import com.xxl.hello.common.config.CacheDirConfig;
 import com.xxl.hello.common.config.NetworkConfig;
@@ -22,7 +23,6 @@ import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi.ShareOperateType;
 import com.xxl.hello.service.data.model.event.SystemEventApi;
 import com.xxl.hello.service.qunlifier.ForUserBaseUrl;
-import com.xxl.core.ui.fragment.BaseViewModelFragment;
 import com.xxl.hello.user.BR;
 import com.xxl.hello.user.R;
 import com.xxl.hello.user.databinding.UserFragmentSettingBinding;
@@ -254,7 +254,7 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
      */
     @Override
     public void onAboutMeClick() {
-        SystemRouterApi.WebView.newBuilder("https://www.github.com/" + AppConfig.User.GITHUB_USER_NAME + "/hello")
+        SystemRouterApi.WebView.newBuilder(NetworkConfig.API_HOST + AppConfig.User.GITHUB_USER_NAME + "/hello")
                 .navigation(getActivity());
     }
 

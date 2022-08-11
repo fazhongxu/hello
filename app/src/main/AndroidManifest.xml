@@ -36,9 +36,9 @@
         android:allowBackup="true"
         android:icon="@drawable/resources_ic_app_white_logo"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:requestLegacyExternalStorage="true"
         android:supportsRtl="true"
-        android:largeHeap="true"
         android:theme="@style/BaseTheme"
         android:usesCleartextTraffic="true">
 
@@ -56,6 +56,21 @@
         <activity
             android:name="com.xxl.hello.main.ui.main.MainActivity"
             android:launchMode="singleTask" />
+
+        <activity
+            android:name=".main.ui.jump.SchemeJumpActivity"
+            android:exported="true"
+            android:theme="@style/SplashTheme">
+            <intent-filter>
+                <data
+                    android:host="com.hello"
+                    android:scheme="hello" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
+        </activity>
 
         <!--友盟分享相关 开始-->
         <activity
@@ -81,8 +96,8 @@
         <activity
             android:name="com.tencent.connect.common.AssistActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            tools:replace="android:configChanges"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            tools:replace="android:configChanges" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

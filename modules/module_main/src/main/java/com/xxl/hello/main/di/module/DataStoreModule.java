@@ -4,19 +4,17 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 
+import com.xxl.core.data.remote.ApiHeader;
 import com.xxl.core.service.download.DownloadService;
 import com.xxl.core.service.download.aira.AriaDownloadServiceImpl;
 import com.xxl.core.service.download.aira.ForAriaDownload;
 import com.xxl.core.service.download.hello.ForHelloDownload;
 import com.xxl.core.service.download.hello.HelloDownloadServiceImpl;
 import com.xxl.hello.common.config.NetworkConfig;
-import com.xxl.core.data.remote.ApiHeader;
-import com.xxl.hello.service.qunlifier.ForApplication;
-import com.xxl.hello.widget.di.module.WidgetDataStoreModule;
-import com.xxl.kit.LogUtils;
 import com.xxl.hello.service.data.local.db.impl.objectbox.ObjectBoxDataStoreModel;
 import com.xxl.hello.service.data.local.prefs.api.UserPreferences;
 import com.xxl.hello.service.di.module.ServiceDataStoreModule;
+import com.xxl.hello.service.qunlifier.ForApplication;
 import com.xxl.hello.service.qunlifier.ForBaseUrl;
 import com.xxl.hello.service.qunlifier.ForDebug;
 import com.xxl.hello.service.qunlifier.ForNetWorkDebug;
@@ -27,6 +25,8 @@ import com.xxl.hello.service.qunlifier.ForUserBaseUrl;
 import com.xxl.hello.service.qunlifier.ForUserPreference;
 import com.xxl.hello.service.qunlifier.ForUserRetrofit;
 import com.xxl.hello.user.di.module.UserDataStoreModule;
+import com.xxl.hello.widget.di.module.WidgetDataStoreModule;
+import com.xxl.kit.LogUtils;
 
 import javax.inject.Singleton;
 
@@ -95,7 +95,7 @@ public class DataStoreModule {
     @Singleton
     @Provides
     String provideHostUrl(@ForNetWorkDebug boolean isNetworkDebug) {
-        return isNetworkDebug ? "https://192.168.1.1:8000/" : "https://github.com/";
+        return isNetworkDebug ? NetworkConfig.API_HOST_DEBUG : NetworkConfig.API_HOST;
     }
 
     /**
@@ -107,7 +107,7 @@ public class DataStoreModule {
     @Singleton
     @Provides
     String provideUserHostUrl(@ForNetWorkDebug boolean isNetworkDebug) {
-        return isNetworkDebug ? "https://192.168.0.12:8080/" : "https://api.github.com/";
+        return isNetworkDebug ? NetworkConfig.API_USER_HOST_DEBUG : NetworkConfig.API_USER_HOST;
     }
 
     /**

@@ -22,6 +22,26 @@ public class NetworkConfig {
      */
     private static final String PREF_KEY_IS_NETWORK_DEBUG = "pref_key_is_network_debug";
 
+    /**
+     * 测试环境主机地址
+     */
+    public static final String API_HOST_DEBUG = "http://192.168.1.1/8081/";
+
+    /**
+     * 正式环境主机地址
+     */
+    public static final String API_HOST = "https://github.com/";
+
+    /**
+     * 测试环境用户模块主机地址
+     */
+    public static final String API_USER_HOST_DEBUG = "http://192.168.1.2/8081/";
+
+    /**
+     * 正式环境用户模块主机地址
+     */
+    public static final String API_USER_HOST = "https://github.com/";
+
     //endregion
 
     //region: 构造函数

@@ -460,7 +460,7 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
                         mAudioFrameCapturedListener.onAudioFrameCaptured(buffer);
                     }
                     LogUtils.d(TAG, "OK, Captured " + ret + " bytes !");
-                    if (state == AudioRecord.RECORDSTATE_RECORDING) {
+                    if (state == AudioRecord.RECORDSTATE_STOPPED) {
                         mRecordState = AudioRecordState.RECORDING;
                         if (mPcmEncoderAac != null) {
                             mPcmEncoderAac.encodeData(buffer);
