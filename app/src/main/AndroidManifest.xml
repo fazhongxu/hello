@@ -63,8 +63,8 @@
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <data
-                    android:host="com.hello"
-                    android:scheme="hello" />
+                    android:host="hello.com"
+                    android:scheme="hl" />
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <action android:name="android.intent.action.VIEW" />

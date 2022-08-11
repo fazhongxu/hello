@@ -9,6 +9,10 @@ import com.xxl.core.ui.fragment.BaseViewModelFragment;
 import com.xxl.hello.main.BR;
 import com.xxl.hello.main.R;
 import com.xxl.hello.main.databinding.MainFragmentSchemeJumpBinding;
+import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
+import com.xxl.kit.AppRouterApi;
+import com.xxl.kit.LogUtils;
+import com.xxl.kit.RouterUtils;
 
 /**
  * scheme跳转处理页
@@ -98,6 +102,34 @@ public class SchemeJumpFragment extends BaseViewModelFragment<SchemeJumpViewMode
     @Override
     protected void setupLayout(@NonNull final View rootView) {
 
+    }
+
+    @Override
+    protected void requestData() {
+        final LoginUserEntity loginUserEntity = getViewModel().requestGetCurrentLoginUserEntity();
+        final boolean isLogged = loginUserEntity != null;
+        if (isLogged) {
+            if (RouterUtils.hasActivity(AppRouterApi.MAIN_PATH)) {
+                // 直接跳转到目标页
+                LogUtils.d("Scheme 已登录 主页已经启动 ");
+                AppRouterApi.Main.navigationWithFinish(getActivity());
+            } else {
+                // TODO: 2022/8/11 主页没有启动的情况，第二次打开，就不启动SchemeJump 页面了，待修复 
+                // 先跳转打开主页，再跳转到目标页
+                LogUtils.d("Scheme 已登录 主页还没启动");
+                AppRouterApi.Main.navigationAndClearTop(getActivity());
+            }
+
+        } else {
+            if (RouterUtils.hasActivity(AppRouterApi.MAIN_PATH)) {
+                // 先跳转登录页，再跳转到目标页
+                LogUtils.d("Scheme 未登录 主页已经启动");
+            } else {
+                // 先跳转打开主页，再跳转登录页，再跳转到目标页
+                LogUtils.d("Scheme 未登录 主页还没启动");
+            }
+            AppRouterApi.Login.navigationWithFinish(getActivity());
+        }
     }
 
     //endregion

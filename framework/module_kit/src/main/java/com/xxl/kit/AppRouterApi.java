@@ -66,18 +66,28 @@ public class AppRouterApi {
 
     //region: 首页路由相关
 
-    /**
-     * 导航到首页
-     */
-    public static void navigationToMain() {
-        RouterUtils.navigation(MAIN_PATH);
-    }
+    public static class Main {
 
-    /**
-     * 导航到首页
-     */
-    public static void navigationWithFinish(@NonNull final Activity activity) {
-        RouterUtils.navigationWithFinish(activity, MAIN_PATH);
+        /**
+         * 导航到首页
+         */
+        public static void navigation(@NonNull final Activity activity) {
+            RouterUtils.navigation(activity, MAIN_PATH);
+        }
+
+        /**
+         * 导航到首页
+         */
+        public static void navigationWithFinish(@NonNull final Activity activity) {
+            RouterUtils.navigationWithFinish(activity, MAIN_PATH);
+        }
+
+        /**
+         * 导航到首页
+         */
+        public static void navigationAndClearTop(@NonNull final Activity context) {
+            RouterUtils.navigationAndClearTop(context,MAIN_PATH);
+        }
     }
 
     //endregion
@@ -125,11 +135,32 @@ public class AppRouterApi {
          * 导航到登录页
          *
          * @param activity
+         */
+        public static void navigationWithFinish(@NonNull final Activity activity) {
+            navigationWithFinish(activity, LOGIN_REQUEST_CODE);
+        }
+
+        /**
+         * 导航到登录页
+         *
+         * @param activity
          * @param requestCode
          */
         public static void navigation(@NonNull final Activity activity,
                                       final int requestCode) {
             RouterUtils.navigation(activity, LOGIN_PATH, requestCode);
+        }
+
+
+        /**
+         * 导航到登录页
+         *
+         * @param activity
+         * @param requestCode
+         */
+        public static void navigationWithFinish(@NonNull final Activity activity,
+                                                final int requestCode) {
+            RouterUtils.navigationWithFinish(activity, LOGIN_PATH, requestCode);
         }
 
         /**
@@ -145,6 +176,7 @@ public class AppRouterApi {
             Intent intent = new Intent(fragment.getActivity(), postcard.getDestination());
             fragment.startActivityForResult(intent, requestCode);
         }
+
     }
 
     //endregion

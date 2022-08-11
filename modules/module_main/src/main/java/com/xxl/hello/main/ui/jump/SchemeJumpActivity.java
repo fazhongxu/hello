@@ -3,7 +3,7 @@ package com.xxl.hello.main.ui.jump;
 import com.xxl.core.ui.activity.SingleFragmentActivity;
 
 /**
- * scheme跳转处理页 // TODO: 2022/8/11 功能待写Html测试
+ * scheme跳转处理页
  *
  * @author xxl.
  * @date 2022/8/11.

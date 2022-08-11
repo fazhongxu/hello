@@ -2,13 +2,12 @@ package com.xxl.hello.main.ui.splash;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.xxl.hello.main.R;
 import com.xxl.core.ui.activity.SingleFragmentActivity;
+import com.xxl.hello.main.R;
 import com.xxl.kit.AppRouterApi;
 
 /**
@@ -36,7 +35,6 @@ public class SplashActivity extends SingleFragmentActivity<SplashFragment> {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // 判断当前activity是不是所在任务栈的根
-        Log.e("aaa", "onCreate: "+isTaskRoot() );
         if (!this.isTaskRoot()) {
             final Intent intent = getIntent();
             if (intent != null) {

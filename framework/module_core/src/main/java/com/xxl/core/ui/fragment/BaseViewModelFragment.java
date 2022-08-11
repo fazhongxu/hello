@@ -100,6 +100,7 @@ public abstract class BaseViewModelFragment<V extends BaseViewModel, T extends V
         if (eventBusWrapper != null) {
             eventBusWrapper.register(this);
         }
+        requestData();
     }
 
     @Override

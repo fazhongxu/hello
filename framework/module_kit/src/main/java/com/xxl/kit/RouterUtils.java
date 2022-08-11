@@ -3,6 +3,7 @@ package com.xxl.kit;
 import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
+import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -11,6 +12,9 @@ import com.alibaba.android.arouter.core.LogisticsCenter;
 import com.alibaba.android.arouter.facade.Postcard;
 import com.alibaba.android.arouter.facade.callback.NavCallback;
 import com.alibaba.android.arouter.launcher.ARouter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 路由工具
@@ -154,6 +158,61 @@ public class RouterUtils {
     }
 
     /**
+     * 跳转到指定页面并清除栈顶的其他页面
+     * @param context
+     * @param path
+     */
+    public static void navigationAndClearTop(@NonNull final Activity context,
+                                             @NonNull final String path) {
+        final List<Activity> waitClearActivities = new ArrayList<>();
+        final List<Activity> activities = AppUtils.getActivityList();
+        if (!ListUtils.isEmpty(activities)) {
+            for (int i = activities.size() - 1; i >= 0; i--) {
+                Activity activity = activities.get(i);
+                Class<?> destination = getDestination(path);
+                if (destination != null && activity.hashCode() == destination.hashCode()) {
+                    continue;
+                }
+                waitClearActivities.add(activity);
+            }
+        }
+        buildPostcard(path)
+                .navigation(context, new NavCallback() {
+                    @Override
+                    public void onArrival(Postcard postcard) {
+                        if (!ListUtils.isEmpty(waitClearActivities)) {
+                            for (int i = 0; i < waitClearActivities.size(); i++) {
+                                Activity activity = waitClearActivities.get(i);
+                                if (!activity.isFinishing()) {
+                                    activity.finish();
+                                }
+                            }
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 跳转到指定页面并关闭当前页
+     *
+     * @param activity
+     * @param path
+     * @param requestCode
+     */
+    public static void navigationWithFinish(@NonNull final Activity activity,
+                                            @NonNull final String path,
+                                            final int requestCode) {
+        buildPostcard(path)
+                .navigation(activity, requestCode, new NavCallback() {
+                    @Override
+                    public void onArrival(Postcard postcard) {
+                        activity.finish();
+                    }
+                });
+    }
+
+
+    /**
      * 跳转到指定页面并关闭当前页
      *
      * @param activity
@@ -219,6 +278,31 @@ public class RouterUtils {
             return;
         }
         postcard.navigation();
+    }
+
+    /**
+     * 判断当前任务栈内是否包含某个页面
+     *
+     * @param routerPath 路由路径
+     * @return
+     */
+    public static boolean hasActivity(@NonNull final String routerPath) {
+        if (ListUtils.isEmpty(AppUtils.getActivityList()) || TextUtils.isEmpty(routerPath)) {
+            return false;
+        }
+        try {
+            for (Activity activity : AppUtils.getActivityList()) {
+                Class<?> destination = getDestination(routerPath);
+                if (destination != null) {
+                    if (destination.hashCode() == activity.getClass().hashCode()) {
+                        return true;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
 }
