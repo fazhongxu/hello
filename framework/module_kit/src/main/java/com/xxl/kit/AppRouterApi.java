@@ -85,8 +85,8 @@ public class AppRouterApi {
         /**
          * 导航到首页
          */
-        public static void navigationAndClearTop(@NonNull final Activity context) {
-            RouterUtils.navigationAndClearTop(context,MAIN_PATH);
+        public static void navigationAndClearTop() {
+            RouterUtils.navigationAndClearTop(MAIN_PATH);
         }
     }
 
