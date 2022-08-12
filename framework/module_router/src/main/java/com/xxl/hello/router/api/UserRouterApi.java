@@ -47,6 +47,10 @@ public class UserRouterApi {
         public static void navigation() {
             RouterUtils.navigation(PATH);
         }
+
+        public static void navigationWithFinish(@NonNull final Activity activity) {
+            RouterUtils.navigationWithFinish(activity,PATH);
+        }
     }
 
 }

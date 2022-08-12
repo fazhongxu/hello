@@ -9,6 +9,7 @@ import com.xxl.core.ui.fragment.BaseViewModelFragment;
 import com.xxl.hello.main.BR;
 import com.xxl.hello.main.R;
 import com.xxl.hello.main.databinding.MainFragmentSchemeJumpBinding;
+import com.xxl.hello.router.api.UserRouterApi;
 import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
 import com.xxl.kit.AppRouterApi;
 import com.xxl.kit.LogUtils;
@@ -112,13 +113,12 @@ public class SchemeJumpFragment extends BaseViewModelFragment<SchemeJumpViewMode
             if (RouterUtils.hasActivity(AppRouterApi.MAIN_PATH)) {
                 // 直接跳转到目标页
                 LogUtils.d("Scheme 已登录 主页已经启动 ");
-                AppRouterApi.Main.navigationWithFinish(getActivity());
+                UserRouterApi.UserSetting.navigationWithFinish(getActivity());
             } else {
                 // 先跳转打开主页，再跳转到目标页 携带数据跳转过去再跳转到具体页
                 LogUtils.d("Scheme 已登录 主页还没启动");
                 AppRouterApi.Splash.navigationAndClearTop();
             }
-
         } else {
             if (RouterUtils.hasActivity(AppRouterApi.MAIN_PATH)) {
                 // 先跳转登录页，再跳转到目标页
