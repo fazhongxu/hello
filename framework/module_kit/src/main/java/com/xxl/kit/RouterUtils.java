@@ -159,15 +159,16 @@ public class RouterUtils {
 
     /**
      * 跳转到指定页面并清除栈顶的其他页面
+     *
      * @param path
      */
     public static void navigationAndClearTop(@NonNull final String path) {
         final List<Activity> waitClearActivities = new ArrayList<>();
         final List<Activity> activities = AppUtils.getActivityList();
+        final Class<?> destination = getDestination(path);
         if (!ListUtils.isEmpty(activities)) {
             for (int i = activities.size() - 1; i >= 0; i--) {
                 Activity activity = activities.get(i);
-                Class<?> destination = getDestination(path);
                 if (destination != null && activity.hashCode() == destination.hashCode()) {
                     continue;
                 }
@@ -175,7 +176,7 @@ public class RouterUtils {
             }
         }
         buildPostcard(path)
-                .navigation(AppUtils.getApplication(),new NavCallback() {
+                .navigation(AppUtils.getApplication(), new NavCallback() {
                     @Override
                     public void onArrival(Postcard postcard) {
                         if (!ListUtils.isEmpty(waitClearActivities)) {
@@ -257,12 +258,16 @@ public class RouterUtils {
     }
 
     public static void completion(@NonNull final Postcard postcard) {
-        LogisticsCenter.completion(postcard);
+        try {
+            LogisticsCenter.completion(postcard);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static Class<?> getDestination(@NonNull final String path) {
         Postcard postcard = RouterUtils.buildPostcard(path);
-        RouterUtils.completion(postcard);
+        completion(postcard);
         return postcard.getDestination();
     }
 
@@ -289,12 +294,10 @@ public class RouterUtils {
             return false;
         }
         try {
+            Class<?> destination = getDestination(routerPath);
             for (Activity activity : AppUtils.getActivityList()) {
-                Class<?> destination = getDestination(routerPath);
-                if (destination != null) {
-                    if (destination.hashCode() == activity.getClass().hashCode()) {
-                        return true;
-                    }
+                if (destination != null && destination.hashCode() == activity.getClass().hashCode()) {
+                    return true;
                 }
             }
         } catch (Exception e) {
