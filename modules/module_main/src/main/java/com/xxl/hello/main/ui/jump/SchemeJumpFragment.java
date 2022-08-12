@@ -114,8 +114,7 @@ public class SchemeJumpFragment extends BaseViewModelFragment<SchemeJumpViewMode
                 LogUtils.d("Scheme 已登录 主页已经启动 ");
                 AppRouterApi.Main.navigationWithFinish(getActivity());
             } else {
-                // TODO: 2022/8/11 主页没有启动的情况，第二次打开，就不启动SchemeJump 页面了，待修复 
-                // 先跳转打开主页，再跳转到目标页
+                // 先跳转打开主页，再跳转到目标页 携带数据跳转过去再跳转到具体页
                 LogUtils.d("Scheme 已登录 主页还没启动");
                 AppRouterApi.Splash.navigationAndClearTop();
             }
