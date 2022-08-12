@@ -3,11 +3,7 @@ package com.xxl.kit;
 import android.app.Activity;
 import android.view.View;
 import android.widget.TextView;
-
-import androidx.annotation.IdRes;
 import androidx.annotation.StringRes;
-
-import io.reactivex.SingleTransformer;
 
 /**
  * View 相关工具类 findViewById,设置padding,margin,背景色，文本，获取layoutParams等
