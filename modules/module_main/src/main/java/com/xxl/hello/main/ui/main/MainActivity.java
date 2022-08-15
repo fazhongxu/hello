@@ -34,6 +34,11 @@ public class MainActivity extends SingleFragmentBarActivity<MainFragment> {
     }
 
     @Override
+    public boolean isInSwipeBack() {
+        return false;
+    }
+
+    @Override
     protected void onActivityResult(int requestCode,
                                     int resultCode,
                                     @Nullable Intent data) {
