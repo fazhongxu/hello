@@ -6,6 +6,9 @@ include ':framework:module_resources'
 include ':framework:module_widget'
 include ':framework:module_router'
 
+include ':framework:module_annotation'
+include ':framework:module_compiler'
+
 include ':module_libs:lib_ffmpeg'
 include ':module_libs:lib_picture_selector'
 

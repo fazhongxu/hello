@@ -11,6 +11,8 @@ build_versions.targetSdkVersion = 29
 build_versions.versionCode = 1
 build_versions.versionName = "1.0.0"
 build_versions.abiFilters = "arm64-v8a,armeabi-v7a" //"armeabi-v7a , x86 , x86_64 , "
+build_versions.sourceCompatibility = JavaVersion.VERSION_1_8
+build_versions.targetCompatibility = JavaVersion.VERSION_1_8
 ext.build_versions = build_versions
 
 def versions = [:]
@@ -306,9 +308,11 @@ hello.service = project(':framework:module_service')
 hello.resources = project(':framework:module_resources')
 hello.widget = project(':framework:module_widget')
 hello.router = project(':framework:module_router')
+hello.compiler = project(':framework:module_compiler')
 
 hello.main = project(':modules:module_main')
 hello.user = project(':modules:module_user')
+
 
 // 核心模块私服
 def origin_maven_config = [:]
