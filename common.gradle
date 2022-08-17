@@ -61,6 +61,9 @@ dependencies {
     implementation deps.hello.widget
     implementation deps.hello.resources
 
+    implementation deps.hello.annotation
+    kapt deps.hello.compiler
+
     implementation deps.okhttp.okhttp
     implementation deps.okhttp.logging
     implementation deps.retrofit.retrofit

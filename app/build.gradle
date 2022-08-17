@@ -106,6 +106,7 @@ dependencies {
     implementation deps.hello.widget
     implementation deps.hello.router
 
+    implementation deps.hello.annotation
     kapt deps.hello.compiler
 
     implementation deps.hello.main
