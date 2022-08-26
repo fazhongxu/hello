@@ -106,15 +106,16 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             tools:replace="android:configChanges" />
 
-        <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="com.xxl.hello.share.fileprovider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/share_file_paths" />
-        </provider>
+        <!--        fixme 分享图片失败，暂时注释友盟分享配置-->
+        <!--        <provider-->
+        <!--            android:name="androidx.core.content.FileProvider"-->
+        <!--            android:authorities="com.xxl.hello.share.fileprovider"-->
+        <!--            android:exported="false"-->
+        <!--            android:grantUriPermissions="true">-->
+        <!--            <meta-data-->
+        <!--                android:name="android.support.FILE_PROVIDER_PATHS"-->
+        <!--                android:resource="@xml/share_file_paths" />-->
+        <!--        </provider>-->
 
         <!--友盟分享相关 结束-->
 
