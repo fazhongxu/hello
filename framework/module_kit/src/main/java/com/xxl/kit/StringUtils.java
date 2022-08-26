@@ -16,6 +16,7 @@ import androidx.annotation.StringRes;
 import androidx.core.content.ContextCompat;
 
 import java.util.IllegalFormatException;
+import java.util.Locale;
 
 /**
  * @author xxl.
@@ -345,5 +346,18 @@ public final class StringUtils {
             return false;
         }
         return s.toLowerCase().startsWith("http");
+    }
+
+    /**
+     * url后面拼接时间戳
+     *
+     * @param url
+     * @return
+     */
+    public static String joinTimeMillis(@NonNull final String url) {
+        if (isHttp(url)) {
+            return String.format(Locale.getDefault(), "%s?%s", url, TimeUtils.currentServiceTimeMillis());
+        }
+        return url;
     }
 }

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 
 import com.xxl.kit.RouterUtils;
+import com.xxl.kit.StringUtils;
 
 /**
  * 系统模块路由
@@ -52,7 +53,12 @@ public final class SystemRouterApi {
             private Bundle mParams = new Bundle();
 
             public Builder(String url) {
-                mParams.putString(PARAMS_KEY_URL, url);
+                this(url, true);
+            }
+
+            public Builder(String url,
+                           boolean isJoinTimeMills) {
+                mParams.putString(PARAMS_KEY_URL, isJoinTimeMills ? StringUtils.joinTimeMillis(url) : url);
                 setShareEnable(true);
             }
 
