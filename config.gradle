@@ -80,7 +80,7 @@ versions.tbs = "44181"
 
 versions.aria = "3.8.16"
 
-versions.umeng_common = "9.5.0"
+versions.umeng_common = "9.5.2"
 versions.umeng_asms = "1.6.3"
 versions.umeng_share = "7.1.9"
 versions.umeng_push = "6.5.3"
