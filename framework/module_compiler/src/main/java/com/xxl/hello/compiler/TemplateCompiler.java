@@ -8,6 +8,8 @@ import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeSpec;
 import com.xxl.hello.annotation.Template;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -27,6 +29,8 @@ import javax.lang.model.element.TypeElement;
 public class TemplateCompiler extends BaseCompiler {
 
     private static final String TAG = "TemplateCompiler ";
+
+    private static final String CURRENT_DATE = new SimpleDateFormat("yyyy/MM/dd").format(new Date());
 
     @Override
     public boolean process(Set<? extends TypeElement> set, RoundEnvironment roundEnvironment) {
@@ -61,6 +65,7 @@ public class TemplateCompiler extends BaseCompiler {
 
                 TypeSpec typeSpec = TypeSpec.interfaceBuilder(navigatorClassName)
                         .addModifiers(Modifier.PUBLIC)
+                        .addJavadoc(buildTypeJavadoc(template.author(), template.description()))
                         .build();
                 try {
                     JavaFile.builder(template.packageName(), typeSpec)
@@ -106,6 +111,7 @@ public class TemplateCompiler extends BaseCompiler {
                         .addModifiers(Modifier.PUBLIC)
                         .superclass(baseViewModelTypeName)
                         .addMethod(methodSpec)
+                        .addJavadoc(buildTypeJavadoc(template.author(), template.description() + "数据模型"))
                         .build();
 
                 try {
@@ -118,6 +124,18 @@ public class TemplateCompiler extends BaseCompiler {
                 }
             }
         }
+    }
+
+    /**
+     * 构建类的JavaDoc文档
+     *
+     * @param author
+     * @param description
+     * @return
+     */
+    private String buildTypeJavadoc(String author,
+                                    String description) {
+        return String.format("%s\n\n@author %s\n@date %s", description, author, CURRENT_DATE);
     }
 
     /**

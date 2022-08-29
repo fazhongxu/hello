@@ -8,7 +8,9 @@ import com.xxl.hello.annotation.Template;
  * @author xxl.
  * @date 2022/8/29.
  */
-@Template(packageName = "com.xxl.hello", name = "Test")
+@Template(author = "xxl",
+        description = "测试",
+        packageName = "com.xxl.hello", name = "Test")
 public class TemplateCode {
 
 }
