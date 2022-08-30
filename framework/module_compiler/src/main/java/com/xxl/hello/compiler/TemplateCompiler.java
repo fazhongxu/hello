@@ -1,6 +1,7 @@
 package com.xxl.hello.compiler;
 
 import com.google.auto.service.AutoService;
+import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.JavaFile;
@@ -11,8 +12,10 @@ import com.squareup.javapoet.TypeSpec;
 import com.xxl.hello.annotation.Template;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.annotation.processing.Processor;
@@ -60,8 +63,8 @@ public class TemplateCompiler extends BaseCompiler {
         for (Element element : elements) {
             if (element instanceof TypeElement) {
                 final Template template = element.getAnnotation(Template.class);
-                processActivityCodeGeneration(roundEnvironment, template);
-                processFragmentCodeGeneration(roundEnvironment, template);
+                final ClassName fragment = processFragmentCodeGeneration(roundEnvironment, template);
+                processActivityCodeGeneration(roundEnvironment, template, fragment);
                 processProviderCodeGeneration(roundEnvironment, template);
                 processModuleCodeGeneration(roundEnvironment, template);
                 processNavigatorCodeGeneration(roundEnvironment, template);
@@ -71,18 +74,27 @@ public class TemplateCompiler extends BaseCompiler {
     }
 
     /**
-     * 处理Activity 代码生成
+     * 处理Fragment 代码生成
      *
      * @param roundEnvironment
+     * @return
      */
-    private void processActivityCodeGeneration(RoundEnvironment roundEnvironment,
-                                               Template template) {
+    private ClassName processFragmentCodeGeneration(RoundEnvironment roundEnvironment,
+                                                    Template template) {
         final String fragment = String.format("%sFragment", template.name());
         final ClassName fragmentClassName = ClassName.get(template.packageName(), fragment);
+
+        MethodSpec createFragmentMethodSpec = MethodSpec.methodBuilder("newInstance")
+                .addModifiers(Modifier.PUBLIC, Modifier.STATIC, Modifier.FINAL)
+                .returns(fragmentClassName)
+                .addStatement("return new $T()", fragmentClassName)
+                .build();
 
         TypeSpec typeSpec = TypeSpec.classBuilder(fragmentClassName)
                 .addModifiers(Modifier.PUBLIC)
                 .addJavadoc(buildTypeJavadoc(template.author(), template.description()))
+                .addMethod(createFragmentMethodSpec)
+                .superclass(ClassName.get("androidx.fragment.app", "Fragment"))
                 .build();
         try {
             JavaFile.builder(template.packageName(), typeSpec)
@@ -92,23 +104,46 @@ public class TemplateCompiler extends BaseCompiler {
         } catch (Exception e) {
             error(null, "generate template fragment failure %s" + e.getMessage());
         }
+        return fragmentClassName;
     }
 
-
     /**
-     * 处理Fragment 代码生成
+     * 处理Activity 代码生成
      *
      * @param roundEnvironment
      * @param template
+     * @param fragment
      */
-    private void processFragmentCodeGeneration(RoundEnvironment roundEnvironment,
-                                               Template template) {
+    private void processActivityCodeGeneration(RoundEnvironment roundEnvironment,
+                                               Template template,
+                                               ClassName fragment) {
         final String activity = String.format("%sActivity", template.name());
         final ClassName activityClassName = ClassName.get(template.packageName(), activity);
+        final ClassName parentActivityClassName = ClassName.get("com.xxl.core.ui.activity", "SingleFragmentBarActivity");
+
+        MethodSpec createFragmentMethodSpec = MethodSpec.methodBuilder("createFragment")
+                .addAnnotation(ClassName.get(Override.class))
+                .addModifiers(Modifier.PUBLIC)
+                .returns(fragment)
+                .addStatement("return $T.newInstance()", fragment)
+                .build();
+
+        MethodSpec titleMethodSpec = MethodSpec.methodBuilder("getToolbarTitle")
+                .addAnnotation(ClassName.get(Override.class))
+                .addModifiers(Modifier.PUBLIC)
+                .returns(Integer.TYPE)
+                .addStatement("return 0")
+                .build();
+
+        final List<MethodSpec> methodSpecs = new ArrayList<>();
+        methodSpecs.add(createFragmentMethodSpec);
+        methodSpecs.add(titleMethodSpec);
 
         TypeSpec typeSpec = TypeSpec.classBuilder(activityClassName)
                 .addModifiers(Modifier.PUBLIC)
                 .addJavadoc(buildTypeJavadoc(template.author(), template.description()))
+                .superclass(parentActivityClassName)
+                .addMethods(methodSpecs)
                 .build();
         try {
             JavaFile.builder(template.packageName(), typeSpec)
@@ -127,13 +162,30 @@ public class TemplateCompiler extends BaseCompiler {
      */
     private void processProviderCodeGeneration(RoundEnvironment roundEnvironment,
                                                Template template) {
+        final String module = String.format("%sFragmentModule", template.name());
+
         final String provider = String.format("%sFragmentProvider", template.name());
+        final String fragmentName = String.format("%sFragment", template.name());
+        final ClassName fragment = ClassName.get(template.packageName(), fragmentName);
         final ClassName providerClassName = ClassName.get(template.packageName(), provider);
 
-        TypeSpec typeSpec = TypeSpec.interfaceBuilder(providerClassName)
-                .addModifiers(Modifier.PUBLIC)
-                .addJavadoc(buildTypeJavadoc(template.author(), template.description()))
+        final AnnotationSpec fragmentAnnotationSpec = AnnotationSpec.builder(ClassName.get("dagger.android", "ContributesAndroidInjector"))
+                .addMember("modules", String.format("%s.class", module))
                 .build();
+
+        MethodSpec fragmentMethodSpec = MethodSpec.methodBuilder(String.format("bind%sFactory", fragmentName))
+                .addModifiers(Modifier.ABSTRACT)
+                .addAnnotation(fragmentAnnotationSpec)
+                .returns(fragment)
+                .build();
+
+        TypeSpec typeSpec = TypeSpec.classBuilder(providerClassName)
+                .addAnnotation(buildDaggerModuleAnnotation())
+                .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
+                .addJavadoc(buildTypeJavadoc(template.author(), template.description()))
+                .addMethod(fragmentMethodSpec)
+                .build();
+
         try {
             JavaFile.builder(template.packageName(), typeSpec)
                     .build()
@@ -155,9 +207,39 @@ public class TemplateCompiler extends BaseCompiler {
         final String module = String.format("%sFragmentModule", template.name());
         final ClassName moduleClassName = ClassName.get(template.packageName(), module);
 
-        TypeSpec typeSpec = TypeSpec.interfaceBuilder(moduleClassName)
+        final ClassName modelClassName = ClassName.get(template.packageName(), String.format("%sViewModel", template.name()));
+        final String viewModel = "viewModel";
+
+        final ClassName applicationClassName = ClassName.get("android.app", "Application");
+        final String applicationParameterName = "application";
+
+        final ClassName dataRepositoryKitClassName = biuldDataRepositoryKit();
+        final String dataRepositoryKitParameterName = "dataRepositoryKit";
+
+        MethodSpec provideViewModelMethodSpec = MethodSpec.methodBuilder(String.format("provide%sViewModel", template.name()))
+                .addAnnotation(buildDaggerProvidesAnnotation())
+                .addParameter(ParameterSpec.builder(applicationClassName, applicationParameterName).addAnnotation(buildNonNullAnnotation()).addModifiers(Modifier.FINAL).build())
+                .addParameter(ParameterSpec.builder(dataRepositoryKitClassName, dataRepositoryKitParameterName).addAnnotation(buildNonNullAnnotation()).addModifiers(Modifier.FINAL).build())
+                .returns(modelClassName)
+                .addStatement("return new $T($L,$L)", modelClassName, applicationParameterName, dataRepositoryKitParameterName)
+                .build();
+
+        MethodSpec provideViewModelMethodFactorySpec = MethodSpec.methodBuilder(String.format("provide%sViewModelFactory", template.name()))
+                .addAnnotation(buildDaggerProvidesAnnotation())
+                .addParameter(ParameterSpec.builder(modelClassName, viewModel).addAnnotation(buildNonNullAnnotation()).addModifiers(Modifier.FINAL).build())
+                .returns(ClassName.get("androidx.lifecycle.ViewModelProvider", "Factory"))
+                .addStatement("return new $T<>($L)", ClassName.get("com.xxl.core.ui", "ViewModelProviderFactory"), viewModel)
+                .build();
+
+        final List<MethodSpec> methodSpecs = new ArrayList<>();
+        methodSpecs.add(provideViewModelMethodSpec);
+        methodSpecs.add(provideViewModelMethodFactorySpec);
+
+        TypeSpec typeSpec = TypeSpec.classBuilder(moduleClassName)
                 .addModifiers(Modifier.PUBLIC)
                 .addJavadoc(buildTypeJavadoc(template.author(), template.description()))
+                .addAnnotation(buildDaggerModuleAnnotation())
+                .addMethods(methodSpecs)
                 .build();
         try {
             JavaFile.builder(template.packageName(), typeSpec)
@@ -200,7 +282,7 @@ public class TemplateCompiler extends BaseCompiler {
      */
     private void processViewModelCodeGeneration(RoundEnvironment roundEnvironment,
                                                 Template template) {
-        final ClassName dataRepositoryKitClassName = ClassName.get("com.xxl.hello.service.data.repository", "DataRepositoryKit");
+        final ClassName dataRepositoryKitClassName = biuldDataRepositoryKit();
         final String dataRepositoryKitParameterName = "dataRepositoryKit";
         final String dataRepositoryKitFiledName = String.format("m%s", dataRepositoryKitClassName.simpleName());
         FieldSpec dataRepositoryKitFieldSpec = FieldSpec.builder(dataRepositoryKitClassName, dataRepositoryKitFiledName)
@@ -265,12 +347,39 @@ public class TemplateCompiler extends BaseCompiler {
     }
 
     /**
-     * 构建NonNull注解
+     * 构建@NonNull注解
      *
      * @return
      */
     private ClassName buildNonNullAnnotation() {
         return ClassName.get("androidx.annotation", "NonNull");
+    }
+
+    /**
+     * 构建 dagger @Module
+     *
+     * @return
+     */
+    private ClassName buildDaggerModuleAnnotation() {
+        return ClassName.get("dagger", "Module");
+    }
+
+    /**
+     * 构建 dagger @Provides
+     *
+     * @return
+     */
+    private ClassName buildDaggerProvidesAnnotation() {
+        return ClassName.get("dagger", "Provides");
+    }
+
+    /**
+     * 构建DataRepositoryKit
+     *
+     * @return
+     */
+    private ClassName biuldDataRepositoryKit() {
+        return ClassName.get("com.xxl.hello.service.data.repository", "DataRepositoryKit");
     }
 
     /**
