@@ -2,8 +2,10 @@ package com.xxl.hello.compiler;
 
 import com.google.auto.service.AutoService;
 import com.squareup.javapoet.ClassName;
+import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
+import com.squareup.javapoet.ParameterSpec;
 import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeSpec;
 import com.xxl.hello.annotation.Template;
@@ -29,8 +31,6 @@ import javax.lang.model.element.TypeElement;
 public class TemplateCompiler extends BaseCompiler {
 
     private static final String TAG = "TemplateCompiler ";
-
-    private static final String CURRENT_DATE = new SimpleDateFormat("yyyy/MM/dd").format(new Date());
 
     @Override
     public boolean process(Set<? extends TypeElement> set, RoundEnvironment roundEnvironment) {
@@ -90,28 +90,36 @@ public class TemplateCompiler extends BaseCompiler {
             if (element instanceof TypeElement) {
                 final Template template = element.getAnnotation(Template.class);
 
-                final String viewModelClassName = String.format("%sViewModel", template.name());
-                final String navigator = String.format("%sNavigator", template.name());
-
-                final ClassName navigatorClassName = ClassName.get(template.packageName(), navigator);
-                final ClassName baseViewModelClassName = ClassName.get("com.xxl.core.ui", "BaseViewModel");
-
-                final ParameterizedTypeName baseViewModelTypeName = ParameterizedTypeName.get(baseViewModelClassName, navigatorClassName);
+                final ClassName dataRepositoryKitClassName = ClassName.get("com.xxl.hello.service.data.repository", "DataRepositoryKit");
+                final String dataRepositoryKitParameterName = "dataRepositoryKit";
+                final String dataRepositoryKitFiledName = String.format("m%s", dataRepositoryKitClassName.simpleName());
+                FieldSpec dataRepositoryKitFieldSpec = FieldSpec.builder(dataRepositoryKitClassName, dataRepositoryKitFiledName)
+                        .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
+                        .build();
 
                 final ClassName applicationClassName = ClassName.get("android.app", "Application");
                 final String applicationParameterName = "application";
 
                 MethodSpec methodSpec = MethodSpec.constructorBuilder()
-                        .addParameter(applicationClassName, applicationParameterName)
+                        .addParameter(ParameterSpec.builder(applicationClassName, applicationParameterName).addAnnotation(buildNonNullAnnotation()).addModifiers(Modifier.FINAL).build())
+                        .addParameter(ParameterSpec.builder(dataRepositoryKitClassName, dataRepositoryKitParameterName).addAnnotation(buildNonNullAnnotation()).addModifiers(Modifier.FINAL).build())
                         .addModifiers(Modifier.PUBLIC)
                         .addStatement("super($N)", applicationParameterName)
+                        .addStatement("this.$N = $N", dataRepositoryKitFiledName, dataRepositoryKitParameterName)
                         .build();
 
+                final String navigator = String.format("%sNavigator", template.name());
+                final String viewModelClassName = String.format("%sViewModel", template.name());
+                final ClassName navigatorClassName = ClassName.get(template.packageName(), navigator);
+                final ClassName baseViewModelClassName = ClassName.get("com.xxl.core.ui", "BaseViewModel");
+                final ParameterizedTypeName baseViewModelTypeName = ParameterizedTypeName.get(baseViewModelClassName, navigatorClassName);
+
                 TypeSpec viewModelTypeSpec = TypeSpec.classBuilder(viewModelClassName)
+                        .addJavadoc(buildTypeJavadoc(template.author(), template.description() + "数据模型"))
                         .addModifiers(Modifier.PUBLIC)
                         .superclass(baseViewModelTypeName)
                         .addMethod(methodSpec)
-                        .addJavadoc(buildTypeJavadoc(template.author(), template.description() + "数据模型"))
+                        .addField(dataRepositoryKitFieldSpec)
                         .build();
 
                 try {
@@ -126,6 +134,16 @@ public class TemplateCompiler extends BaseCompiler {
         }
     }
 
+
+    /**
+     * 获取当前日期
+     *
+     * @return
+     */
+    private String getCurrentDate() {
+        return new SimpleDateFormat("yyyy/MM/dd").format(new Date());
+    }
+
     /**
      * 构建类的JavaDoc文档
      *
@@ -135,7 +153,16 @@ public class TemplateCompiler extends BaseCompiler {
      */
     private String buildTypeJavadoc(String author,
                                     String description) {
-        return String.format("%s\n\n@author %s\n@date %s", description, author, CURRENT_DATE);
+        return String.format("%s\n\n@author %s\n@date %s", description, author, getCurrentDate());
+    }
+
+    /**
+     * 构建NonNull注解
+     *
+     * @return
+     */
+    private ClassName buildNonNullAnnotation() {
+        return ClassName.get("androidx.annotation", "NonNull");
     }
 
     /**
