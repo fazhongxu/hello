@@ -213,7 +213,7 @@ public class TemplateCompiler extends BaseCompiler {
         final ClassName applicationClassName = ClassName.get("android.app", "Application");
         final String applicationParameterName = "application";
 
-        final ClassName dataRepositoryKitClassName = biuldDataRepositoryKit();
+        final ClassName dataRepositoryKitClassName = buildDataRepositoryKit();
         final String dataRepositoryKitParameterName = "dataRepositoryKit";
 
         MethodSpec provideViewModelMethodSpec = MethodSpec.methodBuilder(String.format("provide%sViewModel", template.name()))
@@ -282,7 +282,7 @@ public class TemplateCompiler extends BaseCompiler {
      */
     private void processViewModelCodeGeneration(RoundEnvironment roundEnvironment,
                                                 Template template) {
-        final ClassName dataRepositoryKitClassName = biuldDataRepositoryKit();
+        final ClassName dataRepositoryKitClassName = buildDataRepositoryKit();
         final String dataRepositoryKitParameterName = "dataRepositoryKit";
         final String dataRepositoryKitFiledName = String.format("m%s", dataRepositoryKitClassName.simpleName());
         FieldSpec dataRepositoryKitFieldSpec = FieldSpec.builder(dataRepositoryKitClassName, dataRepositoryKitFiledName)
@@ -378,7 +378,7 @@ public class TemplateCompiler extends BaseCompiler {
      *
      * @return
      */
-    private ClassName biuldDataRepositoryKit() {
+    private ClassName buildDataRepositoryKit() {
         return ClassName.get("com.xxl.hello.service.data.repository", "DataRepositoryKit");
     }
 
