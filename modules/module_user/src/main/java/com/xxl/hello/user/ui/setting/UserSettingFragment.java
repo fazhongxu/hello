@@ -30,6 +30,7 @@ import com.xxl.hello.widget.ui.view.share.OnShareItemOperate;
 import com.xxl.hello.widget.ui.view.share.ResourcesShareWindow;
 import com.xxl.hello.widget.ui.view.share.api.ResourcesSharePickerKit;
 import com.xxl.kit.FileUtils;
+import com.xxl.kit.KeyboardWrapper;
 import com.xxl.kit.MomentShareUtils;
 import com.xxl.kit.PathUtils;
 import com.xxl.kit.ToastUtils;
@@ -47,7 +48,8 @@ import javax.inject.Inject;
  * @author xxl.
  * @date 2022/7/29.
  */
-public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel, UserFragmentSettingBinding> implements UserSettingNavigator {
+public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel, UserFragmentSettingBinding> implements KeyboardWrapper.OnKeyboardStateChangeListener,
+        UserSettingNavigator {
 
     //region: 成员变量
 
@@ -55,6 +57,11 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
      * 用户设置数据模型
      */
     private UserSettingModel mUserSettingModel;
+
+    /**
+     * 键盘辅助类
+     */
+    private KeyboardWrapper mKeyboardWrapper;
 
     /**
      * 用户模块主机地址
@@ -120,8 +127,15 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        mKeyboardWrapper.onPause();
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
+        mKeyboardWrapper.onDestory();
         mResourcesSharePickerKit.unregister();
     }
 
@@ -147,6 +161,8 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
 
     @Override
     protected void setupLayout(@NonNull View view) {
+        mKeyboardWrapper = KeyboardWrapper.create(getActivity(), null, null);
+        mKeyboardWrapper.setKeyboardStateChangeListener(this);
         mResourcesSharePickerKit.register(this);
         mUserSettingModel.setObservableUserAvatarUrl("https://avatars.githubusercontent.com/u/24353536?s=400&u=43f37f2e73f15a1dfad58f0d63c35418715a5621&v=4");
     }
@@ -169,6 +185,34 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
      */
     private void setupUserAvatar(@NonNull final String imageUrl) {
         mUserSettingModel.setObservableUserAvatarUrl(imageUrl);
+    }
+
+    //endregion
+
+    //region: OnKeyboardStateChangeListener
+
+    /**
+     * 键盘打开
+     *
+     * @param keyboardHeight
+     */
+    @Override
+    public void onOpenKeyboard(int keyboardHeight) {
+        if (isActivityFinishing()) {
+            return;
+        }
+    }
+
+    /**
+     * 键盘关闭
+     *
+     * @param keyboardHeight
+     */
+    @Override
+    public void onCloseKeyboard(int keyboardHeight) {
+        if (isActivityFinishing()) {
+            return;
+        }
     }
 
     //endregion
@@ -256,6 +300,15 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
     public void onAboutMeClick() {
         SystemRouterApi.WebView.newBuilder(NetworkConfig.API_HOST + AppConfig.User.GITHUB_USER_NAME + "/hello")
                 .navigation(getActivity());
+    }
+
+    /**
+     * 关于我长按点击
+     */
+    @Override
+    public boolean onAboutMeLongClick() {
+        getViewDataBinding().commonKeyboard.show("");
+        return true;
     }
 
     /**

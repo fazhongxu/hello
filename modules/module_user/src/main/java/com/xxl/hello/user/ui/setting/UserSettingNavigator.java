@@ -44,6 +44,12 @@ public interface UserSettingNavigator {
     void onAboutMeClick();
 
     /**
+     * 关于我长按点击
+     * @return
+     */
+    boolean onAboutMeLongClick();
+
+    /**
      * 切换网络环境点击
      */
     void onSwitchEnvironmentClick();

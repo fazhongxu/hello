@@ -3,73 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/white">
-
-        <ScrollView
-            android:id="@+id/sc_scroll_view"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_test"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="15dp"
-                android:textColor="@color/resources_primary_color"
-                tools:text="123" />
-        </ScrollView>
-
-
-        <com.xxl.hello.widget.ui.view.CircleImageView
-            android:id="@+id/iv_user_avatar"
-            android:layout_width="160dp"
-            android:layout_height="160dp"
-            android:onClick="@{()->navigator.onUserAvatarClick()}"
-            android:scaleType="centerCrop"
-            app:civ_border_color="@android:color/transparent"
-            app:civ_border_overlay="true"
-            android:onLongClick="@{()->navigator.onUserAvatarLongClick()}"
-            app:civ_border_width="2dp"
-            app:imageUrl="@{viewModel.observableUserAvatarUrl}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@tools:sample/avatars" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:alpha="0.6"
-            android:onClick="@{()->navigator.onAboutMeClick()}"
-            android:padding="5dp"
-            android:text="@{viewModel.observableNetworkConfig}"
-            app:layout_constraintBottom_toTopOf="@+id/tv_environment"
-            app:layout_constraintRight_toRightOf="parent"
-            tools:text="https://github.com" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_environment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:alpha="0.6"
-            android:onClick="@{()->navigator.onSwitchEnvironmentClick()}"
-            android:padding="5dp"
-            android:text="@string/resources_switch_environment_text"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
     <data>
+
+        <import type="android.view.View" />
 
         <variable
             name="viewModel"
@@ -79,5 +15,85 @@
             name="navigator"
             type="com.xxl.hello.user.ui.setting.UserSettingNavigator" />
     </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white">
+
+            <ScrollView
+                android:id="@+id/sc_scroll_view"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_test"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="15dp"
+                    android:textColor="@color/resources_primary_color"
+                    tools:text="123" />
+            </ScrollView>
+
+            <com.xxl.hello.widget.ui.view.CircleImageView
+                android:id="@+id/iv_user_avatar"
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:onClick="@{()->navigator.onUserAvatarClick()}"
+                android:onLongClick="@{()->navigator.onUserAvatarLongClick()}"
+                android:scaleType="centerCrop"
+                app:civ_border_color="@android:color/transparent"
+                app:civ_border_overlay="true"
+                app:civ_border_width="2dp"
+                app:imageUrl="@{viewModel.observableUserAvatarUrl}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@tools:sample/avatars" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:alpha="0.6"
+                android:onClick="@{()->navigator.onAboutMeClick()}"
+                android:onLongClick="@{()->navigator.onAboutMeLongClick()}"
+                android:padding="5dp"
+                android:text="@{viewModel.observableNetworkConfig}"
+                app:layout_constraintBottom_toTopOf="@+id/tv_environment"
+                app:layout_constraintRight_toRightOf="parent"
+                tools:text="https://github.com" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_environment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:alpha="0.6"
+                android:onClick="@{()->navigator.onSwitchEnvironmentClick()}"
+                android:padding="5dp"
+                android:text="@string/resources_switch_environment_text"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.xxl.hello.widget.ui.view.keyboard.CommentKeyboardLayout
+            android:id="@+id/common_keyboard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
 
 </layout>
