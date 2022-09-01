@@ -15,8 +15,8 @@ import android.widget.RemoteViews;
 
 import androidx.annotation.NonNull;
 
-import com.xxl.hello.main.R;
 import com.xxl.hello.main.ui.main.MainActivity;
+import com.xxl.hello.widget.R;
 
 import java.util.List;
 
@@ -33,7 +33,7 @@ public class HelloAppWidgetUtils {
 	public static RemoteViews getRemoteViews(@NonNull final Context context,
 											 @NonNull final List<String> contents) {
 
-		final RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.hello_app_widget);
+		final RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_app_hello);
 		if (contents == null || contents.size() == 0) {
 			Intent intent = new Intent(context,MainActivity.class);
 			intent.setData(Uri.parse("qmwp://xxl.com/crm_page_detail?customerId=%s"));

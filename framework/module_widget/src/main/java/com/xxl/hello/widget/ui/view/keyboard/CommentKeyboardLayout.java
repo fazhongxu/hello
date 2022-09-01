@@ -89,7 +89,7 @@ public class CommentKeyboardLayout extends LinearLayout implements ICommentKeybo
         setVisibility(VISIBLE);
         mEtContent.setText(StringUtils.isEmpty(text) ? "" : text);
         mEtContent.setSelection(StringUtils.length(text));
-        mEtContent.setHint(StringUtils.isEmpty(hint) ? "" : hint);
+        mEtContent.setHint(StringUtils.isEmpty(hint) ? StringUtils.getString(R.string.resources_please_input_content_hint) : hint);
     }
 
     /**

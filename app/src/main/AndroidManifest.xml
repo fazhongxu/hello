@@ -188,7 +188,7 @@
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/hello_app_widget_info" />
+                android:resource="@xml/widget_hello_app_info" />
 
         </receiver>
 
