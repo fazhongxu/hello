@@ -1,11 +1,15 @@
 package com.xxl.hello.common.utils;
 
+import android.graphics.Color;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
+import android.view.View;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;
 
+import com.xxl.core.widget.span.TouchableSpan;
 import com.xxl.hello.common.R;
 import com.xxl.kit.StringUtils;
 
@@ -46,6 +50,45 @@ public class StringExpandUtils {
         final Spannable spannable = new SpannableString(content);
         StringUtils.setHighlightColorId(spannable, keyword, R.color.colorPrimary);
         return spannable;
+    }
+
+    /**
+     * 构建可以点击的 span
+     *
+     * @param normalTextColor
+     * @param pressedTextColor
+     * @param pressedBackgroundColor
+     * @param listener
+     * @return
+     */
+    public static TouchableSpan buildTouchableSpan(@ColorInt int normalTextColor,
+                                                   @ColorInt int pressedTextColor,
+                                                   @ColorInt int pressedBackgroundColor,
+                                                   View.OnClickListener listener) {
+        return buildTouchableSpan(normalTextColor, pressedTextColor, Color.TRANSPARENT, pressedBackgroundColor, listener);
+    }
+
+    /**
+     * 构建可以点击的 span
+     *
+     * @param normalTextColor
+     * @param pressedTextColor
+     * @param normalBackgroundColor
+     * @param pressedBackgroundColor
+     * @param listener
+     * @return
+     */
+    public static TouchableSpan buildTouchableSpan(@ColorInt int normalTextColor,
+                                                   @ColorInt int pressedTextColor,
+                                                   @ColorInt int normalBackgroundColor,
+                                                   @ColorInt int pressedBackgroundColor,
+                                                   View.OnClickListener listener) {
+        return new TouchableSpan(normalTextColor, pressedTextColor, normalBackgroundColor, pressedBackgroundColor) {
+            @Override
+            public void onSpanClick(View view) {
+                listener.onClick(view);
+            }
+        };
     }
 
     /**
