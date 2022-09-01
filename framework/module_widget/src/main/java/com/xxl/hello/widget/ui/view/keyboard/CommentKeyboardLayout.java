@@ -3,10 +3,8 @@ package com.xxl.hello.widget.ui.view.keyboard;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.animation.TranslateAnimation;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -14,7 +12,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.databinding.adapters.TextViewBindingAdapter;
 
 import com.xxl.core.listener.OnTextChangeListener;
 import com.xxl.hello.widget.R;
@@ -102,24 +99,24 @@ public class CommentKeyboardLayout extends LinearLayout implements ICommentKeybo
     public void afterTextChanged(Editable s) {
         if (s == null || TextUtils.isEmpty(s.toString())) {
             if (mTvSend.getVisibility() != View.GONE) {
-                mTvSend.clearAnimation();
-                final TranslateAnimation translateAnimation = new TranslateAnimation(TranslateAnimation.RELATIVE_TO_SELF, 0,
-                        TranslateAnimation.RELATIVE_TO_SELF, 1.0F,
-                        TranslateAnimation.RELATIVE_TO_SELF, 0,
-                        TranslateAnimation.RELATIVE_TO_SELF, 0);
-                translateAnimation.setDuration(350);
-                mTvSend.startAnimation(translateAnimation);
+//                mTvSend.clearAnimation();
+//                final TranslateAnimation translateAnimation = new TranslateAnimation(TranslateAnimation.RELATIVE_TO_SELF, 0,
+//                        TranslateAnimation.RELATIVE_TO_SELF, 1.0F,
+//                        TranslateAnimation.RELATIVE_TO_SELF, 0,
+//                        TranslateAnimation.RELATIVE_TO_SELF, 0);
+//                translateAnimation.setDuration(350);
+//                mTvSend.startAnimation(translateAnimation);
                 mTvSend.setVisibility(View.GONE);
             }
         } else {
             mTvSend.clearAnimation();
             if (mTvSend.getVisibility() != View.VISIBLE) {
-                final TranslateAnimation translateAnimation = new TranslateAnimation(TranslateAnimation.RELATIVE_TO_SELF, 1.0F,
-                        TranslateAnimation.RELATIVE_TO_SELF, 0,
-                        TranslateAnimation.RELATIVE_TO_SELF, 0,
-                        TranslateAnimation.RELATIVE_TO_SELF, 0);
-                translateAnimation.setDuration(350);
-                mTvSend.startAnimation(translateAnimation);
+//                final TranslateAnimation translateAnimation = new TranslateAnimation(TranslateAnimation.RELATIVE_TO_SELF, 1.0F,
+//                        TranslateAnimation.RELATIVE_TO_SELF, 0,
+//                        TranslateAnimation.RELATIVE_TO_SELF, 0,
+//                        TranslateAnimation.RELATIVE_TO_SELF, 0);
+//                translateAnimation.setDuration(350);
+//                mTvSend.startAnimation(translateAnimation);
                 mTvSend.setVisibility(View.VISIBLE);
             }
         }
