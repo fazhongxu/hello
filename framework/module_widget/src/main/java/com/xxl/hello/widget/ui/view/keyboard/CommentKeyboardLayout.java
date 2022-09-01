@@ -99,24 +99,10 @@ public class CommentKeyboardLayout extends LinearLayout implements ICommentKeybo
     public void afterTextChanged(Editable s) {
         if (s == null || TextUtils.isEmpty(s.toString())) {
             if (mTvSend.getVisibility() != View.GONE) {
-//                mTvSend.clearAnimation();
-//                final TranslateAnimation translateAnimation = new TranslateAnimation(TranslateAnimation.RELATIVE_TO_SELF, 0,
-//                        TranslateAnimation.RELATIVE_TO_SELF, 1.0F,
-//                        TranslateAnimation.RELATIVE_TO_SELF, 0,
-//                        TranslateAnimation.RELATIVE_TO_SELF, 0);
-//                translateAnimation.setDuration(350);
-//                mTvSend.startAnimation(translateAnimation);
                 mTvSend.setVisibility(View.GONE);
             }
         } else {
-            mTvSend.clearAnimation();
             if (mTvSend.getVisibility() != View.VISIBLE) {
-//                final TranslateAnimation translateAnimation = new TranslateAnimation(TranslateAnimation.RELATIVE_TO_SELF, 1.0F,
-//                        TranslateAnimation.RELATIVE_TO_SELF, 0,
-//                        TranslateAnimation.RELATIVE_TO_SELF, 0,
-//                        TranslateAnimation.RELATIVE_TO_SELF, 0);
-//                translateAnimation.setDuration(350);
-//                mTvSend.startAnimation(translateAnimation);
                 mTvSend.setVisibility(View.VISIBLE);
             }
         }
