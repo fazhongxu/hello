@@ -1,13 +1,22 @@
 package com.xxl.hello.widget.ui.view.keyboard;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
+import android.view.View;
+import android.view.animation.TranslateAnimation;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.databinding.adapters.TextViewBindingAdapter;
 
+import com.xxl.core.listener.OnTextChangeListener;
 import com.xxl.hello.widget.R;
 import com.xxl.kit.KeyboardWrapper;
 import com.xxl.kit.StringUtils;
@@ -18,7 +27,8 @@ import com.xxl.kit.StringUtils;
  * @author xxl.
  * @date 2022/8/31.
  */
-public class CommentKeyboardLayout extends LinearLayout implements ICommentKeyboardLayout {
+public class CommentKeyboardLayout extends LinearLayout implements ICommentKeyboardLayout,
+        OnTextChangeListener {
 
     //region: 成员变量
 
@@ -26,6 +36,16 @@ public class CommentKeyboardLayout extends LinearLayout implements ICommentKeybo
      * 内容输入框
      */
     private EditText mEtContent;
+
+    /**
+     * 表情
+     */
+    private ImageView mIvFace;
+
+    /**
+     * 发送按钮
+     */
+    private TextView mTvSend;
 
     /**
      * 键盘改变事件监听
@@ -61,6 +81,48 @@ public class CommentKeyboardLayout extends LinearLayout implements ICommentKeybo
     private void setupLayout(Context context) {
         inflate(context, R.layout.widget_layout_common_keyboard, this);
         mEtContent = findViewById(R.id.et_content);
+        mIvFace = findViewById(R.id.iv_face);
+        mTvSend = findViewById(R.id.tv_send);
+        mEtContent.addTextChangedListener(this);
+    }
+
+    //endregion
+
+    //region: OnTextChangeListener
+
+    @Override
+    public void onTextChanged(CharSequence s,
+                              int start,
+                              int before,
+                              int count) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        if (s == null || TextUtils.isEmpty(s.toString())) {
+            if (mTvSend.getVisibility() != View.GONE) {
+                mTvSend.clearAnimation();
+                final TranslateAnimation translateAnimation = new TranslateAnimation(TranslateAnimation.RELATIVE_TO_SELF, 0,
+                        TranslateAnimation.RELATIVE_TO_SELF, 1.0F,
+                        TranslateAnimation.RELATIVE_TO_SELF, 0,
+                        TranslateAnimation.RELATIVE_TO_SELF, 0);
+                translateAnimation.setDuration(350);
+                mTvSend.startAnimation(translateAnimation);
+                mTvSend.setVisibility(View.GONE);
+            }
+        } else {
+            mTvSend.clearAnimation();
+            if (mTvSend.getVisibility() != View.VISIBLE) {
+                final TranslateAnimation translateAnimation = new TranslateAnimation(TranslateAnimation.RELATIVE_TO_SELF, 1.0F,
+                        TranslateAnimation.RELATIVE_TO_SELF, 0,
+                        TranslateAnimation.RELATIVE_TO_SELF, 0,
+                        TranslateAnimation.RELATIVE_TO_SELF, 0);
+                translateAnimation.setDuration(350);
+                mTvSend.startAnimation(translateAnimation);
+                mTvSend.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     //endregion

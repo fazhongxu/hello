@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clickable="true"
     android:background="@android:color/white"
     android:orientation="vertical">
 
@@ -20,21 +21,37 @@
         android:paddingRight="15dp"
         android:paddingBottom="10dp">
 
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/et_content"
+        <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="36dp"
             android:layout_weight="1"
             android:background="@drawable/resources_shape_background_common_corner_25"
-            android:hint="@string/resources_please_input_content_hint"
-            android:maxLines="1"
-            android:minHeight="36dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:singleLine="true"
-            android:textSize="@dimen/resources_font_size_14" />
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/et_content"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:hint="@string/resources_please_input_content_hint"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:background="@null"
+                android:textSize="@dimen/resources_font_size_14" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_face"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:src="@drawable/widget_ic_comment_face" />
+
+        </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_send"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
