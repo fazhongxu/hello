@@ -2,11 +2,13 @@ package com.xxl.hello.widget.ui.view.keyboard;
 
 import androidx.annotation.Nullable;
 
+import com.xxl.kit.KeyboardWrapper;
+
 /**
  * @author xxl.
  * @date 2022/8/31.
  */
-public interface ICommentKeyboardLayout {
+public interface ICommentKeyboardLayout extends KeyboardWrapper.OnKeyboardStateChangeListener {
 
     /**
      * 显示评论键盘

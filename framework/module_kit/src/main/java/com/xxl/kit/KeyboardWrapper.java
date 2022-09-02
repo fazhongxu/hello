@@ -18,6 +18,11 @@ public class KeyboardWrapper implements KeyboardUtils.OnSoftInputChangedListener
     //region: 成员变量
 
     /**
+     * 键盘最小高度
+     */
+    private static final int MIN_KEYBOARD_HEIGHT = 200;
+
+    /**
      * 上下文
      */
     private Activity mActivity;
@@ -85,7 +90,7 @@ public class KeyboardWrapper implements KeyboardUtils.OnSoftInputChangedListener
     /**
      * 注销监听
      */
-    public void onDestory() {
+    public void onDestroy() {
         if (mActivity == null) {
             return;
         }

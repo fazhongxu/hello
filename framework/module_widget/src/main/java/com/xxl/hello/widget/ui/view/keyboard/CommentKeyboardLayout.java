@@ -5,6 +5,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -15,6 +16,7 @@ import androidx.annotation.Nullable;
 
 import com.xxl.core.listener.OnTextChangeListener;
 import com.xxl.hello.widget.R;
+import com.xxl.kit.KeyboardUtils;
 import com.xxl.kit.KeyboardWrapper;
 import com.xxl.kit.StringUtils;
 
@@ -44,10 +46,18 @@ public class CommentKeyboardLayout extends LinearLayout implements ICommentKeybo
      */
     private TextView mTvSend;
 
+    private LinearLayout mLLExpressionContainer;
+
     /**
      * 键盘改变事件监听
      */
     private KeyboardWrapper.OnKeyboardStateChangeListener mKeyboardStateChangeListener;
+
+    /**
+     * 输入类型
+     */
+    @CommentKeyboardInputType
+    private int mInputType;
 
     //endregion
 
@@ -80,7 +90,61 @@ public class CommentKeyboardLayout extends LinearLayout implements ICommentKeybo
         mEtContent = findViewById(R.id.et_content);
         mIvFace = findViewById(R.id.iv_face);
         mTvSend = findViewById(R.id.tv_send);
+        mLLExpressionContainer = findViewById(R.id.ll_expression_container);
         mEtContent.addTextChangedListener(this);
+        mIvFace.setOnClickListener(v -> {
+            changeInputType(mInputType == CommentKeyboardInputType.TEXT ? CommentKeyboardInputType.EXPRESSION : CommentKeyboardInputType.TEXT);
+        });
+    }
+
+    /**
+     * 切换输入类型
+     *
+     * @param inputType
+     */
+    private void changeInputType(@CommentKeyboardInputType int inputType) {
+        mInputType = inputType;
+        if (inputType == CommentKeyboardInputType.EXPRESSION) {
+            KeyboardUtils.hideSoftInput(mEtContent);
+        } else {
+            KeyboardUtils.showSoftInput(mEtContent);
+        }
+    }
+
+    /**
+     * 刷新表情布局
+     *
+     * @param keyboardHeight
+     */
+    private void refreshExpressionLayout(final int keyboardHeight) {
+        final LinearLayout.LayoutParams layoutParams = (LayoutParams) mLLExpressionContainer.getLayoutParams();
+        if (layoutParams.height <= 0 && keyboardHeight > 0) {
+            layoutParams.height = keyboardHeight;
+            mLLExpressionContainer.setLayoutParams(layoutParams);
+        }
+        if (mInputType == CommentKeyboardInputType.EXPRESSION) {
+            mLLExpressionContainer.setVisibility(View.VISIBLE);
+        } else {
+            mLLExpressionContainer.setVisibility(View.GONE);
+        }
+    }
+
+    /**
+     * 刷新文本输入布局
+     */
+    private void refreshTextInputLayout() {
+        if (mInputType == CommentKeyboardInputType.EXPRESSION) {
+            mIvFace.setImageResource(R.drawable.widget_ic_comment_keyboard);
+            mTvSend.setVisibility(View.GONE);
+        } else {
+            mIvFace.setImageResource(R.drawable.widget_ic_comment_face);
+            final Editable editable = mEtContent.getText();
+            if (editable != null && !TextUtils.isEmpty(editable)) {
+                mTvSend.setVisibility(View.VISIBLE);
+            } else {
+                mTvSend.setVisibility(View.GONE);
+            }
+        }
     }
 
     //endregion
@@ -97,15 +161,26 @@ public class CommentKeyboardLayout extends LinearLayout implements ICommentKeybo
 
     @Override
     public void afterTextChanged(Editable s) {
-        if (s == null || TextUtils.isEmpty(s.toString())) {
-            if (mTvSend.getVisibility() != View.GONE) {
-                mTvSend.setVisibility(View.GONE);
-            }
-        } else {
-            if (mTvSend.getVisibility() != View.VISIBLE) {
-                mTvSend.setVisibility(View.VISIBLE);
-            }
+        refreshTextInputLayout();
+    }
+
+    //endregion
+
+    //region: OnKeyboardStateChangeListener
+
+    @Override
+    public void onOpenKeyboard(final int keyboardHeight) {
+        if (mInputType != CommentKeyboardInputType.TEXT) {
+            changeInputType(CommentKeyboardInputType.TEXT);
         }
+        refreshExpressionLayout(keyboardHeight);
+        refreshTextInputLayout();
+    }
+
+    @Override
+    public void onCloseKeyboard(final int keyboardHeight) {
+        refreshExpressionLayout(keyboardHeight);
+        refreshTextInputLayout();
     }
 
     //endregion

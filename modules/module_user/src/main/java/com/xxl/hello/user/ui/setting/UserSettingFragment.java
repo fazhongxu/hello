@@ -26,6 +26,8 @@ import com.xxl.hello.service.qunlifier.ForUserBaseUrl;
 import com.xxl.hello.user.BR;
 import com.xxl.hello.user.R;
 import com.xxl.hello.user.databinding.UserFragmentSettingBinding;
+import com.xxl.hello.widget.ui.view.keyboard.CommentKeyboardLayout;
+import com.xxl.hello.widget.ui.view.keyboard.ICommentKeyboardLayout;
 import com.xxl.hello.widget.ui.view.share.OnShareItemOperate;
 import com.xxl.hello.widget.ui.view.share.ResourcesShareWindow;
 import com.xxl.hello.widget.ui.view.share.api.ResourcesSharePickerKit;
@@ -135,7 +137,7 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mKeyboardWrapper.onDestory();
+        mKeyboardWrapper.onDestroy();
         mResourcesSharePickerKit.unregister();
     }
 
@@ -163,7 +165,8 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
     protected void setupLayout(@NonNull View view) {
         mKeyboardWrapper = KeyboardWrapper.create(getActivity(), null, null);
         mKeyboardWrapper.setKeyboardStateChangeListener(this);
-        mResourcesSharePickerKit.register(this);
+        setupCommentLayout();
+        setupShareLayout();
         mUserSettingModel.setObservableUserAvatarUrl("https://avatars.githubusercontent.com/u/24353536?s=400&u=43f37f2e73f15a1dfad58f0d63c35418715a5621&v=4");
     }
 
@@ -177,6 +180,21 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
     //endregion
 
     //region: 页面试图渲染
+
+    /**
+     * 设置评论视图
+     */
+    private void setupCommentLayout() {
+        ICommentKeyboardLayout commonKeyboard = mViewDataBinding.commonKeyboard;
+        mKeyboardWrapper.setKeyboardStateChangeListener(commonKeyboard);
+    }
+
+    /**
+     * 设置分享视图
+     */
+    private void setupShareLayout() {
+        mResourcesSharePickerKit.register(this);
+    }
 
     /**
      * 设置用户头像

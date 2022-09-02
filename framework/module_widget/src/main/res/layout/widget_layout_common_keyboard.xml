@@ -13,7 +13,7 @@
         android:background="?attr/h_common_background_color" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/ctl_content_container"
+        android:id="@+id/ctl_input_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:animateLayoutChanges="true"
@@ -25,11 +25,13 @@
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/et_content"
             android:layout_width="0dp"
-            android:layout_height="36dp"
+            android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:background="@drawable/resources_shape_background_common_corner_25"
             android:hint="@string/resources_please_input_content_hint"
+            android:maxHeight="100dp"
+            android:minHeight="36dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:textSize="@dimen/resources_font_size_14"
@@ -69,6 +71,22 @@
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_expression_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/h_common_background_color"
+        android:minHeight="200dp"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/view_pager2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
 
     <FrameLayout
         android:id="@+id/fl_bottom_container"
