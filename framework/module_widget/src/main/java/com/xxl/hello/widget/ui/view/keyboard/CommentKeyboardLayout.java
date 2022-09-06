@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -94,6 +95,13 @@ public class CommentKeyboardLayout extends LinearLayout implements ICommentKeybo
         mIvFace.setOnClickListener(v -> {
             changeInputType(mInputType == CommentKeyboardInputType.TEXT ? CommentKeyboardInputType.EXPRESSION : CommentKeyboardInputType.TEXT);
         });
+        mEtContent.setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                changeInputType(CommentKeyboardInputType.TEXT);
+                return true;
+            }
+        });
     }
 
     /**
@@ -128,14 +136,19 @@ public class CommentKeyboardLayout extends LinearLayout implements ICommentKeybo
      * 展示输入布局
      */
     private void showInputLayout() {
+        mEtContent.requestFocus();
+        KeyboardUtils.showSoftInput(mEtContent);
         mLLExpressionContainer.setVisibility(View.GONE);
+        mIvFace.setImageResource(R.drawable.widget_ic_comment_face);
     }
 
     /**
      * 展示表情布局
      */
     private void showExpressionLayout() {
+        mEtContent.clearFocus();
         mLLExpressionContainer.setVisibility(View.VISIBLE);
+        mIvFace.setImageResource(R.drawable.widget_ic_comment_keyboard);
     }
 
     /**
@@ -207,9 +220,6 @@ public class CommentKeyboardLayout extends LinearLayout implements ICommentKeybo
     @Override
     public void onOpenKeyboard(final int keyboardHeight) {
         mKeyboardHeight = keyboardHeight;
-        if (mInputType != CommentKeyboardInputType.TEXT) {
-            changeInputType(CommentKeyboardInputType.TEXT);
-        }
     }
 
     @Override
