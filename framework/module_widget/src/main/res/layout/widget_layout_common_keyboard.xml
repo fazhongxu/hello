@@ -77,14 +77,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/h_common_background_color"
-        android:minHeight="200dp"
+        android:gravity="center"
+        android:minHeight="260dp"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible">
 
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/view_pager2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/TextStyle.Content.H15.Regular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/resources_emotion_text" />
 
     </LinearLayout>
 

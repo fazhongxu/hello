@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.github.florent37.viewanimator.ViewAnimator;
 import com.xxl.core.listener.OnTextChangeListener;
 import com.xxl.hello.widget.R;
 import com.xxl.kit.KeyboardUtils;
@@ -48,6 +50,8 @@ public class CommentKeyboardLayout extends LinearLayout implements ICommentKeybo
 
     private LinearLayout mLLExpressionContainer;
 
+    private View mVBottomView;
+
     /**
      * 键盘改变事件监听
      */
@@ -58,6 +62,11 @@ public class CommentKeyboardLayout extends LinearLayout implements ICommentKeybo
      */
     @CommentKeyboardInputType
     private int mInputType;
+
+    /**
+     * 是否锁定布局
+     */
+    private boolean mLockLayout;
 
     //endregion
 
@@ -91,6 +100,7 @@ public class CommentKeyboardLayout extends LinearLayout implements ICommentKeybo
         mIvFace = findViewById(R.id.iv_face);
         mTvSend = findViewById(R.id.tv_send);
         mLLExpressionContainer = findViewById(R.id.ll_expression_container);
+        mVBottomView = findViewById(R.id.v_bottom_view);
         mEtContent.addTextChangedListener(this);
         mIvFace.setOnClickListener(v -> {
             changeInputType(mInputType == CommentKeyboardInputType.TEXT ? CommentKeyboardInputType.EXPRESSION : CommentKeyboardInputType.TEXT);
@@ -121,6 +131,8 @@ public class CommentKeyboardLayout extends LinearLayout implements ICommentKeybo
     private void changeInputType(@CommentKeyboardInputType int inputType) {
         mInputType = inputType;
         if (inputType == CommentKeyboardInputType.EXPRESSION) {
+            mLockLayout = true;
+            setExpressionLayoutHeight(260);
             if (isKeyboardOpen()) {
                 KeyboardUtils.hideSoftInput(mEtContent);
                 mLLExpressionContainer.postDelayed(this::showExpressionLayout, 200);
@@ -128,6 +140,7 @@ public class CommentKeyboardLayout extends LinearLayout implements ICommentKeybo
                 showExpressionLayout();
             }
         } else {
+            mLockLayout = false;
             showInputLayout();
         }
     }
@@ -159,21 +172,12 @@ public class CommentKeyboardLayout extends LinearLayout implements ICommentKeybo
     }
 
     /**
-     * 刷新表情布局
+     * 设置表情布局高度
      *
-     * @param keyboardHeight
+     * @param height
      */
-    private void refreshExpressionLayout(final int keyboardHeight) {
-        final LinearLayout.LayoutParams layoutParams = (LayoutParams) mLLExpressionContainer.getLayoutParams();
-        if (layoutParams.height <= 0 && keyboardHeight > 0) {
-            layoutParams.height = keyboardHeight;
-            mLLExpressionContainer.setLayoutParams(layoutParams);
-        }
-        if (mInputType == CommentKeyboardInputType.EXPRESSION) {
-            mLLExpressionContainer.setVisibility(View.VISIBLE);
-        } else {
-            mLLExpressionContainer.setVisibility(View.GONE);
-        }
+    private void setExpressionLayoutHeight(final int height) {
+
     }
 
     /**
@@ -220,6 +224,9 @@ public class CommentKeyboardLayout extends LinearLayout implements ICommentKeybo
     @Override
     public void onOpenKeyboard(final int keyboardHeight) {
         mKeyboardHeight = keyboardHeight;
+        if (mLockLayout) {
+            setExpressionLayoutHeight(keyboardHeight);
+        }
     }
 
     @Override

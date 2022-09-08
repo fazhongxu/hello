@@ -159,6 +159,8 @@ dependencies {
     implementation deps.aria.core
     kapt deps.aria.aira_processor
 
+    implementation deps.viewanimator
+
     implementation deps.umeng.umeng_common
     implementation deps.umeng.umeng_asms
     implementation deps.umeng.umeng_share_core

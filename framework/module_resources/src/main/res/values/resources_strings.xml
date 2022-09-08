@@ -29,5 +29,6 @@
 
     <string name="resources_send_text">发送</string>
     <string name="resources_please_input_content_hint">请输入内容</string>
+    <string name="resources_emotion_text">表情</string>
 
 </resources>
