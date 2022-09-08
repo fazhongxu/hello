@@ -40,7 +40,7 @@ public class NetworkConfig {
     /**
      * 正式环境用户模块主机地址
      */
-    public static final String API_USER_HOST = "https://github.com/";
+    public static final String API_USER_HOST = "https://api.github.com/";
 
     //endregion
 

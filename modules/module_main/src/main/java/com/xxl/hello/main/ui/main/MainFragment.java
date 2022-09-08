@@ -149,6 +149,11 @@ public class MainFragment extends BaseViewModelFragment<MainViewModel, MainFragm
         setupRecord();
     }
 
+    @Override
+    protected void requestData() {
+        mMainViewModel.requestQueryUserInfo();
+    }
+
     //endregion
 
     //region: MainNavigator
@@ -174,7 +179,7 @@ public class MainFragment extends BaseViewModelFragment<MainViewModel, MainFragm
         if (loginUserEntity != null) {
             mMainViewModel.setObservableUserId(loginUserEntity.getUserId());
         } else {
-            mMainViewModel.setObservableUserId(String.valueOf(TestUtils.currentTimeMillis()));
+            mMainViewModel.setObservableUserId(response == null ? String.valueOf(TestUtils.currentTimeMillis()) : response.getUserId());
         }
     }
 
