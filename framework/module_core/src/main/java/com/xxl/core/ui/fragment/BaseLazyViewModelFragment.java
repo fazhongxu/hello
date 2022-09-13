@@ -116,7 +116,9 @@ public abstract class BaseLazyViewModelFragment<V extends BaseViewModel, T exten
      */
     @Override
     protected void requestData() {
-
+        if (isFirstVisible() && isFragmentVisible()) {
+            lazyRequestData();
+        }
     }
 
     /**
