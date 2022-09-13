@@ -25,12 +25,12 @@ public abstract class BaseLazyViewModelFragment<V extends BaseViewModel, T exten
     /**
      * 视图是否创建
      */
-    private boolean mIsViewCreated = false;
+    private boolean mIsViewCreated;
 
     /**
      * 当前是否可见
      */
-    private boolean mIsFragmentVisible = false;
+    private boolean mIsFragmentVisible;
 
     /**
      * 是否是第一次可见
@@ -40,7 +40,7 @@ public abstract class BaseLazyViewModelFragment<V extends BaseViewModel, T exten
     /**
      * 是否强制加载数据
      */
-    private boolean mIsForceLoad = false;
+    private boolean mIsForceLoad;
 
     //endregion
 
@@ -60,6 +60,7 @@ public abstract class BaseLazyViewModelFragment<V extends BaseViewModel, T exten
 
     @Override
     public void onResume() {
+        LogUtils.d("fragment onResume");
         super.onResume();
         boolean isNeedRefresh = isFirstVisible() || isForceLoad();
         if (isNeedRefresh) {
