@@ -138,7 +138,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
                 Looper.prepare();
                 ToastUtils.warning(throwable.getMessage()).show();
                 Looper.loop();
-                AppUtils.restartApp();
+                AppUtils.exitApp();
             } else {
                 try {
                     Thread.sleep(1000);
