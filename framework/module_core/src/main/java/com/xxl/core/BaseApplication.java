@@ -5,6 +5,7 @@ import android.content.Context;
 import androidx.annotation.CallSuper;
 import androidx.multidex.MultiDex;
 
+import com.xxl.core.utils.CrashHandler;
 import com.xxl.kit.AppUtils;
 import com.xxl.kit.ProcessUtils;
 import com.xxl.kit.RouterUtils;

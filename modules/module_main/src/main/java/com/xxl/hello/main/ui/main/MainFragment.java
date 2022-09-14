@@ -158,10 +158,9 @@ public class MainFragment extends BaseViewModelFragment<MainViewModel, MainFragm
 
     //region: MainNavigator
 
-    @Safe
     @Override
     public void onTestClick() {
-        AppRouterApi.Login.navigation(getActivity());
+        int a = 1/0;
     }
 
     /**

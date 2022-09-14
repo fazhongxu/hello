@@ -16,6 +16,7 @@ import com.xxl.core.image.selector.PictureSelectorEngineImpl;
 import com.xxl.core.listener.IApplication;
 import com.xxl.core.service.download.DownloadServiceUtils;
 import com.xxl.core.utils.CacheUtils;
+import com.xxl.core.utils.CrashHandler;
 import com.xxl.core.widget.swipebacklayout.SwipeBackActivityManager;
 import com.xxl.hello.common.config.NetworkConfig;
 import com.xxl.hello.common.config.ShareConfig;
@@ -127,8 +128,9 @@ public class HelloApplication extends BaseApplication implements IApplication, M
     @Override
     public void initPlugins() {
         super.initPlugins();
-        CacheUtils.init(this, NetworkConfig.isDebug());
-        LogUtils.init(NetworkConfig.isDebug(), "HELLO");
+        CacheUtils.init(this, isDebug());
+        LogUtils.init(isDebug(), "HELLO");
+        CrashHandler.getInstance().init(this,"Hello",isDebug());
         MediaSelector.init(this);
         SwipeBackActivityManager.init(this);
         registerShortcuts(this);

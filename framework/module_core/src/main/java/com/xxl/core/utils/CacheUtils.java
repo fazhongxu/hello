@@ -70,6 +70,20 @@ public class CacheUtils {
     }
 
     /**
+     * 保存数据
+     *
+     * @param key
+     * @param value
+     * @return
+     */
+    public static boolean encode(@NonNull final String mmapID,
+                                 @NonNull final String key,
+                                 @NonNull final String value) {
+        final MMKV mmkv = MMKV.mmkvWithID(mmapID);
+        return mmkv.encode(key, value);
+    }
+
+    /**
      * 获取数据
      *
      * @param key
@@ -80,6 +94,33 @@ public class CacheUtils {
         final MMKV mmkv = MMKV.mmkvWithID(mmapID);
         return mmkv.decodeString(key);
     }
+
+    /**
+     * 保存数据
+     *
+     * @param key
+     * @param value
+     * @return
+     */
+    public static boolean encode(@NonNull final String mmapID,
+                                 @NonNull final String key,
+                                 @NonNull final long value) {
+        final MMKV mmkv = MMKV.mmkvWithID(mmapID);
+        return mmkv.encode(key, value);
+    }
+
+    /**
+     * 获取数据
+     *
+     * @param key
+     * @return
+     */
+    public static long decodeLong(@NonNull final String mmapID,
+                                  @NonNull final String key) {
+        final MMKV mmkv = MMKV.mmkvWithID(mmapID);
+        return mmkv.decodeLong(key);
+    }
+
 
     /**
      * 保存数据
@@ -131,6 +172,27 @@ public class CacheUtils {
     public static boolean decodeBool(@NonNull final String key) {
         final MMKV mmkv = MMKV.mmkvWithID(getDefaultName());
         return mmkv.decodeBool(key);
+    }
+
+    /**
+     * 移除数据
+     *
+     * @param key
+     */
+    public static void removeValueForKey(@NonNull final String key) {
+        final MMKV mmkv = MMKV.mmkvWithID(getDefaultName());
+        mmkv.removeValueForKey(key);
+    }
+
+    /**
+     * 移除数据
+     *
+     * @param key
+     */
+    public static void removeValueForKey(@NonNull final String mmapID,
+                                         @NonNull final String key) {
+        final MMKV mmkv = MMKV.mmkvWithID(mmapID);
+        mmkv.removeValueForKey(key);
     }
 
     //endregion
