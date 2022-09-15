@@ -223,7 +223,7 @@ public class MainFragment extends BaseViewModelFragment<MainViewModel, MainFragm
         String audio = CacheDirConfig.SHARE_FILE_DIR + File.separator + "1.mp3";
         String audio1 = CacheDirConfig.SHARE_FILE_DIR + File.separator + TimeUtils.currentTimeMillis() + "--" + ".mp3";
         String audio2 = CacheDirConfig.SHARE_FILE_DIR + File.separator + TimeUtils.currentTimeMillis() + "录音背景音乐" + ".mp3";
-
+        ToastUtils.success(getString(R.string.core_record_audio_finish_text) + audioFile.getAbsolutePath()).show();
         new Thread() {
             @Override
             public void run() {

@@ -6,6 +6,7 @@
     <string name="core_start_record_audio_text">开始录音</string>
     <string name="core_recording_text">录音中...</string>
     <string name="core_stop_record_audio_text">停止录音</string>
+    <string name="core_record_audio_finish_text">录音结束</string>
 
     <string name="core_network_error_tips">网络错误，请稍后再试！</string>
 </resources>

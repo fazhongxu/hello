@@ -65,6 +65,7 @@ versions.picture_selector = "v2.6.1"
 versions.kprogresshud = "1.2.0"
 
 versions.ffmpeg_kit = "4.5.1-1"
+versions.ffmpeg_kit_exception = "0.2.1"
 
 versions.adapter_helper = "3.0.4"
 versions.base_popup = "3.2.0"
@@ -202,12 +203,15 @@ arouter.register = "com.alibaba:arouter-register:$versions.arouter_register"
 deps.arouter = arouter
 
 // ffmpeg_kit [https://github.com/tanersener/ffmpeg-kit]
-versions.ffmpeg_kit_remote = true
+versions.ffmpeg_kit_remote = false
+
 if (versions.ffmpeg_kit_remote) {
     deps.ffmpeg_kit = "com.arthenica:ffmpeg-kit-full-gpl:$versions.ffmpeg_kit"
 } else {
     deps.ffmpeg_kit = project(':module_libs:lib_ffmpeg')
 }
+// https://github.com/tanersener/smart-exception
+deps.ffmpeg_kit_exception = "com.arthenica:smart-exception-java:$versions.ffmpeg_kit_exception"
 
 // BaseRecyclerViewAdapterHelper https://github.com/CymChad/BaseRecyclerViewAdapterHelper
 deps.adapter_helper = "com.github.CymChad:BaseRecyclerViewAdapterHelper:$versions.adapter_helper"
@@ -336,6 +340,7 @@ ext.hello_maven_config = hello_maven_config
 
 def addRepos(RepositoryHandler handler) {
     //reference https://developer.aliyun.com/mvn/guide
+
     handler.mavenCentral()
     handler.google()
 

@@ -71,6 +71,7 @@ dependencies {
     kapt deps.arouter.arouter_processor
 
     compileOnly deps.ffmpeg_kit
+    compileOnly deps.ffmpeg_kit_exception
 
     compileOnly deps.luban
 

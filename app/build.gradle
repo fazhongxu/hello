@@ -148,6 +148,7 @@ dependencies {
     kapt deps.arouter.arouter_processor
 
     implementation deps.ffmpeg_kit
+    implementation deps.ffmpeg_kit_exception
 
     implementation deps.dkplayer.dkplayer
     implementation deps.dkplayer.dkplayer_ijk
