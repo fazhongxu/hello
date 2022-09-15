@@ -82,7 +82,7 @@ public class SwipeBackActivity extends InnerBaseActivity  implements SwipeBackLa
      * final this method, if need override this method, use doOnBackPressed as an alternative
      */
     @Override
-    public final void onBackPressed() {
+    public void onBackPressed() {
         if (!mIsInSwipeBack) {
             doOnBackPressed();
         }

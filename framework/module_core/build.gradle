@@ -1,6 +1,5 @@
 apply plugin: 'com.android.library'
 apply plugin: 'maven'
-apply plugin: 'android-aspectjx'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
@@ -101,7 +100,11 @@ dependencies {
     implementation deps.rxjava
     implementation deps.rxandroid
 
-    implementation deps.rxpermission
+    compileOnly deps.rxpermission
+
+    compileOnly deps.adapter_helper
+
+    compileOnly deps.agentweb
 
     implementation deps.luban
     implementation deps.video_processor
@@ -129,4 +132,6 @@ dependencies {
     compileOnly deps.dkplayer.dkplayer
     compileOnly deps.dkplayer.dkplayer_ijk
 
+    compileOnly deps.aria.core
+    kapt deps.aria.aira_processor
 }

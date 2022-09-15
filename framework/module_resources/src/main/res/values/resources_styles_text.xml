@@ -30,11 +30,19 @@
         <item name="android:textStyle">normal</item>
     </style>
 
+    <style name="TextStyle.Content.H10" parent="TextStyle.Content">
+        <item name="android:textSize">@dimen/resources_font_size_10</item>
+    </style>
+
+    <style name="TextStyle.Content.H10.Regular" parent="TextStyle.Content.Regular">
+        <item name="android:textSize">@dimen/resources_font_size_10</item>
+    </style>
+
     <style name="TextStyle.Content.H15" parent="TextStyle.Content">
         <item name="android:textSize">@dimen/resources_font_size_15</item>
     </style>
 
-    <style name="TextStyle.Content.H15.Regular" parent="TextStyle.Content">
+    <style name="TextStyle.Content.H15.Regular" parent="TextStyle.Content.Regular">
         <item name="android:textSize">@dimen/resources_font_size_15</item>
     </style>
 

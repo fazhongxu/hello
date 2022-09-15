@@ -47,6 +47,138 @@ public class SystemEnumsApi {
 
     //endregion
 
+    //region: 资源分享操作类型
+
+    @IntDef({ShareOperateType.WE_CHAT,
+            ShareOperateType.WE_CHAT_SEND_TO_FRIEND,
+            ShareOperateType.WE_CHAT_CIRCLE,
+            ShareOperateType.WE_CHAT_URL,
+            ShareOperateType.WE_CHAT_SEND_TO_MINI_PROGRAM,
+            ShareOperateType.WE_CHAT_OPEN_MINI_PROGRAM,
+            ShareOperateType.WE_CHAT_COPY_MINI_PROGRAM_PATH,
+            ShareOperateType.WE_CHAT_MINI_PROGRAM_QR_CODE,
+            ShareOperateType.QQ,
+            ShareOperateType.QQ_ZONE,
+            ShareOperateType.WEI_BO,
+            ShareOperateType.COPY,
+            ShareOperateType.COPY_LINK,
+            ShareOperateType.DOWNLOAD,
+            ShareOperateType.MORE,
+    })
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface ShareOperateType {
+
+        /**
+         * 微信
+         */
+        int WE_CHAT = 100;
+
+        /**
+         * 微信发送给好友
+         */
+        int WE_CHAT_SEND_TO_FRIEND = 101;
+
+        /**
+         * 微信朋友圈
+         */
+        int WE_CHAT_CIRCLE = 102;
+
+        /**
+         * 发送网页到微信
+         */
+        int WE_CHAT_URL = 103;
+
+        /**
+         * 微信发送给小程序
+         */
+        int WE_CHAT_SEND_TO_MINI_PROGRAM = 104;
+
+        /**
+         * 打开小程序微信
+         */
+        int WE_CHAT_OPEN_MINI_PROGRAM = 105;
+
+        /**
+         * 复制小程序路径
+         */
+        int WE_CHAT_COPY_MINI_PROGRAM_PATH = 106;
+
+        /**
+         * 小程序二维码
+         */
+        int WE_CHAT_MINI_PROGRAM_QR_CODE = 107;
+
+        /**
+         * 分享到QQ
+         */
+        int QQ = 130;
+
+        /**
+         * 分享到QQ空间
+         */
+        int QQ_ZONE = 131;
+
+        /**
+         * 微博
+         */
+        int WEI_BO = 140;
+
+        /**
+         * 复制
+         */
+        int COPY = 150;
+
+        /**
+         * 复制链接
+         */
+        int COPY_LINK = 151;
+
+        /**
+         * 下载
+         */
+        int DOWNLOAD = 160;
+
+        /**
+         * 更多
+         */
+        int MORE = 3000;
+    }
+
+    /**
+     * 分享资源类型
+     */
+    @IntDef({ShareResourcesType.TEXT,
+            ShareResourcesType.IMAGE,
+            ShareResourcesType.VIDEO,
+            ShareResourcesType.LINK,
+
+    })
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface ShareResourcesType {
+
+        /**
+         * 文本
+         */
+        int TEXT = 1;
+
+        /**
+         * 图片
+         */
+        int IMAGE = 2;
+
+        /**
+         * 视频
+         */
+        int VIDEO = 3;
+
+        /**
+         * 链接
+         */
+        int LINK = 4;
+    }
+
+    //endregion
+
     //region: 资源上传渠道
 
     @IntDef({ResourcesUploadChannel.QI_NIU,
@@ -88,7 +220,6 @@ public class SystemEnumsApi {
     }
 
     //endregion
-
 
     //region: 资源上传的状态
 
@@ -152,5 +283,6 @@ public class SystemEnumsApi {
     }
 
     //endregion
+
 
 }

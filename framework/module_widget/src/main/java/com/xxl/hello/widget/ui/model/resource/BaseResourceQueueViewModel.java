@@ -4,11 +4,9 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 
-import com.xxl.hello.service.data.local.db.entity.ResourcesUploadQueueDBEntity;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
-import com.xxl.hello.service.ui.BaseViewModel;
+import com.xxl.core.ui.BaseViewModel;
 
-import java.util.List;
 import java.util.UUID;
 
 

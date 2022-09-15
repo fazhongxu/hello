@@ -65,6 +65,9 @@ uploadArchives {
  搜索执行结果中，fragment 状态
  mUserVisibleHint= true 的就是当前显示的fragment
 
+ 查看依赖关系 并输出log到指定txt文件
+ gradlew app:dependencies >app/build/deps.txt
+
 
  技术要点
 
@@ -89,6 +92,12 @@ uploadArchives {
  10.引入AndRes 实现资源压缩和一键打包
 
  11.隐私政策同意后初始化三方框架
+
+ 12.封装下载服务
+
+ 13.封装统一分享弹窗和统一操作
+
+
 
 
 

@@ -32,7 +32,7 @@ public class CheckLoginAspect {
             if (application.isLogin()) {
                 return joinPoint.proceed();
             }
-            application.navigationToLogin();
+            application.navigationToLogin(checkLogin.requestCode());
             return null;
         }
         return joinPoint.proceed();

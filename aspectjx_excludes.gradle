@@ -1,4 +1,7 @@
 aspectjx {
+    //关闭AspectJX功能
+	enabled true
+
     // 排除一些第三方库的包名（如Gson、LeakCanary 和 AOP 有冲突）
     exclude 'androidx',
             "android.support",
@@ -12,4 +15,5 @@ aspectjx {
             'top.zibin',
             'com.alipay',
             'org.apache'
+            'versions.9'
 }

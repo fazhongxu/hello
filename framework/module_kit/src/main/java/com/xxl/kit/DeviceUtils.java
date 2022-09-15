@@ -3,6 +3,7 @@ package com.xxl.kit;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.net.Uri;
@@ -13,6 +14,7 @@ import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.annotation.RequiresPermission;
 
@@ -479,12 +481,11 @@ public final class DeviceUtils {
         if (udid == null) {
             synchronized (DeviceUtils.class) {
                 if (udid == null) {
-                    // FIXME: 2021/11/17
-//                    final String id = UtilsBridge.getSpUtils4Utils().getString(KEY_UDID, null);
-//                    if (id != null) {
-//                        udid = id;
-//                        return udid;
-//                    }
+                    final String id = PreferencesUtils.getInstance().getString(KEY_UDID, null);
+                    if (id != null) {
+                        udid = id;
+                        return udid;
+                    }
                     return getUniqueDeviceIdReal(prefix);
                 }
             }
@@ -505,8 +506,7 @@ public final class DeviceUtils {
 
     private static String saveUdid(String prefix, String id) {
         udid = getUdid(prefix, id);
-        // FIXME: 2021/11/17
-        // UtilsBridge.getSpUtils4Utils().put(KEY_UDID, udid);
+        PreferencesUtils.getInstance().put(KEY_UDID, udid);
         return udid;
     }
 
@@ -516,4 +516,23 @@ public final class DeviceUtils {
         }
         return prefix + UUID.nameUUIDFromBytes(id.getBytes()).toString().replace("-", "");
     }
+
+    /**
+     * 获取设备电量
+     *
+     * @param context
+     * @return
+     */
+    public int getPhoneBattery(Context context) {
+        try {
+            Intent batteryIntent = context.getApplicationContext().registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+            int level = batteryIntent.getIntExtra("level", 0);
+            int scaleSum = batteryIntent.getIntExtra("scale", 100);
+            return 100 * level / scaleSum;
+        } catch (Exception ignore) {
+
+        }
+        return 0;
+    }
+
 }

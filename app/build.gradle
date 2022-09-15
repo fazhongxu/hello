@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'com.alibaba.arouter'
 apply from: '../and_res_guard.gradle'
 apply plugin: 'io.objectbox'
 apply plugin: 'android-aspectjx'
@@ -17,6 +18,8 @@ android {
         targetSdkVersion build_versions.targetSdkVersion
         versionCode build_versions.versionCode
         versionName build_versions.versionName
+        // TODO: 2022/7/20  换成自己的qq appid
+        manifestPlaceholders = [qqappid: "100424468"]
 
         buildConfigField "String", "GIT_VERSION", "\"${gitGitVersionCode()}\""
 
@@ -103,6 +106,9 @@ dependencies {
     implementation deps.hello.widget
     implementation deps.hello.router
 
+    implementation deps.hello.annotation
+    kapt deps.hello.compiler
+
     implementation deps.hello.main
     implementation deps.hello.user
 
@@ -114,6 +120,8 @@ dependencies {
     implementation deps.retrofit.adapter
     implementation deps.retrofit.converter
 
+    implementation deps.aspectjrt
+
     implementation deps.dagger.dagger
     kapt deps.dagger.processor
     implementation deps.dagger.android
@@ -122,6 +130,10 @@ dependencies {
 
     implementation deps.rxjava
     implementation deps.rxandroid
+
+    implementation deps.rxpermission
+
+    implementation deps.agentweb
 
     implementation deps.luban
     implementation deps.glide.glide
@@ -143,5 +155,27 @@ dependencies {
     implementation deps.flyco_round_view
 
     implementation deps.tbs
+
+    implementation deps.aria.core
+    kapt deps.aria.aira_processor
+
+    implementation deps.viewanimator
+
+    implementation deps.umeng.umeng_common
+    implementation deps.umeng.umeng_asms
+    implementation deps.umeng.umeng_share_core
+
+    implementation deps.umeng.umeng_push
+
+    implementation deps.umeng.umeng_share_board
+    implementation deps.umeng.umeng_share_qq
+    implementation deps.umeng.umeng_share_we_chat
+    implementation deps.umeng.umeng_share_sina
+
+    implementation deps.we_chat
+    implementation deps.qq
+    implementation deps.sina
+
+
 }
 

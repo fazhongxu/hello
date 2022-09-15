@@ -1,26 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.xxl.hello"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.xxl.hello">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission
+        android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
+        tools:ignore="ProtectedPermissions" />
+
+    <!-- 移除第三方自启动能力-->
+    <uses-permission
+        android:name="android.permission.RECEIVE_BOOT_COMPLETED"
+        tools:node="remove" />
 
     <uses-sdk tools:overrideLibrary="com.arthenica.mobileffmpeg,com.arthenica.ffmpegkit,com.hw.videoprocessor"/>
+
+    <!-- https://developer.umeng.com/docs/128606/detail/193879-->
+    <queries>
+        <!--指定微信包名-->
+        <package android:name="com.tencent.mm" />
+        <!-- 指定qq包名-->
+        <package android:name="com.tencent.mobileqq" />
+        <!--指定微博包名-->
+        <package android:name="com.sina.weibo" />
+        <!-- 指定企业微信包名-->
+        <package android:name="com.tencent.wework" />
+        <!-- 指定QQ空间包名-->
+        <package android:name="com.qzone" />
+        <!-- 指定支付宝包名-->
+        <package android:name="com.eg.android.AlipayGphone" />
+    </queries>
 
     <application
         android:name="com.xxl.hello.main.HelloApplication"
         android:allowBackup="true"
         android:icon="@drawable/resources_ic_app_white_logo"
         android:label="@string/app_name"
-        android:supportsRtl="true"
-        android:usesCleartextTraffic="true"
+        android:largeHeap="true"
         android:requestLegacyExternalStorage="true"
-        android:theme="@style/BaseTheme">
+        android:supportsRtl="true"
+        android:theme="@style/BaseTheme"
+        android:usesCleartextTraffic="true">
 
         <activity
             android:name="com.xxl.hello.main.ui.splash.SplashActivity"
@@ -37,6 +62,50 @@
             android:name="com.xxl.hello.main.ui.main.MainActivity"
             android:launchMode="singleTask" />
 
+        <activity
+            android:name=".main.ui.jump.SchemeJumpActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:theme="@style/SplashTheme">
+            <intent-filter>
+                <data
+                    android:host="hello.com"
+                    android:scheme="hl" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
+        </activity>
+
+
+        <!--友盟分享相关 开始-->
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <activity
+            android:name="com.tencent.tauth.AuthActivity"
+            android:launchMode="singleTask"
+            android:noHistory="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- TODO: 2022/7/20 换成自己的app key-->
+                <data android:scheme="tencent100424468" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.tencent.connect.common.AssistActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            tools:replace="android:configChanges" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.xxl.hello.fileprovider"
@@ -47,6 +116,60 @@
                 android:resource="@xml/file_provider" />
         </provider>
 
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.xxl.hello.share.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/share_file_paths" />
+        </provider>
+
+        <!--友盟分享相关 结束-->
+
+        <!--与友盟推送相关配置 开始-->
+
+        <!-- 移除自启动能力
+         https://developer.umeng.com/docs/67966/detail/433221
+         https://developer.umeng.com/docs/67966/detail/324237-->
+
+        <service
+            android:name="com.taobao.accs.ChannelService"
+            android:exported="false"
+            tools:replace="android:exported" />
+        <service
+            android:name="com.taobao.accs.data.MsgDistributeService"
+            android:exported="false"
+            tools:replace="android:exported" />
+
+        <receiver
+            android:name="com.taobao.accs.EventReceiver"
+            android:exported="false"
+            tools:replace="android:exported" />
+        <receiver
+            android:name="com.taobao.accs.ServiceReceiver"
+            android:exported="false"
+            tools:replace="android:exported" />
+
+        <service
+            android:name="org.android.agoo.accs.AgooService"
+            android:exported="false"
+            tools:replace="android:exported" />
+
+        <receiver
+            android:name="com.taobao.agoo.AgooCommondReceiver"
+            android:exported="false"
+            tools:replace="android:exported" />
+
+        <!--与友盟推送相关配置 结束-->
+
+        <!-- 移除第三方自启动能力 -->
+        <receiver
+            android:name="com.instacart.library.truetime.BootCompletedBroadcastReceiver"
+            android:exported="false"
+            tools:replace="android:exported" />
+
         <meta-data
             android:name="com.xxl.core.image.loader.GlideImageModel"
             android:value="AppGlideModule" />
@@ -54,20 +177,21 @@
         <receiver android:name=".main.ui.widget.HelloAppWidgetProvider">
             <intent-filter>
                 <!--必须添加的action，否则不会出现在小部件的列表中-->
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <!--自定义的action，用于在点击小部件上时发送的广播Action-->
-                <action android:name="com.xxl.hello.main.ui.widget.HelloAppWidgetProvider.onClick"/>
+                <action android:name="com.xxl.hello.main.ui.widget.HelloAppWidgetProvider.onClick" />
                 <!--下面这几个都是不必须的-->
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE_OPTIONS"/>
-                <action android:name="android.appwidget.action.APPWIDGET_RESTORED"/>
-                <action android:name="android.appwidget.action.APPWIDGET_DELETED"/>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE_OPTIONS" />
+                <action android:name="android.appwidget.action.APPWIDGET_RESTORED" />
+                <action android:name="android.appwidget.action.APPWIDGET_DELETED" />
             </intent-filter>
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/hello_app_widget_info"/>
+                android:resource="@xml/widget_hello_app_info" />
 
         </receiver>
+
     </application>
 
 </manifest>

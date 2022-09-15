@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Process;
+import android.text.TextUtils;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -115,6 +116,24 @@ public class AppUtils {
     }
 
     /**
+     * Return whether the app is installed.
+     *
+     * @param pkgName The name of the package.
+     * @return {@code true}: yes<br>{@code false}: no
+     */
+    public static boolean isAppInstalled(final String pkgName) {
+        if (TextUtils.isEmpty(pkgName)) {
+            return false;
+        }
+        PackageManager pm = AppUtils.getApplication().getPackageManager();
+        try {
+            return pm.getApplicationInfo(pkgName, 0).enabled;
+        } catch (PackageManager.NameNotFoundException e) {
+            return false;
+        }
+    }
+
+    /**
      * Relaunch the application.
      *
      * @param isKillProcess True to kill the process, false otherwise.
@@ -195,7 +214,7 @@ public class AppUtils {
                 }
             }
         }
-        AppRouterApi.navigationToSplash();
+        AppRouterApi.Splash.navigation();
         Process.killProcess(Process.myPid());
         System.exit(1);
     }

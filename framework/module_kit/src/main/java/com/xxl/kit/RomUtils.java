@@ -51,6 +51,8 @@ public final class RomUtils {
     private static final String VERSION_PROPERTY_NUBIA = "ro.build.rom.id";
     private final static String UNKNOWN = "unknown";
 
+    private static final String BRAND = Build.BRAND.toLowerCase();
+
     private static RomInfo bean = null;
 
     private RomUtils() {
@@ -235,6 +237,10 @@ public final class RomUtils {
      */
     public static boolean isMotorola() {
         return ROM_MOTOROLA[0].equals(getRomInfo().name);
+    }
+
+    public static boolean isEssentialPhone() {
+        return BRAND.contains("essential");
     }
 
     /**

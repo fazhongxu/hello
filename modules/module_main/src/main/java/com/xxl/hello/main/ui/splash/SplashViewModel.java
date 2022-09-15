@@ -5,7 +5,7 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
-import com.xxl.hello.service.ui.BaseViewModel;
+import com.xxl.core.ui.BaseViewModel;
 
 /**
  * 启动页数据模型
@@ -13,7 +13,7 @@ import com.xxl.hello.service.ui.BaseViewModel;
  * @author xxl
  * @date 2021/08/13.
  */
-public class SplashViewModel extends BaseViewModel<SplashActivityNavigator> {
+public class SplashViewModel extends BaseViewModel<SplashNavigator> {
 
     //region: 成员变量
 

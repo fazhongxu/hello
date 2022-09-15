@@ -2,7 +2,7 @@ package com.xxl.hello.service.data.model.event;
 
 import androidx.annotation.NonNull;
 
-import com.xxl.hello.service.data.model.entity.LoginUserEntity;
+import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
 
 
 

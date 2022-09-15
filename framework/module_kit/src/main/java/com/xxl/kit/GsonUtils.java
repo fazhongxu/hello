@@ -23,8 +23,8 @@ public final class GsonUtils {
 
     private static final Gson GSON = new Gson();
 
-    private static final String KEY_DEFAULT   = "defaultGson";
-    private static final String KEY_DELEGATE  = "delegateGson";
+    private static final String KEY_DEFAULT = "defaultGson";
+    private static final String KEY_DELEGATE = "delegateGson";
     private static final String KEY_LOG_UTILS = "logUtilsGson";
 
     private static final Map<String, Gson> GSONS = new ConcurrentHashMap<>();
@@ -275,7 +275,7 @@ public final class GsonUtils {
     }
 
     private static Gson createGson() {
-        return new GsonBuilder().serializeNulls().disableHtmlEscaping().create();
+        return new GsonBuilder().create();
     }
 
 }

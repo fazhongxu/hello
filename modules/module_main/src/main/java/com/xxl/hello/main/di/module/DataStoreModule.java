@@ -1,13 +1,20 @@
 package com.xxl.hello.main.di.module;
 
+import android.app.Application;
+
 import androidx.annotation.NonNull;
 
-import com.xxl.hello.common.NetworkConfig;
 import com.xxl.core.data.remote.ApiHeader;
-import com.xxl.kit.LogUtils;
+import com.xxl.core.service.download.DownloadService;
+import com.xxl.core.service.download.aira.AriaDownloadServiceImpl;
+import com.xxl.core.service.download.aira.ForAriaDownload;
+import com.xxl.core.service.download.hello.ForHelloDownload;
+import com.xxl.core.service.download.hello.HelloDownloadServiceImpl;
+import com.xxl.hello.common.config.NetworkConfig;
 import com.xxl.hello.service.data.local.db.impl.objectbox.ObjectBoxDataStoreModel;
 import com.xxl.hello.service.data.local.prefs.api.UserPreferences;
 import com.xxl.hello.service.di.module.ServiceDataStoreModule;
+import com.xxl.hello.service.qunlifier.ForApplication;
 import com.xxl.hello.service.qunlifier.ForBaseUrl;
 import com.xxl.hello.service.qunlifier.ForDebug;
 import com.xxl.hello.service.qunlifier.ForNetWorkDebug;
@@ -18,6 +25,8 @@ import com.xxl.hello.service.qunlifier.ForUserBaseUrl;
 import com.xxl.hello.service.qunlifier.ForUserPreference;
 import com.xxl.hello.service.qunlifier.ForUserRetrofit;
 import com.xxl.hello.user.di.module.UserDataStoreModule;
+import com.xxl.hello.widget.di.module.WidgetDataStoreModule;
+import com.xxl.kit.LogUtils;
 
 import javax.inject.Singleton;
 
@@ -34,6 +43,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * @date 2021/7/15.
  */
 @Module(includes = {ServiceDataStoreModule.class,
+        WidgetDataStoreModule.class,
         ObjectBoxDataStoreModel.class,
         UserDataStoreModule.class})
 public class DataStoreModule {
@@ -85,7 +95,7 @@ public class DataStoreModule {
     @Singleton
     @Provides
     String provideHostUrl(@ForNetWorkDebug boolean isNetworkDebug) {
-        return isNetworkDebug ? "https://192.168.1.1:8000/" : "https://github.com/";
+        return isNetworkDebug ? NetworkConfig.API_HOST_DEBUG : NetworkConfig.API_HOST;
     }
 
     /**
@@ -97,7 +107,7 @@ public class DataStoreModule {
     @Singleton
     @Provides
     String provideUserHostUrl(@ForNetWorkDebug boolean isNetworkDebug) {
-        return isNetworkDebug ? "https://192.168.0.12:8080/" : "https://api.github.com/";
+        return isNetworkDebug ? NetworkConfig.API_USER_HOST_DEBUG : NetworkConfig.API_USER_HOST;
     }
 
     /**
@@ -200,6 +210,36 @@ public class DataStoreModule {
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
                 .build();
+    }
+
+    //endregion
+
+    //region: 构建下载服务相关对象
+
+    /**
+     * 构建Aria下载服务
+     *
+     * @param application
+     * @return
+     */
+    @ForAriaDownload
+    @Singleton
+    @Provides
+    DownloadService provideAriaDownloadServiceImpl(@ForApplication Application application) {
+        return new AriaDownloadServiceImpl();
+    }
+
+    /**
+     * 构建Aria下载服务
+     *
+     * @param application
+     * @return
+     */
+    @ForHelloDownload
+    @Singleton
+    @Provides
+    DownloadService provideHelloDownloadServiceImpl(@ForApplication Application application) {
+        return new HelloDownloadServiceImpl();
     }
 
     //endregion

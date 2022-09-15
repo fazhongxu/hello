@@ -6,16 +6,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
  * @author xxl.
  * @date 2022/4/2.
  * reference https://blog.csdn.net/HUXU981598436/article/details/83821685
  */
 public final class ListUtils {
 
-    /** default join separator **/
+    /**
+     * default join separator
+     **/
     public static final String DEFAULT_JOIN_SEPARATOR = ",";
-    
+
 
     private ListUtils() {
         throw new AssertionError();
@@ -70,25 +71,24 @@ public final class ListUtils {
      * @param expected
      * @return
      */
-    // TODO: 2022/4/2  
-//    public static <V> boolean isEquals(ArrayList<V> actual, ArrayList<V> expected) {
-//        if (actual == null) {
-//            return expected == null;
-//        }
-//        if (expected == null) {
-//            return false;
-//        }
-//        if (actual.size() != expected.size()) {
-//            return false;
-//        }
-//
-//        for (int i = 0; i < actual.size(); i++) {
-//            if (!ObjectUtils.isEquals(actual.get(i), expected.get(i))) {
-//                return false;
-//            }
-//        }
-//        return true;
-//    }
+    public static <V> boolean isEquals(ArrayList<V> actual, ArrayList<V> expected) {
+        if (actual == null) {
+            return expected == null;
+        }
+        if (expected == null) {
+            return false;
+        }
+        if (actual.size() != expected.size()) {
+            return false;
+        }
+
+        for (int i = 0; i < actual.size(); i++) {
+            if (!ObjectUtils.equals(actual.get(i), expected.get(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     /**
      * join list to string, separator is ","
@@ -121,7 +121,7 @@ public final class ListUtils {
      * @return join list to string. if list is empty, return ""
      */
     public static String join(List<String> list, char separator) {
-        return join(list, new String(new char[] {separator}));
+        return join(list, new String(new char[]{separator}));
     }
 
     /**
@@ -210,31 +210,53 @@ public final class ListUtils {
      * @param sourceList
      * @param value
      * @return <ul>
-     *         <li>if sourceList is null, return false</li>
-     *         <li>if value is null, return false</li>
-     *         <li>return {@link List#add(Object)}</li>
-     *         </ul>
+     * <li>if sourceList is null, return false</li>
+     * <li>if value is null, return false</li>
+     * <li>return {@link List#add(Object)}</li>
+     * </ul>
      */
     public static <V> boolean addListNotNullValue(List<V> sourceList, V value) {
         return (sourceList != null && value != null) ? sourceList.add(value) : false;
     }
-    // TODO: 2022/4/2  
-//
-//    /**
-//     * @see {@link ArrayUtils#getLast(Object[], Object, Object, boolean)} defaultValue is null, isCircle is true
-//     */
-//    @SuppressWarnings("unchecked")
-//    public static <V> V getLast(List<V> sourceList, V value) {
-//        return (sourceList == null) ? null : (V)ArrayUtils.getLast(sourceList.toArray(), value, true);
-//    }
-//
-//    /**
-//     * @see {@link ArrayUtils#getNext(Object[], Object, Object, boolean)} defaultValue is null, isCircle is true
-//     */
-//    @SuppressWarnings("unchecked")
-//    public static <V> V getNext(List<V> sourceList, V value) {
-//        return (sourceList == null) ? null : (V)ArrayUtils.getNext(sourceList.toArray(), value, true);
-//    }
+
+    /**
+     * get last item
+     *
+     * @param sourceList
+     * @param <V>
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+    public static <V> V getFirst(List<V> sourceList) {
+        return (sourceList == null || sourceList.size() == 0) ? null : sourceList.get(0);
+    }
+
+    /**
+     * get last item
+     *
+     * @param sourceList
+     * @param <V>
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+    public static <V> V getLast(List<V> sourceList) {
+        return (sourceList == null || sourceList.size() == 0) ? null : sourceList.get(sourceList.size() - 1);
+    }
+
+    /**
+     * get item
+     *
+     * @param sourceList
+     * @param position
+     * @param <V>
+     * @return
+     */
+    public static <V> V getItem(List<V> sourceList, int position) {
+        if (sourceList == null || sourceList.size() == 0 || position >= sourceList.size()) {
+            return null;
+        }
+        return sourceList.get(position);
+    }
 
     /**
      * invert list

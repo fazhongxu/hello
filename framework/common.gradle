@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'com.alibaba.arouter'
 
 android {
     compileSdkVersion build_versions.compileSdkVersion
@@ -34,8 +35,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility build_versions.sourceCompatibility
+        targetCompatibility build_versions.targetCompatibility
     }
 
 }
@@ -87,8 +88,18 @@ dependencies {
 
     implementation deps.adapter_helper
 
-    compileOnly deps.flyco_round_view
+    implementation deps.flyco_round_view
 
-    compileOnly deps.tbs
+    implementation deps.tbs
+
+    implementation deps.aria.core
+    kapt deps.aria.aira_processor
+
+    implementation deps.base_popup
+
+    implementation deps.agentweb
+
+    implementation deps.viewanimator
+
 }
 

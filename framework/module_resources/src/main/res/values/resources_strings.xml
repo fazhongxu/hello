@@ -10,6 +10,9 @@
     <string name="resources_agree_text">同意</string>
     <string name="resources_disagree_and_exit_text">不同意并退出</string>
 
+    <string name="resources_login_title">login</string>
+    <string name="resources_login_success">登录成功</string>
+
     <string name="resources_compress_success_text">资源压缩成功</string>
     <string name="resources_compress_failure_text">资源压缩失败</string>
 
@@ -20,5 +23,12 @@
     <string name="resources_file_upload_failure_can_not_support_type">上传失败，不支持的资源类型</string>
     <string name="resources_file_upload_failure">文件上传失败，请稍后再试！</string>
     <string name="resources_file_upload_failure_can_not_found_res">无法上传资源，请检查资源是否存在！</string>
+
+    <string name="resources_we_chat">微信</string>
+    <string name="resources_friend_circle">朋友圈</string>
+
+    <string name="resources_send_text">发送</string>
+    <string name="resources_please_input_content_hint">请输入内容</string>
+    <string name="resources_emotion_text">表情</string>
 
 </resources>

@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'com.alibaba.arouter'
 
 android {
     compileSdkVersion build_versions.compileSdkVersion
@@ -60,6 +61,9 @@ dependencies {
     implementation deps.hello.widget
     implementation deps.hello.resources
 
+    implementation deps.hello.annotation
+    kapt deps.hello.compiler
+
     implementation deps.okhttp.okhttp
     implementation deps.okhttp.logging
     implementation deps.retrofit.retrofit
@@ -99,5 +103,21 @@ dependencies {
     implementation deps.adapter_helper
 
     implementation deps.tbs
+
+    implementation deps.umeng.umeng_common
+    implementation deps.umeng.umeng_asms
+    implementation deps.umeng.umeng_share_core
+
+    implementation deps.umeng.umeng_push
+
+    implementation deps.umeng.umeng_share_board
+    implementation deps.umeng.umeng_share_qq
+    implementation deps.umeng.umeng_share_we_chat
+    implementation deps.umeng.umeng_share_sina
+
+    implementation deps.we_chat
+    implementation deps.qq
+    implementation deps.sina
+
 }
 

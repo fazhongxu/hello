@@ -1,6 +1,8 @@
 package com.xxl.kit;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.util.TypedValue;
 
 import androidx.annotation.DrawableRes;
 import androidx.annotation.RawRes;
@@ -26,6 +28,20 @@ public final class ResourceUtils {
 
     private ResourceUtils() {
         throw new UnsupportedOperationException("u can't instantiate me...");
+    }
+
+    /**
+     * 获取属性的颜色
+     *
+     * @param context
+     * @param attr
+     * @return
+     */
+    public static int getAttrColor(Context context,
+                                   int attr) {
+        final TypedValue typedValue = new TypedValue();
+        context.getTheme().resolveAttribute(attr, typedValue, true);
+        return typedValue.data;
     }
 
     /**

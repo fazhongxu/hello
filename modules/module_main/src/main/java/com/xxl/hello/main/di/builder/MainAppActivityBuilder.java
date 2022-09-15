@@ -1,9 +1,11 @@
 package com.xxl.hello.main.di.builder;
 
+import com.xxl.hello.main.ui.jump.SchemeJumpActivity;
+import com.xxl.hello.main.ui.jump.SchemeJumpFragmentProvider;
 import com.xxl.hello.main.ui.main.MainActivity;
-import com.xxl.hello.main.ui.main.MainViewModule;
+import com.xxl.hello.main.ui.main.MainFragmentProvider;
 import com.xxl.hello.main.ui.splash.SplashActivity;
-import com.xxl.hello.main.ui.splash.SplashViewModule;
+import com.xxl.hello.main.ui.splash.SplashFragmentProvider;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -20,7 +22,7 @@ public abstract class MainAppActivityBuilder {
      *
      * @return
      */
-    @ContributesAndroidInjector(modules = SplashViewModule.class)
+    @ContributesAndroidInjector(modules = SplashFragmentProvider.class)
     abstract SplashActivity bindSplashActivityBuilder();
 
     /**
@@ -28,6 +30,16 @@ public abstract class MainAppActivityBuilder {
      *
      * @return
      */
-    @ContributesAndroidInjector(modules = MainViewModule.class)
+    @ContributesAndroidInjector(modules = MainFragmentProvider.class)
     abstract MainActivity bindMainActivityBuilder();
+
+    /**
+     * 绑定scheme跳转处理页
+     *
+     * @return
+     */
+    @ContributesAndroidInjector(modules = SchemeJumpFragmentProvider.class)
+    abstract SchemeJumpActivity bindSchemeJumpActivityBuilder();
+
+
 }

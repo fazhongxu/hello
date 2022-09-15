@@ -1,5 +1,10 @@
 package com.xxl.kit;
 
+import android.app.Activity;
+import android.view.View;
+import android.widget.TextView;
+import androidx.annotation.StringRes;
+
 /**
  * View 相关工具类 findViewById,设置padding,margin,背景色，文本，获取layoutParams等
  *
@@ -9,17 +14,100 @@ package com.xxl.kit;
 public final class ViewUtils {
 
     /**
-     * 最近一次点击的时间戳（毫秒）
+     * findView
+     *
+     * @param parent
+     * @param viewId
+     * @param <V>
+     * @return
      */
-    private static long sLastClickTimeMillis = 0;
+    public static <V extends View> V findView(View parent, int viewId) {
+        if (parent == null) {
+            return null;
+        }
+        return parent.findViewById(viewId);
+    }
 
     /**
-     * 防止重复点击的间隔时间（毫秒）
+     * findView
+     *
+     * @param activity
+     * @param viewId
+     * @param <V>
+     * @return
      */
-    private static final long DEFAULT_CLICK_MILLIS = 500L;
+    public static <V extends View> V findView(Activity activity, int viewId) {
+        if (activity == null) {
+            return null;
+        }
+        return activity.findViewById(viewId);
+    }
 
-    private ViewUtils() {
+    /**
+     * set view visibility
+     *
+     * @param targetView
+     * @param visibility
+     */
+    public static void setVisibility(View targetView, boolean visibility) {
+        if (targetView == null) {
+            return;
+        }
+        targetView.setVisibility(visibility ? View.VISIBLE : View.GONE);
+    }
 
+    /**
+     * set view visibility
+     *
+     * @param targetView
+     * @param visibility
+     */
+    public static void setVisibility(View targetView, int visibility) {
+        if (targetView == null) {
+            return;
+        }
+        targetView.setVisibility(visibility);
+    }
+
+    /**
+     * set view setOnClickListener
+     *
+     * @param targetView
+     * @param listener
+     */
+    public static void setOnClickListener(View targetView,
+                                          View.OnClickListener listener) {
+        if (targetView == null) {
+            return;
+        }
+        targetView.setOnClickListener(listener);
+    }
+
+
+    /**
+     * set text
+     *
+     * @param targetTextView
+     * @param charSequence
+     */
+    public static void setText(TextView targetTextView, CharSequence charSequence) {
+        if (targetTextView == null || charSequence == null) {
+            return;
+        }
+        targetTextView.setText(charSequence);
+    }
+
+    /**
+     * set text
+     *
+     * @param targetTextView
+     * @param stringRes
+     */
+    public static void setText(TextView targetTextView, @StringRes int stringRes) {
+        if (targetTextView == null) {
+            return;
+        }
+        targetTextView.setText(stringRes);
     }
 
     /**
@@ -42,4 +130,19 @@ public final class ViewUtils {
         sLastClickTimeMillis = currentTimeMillis;
         return isFastClick;
     }
+
+    /**
+     * 最近一次点击的时间戳（毫秒）
+     */
+    private static long sLastClickTimeMillis = 0;
+
+    /**
+     * 防止重复点击的间隔时间（毫秒）
+     */
+    private static final long DEFAULT_CLICK_MILLIS = 500L;
+
+    private ViewUtils() {
+
+    }
+
 }

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:clickable="true"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="?attr/h_common_background_color" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ctl_input_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="10dp">
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/et_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/resources_shape_background_common_corner_25"
+            android:hint="@string/resources_please_input_content_hint"
+            android:maxHeight="100dp"
+            android:minHeight="36dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:textSize="@dimen/resources_font_size_14"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/tv_send"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_goneMarginRight="0dp" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_face"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:src="@drawable/widget_ic_comment_face"
+            app:layout_constraintBottom_toBottomOf="@+id/et_content"
+            app:layout_constraintRight_toRightOf="@+id/et_content"
+            app:layout_constraintTop_toTopOf="@+id/et_content" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/resources_shape_background_primary_corner_25"
+            android:gravity="center_vertical"
+            android:minHeight="28dp"
+            android:paddingLeft="13dp"
+            android:paddingRight="13dp"
+            android:text="@string/resources_send_text"
+            android:textColor="@color/white"
+            android:textSize="@dimen/resources_font_size_13"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_expression_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/h_common_background_color"
+        android:gravity="center"
+        android:minHeight="260dp"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/TextStyle.Content.H15.Regular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/resources_emotion_text" />
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/fl_bottom_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <View
+            android:id="@+id/v_bottom_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp" />
+    </FrameLayout>
+
+</LinearLayout>

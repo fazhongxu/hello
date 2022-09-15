@@ -1,22 +1,19 @@
 package com.xxl.hello.main.ui.main;
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.ObservableField;
 
-import com.xxl.hello.common.AppConfig;
+import com.xxl.hello.common.config.AppConfig;
 import com.xxl.hello.service.data.model.api.QueryUserInfoRequest;
-import com.xxl.hello.service.data.model.entity.LoginUserEntity;
+import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.hello.service.data.repository.api.UserRepositoryApi;
-import com.xxl.hello.service.qunlifier.ForQiNiuUpload;
-import com.xxl.hello.service.ui.BaseViewModel;
+import com.xxl.core.ui.BaseViewModel;
 import com.xxl.hello.service.upload.api.UploadService;
 
 import io.reactivex.rxjava3.disposables.Disposable;
-import okhttp3.OkHttpClient;
 
 
 /**
@@ -25,7 +22,7 @@ import okhttp3.OkHttpClient;
  * @author xxl
  * @date 2021/07/16.
  */
-public class MainViewModel extends BaseViewModel<MainActivityNavigator> {
+public class MainViewModel extends BaseViewModel<MainNavigator> {
 
     //region: 成员变量
 

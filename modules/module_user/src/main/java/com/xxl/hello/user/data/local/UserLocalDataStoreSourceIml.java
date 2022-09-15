@@ -8,7 +8,7 @@ import com.xxl.hello.service.data.local.db.api.CacheDBDataService;
 import com.xxl.hello.service.data.local.prefs.PreferencesKit;
 import com.xxl.hello.service.data.local.prefs.api.UserLocalPreferences;
 import com.xxl.hello.service.data.local.prefs.api.UserPreferences;
-import com.xxl.hello.service.data.model.entity.LoginUserEntity;
+import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
 
 /**
  * 用户模块本地数据源

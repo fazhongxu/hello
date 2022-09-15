@@ -2,8 +2,7 @@ package com.xxl.hello.user.data.local;
 
 import androidx.annotation.NonNull;
 
-import com.xxl.hello.service.data.local.prefs.api.UserLocalPreferences;
-import com.xxl.hello.service.data.model.entity.LoginUserEntity;
+import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
 
 /**
  * 用户模块本地数据源
