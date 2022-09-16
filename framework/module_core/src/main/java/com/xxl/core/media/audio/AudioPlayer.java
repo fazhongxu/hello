@@ -31,16 +31,8 @@ public class AudioPlayer {
 
     //region: 构造函数
 
-    private AudioPlayer() {
+    public AudioPlayer() {
 
-    }
-
-    public static AudioPlayer getInstance() {
-        return Holder.INSTANCE;
-    }
-
-    private static class Holder {
-        private static AudioPlayer INSTANCE = new AudioPlayer();
     }
 
     //endregion
@@ -48,7 +40,7 @@ public class AudioPlayer {
     //region: 提供方法
 
     public boolean startPlayer() {
-        return startPlayer(DEFAULT_STREAM_TYPE,DEFAULT_SAMPLE_RATE,DEFAULT_CHANNEL_CONFIG,DEFAULT_AUDIO_FORMAT);
+        return startPlayer(DEFAULT_STREAM_TYPE, DEFAULT_SAMPLE_RATE, DEFAULT_CHANNEL_CONFIG, DEFAULT_AUDIO_FORMAT);
     }
 
     public boolean startPlayer(int streamType, int sampleRateInHz, int channelConfig, int audioFormat) {
@@ -58,14 +50,14 @@ public class AudioPlayer {
             return false;
         }
 
-        mMinBufferSize = AudioTrack.getMinBufferSize(sampleRateInHz,channelConfig,audioFormat);
+        mMinBufferSize = AudioTrack.getMinBufferSize(sampleRateInHz, channelConfig, audioFormat);
         if (mMinBufferSize == AudioTrack.ERROR_BAD_VALUE) {
             Log.e(TAG, "Invalid parameter !");
             return false;
         }
-        Log.d(TAG , "getMinBufferSize = "+mMinBufferSize+" bytes !");
+        Log.d(TAG, "getMinBufferSize = " + mMinBufferSize + " bytes !");
 
-        mAudioTrack = new AudioTrack(streamType,sampleRateInHz,channelConfig,audioFormat,mMinBufferSize,DEFAULT_PLAY_MODE);
+        mAudioTrack = new AudioTrack(streamType, sampleRateInHz, channelConfig, audioFormat, mMinBufferSize, DEFAULT_PLAY_MODE);
         if (mAudioTrack.getState() == AudioTrack.STATE_UNINITIALIZED) {
             Log.e(TAG, "AudioTrack initialize fail !");
             return false;
@@ -110,13 +102,13 @@ public class AudioPlayer {
             return false;
         }
 
-        if (mAudioTrack.write(audioData,offsetInBytes,sizeInBytes) != sizeInBytes) {
+        if (mAudioTrack.write(audioData, offsetInBytes, sizeInBytes) != sizeInBytes) {
             Log.e(TAG, "Could not write all the samples to the audio device !");
         }
 
         mAudioTrack.play();
 
-        Log.d(TAG , "OK, Played "+sizeInBytes+" bytes !");
+        Log.d(TAG, "OK, Played " + sizeInBytes + " bytes !");
 
         return true;
     }
