@@ -36,7 +36,7 @@ public class LoginUserEntity {
     /**
      * 年龄
      */
-    private String mAge;
+    private int mAge;
 
     /**
      * 性别
@@ -69,7 +69,7 @@ public class LoginUserEntity {
         return mSex == UserSex.MALE;
     }
 
-    public String getUserId(){
+    public String getUserId() {
         return mUserId;
     }
 
@@ -113,6 +113,18 @@ public class LoginUserEntity {
         this.mAvatar = targetUserAvatar;
         return this;
     }
+
+    /**
+     * 设置年龄
+     *
+     * @param age
+     * @return
+     */
+    public LoginUserEntity setAge(final int age) {
+        this.mAge = age;
+        return this;
+    }
+
 
     //endregion
 
