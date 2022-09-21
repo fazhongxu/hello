@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.tbruyelle.rxpermissions3.RxPermissions;
+import com.xxl.core.aop.annotation.Async;
 import com.xxl.core.aop.annotation.Safe;
 import com.xxl.core.media.audio.AudioCapture;
 import com.xxl.core.media.audio.AudioCapture.OnAudioFrameCapturedListener;
@@ -40,6 +41,8 @@ import com.xxl.kit.ToastUtils;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -158,10 +161,30 @@ public class MainFragment extends BaseViewModelFragment<MainViewModel, MainFragm
 
     //region: MainNavigator
 
-    @Safe
+    @Async
     @Override
     public void onTestClick() {
-        AppRouterApi.Login.navigation(getActivity());
+
+        String video1 = CacheDirConfig.SHARE_FILE_DIR + File.separator + "1.mp4";
+        String videoTs1 = CacheDirConfig.SHARE_FILE_DIR + File.separator + "1.ts";
+        String videoTs2 = CacheDirConfig.SHARE_FILE_DIR + File.separator + "2.ts";
+
+        FFmpegUtils.convertVideoToTs(video1,videoTs1);
+        FFmpegUtils.convertVideoToTs(video1,videoTs2);
+
+        String concatVideo = CacheDirConfig.SHARE_FILE_DIR + File.separator + "concat.mp4";
+        List<String> videos = new ArrayList<>();
+        videos.add(videoTs1);
+        videos.add(videoTs2);
+        FFmpegUtils.concatVideo(videos,concatVideo);
+
+//        String video1 = CacheDirConfig.SHARE_FILE_DIR + File.separator + "1.mp4";
+//        String video2 = CacheDirConfig.SHARE_FILE_DIR + File.separator + "2.mp4";
+//        String concatVideo = CacheDirConfig.SHARE_FILE_DIR + File.separator + "concat.mp4";
+//        List<String> videos = new ArrayList<>();
+//        videos.add(video1);
+//        videos.add(video2);
+//        FFmpegUtils.concatVideo(videos,concatVideo);
     }
 
     /**

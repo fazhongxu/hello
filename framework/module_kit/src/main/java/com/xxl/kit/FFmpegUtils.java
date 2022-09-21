@@ -215,6 +215,95 @@ public class FFmpegUtils {
     }
 
     /**
+     * 转换视频格式为ts
+     *
+     * @param inputVideoPath  目标视频文件路径
+     * @param outputVideoPath 输出视频文件路径
+     */
+    public static void convertVideoToTs(@NonNull final String inputVideoPath,
+                                        @NonNull final String outputVideoPath) {
+        convertVideoToTs(inputVideoPath, outputVideoPath, null);
+    }
+
+    /**
+     * 转换视频格式为ts
+     *
+     * @param inputVideoPath  目标视频文件路径
+     * @param outputVideoPath 输出视频文件路径
+     */
+    public static void convertVideoToTs(@NonNull final String inputVideoPath,
+                                        @NonNull final String outputVideoPath,
+                                        @Nullable final OnRequestCallBack<Boolean> callBack) {
+        if (Thread.currentThread() == Looper.getMainLooper().getThread()) {
+            return;
+        }
+        final String command = String.format(Locale.getDefault(), "-hide_banner -y -i %s -vcodec copy -acodec copy -vbsf h264_mp4toannexb %s", inputVideoPath, outputVideoPath);
+        if (callBack == null) {
+            FFmpegKit.execute(command);
+            return;
+        }
+        executeAsync(command, new OnRequestCallBack<Boolean>() {
+            @Override
+            public void onSuccess(@Nullable Boolean aBoolean) {
+                if (callBack != null) {
+                    callBack.onSuccess(aBoolean);
+                }
+            }
+        });
+    }
+
+    /**
+     * 视频拼接
+     *
+     * @param inputVideoPaths 目标视频文件路径
+     * @param outputVideoPath 输出视频文件路径
+     */
+    public static void concatVideo(@NonNull final List<String> inputVideoPaths,
+                                   @NonNull final String outputVideoPath) {
+        concatVideo(inputVideoPaths, outputVideoPath, null);
+    }
+
+    /**
+     * 视频拼接
+     * ffmpeg -i concat:"1.mp4|2.mp4" -y concat.mp4  中间是"|"连接不同视频
+     *
+     * @param inputVideoPaths 目标视频文件路径
+     * @param outputVideoPath 输出视频文件路径
+     */
+    public static void concatVideo(@NonNull final List<String> inputVideoPaths,
+                                   @NonNull final String outputVideoPath,
+                                   @Nullable final OnRequestCallBack<Boolean> callBack) {
+        if (Thread.currentThread() == Looper.getMainLooper().getThread() || ListUtils.isEmpty(inputVideoPaths)) {
+            return;
+        }
+        final StringBuilder command = new StringBuilder("-hide_banner ")
+                .append("-i ")
+                .append("concat:")
+                .append("\"");
+        for (int i = 0; i < inputVideoPaths.size(); i++) {
+            final String inputVideoPath = inputVideoPaths.get(i);
+            command.append(inputVideoPath);
+            if (i != inputVideoPaths.size() - 1) {
+                command.append("|");
+            }
+        }
+        command.append("\" ")
+                .append("-c copy ")
+                .append("-y ")
+                .append(outputVideoPath);
+
+        if (callBack == null) {
+            FFmpegKit.execute(command.toString());
+            return;
+        }
+        executeAsync(command.toString(), isSuccess -> {
+            if (callBack != null) {
+                callBack.onSuccess(isSuccess);
+            }
+        });
+    }
+
+    /**
      * 添加背景音乐
      *
      * @param inputAudioPath           目标音频文件路径
