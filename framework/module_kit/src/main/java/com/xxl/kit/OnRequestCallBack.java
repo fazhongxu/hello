@@ -23,6 +23,6 @@ public interface OnRequestCallBack<T> {
      * @param throwable
      */
     default void onFailure(@Nullable final Throwable throwable) {
-        ExceptionServiceManager.postCaughtException(throwable);
+        LogUtils.e(throwable);
     }
 }

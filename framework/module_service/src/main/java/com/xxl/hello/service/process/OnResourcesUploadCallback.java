@@ -1,6 +1,6 @@
 package com.xxl.hello.service.process;
 
-import com.xxl.kit.ExceptionServiceManager;
+import com.xxl.core.manager.ExceptionServiceManager;
 
 /**
  * 资源上传回调

@@ -6,8 +6,13 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
+import com.xxl.core.service.download.DownloadListener;
+import com.xxl.core.service.download.DownloadOptions;
 import com.xxl.core.service.download.DownloadService;
+import com.xxl.core.service.download.DownloadServiceWrapper;
+import com.xxl.core.service.download.DownloadTaskEntity;
 import com.xxl.hello.service.data.model.entity.share.BaseShareResourceEntity;
 import com.xxl.hello.service.data.model.entity.share.ShareOperateItem;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi.ShareOperateType;
@@ -15,8 +20,12 @@ import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.hello.widget.ui.view.share.OnShareItemOperate;
 import com.xxl.hello.widget.ui.view.share.ResourcesShareWindow;
 import com.xxl.hello.widget.ui.view.share.api.BaseSharePicker;
+import com.xxl.kit.FileUtils;
 import com.xxl.kit.ListUtils;
+import com.xxl.kit.LogUtils;
+import com.xxl.kit.OnRequestCallBack;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,9 +33,9 @@ import java.util.List;
  * @author xxl.
  * @date 2022/7/18.
  */
-public abstract class BaseSharePickerImpl<T extends BaseShareResourceEntity> implements BaseSharePicker<T> {
+public abstract class BaseSharePickerImpl<T extends BaseShareResourceEntity> implements BaseSharePicker<T>, DownloadListener {
 
-    //region: 页面生命周期
+    //region: 成员变量
 
     /**
      * application
@@ -48,6 +57,11 @@ public abstract class BaseSharePickerImpl<T extends BaseShareResourceEntity> imp
      */
     private Fragment mFragment;
 
+    /**
+     * 下载包装类
+     */
+    private final DownloadServiceWrapper mDownloadServiceWrapper;
+
     //endregion
 
     //region: 构造函数
@@ -59,6 +73,7 @@ public abstract class BaseSharePickerImpl<T extends BaseShareResourceEntity> imp
         mApplication = application;
         mDownloadService = downloadService;
         mDataRepositoryKit = dataRepositoryKit;
+        mDownloadServiceWrapper = DownloadServiceWrapper.create(application, downloadService);
         register(fragment);
     }
 
@@ -74,8 +89,7 @@ public abstract class BaseSharePickerImpl<T extends BaseShareResourceEntity> imp
     @Override
     public void register(@NonNull Fragment fragment) {
         mFragment = fragment;
-
-        // TODO: 2022/7/20 分享onActivityResult 回调注册 
+        // TODO: 2022/7/20 分享onActivityResult 回调注册
     }
 
     /**
@@ -84,6 +98,7 @@ public abstract class BaseSharePickerImpl<T extends BaseShareResourceEntity> imp
     @Override
     public void unregister() {
         // TODO: 2022/7/19  取消网络请求啥的
+        mDownloadService.unRegister(this);
     }
 
     /**
@@ -244,6 +259,81 @@ public abstract class BaseSharePickerImpl<T extends BaseShareResourceEntity> imp
         if (isActivityFinishing()) {
             return;
         }
+    }
+
+    //endregion
+
+    //region: 与下载相关
+
+    public FragmentActivity getActivity() {
+        return mFragment == null ? null : mFragment.getActivity();
+    }
+
+    /**
+     * 下载完成
+     *
+     * @param taskEntity
+     */
+    @Override
+    public void onTaskComplete(@NonNull DownloadTaskEntity taskEntity) {
+
+    }
+
+    /**
+     * 下载失败
+     *
+     * @param taskEntity
+     * @param throwable
+     */
+    @Override
+    public void onTaskFail(@NonNull DownloadTaskEntity taskEntity,
+                           @Nullable Throwable throwable) {
+
+    }
+
+    /**
+     * 请求下载文件
+     *
+     * @param waitDownloadUrls  待下载的文件url
+     * @param downloadFilePaths 已经下载的文件路径
+     * @param cacheDir          缓存文件夹
+     * @param callBack          回调
+     */
+    protected void requestDownloadFile(@NonNull final List<String> waitDownloadUrls,
+                                       @NonNull final List<String> downloadFilePaths,
+                                       @NonNull final String cacheDir,
+                                       @NonNull final OnRequestCallBack<List<String>> callBack) {
+        if (ListUtils.isEmpty(waitDownloadUrls)) {
+            callBack.onSuccess(downloadFilePaths);
+            return;
+        }
+        if (FileUtils.createOrExistsDir(cacheDir)) {
+            final String targetUrl = waitDownloadUrls.remove(0);
+//            MediaUtils.MediaEntity mediaInfo = MediaUtils.getMediaInfo(targetUrl);
+//            if (mediaInfo != null) {
+
+//            }
+            // TODO: 2022/9/22 文件后缀
+            final DownloadOptions downloadOptions = DownloadOptions.create(targetUrl)
+                    .setFilePath(new File(cacheDir + File.separator).getAbsolutePath());
+            mDownloadServiceWrapper.createDownloadTask(getActivity(), downloadOptions, new DownloadListener() {
+                @Override
+                public void onTaskComplete(@NonNull DownloadTaskEntity taskEntity) {
+                    downloadFilePaths.add(taskEntity.getSavePath());
+                    requestDownloadFile(waitDownloadUrls, downloadFilePaths, cacheDir, callBack);
+                }
+
+                @Override
+                public void onTaskFail(@NonNull DownloadTaskEntity taskEntity,
+                                       @Nullable Throwable throwable) {
+                    LogUtils.e(throwable);
+                    callBack.onFailure(throwable);
+                }
+            });
+        } else {
+            callBack.onFailure(new Throwable("创建文件夹失败"));
+        }
+
     }
 
     //endregion

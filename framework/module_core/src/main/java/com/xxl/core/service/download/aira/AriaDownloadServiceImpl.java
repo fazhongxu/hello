@@ -14,6 +14,7 @@ import com.xxl.core.service.download.DownloadOptions;
 import com.xxl.core.service.download.DownloadService;
 import com.xxl.core.service.download.DownloadServiceUtils;
 import com.xxl.core.service.download.DownloadTaskInfo;
+import com.xxl.kit.GsonUtils;
 import com.xxl.kit.ListUtils;
 import com.xxl.kit.LogUtils;
 
@@ -94,6 +95,7 @@ public class AriaDownloadServiceImpl implements DownloadService {
         long taskId = Aria.download(object)
                 .load(downloadOptions.getUrl())
                 .setFilePath(downloadOptions.getFilePath())
+                .setExtendField(GsonUtils.toJson(downloadOptions))
                 .create();
         return DownloadTaskInfo.create(downloadOptions.getTargetDownloadTag())
                 .setTaskId(String.valueOf(taskId))

@@ -11,7 +11,7 @@ import androidx.lifecycle.AndroidViewModel;
 import com.xxl.core.exception.ResponseException;
 import com.xxl.core.exception.ResponseListener;
 import com.xxl.core.rx.SchedulersProvider;
-import com.xxl.kit.ExceptionServiceManager;
+import com.xxl.core.manager.ExceptionServiceManager;
 import com.xxl.kit.LogUtils;
 import com.xxl.kit.ToastUtils;
 

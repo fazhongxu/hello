@@ -1,4 +1,6 @@
-package com.xxl.kit;
+package com.xxl.core.manager;
+
+import com.xxl.kit.LogUtils;
 
 public final class ExceptionServiceManager {
 

@@ -1,10 +1,15 @@
 package com.xxl.core.service.download.aira;
 
+import android.text.TextUtils;
+
 import androidx.annotation.NonNull;
 
 import com.arialyy.aria.core.task.DownloadTask;
+import com.xxl.core.service.download.DownloadOptions;
+import com.xxl.core.service.download.DownloadServiceUtils;
 import com.xxl.core.service.download.DownloadState;
 import com.xxl.core.service.download.DownloadTaskEntity;
+import com.xxl.kit.GsonUtils;
 
 /**
  * aria 下载任务信息
@@ -40,7 +45,20 @@ public class AriaDownloadTaskEntity implements DownloadTaskEntity {
      */
     @Override
     public String getKey() {
-        return mDownloadTask == null ? "" : mDownloadTask.getKey();
+        String taskKey = "";
+        if (mDownloadTask != null) {
+            final String json = mDownloadTask.getExtendField();
+            if (!TextUtils.isEmpty(json)) {
+                final DownloadOptions downloadOptions = GsonUtils.fromJson(json, DownloadOptions.class);
+                if (downloadOptions != null) {
+                    taskKey = downloadOptions.getDownloadKey();
+                }
+            }
+            if (TextUtils.isEmpty(taskKey)) {
+                taskKey = DownloadServiceUtils.buildDownloadKey(mDownloadTask.getKey());
+            }
+        }
+        return taskKey;
     }
 
     /**
@@ -67,7 +85,7 @@ public class AriaDownloadTaskEntity implements DownloadTaskEntity {
      * @return
      */
     @Override
-    public long getCurrentProgress(){
+    public long getCurrentProgress() {
         return mDownloadTask == null ? 0L : mDownloadTask.getCurrentProgress();
     }
 

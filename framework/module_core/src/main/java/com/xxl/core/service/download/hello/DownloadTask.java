@@ -1,5 +1,6 @@
 package com.xxl.core.service.download.hello;
 
+import com.xxl.core.service.download.DownloadServiceUtils;
 import com.xxl.core.service.download.DownloadState;
 
 /**
@@ -60,7 +61,7 @@ public class DownloadTask {
      * @return
      */
     public String getKey() {
-        return mDownloadKey;
+        return mDownloadKey == null ? "" : mDownloadKey;
     }
 
     /**

@@ -136,7 +136,12 @@ public final class GsonUtils {
      * @return instance of type
      */
     public static <T> T fromJson(final String json, @NonNull final Class<T> type) {
-        return fromJson(getGson(), json, type);
+        try {
+            return fromJson(getGson(), json, type);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**

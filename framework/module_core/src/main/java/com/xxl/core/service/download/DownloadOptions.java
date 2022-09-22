@@ -4,6 +4,9 @@ import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
+import com.xxl.kit.FileUtils;
+import com.xxl.kit.LogUtils;
+
 /**
  * 下载参数配置
  *
@@ -29,16 +32,34 @@ public class DownloadOptions {
      */
     private String mFilePath;
 
+    /**
+     * 下载文件存放的目录
+     */
+    private String mFileParentDir;
+
     //endregion
 
     //region: 构造函数
 
-    private DownloadOptions() {
-
+    private DownloadOptions(@NonNull final String targetUrl,
+                            @NonNull final String parentDir) {
+        mUrl = targetUrl;
+        mFileParentDir = parentDir;
+        try {
+            // TODO: 2022/9/22  后续对parentDir 做支持 
+            if (!TextUtils.isEmpty(mFileParentDir)) {
+                if (!FileUtils.isFolderExist(mFileParentDir)) {
+                    FileUtils.createOrExistsDir(parentDir);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            LogUtils.e(e);
+        }
     }
 
-    public final static DownloadOptions create() {
-        return new DownloadOptions();
+    public final static DownloadOptions create(@NonNull final String targetUrl) {
+        return new DownloadOptions(targetUrl,"");
     }
 
     //endregion
@@ -50,8 +71,8 @@ public class DownloadOptions {
      *
      * @return
      */
-    public String getDownloadTag() {
-        return mDownloadTag;
+    public String getDownloadKey() {
+        return getTargetDownloadTag();
     }
 
     /**
@@ -82,17 +103,6 @@ public class DownloadOptions {
     }
 
     /**
-     * 设置下载唯一标识
-     *
-     * @param downloadTag
-     * @return
-     */
-    public DownloadOptions setDownloadTag(@NonNull final String downloadTag) {
-        this.mDownloadTag = downloadTag;
-        return this;
-    }
-
-    /**
      * 设置链接地址
      *
      * @param url
@@ -104,7 +114,7 @@ public class DownloadOptions {
     }
 
     /**
-     * 设置下载文件路径
+     * 设置下载文件完整路径
      *
      * @param filePath
      * @return

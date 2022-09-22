@@ -2,8 +2,10 @@ package com.xxl.core.service.download.hello;
 
 import androidx.annotation.NonNull;
 
+import com.xxl.core.service.download.DownloadServiceUtils;
 import com.xxl.core.service.download.DownloadState;
 import com.xxl.core.service.download.DownloadTaskEntity;
+import com.xxl.kit.DownloadUtil;
 
 /**
  * hello 下载任务信息
@@ -39,7 +41,7 @@ public class HelloDownloadTaskEntity implements DownloadTaskEntity {
      */
     @Override
     public String getKey() {
-        return mDownloadTask == null ? "" : mDownloadTask.getKey();
+        return mDownloadTask == null ? "" : DownloadServiceUtils.buildDownloadKey(mDownloadTask.getKey());
     }
 
     /**
@@ -66,7 +68,7 @@ public class HelloDownloadTaskEntity implements DownloadTaskEntity {
      * @return
      */
     @Override
-    public long getCurrentProgress(){
+    public long getCurrentProgress() {
         return mDownloadTask == null ? 0L : mDownloadTask.getCurrentProgress();
     }
 
