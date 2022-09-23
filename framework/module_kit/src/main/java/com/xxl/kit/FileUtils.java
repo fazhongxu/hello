@@ -11,11 +11,10 @@ import android.os.Environment;
 import android.os.StatFs;
 import android.text.TextUtils;
 import android.util.Log;
+import android.webkit.MimeTypeMap;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
-import com.xxl.kit.AppUtils;
-import com.xxl.kit.StringUtils;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -69,6 +68,9 @@ public final class FileUtils {
      */
     private static final int BUFFER_SIZE = 8192;
 
+    public final static String DEFAULT_IMAGE_EXTENSION = ".jpeg";
+
+    public final static String DEFAULT_VIDEO_EXTENSION = ".mp4";
 
     private FileUtils() {
         throw new UnsupportedOperationException("u can't instantiate me...");
@@ -1739,6 +1741,69 @@ public final class FileUtils {
             return "";
         }
         return filePath.substring(lastPoi + 1);
+    }
+
+    /**
+     * 获取以链接md5命名的文件名称
+     *
+     * @param url
+     */
+    public static String getMD5FileName(@NonNull final String url) {
+        return getMD5FileName(url, "");
+    }
+
+    /**
+     * 获取以链接md5命名的文件名称
+     *
+     * @param url
+     * @param defaultExtension
+     */
+    public static String getMD5FileName(@NonNull final String url,
+                                        @Nullable final String defaultExtension) {
+        final String fileName = DeviceUtils.shortMD5(url);
+        if (!TextUtils.isEmpty(defaultExtension)) {
+            return fileName + (defaultExtension.startsWith(".") ? defaultExtension : "." + defaultExtension);
+        }
+        final String extension = getFileExtensionFromUrl(url);
+        if (TextUtils.isEmpty(extension)) {
+            return fileName;
+        }
+        return fileName + (extension.startsWith(".") ? extension : "." + extension);
+    }
+
+    /**
+     * 获取文件扩展名称
+     *
+     * @param url
+     * @return
+     */
+    public static String getFileExtensionFromUrl(@NonNull final String url) {
+        try {
+            String extension = MimeTypeMap.getFileExtensionFromUrl(url);
+            if (!TextUtils.isEmpty(extension)) {
+                return extension;
+            }
+            final String mimeType = getFileMimeType(url);
+            extension = MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType);
+            return extension;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    /**
+     * 获取文件媒体类型
+     *
+     * @param url
+     * @return
+     */
+    public static String getFileMimeType(@NonNull final String url) {
+        final String extension = MimeTypeMap.getFileExtensionFromUrl(url);
+        if (!TextUtils.isEmpty(extension)) {
+            return MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
+        }
+        return "";
     }
 
     ///////////////////////////////////////////////////////////////////////////

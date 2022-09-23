@@ -77,6 +77,8 @@ dependencies {
     implementation deps.luban
     implementation deps.video_processor
 
+    implementation deps.ffmpeg_kit
+
     compileOnly deps.glide.glide
     kapt deps.glide.glide_processor
     implementation deps.picture_selector

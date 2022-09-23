@@ -7,6 +7,8 @@ import androidx.annotation.NonNull;
 import com.xxl.kit.FileUtils;
 import com.xxl.kit.LogUtils;
 
+import java.io.File;
+
 /**
  * 下载参数配置
  *
@@ -37,6 +39,16 @@ public class DownloadOptions {
      */
     private String mFileParentDir;
 
+    /**
+     * 文件名称（包含扩展名）如果为空，则默认用文件链接md5 保存
+     */
+    private String mFileName;
+
+    /**
+     * 文件扩展名
+     */
+    private String mFileExtension;
+
     //endregion
 
     //region: 构造函数
@@ -46,7 +58,6 @@ public class DownloadOptions {
         mUrl = targetUrl;
         mFileParentDir = parentDir;
         try {
-            // TODO: 2022/9/22  后续对parentDir 做支持 
             if (!TextUtils.isEmpty(mFileParentDir)) {
                 if (!FileUtils.isFolderExist(mFileParentDir)) {
                     FileUtils.createOrExistsDir(parentDir);
@@ -59,7 +70,12 @@ public class DownloadOptions {
     }
 
     public final static DownloadOptions create(@NonNull final String targetUrl) {
-        return new DownloadOptions(targetUrl,"");
+        return new DownloadOptions(targetUrl, "");
+    }
+
+    public final static DownloadOptions create(@NonNull final String targetUrl,
+                                               @NonNull final String parentDir) {
+        return new DownloadOptions(targetUrl, parentDir);
     }
 
     //endregion
@@ -99,7 +115,31 @@ public class DownloadOptions {
      * @return
      */
     public String getFilePath() {
-        return mFilePath;
+        if (!TextUtils.isEmpty(mFilePath)) {
+            return mFilePath;
+        }
+        return mFileParentDir + File.separator + getFileName();
+    }
+
+    /**
+     * 获取文件名称
+     *
+     * @return
+     */
+    public String getFileName() {
+        if (!TextUtils.isEmpty(mFileName)) {
+            return mFileName;
+        }
+        return getDefaultFileName();
+    }
+
+    /**
+     * 获取文件默认名称
+     *
+     * @return
+     */
+    public String getDefaultFileName() {
+        return FileUtils.getMD5FileName(mUrl, mFileExtension);
     }
 
     /**
@@ -121,6 +161,28 @@ public class DownloadOptions {
      */
     public DownloadOptions setFilePath(@NonNull final String filePath) {
         this.mFilePath = filePath;
+        return this;
+    }
+
+    /**
+     * 设置下载文件名称（包含扩展名）如果为空，则默认用文件链接md5 保存
+     *
+     * @param fileName
+     * @return
+     */
+    public DownloadOptions setFileName(@NonNull final String fileName) {
+        this.mFileName = fileName;
+        return this;
+    }
+
+    /**
+     * 设置下载文件扩展名
+     *
+     * @param fileExtension
+     * @return
+     */
+    public DownloadOptions setFileExtension(@NonNull final String fileExtension) {
+        this.mFileExtension = fileExtension;
         return this;
     }
 

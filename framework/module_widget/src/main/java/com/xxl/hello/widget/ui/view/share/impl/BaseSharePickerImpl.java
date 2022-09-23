@@ -25,7 +25,6 @@ import com.xxl.kit.ListUtils;
 import com.xxl.kit.LogUtils;
 import com.xxl.kit.OnRequestCallBack;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -309,13 +308,7 @@ public abstract class BaseSharePickerImpl<T extends BaseShareResourceEntity> imp
         }
         if (FileUtils.createOrExistsDir(cacheDir)) {
             final String targetUrl = waitDownloadUrls.remove(0);
-//            MediaUtils.MediaEntity mediaInfo = MediaUtils.getMediaInfo(targetUrl);
-//            if (mediaInfo != null) {
-
-//            }
-            // TODO: 2022/9/22 文件后缀
-            final DownloadOptions downloadOptions = DownloadOptions.create(targetUrl)
-                    .setFilePath(new File(cacheDir + File.separator).getAbsolutePath());
+            final DownloadOptions downloadOptions = DownloadOptions.create(targetUrl,cacheDir);
             mDownloadServiceWrapper.createDownloadTask(getActivity(), downloadOptions, new DownloadListener() {
                 @Override
                 public void onTaskComplete(@NonNull DownloadTaskEntity taskEntity) {

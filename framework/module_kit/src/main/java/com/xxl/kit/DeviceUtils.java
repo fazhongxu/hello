@@ -13,8 +13,8 @@ import android.os.Build;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+import android.util.Base64;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.annotation.RequiresPermission;
 
@@ -22,6 +22,7 @@ import java.io.File;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
+import java.security.MessageDigest;
 import java.util.Enumeration;
 import java.util.UUID;
 
@@ -534,5 +535,35 @@ public final class DeviceUtils {
         }
         return 0;
     }
+
+    /**
+     * 生成短的MD5数据
+     *
+     * @param args
+     * @return
+     */
+    public static String shortMD5(String... args) {
+        try {
+            StringBuilder builder = new StringBuilder();
+            int length = args.length;
+            for (int i = 0; i < length; i++) {
+                builder.append(args[i]);
+            }
+            MessageDigest mdInst = MessageDigest.getInstance("MD5");
+            mdInst.update(builder.toString().getBytes());
+            byte[] mds = mdInst.digest();
+            mds = Base64.encode(mds, Base64.DEFAULT);
+            String result = new String(mds);
+            result = result.replace("=", "")
+                    .replace("+", "-")
+                    .replace("/", "_")
+                    .replace("\n", "");
+            return result;
+        } catch (Exception e) {
+            LogUtils.e(e);
+            return "";
+        }
+    }
+
 
 }
