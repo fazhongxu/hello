@@ -7,6 +7,8 @@ import com.xxl.core.utils.TestUtils;
 import com.xxl.hello.common.config.NetworkConfig;
 import com.xxl.hello.service.data.model.enums.UserEnumsApi.UserSex;
 
+import java.io.Serializable;
+
 /**
  * 登录用户信息
  *
@@ -14,7 +16,7 @@ import com.xxl.hello.service.data.model.enums.UserEnumsApi.UserSex;
  * @date 2021/7/16.
  */
 @Keep
-public class LoginUserEntity {
+public class LoginUserEntity implements Serializable {
 
     //region: 成员变量
 

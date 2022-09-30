@@ -5,6 +5,8 @@ import android.content.Context;
 import androidx.annotation.CallSuper;
 import androidx.multidex.MultiDex;
 
+import com.evernote.android.state.State;
+import com.evernote.android.state.StateSaver;
 import com.xxl.core.utils.CrashHandler;
 import com.xxl.kit.AppUtils;
 import com.xxl.kit.ProcessUtils;
@@ -51,6 +53,7 @@ public abstract class BaseApplication extends DaggerApplication {
      */
     @CallSuper
     protected void initPlugins() {
+        StateSaver.setEnabledForAllActivitiesAndSupportFragments(this,true);
         RouterUtils.init(this, isDebug());
         ShareUtils.preInit(this, getShareAppKey(), getChannel(), isDebug());
     }

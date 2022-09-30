@@ -52,6 +52,8 @@ versions.logger = "2.2.0"
 versions.arouter = "1.5.2"
 versions.arouter_register = "1.0.2"
 
+versions.android_state = "1.4.1"
+
 versions.objectbox = "3.0.1"
 
 versions.aspectjx_plugin = "2.0.10"
@@ -180,6 +182,12 @@ deps.statemanager = "com.alipictures:statemanager:$versions.statemanager"
 
 //logger https://github.com/orhanobut/logger
 deps.logger = "com.orhanobut:logger:$versions.logger"
+
+//https://github.com/evernote/android-state
+def state = [:]
+state.state = "com.evernote:android-state:$versions.android_state"
+state.state_processor = "com.evernote:android-state-processor:$versions.android_state"
+deps.state = state
 
 //lombok getter setter https://github.com/projectlombok/lombok
 //配合 android Studio  lombok 插件使用 只需要添加注解即可，不需要手动写get set 代码

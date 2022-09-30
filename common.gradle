@@ -97,6 +97,9 @@ dependencies {
 
     implementation deps.evetbus
 
+    implementation deps.state.state
+    implementation deps.state.state_processor
+
     implementation deps.logger
 
     implementation deps.arouter.arouter
