@@ -11,7 +11,6 @@ import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.evernote.android.state.State;
 import com.tbruyelle.rxpermissions3.RxPermissions;
 import com.xxl.core.aop.annotation.Safe;
 import com.xxl.core.media.audio.AudioCapture;
@@ -147,7 +146,6 @@ public class MainFragment extends BaseViewModelFragment<MainViewModel, MainFragm
     protected void setupLayout(@NonNull final View view) {
         registerAppStatusChangedListener(this);
         mMainViewModel.setObservableUserId(String.valueOf(TestUtils.currentTimeMillis()));
-        mMainViewModel.setObservableUserId(String.valueOf(mTestStateValue));
         setupRecord();
     }
 
@@ -160,16 +158,10 @@ public class MainFragment extends BaseViewModelFragment<MainViewModel, MainFragm
 
     //region: MainNavigator
 
-
-    @State
-    int mTestStateValue;
-
     @Safe
     @Override
     public void onTestClick() {
-//        AppRouterApi.Login.navigation(getActivity());
-        mTestStateValue = 10;
-        mMainViewModel.setObservableUserId(String.valueOf(mTestStateValue));
+        AppRouterApi.Login.navigation(getActivity());
     }
 
     /**
