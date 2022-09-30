@@ -1,10 +1,16 @@
 package com.xxl.core.service.download.hello;
 
+import android.Manifest;
 import android.app.Application;
+import android.os.Handler;
+import android.os.Looper;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
 
+import com.tbruyelle.rxpermissions3.RxPermissions;
+import com.xxl.core.R;
 import com.xxl.core.service.download.DownloadListener;
 import com.xxl.core.service.download.DownloadOptions;
 import com.xxl.core.service.download.DownloadService;
@@ -12,6 +18,8 @@ import com.xxl.core.service.download.DownloadServiceUtils;
 import com.xxl.core.service.download.DownloadTaskInfo;
 import com.xxl.kit.ListUtils;
 import com.xxl.kit.LogUtils;
+import com.xxl.kit.OnRequestCallBack;
+import com.xxl.kit.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +38,8 @@ public class HelloDownloadServiceImpl implements DownloadService, HelloDownloadW
      * tag
      */
     private static final String TAG = "Hello ";
+
+    private Handler mHandler = new Handler(Looper.getMainLooper());
 
     /**
      * 下载监听
@@ -92,6 +102,38 @@ public class HelloDownloadServiceImpl implements DownloadService, HelloDownloadW
         return DownloadTaskInfo.create(downloadOptions.getTargetDownloadTag())
                 .setTaskId(String.valueOf(taskId))
                 .setUrl(downloadOptions.getUrl());
+    }
+
+    /**
+     * 创建并启动下载任务
+     *
+     * @param activity        activity
+     * @param downloadOptions 下载配置
+     * @param callBack        回调监听
+     * @return
+     */
+    @Override
+    public void createDownloadTask(@NonNull final FragmentActivity activity,
+                                   @NonNull final DownloadOptions downloadOptions,
+                                   @NonNull final OnRequestCallBack<DownloadTaskInfo> callBack) {
+        if (activity == null) {
+            callBack.onSuccess(createDownloadTask(activity, downloadOptions));
+            return;
+        }
+        mHandler.post(() -> {
+            final RxPermissions rxPermissions = new RxPermissions(activity);
+            rxPermissions.request(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    .subscribe(isSuccess -> {
+                        if (isSuccess) {
+                            callBack.onSuccess(createDownloadTask(activity, downloadOptions));
+                        } else {
+                            callBack.onFailure(new Throwable(StringUtils.getString(R.string.core_permission_read_of_white_external_storage_failure_tips)));
+                        }
+                    }, throwable -> {
+                        LogUtils.e("创建下载任务失败" + throwable);
+                        callBack.onFailure(throwable);
+                    });
+        });
     }
 
     /**

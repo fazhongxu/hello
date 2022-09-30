@@ -4,6 +4,9 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
+
+import com.xxl.kit.OnRequestCallBack;
 
 /**
  * 下载服务
@@ -38,6 +41,18 @@ public interface DownloadService {
      */
     DownloadTaskInfo createDownloadTask(@NonNull final Object object,
                                         @NonNull final DownloadOptions downloadOptions);
+
+    /**
+     * 创建并启动下载任务
+     *
+     * @param activity        activity
+     * @param downloadOptions 下载配置
+     * @param callBack        回调监听
+     * @return
+     */
+    void createDownloadTask(@NonNull final FragmentActivity activity,
+                                        @NonNull final DownloadOptions downloadOptions,
+                                        @NonNull final OnRequestCallBack<DownloadTaskInfo> callBack);
 
     /**
      * 停止下载任务

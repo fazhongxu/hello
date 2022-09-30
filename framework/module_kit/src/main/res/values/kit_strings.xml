@@ -1,13 +1,4 @@
 <resources>
-    <string name="core_test">test</string>
-    <string name="core_image_path_can_not_be_empty_tips">图片路径不能为空</string>
-    <string name="core_permission_read_of_white_external_storage_failure_tips">获取文件读写权限失败，请授权后操作</string>
-    <string name="core_permission_record_audio_failure_tips">获取录音权限失败，请授权后操作</string>
-    <string name="core_start_record_audio_text">开始录音</string>
-    <string name="core_recording_text">录音中...</string>
-    <string name="core_stop_record_audio_text">停止录音</string>
-
-    <string name="core_network_error_tips">网络错误，请稍后再试！</string>
-
+    <string name="kit_image_path_can_not_be_empty_tips">图片路径不能为空</string>
     <string name="kit_toast_message">Toast message</string>
 </resources>

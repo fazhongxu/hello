@@ -6,6 +6,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 
+import com.xxl.kit.OnRequestCallBack;
+
 import java.util.LinkedHashMap;
 
 /**
@@ -54,6 +56,22 @@ public class DownloadServiceWrapper implements DownloadListener {
     //region: DownloadListener
 
     /**
+     * 下载任务创建成功
+     *
+     * @param targetDownloadTaskInfo
+     */
+    @Override
+    public void onTaskCreated(@NonNull DownloadTaskInfo targetDownloadTaskInfo) {
+        final DownloadHandle downloadHandle = getDownloadHandle(targetDownloadTaskInfo.getDownloadTag());
+        if (downloadHandle != null) {
+            final DownloadListener downloadListener = downloadHandle.getDownloadListener();
+            if (downloadListener != null) {
+                downloadListener.onTaskCreated(targetDownloadTaskInfo);
+            }
+        }
+    }
+
+    /**
      * 下载开始
      *
      * @param taskEntity
@@ -99,7 +117,7 @@ public class DownloadServiceWrapper implements DownloadListener {
         if (downloadHandle != null) {
             final DownloadListener downloadListener = downloadHandle.getDownloadListener();
             if (downloadListener != null) {
-                downloadListener.onTaskFail(taskEntity,throwable);
+                downloadListener.onTaskFail(taskEntity, throwable);
             }
         }
         removeDownloadHandle(taskEntity.getKey());
@@ -120,7 +138,21 @@ public class DownloadServiceWrapper implements DownloadListener {
                                    @NonNull final DownloadOptions downloadOption,
                                    @NonNull final DownloadListener downloadListener) {
         putDownloadHandle(downloadOption.getTargetDownloadTag(), DownloadHandle.create(downloadOption, downloadListener));
-        mDownloadService.createDownloadTask(activity, downloadOption);
+        mDownloadService.createDownloadTask(activity, downloadOption, new OnRequestCallBack<DownloadTaskInfo>() {
+
+            @Override
+            public void onSuccess(@Nullable DownloadTaskInfo downloadTaskInfo) {
+                onTaskCreated(downloadTaskInfo);
+            }
+
+            @Override
+            public void onFailure(@Nullable Throwable throwable) {
+                final DefaultDownloadTaskEntity downloadTaskEntity = DefaultDownloadTaskEntity.obtain(downloadOption.getDownloadKey())
+                        .setDownloadUrl(downloadOption.getUrl())
+                        .setSavePath(downloadOption.getFilePath());
+                onTaskFail(downloadTaskEntity, throwable);
+            }
+        });
     }
 
     //endregion

@@ -2385,7 +2385,7 @@ public final class ImageUtils {
                                 @NonNull final String targetDir,
                                 @NonNull final OnSimpleCompressListener listener) {
         if (TextUtils.isEmpty(imagePath)) {
-            listener.onError(new Throwable(StringUtils.getString(R.string.core_image_path_can_not_be_empty_tips)));
+            listener.onError(new Throwable(StringUtils.getString(R.string.kit_image_path_can_not_be_empty_tips)));
             return;
         }
         if (FileUtils.createOrExistsDir(targetDir)) {

@@ -12,6 +12,15 @@ import androidx.annotation.Nullable;
 public interface DownloadListener {
 
     /**
+     * 下载任务创建成功
+     *
+     * @param targetDownloadTaskInfo
+     */
+    default void onTaskCreated(@NonNull final DownloadTaskInfo targetDownloadTaskInfo) {
+
+    }
+
+    /**
      * 下载预处理完成
      *
      * @param taskEntity
