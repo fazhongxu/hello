@@ -64,6 +64,8 @@ versions.video_processor = "2.4.2"
 versions.glide = "4.12.0"
 versions.picture_selector = "v2.6.1"
 
+versions.photo_view = "2.3.0"
+
 versions.kprogresshud = "1.2.0"
 
 versions.easy_float = "2.0.4"
@@ -166,6 +168,9 @@ if (versions.picture_selector_remote) {
 } else {
     deps.picture_selector = project(':module_libs:lib_picture_selector')
 }
+
+// photoview https://github.com/Baseflow/PhotoView
+deps.photo_view = "com.github.chrisbanes:PhotoView:$versions.photo_view"
 
 //rxjava https://github.com/ReactiveX/RxJava
 deps.rxjava = "io.reactivex.rxjava3:rxjava:$versions.rxjava"

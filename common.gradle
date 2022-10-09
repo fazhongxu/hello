@@ -77,6 +77,8 @@ dependencies {
     implementation deps.luban
     implementation deps.video_processor
 
+    implementation deps.photo_view
+
     implementation deps.ffmpeg_kit
 
     compileOnly deps.glide.glide
@@ -125,6 +127,7 @@ dependencies {
     implementation deps.we_chat
     implementation deps.qq
     implementation deps.sina
+
 
 }
 
