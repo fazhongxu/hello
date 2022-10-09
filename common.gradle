@@ -85,6 +85,8 @@ dependencies {
 
     implementation deps.kprogresshud
 
+    implementation deps.easy_float
+
     implementation deps.dagger.dagger
     kapt deps.dagger.processor
     implementation deps.dagger.android

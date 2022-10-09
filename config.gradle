@@ -66,6 +66,8 @@ versions.picture_selector = "v2.6.1"
 
 versions.kprogresshud = "1.2.0"
 
+versions.easy_float = "2.0.4"
+
 versions.ffmpeg_kit = "4.5.1-1"
 versions.ffmpeg_kit_exception = "0.2.1"
 
@@ -176,6 +178,9 @@ deps.rxpermission = "com.github.tbruyelle:rxpermissions:$versions.rxpermission"
 
 //kprogresshud 进度条 https://github.com/Kaopiz/KProgressHUD
 deps.kprogresshud = "com.kaopiz:kprogresshud:$versions.kprogresshud"
+
+//https://github.com/princekin-f/EasyFloat
+deps.easy_float = "com.github.princekin-f:EasyFloat:$versions.easy_float"
 
 //statemanager https://github.com/alibaba/StateManager
 deps.statemanager = "com.alipictures:statemanager:$versions.statemanager"
