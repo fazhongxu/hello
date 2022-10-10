@@ -1,7 +1,5 @@
 package com.xxl.core.widget.recyclerview.adapter;
 
-import androidx.annotation.NonNull;
-
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
@@ -13,7 +11,7 @@ import java.util.List;
  * @author xxl.
  * @date 2022/8/1.
  */
-public abstract class BaseAdapter<T, V extends BaseViewHolder, L extends BaseRecycleItemListener> extends BaseQuickAdapter<T, V> {
+public abstract class BaseAdapter<T,L extends BaseRecycleItemListener, V extends BaseViewHolder> extends BaseQuickAdapter<T, V> {
 
     //region: 成员变量
 
@@ -26,8 +24,12 @@ public abstract class BaseAdapter<T, V extends BaseViewHolder, L extends BaseRec
 
     //region: 构造函数
 
-    public BaseAdapter(int layoutResId) {
-        super(layoutResId);
+    public BaseAdapter() {
+        this(null);
+    }
+
+    public BaseAdapter(@Nullable List<T> data) {
+        super(0);
     }
 
     public BaseAdapter(int layoutResId, @Nullable List<T> data) {
@@ -55,6 +57,10 @@ public abstract class BaseAdapter<T, V extends BaseViewHolder, L extends BaseRec
      */
     public int findItemPositon(T targetItemEntity) {
         return getItemPosition(targetItemEntity);
+    }
+
+    public void setListener(L listener) {
+        mListener = listener;
     }
 
     //endregion

@@ -24,6 +24,8 @@ import com.xxl.hello.common.config.CacheDirConfig;
 import com.xxl.hello.main.BR;
 import com.xxl.hello.main.R;
 import com.xxl.hello.main.databinding.MainFragmentBinding;
+import com.xxl.hello.main.ui.main.adapter.TestBindingAdapter;
+import com.xxl.hello.main.ui.main.adapter.TestBindingRecycleItemListener;
 import com.xxl.hello.main.ui.main.window.PrivacyPolicyPopupWindow;
 import com.xxl.hello.service.data.model.api.QueryUserInfoResponse;
 import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
@@ -40,6 +42,8 @@ import com.xxl.kit.ToastUtils;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -50,7 +54,7 @@ import io.reactivex.rxjava3.disposables.Disposable;
  * @date 2022/4/8.
  */
 public class MainFragment extends BaseViewModelFragment<MainViewModel, MainFragmentBinding>
-        implements MainNavigator, OnAppStatusChangedListener, OnAudioFrameCapturedListener {
+        implements MainNavigator, OnAppStatusChangedListener, OnAudioFrameCapturedListener, TestBindingRecycleItemListener {
 
     //region: 成员变量
 
@@ -58,6 +62,9 @@ public class MainFragment extends BaseViewModelFragment<MainViewModel, MainFragm
      * 首页数据模型
      */
     private MainViewModel mMainViewModel;
+
+    @Inject
+    TestBindingAdapter mTestBindingAdapter;
 
     /**
      * 首页EventBus通知事件监听
@@ -137,6 +144,7 @@ public class MainFragment extends BaseViewModelFragment<MainViewModel, MainFragm
         }
     }
 
+
     /**
      * 设置页面视图
      *
@@ -147,6 +155,14 @@ public class MainFragment extends BaseViewModelFragment<MainViewModel, MainFragm
         registerAppStatusChangedListener(this);
         mMainViewModel.setObservableUserId(String.valueOf(TestUtils.currentTimeMillis()));
         setupRecord();
+        setupRecyclerView();
+    }
+
+    private void setupRecyclerView() {
+        mViewDataBinding.rvList.setAdapter(mTestBindingAdapter);
+        mTestBindingAdapter.setListener(this);
+        List<String> list = Arrays.asList("1", "2", "3","4","hello");
+        mTestBindingAdapter.setList(list);
     }
 
     @Override
@@ -363,6 +379,20 @@ public class MainFragment extends BaseViewModelFragment<MainViewModel, MainFragm
             ToastUtils.success(R.string.resources_login_success).show();
         }
     }
+
+    //region: TestBindingRecycleItemListener
+
+    /**
+     * 条目点击
+     *
+     * @param value
+     */
+    @Override
+    public void onItemClick(@NonNull String value) {
+        ToastUtils.success(value).show();
+    }
+
+    //endregion
 
     //endregion
 
