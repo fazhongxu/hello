@@ -31,4 +31,6 @@
     <string name="resources_please_input_content_hint">请输入内容</string>
     <string name="resources_emotion_text">表情</string>
 
+    <string name="resources_list_text">列表</string>
+
 </resources>
