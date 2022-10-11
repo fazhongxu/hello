@@ -271,7 +271,7 @@ public class RefreshWebView extends FrameLayout implements SwipeRefreshLayout.On
 
     //endregion
 
-    //region: SwipeRefreshLayout.OnRefreshListener
+    //region: SwipeRefreshLayout.OnRefreshDataListener
 
     @Override
     public void onRefresh() {

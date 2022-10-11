@@ -115,6 +115,9 @@ dependencies {
 
     implementation deps.kprogresshud
 
+    compileOnly deps.adapter_helper
+    compileOnly deps.refresh_layout
+
     implementation deps.statemanager
 
     implementation deps.mmkv

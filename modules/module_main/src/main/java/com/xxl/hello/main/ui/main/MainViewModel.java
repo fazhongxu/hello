@@ -1,6 +1,7 @@
 package com.xxl.hello.main.ui.main;
 
 import android.app.Application;
+import android.os.Handler;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.ObservableField;
@@ -12,6 +13,10 @@ import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.hello.service.data.repository.api.UserRepositoryApi;
 import com.xxl.core.ui.BaseViewModel;
 import com.xxl.hello.service.upload.api.UploadService;
+import com.xxl.kit.OnRequestCallBack;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import io.reactivex.rxjava3.disposables.Disposable;
 
@@ -53,6 +58,30 @@ public class MainViewModel extends BaseViewModel<MainNavigator> {
         super(application);
         mDataRepositoryKit = dataRepositoryKit;
         mUploadService = uploadService;
+    }
+
+    //endregion
+
+    //region: 列表测试数据相关
+
+    public void requestListData(int page,
+                                int pageSize,
+                                @NonNull final OnRequestCallBack<List<String>> callBack) {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                final List<String> list = new ArrayList<>();
+                for (int i = 0; i < pageSize; i++) {
+                    list.add(String.format("测试数据 page %d index %d", page, i));
+                }
+                if (page > 3) {
+                    list.remove(list.size() - 1);
+                    callBack.onSuccess(list);
+                    return;
+                }
+                callBack.onSuccess(list);
+            }
+        }, 1000);
     }
 
     //endregion

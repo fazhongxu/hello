@@ -20,6 +20,7 @@ import com.xxl.core.ui.BaseEventBusWrapper;
 import com.xxl.core.ui.fragment.BaseViewModelFragment;
 import com.xxl.core.utils.AppExpandUtils;
 import com.xxl.core.utils.TestUtils;
+import com.xxl.core.widget.recyclerview.OnRefreshDataListener;
 import com.xxl.hello.common.config.CacheDirConfig;
 import com.xxl.hello.main.BR;
 import com.xxl.hello.main.R;
@@ -33,10 +34,12 @@ import com.xxl.hello.widget.ui.view.record.OnRecordListener;
 import com.xxl.hello.widget.ui.view.record.RecordButton;
 import com.xxl.kit.AppRouterApi;
 import com.xxl.kit.AppUtils;
+import com.xxl.kit.Bool;
 import com.xxl.kit.FFmpegUtils;
 import com.xxl.kit.LogUtils;
 import com.xxl.kit.MediaUtils;
 import com.xxl.kit.OnAppStatusChangedListener;
+import com.xxl.kit.OnRequestCallBack;
 import com.xxl.kit.TimeUtils;
 import com.xxl.kit.ToastUtils;
 
@@ -54,7 +57,7 @@ import io.reactivex.rxjava3.disposables.Disposable;
  * @date 2022/4/8.
  */
 public class MainFragment extends BaseViewModelFragment<MainViewModel, MainFragmentBinding>
-        implements MainNavigator, OnAppStatusChangedListener, OnAudioFrameCapturedListener, TestBindingRecycleItemListener {
+        implements MainNavigator, OnAppStatusChangedListener, OnAudioFrameCapturedListener, TestBindingRecycleItemListener, OnRefreshDataListener {
 
     //region: 成员变量
 
@@ -160,8 +163,11 @@ public class MainFragment extends BaseViewModelFragment<MainViewModel, MainFragm
 
     private void setupRecyclerView() {
         mViewDataBinding.rvList.setAdapter(mTestBindingAdapter);
+        mViewDataBinding.refreshLayout.setRefreshDataListener(this);
+        mViewDataBinding.refreshLayout.bindRecyclerView(mViewDataBinding.rvList, mTestBindingAdapter);
         mTestBindingAdapter.setListener(this);
-        List<String> list = Arrays.asList("1", "2", "3","4","hello");
+        List<String> list = Arrays.asList("1", "2", "3", "4", "hello");
+        mViewDataBinding.refreshLayout.setPageSize(20);
         mTestBindingAdapter.setList(list);
     }
 
@@ -197,6 +203,28 @@ public class MainFragment extends BaseViewModelFragment<MainViewModel, MainFragm
         } else {
             mMainViewModel.setObservableUserId(response == null ? String.valueOf(TestUtils.currentTimeMillis()) : response.getUserId());
         }
+    }
+
+    //endregion
+
+    //region: OnRefreshDataListener
+
+    /**
+     * 请求数据
+     *
+     * @param page     页码
+     * @param pageSize 每页记录条数
+     */
+    @Override
+    public void onRequestData(int page,
+                              int pageSize) {
+        if (isActivityFinishing()) {
+            return;
+        }
+        final OnRequestCallBack<List<String>> callBack = list -> {
+            mViewDataBinding.refreshLayout.setLoadData(list);
+        };
+        getViewModel().requestListData(page, pageSize, callBack);
     }
 
     //endregion

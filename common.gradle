@@ -110,6 +110,7 @@ dependencies {
     kapt deps.arouter.arouter_processor
 
     implementation deps.adapter_helper
+    implementation deps.refresh_layout
 
     implementation deps.tbs
 

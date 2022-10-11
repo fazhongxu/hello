@@ -85,15 +85,6 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintRight_toRightOf="parent" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                app:layout_constraintBottom_toBottomOf="@+id/tv_environment"
-                app:layout_constraintBottom_toTopOf="@+id/tv_environment"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:layout_marginLeft="15dp"
-                android:layout_width="wrap_content"
-                android:text="@string/resources_list_text"
-                android:layout_height="wrap_content"/>
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.xxl.hello.widget.ui.view.keyboard.CommentKeyboardLayout

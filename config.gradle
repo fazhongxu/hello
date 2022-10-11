@@ -74,6 +74,8 @@ versions.ffmpeg_kit = "4.5.1-1"
 versions.ffmpeg_kit_exception = "0.2.1"
 
 versions.adapter_helper = "3.0.4"
+versions.refresh_layout = "2.0.5"
+
 versions.base_popup = "3.2.0"
 
 versions.jsbridge = "1.0.4"
@@ -233,6 +235,9 @@ deps.ffmpeg_kit_exception = "com.arthenica:smart-exception-java:$versions.ffmpeg
 
 // BaseRecyclerViewAdapterHelper https://github.com/CymChad/BaseRecyclerViewAdapterHelper
 deps.adapter_helper = "com.github.CymChad:BaseRecyclerViewAdapterHelper:$versions.adapter_helper"
+
+// https://github.com/scwang90/SmartRefreshLayout
+deps.refresh_layout = "io.github.scwang90:refresh-layout-kernel:$versions.refresh_layout"
 
 // BasePopup https://github.com/razerdp/BasePopup
 deps.base_popup = "io.github.razerdp:BasePopup:$versions.base_popup"

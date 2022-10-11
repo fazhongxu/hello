@@ -44,8 +44,10 @@ public abstract class BaseBindingAdapter<T, L extends BaseRecycleItemListener,
         if (mLayoutInflater == null) {
             mLayoutInflater = LayoutInflater.from(getContext());
         }
-        final ViewDataBinding binding = DataBindingUtil.inflate(mLayoutInflater, layoutResId, parent, false);
-        return new BaseBindingViewHolder<>(binding.getRoot());
+        ViewDataBinding binding = DataBindingUtil.inflate(mLayoutInflater, layoutResId, parent, false);
+        BaseBindingViewHolder<Binding> holder = new BaseBindingViewHolder<>(binding.getRoot());
+        holder.setDataBinding((Binding) binding);
+        return holder;
     }
 
     @Override
@@ -57,13 +59,10 @@ public abstract class BaseBindingAdapter<T, L extends BaseRecycleItemListener,
         }
     }
 
+
     public abstract void convert(Binding binding,
                                  T item);
 
-
-    //endregion
-
-    //region: 页面视图渲染
 
     //endregion
 

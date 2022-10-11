@@ -88,6 +88,8 @@ dependencies {
 
     implementation deps.adapter_helper
 
+    implementation deps.refresh_layout
+
     implementation deps.flyco_round_view
 
     implementation deps.tbs

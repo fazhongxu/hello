@@ -1,6 +1,7 @@
 package com.xxl.core.widget.recyclerview.adapter;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.module.LoadMoreModule;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
 import org.jetbrains.annotations.Nullable;
@@ -11,7 +12,8 @@ import java.util.List;
  * @author xxl.
  * @date 2022/8/1.
  */
-public abstract class BaseAdapter<T,L extends BaseRecycleItemListener, V extends BaseViewHolder> extends BaseQuickAdapter<T, V> {
+public abstract class BaseAdapter<T,L extends BaseRecycleItemListener, V extends BaseViewHolder> extends BaseQuickAdapter<T, V>
+        implements LoadMoreModule {
 
     //region: 成员变量
 
