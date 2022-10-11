@@ -24,8 +24,7 @@ import java.util.List;
  * @author xxl.
  * @date 2022/8/1.
  */
-public class UIRefreshLayout extends SwipeRefreshLayout implements SwipeRefreshLayout.OnRefreshListener,
-        OnLoadMoreListener {
+public class UIRefreshLayout extends SwipeRefreshLayout implements SwipeRefreshLayout.OnRefreshListener, OnLoadMoreListener {
 
     //region: 成员变量
 
@@ -33,6 +32,11 @@ public class UIRefreshLayout extends SwipeRefreshLayout implements SwipeRefreshL
      * 默认每页记录条数
      */
     private static final int DEFAULT_PAGE_SIZE = 15;
+
+    /**
+     * 默认最小加载结束后是否显示"没有更多数据"标识的数量
+     */
+    private static final int DEFAULT_MIN_LOAD_MORE_END_GONE_COUNT = 15;
 
     /**
      * recyclerView列表
@@ -53,6 +57,11 @@ public class UIRefreshLayout extends SwipeRefreshLayout implements SwipeRefreshL
      * 每页记录条数
      */
     private int mPageSize = DEFAULT_PAGE_SIZE;
+
+    /**
+     * 加载结束后是否隐藏加载更多布局的最小数量
+     */
+    private int mMinLoadMoreEndGoneCount = DEFAULT_MIN_LOAD_MORE_END_GONE_COUNT;
 
     /**
      * 数据请求监听
@@ -99,10 +108,6 @@ public class UIRefreshLayout extends SwipeRefreshLayout implements SwipeRefreshL
 
     //endregion
 
-    //region: 页面生命周期
-
-    //endregion
-
     //region: OnRefreshDataListener
 
     @Override
@@ -139,6 +144,15 @@ public class UIRefreshLayout extends SwipeRefreshLayout implements SwipeRefreshL
     }
 
     /**
+     * 加载结束后是否隐藏加载更多布局的最小数量
+     *
+     * @return
+     */
+    public int getMinLoadMoreEndGoneCount() {
+        return mMinLoadMoreEndGoneCount;
+    }
+
+    /**
      * 重置页码
      */
     public void resetPage() {
@@ -152,11 +166,38 @@ public class UIRefreshLayout extends SwipeRefreshLayout implements SwipeRefreshL
         mPageSize = DEFAULT_PAGE_SIZE;
     }
 
+
     /**
      * 设置每页记录条数
      */
     public void setPageSize(int pageSize) {
         mPageSize = pageSize;
+    }
+
+    /**
+     * 重置加载结束后是否隐藏加载更多布局的最小数量
+     */
+    public void resetMinLoadMoreEndGoneCount() {
+        mMinLoadMoreEndGoneCount = DEFAULT_MIN_LOAD_MORE_END_GONE_COUNT;
+    }
+
+    /**
+     * 设置加载结束后是否隐藏加载更多布局的最小数量
+     */
+    public void setMinLoadMoreEndGoneCount(int minLoadMoreEndGoneCount) {
+        this.mMinLoadMoreEndGoneCount = minLoadMoreEndGoneCount;
+    }
+
+    /**
+     * 是否加载中
+     *
+     * @return
+     */
+    public boolean isLoading() {
+        if (mAdapter == null) {
+            return false;
+        }
+        return mAdapter.getLoadMoreModule().isLoading();
     }
 
     /**
@@ -184,23 +225,23 @@ public class UIRefreshLayout extends SwipeRefreshLayout implements SwipeRefreshL
      * @param loadMoreEnable
      */
     public void setLoadMoreEnable(boolean loadMoreEnable) {
-        setLoadMoreEnable(loadMoreEnable, true);
-    }
-
-    /**
-     * 设置是否可以加载更多
-     *
-     * @param loadMoreEnable
-     */
-    public void setLoadMoreEnable(boolean loadMoreEnable,
-                                  boolean loadMoreComplete) {
         mLoadMoreEnable = loadMoreEnable;
         if (mAdapter != null) {
             final BaseLoadMoreModule loadMoreModule = mAdapter.getLoadMoreModule();
             loadMoreModule.setEnableLoadMore(loadMoreEnable);
-            if (loadMoreComplete) {
-                loadMoreModule.loadMoreComplete();
-            }
+        }
+    }
+
+    /**
+     * 设置是否开启自动加载
+     * 当自动加载开启，同时数据不满一屏时，是否继续执行自动加载更多
+     *
+     * @param enable 是否需要显示底部加载试图
+     */
+    public void setEnableLoadMoreIfNotFullPage(final boolean enable) {
+        if (mAdapter != null) {
+            BaseLoadMoreModule loadMoreModule = mAdapter.getLoadMoreModule();
+            loadMoreModule.setEnableLoadMoreIfNotFullPage(enable);
         }
     }
 
@@ -230,8 +271,50 @@ public class UIRefreshLayout extends SwipeRefreshLayout implements SwipeRefreshL
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mAdapter);
         BaseLoadMoreModule loadMoreModule = mAdapter.getLoadMoreModule();
+        loadMoreModule.setLoadMoreView(new SimpleLoadMoreView());
         loadMoreModule.setOnLoadMoreListener(this);
         loadMoreModule.setEnableLoadMore(false);
+    }
+
+    /**
+     * 获取列表适配器
+     *
+     * @return
+     */
+    public BaseQuickAdapter getAdapter() {
+        return mAdapter;
+    }
+
+    /**
+     * 获取recyclerView 列表
+     *
+     * @return
+     */
+    public RecyclerView getRecyclerView() {
+        return mRecyclerView;
+    }
+
+    /**
+     * 请求数据
+     */
+    public void requestData() {
+        requestData(false);
+    }
+
+    /**
+     * 请求数据
+     *
+     * @param isForce 是否强制执行
+     */
+    public void requestData(final boolean isForce) {
+        final boolean isNotForce = !isForce && (mRefreshDataListener == null || mRequestData || isLoading());
+        if (isNotForce) {
+            return;
+        }
+        resetPage();
+        setLoadMoreEnable(false);
+        mRequestData = true;
+        mRefreshDataListener.onRequestData(getPage(), getPageSize());
     }
 
     /**
@@ -240,43 +323,44 @@ public class UIRefreshLayout extends SwipeRefreshLayout implements SwipeRefreshL
      * @param data
      */
     public <T> void setLoadData(List<T> data) {
-        setLoadData(data, ListUtils.getSize(data) >= getPageSize());
+        setLoadData(data, ListUtils.getSize(data) >= getPageSize(), getMinLoadMoreEndGoneCount());
     }
 
     /**
      * 设置加载的数据
      *
      * @param data
-     * @param hasNextData 是否有下一页数据
+     * @param hasNextData             是否有下一页数据
+     * @param minLoadEndMoreGoneCount 加载结束后是否隐藏加载更多布局的最小数量
      */
     public <T> void setLoadData(List<T> data,
-                                boolean hasNextData) {
+                                boolean hasNextData,
+                                int minLoadEndMoreGoneCount) {
         synchronized (this) {
             boolean isRefreshing = isRefreshing();
             boolean isFirstPage = mPage == 1;
             mPage++;
             mRequestData = false;
             setRefreshing(false);
+            int size = ListUtils.getSize(data);
             if (mAdapter != null) {
                 if (isRefreshing || isFirstPage) {
                     mAdapter.setList(data);
                 } else {
-                    mAdapter.addData(data);
+                    if (size > 0) {
+                        mAdapter.addData(data);
+                    }
                 }
                 final BaseLoadMoreModule loadMoreModule = mAdapter.getLoadMoreModule();
                 mNextLoadEnable = hasNextData;
                 if (hasNextData) {
                     loadMoreModule.loadMoreComplete();
                 } else {
-                    loadMoreModule.loadMoreEnd();
+                    loadMoreModule.loadMoreEnd(isFirstPage && size < minLoadEndMoreGoneCount);
                 }
             }
         }
     }
-
-    //endregion
-
-    //region: 内部辅助方法
 
     //endregion
 

@@ -34,7 +34,6 @@ import com.xxl.hello.widget.ui.view.record.OnRecordListener;
 import com.xxl.hello.widget.ui.view.record.RecordButton;
 import com.xxl.kit.AppRouterApi;
 import com.xxl.kit.AppUtils;
-import com.xxl.kit.Bool;
 import com.xxl.kit.FFmpegUtils;
 import com.xxl.kit.LogUtils;
 import com.xxl.kit.MediaUtils;
@@ -45,7 +44,6 @@ import com.xxl.kit.ToastUtils;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -165,15 +163,14 @@ public class MainFragment extends BaseViewModelFragment<MainViewModel, MainFragm
         mViewDataBinding.rvList.setAdapter(mTestBindingAdapter);
         mViewDataBinding.refreshLayout.setRefreshDataListener(this);
         mViewDataBinding.refreshLayout.bindRecyclerView(mViewDataBinding.rvList, mTestBindingAdapter);
-        mTestBindingAdapter.setListener(this);
-        List<String> list = Arrays.asList("1", "2", "3", "4", "hello");
         mViewDataBinding.refreshLayout.setPageSize(20);
-        mTestBindingAdapter.setList(list);
+        mTestBindingAdapter.setListener(this);
     }
 
     @Override
     protected void requestData() {
         mMainViewModel.requestQueryUserInfo();
+        mViewDataBinding.refreshLayout.requestData();
     }
 
     //endregion
