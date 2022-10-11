@@ -24,7 +24,7 @@
             android:id="@+id/refresh_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_list"
@@ -35,9 +35,10 @@
         </com.xxl.core.widget.recyclerview.UIRefreshLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/ctl_content_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_user_info"
@@ -73,6 +74,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
                 android:onClick="@{()->navigator.onTestClick()}"
+                android:onLongClick="@{()->navigator.onTestLongClick()}"
                 android:text="@{viewModel.observableUserId}"
                 android:visibility="visible"
                 app:layout_constraintLeft_toLeftOf="parent"

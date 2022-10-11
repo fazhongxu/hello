@@ -21,4 +21,9 @@ public interface MainNavigator {
      * 测试按钮点击
      */
     void onTestClick();
+
+    /**
+     * 测试按钮长按点击
+     */
+    boolean onTestLongClick();
 }

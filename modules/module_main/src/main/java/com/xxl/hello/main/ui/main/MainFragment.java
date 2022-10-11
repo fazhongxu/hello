@@ -184,6 +184,16 @@ public class MainFragment extends BaseViewModelFragment<MainViewModel, MainFragm
     }
 
     /**
+     * 测试按钮长按点击
+     */
+    @Override
+    public boolean onTestLongClick() {
+        mViewDataBinding.refreshLayout.setVisibility(View.VISIBLE);
+        mViewDataBinding.ctlContentContainer.setVisibility(View.GONE);
+        return true;
+    }
+
+    /**
      * 请求查询用户信息完成
      *
      * @param response
