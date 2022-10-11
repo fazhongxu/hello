@@ -1,4 +1,4 @@
-package com.xxl.core.widget.recyclerview;
+package com.xxl.core.widget.recyclerview.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
