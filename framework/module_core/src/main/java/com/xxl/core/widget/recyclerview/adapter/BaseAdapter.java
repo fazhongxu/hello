@@ -26,14 +26,6 @@ public abstract class BaseAdapter<T,L extends BaseRecycleItemListener, V extends
 
     //region: 构造函数
 
-    public BaseAdapter() {
-        this(null);
-    }
-
-    public BaseAdapter(@Nullable List<T> data) {
-        super(0);
-    }
-
     public BaseAdapter(int layoutResId, @Nullable List<T> data) {
         super(layoutResId, data);
     }
