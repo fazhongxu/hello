@@ -239,6 +239,9 @@ deps.adapter_helper = "com.github.CymChad:BaseRecyclerViewAdapterHelper:$version
 // https://github.com/scwang90/SmartRefreshLayout
 deps.refresh_layout = "io.github.scwang90:refresh-layout-kernel:$versions.refresh_layout"
 
+// SmartRefreshLayout 谷歌刷新头
+deps.refresh_header_material = "io.github.scwang90:refresh-header-material:$versions.refresh_layout"
+
 // BasePopup https://github.com/razerdp/BasePopup
 deps.base_popup = "io.github.razerdp:BasePopup:$versions.base_popup"
 

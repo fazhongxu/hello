@@ -111,6 +111,7 @@ dependencies {
 
     implementation deps.adapter_helper
     implementation deps.refresh_layout
+    implementation deps.refresh_header_material
 
     implementation deps.tbs
 

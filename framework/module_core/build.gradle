@@ -117,6 +117,7 @@ dependencies {
 
     compileOnly deps.adapter_helper
     compileOnly deps.refresh_layout
+    compileOnly deps.refresh_header_material
 
     implementation deps.statemanager
 

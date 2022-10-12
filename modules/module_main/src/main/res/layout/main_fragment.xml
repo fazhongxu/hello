@@ -20,7 +20,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.xxl.core.widget.recyclerview.UIRefreshLayout
+        <com.xxl.core.widget.recyclerview.UISmartRefreshLayout
             android:id="@+id/refresh_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -29,11 +29,11 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_list"
                 android:layout_width="match_parent"
-                tools:listitem="@layout/main_recycler_item_test_binding"
                 android:layout_height="match_parent"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/main_recycler_item_test_binding" />
 
-        </com.xxl.core.widget.recyclerview.UIRefreshLayout>
+        </com.xxl.core.widget.recyclerview.UISmartRefreshLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/ctl_content_container"
