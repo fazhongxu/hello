@@ -333,8 +333,21 @@ public class UIRefreshLayout extends SwipeRefreshLayout implements SwipeRefreshL
      */
     @Override
     public <T> void setLoadData(List<T> data) {
-        setLoadData(data, ListUtils.getSize(data) >= getPageSize(), getMinLoadMoreEndGoneCount());
+        setLoadData(data, ListUtils.getSize(data) >= getPageSize());
     }
+
+    /**
+     * 设置加载的数据
+     *
+     * @param data
+     * @param hasNextData 是否有下一页数据
+     */
+    @Override
+    public <T> void setLoadData(List<T> data,
+                                boolean hasNextData) {
+        setLoadData(data, hasNextData, getMinLoadMoreEndGoneCount());
+    }
+
 
     /**
      * 设置加载的数据

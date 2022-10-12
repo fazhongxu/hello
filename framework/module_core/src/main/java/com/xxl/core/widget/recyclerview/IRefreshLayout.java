@@ -57,7 +57,7 @@ public interface IRefreshLayout {
      *
      * @return
      */
-     int getMinLoadMoreEndGoneCount();
+    int getMinLoadMoreEndGoneCount();
 
     /**
      * 重置页码
@@ -157,7 +157,19 @@ public interface IRefreshLayout {
      * @param data
      */
     default <T> void setLoadData(List<T> data) {
-        setLoadData(data, ListUtils.getSize(data) >= getPageSize(), getPageSize());
+        setLoadData(data, ListUtils.getSize(data) >= getPageSize());
+    }
+
+
+    /**
+     * 设置加载的数据
+     *
+     * @param data
+     * @param hasNextData 是否有下一页数据
+     */
+    default <T> void setLoadData(List<T> data,
+                                 boolean hasNextData) {
+        setLoadData(data, hasNextData, getPageSize());
     }
 
     /**
