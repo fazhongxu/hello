@@ -20,21 +20,6 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.xxl.core.widget.recyclerview.UISmartRefreshLayout
-            android:id="@+id/refresh_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_list"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/main_recycler_item_test_binding" />
-
-        </com.xxl.core.widget.recyclerview.UISmartRefreshLayout>
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/ctl_content_container"
             android:layout_width="match_parent"
@@ -105,6 +90,21 @@
                 app:stopIcon="@mipmap/ic_audio_record_stop" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.xxl.core.widget.recyclerview.UISmartRefreshLayout
+            android:id="@+id/refresh_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/main_recycler_item_test_binding" />
+
+        </com.xxl.core.widget.recyclerview.UISmartRefreshLayout>
 
     </LinearLayout>
 

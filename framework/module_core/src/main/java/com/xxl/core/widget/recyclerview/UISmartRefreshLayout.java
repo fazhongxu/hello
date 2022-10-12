@@ -395,10 +395,11 @@ public class UISmartRefreshLayout extends SmartRefreshLayout implements IRefresh
 
     @Override
     public void onLoadMore() {
-        mRequestData = true;
-        if (mRefreshDataListener != null) {
-            mRefreshDataListener.onRequestData(mPage, mPageSize);
+        if (mRefreshListener == null || isRefreshing()) {
+            return;
         }
+        mRequestData = true;
+        mRefreshDataListener.onRequestData(mPage, mPageSize);
     }
 
     //endregion

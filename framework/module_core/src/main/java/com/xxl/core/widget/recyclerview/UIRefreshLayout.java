@@ -379,10 +379,11 @@ public class UIRefreshLayout extends SwipeRefreshLayout implements SwipeRefreshL
 
     @Override
     public void onLoadMore() {
-        mRequestData = true;
-        if (mRefreshDataListener != null) {
-            mRefreshDataListener.onRequestData(mPage, mPageSize);
+        if (mRefreshDataListener == null || isRefreshing()) {
+            return;
         }
+        mRequestData = true;
+        mRefreshDataListener.onRequestData(mPage, mPageSize);
     }
 
     //endregion
