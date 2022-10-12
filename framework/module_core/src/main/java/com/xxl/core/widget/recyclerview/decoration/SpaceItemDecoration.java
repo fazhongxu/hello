@@ -1,4 +1,4 @@
-package com.xxl.core.widget.recyclerview;
+package com.xxl.core.widget.recyclerview.decoration;
 
 import android.graphics.Rect;
 import android.view.View;

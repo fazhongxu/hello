@@ -19,6 +19,7 @@ import com.xxl.core.media.audio.AudioRecordFormat;
 import com.xxl.core.ui.BaseEventBusWrapper;
 import com.xxl.core.ui.fragment.BaseViewModelFragment;
 import com.xxl.core.utils.AppExpandUtils;
+import com.xxl.core.utils.DecorationUtils;
 import com.xxl.core.utils.TestUtils;
 import com.xxl.core.widget.recyclerview.OnRefreshDataListener;
 import com.xxl.hello.common.config.CacheDirConfig;
@@ -39,6 +40,7 @@ import com.xxl.kit.LogUtils;
 import com.xxl.kit.MediaUtils;
 import com.xxl.kit.OnAppStatusChangedListener;
 import com.xxl.kit.OnRequestCallBack;
+import com.xxl.kit.ResourceUtils;
 import com.xxl.kit.TimeUtils;
 import com.xxl.kit.ToastUtils;
 
@@ -161,6 +163,7 @@ public class MainFragment extends BaseViewModelFragment<MainViewModel, MainFragm
 
     private void setupRecyclerView() {
         mViewDataBinding.rvList.setAdapter(mTestBindingAdapter);
+        mViewDataBinding.rvList.addItemDecoration(DecorationUtils.createHorizontalDividerItemDecoration(ResourceUtils.getAttrColor(AppUtils.getTopActivity(), R.attr.h_common_divider_color), 10, 0));
         mViewDataBinding.refreshLayout.setRefreshDataListener(this);
         mViewDataBinding.refreshLayout.bindRecyclerView(mViewDataBinding.rvList, mTestBindingAdapter);
         mViewDataBinding.refreshLayout.setPageSize(20);

@@ -6,6 +6,8 @@
 
     <attr name="h_common_background_color" format="color|reference"/>
 
+    <attr name="h_common_divider_color" format="color|reference"/>
+
     <attr name="h_common_text_title_color" format="color|reference"/>
     <attr name="h_common_text_sub_title_color" format="color|reference"/>
     <attr name="h_common_text_content_color" format="color|reference"/>

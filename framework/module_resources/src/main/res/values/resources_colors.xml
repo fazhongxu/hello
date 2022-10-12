@@ -8,8 +8,11 @@
 
     <color name="resources_background_color">#F5F5F6</color>
 
+    <color name="resources_divider_color">#E5E5E5</color>
+
     <color name="resources_text_title_color">#000000</color>
     <color name="resources_text_sub_title_color">#3C3C3C</color>
     <color name="resources_text_content_color">#999999</color>
+
 
 </resources>
