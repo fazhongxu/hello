@@ -128,7 +128,6 @@ public class HelloApplication extends BaseApplication implements IApplication, M
     @Override
     public void initPlugins() {
         super.initPlugins();
-        CacheUtils.init(this, isDebug());
         LogUtils.init(isDebug(), "HELLO");
         CrashHandler.getInstance().init(this,"Hello",isDebug());
         MediaSelector.init(this);

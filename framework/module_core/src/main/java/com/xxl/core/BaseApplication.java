@@ -7,6 +7,7 @@ import androidx.multidex.MultiDex;
 
 import com.evernote.android.state.State;
 import com.evernote.android.state.StateSaver;
+import com.xxl.core.utils.CacheUtils;
 import com.xxl.core.utils.CrashHandler;
 import com.xxl.kit.AppUtils;
 import com.xxl.kit.ProcessUtils;
@@ -34,6 +35,7 @@ public abstract class BaseApplication extends DaggerApplication {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         MultiDex.install(this);
+        CacheUtils.init(this, isDebug());
     }
 
     /**
