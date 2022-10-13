@@ -18,7 +18,7 @@
         android:name="android.permission.RECEIVE_BOOT_COMPLETED"
         tools:node="remove" />
 
-    <uses-sdk tools:overrideLibrary="com.arthenica.mobileffmpeg,com.arthenica.ffmpegkit,com.hw.videoprocessor"/>
+    <uses-sdk tools:overrideLibrary="com.arthenica.mobileffmpeg,com.arthenica.ffmpegkit,com.hw.videoprocessor" />
 
     <!-- https://developer.umeng.com/docs/128606/detail/193879-->
     <queries>
@@ -60,6 +60,7 @@
 
         <activity
             android:name="com.xxl.hello.main.ui.main.MainActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:launchMode="singleTask" />
 
         <activity
@@ -105,6 +106,14 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             tools:replace="android:configChanges" />
+
+        <!-- auto size 屏幕适配-->
+        <meta-data
+            android:name="design_width_in_dp"
+            android:value="375" />
+        <meta-data
+            android:name="design_height_in_dp"
+            android:value="667" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

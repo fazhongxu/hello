@@ -150,6 +150,8 @@ dependencies {
     implementation deps.ffmpeg_kit
     implementation deps.ffmpeg_kit_exception
 
+    implementation deps.auto_size
+
     implementation deps.dkplayer.dkplayer
     implementation deps.dkplayer.dkplayer_ijk
 

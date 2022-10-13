@@ -81,6 +81,8 @@ dependencies {
 
     implementation deps.ffmpeg_kit
 
+    implementation deps.auto_size
+
     compileOnly deps.glide.glide
     kapt deps.glide.glide_processor
     implementation deps.picture_selector
