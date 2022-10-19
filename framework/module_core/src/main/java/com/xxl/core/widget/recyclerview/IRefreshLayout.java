@@ -1,18 +1,15 @@
 package com.xxl.core.widget.recyclerview;
 
-import android.view.View;
-
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alipictures.statemanager.StateLayout;
 import com.alipictures.statemanager.manager.StateEventListener;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.xxl.core.exception.ResponseException;
 import com.xxl.kit.ListUtils;
 
 import java.util.List;
-
-import javax.sql.StatementEventListener;
 
 /**
  * 刷新视图接口
@@ -214,5 +211,13 @@ public interface IRefreshLayout {
     <T> void setLoadData(List<T> data,
                          boolean hasNextData,
                          int minLoadEndMoreGoneCount);
+
+    /**
+     * 未知异常处理
+     *
+     * @param exception
+     * @return
+     */
+    boolean onUnKowException(ResponseException exception);
 
 }

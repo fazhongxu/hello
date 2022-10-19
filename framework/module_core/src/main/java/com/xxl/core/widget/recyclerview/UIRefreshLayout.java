@@ -19,6 +19,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnLoadMoreListener;
 import com.chad.library.adapter.base.module.BaseLoadMoreModule;
 import com.xxl.core.R;
+import com.xxl.core.exception.ResponseException;
 import com.xxl.core.ui.state.LoadingState;
 import com.xxl.core.widget.recyclerview.adapter.SimpleLoadMoreView;
 import com.xxl.kit.ColorUtils;
@@ -451,6 +452,17 @@ public class UIRefreshLayout extends SwipeRefreshLayout implements SwipeRefreshL
                 }
             }
         }
+    }
+
+    /**
+     * 未知异常处理
+     *
+     * @param exception
+     * @return
+     */
+    @Override
+    public boolean onUnKowException(ResponseException exception){
+        return true;
     }
 
     //endregion

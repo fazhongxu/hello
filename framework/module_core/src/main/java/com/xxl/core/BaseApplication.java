@@ -11,6 +11,8 @@ import com.xxl.core.ui.state.EmptyState;
 import com.xxl.core.ui.state.ExceptionState;
 import com.xxl.core.ui.state.LoadingState;
 import com.xxl.core.ui.state.NetworkExceptionState;
+import com.xxl.core.ui.state.RequestErrorState;
+import com.xxl.core.ui.state.UnKnowExceptionState;
 import com.xxl.core.utils.CacheUtils;
 import com.xxl.core.widget.swipebacklayout.SwipeBackActivityManager;
 import com.xxl.kit.AppUtils;
@@ -74,6 +76,8 @@ public abstract class BaseApplication extends DaggerApplication {
         StateRepository.registerState(LoadingState.STATE,LoadingState.class);
         StateRepository.registerState(ExceptionState.STATE,ExceptionState.class);
         StateRepository.registerState(NetworkExceptionState.STATE,NetworkExceptionState.class);
+        StateRepository.registerState(UnKnowExceptionState.STATE, UnKnowExceptionState.class);
+        StateRepository.registerState(RequestErrorState.STATE, RequestErrorState.class);
     }
 
     /**

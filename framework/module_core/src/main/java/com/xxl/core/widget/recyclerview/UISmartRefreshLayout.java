@@ -22,6 +22,7 @@ import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 import com.xxl.core.R;
+import com.xxl.core.exception.ResponseException;
 import com.xxl.core.ui.state.LoadingState;
 import com.xxl.core.widget.recyclerview.adapter.SimpleLoadMoreView;
 import com.xxl.kit.ListUtils;
@@ -441,6 +442,19 @@ public class UISmartRefreshLayout extends SmartRefreshLayout implements IRefresh
             }
         }
     }
+
+    /**
+     * 未知异常处理
+     *
+     * @param exception
+     * @return
+     */
+    @Override
+    public boolean onUnKowException(ResponseException exception){
+        // TODO: 2022/10/19  
+        return true;
+    }
+
 
     //endregion
 

@@ -4,7 +4,6 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
@@ -19,7 +18,6 @@ import com.xxl.core.media.audio.AudioCapture.OnAudioFrameCapturedListener;
 import com.xxl.core.media.audio.AudioRecordFormat;
 import com.xxl.core.ui.BaseEventBusWrapper;
 import com.xxl.core.ui.fragment.BaseStateViewModelFragment;
-import com.xxl.core.ui.state.LoadingState;
 import com.xxl.core.utils.AppExpandUtils;
 import com.xxl.core.utils.DecorationUtils;
 import com.xxl.core.utils.TestUtils;
@@ -174,6 +172,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
     @Override
     protected void requestData() {
+        showLoadingState();
         mMainViewModel.requestQueryUserInfo(getStateResponseListener());
         mViewDataBinding.refreshLayout.requestData();
     }

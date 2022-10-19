@@ -2,7 +2,10 @@ package com.xxl.core.ui.state;
 
 import android.view.View;
 
+import androidx.annotation.DrawableRes;
+
 import com.alipictures.statemanager.state.BaseState;
+import com.alipictures.statemanager.state.StateProperty;
 import com.xxl.core.R;
 
 /**
@@ -48,6 +51,37 @@ public class EmptyState extends BaseState {
     @Override
     public String getState() {
         return STATE;
+    }
+
+    public static EmptyStateProperty obtain() {
+        return new EmptyStateProperty();
+    }
+
+    public static EmptyStateProperty obtain(String message) {
+        EmptyStateProperty stateProperty = new EmptyStateProperty();
+        stateProperty.message = message;
+        return stateProperty;
+    }
+
+    public static EmptyStateProperty obtain(String message,
+                                            @DrawableRes int icon) {
+        EmptyStateProperty stateProperty = new EmptyStateProperty();
+        stateProperty.message = message;
+        stateProperty.icon = icon;
+        return stateProperty;
+    }
+
+    public static class EmptyStateProperty implements StateProperty {
+
+        public String message;
+
+        @DrawableRes
+        public int icon;
+
+        @Override
+        public String getState() {
+            return EmptyState.STATE;
+        }
     }
 
     //endregion

@@ -1,6 +1,7 @@
 package com.xxl.core.ui.fragment;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +18,12 @@ import com.alipictures.statemanager.state.CoreState;
 import com.alipictures.statemanager.state.StateProperty;
 import com.xxl.core.exception.ResponseException;
 import com.xxl.core.exception.ResponseListener;
+import com.xxl.core.exception.ResponseStateCallback;
 import com.xxl.core.ui.BaseViewModel;
+import com.xxl.core.ui.state.EmptyState;
 import com.xxl.core.ui.state.ExceptionState;
 import com.xxl.core.ui.state.LoadingState;
-import com.xxl.core.ui.state.ResponseStateListener;
+import com.xxl.core.ui.state.RequestErrorState;
 
 /**
  * 带状态视图的Fragment
@@ -29,7 +32,7 @@ import com.xxl.core.ui.state.ResponseStateListener;
  * @date 2022/10/19.
  */
 public abstract class BaseStateViewModelFragment<V extends BaseViewModel, T extends ViewDataBinding> extends BaseViewModelFragment<V, T>
-        implements StateChanger {
+        implements StateChanger, StateEventListener {
 
     //region: 成员变量
 
@@ -52,6 +55,7 @@ public abstract class BaseStateViewModelFragment<V extends BaseViewModel, T exte
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = mStateManager.setContentView(super.onCreateView(inflater, container, savedInstanceState));
+        mStateManager.setStateEventListener(this);
         return rootView;
     }
 
@@ -62,18 +66,32 @@ public abstract class BaseStateViewModelFragment<V extends BaseViewModel, T exte
     }
 
     /**
+     * 空视图点击
+     */
+    public void onEmptyClick(){
+
+    }
+
+    /**
      * 获取状态响应监听事件
      *
      * @return
      */
     public ResponseListener getStateResponseListener() {
-        return new ResponseStateListener(mStateManager) {
+        return new ResponseStateCallback(mStateManager) {
+            @Override
+            public EmptyState.EmptyStateProperty getEmptyStateProperty() {
+                return super.getEmptyStateProperty();
+            }
+
             @Override
             public boolean onNetworkException(@NonNull ResponseException exception) {
                 return super.onNetworkException(exception);
             }
         };
     }
+
+    //endregion
 
     //region: StateChanger
 
@@ -151,7 +169,22 @@ public abstract class BaseStateViewModelFragment<V extends BaseViewModel, T exte
 
     //endregion
 
+    //region: StateEventListener
+
+    @Override
+    public void onEventListener(String state, View view) {
+        if (isActivityFinishing()) {
+            return;
+        }
+        if (TextUtils.equals(RequestErrorState.EVENT_CLICK,state)) {
+            requestData();
+        }else {
+            onEmptyClick();
+        }
+    }
+
     //endregion
+
 
 
 }
