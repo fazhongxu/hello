@@ -81,7 +81,7 @@ public class MainViewModel extends BaseViewModel<MainNavigator> {
                 }
                 callBack.onSuccess(list);
             }
-        }, 1000);
+        }, 3000);
     }
 
     //endregion

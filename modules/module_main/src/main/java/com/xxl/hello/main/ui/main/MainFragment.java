@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
@@ -17,7 +18,8 @@ import com.xxl.core.media.audio.AudioCapture;
 import com.xxl.core.media.audio.AudioCapture.OnAudioFrameCapturedListener;
 import com.xxl.core.media.audio.AudioRecordFormat;
 import com.xxl.core.ui.BaseEventBusWrapper;
-import com.xxl.core.ui.fragment.BaseViewModelFragment;
+import com.xxl.core.ui.fragment.BaseStateViewModelFragment;
+import com.xxl.core.ui.state.LoadingState;
 import com.xxl.core.utils.AppExpandUtils;
 import com.xxl.core.utils.DecorationUtils;
 import com.xxl.core.utils.TestUtils;
@@ -56,7 +58,7 @@ import io.reactivex.rxjava3.disposables.Disposable;
  * @author xxl.
  * @date 2022/4/8.
  */
-public class MainFragment extends BaseViewModelFragment<MainViewModel, MainFragmentBinding>
+public class MainFragment extends BaseStateViewModelFragment<MainViewModel, MainFragmentBinding>
         implements MainNavigator, OnAppStatusChangedListener, OnAudioFrameCapturedListener, TestBindingRecycleItemListener, OnRefreshDataListener {
 
     //region: 成员变量
@@ -191,6 +193,14 @@ public class MainFragment extends BaseViewModelFragment<MainViewModel, MainFragm
      */
     @Override
     public boolean onTestLongClick() {
+        showLoadingState();
+        setStateEventListener((state, view) -> {
+            if (TextUtils.equals(LoadingState.EVENT_CLICK, state)) {
+                showExceptionState();
+            } else {
+                dismissState();
+            }
+        });
         mViewDataBinding.refreshLayout.setVisibility(View.VISIBLE);
         mViewDataBinding.ctlContentContainer.setVisibility(View.GONE);
         return true;
@@ -232,6 +242,7 @@ public class MainFragment extends BaseViewModelFragment<MainViewModel, MainFragm
             return;
         }
         final OnRequestCallBack<List<String>> callBack = list -> {
+            dismissState();
             mViewDataBinding.refreshLayout.setLoadData(list);
         };
         getViewModel().requestListData(page, pageSize, callBack);

@@ -50,6 +50,8 @@ public class UISmartRefreshLayout extends SmartRefreshLayout implements IRefresh
      */
     private BaseQuickAdapter mAdapter;
 
+
+    // TODO: 2022/10/19 加StateLayout状态视图 
     /**
      * 页码
      */

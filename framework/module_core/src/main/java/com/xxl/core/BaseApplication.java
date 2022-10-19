@@ -5,10 +5,14 @@ import android.content.Context;
 import androidx.annotation.CallSuper;
 import androidx.multidex.MultiDex;
 
-import com.evernote.android.state.State;
+import com.alipictures.statemanager.loader.StateRepository;
 import com.evernote.android.state.StateSaver;
+import com.xxl.core.ui.state.EmptyState;
+import com.xxl.core.ui.state.ExceptionState;
+import com.xxl.core.ui.state.LoadingState;
+import com.xxl.core.ui.state.NetworkExceptionState;
 import com.xxl.core.utils.CacheUtils;
-import com.xxl.core.utils.CrashHandler;
+import com.xxl.core.widget.swipebacklayout.SwipeBackActivityManager;
 import com.xxl.kit.AppUtils;
 import com.xxl.kit.ProcessUtils;
 import com.xxl.kit.RouterUtils;
@@ -55,9 +59,21 @@ public abstract class BaseApplication extends DaggerApplication {
      */
     @CallSuper
     protected void initPlugins() {
+        SwipeBackActivityManager.init(this);
+        registerState();
         StateSaver.setEnabledForAllActivitiesAndSupportFragments(this,true);
         RouterUtils.init(this, isDebug());
         ShareUtils.preInit(this, getShareAppKey(), getChannel(), isDebug());
+    }
+
+    /**
+     * 注册页面视图状态
+     */
+    private void registerState() {
+        StateRepository.registerState(EmptyState.STATE,EmptyState.class);
+        StateRepository.registerState(LoadingState.STATE,LoadingState.class);
+        StateRepository.registerState(ExceptionState.STATE,ExceptionState.class);
+        StateRepository.registerState(NetworkExceptionState.STATE,NetworkExceptionState.class);
     }
 
     /**

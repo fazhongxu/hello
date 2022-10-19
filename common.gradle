@@ -111,6 +111,7 @@ dependencies {
     implementation deps.arouter.arouter
     kapt deps.arouter.arouter_processor
 
+    implementation deps.state_manager
     implementation deps.adapter_helper
     implementation deps.refresh_layout
     implementation deps.refresh_header_material

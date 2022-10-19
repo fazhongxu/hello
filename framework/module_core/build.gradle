@@ -102,6 +102,7 @@ dependencies {
 
     compileOnly deps.rxpermission
 
+    compileOnly deps.state_manager
     compileOnly deps.adapter_helper
 
     compileOnly deps.agentweb

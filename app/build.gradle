@@ -159,6 +159,7 @@ dependencies {
 
     implementation deps.tbs
 
+    implementation deps.state_manager
     implementation deps.adapter_helper
     implementation deps.refresh_layout
     implementation deps.refresh_header_material

@@ -7,6 +7,7 @@ import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
+import com.alipictures.statemanager.loader.StateRepository;
 import com.luck.picture.lib.engine.PictureSelectorEngine;
 import com.umeng.socialize.PlatformConfig;
 import com.xxl.core.BaseApplication;
@@ -131,7 +132,6 @@ public class HelloApplication extends BaseApplication implements IApplication, M
         LogUtils.init(isDebug(), "HELLO");
         CrashHandler.getInstance().init(this,"Hello",isDebug());
         MediaSelector.init(this);
-        SwipeBackActivityManager.init(this);
         registerShortcuts(this);
     }
 
@@ -261,7 +261,7 @@ public class HelloApplication extends BaseApplication implements IApplication, M
      *
      * @param context
      */
-    private static void registerShortcuts(@NonNull final Context context) {
+    private void registerShortcuts(@NonNull final Context context) {
         final Intent crmIntent = new Intent(context, UserSettingActivity.class);
         crmIntent.setAction(Intent.ACTION_VIEW);
         final ShortcutInfo crmShortcutInfo = ShortcutConfig.buildShortcutInfo(context, crmIntent, ShortcutConfig.CRM_SHORTCUT_ID, StringUtils.getString(R.string.main_crm_shortcut_name), R.drawable.main_ic_crm, StringUtils.getString(R.string.main_crm_shortcut_disable));

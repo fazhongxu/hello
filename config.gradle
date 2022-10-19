@@ -75,6 +75,7 @@ versions.ffmpeg_kit_exception = "0.2.1"
 
 versions.auto_size = "v1.2.1"
 
+versions.state_manager = "1.0.0"
 versions.adapter_helper = "3.0.4"
 versions.refresh_layout = "2.0.5"
 
@@ -238,6 +239,9 @@ deps.ffmpeg_kit_exception = "com.arthenica:smart-exception-java:$versions.ffmpeg
 
 // https://github.com/JessYanCoding/AndroidAutoSize
 deps.auto_size = "com.github.JessYanCoding:AndroidAutoSize:$versions.auto_size"
+
+// https://github.com/alibaba/StateManager
+deps.state_manager = "com.alipictures:statemanager:$versions.state_manager"
 
 // BaseRecyclerViewAdapterHelper https://github.com/CymChad/BaseRecyclerViewAdapterHelper
 deps.adapter_helper = "com.github.CymChad:BaseRecyclerViewAdapterHelper:$versions.adapter_helper"
