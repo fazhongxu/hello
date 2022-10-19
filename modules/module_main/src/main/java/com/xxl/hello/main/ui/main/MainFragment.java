@@ -23,6 +23,7 @@ import com.xxl.core.utils.DecorationUtils;
 import com.xxl.core.utils.TestUtils;
 import com.xxl.core.widget.recyclerview.OnRefreshDataListener;
 import com.xxl.hello.common.config.CacheDirConfig;
+import com.xxl.hello.common.config.NetworkConfig;
 import com.xxl.hello.main.BR;
 import com.xxl.hello.main.R;
 import com.xxl.hello.main.databinding.MainFragmentBinding;
@@ -147,6 +148,10 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
         }
     }
 
+    @Override
+    public void onEmptyClick() {
+        dismissState();
+    }
 
     /**
      * 设置页面视图
@@ -174,7 +179,6 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     protected void requestData() {
         showLoadingState();
         mMainViewModel.requestQueryUserInfo(getStateResponseListener());
-        mViewDataBinding.refreshLayout.requestData();
     }
 
     //endregion
@@ -195,6 +199,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
         mViewDataBinding.refreshLayout.showLoadingState();
         mViewDataBinding.refreshLayout.setVisibility(View.VISIBLE);
         mViewDataBinding.ctlContentContainer.setVisibility(View.GONE);
+        mViewDataBinding.refreshLayout.requestData();
         return true;
     }
 
