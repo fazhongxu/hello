@@ -2,12 +2,18 @@ package com.xxl.core.widget.recyclerview;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.alipictures.statemanager.StateLayout;
+import com.alipictures.statemanager.manager.StateEventListener;
+import com.alipictures.statemanager.state.CoreState;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.module.BaseLoadMoreModule;
 import com.scwang.smart.refresh.header.MaterialHeader;
@@ -15,6 +21,8 @@ import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
+import com.xxl.core.R;
+import com.xxl.core.ui.state.LoadingState;
 import com.xxl.core.widget.recyclerview.adapter.SimpleLoadMoreView;
 import com.xxl.kit.ListUtils;
 
@@ -50,8 +58,11 @@ public class UISmartRefreshLayout extends SmartRefreshLayout implements IRefresh
      */
     private BaseQuickAdapter mAdapter;
 
+    /**
+     * 状态视图
+     */
+    private StateLayout mStateLayout;
 
-    // TODO: 2022/10/19 加StateLayout状态视图 
     /**
      * 页码
      */
@@ -292,6 +303,59 @@ public class UISmartRefreshLayout extends SmartRefreshLayout implements IRefresh
         loadMoreModule.setLoadMoreView(new SimpleLoadMoreView());
         loadMoreModule.setOnLoadMoreListener(this);
         loadMoreModule.setEnableLoadMore(false);
+    }
+
+    /**
+     * 展示加载中状态视图
+     */
+    @Override
+    public void showLoadingState(){
+        setStateLayout(LoadingState.STATE,null);
+    }
+
+    /**
+     * 隐藏状态视图
+     */
+    @Override
+    public void dismissState(){
+        setStateLayout(CoreState.STATE,null);
+    }
+
+    /**
+     * 获取状态视图
+     *
+     * @return
+     */
+    @Override
+    public StateLayout getStateLayout() {
+        if (mStateLayout == null) {
+            View view = LayoutInflater.from(getContext()).inflate(R.layout.core_layout_recycler_state, null);
+            mStateLayout = view.findViewById(R.id.state_layout);
+        }
+        return mStateLayout;
+    }
+
+    /**
+     * 设置状态视图
+     *
+     * @param state
+     * @param stateEventListener
+     */
+    @Override
+    public void setStateLayout(String state,
+                               StateEventListener stateEventListener) {
+        final StateLayout stateLayout = getStateLayout();
+        if (stateLayout != null) {
+
+            if (stateLayout.getParent() != null) {
+                ((ViewGroup) stateLayout.getParent()).removeView(stateLayout);
+            }
+            if (mAdapter != null) {
+                mAdapter.setEmptyView(stateLayout);
+            }
+            stateLayout.setStateEventListener(stateEventListener);
+            stateLayout.showState(state);
+        }
     }
 
     /**

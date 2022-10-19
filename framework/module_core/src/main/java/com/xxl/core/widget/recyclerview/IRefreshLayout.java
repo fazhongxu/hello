@@ -1,12 +1,18 @@
 package com.xxl.core.widget.recyclerview;
 
+import android.view.View;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.alipictures.statemanager.StateLayout;
+import com.alipictures.statemanager.manager.StateEventListener;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.xxl.kit.ListUtils;
 
 import java.util.List;
+
+import javax.sql.StatementEventListener;
 
 /**
  * 刷新视图接口
@@ -136,6 +142,32 @@ public interface IRefreshLayout {
     void bindRecyclerView(RecyclerView recyclerView,
                           BaseQuickAdapter adapter,
                           RecyclerView.LayoutManager layoutManager);
+
+    /**
+     * 展示加载中状态视图
+     */
+    void showLoadingState();
+
+    /**
+     * 隐藏状态视图
+     */
+    void dismissState();
+
+    /**
+     * 获取状态视图
+     *
+     * @return
+     */
+    StateLayout getStateLayout();
+
+    /**
+     * 设置状态视图
+     *
+     * @param state
+     * @param stateEventListener
+     */
+    void setStateLayout(String state,
+                        StateEventListener stateEventListener);
 
     /**
      * 请求数据

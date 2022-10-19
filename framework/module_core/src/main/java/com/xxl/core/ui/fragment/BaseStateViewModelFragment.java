@@ -15,9 +15,12 @@ import com.alipictures.statemanager.manager.StateEventListener;
 import com.alipictures.statemanager.manager.StateManager;
 import com.alipictures.statemanager.state.CoreState;
 import com.alipictures.statemanager.state.StateProperty;
+import com.xxl.core.exception.ResponseException;
+import com.xxl.core.exception.ResponseListener;
 import com.xxl.core.ui.BaseViewModel;
 import com.xxl.core.ui.state.ExceptionState;
 import com.xxl.core.ui.state.LoadingState;
+import com.xxl.core.ui.state.ResponseStateListener;
 
 /**
  * 带状态视图的Fragment
@@ -56,6 +59,20 @@ public abstract class BaseStateViewModelFragment<V extends BaseViewModel, T exte
     public void onDestroyView() {
         super.onDestroyView();
         mStateManager.onDestoryView();
+    }
+
+    /**
+     * 获取状态响应监听事件
+     *
+     * @return
+     */
+    public ResponseListener getStateResponseListener() {
+        return new ResponseStateListener(mStateManager) {
+            @Override
+            public boolean onNetworkException(@NonNull ResponseException exception) {
+                return super.onNetworkException(exception);
+            }
+        };
     }
 
     //region: StateChanger

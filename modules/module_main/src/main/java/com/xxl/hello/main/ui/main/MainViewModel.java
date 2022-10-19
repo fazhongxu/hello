@@ -6,6 +6,7 @@ import android.os.Handler;
 import androidx.annotation.NonNull;
 import androidx.databinding.ObservableField;
 
+import com.xxl.core.exception.ResponseListener;
 import com.xxl.hello.common.config.AppConfig;
 import com.xxl.hello.service.data.model.api.QueryUserInfoRequest;
 import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
@@ -81,7 +82,7 @@ public class MainViewModel extends BaseViewModel<MainNavigator> {
                 }
                 callBack.onSuccess(list);
             }
-        }, 3000);
+        }, page == 1 ? 3000 : 1000);
     }
 
     //endregion
@@ -91,7 +92,7 @@ public class MainViewModel extends BaseViewModel<MainNavigator> {
     /**
      * 请求查询用户信息
      */
-    void requestQueryUserInfo() {
+    void requestQueryUserInfo(@NonNull final ResponseListener listener) {
         final QueryUserInfoRequest request = QueryUserInfoRequest.obtain()
                 .setTargetUserName(AppConfig.User.GITHUB_USER_NAME);
         final UserRepositoryApi userRepositoryApi = mDataRepositoryKit.getUserRepositoryApi();
@@ -99,7 +100,9 @@ public class MainViewModel extends BaseViewModel<MainNavigator> {
                 .compose(applySchedulers())
                 .subscribe(queryUserInfoResponse -> {
                     getNavigator().onRequestQueryUserInfoComplete(queryUserInfoResponse);
-                }, this::setResponseException);
+                }, throwable -> {
+                    setResponseException(throwable, listener);
+                });
         addCompositeDisposable(disposable);
     }
 

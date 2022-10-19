@@ -174,7 +174,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
     @Override
     protected void requestData() {
-        mMainViewModel.requestQueryUserInfo();
+        mMainViewModel.requestQueryUserInfo(getStateResponseListener());
         mViewDataBinding.refreshLayout.requestData();
     }
 
@@ -193,14 +193,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
      */
     @Override
     public boolean onTestLongClick() {
-        showLoadingState();
-        setStateEventListener((state, view) -> {
-            if (TextUtils.equals(LoadingState.EVENT_CLICK, state)) {
-                showExceptionState();
-            } else {
-                dismissState();
-            }
-        });
+        mViewDataBinding.refreshLayout.showLoadingState();
         mViewDataBinding.refreshLayout.setVisibility(View.VISIBLE);
         mViewDataBinding.ctlContentContainer.setVisibility(View.GONE);
         return true;
@@ -213,6 +206,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
      */
     @Override
     public void onRequestQueryUserInfoComplete(@NonNull final QueryUserInfoResponse response) {
+        dismissState();
         if (response != null) {
             mMainViewModel.setObservableUserInfo(response.getUserId().concat("\n").concat(response.getAvatarUrl()));
         }
@@ -242,7 +236,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
             return;
         }
         final OnRequestCallBack<List<String>> callBack = list -> {
-            dismissState();
+            mViewDataBinding.refreshLayout.dismissState();
             mViewDataBinding.refreshLayout.setLoadData(list);
         };
         getViewModel().requestListData(page, pageSize, callBack);

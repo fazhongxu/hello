@@ -8,6 +8,7 @@
     <string name="core_stop_record_audio_text">停止录音</string>
     <string name="core_record_audio_finish_text">录音结束</string>
 
+    <string name="core_data_parse_error_tips">数据解析异常</string>
     <string name="core_network_error_tips">网络错误，请稍后再试！</string>
     <string name="core_create_dir_failure">创建文件夹失败</string>
 
@@ -15,4 +16,6 @@
     <string name="core_load_end">没有更多数据</string>
     <string name="core_load_failed">加载失败，请点我重试</string>
     <string name="core_loading">正在加载中...</string>
+
+    <string name="core_data_empty">没有找到数据</string>
 </resources>
