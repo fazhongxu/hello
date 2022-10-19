@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
@@ -23,7 +24,6 @@ import com.xxl.core.utils.DecorationUtils;
 import com.xxl.core.utils.TestUtils;
 import com.xxl.core.widget.recyclerview.OnRefreshDataListener;
 import com.xxl.hello.common.config.CacheDirConfig;
-import com.xxl.hello.common.config.NetworkConfig;
 import com.xxl.hello.main.BR;
 import com.xxl.hello.main.R;
 import com.xxl.hello.main.databinding.MainFragmentBinding;
@@ -211,7 +211,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     @Override
     public void onRequestQueryUserInfoComplete(@NonNull final QueryUserInfoResponse response) {
         dismissState();
-        if (response != null) {
+        if (response != null && !TextUtils.isEmpty(response.getUserId())) {
             mMainViewModel.setObservableUserInfo(response.getUserId().concat("\n").concat(response.getAvatarUrl()));
         }
 
@@ -219,7 +219,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
         if (loginUserEntity != null) {
             mMainViewModel.setObservableUserId(loginUserEntity.getUserId());
         } else {
-            mMainViewModel.setObservableUserId(response == null ? String.valueOf(TestUtils.currentTimeMillis()) : response.getUserId());
+            mMainViewModel.setObservableUserId((response == null || TextUtils.isEmpty(response.getUserId())) ? String.valueOf(TestUtils.currentTimeMillis()) : response.getUserId());
         }
     }
 

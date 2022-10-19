@@ -9,6 +9,7 @@ import androidx.databinding.ObservableField;
 import com.xxl.core.exception.ResponseListener;
 import com.xxl.hello.common.config.AppConfig;
 import com.xxl.hello.service.data.model.api.QueryUserInfoRequest;
+import com.xxl.hello.service.data.model.api.QueryUserInfoResponse;
 import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.hello.service.data.repository.api.UserRepositoryApi;
@@ -48,6 +49,11 @@ public class MainViewModel extends BaseViewModel<MainNavigator> {
     private ObservableField<String> mObservableUserInfo = new ObservableField<>();
 
     private final UploadService mUploadService;
+
+    /**
+     * 是否强制请求网络
+     */
+    private boolean mForceRequest = true;
 
     //endregion
 
@@ -89,18 +95,29 @@ public class MainViewModel extends BaseViewModel<MainNavigator> {
 
     //region: 与用户信息相关
 
+    private int mRetryCount;
+
     /**
      * 请求查询用户信息
      */
     void requestQueryUserInfo(@NonNull final ResponseListener listener) {
+        if (!mForceRequest) {
+            getNavigator().onRequestQueryUserInfoComplete(QueryUserInfoResponse.obtain());
+            return;
+        }
         final QueryUserInfoRequest request = QueryUserInfoRequest.obtain()
                 .setTargetUserName(AppConfig.User.GITHUB_USER_NAME);
         final UserRepositoryApi userRepositoryApi = mDataRepositoryKit.getUserRepositoryApi();
         final Disposable disposable = userRepositoryApi.queryUserInfo(request)
                 .compose(applySchedulers())
                 .subscribe(queryUserInfoResponse -> {
+                    mRetryCount = 0;
                     getNavigator().onRequestQueryUserInfoComplete(queryUserInfoResponse);
                 }, throwable -> {
+                    if (mRetryCount >= 2) {
+                        mForceRequest = false;
+                    }
+                    mRetryCount++;
                     setResponseException(throwable, listener);
                 });
         addCompositeDisposable(disposable);
