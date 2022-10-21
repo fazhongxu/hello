@@ -114,7 +114,7 @@ public class MainViewModel extends BaseViewModel<MainNavigator> {
                     mRetryCount = 0;
                     getNavigator().onRequestQueryUserInfoComplete(queryUserInfoResponse);
                 }, throwable -> {
-                    if (mRetryCount >= 2) {
+                    if (mRetryCount >= 1) {
                         mForceRequest = false;
                     }
                     mRetryCount++;
