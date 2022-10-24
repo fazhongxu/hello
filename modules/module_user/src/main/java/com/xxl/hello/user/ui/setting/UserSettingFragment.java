@@ -26,7 +26,6 @@ import com.xxl.hello.service.qunlifier.ForUserBaseUrl;
 import com.xxl.hello.user.BR;
 import com.xxl.hello.user.R;
 import com.xxl.hello.user.databinding.UserFragmentSettingBinding;
-import com.xxl.hello.widget.ui.view.keyboard.CommentKeyboardLayout;
 import com.xxl.hello.widget.ui.view.keyboard.ICommentKeyboardLayout;
 import com.xxl.hello.widget.ui.view.share.OnShareItemOperate;
 import com.xxl.hello.widget.ui.view.share.ResourcesShareWindow;
@@ -35,6 +34,7 @@ import com.xxl.kit.FileUtils;
 import com.xxl.kit.KeyboardWrapper;
 import com.xxl.kit.MomentShareUtils;
 import com.xxl.kit.PathUtils;
+import com.xxl.kit.ResourceUtils;
 import com.xxl.kit.ToastUtils;
 
 import java.io.File;
@@ -300,6 +300,11 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
                     final List<String> imagePaths = new ArrayList<>();
                     for (File file : files) {
                         imagePaths.add(file.getAbsolutePath());
+                    }
+                    if (imagePaths.size() <= 0) {
+                        String shareImagePath = CacheDirConfig.SHARE_FILE_DIR + File.separator + "hello.jpeg";
+                        ResourceUtils.copyFileFromAssets("hello.jpeg", shareImagePath);
+                        imagePaths.add(shareImagePath);
                     }
                     MomentShareUtils.shareSingleImageToWeChatMoment(getActivity(), imagePaths.size() > 0 ? imagePaths.get(0) : "");
                     window.dismiss();

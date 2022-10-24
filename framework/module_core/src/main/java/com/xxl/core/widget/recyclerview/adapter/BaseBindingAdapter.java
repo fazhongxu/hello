@@ -4,10 +4,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
-
-import org.jetbrains.annotations.NotNull;
 
 /**
  * @author xxl.
@@ -32,15 +31,15 @@ public abstract class BaseBindingAdapter<T, L extends BaseRecycleItemListener,
 
     //region: 页面生命周期
 
-    @NotNull
+    @NonNull
     @Override
-    protected BaseBindingViewHolder<Binding> createBaseViewHolder(@NotNull View view) {
+    protected BaseBindingViewHolder<Binding> createBaseViewHolder(@NonNull View view) {
         return new BaseBindingViewHolder<>(view);
     }
 
-    @NotNull
+    @NonNull
     @Override
-    protected BaseBindingViewHolder<Binding> createBaseViewHolder(@NotNull ViewGroup parent, int layoutResId) {
+    protected BaseBindingViewHolder<Binding> createBaseViewHolder(@NonNull ViewGroup parent, int layoutResId) {
         if (mLayoutInflater == null) {
             mLayoutInflater = LayoutInflater.from(getContext());
         }
@@ -51,7 +50,7 @@ public abstract class BaseBindingAdapter<T, L extends BaseRecycleItemListener,
     }
 
     @Override
-    protected void convert(@NotNull BaseBindingViewHolder<Binding> holder, T item) {
+    protected void convert(@NonNull BaseBindingViewHolder<Binding> holder, T item) {
         convert(holder.getDataBinding(), item);
         Binding dataBinding = holder.getDataBinding();
         if (dataBinding != null) {
@@ -59,9 +58,14 @@ public abstract class BaseBindingAdapter<T, L extends BaseRecycleItemListener,
         }
     }
 
-
-    public abstract void convert(Binding binding,
-                                 T item);
+    /**
+     * convert
+     *
+     * @param binding
+     * @param item
+     */
+    public abstract void convert(@NonNull final Binding binding,
+                                 @NonNull final T item);
 
 
     //endregion

@@ -1,19 +1,18 @@
 package com.xxl.hello.widget.ui.view.share;
 
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.GridLayout;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.xxl.hello.service.data.model.entity.share.ShareOperateItem;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi;
 import com.xxl.hello.widget.R;
+import com.xxl.hello.widget.ui.view.share.adapter.ResourcesShareAdapter;
+import com.xxl.hello.widget.ui.view.share.adapter.ResourcesShareItemListener;
 import com.xxl.kit.StringUtils;
 import com.xxl.kit.ViewUtils;
 
@@ -32,14 +31,19 @@ public class ResourcesShareWindow extends BasePopupWindow {
     //region: 成员变量
 
     /**
-     * 分享视图
-     */
-    private GridLayout mGridLayout;
-
-    /**
      * 点击事件
      */
     private OnShareItemOperate mListener;
+
+    /**
+     * 分享列表
+     */
+    private RecyclerView mRvShareList;
+
+    /**
+     * 资源分享列表适配器
+     */
+    private ResourcesShareAdapter mResourcesShareAdapter;
 
     //endregion
 
@@ -66,7 +70,17 @@ public class ResourcesShareWindow extends BasePopupWindow {
      */
     private void setupLayout() {
         View rootView = createPopupById(R.layout.widget_window_layout_resource_share);
-        mGridLayout = ViewUtils.findView(rootView, R.id.grid_layout);
+        mRvShareList = ViewUtils.findView(rootView, R.id.rv_list);
+        if (mResourcesShareAdapter == null) {
+            mResourcesShareAdapter = new ResourcesShareAdapter();
+        }
+        mRvShareList.setAdapter(mResourcesShareAdapter);
+        final ResourcesShareItemListener listener = (targetView, itemPosition, targetItem) -> {
+            if (mListener != null) {
+                mListener.onClick(this, targetItem, targetView, itemPosition);
+            }
+        };
+        mResourcesShareAdapter.setListener(listener);
         setContentView(rootView);
     }
 
@@ -109,20 +123,18 @@ public class ResourcesShareWindow extends BasePopupWindow {
      * @return
      */
     public ResourcesShareWindow addItems(@NonNull final List<ShareOperateItem> operateItems) {
-        mGridLayout.removeAllViews();
-        for (ShareOperateItem operateItem : operateItems) {
-            final View itemView = LayoutInflater.from(getContext()).inflate(R.layout.widget_layout_item_resource_share, mGridLayout, false);
-            final ImageView ivIcon = ViewUtils.findView(itemView, R.id.iv_icon);
-            final TextView tvTitle = ViewUtils.findView(itemView, R.id.tv_title);
-            ivIcon.setImageResource(operateItem.getIcon());
-            tvTitle.setText(operateItem.getTitle());
-            ViewUtils.setOnClickListener(itemView, v -> {
-                if (mListener != null) {
-                    mListener.onClick(this, operateItem, itemView, operateItems.indexOf(operateItem));
-                }
-            });
-            mGridLayout.addView(itemView);
-        }
+        mResourcesShareAdapter.setList(operateItems);
+        return this;
+    }
+
+    /**
+     * 设置分享列表视图管理
+     *
+     * @param layoutManager
+     * @return
+     */
+    public ResourcesShareWindow setLayoutManager(RecyclerView.LayoutManager layoutManager) {
+        mRvShareList.setLayoutManager(layoutManager);
         return this;
     }
 

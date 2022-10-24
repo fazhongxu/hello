@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.xxl.hello.widget.ui.view.share.adapter.ResourcesShareItemViewModel" />
+
+        <variable
+            name="listener"
+            type="com.xxl.hello.widget.ui.view.share.adapter.ResourcesShareItemListener" />
+
+    </data>
+
+    <LinearLayout
+        android:id="@+id/ll_item_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:gravity="center"
+        android:onClick="@{(view)->listener.onShareItemClick(view,viewModel.itemPosition,viewModel.targetItemEntity)}"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_icon"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            app:imageRes="@{viewModel.observableIcon}"
+            tools:layout_height="55dp"
+            tools:layout_width="55dp"
+            tools:src="@tools:sample/avatars" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_title"
+            style="@style/TextStyle.Content.H10.Regular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="@{viewModel.observableTitle}"
+            tools:text="微信" />
+
+    </LinearLayout>
+
+</layout>
