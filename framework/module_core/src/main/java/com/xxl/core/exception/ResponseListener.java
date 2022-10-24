@@ -1,7 +1,6 @@
 package com.xxl.core.exception;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 /**
  * @author xxl.
@@ -44,6 +43,14 @@ public abstract class ResponseListener {
     public abstract boolean onParseException(@NonNull final ResponseException exception);
 
     /**
+     * 未查询到数据
+     *
+     * @param exception
+     * @return
+     */
+    public abstract boolean onNotFondData(@NonNull final ResponseException exception);
+
+    /**
      * 网络异常
      *
      * @param exception
@@ -63,6 +70,10 @@ public abstract class ResponseListener {
 
         if (exception.getCode() == ResponseCode.RESPONSE_CODE_TOKEN_TOKEN_INVALID) {
             return onTokenInvalid(exception);
+        }
+
+        if (exception.getCode() == ResponseCode.RESPONSE_CODE_NO_FIND_DATA) {
+            return onNotFondData(exception);
         }
 
         if (exception.getCode() == ResponseCode.RESPONSE_CODE_PARSE_EXCEPTION) {

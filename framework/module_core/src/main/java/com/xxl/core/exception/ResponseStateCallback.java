@@ -56,6 +56,17 @@ public class ResponseStateCallback extends ResponseCallback {
         return true;
     }
 
+    /**
+     * 未查询到数据
+     *
+     * @param exception
+     * @return
+     */
+    @Override
+    public boolean onNotFondData(@NonNull final ResponseException exception) {
+        onEmptyState(exception);
+        return true;
+    }
 
     /**
      * 解析异常
@@ -110,7 +121,7 @@ public class ResponseStateCallback extends ResponseCallback {
         if (mStateManager == null || exception == null) {
             return;
         }
-        // TODO: 2022/10/19
+        mStateManager.showState(getEmptyStateProperty());
     }
 
     private void onParseExceptionState(ResponseException exception) {

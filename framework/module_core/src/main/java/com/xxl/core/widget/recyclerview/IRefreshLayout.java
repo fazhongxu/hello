@@ -1,10 +1,12 @@
 package com.xxl.core.widget.recyclerview;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alipictures.statemanager.StateLayout;
 import com.alipictures.statemanager.manager.StateEventListener;
+import com.alipictures.statemanager.state.StateProperty;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.xxl.core.exception.ResponseException;
 import com.xxl.kit.ListUtils;
@@ -167,6 +169,15 @@ public interface IRefreshLayout {
                         StateEventListener stateEventListener);
 
     /**
+     * 设置状态视图
+     *
+     * @param state
+     * @param stateEventListener
+     */
+    void setStateLayout(StateProperty state,
+                        StateEventListener stateEventListener);
+
+    /**
      * 请求数据
      */
     default void requestData() {
@@ -219,5 +230,14 @@ public interface IRefreshLayout {
      * @return
      */
     boolean onUnKowException(ResponseException exception);
+
+
+    /**
+     * 未查询到数据
+     *
+     * @param exception
+     * @return
+     */
+    boolean onNotFondData(@NonNull ResponseException exception);
 
 }

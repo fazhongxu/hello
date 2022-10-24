@@ -21,6 +21,11 @@ public class ResponseCode {
     public static final int RESPONSE_CODE_SUCCESS = 200;
 
     /**
+     * 未找到数据
+     */
+    public static final int RESPONSE_CODE_NO_FIND_DATA = 404;
+
+    /**
      * token失效
      */
     public static final int RESPONSE_CODE_TOKEN_TOKEN_INVALID = 601;

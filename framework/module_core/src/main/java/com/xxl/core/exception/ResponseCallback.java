@@ -45,6 +45,17 @@ public class ResponseCallback extends ResponseListener {
     }
 
     /**
+     * 未查询到数据
+     *
+     * @param exception
+     * @return
+     */
+    @Override
+    public boolean onNotFondData(@NonNull final ResponseException exception) {
+        return false;
+    }
+
+    /**
      * 解析异常
      *
      * @param exception

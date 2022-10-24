@@ -68,7 +68,7 @@ public abstract class BaseStateViewModelFragment<V extends BaseViewModel, T exte
     /**
      * 空视图点击
      */
-    public void onEmptyClick(){
+    public void onEmptyClick() {
 
     }
 
@@ -81,6 +81,10 @@ public abstract class BaseStateViewModelFragment<V extends BaseViewModel, T exte
         return new ResponseStateCallback(mStateManager) {
             @Override
             public EmptyState.EmptyStateProperty getEmptyStateProperty() {
+                final EmptyState.EmptyStateProperty targetEmptyStateProperty = getCustomEmptyStateProperty();
+                if (targetEmptyStateProperty != null) {
+                    return targetEmptyStateProperty;
+                }
                 return super.getEmptyStateProperty();
             }
 
@@ -89,6 +93,15 @@ public abstract class BaseStateViewModelFragment<V extends BaseViewModel, T exte
                 return super.onNetworkException(exception);
             }
         };
+    }
+
+    /**
+     * 获取自定义的空视图状态
+     *
+     * @return
+     */
+    public EmptyState.EmptyStateProperty getCustomEmptyStateProperty() {
+        return null;
     }
 
     //endregion
@@ -176,15 +189,14 @@ public abstract class BaseStateViewModelFragment<V extends BaseViewModel, T exte
         if (isActivityFinishing()) {
             return;
         }
-        if (TextUtils.equals(RequestErrorState.EVENT_CLICK,state)) {
+        if (TextUtils.equals(RequestErrorState.EVENT_CLICK, state)) {
             requestData();
-        }else {
+        } else {
             onEmptyClick();
         }
     }
 
     //endregion
-
 
 
 }

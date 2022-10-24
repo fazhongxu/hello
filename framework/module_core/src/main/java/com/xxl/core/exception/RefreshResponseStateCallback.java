@@ -1,15 +1,20 @@
 package com.xxl.core.exception;
 
+import android.view.View;
+
 import androidx.annotation.NonNull;
 
 import com.alipictures.statemanager.manager.StateEventListener;
+import com.xxl.core.ui.state.EmptyState;
 import com.xxl.core.widget.recyclerview.IRefreshLayout;
+
+import java.util.ArrayList;
 
 /**
  * @author xxl.
  * @date 2022/10/19.
  */
-public class RefreshResponseStateCallback extends ResponseCallback {
+public class RefreshResponseStateCallback extends ResponseCallback implements StateEventListener {
 
     //region: 成员变量
 
@@ -62,6 +67,17 @@ public class RefreshResponseStateCallback extends ResponseCallback {
         return true;
     }
 
+    @Override
+    public boolean onNotFondData(@NonNull ResponseException exception) {
+        if (mRefreshLayout != null) {
+            if (mRefreshLayout.getPage() == 1) {
+                mRefreshLayout.setLoadData(new ArrayList<>());
+            }
+            mRefreshLayout.setStateLayout(getEmptyStateProperty(), mStateEventListener);
+            return true;
+        }
+        return super.onNotFondData(exception);
+    }
 
     /**
      * 解析异常
@@ -94,6 +110,22 @@ public class RefreshResponseStateCallback extends ResponseCallback {
     public boolean onNetworkException(@NonNull ResponseException exception) {
         // TODO: 2022/10/19
         return false;
+    }
+
+    public EmptyState.EmptyStateProperty getEmptyStateProperty() {
+        return EmptyState.obtain();
+    }
+
+    //endregion
+
+    //region: StateEventListener
+
+    @Override
+    public void onEventListener(String state,
+                                View view) {
+        if (mStateEventListener != null) {
+            mStateEventListener.onEventListener(state, view);
+        }
     }
 
     //endregion

@@ -19,6 +19,7 @@ import com.xxl.core.media.audio.AudioCapture.OnAudioFrameCapturedListener;
 import com.xxl.core.media.audio.AudioRecordFormat;
 import com.xxl.core.ui.BaseEventBusWrapper;
 import com.xxl.core.ui.fragment.BaseStateViewModelFragment;
+import com.xxl.core.ui.state.EmptyState;
 import com.xxl.core.utils.AppExpandUtils;
 import com.xxl.core.utils.DecorationUtils;
 import com.xxl.core.utils.TestUtils;
@@ -146,6 +147,11 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
         if (!AppExpandUtils.isAgreePrivacyPolicy()) {
             showPrivacyPolicyPopupWindow();
         }
+    }
+
+    @Override
+    public EmptyState.EmptyStateProperty getCustomEmptyStateProperty() {
+        return EmptyState.obtain("There is no data",R.drawable.resources_ic_no_data);
     }
 
     @Override

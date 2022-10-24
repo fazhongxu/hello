@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.alipictures.statemanager.StateLayout;
 import com.alipictures.statemanager.manager.StateEventListener;
 import com.alipictures.statemanager.state.CoreState;
+import com.alipictures.statemanager.state.StateProperty;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.module.BaseLoadMoreModule;
 import com.scwang.smart.refresh.header.MaterialHeader;
@@ -310,16 +311,16 @@ public class UISmartRefreshLayout extends SmartRefreshLayout implements IRefresh
      * 展示加载中状态视图
      */
     @Override
-    public void showLoadingState(){
-        setStateLayout(LoadingState.STATE,null);
+    public void showLoadingState() {
+        setStateLayout(LoadingState.STATE, null);
     }
 
     /**
      * 隐藏状态视图
      */
     @Override
-    public void dismissState(){
-        setStateLayout(CoreState.STATE,null);
+    public void dismissState() {
+        setStateLayout(CoreState.STATE, null);
     }
 
     /**
@@ -344,6 +345,30 @@ public class UISmartRefreshLayout extends SmartRefreshLayout implements IRefresh
      */
     @Override
     public void setStateLayout(String state,
+                               StateEventListener stateEventListener) {
+        final StateLayout stateLayout = getStateLayout();
+        if (stateLayout != null) {
+
+            if (stateLayout.getParent() != null) {
+                ((ViewGroup) stateLayout.getParent()).removeView(stateLayout);
+            }
+            if (mAdapter != null) {
+                mAdapter.setEmptyView(stateLayout);
+            }
+            stateLayout.setStateEventListener(stateEventListener);
+            stateLayout.showState(state);
+        }
+    }
+
+
+    /**
+     * 设置状态视图
+     *
+     * @param state
+     * @param stateEventListener
+     */
+    @Override
+    public void setStateLayout(StateProperty state,
                                StateEventListener stateEventListener) {
         final StateLayout stateLayout = getStateLayout();
         if (stateLayout != null) {
@@ -450,11 +475,23 @@ public class UISmartRefreshLayout extends SmartRefreshLayout implements IRefresh
      * @return
      */
     @Override
-    public boolean onUnKowException(ResponseException exception){
+    public boolean onUnKowException(ResponseException exception) {
         // TODO: 2022/10/19  
         return true;
     }
 
+    /**
+     * 未查询到数据
+     *
+     * @param exception
+     * @return
+     */
+    @Override
+    public boolean onNotFondData(@NonNull ResponseException exception) {
+        // TODO: 2022/10/24
+//        mStateLayout.showState(EmptyState.STATE);
+        return true;
+    }
 
     //endregion
 
