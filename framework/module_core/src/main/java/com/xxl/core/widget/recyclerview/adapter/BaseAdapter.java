@@ -1,6 +1,9 @@
 package com.xxl.core.widget.recyclerview.adapter;
 
+import androidx.annotation.NonNull;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.module.BaseLoadMoreModule;
 import com.chad.library.adapter.base.module.LoadMoreModule;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
@@ -12,7 +15,7 @@ import java.util.List;
  * @author xxl.
  * @date 2022/8/1.
  */
-public abstract class BaseAdapter<T,L extends BaseRecycleItemListener, V extends BaseViewHolder> extends BaseQuickAdapter<T, V>
+public abstract class BaseAdapter<T, L extends BaseRecycleItemListener, V extends BaseViewHolder> extends BaseQuickAdapter<T, V>
         implements LoadMoreModule {
 
     //region: 成员变量
@@ -55,6 +58,12 @@ public abstract class BaseAdapter<T,L extends BaseRecycleItemListener, V extends
 
     public void setListener(L listener) {
         mListener = listener;
+    }
+
+    @Override
+    @NonNull
+    public BaseLoadMoreModule addLoadMoreModule(@NonNull BaseQuickAdapter<?, ?> baseQuickAdapter) {
+        return new BaseLoadMoreModule(baseQuickAdapter);
     }
 
     //endregion

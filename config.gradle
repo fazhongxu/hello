@@ -76,7 +76,7 @@ versions.ffmpeg_kit_exception = "0.2.1"
 versions.auto_size = "v1.2.1"
 
 versions.state_manager = "1.0.0"
-versions.adapter_helper = "3.0.4"
+versions.adapter_helper = "3.0.7"
 versions.refresh_layout = "2.0.5"
 
 versions.base_popup = "3.2.0"

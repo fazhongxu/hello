@@ -2,10 +2,14 @@ package com.xxl.hello.widget.ui.view.share.adapter;
 
 import androidx.annotation.NonNull;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.module.BaseLoadMoreModule;
 import com.xxl.core.widget.recyclerview.adapter.BaseBindingAdapter;
 import com.xxl.hello.service.data.model.entity.share.ShareOperateItem;
 import com.xxl.hello.widget.R;
 import com.xxl.hello.widget.databinding.WidgetRecyclerItemResourcesShareBinding;
+
+import org.jetbrains.annotations.NotNull;
 
 /**
  * 资源分享适配器
