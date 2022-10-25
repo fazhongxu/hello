@@ -13,7 +13,28 @@ public interface TestBindingRecycleItemListener extends BaseRecycleItemListener 
     /**
      * 条目点击
      *
-     * @param value
+     * @param targetEntity
      */
-    void onItemClick(@NonNull final String value);
+    void onItemClick(@NonNull final TestListEntity targetEntity);
+
+    /**
+     * 移除条目
+     *
+     * @param targetEntity
+     */
+    void onRemoveItemClick(@NonNull final TestListEntity targetEntity);
+
+    /**
+     * 置顶
+     *
+     * @param targetEntity
+     */
+    void onTopItemClick(@NonNull final TestListEntity targetEntity);
+
+    /**
+     * 刷新到顶部
+     *
+     * @param targetEntity
+     */
+    void onRefreshTopItemClick(@NonNull final TestListEntity targetEntity);
 }

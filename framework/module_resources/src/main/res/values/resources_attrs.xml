@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <attr name="h_common_primary_color" format="color|reference"/>
-    <attr name="h_common_secondary_color" format="color|reference"/>
-    <attr name="h_common_white_color" format="color|reference"/>
+    <attr name="h_common_primary_color" format="color|reference" />
+    <attr name="h_common_secondary_color" format="color|reference" />
+    <attr name="h_common_white_color" format="color|reference" />
 
-    <attr name="h_common_background_color" format="color|reference"/>
+    <attr name="h_common_gray_color" format="color|reference" />
+    <attr name="h_common_gray_light_color" format="color|reference" />
+    <attr name="h_common_red_color" format="color|reference" />
+    <attr name="h_common_red_light_color" format="color|reference" />
+    <attr name="h_common_yellow_color" format="color|reference" />
+    <attr name="h_common_yellow_light_color" format="color|reference" />
 
-    <attr name="h_common_divider_color" format="color|reference"/>
+    <attr name="h_common_background_color" format="color|reference" />
 
-    <attr name="h_common_text_title_color" format="color|reference"/>
-    <attr name="h_common_text_sub_title_color" format="color|reference"/>
-    <attr name="h_common_text_content_color" format="color|reference"/>
+    <attr name="h_common_divider_color" format="color|reference" />
+
+    <attr name="h_common_text_title_color" format="color|reference" />
+    <attr name="h_common_text_sub_title_color" format="color|reference" />
+    <attr name="h_common_text_content_color" format="color|reference" />
 </resources>

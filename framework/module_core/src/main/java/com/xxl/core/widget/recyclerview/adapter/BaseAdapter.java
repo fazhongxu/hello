@@ -56,6 +56,15 @@ public abstract class BaseAdapter<T, L extends BaseRecycleItemListener, V extend
         return getItemPosition(targetItemEntity);
     }
 
+    /**
+     * 移除条目
+     *
+     * @param targetItemEntity
+     */
+    public void removeItem(T targetItemEntity) {
+        remove(targetItemEntity);
+    }
+
     public void setListener(L listener) {
         mListener = listener;
     }

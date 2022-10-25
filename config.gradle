@@ -37,6 +37,7 @@ versions.widget = "1.0.0"
 versions.user = "1.0.0"
 
 versions.statemanager = "1.0.0"
+versions.swipe_menu_layout = "1.1.4"
 
 versions.okhttp = "3.14.9"
 versions.retrofit = "2.9.0"
@@ -194,6 +195,9 @@ deps.easy_float = "com.github.princekin-f:EasyFloat:$versions.easy_float"
 
 //statemanager https://github.com/alibaba/StateManager
 deps.statemanager = "com.alipictures:statemanager:$versions.statemanager"
+
+//EasySwipeMenuLayout https://github.com/anzaizai/EasySwipeMenuLayout
+deps.swipe_menu_layout = "com.github.anzaizai:EasySwipeMenuLayout:$versions.swipe_menu_layout"
 
 //logger https://github.com/orhanobut/logger
 deps.logger = "com.orhanobut:logger:$versions.logger"

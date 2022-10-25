@@ -7,7 +7,7 @@ import com.chad.library.adapter.base.provider.BaseItemProvider;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.xxl.hello.main.R;
 import com.xxl.hello.main.databinding.MainRecyclerItemTestTextProviderBinding;
-import com.xxl.hello.main.ui.main.adapter.TestProviderMultiEntity;
+import com.xxl.hello.main.ui.main.adapter.TestListEntity;
 import com.xxl.hello.main.ui.main.adapter.TestRecycleItemViewModel;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi.CircleMediaType;
 
@@ -17,7 +17,7 @@ import com.xxl.hello.service.data.model.enums.SystemEnumsApi.CircleMediaType;
  * @author xxl.
  * @date 2022/10/25.
  */
-public class TestTextProvider extends BaseItemProvider<TestProviderMultiEntity> {
+public class TestTextProvider extends BaseItemProvider<TestListEntity> {
 
     //region: 成员变量
 
@@ -51,7 +51,7 @@ public class TestTextProvider extends BaseItemProvider<TestProviderMultiEntity> 
 
     @Override
     public void convert(@NonNull BaseViewHolder itemHolder,
-                        TestProviderMultiEntity itemEntity) {
+                        TestListEntity itemEntity) {
         MainRecyclerItemTestTextProviderBinding binding = DataBindingUtil.bind(itemHolder.itemView);
         if (mListener != null) {
             binding.setListener(mListener.getMultiRecycleItemListener());

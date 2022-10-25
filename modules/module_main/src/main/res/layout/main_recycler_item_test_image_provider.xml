@@ -23,7 +23,7 @@
             android:id="@+id/iv_icon"
             android:layout_width="200dp"
             android:foreground="?attr/selectableItemBackground"
-            android:onClick="@{()->listener.onItemClick(viewModel.providerMultiEntity)}"
+            android:onClick="@{()->listener.onItemClick(viewModel.itemEntity)}"
             android:layout_height="100dp"
             android:paddingLeft="15dp"
             android:paddingTop="12dp"

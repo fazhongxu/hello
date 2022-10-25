@@ -18,7 +18,7 @@ import javax.inject.Inject;
  * @author xxl.
  * @date 2022/10/10.
  */
-public class TestMultiAdapter extends BaseMultiAdapter<TestProviderMultiEntity, OnTestRecycleItemListener>
+public class TestMultiAdapter extends BaseMultiAdapter<TestListEntity, OnTestRecycleItemListener>
         implements OnTestItemProviderListener {
 
     //region: 成员变量
@@ -49,10 +49,10 @@ public class TestMultiAdapter extends BaseMultiAdapter<TestProviderMultiEntity, 
     }
 
     @Override
-    protected int getItemType(@NonNull List<? extends TestProviderMultiEntity> list,
+    protected int getItemType(@NonNull List<? extends TestListEntity> list,
                               int position) {
-        TestProviderMultiEntity providerMultiEntity = list.get(position);
-        return providerMultiEntity.getMediaType();
+        TestListEntity testListEntity = list.get(position);
+        return testListEntity.getMediaType();
     }
 
     //endregion

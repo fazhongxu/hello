@@ -9,22 +9,22 @@ import androidx.databinding.ObservableField;
 public class TestRecycleItemViewModel {
 
 
-    private TestProviderMultiEntity mProviderMultiEntity;
+    private TestListEntity mTestItemEntity;
 
     private String mValue;
 
     private ObservableField<String> mObservableTestValue = new ObservableField<>();
 
-    public void setItemEntity(TestProviderMultiEntity itemEntity) {
-        mProviderMultiEntity = itemEntity;
+    public void setItemEntity(TestListEntity itemEntity) {
+        mTestItemEntity = itemEntity;
     }
 
     public ObservableField<String> getObservableTestValue() {
         return mObservableTestValue;
     }
 
-    public TestProviderMultiEntity getProviderMultiEntity() {
-        return mProviderMultiEntity;
+    public TestListEntity getItemEntity() {
+        return mTestItemEntity;
     }
 
     public String getValue() {

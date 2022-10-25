@@ -12,6 +12,13 @@
         <item name="h_common_secondary_color">@color/resources_secondary_color</item>
         <item name="h_common_white_color">@color/resources_white_color</item>
 
+        <item name="h_common_gray_color">@color/resources_common_gray_color</item>
+        <item name="h_common_gray_light_color">@color/resources_common_gray_light_color</item>
+        <item name="h_common_red_color">@color/resources_common_red_color</item>
+        <item name="h_common_red_light_color">@color/resources_common_red_light_color</item>
+        <item name="h_common_yellow_color">@color/resources_common_yellow_color</item>
+        <item name="h_common_yellow_light_color">@color/resources_common_yellow_light_color</item>
+
         <item name="h_common_background_color">@color/resources_background_color</item>
 
         <item name="h_common_divider_color">@color/resources_divider_color</item>

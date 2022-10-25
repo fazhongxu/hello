@@ -30,6 +30,7 @@ import com.xxl.hello.main.R;
 import com.xxl.hello.main.databinding.MainFragmentBinding;
 import com.xxl.hello.main.ui.main.adapter.TestBindingAdapter;
 import com.xxl.hello.main.ui.main.adapter.TestBindingRecycleItemListener;
+import com.xxl.hello.main.ui.main.adapter.TestListEntity;
 import com.xxl.hello.main.ui.main.window.PrivacyPolicyPopupWindow;
 import com.xxl.hello.service.data.model.api.QueryUserInfoResponse;
 import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
@@ -38,16 +39,19 @@ import com.xxl.hello.widget.ui.view.record.RecordButton;
 import com.xxl.kit.AppRouterApi;
 import com.xxl.kit.AppUtils;
 import com.xxl.kit.FFmpegUtils;
+import com.xxl.kit.ListUtils;
 import com.xxl.kit.LogUtils;
 import com.xxl.kit.MediaUtils;
 import com.xxl.kit.OnAppStatusChangedListener;
 import com.xxl.kit.OnRequestCallBack;
 import com.xxl.kit.ResourceUtils;
+import com.xxl.kit.StringUtils;
 import com.xxl.kit.TimeUtils;
 import com.xxl.kit.ToastUtils;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -178,7 +182,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
         mViewDataBinding.refreshLayout.bindRecyclerView(mViewDataBinding.rvList, mTestBindingAdapter);
         mViewDataBinding.refreshLayout.setPageSize(20);
         mTestBindingAdapter.setListener(this);
-        mTestBindingAdapter.setDragItemEnable(true,R.id.tv_text,mViewDataBinding.rvList);
+        mTestBindingAdapter.setDragItemEnable(true, R.id.tv_content, mViewDataBinding.rvList);
     }
 
     @Override
@@ -245,7 +249,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
         if (isActivityFinishing()) {
             return;
         }
-        final OnRequestCallBack<List<String>> callBack = list -> {
+        final OnRequestCallBack<List<TestListEntity>> callBack = list -> {
             mViewDataBinding.refreshLayout.dismissState();
             mViewDataBinding.refreshLayout.setLoadData(list);
         };
@@ -441,8 +445,53 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
      * @param value
      */
     @Override
-    public void onItemClick(@NonNull String value) {
-        ToastUtils.success(value).show();
+    public void onItemClick(@NonNull TestListEntity value) {
+        ToastUtils.success(value.getContent()).show();
+    }
+
+    /**
+     * 移除条目
+     *
+     * @param value
+     */
+    @Override
+    public void onRemoveItemClick(@NonNull TestListEntity value) {
+        mTestBindingAdapter.removeItem(value);
+    }
+
+    /**
+     * 置顶
+     *
+     * @param entity
+     */
+    @Override
+    public void onTopItemClick(@NonNull TestListEntity entity) {
+        ToastUtils.success(entity + " " + StringUtils.getString(R.string.resources_set_top_text)).show();
+        mTestBindingAdapter.removeItem(entity);
+        entity.setTop(true);
+        mTestBindingAdapter.addData(0, entity);
+        mViewDataBinding.rvList.scrollToPosition(0);
+    }
+
+
+    /**
+     * 刷新到顶部
+     *
+     * @param targetEntity
+     */
+    @Override
+    public void onRefreshTopItemClick(@NonNull TestListEntity targetEntity) {
+        targetEntity.setSortTime(TimeUtils.currentServiceTimeMillis());
+        final List<TestListEntity> entities = mTestBindingAdapter.getData();
+        if (!ListUtils.isEmpty(entities)) {
+            Collections.sort(entities, (o1, o2) -> {
+                if (Boolean.compare(o2.isTop(), o1.isTop()) == 0) {
+                    return (int) (o2.getSortTime() - o1.getSortTime());
+                }
+                return Boolean.compare(o2.isTop(), o1.isTop());
+            });
+        }
+        mTestBindingAdapter.notifyDataSetChanged();
     }
 
     //endregion

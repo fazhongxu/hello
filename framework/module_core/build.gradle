@@ -121,6 +121,7 @@ dependencies {
     compileOnly deps.refresh_header_material
 
     implementation deps.statemanager
+    implementation deps.swipe_menu_layout
 
     implementation deps.mmkv
 

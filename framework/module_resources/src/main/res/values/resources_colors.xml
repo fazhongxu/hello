@@ -6,6 +6,13 @@
     <color name="resources_accent_color">#C5E1EC</color>
     <color name="resources_white_color">#FFFFFF</color>
 
+    <color name="resources_common_gray_color">#CECECE</color>
+    <color name="resources_common_gray_light_color">#B3CECECE</color>
+    <color name="resources_common_red_color">#D55049</color>
+    <color name="resources_common_red_light_color">#B2D55049</color>
+    <color name="resources_common_yellow_color">#F5A623</color>
+    <color name="resources_common_yellow_light_color">#B2F5A623</color>
+
     <color name="resources_background_color">#F5F5F6</color>
 
     <color name="resources_divider_color">#E5E5E5</color>

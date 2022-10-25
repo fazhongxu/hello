@@ -13,7 +13,7 @@ public interface OnTestRecycleItemListener extends BaseRecycleItemListener {
     /**
      * 条目点击
      *
-     * @param providerMultiEntity
+     * @param testListEntity
      */
-    void onItemClick(@NonNull final TestProviderMultiEntity providerMultiEntity);
+    void onItemClick(@NonNull final TestListEntity testListEntity);
 }

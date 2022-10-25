@@ -7,15 +7,17 @@ import androidx.annotation.NonNull;
 import androidx.databinding.ObservableField;
 
 import com.xxl.core.exception.ResponseListener;
+import com.xxl.core.ui.BaseViewModel;
 import com.xxl.hello.common.config.AppConfig;
+import com.xxl.hello.main.ui.main.adapter.TestListEntity;
 import com.xxl.hello.service.data.model.api.QueryUserInfoRequest;
 import com.xxl.hello.service.data.model.api.QueryUserInfoResponse;
 import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.hello.service.data.repository.api.UserRepositoryApi;
-import com.xxl.core.ui.BaseViewModel;
 import com.xxl.hello.service.upload.api.UploadService;
 import com.xxl.kit.OnRequestCallBack;
+import com.xxl.kit.TimeUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,15 +73,20 @@ public class MainViewModel extends BaseViewModel<MainNavigator> {
 
     //region: 列表测试数据相关
 
+    long mCurrentTimeMillis = TimeUtils.currentServiceTimeMillis();
+
     public void requestListData(int page,
                                 int pageSize,
-                                @NonNull final OnRequestCallBack<List<String>> callBack) {
+                                @NonNull final OnRequestCallBack<List<TestListEntity>> callBack) {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                final List<String> list = new ArrayList<>();
+                final List<TestListEntity> list = new ArrayList<>();
                 for (int i = 0; i < pageSize; i++) {
-                    list.add(String.format("测试数据 page %d index %d", page, i));
+                    TestListEntity testListEntity = TestListEntity.obtain()
+                            .setContent(String.format("测试数据 page %d index %d", page, i))
+                            .setSortTime(mCurrentTimeMillis + 1);
+                    list.add(testListEntity);
                 }
                 if (page > 3) {
                     list.remove(list.size() - 1);

@@ -1,6 +1,8 @@
 package com.xxl.kit;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.VibrationEffect;
 import android.os.Vibrator;
 
 import androidx.annotation.RequiresPermission;
@@ -19,6 +21,11 @@ public final class VibrateUtils {
 
     private VibrateUtils() {
         throw new UnsupportedOperationException("u can't instantiate me...");
+    }
+
+    @SuppressLint("MissingPermission")
+    public static void vibrate() {
+        vibrate(55);
     }
 
     /**
