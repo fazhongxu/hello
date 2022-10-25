@@ -28,11 +28,8 @@ import com.xxl.hello.common.config.CacheDirConfig;
 import com.xxl.hello.main.BR;
 import com.xxl.hello.main.R;
 import com.xxl.hello.main.databinding.MainFragmentBinding;
-import com.xxl.hello.main.ui.main.adapter.OnTestRecycleItemListener;
 import com.xxl.hello.main.ui.main.adapter.TestBindingAdapter;
 import com.xxl.hello.main.ui.main.adapter.TestBindingRecycleItemListener;
-import com.xxl.hello.main.ui.main.adapter.TestMultiAdapter;
-import com.xxl.hello.main.ui.main.adapter.TestProviderMultiEntity;
 import com.xxl.hello.main.ui.main.window.PrivacyPolicyPopupWindow;
 import com.xxl.hello.service.data.model.api.QueryUserInfoResponse;
 import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
@@ -51,7 +48,6 @@ import com.xxl.kit.ToastUtils;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -74,9 +70,6 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
     @Inject
     TestBindingAdapter mTestBindingAdapter;
-
-    @Inject
-    TestMultiAdapter mTestMultiAdapter;
 
     /**
      * 首页EventBus通知事件监听
@@ -182,15 +175,10 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     private void setupRecyclerView() {
         mViewDataBinding.rvList.addItemDecoration(DecorationUtils.createHorizontalDividerItemDecoration(ResourceUtils.getAttrColor(AppUtils.getTopActivity(), R.attr.h_common_divider_color), 10, 0));
         mViewDataBinding.refreshLayout.setRefreshDataListener(this);
-        mViewDataBinding.refreshLayout.bindRecyclerView(mViewDataBinding.rvList, mTestMultiAdapter);
+        mViewDataBinding.refreshLayout.bindRecyclerView(mViewDataBinding.rvList, mTestBindingAdapter);
         mViewDataBinding.refreshLayout.setPageSize(20);
-        mTestMultiAdapter.setListener(new OnTestRecycleItemListener() {
-            @Override
-            public void onItemClick(@NonNull TestProviderMultiEntity providerMultiEntity) {
-                ToastUtils.success(providerMultiEntity.getMediaType()).show();
-            }
-        });
-//        mTestBindingAdapter.setDragItemEnable(true,R.id.tv_text,mViewDataBinding.rvList);
+        mTestBindingAdapter.setListener(this);
+        mTestBindingAdapter.setDragItemEnable(true,R.id.tv_text,mViewDataBinding.rvList);
     }
 
     @Override
@@ -259,13 +247,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
         }
         final OnRequestCallBack<List<String>> callBack = list -> {
             mViewDataBinding.refreshLayout.dismissState();
-            List<TestProviderMultiEntity> data = new ArrayList<>();
-            for (int i = 0; i < list.size(); i++) {
-                TestProviderMultiEntity providerMultiEntity = TestProviderMultiEntity.obtain()
-                        .setMediaType(i % 3);
-                data.add(providerMultiEntity);
-            }
-            mViewDataBinding.refreshLayout.setLoadData(data);
+            mViewDataBinding.refreshLayout.setLoadData(list);
         };
         getViewModel().requestListData(page, pageSize, callBack);
     }
