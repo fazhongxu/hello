@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="listener"
+            type="com.xxl.hello.main.ui.main.adapter.OnTestRecycleItemListener" />
+
+        <variable
+            name="viewModel"
+            type="com.xxl.hello.main.ui.main.adapter.TestRecycleItemViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_content"
+            android:layout_width="match_parent"
+            android:foreground="?attr/selectableItemBackground"
+            android:layout_height="wrap_content"
+            android:paddingLeft="15dp"
+            android:onClick="@{()->listener.onItemClick(viewModel.providerMultiEntity)}"
+            android:paddingTop="12dp"
+            android:paddingRight="15dp"
+            android:paddingBottom="12dp"
+            android:text="我是一段内容" />
+
+    </LinearLayout>
+
+</layout>

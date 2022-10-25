@@ -45,6 +45,36 @@ public class SystemEnumsApi {
         String AUDIO = "audio";
     }
 
+
+    @IntDef({CircleMediaType.TEXT,
+            CircleMediaType.IMAGE,
+            CircleMediaType.VIDEO,
+            CircleMediaType.AUDIO,
+    })
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface CircleMediaType {
+
+        /**
+         * 文本
+         */
+        int TEXT = 0;
+
+        /**
+         * 图片
+         */
+        int IMAGE = 1;
+
+        /**
+         * 视频
+         */
+        int VIDEO = 2;
+
+        /**
+         * 音频
+         */
+        int AUDIO = 3;
+    }
+
     //endregion
 
     //region: 资源分享操作类型
