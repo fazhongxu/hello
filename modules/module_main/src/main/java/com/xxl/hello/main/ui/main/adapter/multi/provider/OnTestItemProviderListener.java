@@ -1,4 +1,4 @@
-package com.xxl.hello.main.ui.main.adapter.provider;
+package com.xxl.hello.main.ui.main.adapter.multi.provider;
 
 import com.xxl.core.widget.recyclerview.adapter.BaseRecycleItemListener;
 import com.xxl.hello.main.ui.main.adapter.OnTestRecycleItemListener;

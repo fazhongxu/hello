@@ -3,24 +3,26 @@ package com.xxl.core.widget.recyclerview.adapter;
 import androidx.annotation.NonNull;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseSectionQuickAdapter;
+import com.chad.library.adapter.base.entity.SectionEntity;
 import com.chad.library.adapter.base.module.BaseLoadMoreModule;
 import com.chad.library.adapter.base.module.LoadMoreModule;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
-import org.jetbrains.annotations.Nullable;
-
-import java.util.List;
-
 /**
- * adapter基础类
+ * 带头部的adapter基础类
  *
  * @author xxl.
  * @date 2022/8/1.
  */
-public abstract class BaseAdapter<T, L extends BaseRecycleItemListener, V extends BaseViewHolder> extends BaseQuickAdapter<T, V>
+public abstract class BaseSectionAdapter<T extends SectionEntity, L extends BaseRecycleItemListener, V extends BaseViewHolder> extends BaseSectionQuickAdapter<T, V>
         implements LoadMoreModule {
 
     //region: 成员变量
+
+    protected int mHeaderResId;
+
+    protected int mLayoutResId;
 
     /**
      * 点击事件
@@ -31,12 +33,10 @@ public abstract class BaseAdapter<T, L extends BaseRecycleItemListener, V extend
 
     //region: 构造函数
 
-    public BaseAdapter(int layoutResId) {
-        super(layoutResId, null);
-    }
-
-    public BaseAdapter(int layoutResId, @Nullable List<T> data) {
-        super(layoutResId, data);
+    public BaseSectionAdapter(int headerResId,int layoutResId) {
+        super(headerResId,layoutResId,null);
+        mHeaderResId = headerResId;
+        mLayoutResId = layoutResId;
     }
 
     //endregion

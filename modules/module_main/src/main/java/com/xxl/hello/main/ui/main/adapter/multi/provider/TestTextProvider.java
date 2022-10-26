@@ -1,4 +1,4 @@
-package com.xxl.hello.main.ui.main.adapter.provider;
+package com.xxl.hello.main.ui.main.adapter.multi.provider;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -8,7 +8,7 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.xxl.hello.main.R;
 import com.xxl.hello.main.databinding.MainRecyclerItemTestTextProviderBinding;
 import com.xxl.hello.main.ui.main.adapter.TestListEntity;
-import com.xxl.hello.main.ui.main.adapter.TestRecycleItemViewModel;
+import com.xxl.hello.main.ui.main.adapter.multi.TestRecycleItemViewModel;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi.CircleMediaType;
 
 /**

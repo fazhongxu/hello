@@ -11,7 +11,7 @@
 
         <variable
             name="viewModel"
-            type="com.xxl.hello.main.ui.main.adapter.TestRecycleItemViewModel" />
+            type="com.xxl.hello.main.ui.main.adapter.multi.TestRecycleItemViewModel" />
     </data>
 
     <LinearLayout

@@ -9,6 +9,8 @@ import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 
 /**
+ * binding adapter基础类
+ *
  * @author xxl.
  * @date 2022/8/1.
  */
@@ -24,7 +26,7 @@ public abstract class BaseBindingAdapter<T, L extends BaseRecycleItemListener,
     //region: 构造函数
 
     public BaseBindingAdapter(int layoutResId) {
-        super(layoutResId, null);
+        super(layoutResId);
     }
 
     //endregion

@@ -1,6 +1,8 @@
-package com.xxl.hello.main.ui.main.adapter;
+package com.xxl.hello.main.ui.main.adapter.multi;
 
 import androidx.databinding.ObservableField;
+
+import com.xxl.hello.main.ui.main.adapter.TestListEntity;
 
 /**
  * @author xxl.

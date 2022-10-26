@@ -1,5 +1,6 @@
 package com.xxl.hello.main.ui.main.adapter;
 
+import com.chad.library.adapter.base.entity.SectionEntity;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi.CircleMediaType;
 import com.xxl.kit.Bool;
 
@@ -9,7 +10,7 @@ import com.xxl.kit.Bool;
  * @author xxl.
  * @date 2022/10/25.
  */
-public class TestListEntity {
+public class TestListEntity implements SectionEntity {
 
     //region: 成员变量
 
@@ -19,11 +20,25 @@ public class TestListEntity {
     @CircleMediaType
     private int mMediaType;
 
+    /**
+     * 内容
+     */
     private String mContent;
 
+    /**
+     * 排序时间戳
+     */
     private long mSortTime;
 
+    /**
+     * 是否置顶
+     */
     private int mTop;
+
+    /**
+     * 是否是头部
+     */
+    private boolean mHeader;
 
     //endregion
 
@@ -81,6 +96,29 @@ public class TestListEntity {
     public TestListEntity setTop(boolean isTop) {
         mTop = Bool.convert(isTop);
         return this;
+    }
+
+    public TestListEntity setHeader(boolean isHeader) {
+        mHeader = isHeader;
+        return this;
+    }
+
+    //endregion
+
+    //region: SectionEntity
+
+    @Override
+    public boolean isHeader() {
+        return mHeader;
+    }
+
+    @Override
+    public int getItemType() {
+        if (isHeader()) {
+            return SectionEntity.HEADER_TYPE;
+        } else {
+            return SectionEntity.NORMAL_TYPE;
+        }
     }
 
     //endregion

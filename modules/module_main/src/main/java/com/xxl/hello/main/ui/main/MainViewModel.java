@@ -85,7 +85,8 @@ public class MainViewModel extends BaseViewModel<MainNavigator> {
                 for (int i = 0; i < pageSize; i++) {
                     TestListEntity testListEntity = TestListEntity.obtain()
                             .setContent(String.format("测试数据 page %d index %d", page, i))
-                            .setSortTime(mCurrentTimeMillis + 1);
+                            .setSortTime(mCurrentTimeMillis + 1)
+                            .setHeader(i == 5);
                     list.add(testListEntity);
                 }
                 if (page > 3) {

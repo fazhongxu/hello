@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.xxl.hello.main.ui.main.adapter.section.TestSectionHeaderViewModel" />
+
+        <variable
+            name="listener"
+            type="com.xxl.hello.main.ui.main.adapter.section.TestSectionRecycleItemListener" />
+
+    </data>
+
+    <LinearLayout
+        android:id="@+id/swipe_menu_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:orientation="vertical"
+        app:canLeftSwipe="true"
+        app:contentView="@id/tv_content"
+        app:rightMenuView="@id/ll_right_menu">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:foreground="?selectableItemBackground"
+            android:paddingLeft="15dp"
+            android:paddingTop="12dp"
+            android:paddingRight="15dp"
+            android:paddingBottom="12dp"
+            android:text="header"
+            tools:text="测试" />
+
+    </LinearLayout>
+
+</layout>

@@ -1,4 +1,4 @@
-package com.xxl.hello.main.ui.main.adapter.provider;
+package com.xxl.hello.main.ui.main.adapter.multi.provider;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -6,18 +6,18 @@ import androidx.databinding.DataBindingUtil;
 import com.chad.library.adapter.base.provider.BaseItemProvider;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.xxl.hello.main.R;
-import com.xxl.hello.main.databinding.MainRecyclerItemTestVideoProviderBinding;
+import com.xxl.hello.main.databinding.MainRecyclerItemTestImageProviderBinding;
 import com.xxl.hello.main.ui.main.adapter.TestListEntity;
-import com.xxl.hello.main.ui.main.adapter.TestRecycleItemViewModel;
+import com.xxl.hello.main.ui.main.adapter.multi.TestRecycleItemViewModel;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi.CircleMediaType;
 
 /**
- * 测试视频数据类型条目
+ * 测试图片数据类型条目
  *
  * @author xxl.
  * @date 2022/10/25.
  */
-public class TestVideoProvider extends BaseItemProvider<TestListEntity> {
+public class TestImageProvider extends BaseItemProvider<TestListEntity> {
 
     //region: 成员变量
 
@@ -27,12 +27,12 @@ public class TestVideoProvider extends BaseItemProvider<TestListEntity> {
 
     //region: 构造函数
 
-    private TestVideoProvider(@NonNull final OnTestItemProviderListener providerListener) {
+    private TestImageProvider(@NonNull final OnTestItemProviderListener providerListener) {
         mListener = providerListener;
     }
 
-    public final static TestVideoProvider obtain(@NonNull final OnTestItemProviderListener providerListener) {
-        return new TestVideoProvider(providerListener);
+    public final static TestImageProvider obtain(@NonNull final OnTestItemProviderListener providerListener) {
+        return new TestImageProvider(providerListener);
     }
 
     //endregion
@@ -41,18 +41,18 @@ public class TestVideoProvider extends BaseItemProvider<TestListEntity> {
 
     @Override
     public int getItemViewType() {
-        return CircleMediaType.VIDEO;
+        return CircleMediaType.IMAGE;
     }
 
     @Override
     public int getLayoutId() {
-        return R.layout.main_recycler_item_test_video_provider;
+        return R.layout.main_recycler_item_test_image_provider;
     }
 
     @Override
     public void convert(@NonNull BaseViewHolder baseViewHolder,
                         TestListEntity testListEntity) {
-        MainRecyclerItemTestVideoProviderBinding binding = DataBindingUtil.bind(baseViewHolder.itemView);
+        MainRecyclerItemTestImageProviderBinding binding = DataBindingUtil.bind(baseViewHolder.itemView);
         if (mListener != null) {
             binding.setListener(mListener.getMultiRecycleItemListener());
         }

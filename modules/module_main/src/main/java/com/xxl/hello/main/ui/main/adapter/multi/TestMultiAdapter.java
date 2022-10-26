@@ -1,12 +1,14 @@
-package com.xxl.hello.main.ui.main.adapter;
+package com.xxl.hello.main.ui.main.adapter.multi;
 
 import androidx.annotation.NonNull;
 
 import com.xxl.core.widget.recyclerview.adapter.BaseMultiAdapter;
-import com.xxl.hello.main.ui.main.adapter.provider.OnTestItemProviderListener;
-import com.xxl.hello.main.ui.main.adapter.provider.TestImageProvider;
-import com.xxl.hello.main.ui.main.adapter.provider.TestTextProvider;
-import com.xxl.hello.main.ui.main.adapter.provider.TestVideoProvider;
+import com.xxl.hello.main.ui.main.adapter.OnTestRecycleItemListener;
+import com.xxl.hello.main.ui.main.adapter.TestListEntity;
+import com.xxl.hello.main.ui.main.adapter.multi.provider.OnTestItemProviderListener;
+import com.xxl.hello.main.ui.main.adapter.multi.provider.TestImageProvider;
+import com.xxl.hello.main.ui.main.adapter.multi.provider.TestTextProvider;
+import com.xxl.hello.main.ui.main.adapter.multi.provider.TestVideoProvider;
 
 import java.util.List;
 
