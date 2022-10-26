@@ -34,4 +34,13 @@
         <attr name="refresh_color" format="color|reference" />
         <attr name="show_progress" format="boolean" />
     </declare-styleable>
+
+    <declare-styleable name="FadeScrollView">
+        <attr name="horizontalFadingEdgeEnabled" format="boolean" />
+        <attr name="verticalFadingEdgeEnabled" format="boolean" />
+        <attr name="topFadingEdgeStrength" format="float" />
+        <attr name="bottomFadingEdgeStrength" format="float" />
+        <attr name="leftFadingEdgeStrength" format="float" />
+        <attr name="rightFadingEdgeStrength" format="float" />
+    </declare-styleable>
 </resources>
