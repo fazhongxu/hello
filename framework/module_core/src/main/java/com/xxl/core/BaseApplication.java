@@ -7,6 +7,7 @@ import androidx.multidex.MultiDex;
 
 import com.alipictures.statemanager.loader.StateRepository;
 import com.evernote.android.state.StateSaver;
+import com.xxl.core.manager.ExceptionServiceManager;
 import com.xxl.core.ui.state.EmptyState;
 import com.xxl.core.ui.state.ExceptionState;
 import com.xxl.core.ui.state.LoadingState;
@@ -21,6 +22,8 @@ import com.xxl.kit.RouterUtils;
 import com.xxl.kit.ShareUtils;
 
 import dagger.android.DaggerApplication;
+import io.reactivex.rxjava3.functions.Consumer;
+import io.reactivex.rxjava3.plugins.RxJavaPlugins;
 
 /**
  * @author xxl.
@@ -66,6 +69,7 @@ public abstract class BaseApplication extends DaggerApplication {
         StateSaver.setEnabledForAllActivitiesAndSupportFragments(this,true);
         RouterUtils.init(this, isDebug());
         ShareUtils.preInit(this, getShareAppKey(), getChannel(), isDebug());
+        RxJavaPlugins.setErrorHandler(ExceptionServiceManager::postCaughtException);
     }
 
     /**
