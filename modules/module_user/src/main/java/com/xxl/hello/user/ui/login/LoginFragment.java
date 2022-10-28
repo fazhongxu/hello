@@ -4,15 +4,15 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 
-import com.xxl.core.utils.TestUtils;
+import com.xxl.core.ui.fragment.BaseViewModelFragment;
 import com.xxl.hello.router.api.UserRouterApi;
 import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
-import com.xxl.core.ui.fragment.BaseViewModelFragment;
 import com.xxl.hello.user.BR;
 import com.xxl.hello.user.R;
 import com.xxl.hello.user.data.model.api.UserLoginResponse;
 import com.xxl.hello.user.databinding.UserFragmentLoginBinding;
 import com.xxl.kit.AppRouterApi;
+import com.xxl.kit.TimeUtils;
 
 import javax.inject.Inject;
 
@@ -106,7 +106,7 @@ public class LoginFragment extends BaseViewModelFragment<LoginViewModel, UserFra
      */
     @Override
     public void onLoginClick() {
-        mLoginViewModel.requestLogin("123456", String.valueOf(TestUtils.currentTimeMillis()));
+        mLoginViewModel.requestLogin("123456", String.valueOf(TimeUtils.currentServiceTimeMillis()));
     }
 
     /**

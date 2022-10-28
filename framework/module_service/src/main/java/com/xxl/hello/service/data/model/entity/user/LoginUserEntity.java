@@ -3,9 +3,9 @@ package com.xxl.hello.service.data.model.entity.user;
 import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 
-import com.xxl.core.utils.TestUtils;
 import com.xxl.hello.common.config.NetworkConfig;
 import com.xxl.hello.service.data.model.enums.UserEnumsApi.UserSex;
+import com.xxl.kit.TimeUtils;
 
 import java.io.Serializable;
 
@@ -141,7 +141,7 @@ public class LoginUserEntity implements Serializable {
     public static final LoginUserEntity obtainTestUserEntity() {
         if (NetworkConfig.isNetworkDebug()) {
             return LoginUserEntity.obtain()
-                    .setUserId(String.valueOf(TestUtils.getRandom()))
+                    .setUserId(String.valueOf(TimeUtils.currentServiceTimeMillis()))
                     .setUserName("six six");
         }
         throw new RuntimeException("仅测试环境可用");

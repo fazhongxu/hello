@@ -6,10 +6,10 @@ import androidx.annotation.NonNull;
 
 import com.tencent.mmkv.MMKV;
 import com.xxl.hello.common.config.AppConfig;
-import com.xxl.kit.GsonUtils;
-import com.xxl.core.utils.TestUtils;
 import com.xxl.hello.service.data.local.prefs.api.UserPreferences;
 import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
+import com.xxl.kit.GsonUtils;
+import com.xxl.kit.TimeUtils;
 
 /**
  * 用户信息存储
@@ -91,7 +91,7 @@ public class UserPreferencesImpl implements UserPreferences<LoginUserEntity> {
     @Override
     public String getToken() {
         synchronized (this) {
-            return String.valueOf(TestUtils.getRandom());
+            return String.valueOf(TimeUtils.currentServiceTimeMillis());
         }
     }
 

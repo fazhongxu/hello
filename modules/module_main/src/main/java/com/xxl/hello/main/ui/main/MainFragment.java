@@ -22,7 +22,6 @@ import com.xxl.core.ui.fragment.BaseStateViewModelFragment;
 import com.xxl.core.ui.state.EmptyState;
 import com.xxl.core.utils.AppExpandUtils;
 import com.xxl.core.utils.DecorationUtils;
-import com.xxl.core.utils.TestUtils;
 import com.xxl.core.widget.recyclerview.OnRefreshDataListener;
 import com.xxl.hello.common.config.CacheDirConfig;
 import com.xxl.hello.main.BR;
@@ -171,7 +170,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     @Override
     protected void setupLayout(@NonNull final View view) {
         registerAppStatusChangedListener(this);
-        mMainViewModel.setObservableUserId(String.valueOf(TestUtils.currentTimeMillis()));
+        mMainViewModel.setObservableUserId(String.valueOf(TimeUtils.currentServiceTimeMillis()));
         setupRecord();
         setupRecyclerView();
     }
@@ -229,7 +228,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
         if (loginUserEntity != null) {
             mMainViewModel.setObservableUserId(loginUserEntity.getUserId());
         } else {
-            mMainViewModel.setObservableUserId((response == null || TextUtils.isEmpty(response.getUserId())) ? String.valueOf(TestUtils.currentTimeMillis()) : response.getUserId());
+            mMainViewModel.setObservableUserId((response == null || TextUtils.isEmpty(response.getUserId())) ? String.valueOf(TimeUtils.currentServiceTimeMillis()) : response.getUserId());
         }
     }
 
