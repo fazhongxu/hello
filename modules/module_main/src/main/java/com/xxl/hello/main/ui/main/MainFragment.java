@@ -29,9 +29,9 @@ import com.xxl.hello.common.config.CacheDirConfig;
 import com.xxl.hello.main.BR;
 import com.xxl.hello.main.R;
 import com.xxl.hello.main.databinding.MainFragmentBinding;
+import com.xxl.hello.main.ui.main.adapter.TestBindingAdapter;
 import com.xxl.hello.main.ui.main.adapter.TestBindingRecycleItemListener;
 import com.xxl.hello.main.ui.main.adapter.TestListEntity;
-import com.xxl.hello.main.ui.main.adapter.section.TestSectionBindingAdapter;
 import com.xxl.hello.main.ui.main.window.PrivacyPolicyPopupWindow;
 import com.xxl.hello.service.data.model.api.QueryUserInfoResponse;
 import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
@@ -74,7 +74,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     private MainViewModel mMainViewModel;
 
     @Inject
-    TestSectionBindingAdapter mTestBindingAdapter;
+    TestBindingAdapter mTestBindingAdapter;
 
     /**
      * 首页EventBus通知事件监听
@@ -183,8 +183,8 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
         mViewDataBinding.refreshLayout.setRefreshDataListener(this);
         mViewDataBinding.refreshLayout.bindRecyclerView(mViewDataBinding.rvList, mTestBindingAdapter);
         mViewDataBinding.refreshLayout.setPageSize(20);
-//        mTestBindingAdapter.setListener(this);
-//        mTestBindingAdapter.setDragItemEnable(true, R.id.tv_content, mViewDataBinding.rvList);
+        mTestBindingAdapter.setListener(this);
+        mTestBindingAdapter.setDragItemEnable(true, R.id.tv_content, mViewDataBinding.rvList);
     }
 
     /**
