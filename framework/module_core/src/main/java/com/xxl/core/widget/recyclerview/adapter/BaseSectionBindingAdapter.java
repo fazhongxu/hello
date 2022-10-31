@@ -6,8 +6,10 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.entity.SectionEntity;
+import com.oushangfeng.pinnedsectionitemdecoration.PinnedHeaderItemDecoration;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -90,6 +92,41 @@ public abstract class BaseSectionBindingAdapter<T extends SectionEntity, L exten
     public abstract void convert(@NonNull final Binding binding,
                                  @NonNull final T item);
 
+
+    //endregion
+
+    //region: 提供方法
+
+    /**
+     * 设置绑定粘性头部到列表上
+     *
+     * @param recyclerView
+     */
+    public void bindStickerHeader(@NonNull final RecyclerView recyclerView) {
+        bindStickerHeader(recyclerView, SectionEntity.HEADER_TYPE);
+    }
+
+    /**
+     * 设置粘性头部
+     *
+     * @param recyclerView
+     * @param pinnedHeaderType 头部条目类型
+     */
+    public void bindStickerHeader(@NonNull final RecyclerView recyclerView,
+                                  final int pinnedHeaderType) {
+        recyclerView.addItemDecoration(createPinnedHeaderItemDecoration(pinnedHeaderType));
+    }
+
+    /**
+     * 创建粘性头部
+     *
+     * @param pinnedHeaderType 头部条目类型
+     * @return
+     */
+    protected RecyclerView.ItemDecoration createPinnedHeaderItemDecoration(final int pinnedHeaderType) {
+        return new PinnedHeaderItemDecoration.Builder(pinnedHeaderType)
+                .create();
+    }
 
     //endregion
 

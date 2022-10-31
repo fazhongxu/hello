@@ -30,6 +30,7 @@ import com.xxl.hello.main.databinding.MainFragmentBinding;
 import com.xxl.hello.main.ui.main.adapter.TestBindingRecycleItemListener;
 import com.xxl.hello.main.ui.main.adapter.TestListEntity;
 import com.xxl.hello.main.ui.main.adapter.section.TestSectionBindingAdapter;
+import com.xxl.hello.main.ui.main.adapter.section.TestSectionRecycleItemListener;
 import com.xxl.hello.main.ui.main.window.PrivacyPolicyPopupWindow;
 import com.xxl.hello.service.data.model.api.QueryUserInfoResponse;
 import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
@@ -62,7 +63,8 @@ import io.reactivex.rxjava3.disposables.Disposable;
  * @date 2022/4/8.
  */
 public class MainFragment extends BaseStateViewModelFragment<MainViewModel, MainFragmentBinding>
-        implements MainNavigator, OnAppStatusChangedListener, OnAudioFrameCapturedListener, TestBindingRecycleItemListener, OnRefreshDataListener {
+        implements MainNavigator, OnAppStatusChangedListener, OnAudioFrameCapturedListener,
+        TestBindingRecycleItemListener, TestSectionRecycleItemListener, OnRefreshDataListener {
 
     //region: 成员变量
 
@@ -181,8 +183,8 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
         mViewDataBinding.refreshLayout.bindRecyclerView(mViewDataBinding.rvList, mTestBindingAdapter);
         mViewDataBinding.refreshLayout.setPageSize(20);
         mTestBindingAdapter.bindStickerHeader(mViewDataBinding.rvList);
-//        mTestBindingAdapter.setListener(this);
-//        mTestBindingAdapter.setDragItemEnable(true, R.id.tv_content, mViewDataBinding.rvList);
+        mTestBindingAdapter.setListener(this);
+        mTestBindingAdapter.setDragItemEnable(true, R.id.tv_content, mViewDataBinding.rvList);
     }
 
     @Override
