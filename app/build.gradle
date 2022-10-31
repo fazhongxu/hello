@@ -161,6 +161,7 @@ dependencies {
 
     implementation deps.state_manager
     implementation deps.adapter_helper
+    implementation deps.pinned_decoration
     implementation deps.refresh_layout
     implementation deps.refresh_header_material
 

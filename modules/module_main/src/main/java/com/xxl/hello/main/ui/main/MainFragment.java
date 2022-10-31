@@ -11,7 +11,9 @@ import android.view.View;
 import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.oushangfeng.pinnedsectionitemdecoration.PinnedHeaderItemDecoration;
 import com.tbruyelle.rxpermissions3.RxPermissions;
 import com.xxl.core.aop.annotation.Safe;
 import com.xxl.core.media.audio.AudioCapture;
@@ -27,9 +29,9 @@ import com.xxl.hello.common.config.CacheDirConfig;
 import com.xxl.hello.main.BR;
 import com.xxl.hello.main.R;
 import com.xxl.hello.main.databinding.MainFragmentBinding;
-import com.xxl.hello.main.ui.main.adapter.TestBindingAdapter;
 import com.xxl.hello.main.ui.main.adapter.TestBindingRecycleItemListener;
 import com.xxl.hello.main.ui.main.adapter.TestListEntity;
+import com.xxl.hello.main.ui.main.adapter.section.TestSectionBindingAdapter;
 import com.xxl.hello.main.ui.main.window.PrivacyPolicyPopupWindow;
 import com.xxl.hello.service.data.model.api.QueryUserInfoResponse;
 import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
@@ -72,7 +74,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     private MainViewModel mMainViewModel;
 
     @Inject
-    TestBindingAdapter mTestBindingAdapter;
+    TestSectionBindingAdapter mTestBindingAdapter;
 
     /**
      * 首页EventBus通知事件监听
@@ -177,11 +179,22 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
     private void setupRecyclerView() {
         mViewDataBinding.rvList.addItemDecoration(DecorationUtils.createHorizontalDividerItemDecoration(ResourceUtils.getAttrColor(AppUtils.getTopActivity(), R.attr.h_common_divider_color), 10, 0));
+        mViewDataBinding.rvList.addItemDecoration(createPinnedHeaderItemDecoration());
         mViewDataBinding.refreshLayout.setRefreshDataListener(this);
         mViewDataBinding.refreshLayout.bindRecyclerView(mViewDataBinding.rvList, mTestBindingAdapter);
         mViewDataBinding.refreshLayout.setPageSize(20);
-        mTestBindingAdapter.setListener(this);
-        mTestBindingAdapter.setDragItemEnable(true, R.id.tv_content, mViewDataBinding.rvList);
+//        mTestBindingAdapter.setListener(this);
+//        mTestBindingAdapter.setDragItemEnable(true, R.id.tv_content, mViewDataBinding.rvList);
+    }
+
+    /**
+     * 创建粘性头部
+     *
+     * @return
+     */
+    private RecyclerView.ItemDecoration createPinnedHeaderItemDecoration() {
+        return new PinnedHeaderItemDecoration.Builder(TestListEntity.HEADER_TYPE)
+                .create();
     }
 
     @Override
