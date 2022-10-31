@@ -27,10 +27,9 @@ import com.xxl.hello.common.config.CacheDirConfig;
 import com.xxl.hello.main.BR;
 import com.xxl.hello.main.R;
 import com.xxl.hello.main.databinding.MainFragmentBinding;
+import com.xxl.hello.main.ui.main.adapter.TestBindingAdapter;
 import com.xxl.hello.main.ui.main.adapter.TestBindingRecycleItemListener;
 import com.xxl.hello.main.ui.main.adapter.TestListEntity;
-import com.xxl.hello.main.ui.main.adapter.section.TestSectionBindingAdapter;
-import com.xxl.hello.main.ui.main.adapter.section.TestSectionRecycleItemListener;
 import com.xxl.hello.main.ui.main.window.PrivacyPolicyPopupWindow;
 import com.xxl.hello.service.data.model.api.QueryUserInfoResponse;
 import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
@@ -64,7 +63,7 @@ import io.reactivex.rxjava3.disposables.Disposable;
  */
 public class MainFragment extends BaseStateViewModelFragment<MainViewModel, MainFragmentBinding>
         implements MainNavigator, OnAppStatusChangedListener, OnAudioFrameCapturedListener,
-        TestBindingRecycleItemListener, TestSectionRecycleItemListener, OnRefreshDataListener {
+        TestBindingRecycleItemListener, OnRefreshDataListener {
 
     //region: 成员变量
 
@@ -74,7 +73,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     private MainViewModel mMainViewModel;
 
     @Inject
-    TestSectionBindingAdapter mTestBindingAdapter;
+    TestBindingAdapter mTestBindingAdapter;
 
     /**
      * 首页EventBus通知事件监听
@@ -160,7 +159,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     }
 
     @Override
-    public void onEmptyClick() {
+    public void onEmptyViewClick() {
         dismissState();
     }
 
@@ -182,7 +181,6 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
         mViewDataBinding.refreshLayout.setRefreshDataListener(this);
         mViewDataBinding.refreshLayout.bindRecyclerView(mViewDataBinding.rvList, mTestBindingAdapter);
         mViewDataBinding.refreshLayout.setPageSize(20);
-        mTestBindingAdapter.bindStickerHeader(mViewDataBinding.rvList);
         mTestBindingAdapter.setListener(this);
         mTestBindingAdapter.setDragItemEnable(true, R.id.tv_content, mViewDataBinding.rvList);
     }
@@ -493,7 +491,6 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
             });
         }
         mTestBindingAdapter.notifyDataSetChanged();
-        mViewDataBinding.rvList.scrollToPosition(0);
     }
 
     //endregion

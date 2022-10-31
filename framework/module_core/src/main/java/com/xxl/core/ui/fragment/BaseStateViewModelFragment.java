@@ -68,7 +68,7 @@ public abstract class BaseStateViewModelFragment<V extends BaseViewModel, T exte
     /**
      * 空视图点击
      */
-    public void onEmptyClick() {
+    public void onEmptyViewClick() {
 
     }
 
@@ -192,7 +192,7 @@ public abstract class BaseStateViewModelFragment<V extends BaseViewModel, T exte
         if (TextUtils.equals(RequestErrorState.EVENT_CLICK, state)) {
             requestData();
         } else {
-            onEmptyClick();
+            onEmptyViewClick();
         }
     }
 
