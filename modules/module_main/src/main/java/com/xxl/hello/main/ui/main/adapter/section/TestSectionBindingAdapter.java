@@ -3,6 +3,7 @@ package com.xxl.hello.main.ui.main.adapter.section;
 import androidx.annotation.NonNull;
 
 import com.xxl.core.widget.recyclerview.adapter.BaseSectionBindingAdapter;
+import com.xxl.core.widget.recyclerview.adapter.BaseSectionBindingStickerAdapter;
 import com.xxl.hello.main.R;
 import com.xxl.hello.main.databinding.MainRecyclerItemTestSectionBinding;
 import com.xxl.hello.main.databinding.MainRecyclerItemTestSectionHeaderBinding;
@@ -14,7 +15,7 @@ import javax.inject.Inject;
  * @author xxl.
  * @date 2022/10/10.
  */
-public class TestSectionBindingAdapter extends BaseSectionBindingAdapter<TestListEntity, TestSectionRecycleItemListener, MainRecyclerItemTestSectionHeaderBinding, MainRecyclerItemTestSectionBinding> {
+public class TestSectionBindingAdapter extends BaseSectionBindingStickerAdapter<TestListEntity, TestSectionRecycleItemListener, MainRecyclerItemTestSectionHeaderBinding, MainRecyclerItemTestSectionBinding> {
 
     @Inject
     public TestSectionBindingAdapter() {

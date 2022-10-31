@@ -90,7 +90,6 @@ dependencies {
 
     implementation deps.adapter_helper
     implementation deps.pinned_decoration
-    implementation deps.pinned_decoration
 
     implementation deps.refresh_layout
 

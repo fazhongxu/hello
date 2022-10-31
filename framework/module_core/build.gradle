@@ -104,6 +104,7 @@ dependencies {
 
     compileOnly deps.state_manager
     compileOnly deps.adapter_helper
+    compileOnly deps.pinned_decoration
 
     compileOnly deps.agentweb
 
