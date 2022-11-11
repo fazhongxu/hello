@@ -138,6 +138,8 @@
                 android:resource="@xml/share_file_paths" />
         </provider>
 
+        <service android:name=".main.TestAIDLService" />
+
         <!--友盟分享相关 结束-->
 
         <!--与友盟推送相关配置 开始-->

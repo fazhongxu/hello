@@ -2,8 +2,13 @@ package com.xxl.hello.main.ui.main;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.os.RemoteException;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -25,7 +30,10 @@ import com.xxl.core.utils.DecorationUtils;
 import com.xxl.core.widget.recyclerview.OnRefreshDataListener;
 import com.xxl.hello.common.config.CacheDirConfig;
 import com.xxl.hello.main.BR;
+import com.xxl.hello.main.ITestRequest;
+import com.xxl.hello.main.ITestResponse;
 import com.xxl.hello.main.R;
+import com.xxl.hello.main.TestAIDLService;
 import com.xxl.hello.main.databinding.MainFragmentBinding;
 import com.xxl.hello.main.ui.main.adapter.TestBindingAdapter;
 import com.xxl.hello.main.ui.main.adapter.TestBindingRecycleItemListener;
@@ -195,10 +203,51 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
     //region: MainNavigator
 
+    ITestRequest mTestRequest;
+
+    ResponseListener mResponseListener;
+
+    ServiceConnection mServiceConnection = new ServiceConnection() {
+
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+
+            mTestRequest = ITestRequest.Stub.asInterface(service);
+
+            mResponseListener = new ResponseListener();
+
+            try {
+                mTestRequest.registerCallBack(mResponseListener);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+
+        }
+    };
+
+    class ResponseListener extends ITestResponse.Stub {
+
+        @Override
+        public void onStart(String message) throws RemoteException {
+            ToastUtils.success(message).show();
+        }
+
+        @Override
+        public void onComplete(String result) throws RemoteException {
+            ToastUtils.success(result).show();
+        }
+    }
+
+
     @Safe
     @Override
     public void onTestClick() {
-        AppRouterApi.Login.navigation(getActivity());
+        Intent intent = new Intent(getActivity(), TestAIDLService.class);
+        getActivity().bindService(intent, mServiceConnection, Context.BIND_AUTO_CREATE);
     }
 
     /**
