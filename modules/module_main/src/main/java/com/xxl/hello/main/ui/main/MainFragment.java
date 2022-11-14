@@ -12,8 +12,6 @@ import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.google.gson.Gson;
-import com.google.gson.annotations.SerializedName;
 import com.tbruyelle.rxpermissions3.RxPermissions;
 import com.xxl.core.aop.annotation.Safe;
 import com.xxl.core.media.audio.AudioCapture;
@@ -40,7 +38,6 @@ import com.xxl.hello.widget.ui.view.record.RecordButton;
 import com.xxl.kit.AppRouterApi;
 import com.xxl.kit.AppUtils;
 import com.xxl.kit.FFmpegUtils;
-import com.xxl.kit.GsonUtils;
 import com.xxl.kit.ListUtils;
 import com.xxl.kit.LogUtils;
 import com.xxl.kit.MediaUtils;
@@ -55,7 +52,6 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -202,45 +198,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     @Safe
     @Override
     public void onTestClick() {
-//        AppRouterApi.Login.navigation(getActivity());
-        LoginUserEntity loginUserEntity = obtainTestUserEntity();
-        String json = new Gson().toJson(loginUserEntity);
-        Map map = GsonUtils.fromJson(json, Map.class);
-        Map map1 = GsonUtils.createMapGson().fromJson(json, GsonUtils.getMapType(String.class,Object.class));
-        Log.e("aa", "onTestClick: "+map+"--"+map1);
-    }
-
-    /**
-     * 构建测试用户信息
-     * 仅测试环境有效
-     *
-     * @return
-     */
-    public static final LoginUserEntity obtainTestUserEntity() {
-        return LoginUserEntity.obtain()
-                .setUserId(String.valueOf(TimeUtils.currentServiceTimeMillis()))
-                .setUserName("six six")
-                .setAge(18);
-    }
-
-
-    public final static <T> List<T> fromJsonOfList(@NonNull final String json,
-                                                   @NonNull final Class<T> classOfT) {
-        try {
-            return GsonUtils.fromJson(json, GsonUtils.getListType(classOfT));
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-
-    public class Test {
-        @SerializedName("tagid")
-        public long mTagId;
-
-        @SerializedName("tagName")
-        public String mTagName;
-
+        AppRouterApi.Login.navigation(getActivity());
     }
 
     /**
