@@ -294,7 +294,7 @@ public final class GsonUtils {
      * Map map = GsonUtils.createMapGson().fromJson(json, new TypeToken<Map<String, Object>>() {}.getType());
      * 或
      * Map map = GsonUtils.createMapGson().fromJson(json, GsonUtils.getMapType(String.class,Object.class));
-     * 主要解决 Integer等数字类型转换为Double类型的问题（0->0.0)
+     * 主要解决 json 解析为map 对象时 Integer等数字类型转换为Double类型的问题（0->0.0)
      *
      * @return
      */
@@ -305,7 +305,7 @@ public final class GsonUtils {
 
     /**
      * 解决Gson json String转 Map 对象的时候
-     * Integer等数字类型转换为Double类型的问题（0->0.0)
+     *  主要解决 json 解析为map 对象时 Integer等数字类型转换为Double类型的问题（0->0.0)
      */
     public static class MapTypeAdapter extends TypeAdapter<Object> {
         private final TypeAdapter<Object> delegate = new Gson().getAdapter(Object.class);
