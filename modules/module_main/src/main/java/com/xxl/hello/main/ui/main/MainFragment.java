@@ -22,7 +22,6 @@ import com.xxl.core.ui.fragment.BaseStateViewModelFragment;
 import com.xxl.core.ui.state.EmptyState;
 import com.xxl.core.utils.AppExpandUtils;
 import com.xxl.core.utils.DecorationUtils;
-import com.xxl.core.utils.NodeUtils;
 import com.xxl.core.widget.recyclerview.OnRefreshDataListener;
 import com.xxl.hello.common.config.CacheDirConfig;
 import com.xxl.hello.main.BR;
@@ -33,7 +32,6 @@ import com.xxl.hello.main.ui.main.adapter.TestBindingRecycleItemListener;
 import com.xxl.hello.main.ui.main.adapter.TestListEntity;
 import com.xxl.hello.main.ui.main.window.PrivacyPolicyPopupWindow;
 import com.xxl.hello.service.data.model.api.QueryUserInfoResponse;
-import com.xxl.hello.service.data.model.entity.node.TestNodeEntity;
 import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
 import com.xxl.hello.widget.ui.view.record.OnRecordListener;
 import com.xxl.hello.widget.ui.view.record.RecordButton;
@@ -52,9 +50,7 @@ import com.xxl.kit.ToastUtils;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -202,34 +198,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     @Safe
     @Override
     public void onTestClick() {
-        final List<TestNodeEntity> nodeEntities = TestNodeEntity.obtainTestEntities();
-
-        for (TestNodeEntity nodeEntity : nodeEntities) {
-            Log.e("aaa", "onTestClick: " + nodeEntity);
-        }
-        List<TestNodeEntity> nodeEntities1 = NodeUtils.recessionListToTree(nodeEntities, String.valueOf(TestNodeEntity.FIRST_PARENT_NODE_ID));
-
-        for (TestNodeEntity nodeEntity : nodeEntities1) {
-            Log.e("aaa", "onTestClick:--- " + nodeEntity);
-        }
-
-        List<TestNodeEntity> results = new ArrayList<>();
-        for (TestNodeEntity testNodeEntity : nodeEntities1) {
-            if (TextUtils.equals(testNodeEntity.getParentNodeId(), String.valueOf(TestNodeEntity.FIRST_PARENT_NODE_ID))) {
-                NodeUtils.recessionTreeToList(results, testNodeEntity, null);
-            }
-        }
-
-        Collections.sort(results, new Comparator<TestNodeEntity>() {
-            @Override
-            public int compare(TestNodeEntity o1, TestNodeEntity o2) {
-                return (int) (o1.getNodeLongId() - o2.getNodeLongId());
-            }
-        });
-
-        for (TestNodeEntity nodeEntity : results) {
-            Log.e("aaaa", "onTestClick:=== " + nodeEntity);
-        }
+        AppRouterApi.Login.navigation(getActivity());
     }
 
     /**
