@@ -3,6 +3,7 @@ package com.xxl.core.utils;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.xxl.core.data.model.entity.node.NodeEntity;
 import com.xxl.kit.ListUtils;
@@ -17,6 +18,29 @@ import java.util.List;
  * @date 2022/11/15.
  */
 public class NodeUtils {
+
+    /**
+     * 递归把tree结构转换为list结构
+     *
+     * @param resultNodeEntities 结果数据集合
+     * @param rootNodeEntity     根节点
+     * @param parentNodeEntity   父节点，没有就传Null
+     */
+    public static <T extends NodeEntity> void recessionTreeToList(@NonNull final List<T> resultNodeEntities,
+                                                                  @NonNull final T rootNodeEntity,
+                                                                  @Nullable final T parentNodeEntity) {
+        if (parentNodeEntity != null) {
+            rootNodeEntity.setParentNodeId(parentNodeEntity.getParentNodeId());
+        }
+        resultNodeEntities.add(rootNodeEntity);
+        if (ListUtils.isEmpty(rootNodeEntity.getChildrenNodes())) {
+            return;
+        }
+        final List<T> childrenNodes = rootNodeEntity.getChildrenNodes();
+        for (T childNode : childrenNodes) {
+            recessionTreeToList(resultNodeEntities, childNode, rootNodeEntity);
+        }
+    }
 
     /**
      * 递归把list结构转换为tree结构

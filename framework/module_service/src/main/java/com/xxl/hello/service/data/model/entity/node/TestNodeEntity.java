@@ -1,6 +1,7 @@
 package com.xxl.hello.service.data.model.entity.node;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.xxl.core.data.model.entity.node.NodeEntity;
 
@@ -84,13 +85,38 @@ public class TestNodeEntity implements NodeEntity<TestNodeEntity> {
     }
 
     /**
+     * 获取long类型的节点ID
+     *
+     * @return
+     */
+    public long getNodeLongId() {
+        return mNodeId;
+    }
+
+    /**
+     * 设置父节点ID
+     *
+     * @param parentNodeId
+     */
+    @Override
+    public TestNodeEntity setParentNodeId(@Nullable final String parentNodeId) {
+        try {
+            mParentNodeId = Long.parseLong(parentNodeId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            mParentNodeId = 0;
+        }
+        return this;
+    }
+
+    /**
      * 设置子节点数据
      *
      * @param childrenNodes
      * @return
      */
     @Override
-    public TestNodeEntity setChildrenNodes(@NonNull final List<TestNodeEntity> childrenNodes){
+    public TestNodeEntity setChildrenNodes(@NonNull final List<TestNodeEntity> childrenNodes) {
         mChildrenNodeEntities = childrenNodes;
         return this;
     }

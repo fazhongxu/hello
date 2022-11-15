@@ -1,6 +1,9 @@
 package com.xxl.core.data.model.entity.node;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import org.w3c.dom.Node;
 
 import java.util.List;
 
@@ -34,6 +37,14 @@ public interface NodeEntity<T extends NodeEntity> {
      * @return
      */
     List<T> getChildrenNodes();
+
+    /**
+     * 设置父节点ID
+     *
+     * @param parentNodeId
+     * @return
+     */
+    T setParentNodeId(@Nullable final String parentNodeId);
 
     /**
      * 设置子节点数据

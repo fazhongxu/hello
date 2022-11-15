@@ -52,7 +52,9 @@ import com.xxl.kit.ToastUtils;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -200,7 +202,6 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     @Safe
     @Override
     public void onTestClick() {
-//        NodeUtils.recessionListToTree();
         final List<TestNodeEntity> nodeEntities = TestNodeEntity.obtainTestEntities();
 
         for (TestNodeEntity nodeEntity : nodeEntities) {
@@ -210,6 +211,24 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
         for (TestNodeEntity nodeEntity : nodeEntities1) {
             Log.e("aaa", "onTestClick:--- " + nodeEntity);
+        }
+
+        List<TestNodeEntity> results = new ArrayList<>();
+        for (TestNodeEntity testNodeEntity : nodeEntities1) {
+            if (TextUtils.equals(testNodeEntity.getParentNodeId(), String.valueOf(TestNodeEntity.FIRST_PARENT_NODE_ID))) {
+                NodeUtils.recessionTreeToList(results, testNodeEntity, null);
+            }
+        }
+
+        Collections.sort(results, new Comparator<TestNodeEntity>() {
+            @Override
+            public int compare(TestNodeEntity o1, TestNodeEntity o2) {
+                return (int) (o1.getNodeLongId() - o2.getNodeLongId());
+            }
+        });
+
+        for (TestNodeEntity nodeEntity : results) {
+            Log.e("aaaa", "onTestClick:=== " + nodeEntity);
         }
     }
 
