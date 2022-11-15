@@ -3,8 +3,6 @@ package com.xxl.core.data.model.entity.node;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import org.w3c.dom.Node;
-
 import java.util.List;
 
 /**
@@ -32,7 +30,7 @@ public interface NodeEntity<T extends NodeEntity> {
     String getParentNodeId();
 
     /**
-     * 获取
+     * 获取子节点数据
      *
      * @return
      */
