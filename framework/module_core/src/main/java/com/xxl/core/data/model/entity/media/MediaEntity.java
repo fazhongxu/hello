@@ -1,4 +1,4 @@
-package com.xxl.core.data.model.entity;
+package com.xxl.core.data.model.entity.media;
 
 import androidx.annotation.Keep;
 import androidx.annotation.NonNull;

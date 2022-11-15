@@ -22,6 +22,7 @@ import com.xxl.core.ui.fragment.BaseStateViewModelFragment;
 import com.xxl.core.ui.state.EmptyState;
 import com.xxl.core.utils.AppExpandUtils;
 import com.xxl.core.utils.DecorationUtils;
+import com.xxl.core.utils.NodeUtils;
 import com.xxl.core.widget.recyclerview.OnRefreshDataListener;
 import com.xxl.hello.common.config.CacheDirConfig;
 import com.xxl.hello.main.BR;
@@ -32,6 +33,7 @@ import com.xxl.hello.main.ui.main.adapter.TestBindingRecycleItemListener;
 import com.xxl.hello.main.ui.main.adapter.TestListEntity;
 import com.xxl.hello.main.ui.main.window.PrivacyPolicyPopupWindow;
 import com.xxl.hello.service.data.model.api.QueryUserInfoResponse;
+import com.xxl.hello.service.data.model.entity.node.TestNodeEntity;
 import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
 import com.xxl.hello.widget.ui.view.record.OnRecordListener;
 import com.xxl.hello.widget.ui.view.record.RecordButton;
@@ -198,7 +200,17 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     @Safe
     @Override
     public void onTestClick() {
-        AppRouterApi.Login.navigation(getActivity());
+//        NodeUtils.recessionListToTree();
+        final List<TestNodeEntity> nodeEntities = TestNodeEntity.obtainTestEntities();
+
+        for (TestNodeEntity nodeEntity : nodeEntities) {
+            Log.e("aaa", "onTestClick: " + nodeEntity);
+        }
+        List<TestNodeEntity> nodeEntities1 = NodeUtils.recessionListToTree(nodeEntities, String.valueOf(TestNodeEntity.FIRST_PARENT_NODE_ID));
+
+        for (TestNodeEntity nodeEntity : nodeEntities1) {
+            Log.e("aaa", "onTestClick:--- " + nodeEntity);
+        }
     }
 
     /**
