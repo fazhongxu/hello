@@ -68,6 +68,28 @@ uploadArchives {
  查看依赖关系 并输出log到指定txt文件
  gradlew app:dependencies >app/build/deps.txt
 
+ 命令签名
+ 方式一：
+
+ jarsigner -keystore 密钥库名 xxx.apk 密钥别名
+
+ 方式二：
+
+ apksigner sign --ks 密钥库名 --ks-key-alias 密钥别名 xxx.apk
+
+ 上述命令，签名后没有改变文件名称。如何判断是否签名成功？可以采用如下命令。
+
+ 打印签名信息命令：
+
+ keytool -list -printcert -jarfile appname.apk
+
+ 通过上述命令，可以打印出签名的所有者信息，发布者，序列号，有效期等信息。
+ 通过以上信息，即可判断出是否签名成功。
+
+ jarsigner -verbose -keystore /Users/xxl/AndroidStudioProjects/hello/hello /Users/xxl/AndroidStudioProjects/hello/app/app-debug.apk hello
+
+ keytool -list -printcert -jarfile /Users/xxl/AndroidStudioProjects/hello/app/app-debug.apk
+
 
  技术要点
 
