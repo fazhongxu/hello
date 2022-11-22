@@ -52,6 +52,7 @@ versions.eventbus = "3.2.0"
 versions.logger = "2.2.0"
 versions.arouter = "1.5.2"
 versions.arouter_register = "1.0.2"
+versions.fat_aar = "1.3.8"
 
 versions.android_state = "1.4.1"
 
@@ -229,6 +230,9 @@ arouter.arouter = "com.alibaba:arouter-api:$versions.arouter"
 arouter.arouter_processor = "com.alibaba:arouter-compiler:$versions.arouter"
 arouter.register = "com.alibaba:arouter-register:$versions.arouter_register"
 deps.arouter = arouter
+
+// fat-aar https://github.com/kezong/fat-aar-android
+deps.fat_aar = "com.github.kezong:fat-aar:$versions.fat_aar"
 
 // ffmpeg_kit [https://github.com/tanersener/ffmpeg-kit]
 versions.ffmpeg_kit_remote = false

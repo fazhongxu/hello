@@ -90,6 +90,18 @@ uploadArchives {
 
  keytool -list -printcert -jarfile /Users/xxl/AndroidStudioProjects/hello/app/app-debug.apk
 
+ fat-aar 将多个本地aar合并到一个module的aar中
+
+ // 如：将 ffmpeg_kit，picture_selector打包到modules:module_user模块中
+ 1.modules:module_user build.gradle 配置如下
+ dependencies {
+     embed deps.ffmpeg_kit
+     embed deps.picture_selector
+ }
+
+ 2.modules:module_user apply plugin: 'com.kezong.fat-aar'
+
+ 3. ./gradlew :modules:module_user:assemble 就可以在build/outpuss/aar文件内找到带有本地两个aar的用户模块的aar了
 
  技术要点
 
