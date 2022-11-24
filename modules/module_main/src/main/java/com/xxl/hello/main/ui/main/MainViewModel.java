@@ -43,12 +43,12 @@ public class MainViewModel extends BaseViewModel<MainNavigator> {
     /**
      * 用户ID
      */
-    private ObservableField<String> mObservableUserId = new ObservableField<>();
+    private ObservableField<CharSequence> mObservableUserId = new ObservableField<>();
 
     /**
      * 用户信息
      */
-    private ObservableField<String> mObservableUserInfo = new ObservableField<>();
+    private ObservableField<CharSequence> mObservableUserInfo = new ObservableField<>();
 
     private final UploadService mUploadService;
 
@@ -163,11 +163,11 @@ public class MainViewModel extends BaseViewModel<MainNavigator> {
         return mUploadService;
     }
 
-    public ObservableField<String> getObservableUserId() {
+    public ObservableField<CharSequence> getObservableUserId() {
         return mObservableUserId;
     }
 
-    public ObservableField<String> getObservableUserInfo() {
+    public ObservableField<CharSequence> getObservableUserInfo() {
         return mObservableUserInfo;
     }
 
@@ -185,6 +185,7 @@ public class MainViewModel extends BaseViewModel<MainNavigator> {
      *
      * @param targetUserInfo
      */
+
     public void setObservableUserInfo(@NonNull final String targetUserInfo) {
         this.mObservableUserInfo.set(targetUserInfo);
     }
