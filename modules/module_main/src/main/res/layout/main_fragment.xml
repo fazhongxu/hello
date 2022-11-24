@@ -60,8 +60,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="@{()->navigator.onTestClick()}"
-                android:onLongClick="@{()->navigator.onTestLongClick()}"
-                android:text="@{viewModel.observableUserId}"
                 android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"

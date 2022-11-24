@@ -3,13 +3,14 @@ package com.xxl.hello.common.utils;
 import android.graphics.Color;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.view.View;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;
 
-import com.xxl.core.widget.span.TouchableSpan;
+import com.xxl.core.widget.text.TouchableSpan;
 import com.xxl.hello.common.R;
 import com.xxl.kit.StringUtils;
 
@@ -50,6 +51,41 @@ public class StringExpandUtils {
         final Spannable spannable = new SpannableString(content);
         StringUtils.setHighlightColorId(spannable, keyword, R.color.colorPrimary);
         return spannable;
+    }
+
+    /**
+     * 构建可以点击的 span
+     *
+     * @param normalTextColor
+     * @param pressedTextColor
+     * @param listener
+     * @return
+     */
+    public static Spannable buildTouchableSpan(final String content,
+                                               final String keyword,
+                                               @ColorInt int normalTextColor,
+                                               @ColorInt int pressedTextColor,
+                                               View.OnClickListener listener) {
+        int start = content.indexOf(keyword);
+        int end = start + keyword.length();
+        SpannableString spannableString = new SpannableString(content);
+        TouchableSpan touchableSpan = buildTouchableSpan(normalTextColor, pressedTextColor, Color.TRANSPARENT, listener);
+        spannableString.setSpan(touchableSpan,start,end, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        return spannableString;
+    }
+
+    /**
+     * 构建可以点击的 span
+     *
+     * @param normalTextColor
+     * @param pressedTextColor
+     * @param listener
+     * @return
+     */
+    public static TouchableSpan buildTouchableSpan(@ColorInt int normalTextColor,
+                                                   @ColorInt int pressedTextColor,
+                                                   View.OnClickListener listener) {
+        return buildTouchableSpan(normalTextColor, pressedTextColor, Color.TRANSPARENT, listener);
     }
 
     /**

@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Spannable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -23,7 +24,9 @@ import com.xxl.core.ui.state.EmptyState;
 import com.xxl.core.utils.AppExpandUtils;
 import com.xxl.core.utils.DecorationUtils;
 import com.xxl.core.widget.recyclerview.OnRefreshDataListener;
+import com.xxl.core.widget.text.LinkTouchMovementMethod;
 import com.xxl.hello.common.config.CacheDirConfig;
+import com.xxl.hello.common.utils.StringExpandUtils;
 import com.xxl.hello.main.BR;
 import com.xxl.hello.main.R;
 import com.xxl.hello.main.databinding.MainFragmentBinding;
@@ -37,6 +40,7 @@ import com.xxl.hello.widget.ui.view.record.OnRecordListener;
 import com.xxl.hello.widget.ui.view.record.RecordButton;
 import com.xxl.kit.AppRouterApi;
 import com.xxl.kit.AppUtils;
+import com.xxl.kit.ColorUtils;
 import com.xxl.kit.FFmpegUtils;
 import com.xxl.kit.ListUtils;
 import com.xxl.kit.LogUtils;
@@ -198,7 +202,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     @Safe
     @Override
     public void onTestClick() {
-        AppRouterApi.Login.navigation(getActivity());
+
     }
 
     /**
@@ -231,6 +235,15 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
         } else {
             mMainViewModel.setObservableUserId((response == null || TextUtils.isEmpty(response.getUserId())) ? String.valueOf(TimeUtils.currentServiceTimeMillis()) : response.getUserId());
         }
+
+        Spannable spannable = StringExpandUtils.buildTouchableSpan("大家好我是那谁谁", "我是那谁谁", ColorUtils.getColor(R.color.resources_text_title_color), ColorUtils.getColor(R.color.resources_primary_color), new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastUtils.success("点击了Span").show();
+            }
+        });
+        mViewDataBinding.tvTest.setText(spannable);
+        mViewDataBinding.tvTest.setMovementMethod(LinkTouchMovementMethod.getInstance());
     }
 
     //endregion

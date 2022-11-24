@@ -1,4 +1,4 @@
-package com.xxl.core.widget.span;
+package com.xxl.core.widget.image;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;

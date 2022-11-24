@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.xxl.core.widget.span;
+package com.xxl.core.widget.text;
 
 import android.text.TextPaint;
 import android.text.style.ClickableSpan;
@@ -29,7 +29,7 @@ import androidx.core.view.ViewCompat;
  * 提供设置 span 的文字颜色和背景颜色的功能, 在构造时传入
  * </p>
  */
-public abstract class TouchableSpan extends ClickableSpan {
+public abstract class TouchableSpan extends ClickableSpan implements Linkify.ITouchableSpan{
 
     private static final String TAG = "TouchableSpan";
     private boolean mIsPressed;
