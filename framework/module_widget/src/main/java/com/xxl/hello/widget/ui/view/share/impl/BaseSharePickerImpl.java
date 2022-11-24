@@ -13,6 +13,8 @@ import com.xxl.core.service.download.DownloadOptions;
 import com.xxl.core.service.download.DownloadService;
 import com.xxl.core.service.download.DownloadServiceWrapper;
 import com.xxl.core.service.download.DownloadTaskEntity;
+import com.xxl.core.ui.activity.BaseActivity;
+import com.xxl.hello.common.config.ShareConfig;
 import com.xxl.hello.service.data.model.entity.share.BaseShareResourceEntity;
 import com.xxl.hello.service.data.model.entity.share.ShareOperateItem;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi.ShareOperateType;
@@ -24,6 +26,7 @@ import com.xxl.kit.FileUtils;
 import com.xxl.kit.ListUtils;
 import com.xxl.kit.LogUtils;
 import com.xxl.kit.OnRequestCallBack;
+import com.xxl.kit.ShareUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,7 +91,12 @@ public abstract class BaseSharePickerImpl<T extends BaseShareResourceEntity> imp
     @Override
     public void register(@NonNull Fragment fragment) {
         mFragment = fragment;
-        // TODO: 2022/7/20 分享onActivityResult 回调注册
+        if (fragment != null && fragment.getActivity() instanceof BaseActivity) {
+            ((BaseActivity) fragment.getActivity()).putOnActivityResultListener(ShareConfig.SHARE_PICKER_ACTIVITY_RESULT_KEY, (requestCode, resultCode, data) -> {
+                LogUtils.d("分享监听activity Result 回调" + requestCode);
+                ShareUtils.onActivityResult(fragment.getActivity(), requestCode, resultCode, data);
+            });
+        }
     }
 
     /**
@@ -96,8 +104,10 @@ public abstract class BaseSharePickerImpl<T extends BaseShareResourceEntity> imp
      */
     @Override
     public void unregister() {
-        // TODO: 2022/7/19  取消网络请求啥的
-        mDownloadService.unRegister(this);
+        mDownloadServiceWrapper.onCleared();
+        if (mFragment != null && mFragment.getActivity() instanceof BaseActivity) {
+            ((BaseActivity) mFragment.getActivity()).removeOnActivityResultListener(ShareConfig.SHARE_PICKER_ACTIVITY_RESULT_KEY);
+        }
     }
 
     /**
@@ -308,7 +318,7 @@ public abstract class BaseSharePickerImpl<T extends BaseShareResourceEntity> imp
         }
         if (FileUtils.createOrExistsDir(cacheDir)) {
             final String targetUrl = waitDownloadUrls.remove(0);
-            final DownloadOptions downloadOptions = DownloadOptions.create(targetUrl,cacheDir);
+            final DownloadOptions downloadOptions = DownloadOptions.create(targetUrl, cacheDir);
             mDownloadServiceWrapper.createDownloadTask(getActivity(), downloadOptions, new DownloadListener() {
                 @Override
                 public void onTaskComplete(@NonNull DownloadTaskEntity taskEntity) {

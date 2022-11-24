@@ -53,6 +53,14 @@ public class DownloadServiceWrapper implements DownloadListener {
 
     //endregion
 
+    //region: 页面生命周期
+
+    public void onCleared() {
+        mDownloadService.unRegister(this);
+    }
+
+    //endregion
+
     //region: DownloadListener
 
     /**

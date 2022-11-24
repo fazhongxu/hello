@@ -23,6 +23,11 @@ public class ShareConfig {
      */
     public static final String CHANNEL = "android";
 
+    /**
+     * 资源分享器页面返回结果处理的key
+     */
+    public static final String SHARE_PICKER_ACTIVITY_RESULT_KEY = "share_picker_activity_result_key";
+
     private ShareConfig() {
 
     }

@@ -1,14 +1,18 @@
 package com.xxl.core.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.xxl.core.ui.OnActivityResultListener;
 import com.xxl.core.widget.swipebacklayout.SwipeBackActivity;
 import com.xxl.kit.AppUtils;
 import com.xxl.kit.OnAppStatusChangedListener;
+
+import java.util.LinkedHashMap;
 
 import javax.inject.Inject;
 
@@ -22,9 +26,14 @@ import dagger.android.HasAndroidInjector;
  * @date 2021/7/19.
  */
 public abstract class BaseActivity extends SwipeBackActivity
-     implements HasAndroidInjector {
+        implements HasAndroidInjector {
 
     //region: 成员变量
+
+    /**
+     * 处理页面返回结果监听数据
+     */
+    private LinkedHashMap<String, OnActivityResultListener> mActivityResultListenerMap = new LinkedHashMap<>();
 
     @Inject
     DispatchingAndroidInjector<Object> mAndroidInjector;
@@ -46,6 +55,38 @@ public abstract class BaseActivity extends SwipeBackActivity
         setupData();
         setupLayout();
         requestData();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode,
+                                 int resultCode,
+                                 @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        handleActivityResult(requestCode, resultCode, data);
+    }
+
+    /**
+     * 处理activity页面返回结果
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    public void handleActivityResult(int requestCode,
+                                     int resultCode,
+                                     @Nullable Intent data) {
+        if (isFinishing()) {
+            return;
+        }
+        if (mActivityResultListenerMap.size() <= 0) {
+            return;
+        }
+        for (String key : mActivityResultListenerMap.keySet()) {
+            final OnActivityResultListener listener = mActivityResultListenerMap.get(key);
+            if (listener != null) {
+                listener.onActivityResult(requestCode, resultCode, data);
+            }
+        }
     }
 
     /**
@@ -130,6 +171,26 @@ public abstract class BaseActivity extends SwipeBackActivity
      */
     protected void unregisterAppStatusChangedListener(@NonNull final OnAppStatusChangedListener listener) {
         AppUtils.removeOnAppStatusChangedListener(listener);
+    }
+
+    /**
+     * 添加页面结果返回监听
+     *
+     * @param key
+     * @param listener
+     */
+    public void putOnActivityResultListener(String key,
+                                            OnActivityResultListener listener) {
+        mActivityResultListenerMap.put(key, listener);
+    }
+
+    /**
+     * 移除页面结果返回监听
+     *
+     * @param key
+     */
+    public void removeOnActivityResultListener(String key) {
+        mActivityResultListenerMap.remove(key);
     }
 
     //endregion
