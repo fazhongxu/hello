@@ -12,6 +12,7 @@ import com.xxl.hello.user.R;
 import com.xxl.hello.user.data.model.api.UserLoginResponse;
 import com.xxl.hello.user.databinding.UserFragmentLoginBinding;
 import com.xxl.kit.AppRouterApi;
+import com.xxl.kit.RouterUtils;
 import com.xxl.kit.TimeUtils;
 
 import javax.inject.Inject;
@@ -98,7 +99,11 @@ public class LoginFragment extends BaseViewModelFragment<LoginViewModel, UserFra
     @Override
     public void onRequestLoginComplete(@NonNull final UserLoginResponse loginResponse) {
         mLoginViewModel.setTargetUserInfo(loginResponse.getLoginUserEntity());
-        AppRouterApi.Login.setActivityResult(getActivity());
+        if (RouterUtils.hasActivity(AppRouterApi.MAIN_PATH)) {
+            AppRouterApi.Login.setActivityResult(getActivity());
+        }else {
+            AppRouterApi.Main.navigationWithFinish(getActivity());
+        }
     }
 
     /**
