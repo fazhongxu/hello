@@ -42,8 +42,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility build_versions.sourceCompatibility
+        targetCompatibility build_versions.targetCompatibility
     }
 
     // TODO: 2022/4/6 音频实时转码 需要用时，build.gradle 打开 cmake文件，才可以用，暂时注释掉（debug费时间）
