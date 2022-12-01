@@ -68,6 +68,9 @@ uploadArchives {
  查看依赖关系 并输出log到指定txt文件
  gradlew app:dependencies >app/build/deps.txt
 
+ 查看本地模块依赖关系 并输出log到指定txt文件 grep 正则过滤一下
+ gradlew :app:dependencies | grep project > app/build/deps.txt
+
  命令签名
  方式一：
 
