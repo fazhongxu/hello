@@ -132,7 +132,7 @@ public abstract class BaseStateViewModelFragment<V extends BaseViewModel, T exte
     /**
      * 展示核心的状态（隐藏loading，异常等）
      */
-    public void dismissState() {
+    public void showCoreState() {
         showState(CoreState.STATE);
     }
 

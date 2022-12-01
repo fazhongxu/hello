@@ -161,7 +161,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
     @Override
     public void onEmptyViewClick() {
-        dismissState();
+        showCoreState();
     }
 
     /**
@@ -222,7 +222,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
      */
     @Override
     public void onRequestQueryUserInfoComplete(@NonNull final QueryUserInfoResponse response) {
-        dismissState();
+        showCoreState();
         if (response != null && !TextUtils.isEmpty(response.getUserId())) {
             mMainViewModel.setObservableUserInfo(response.getUserId().concat("\n").concat(response.getAvatarUrl()));
         }
