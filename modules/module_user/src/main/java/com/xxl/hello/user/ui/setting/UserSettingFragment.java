@@ -30,6 +30,7 @@ import com.xxl.hello.widget.ui.view.keyboard.ICommentKeyboardLayout;
 import com.xxl.hello.widget.ui.view.share.OnShareItemOperate;
 import com.xxl.hello.widget.ui.view.share.ResourcesShareWindow;
 import com.xxl.hello.widget.ui.view.share.api.ResourcesSharePickerKit;
+import com.xxl.kit.DisplayUtils;
 import com.xxl.kit.FileUtils;
 import com.xxl.kit.KeyboardWrapper;
 import com.xxl.kit.MomentShareUtils;
@@ -159,6 +160,8 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
     protected void setupData() {
         mViewDataBinding = getViewDataBinding();
         setNetworkConfig();
+//        mViewDataBinding.ivUserAvatar.setAdjustViewBounds(true);
+//        mViewDataBinding.ivUserAvatar.setMaxHeight(DisplayUtils.dp2px(getContext(),442));
     }
 
     @Override
