@@ -160,8 +160,6 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
     protected void setupData() {
         mViewDataBinding = getViewDataBinding();
         setNetworkConfig();
-//        mViewDataBinding.ivUserAvatar.setAdjustViewBounds(true);
-//        mViewDataBinding.ivUserAvatar.setMaxHeight(DisplayUtils.dp2px(getContext(),442));
     }
 
     @Override

@@ -20,47 +20,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/iv_user_avatar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_marginLeft="22dp"
-            android:layout_marginRight="22dp"
-            android:adjustViewBounds="true"
-            android:maxHeight="442dp"
-            android:onClick="@{()->navigator.onUserAvatarClick()}"
-            android:onLongClick="@{()->navigator.onUserAvatarLongClick()}"
-            app:imageUrl="@{viewModel.observableUserAvatarUrl}"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@tools:sample/avatars" />
-
-        <!--        <androidx.appcompat.widget.AppCompatImageView-->
-        <!--            android:id="@+id/iv_user_avatar"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:maxHeight="442dp"-->
-        <!--            android:adjustViewBounds="true"-->
-        <!--            android:onClick="@{()->navigator.onUserAvatarClick()}"-->
-        <!--            android:onLongClick="@{()->navigator.onUserAvatarLongClick()}"-->
-        <!--            android:scaleType="fitXY"-->
-        <!--            app:civ_border_color="@android:color/transparent"-->
-        <!--            app:civ_border_overlay="true"-->
-        <!--            app:civ_border_width="2dp"-->
-        <!--            app:imageUrl="@{viewModel.observableUserAvatarUrl}"-->
-        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--            app:layout_constraintLeft_toLeftOf="parent"-->
-        <!--            app:layout_constraintRight_toRightOf="parent"-->
-        <!--            app:layout_constraintTop_toTopOf="parent"-->
-        <!--            tools:src="@tools:sample/avatars" />-->
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@android:color/white"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <com.xxl.core.widget.FadeScrollView
                 android:id="@+id/sc_scroll_view"
@@ -80,6 +44,23 @@
                     android:textColor="@color/resources_primary_color"
                     tools:text="123" />
             </com.xxl.core.widget.FadeScrollView>
+
+            <com.xxl.hello.widget.ui.view.CircleImageView
+                android:id="@+id/iv_user_avatar"
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:onClick="@{()->navigator.onUserAvatarClick()}"
+                android:onLongClick="@{()->navigator.onUserAvatarLongClick()}"
+                android:scaleType="centerCrop"
+                app:civ_border_color="@android:color/transparent"
+                app:civ_border_overlay="true"
+                app:civ_border_width="2dp"
+                app:imageUrl="@{viewModel.observableUserAvatarUrl}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@tools:sample/avatars" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"

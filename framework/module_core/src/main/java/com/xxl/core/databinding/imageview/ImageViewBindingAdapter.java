@@ -8,7 +8,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.BindingAdapter;
 
-import com.bumptech.glide.request.target.Target;
 import com.xxl.core.image.loader.ImageLoader;
 
 
@@ -33,7 +32,6 @@ public class ImageViewBindingAdapter {
         if (errorDrawable == null) {
             ImageLoader.with(targetImageView)
                     .load(targetUrl)
-                    .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
                     .into(targetImageView);
             return;
         }
