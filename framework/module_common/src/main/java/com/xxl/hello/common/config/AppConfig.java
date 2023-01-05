@@ -20,11 +20,6 @@ public class AppConfig {
      */
     public static final String APP_PACKAGE_NAME = "com.xxl.hello";
 
-    /**
-     * 微信回调类名全路径
-     */
-    public static final String APP_WE_CHAT_CALLBACK_CLASS_NAME = "com.xxl.hello.main.ui.wx.WeChatCallbackActivity";
-
     //endregion
 
     //region: 构造函数
