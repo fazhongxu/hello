@@ -3,7 +3,6 @@ package com.xxl.hello.service.di.module;
 import android.app.Application;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.xxl.hello.service.ResourceProcessWrapper;
 import com.xxl.hello.service.ResourcesProcessService;
@@ -11,6 +10,8 @@ import com.xxl.hello.service.ServiceWrapper;
 import com.xxl.hello.service.data.local.prefs.impl.PreferencesDataStoreModule;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.hello.service.data.repository.impl.ServiceRepositoryDataStoreModule;
+import com.xxl.hello.service.handle.api.AppSchemeService;
+import com.xxl.hello.service.handle.impl.AppSchemeServiceImpl;
 import com.xxl.hello.service.queue.api.ResourcesUploadServiceQueue;
 import com.xxl.hello.service.queue.impl.ServiceQueueDataStoreModule;
 import com.xxl.hello.service.qunlifier.ForApplication;
@@ -86,5 +87,16 @@ public class ServiceDataStoreModule {
                                                          @ForQiNiuUpload final UploadService uploadService,
                                                          @ForTencentUpload final UploadService tencentUploadService) {
         return new ResourceProcessWrapper(application, dataRepositoryKit, uploadService, tencentUploadService);
+    }
+
+    /**
+     * 构建scheme处理类
+     *
+     * @return
+     */
+    @Singleton
+    @Provides
+    AppSchemeService provideAppSchemeService() {
+        return new AppSchemeServiceImpl();
     }
 }

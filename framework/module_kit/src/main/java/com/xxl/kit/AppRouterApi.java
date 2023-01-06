@@ -69,6 +69,15 @@ public class AppRouterApi {
         public static void navigationAndClearTop() {
             RouterUtils.navigationAndClearTop(SPLASH_PATH);
         }
+
+        /**
+         * 导航到首页
+         */
+        public static void navigationAndClearTop(@NonNull final String navigationPath,
+                                                 @NonNull final String data) {
+            // TODO: 2023/1/6
+            RouterUtils.navigationAndClearTop(SPLASH_PATH);
+        }
     }
 
     //endregion

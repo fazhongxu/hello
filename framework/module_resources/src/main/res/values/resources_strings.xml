@@ -35,4 +35,6 @@
     <string name="resources_please_input_content_hint">请输入内容</string>
     <string name="resources_emotion_text">表情</string>
 
+    <string name="resources_can_not_parse_link_tips">无法解析该连接</string>
+
 </resources>

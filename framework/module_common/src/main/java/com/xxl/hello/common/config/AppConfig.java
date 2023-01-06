@@ -20,6 +20,16 @@ public class AppConfig {
      */
     public static final String APP_PACKAGE_NAME = "com.xxl.hello";
 
+    /**
+     * scheme
+     */
+    public static final String APP_DEFAULT_SCHEME = "scheme";
+
+    /**
+     * scheme 标识
+     */
+    public static final String APP_SCHEME_TAG = "hl://hello.com";
+
     //endregion
 
     //region: 构造函数

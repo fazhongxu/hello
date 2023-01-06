@@ -108,6 +108,10 @@ public final class StringUtils {
         return s1 == null ? s2 == null : s1.equalsIgnoreCase(s2);
     }
 
+    public static boolean containsIgnoreCase(final String targetContent, final String key) {
+        return targetContent == null ? key == null : targetContent.toLowerCase().contains(key);
+    }
+
     /**
      * Return {@code ""} if string equals null.
      *

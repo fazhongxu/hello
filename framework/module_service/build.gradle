@@ -20,5 +20,6 @@ uploadArchives {
 dependencies {
     implementation deps.hello.common
     implementation deps.hello.resources
+    implementation deps.hello.router
 }
 

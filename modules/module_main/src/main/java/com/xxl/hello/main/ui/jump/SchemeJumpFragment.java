@@ -1,16 +1,17 @@
 package com.xxl.hello.main.ui.jump;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 
 import com.xxl.core.ui.fragment.BaseViewModelFragment;
+import com.xxl.core.utils.AppExpandUtils;
 import com.xxl.hello.main.BR;
 import com.xxl.hello.main.R;
 import com.xxl.hello.main.databinding.MainFragmentSchemeJumpBinding;
 import com.xxl.hello.router.api.UserRouterApi;
-import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
 import com.xxl.kit.AppRouterApi;
 import com.xxl.kit.LogUtils;
 import com.xxl.kit.RouterUtils;
@@ -107,8 +108,7 @@ public class SchemeJumpFragment extends BaseViewModelFragment<SchemeJumpViewMode
 
     @Override
     protected void requestData() {
-        final LoginUserEntity loginUserEntity = getViewModel().requestGetCurrentLoginUserEntity();
-        final boolean isLogged = loginUserEntity != null;
+        final boolean isLogged = !TextUtils.isEmpty(AppExpandUtils.getCurrentUserId());
         if (isLogged) {
             if (RouterUtils.hasActivity(AppRouterApi.MAIN_PATH)) {
                 // 直接跳转到目标页

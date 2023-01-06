@@ -7,7 +7,6 @@ import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
-import com.alipictures.statemanager.loader.StateRepository;
 import com.luck.picture.lib.engine.PictureSelectorEngine;
 import com.umeng.socialize.PlatformConfig;
 import com.xxl.core.BaseApplication;
@@ -16,14 +15,13 @@ import com.xxl.core.image.selector.MediaSelectorApp;
 import com.xxl.core.image.selector.PictureSelectorEngineImpl;
 import com.xxl.core.listener.IApplication;
 import com.xxl.core.service.download.DownloadServiceUtils;
-import com.xxl.core.utils.CacheUtils;
 import com.xxl.core.utils.CrashHandler;
-import com.xxl.core.widget.swipebacklayout.SwipeBackActivityManager;
 import com.xxl.hello.common.config.NetworkConfig;
 import com.xxl.hello.common.config.ShareConfig;
 import com.xxl.hello.common.config.ShortcutConfig;
 import com.xxl.hello.common.utils.TbsUtils;
 import com.xxl.hello.main.di.component.DaggerAppComponent;
+import com.xxl.hello.service.handle.api.AppSchemeService;
 import com.xxl.hello.user.ui.setting.UserSettingActivity;
 import com.xxl.kit.AppRouterApi;
 import com.xxl.kit.AppUtils;
@@ -54,6 +52,12 @@ public class HelloApplication extends BaseApplication implements IApplication, M
      */
     @Inject
     HelloApplicationWrapper mApplicationWrapper;
+
+    /**
+     * scheme处理类
+     */
+    @Inject
+    AppSchemeService mAppSchemeService;
 
     //endregion
 
@@ -130,7 +134,7 @@ public class HelloApplication extends BaseApplication implements IApplication, M
     public void initPlugins() {
         super.initPlugins();
         LogUtils.init(isDebug(), "HELLO");
-        CrashHandler.getInstance().init(this,"Hello",isDebug());
+        CrashHandler.getInstance().init(this, "Hello", isDebug());
         MediaSelector.init(this);
         registerShortcuts(this);
     }
