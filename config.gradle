@@ -87,6 +87,8 @@ versions.base_popup = "3.2.0"
 versions.jsbridge = "1.0.4"
 versions.agentweb = "v5.0.0-alpha.1-androidx"
 
+versions.jsoup = "1.15.3"
+
 versions.dkplayer = "3.3.5"
 
 versions.flyco_round_view = "1.1.4"
@@ -272,6 +274,9 @@ deps.jsbridge = "com.github.lzyzsd:jsbridge:$versions.jsbridge"
 
 //agentweb https://github.com/Justson/AgentWeb
 deps.agentweb = "com.github.Justson.AgentWeb:agentweb-core:$versions.agentweb"
+
+//jsoup https://github.com/jhy/jsoup
+deps.jsoup = "org.jsoup:jsoup:$versions.jsoup"
 
 //dkplayer https://github.com/Doikki/DKVideoPlayer
 def dkplayer = [:]

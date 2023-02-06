@@ -48,6 +48,11 @@ public final class SystemRouterApi {
             return new Builder(url);
         }
 
+        public static Builder newBuilder(@NonNull final String url,
+                                         final boolean isJoinTimeMills) {
+            return new Builder(url,isJoinTimeMills);
+        }
+
         public static class Builder {
 
             private Bundle mParams = new Bundle();

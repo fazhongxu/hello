@@ -120,6 +120,8 @@ dependencies {
     implementation deps.statemanager
     implementation deps.swipe_menu_layout
 
+    implementation deps.jsoup
+
     implementation deps.tbs
 
     implementation deps.umeng.umeng_common

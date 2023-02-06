@@ -134,6 +134,7 @@ dependencies {
     implementation deps.rxpermission
 
     implementation deps.agentweb
+    implementation deps.jsoup
 
     implementation deps.luban
     implementation deps.glide.glide
