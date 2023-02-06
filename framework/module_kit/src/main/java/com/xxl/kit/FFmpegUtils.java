@@ -183,7 +183,6 @@ public class FFmpegUtils {
         concatAudio(inputAudioPaths, outputAudioPath, null);
     }
 
-
     /**
      * 音频拼接
      *
@@ -207,6 +206,10 @@ public class FFmpegUtils {
                 .append("concat=n=" + ListUtils.getSize(inputAudioPaths) + ":v=0:a=1 ")
                 .append("-vn ")
                 .append(outputAudioPath);
+        if (callBack == null) {
+            FFmpegKit.execute(command.toString());
+            return;
+        }
         executeAsync(command.toString(), isSuccess -> {
             if (callBack != null) {
                 callBack.onSuccess(isSuccess);
