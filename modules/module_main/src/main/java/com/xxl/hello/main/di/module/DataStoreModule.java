@@ -1,6 +1,7 @@
 package com.xxl.hello.main.di.module;
 
 import android.app.Application;
+import android.os.Build;
 
 import androidx.annotation.NonNull;
 
@@ -11,6 +12,7 @@ import com.xxl.core.service.download.aira.ForAriaDownload;
 import com.xxl.core.service.download.hello.ForHelloDownload;
 import com.xxl.core.service.download.hello.HelloDownloadServiceImpl;
 import com.xxl.hello.common.config.NetworkConfig;
+import com.xxl.hello.main.BuildConfig;
 import com.xxl.hello.service.data.local.db.impl.objectbox.ObjectBoxDataStoreModel;
 import com.xxl.hello.service.data.local.prefs.api.UserPreferences;
 import com.xxl.hello.service.di.module.ServiceDataStoreModule;
@@ -21,6 +23,7 @@ import com.xxl.hello.service.qunlifier.ForNetWorkDebug;
 import com.xxl.hello.service.qunlifier.ForNetworkEncryptKey;
 import com.xxl.hello.service.qunlifier.ForOkHttp;
 import com.xxl.hello.service.qunlifier.ForRetrofit;
+import com.xxl.hello.service.qunlifier.ForUserAgent;
 import com.xxl.hello.service.qunlifier.ForUserBaseUrl;
 import com.xxl.hello.service.qunlifier.ForUserPreference;
 import com.xxl.hello.service.qunlifier.ForUserRetrofit;
@@ -87,6 +90,18 @@ public class DataStoreModule {
     }
 
     /**
+     * 构建UserAgent
+     *
+     * @return
+     */
+    @ForUserAgent
+    @Singleton
+    @Provides
+    String provideUserAgent() {
+        return BuildConfig.VERSION_NAME + "Android" + Build.BRAND;
+    }
+
+    /**
      * 构建网络请求域名地址
      *
      * @return
@@ -113,26 +128,28 @@ public class DataStoreModule {
     /**
      * 构建公用网络请求头
      *
+     * @param userAgent
      * @return
      */
     @Singleton
     @Provides
-    ApiHeader.PublicApiHeader providePublicApiHeader() {
-        // TODO: 2021/8/16  user-agent android 版本号相关，或key
-        return new ApiHeader.PublicApiHeader("user-agent");
+    ApiHeader.PublicApiHeader providePublicApiHeader(@ForUserAgent final String userAgent) {
+        return new ApiHeader.PublicApiHeader(userAgent);
     }
 
     /**
      * 构建用户登录后的网络请求头
      *
+     * @param userAgent
      * @param userPreferences
      * @return
      */
     @Singleton
     @Provides
-    ApiHeader.ProtectedApiHeader provideProtectedApiHeader(@ForUserPreference final UserPreferences userPreferences) {
+    ApiHeader.ProtectedApiHeader provideProtectedApiHeader(@ForUserAgent final String userAgent,
+                                                           @ForUserPreference final UserPreferences userPreferences) {
         // TODO: 2021/8/16 登录后更新请求头信息 ApiHeader.ProtectedApiHeade#setAccessToken
-        return new ApiHeader.ProtectedApiHeader("", userPreferences.getUserId(), userPreferences.getToken());
+        return new ApiHeader.ProtectedApiHeader(userAgent, userPreferences.getUserId(), userPreferences.getToken());
     }
 
     /**

@@ -38,6 +38,15 @@ public class UserLoginRequest {
 
     //region: get or set
 
+
+    public String getPhoneNumber() {
+        return mPhoneNumber;
+    }
+
+    public String getVerifyCode() {
+        return mVerifyCode;
+    }
+
     /**
      * 设置手机号
      *

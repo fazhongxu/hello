@@ -36,6 +36,11 @@ public class LoginUserEntity implements Serializable {
     private String mAvatar;
 
     /**
+     * token
+     */
+    private String mAccessToken;
+
+    /**
      * 年龄
      */
     private int mAge;
@@ -81,6 +86,10 @@ public class LoginUserEntity implements Serializable {
 
     public String getAvatar() {
         return mAvatar;
+    }
+
+    public String getAccessToken() {
+        return mAccessToken;
     }
 
     /**

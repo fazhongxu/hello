@@ -3,10 +3,13 @@ package com.xxl.hello.user.data.remote;
 import com.xxl.hello.service.data.model.api.QueryUserInfoResponse;
 import com.xxl.hello.user.data.model.api.UserLoginResponse;
 
+import java.util.Map;
+
 import io.reactivex.rxjava3.core.Observable;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.HeaderMap;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 
@@ -28,13 +31,15 @@ public interface UserRemoteDataSourceService {
     /**
      * 用户登录
      *
+     * @param headers     头部
      * @param phoneNumber 手机号
      * @param verifyCode  验证码
      * @return
      */
     @FormUrlEncoded
     @POST(USER_NET_WORK_PREFIX + "login")
-    Observable<UserLoginResponse> login(@Field("phone_number") final String phoneNumber,
+    Observable<UserLoginResponse> login(@HeaderMap Map<String, String> headers,
+                                        @Field("phone_number") final String phoneNumber,
                                         @Field("verify_code") final String verifyCode);
 
     /**

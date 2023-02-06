@@ -2,6 +2,8 @@ package com.xxl.core.data.remote;
 
 import androidx.annotation.NonNull;
 
+import java.util.Map;
+
 import retrofit2.Retrofit;
 
 /**
@@ -61,7 +63,7 @@ public abstract class BaseRemoteDataStoreSource {
      *
      * @return
      */
-    public ApiHeader.PublicApiHeader getPublicApiHeader() {
+    public Map<String, String> getPublicApiHeader() {
         return mApiHeader.getPublicApiHeader();
     }
 
@@ -70,8 +72,18 @@ public abstract class BaseRemoteDataStoreSource {
      *
      * @return
      */
-    public ApiHeader.ProtectedApiHeader getProtectedApiHeader() {
+    public Map<String, String> getProtectedApiHeader() {
         return mApiHeader.getProtectedApiHeader();
+    }
+
+    /**
+     * 更新头部信息
+     * @param userId
+     * @param accessToken
+     */
+    public void updateProtectedApiHeader(@NonNull final String userId,
+                                         @NonNull final String accessToken) {
+        mApiHeader.updateProtectedApiHeader(userId, accessToken);
     }
 
     //endregion

@@ -41,41 +41,63 @@ public class ApiHeader {
         mProtectedApiHeader = protectedApiHeader;
     }
 
-    public ProtectedApiHeader getProtectedApiHeader() {
-        return mProtectedApiHeader;
+    public Map<String, String> getProtectedApiHeader() {
+        return mProtectedApiHeader.getApiHeader();
     }
 
-    public PublicApiHeader getPublicApiHeader() {
-        return mPublicApiHeader;
+    public Map<String, String> getPublicApiHeader() {
+        return mPublicApiHeader.getApiHeader();
+    }
+
+    /**
+     * 更新头部信息
+     *
+     * @param userId
+     * @param accessToken
+     */
+    public void updateProtectedApiHeader(@NonNull final String userId,
+                                         @NonNull final String accessToken) {
+        if (mProtectedApiHeader != null) {
+            mProtectedApiHeader.setUserId(userId);
+            mProtectedApiHeader.setAccessToken(accessToken);
+        }
     }
 
     public static final class ProtectedApiHeader {
+
+        @Expose
+        @SerializedName("user_agent")
+        private String mUserAgent;
 
         @Expose
         @SerializedName("access_token")
         private String mAccessToken;
 
         @Expose
-        @SerializedName("api_key")
-        private String mApiKey;
-
-        @Expose
         @SerializedName("user_id")
         private String mUserId;
 
-        public ProtectedApiHeader(String apiKey, String userId, String accessToken) {
-            this.mApiKey = apiKey;
+        public ProtectedApiHeader(String userAgent, String userId, String accessToken) {
+            this.mUserAgent = userAgent;
             this.mUserId = userId;
             this.mAccessToken = accessToken;
         }
 
         public Map<String, String> getApiHeader() {
             Map<String, String> apiHeaderMap = new LinkedHashMap<>();
-            apiHeaderMap.put("api_key", mApiKey);
+            apiHeaderMap.put("User-Agent", mUserAgent);
             apiHeaderMap.put("access_token", mAccessToken);
             apiHeaderMap.put("user_id", mUserId);
             apiHeaderMap.put("language", "zh");
             return apiHeaderMap;
+        }
+
+        public String getUserAgent() {
+            return mUserAgent;
+        }
+
+        public void setUserAgent(String userAgent) {
+            mUserAgent = userAgent;
         }
 
         public String getAccessToken() {
@@ -84,14 +106,6 @@ public class ApiHeader {
 
         public void setAccessToken(String accessToken) {
             mAccessToken = accessToken;
-        }
-
-        public String getApiKey() {
-            return mApiKey;
-        }
-
-        public void setApiKey(String apiKey) {
-            mApiKey = apiKey;
         }
 
         public String getUserId() {
@@ -106,25 +120,25 @@ public class ApiHeader {
     public static final class PublicApiHeader {
 
         @Expose
-        @SerializedName("api_key")
-        private String mApiKey;
+        @SerializedName("user_agent")
+        private String mUserAgent;
 
-        public PublicApiHeader(@NonNull String apiKey) {
-            mApiKey = apiKey;
+        public PublicApiHeader(@NonNull String userAgent) {
+            mUserAgent = userAgent;
         }
 
         public Map<String, String> getApiHeader() {
             Map<String, String> apiHeaderMap = new LinkedHashMap<>();
-            apiHeaderMap.put("api_key", mApiKey);
+            apiHeaderMap.put("User-Agent", mUserAgent);
             return apiHeaderMap;
         }
 
-        public String getApiKey() {
-            return mApiKey;
+        public String getUserAgent() {
+            return mUserAgent;
         }
 
-        public void setApiKey(String apiKey) {
-            mApiKey = apiKey;
+        public void setUserAgent(String userAgent) {
+            mUserAgent = userAgent;
         }
     }
 }
