@@ -2,10 +2,13 @@ package com.xxl.hello.widget.ui.web.base;
 
 import android.graphics.Bitmap;
 import android.net.http.SslError;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.JavascriptInterface;
 import android.webkit.SslErrorHandler;
 import android.webkit.ValueCallback;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.LinearLayout;
 
@@ -14,6 +17,7 @@ import androidx.databinding.ViewDataBinding;
 
 import com.just.agentweb.AgentWeb;
 import com.just.agentweb.DefaultWebClient;
+import com.just.agentweb.IAgentWebSettings;
 import com.just.agentweb.JsAccessEntrace;
 import com.just.agentweb.WebChromeClient;
 import com.just.agentweb.WebViewClient;
@@ -21,6 +25,11 @@ import com.xxl.core.R;
 import com.xxl.core.ui.BaseViewModel;
 import com.xxl.core.ui.fragment.BaseViewModelFragment;
 import com.xxl.kit.ColorUtils;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 /**
  * @author xxl.
@@ -77,18 +86,28 @@ public abstract class BaseWebFragment<V extends BaseViewModel, T extends ViewDat
      * 设置webview
      */
     private void setupWebView() {
-        mAgentWeb = AgentWeb.with(this)
+        String UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36";
+        AgentWeb.PreAgentWeb preAgentWeb = AgentWeb.with(this)
                 .setAgentWebParent(getAgentWebParent(), new LinearLayout.LayoutParams(-1, -1))
                 .useDefaultIndicator(ColorUtils.getColor(R.color.colorPrimary))
                 .setWebChromeClient(getWebChromeClient())
                 .setWebViewClient(getWebViewClient())
+                .addJavascriptInterface("local_obj", new InJavaScriptLocalObj())
                 .setMainFrameErrorView(R.layout.agentweb_error_page, -1)
                 .setSecurityType(AgentWeb.SecurityType.STRICT_CHECK)
                 .setOpenOtherPageWays(DefaultWebClient.OpenOtherPageWays.ASK)
                 .interceptUnkownUrl()
                 .createAgentWeb()
-                .ready()
-                .go(getUrl());
+                .ready();
+
+        mAgentWeb = preAgentWeb.get();
+
+        IAgentWebSettings agentWebSettings = mAgentWeb.getAgentWebSettings();
+        WebSettings webSettings = agentWebSettings.getWebSettings();
+        webSettings.setUserAgentString(UA);
+        webSettings.setDefaultTextEncodingName("UTF-8");
+
+        preAgentWeb.go(getUrl());
         getWebView().setScrollBarSize(0);
     }
 
@@ -105,6 +124,20 @@ public abstract class BaseWebFragment<V extends BaseViewModel, T extends ViewDat
         }
     };
 
+    final class InJavaScriptLocalObj {
+
+        @JavascriptInterface
+        public void showSource(String html) {
+
+            Document document = Jsoup.parse(html);
+            Element head = document.head();
+            for (Element child : head.children()) {
+                Log.e("aaa", "showSource: " + child);
+            }
+        }
+
+    }
+
     private WebViewClient mWebViewClient = new WebViewClient() {
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
@@ -113,6 +146,7 @@ public abstract class BaseWebFragment<V extends BaseViewModel, T extends ViewDat
 
         @Override
         public void onPageFinished(WebView view, String url) {
+            showSource();
             super.onPageFinished(view, url);
         }
 
@@ -121,6 +155,14 @@ public abstract class BaseWebFragment<V extends BaseViewModel, T extends ViewDat
             super.onReceivedSslError(view, handler, error);
         }
     };
+
+    /**
+     * 获取html网页源码
+     */
+    private void showSource() {
+        getWebView().loadUrl("javascript:window.local_obj.showSource('<head>'+"
+                + "document.getElementsByTagName('html')[0].innerHTML+'</head>');");
+    }
 
     public AgentWeb getAgentWeb() {
         return mAgentWeb;

@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 
 import com.tbruyelle.rxpermissions3.RxPermissions;
 import com.xxl.core.aop.annotation.Safe;
+import com.xxl.core.data.router.SystemRouterApi;
 import com.xxl.core.media.audio.AudioCapture;
 import com.xxl.core.media.audio.AudioCapture.OnAudioFrameCapturedListener;
 import com.xxl.core.media.audio.AudioRecordFormat;
@@ -200,7 +201,11 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     @Safe
     @Override
     public void onTestClick() {
-        AppRouterApi.Login.navigation(getActivity());
+//        SystemRouterApi.WebView.newBuilder("https://v.douyin.com/B5JbFqd/", false)
+//                .navigation(getActivity());
+//
+        SystemRouterApi.WebView.newBuilder("https://www.douyin.com/video/7198027871871438114", false)
+                .navigation(getActivity());
     }
 
     /**
