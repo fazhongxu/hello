@@ -144,7 +144,7 @@ public class FFmpegUtils {
      * @param outputAudioPath 输出的音频文件路径
      */
     public static FFmpegSession extractAudioFromVideo(@NonNull final String inputVideoPath,
-                                             @NonNull final String outputAudioPath) {
+                                                      @NonNull final String outputAudioPath) {
         if (Thread.currentThread() == Looper.getMainLooper().getThread()) {
             return null;
         }
@@ -162,9 +162,9 @@ public class FFmpegUtils {
      * @param sampleRate      采样率
      */
     public static FFmpegSession extractAudioFromVideo(@NonNull final String inputVideoPath,
-                                             @NonNull final String outputAudioPath,
-                                             final int channelConfig,
-                                             final int sampleRate) {
+                                                      @NonNull final String outputAudioPath,
+                                                      final int channelConfig,
+                                                      final int sampleRate) {
         if (Thread.currentThread() == Looper.getMainLooper().getThread()) {
             return null;
         }
@@ -179,7 +179,7 @@ public class FFmpegUtils {
      * @param outputAudioPath 输出音频文件路径
      */
     public static FFmpegSession concatAudio(@NonNull final List<String> inputAudioPaths,
-                                   @NonNull final String outputAudioPath) {
+                                            @NonNull final String outputAudioPath) {
         return concatAudio(inputAudioPaths, outputAudioPath, null);
     }
 
@@ -190,8 +190,8 @@ public class FFmpegUtils {
      * @param outputAudioPath 输出音频文件路径
      */
     public static FFmpegSession concatAudio(@NonNull final List<String> inputAudioPaths,
-                                   @NonNull final String outputAudioPath,
-                                   @Nullable final OnRequestCallBack<Boolean> callBack) {
+                                            @NonNull final String outputAudioPath,
+                                            @Nullable final OnRequestCallBack<Boolean> callBack) {
         if (Thread.currentThread() == Looper.getMainLooper().getThread() || ListUtils.isEmpty(inputAudioPaths)) {
             return null;
         }
@@ -207,7 +207,7 @@ public class FFmpegUtils {
                 .append("-vn ")
                 .append(outputAudioPath);
         if (callBack == null) {
-           return FFmpegKit.execute(command.toString());
+            return FFmpegKit.execute(command.toString());
         }
         return executeAsync(command.toString(), isSuccess -> {
             if (callBack != null) {
@@ -223,7 +223,7 @@ public class FFmpegUtils {
      * @param outputVideoPath 输出视频文件路径
      */
     public static FFmpegSession convertVideoToTs(@NonNull final String inputVideoPath,
-                                        @NonNull final String outputVideoPath) {
+                                                 @NonNull final String outputVideoPath) {
         return convertVideoToTs(inputVideoPath, outputVideoPath, null);
     }
 
