@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.tbruyelle.rxpermissions3.RxPermissions;
+import com.xxl.core.aop.annotation.Async;
 import com.xxl.core.aop.annotation.Safe;
 import com.xxl.core.media.audio.AudioCapture;
 import com.xxl.core.media.audio.AudioCapture.OnAudioFrameCapturedListener;
@@ -197,10 +198,17 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
     //region: MainNavigator
 
+    @Async
     @Safe
     @Override
     public void onTestClick() {
-        AppRouterApi.Login.navigation(getActivity());
+//        AppRouterApi.Login.navigation(getActivity());
+        String vPath = CacheDirConfig.SHARE_FILE_DIR + File.separator + "1.mp4";
+        String aPath = CacheDirConfig.SHARE_FILE_DIR + File.separator + "test_8000.mp3";
+        String aSpeedPath = CacheDirConfig.SHARE_FILE_DIR + File.separator + "test_8000_speed.mp3";
+        FFmpegUtils.extractAudioFromVideo(vPath, aPath, 1, 8000);
+        FFmpegUtils.adjustAudioSpeed(aPath, aSpeedPath, 2.0F);
+        Log.e("aa", "onTestClick: ");
     }
 
     /**

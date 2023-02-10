@@ -393,6 +393,24 @@ public class FFmpegUtils {
         return FFmpegKit.execute(command);
     }
 
+    /**
+     * 调整音频倍数
+     *
+     * @param inputAudioPath
+     * @param outputAudioPath
+     * @param targetSpeed     0.5~2.0之间
+     * @return
+     */
+    public static FFmpegSession adjustAudioSpeed(@NonNull final String inputAudioPath,
+                                                 @NonNull final String outputAudioPath,
+                                                 final float targetSpeed) {
+        if (Thread.currentThread() == Looper.getMainLooper().getThread()) {
+            return null;
+        }
+        final String command = String.format(Locale.getDefault(), "-hide_banner -y -i %s -filter:a atempo=%s -vn -vsync 2 %s", inputAudioPath, targetSpeed, outputAudioPath);
+        return FFmpegKit.execute(command);
+    }
+
 
     /**
      * 视频水印去除
