@@ -51,9 +51,9 @@ public class FFmpegUtils {
      * @param inFilePath
      * @param outFilePath
      */
-    public static void convertToPcm(@NonNull final String inFilePath,
-                                    @NonNull final String outFilePath) {
-        convertToPcm(inFilePath, outFilePath, 2, 16000);
+    public static FFmpegSession convertToPcm(@NonNull final String inFilePath,
+                                             @NonNull final String outFilePath) {
+        return convertToPcm(inFilePath, outFilePath, 2, 16000);
     }
 
     /**
@@ -64,15 +64,15 @@ public class FFmpegUtils {
      * @param channelConfig 声道 （2双声道，1单声道）refrence https://segmentfault.com/a/1190000016652277?utm_source=tag-newest
      * @param sampleRate    采样率
      */
-    public static void convertToPcm(@NonNull final String inFilePath,
-                                    @NonNull final String outFilePath,
-                                    final int channelConfig,
-                                    final int sampleRate) {
+    public static FFmpegSession convertToPcm(@NonNull final String inFilePath,
+                                             @NonNull final String outFilePath,
+                                             final int channelConfig,
+                                             final int sampleRate) {
         if (Thread.currentThread() == Looper.getMainLooper().getThread()) {
-            return;
+            return null;
         }
         final String command = String.format(Locale.getDefault(), "-hide_banner -y -i %s -acodec pcm_s16le -f s16le -ac %d -ar %d %s", inFilePath, channelConfig, sampleRate, outFilePath);
-        FFprobeKit.execute(command);
+        return FFmpegKit.execute(command);
     }
 
     /**
@@ -81,9 +81,9 @@ public class FFmpegUtils {
      * @param inFilePath
      * @param outFilePath
      */
-    public static void aac2mp3(@NonNull final String inFilePath,
-                               @NonNull final String outFilePath) {
-        aac2mp3(inFilePath, outFilePath, 2, 16000);
+    public static FFmpegSession aac2mp3(@NonNull final String inFilePath,
+                                        @NonNull final String outFilePath) {
+        return aac2mp3(inFilePath, outFilePath, 2, 16000);
     }
 
     /**
@@ -94,15 +94,15 @@ public class FFmpegUtils {
      * @param channelConfig
      * @param sampleRate
      */
-    public static void aac2mp3(@NonNull final String inFilePath,
-                               @NonNull final String outFilePath,
-                               final int channelConfig,
-                               final int sampleRate) {
+    public static FFmpegSession aac2mp3(@NonNull final String inFilePath,
+                                        @NonNull final String outFilePath,
+                                        final int channelConfig,
+                                        final int sampleRate) {
         if (Thread.currentThread() == Looper.getMainLooper().getThread()) {
-            return;
+            return null;
         }
         final String command = String.format(Locale.getDefault(), "-hide_banner -y -i %s -acodec libmp3lame -ac %d -ar %d %s", inFilePath, channelConfig, sampleRate, outFilePath);
-        FFmpegKit.execute(command);
+        return FFmpegKit.execute(command);
     }
 
     /**
@@ -111,9 +111,9 @@ public class FFmpegUtils {
      * @param inFilePath
      * @param outFilePath
      */
-    public static void pcm2mp3(@NonNull final String inFilePath,
-                               @NonNull final String outFilePath) {
-        pcm2mp3(inFilePath, outFilePath, 2, 16000);
+    public static FFmpegSession pcm2mp3(@NonNull final String inFilePath,
+                                        @NonNull final String outFilePath) {
+        return pcm2mp3(inFilePath, outFilePath, 2, 16000);
     }
 
     /**
@@ -124,15 +124,15 @@ public class FFmpegUtils {
      * @param channelConfig
      * @param sampleRate
      */
-    public static void pcm2mp3(@NonNull final String inFilePath,
-                               @NonNull final String outFilePath,
-                               final int channelConfig,
-                               final int sampleRate) {
+    public static FFmpegSession pcm2mp3(@NonNull final String inFilePath,
+                                        @NonNull final String outFilePath,
+                                        final int channelConfig,
+                                        final int sampleRate) {
         if (Thread.currentThread() == Looper.getMainLooper().getThread()) {
-            return;
+            return null;
         }
         final String command = String.format(Locale.getDefault(), "-hide_banner -y -ac %d -ar %d -f s16le -i %s -b:a 32k -c:a libshine -q:a 8 %s", channelConfig, sampleRate, inFilePath, outFilePath);
-        FFmpegKit.execute(command);
+        return FFmpegKit.execute(command);
     }
 
     /**
@@ -143,12 +143,12 @@ public class FFmpegUtils {
      * @param inputVideoPath  视频文件路径
      * @param outputAudioPath 输出的音频文件路径
      */
-    public static void extractAudioFromVideo(@NonNull final String inputVideoPath,
+    public static FFmpegSession extractAudioFromVideo(@NonNull final String inputVideoPath,
                                              @NonNull final String outputAudioPath) {
         if (Thread.currentThread() == Looper.getMainLooper().getThread()) {
-            return;
+            return null;
         }
-        extractAudioFromVideo(inputVideoPath, outputAudioPath, 1, 16000);
+        return extractAudioFromVideo(inputVideoPath, outputAudioPath, 1, 16000);
     }
 
     /**
@@ -161,15 +161,15 @@ public class FFmpegUtils {
      * @param channelConfig   声道数
      * @param sampleRate      采样率
      */
-    public static void extractAudioFromVideo(@NonNull final String inputVideoPath,
+    public static FFmpegSession extractAudioFromVideo(@NonNull final String inputVideoPath,
                                              @NonNull final String outputAudioPath,
                                              final int channelConfig,
                                              final int sampleRate) {
         if (Thread.currentThread() == Looper.getMainLooper().getThread()) {
-            return;
+            return null;
         }
         final String command = String.format(Locale.getDefault(), "-hide_banner -y -i %s -ac %d -ar %d -acodec pcm_s16le -c:a libmp3lame %s", inputVideoPath, channelConfig, sampleRate, outputAudioPath);
-        FFmpegKit.execute(command);
+        return FFmpegKit.execute(command);
     }
 
     /**
@@ -178,9 +178,9 @@ public class FFmpegUtils {
      * @param inputAudioPaths 目标音频文件路径
      * @param outputAudioPath 输出音频文件路径
      */
-    public static void concatAudio(@NonNull final List<String> inputAudioPaths,
+    public static FFmpegSession concatAudio(@NonNull final List<String> inputAudioPaths,
                                    @NonNull final String outputAudioPath) {
-        concatAudio(inputAudioPaths, outputAudioPath, null);
+        return concatAudio(inputAudioPaths, outputAudioPath, null);
     }
 
     /**
@@ -189,11 +189,11 @@ public class FFmpegUtils {
      * @param inputAudioPaths 目标音频文件路径
      * @param outputAudioPath 输出音频文件路径
      */
-    public static void concatAudio(@NonNull final List<String> inputAudioPaths,
+    public static FFmpegSession concatAudio(@NonNull final List<String> inputAudioPaths,
                                    @NonNull final String outputAudioPath,
                                    @Nullable final OnRequestCallBack<Boolean> callBack) {
         if (Thread.currentThread() == Looper.getMainLooper().getThread() || ListUtils.isEmpty(inputAudioPaths)) {
-            return;
+            return null;
         }
         final StringBuilder command = new StringBuilder("-hide_banner ")
                 .append("-y ");
@@ -207,10 +207,9 @@ public class FFmpegUtils {
                 .append("-vn ")
                 .append(outputAudioPath);
         if (callBack == null) {
-            FFmpegKit.execute(command.toString());
-            return;
+           return FFmpegKit.execute(command.toString());
         }
-        executeAsync(command.toString(), isSuccess -> {
+        return executeAsync(command.toString(), isSuccess -> {
             if (callBack != null) {
                 callBack.onSuccess(isSuccess);
             }
@@ -223,9 +222,9 @@ public class FFmpegUtils {
      * @param inputVideoPath  目标视频文件路径
      * @param outputVideoPath 输出视频文件路径
      */
-    public static void convertVideoToTs(@NonNull final String inputVideoPath,
+    public static FFmpegSession convertVideoToTs(@NonNull final String inputVideoPath,
                                         @NonNull final String outputVideoPath) {
-        convertVideoToTs(inputVideoPath, outputVideoPath, null);
+        return convertVideoToTs(inputVideoPath, outputVideoPath, null);
     }
 
     /**
@@ -234,18 +233,18 @@ public class FFmpegUtils {
      * @param inputVideoPath  目标视频文件路径
      * @param outputVideoPath 输出视频文件路径
      */
-    public static void convertVideoToTs(@NonNull final String inputVideoPath,
-                                        @NonNull final String outputVideoPath,
-                                        @Nullable final OnRequestCallBack<Boolean> callBack) {
+    public static FFmpegSession convertVideoToTs(@NonNull final String inputVideoPath,
+                                                 @NonNull final String outputVideoPath,
+                                                 @Nullable final OnRequestCallBack<Boolean> callBack) {
         if (Thread.currentThread() == Looper.getMainLooper().getThread()) {
-            return;
+            return null;
         }
         final String command = String.format(Locale.getDefault(), "-hide_banner -y -i %s -vcodec copy -acodec copy -vbsf h264_mp4toannexb %s", inputVideoPath, outputVideoPath);
         if (callBack == null) {
             FFmpegKit.execute(command);
-            return;
+            return null;
         }
-        executeAsync(command, new OnRequestCallBack<Boolean>() {
+        return executeAsync(command, new OnRequestCallBack<Boolean>() {
             @Override
             public void onSuccess(@Nullable Boolean aBoolean) {
                 if (callBack != null) {
@@ -261,9 +260,9 @@ public class FFmpegUtils {
      * @param inputVideoPaths 目标视频文件路径
      * @param outputVideoPath 输出视频文件路径
      */
-    public static void concatVideo(@NonNull final List<String> inputVideoPaths,
-                                   @NonNull final String outputVideoPath) {
-        concatVideo(inputVideoPaths, outputVideoPath, null);
+    public static FFmpegSession concatVideo(@NonNull final List<String> inputVideoPaths,
+                                            @NonNull final String outputVideoPath) {
+        return concatVideo(inputVideoPaths, outputVideoPath, null);
     }
 
     /**
@@ -273,11 +272,11 @@ public class FFmpegUtils {
      * @param inputVideoPaths 目标视频文件路径
      * @param outputVideoPath 输出视频文件路径
      */
-    public static void concatVideo(@NonNull final List<String> inputVideoPaths,
-                                   @NonNull final String outputVideoPath,
-                                   @Nullable final OnRequestCallBack<Boolean> callBack) {
+    public static FFmpegSession concatVideo(@NonNull final List<String> inputVideoPaths,
+                                            @NonNull final String outputVideoPath,
+                                            @Nullable final OnRequestCallBack<Boolean> callBack) {
         if (Thread.currentThread() == Looper.getMainLooper().getThread() || ListUtils.isEmpty(inputVideoPaths)) {
-            return;
+            return null;
         }
         final StringBuilder command = new StringBuilder("-hide_banner ")
                 .append("-i ")
@@ -296,10 +295,9 @@ public class FFmpegUtils {
                 .append(outputVideoPath);
 
         if (callBack == null) {
-            FFmpegKit.execute(command.toString());
-            return;
+            return FFmpegKit.execute(command.toString());
         }
-        executeAsync(command.toString(), isSuccess -> {
+        return executeAsync(command.toString(), isSuccess -> {
             if (callBack != null) {
                 callBack.onSuccess(isSuccess);
             }
@@ -313,10 +311,10 @@ public class FFmpegUtils {
      * @param inputBackgroundMusicPath 背景音乐文件路径
      * @param outputAudioPath          输出音频文件路径
      */
-    public static void addBackgroundMusic(@NonNull final String inputAudioPath,
-                                          @NonNull final String inputBackgroundMusicPath,
-                                          @NonNull final String outputAudioPath) {
-        addBackgroundMusic(inputAudioPath, inputBackgroundMusicPath, outputAudioPath, 1, 16000);
+    public static FFmpegSession addBackgroundMusic(@NonNull final String inputAudioPath,
+                                                   @NonNull final String inputBackgroundMusicPath,
+                                                   @NonNull final String outputAudioPath) {
+        return addBackgroundMusic(inputAudioPath, inputBackgroundMusicPath, outputAudioPath, 1, 16000);
     }
 
     /**
@@ -326,19 +324,19 @@ public class FFmpegUtils {
      * @param inputBackgroundMusicPath 背景音乐文件路径
      * @param outputAudioPath          输出音频文件路径
      */
-    public static void addBackgroundMusic(@NonNull final String inputAudioPath,
-                                          @NonNull final String inputBackgroundMusicPath,
-                                          @NonNull final String outputAudioPath,
-                                          final int channelConfig,
-                                          final int sampleRate) {
+    public static FFmpegSession addBackgroundMusic(@NonNull final String inputAudioPath,
+                                                   @NonNull final String inputBackgroundMusicPath,
+                                                   @NonNull final String outputAudioPath,
+                                                   final int channelConfig,
+                                                   final int sampleRate) {
         if (Thread.currentThread() == Looper.getMainLooper().getThread()) {
-            return;
+            return null;
         }
         // -stream_loop -1 循环输入源
         // -filter_complex amix=inputs=2:duration=first:dropout_transition=2 混合音乐 inputs=2 2 表示混合音乐数量
         // -vn 去除视频流
         final String command = String.format(Locale.getDefault(), "-hide_banner -y -i %s  -stream_loop -1 -i %s -filter_complex amix=inputs=2:duration=first:dropout_transition=2 -vn -vsync 2 %s", inputAudioPath, inputBackgroundMusicPath, outputAudioPath);
-        FFmpegKit.execute(command);
+        return FFmpegKit.execute(command);
     }
 
     /**
@@ -349,13 +347,13 @@ public class FFmpegUtils {
      * @param inputAudioPath  目标音频文件路径
      * @param outputAudioPath 背景音乐文件路径
      */
-    public static void adjustVolumeSub5db(@NonNull final String inputAudioPath,
-                                          @NonNull final String outputAudioPath) {
+    public static FFmpegSession adjustVolumeSub5db(@NonNull final String inputAudioPath,
+                                                   @NonNull final String outputAudioPath) {
         if (Thread.currentThread() == Looper.getMainLooper().getThread()) {
-            return;
+            return null;
         }
         final String command = String.format(Locale.getDefault(), "-hide_banner -y -i %s -filter volume=-5dB -vn -vsync 2 %s", inputAudioPath, outputAudioPath);
-        FFmpegKit.execute(command);
+        return FFmpegKit.execute(command);
     }
 
     /**
@@ -367,15 +365,15 @@ public class FFmpegUtils {
      * @param outputAudioPath 背景音乐文件路径
      * @param outputVolume    音量大小0-100，0为静音，100 为原声，150为1.5呗，200为2倍
      */
-    public static void adjustVolume(@NonNull final String inputAudioPath,
-                                    @NonNull final String outputAudioPath,
-                                    final int outputVolume) {
+    public static FFmpegSession adjustVolume(@NonNull final String inputAudioPath,
+                                             @NonNull final String outputAudioPath,
+                                             final int outputVolume) {
         if (Thread.currentThread() == Looper.getMainLooper().getThread()) {
-            return;
+            return null;
         }
         float volume = outputVolume * 1.0F / 100;
         final String command = String.format(Locale.getDefault(), "-hide_banner -y -i %s -filter volume=%s -vn -vsync 2 %s", inputAudioPath, volume, outputAudioPath);
-        FFmpegKit.execute(command);
+        return FFmpegKit.execute(command);
     }
 
     /**
@@ -386,13 +384,13 @@ public class FFmpegUtils {
      * @param inputAudioPath  目标音频文件路径
      * @param outputAudioPath 背景音乐文件路径
      */
-    public static void adjustVolumeAdd5db(@NonNull final String inputAudioPath,
-                                          @NonNull final String outputAudioPath) {
+    public static FFmpegSession adjustVolumeAdd5db(@NonNull final String inputAudioPath,
+                                                   @NonNull final String outputAudioPath) {
         if (Thread.currentThread() == Looper.getMainLooper().getThread()) {
-            return;
+            return null;
         }
         final String command = String.format(Locale.getDefault(), "-hide_banner -y -i %s -filter volume=5dB -vn -vsync 2 %s", inputAudioPath, outputAudioPath);
-        FFmpegKit.execute(command);
+        return FFmpegKit.execute(command);
     }
 
 
@@ -402,14 +400,14 @@ public class FFmpegUtils {
      * @param inputVideoPath
      * @param outputVideoPath
      */
-    public static void removeVideoWatermark(@NonNull final String inputVideoPath,
-                                            @NonNull final String outputVideoPath) {
+    public static FFmpegSession removeVideoWatermark(@NonNull final String inputVideoPath,
+                                                     @NonNull final String outputVideoPath) {
         // TODO: 2022/6/24  位置信息
         if (Thread.currentThread() == Looper.getMainLooper().getThread()) {
-            return;
+            return null;
         }
         final String command = String.format(Locale.getDefault(), "-hide_banner -y -i %s -vf delogo=x=%s:y=%s:w=300:h=100:show=0 %s", inputVideoPath, 10, 10, outputVideoPath);
-        FFmpegKit.execute(command);
+        return FFmpegKit.execute(command);
     }
 
     /**
@@ -418,9 +416,9 @@ public class FFmpegUtils {
      * @param command  命令
      * @param callBack 回调
      */
-    public static void executeAsync(@NonNull final String command,
-                                    @Nullable final OnRequestCallBack<Boolean> callBack) {
-        FFmpegKit.executeAsync(command, new FFmpegSessionCompleteCallback() {
+    public static FFmpegSession executeAsync(@NonNull final String command,
+                                             @Nullable final OnRequestCallBack<Boolean> callBack) {
+        return FFmpegKit.executeAsync(command, new FFmpegSessionCompleteCallback() {
             @Override
             public void apply(FFmpegSession session) {
                 ReturnCode returnCode = session.getReturnCode();
