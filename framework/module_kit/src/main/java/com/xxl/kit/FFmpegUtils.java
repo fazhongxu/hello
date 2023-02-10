@@ -173,6 +173,30 @@ public class FFmpegUtils {
     }
 
     /**
+     * 从视频文件中抽取出音频文件
+     * <p>
+     * 返回Mp3格式的音频文件  输出音频不加倍速不要调用这个方法（倍速处理会占用时间）
+     *
+     * @param inputVideoPath  视频文件路径
+     * @param outputAudioPath 输出的音频文件路径
+     * @param channelConfig   声道数
+     * @param sampleRate      采样率
+     * @param audioSpeed      输出音频倍数(0.5~2.0) 输出音频不加倍速不要调用这个方法
+     */
+    public static FFmpegSession extractAudioFromVideo(@NonNull final String inputVideoPath,
+                                                      @NonNull final String outputAudioPath,
+                                                      final int channelConfig,
+                                                      final int sampleRate,
+                                                      final float audioSpeed) {
+        if (Thread.currentThread() == Looper.getMainLooper().getThread()) {
+            return null;
+        }
+        //-filter:a atempo=%s -vn -vsync 2 %s
+        final String command = String.format(Locale.getDefault(), "-hide_banner -y -i %s -ac %d -ar %d -acodec pcm_s16le -c:a libmp3lame -filter:a atempo=%s -vn -vsync 2 %s", inputVideoPath, channelConfig, sampleRate, audioSpeed, outputAudioPath);
+        return FFmpegKit.execute(command);
+    }
+
+    /**
      * 音频拼接
      *
      * @param inputAudioPaths 目标音频文件路径

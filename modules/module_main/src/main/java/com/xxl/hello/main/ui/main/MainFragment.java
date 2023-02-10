@@ -202,13 +202,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     @Safe
     @Override
     public void onTestClick() {
-//        AppRouterApi.Login.navigation(getActivity());
-        String vPath = CacheDirConfig.SHARE_FILE_DIR + File.separator + "1.mp4";
-        String aPath = CacheDirConfig.SHARE_FILE_DIR + File.separator + "test_8000.mp3";
-        String aSpeedPath = CacheDirConfig.SHARE_FILE_DIR + File.separator + "test_8000_speed.mp3";
-        FFmpegUtils.extractAudioFromVideo(vPath, aPath, 1, 8000);
-        FFmpegUtils.adjustAudioSpeed(aPath, aSpeedPath, 2.0F);
-        Log.e("aa", "onTestClick: ");
+        AppRouterApi.Login.navigation(getActivity());
     }
 
     /**
