@@ -13,7 +13,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.tbruyelle.rxpermissions3.RxPermissions;
-import com.xxl.core.aop.annotation.Async;
 import com.xxl.core.aop.annotation.Safe;
 import com.xxl.core.media.audio.AudioCapture;
 import com.xxl.core.media.audio.AudioCapture.OnAudioFrameCapturedListener;
@@ -198,7 +197,6 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
     //region: MainNavigator
 
-    @Async
     @Safe
     @Override
     public void onTestClick() {
