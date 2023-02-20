@@ -141,6 +141,8 @@ dependencies {
     kapt deps.glide.glide_processor
     implementation deps.picture_selector
 
+    implementation deps.aescrypt
+
     implementation deps.mmkv
 
     implementation deps.evetbus

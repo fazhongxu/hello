@@ -75,6 +75,8 @@ dependencies {
 
     compileOnly deps.luban
 
+    compileOnly deps.aescrypt
+
     compileOnly deps.umeng.umeng_common
     compileOnly deps.umeng.umeng_asms
     compileOnly deps.umeng.umeng_share_core
