@@ -157,6 +157,28 @@ public class HelloApplication extends BaseApplication implements IApplication, M
     }
 
     /**
+     * 获取服务端的加密key
+     *
+     * @return
+     */
+    @Override
+    public String getRemoteEncryptKeyString() {
+        // TODO: 2023/2/20 此key需要服务端给 
+        return null;
+    }
+
+    /**
+     * 获取本地加密的key
+     *
+     * @return
+     */
+    @Override
+    public String getLocalEncryptKeyString() {
+        // 网站随机生成一个16位的密码，再用AES工具先加密一次得到
+        return "7INg1uUMJn+kD/0EfVV/gWa0jt/cknkKXSaq8bU8R8c=";
+    }
+
+    /**
      * 初始化分享平台
      */
     private void initSharePlatform() {

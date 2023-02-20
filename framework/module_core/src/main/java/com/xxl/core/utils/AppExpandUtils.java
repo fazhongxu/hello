@@ -20,6 +20,30 @@ public class AppExpandUtils {
     }
 
     /**
+     * 获取服务端的加密key
+     *
+     * @return
+     */
+    public static String getRemoteEncryptKey() {
+        if (getApplication() == null) {
+            return null;
+        }
+        return getApplication().getRemoteEncryptKey();
+    }
+
+    /**
+     * 获取本地的加密key
+     *
+     * @return
+     */
+    public static String getLocalEncryptKey() {
+        if (getApplication() == null) {
+            return null;
+        }
+        return getApplication().getLocalEncryptKey();
+    }
+
+    /**
      * 用户是否已经同意"隐私协议"
      *
      * @return

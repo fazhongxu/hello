@@ -3,10 +3,12 @@ package com.xxl.core;
 import android.content.Context;
 
 import androidx.annotation.CallSuper;
+import androidx.annotation.NonNull;
 import androidx.multidex.MultiDex;
 
 import com.alipictures.statemanager.loader.StateRepository;
 import com.evernote.android.state.StateSaver;
+import com.scottyab.aescrypt.AESCrypt;
 import com.xxl.core.manager.ExceptionServiceManager;
 import com.xxl.core.ui.state.EmptyState;
 import com.xxl.core.ui.state.ExceptionState;
@@ -22,7 +24,6 @@ import com.xxl.kit.RouterUtils;
 import com.xxl.kit.ShareUtils;
 
 import dagger.android.DaggerApplication;
-import io.reactivex.rxjava3.functions.Consumer;
 import io.reactivex.rxjava3.plugins.RxJavaPlugins;
 
 /**
@@ -66,7 +67,7 @@ public abstract class BaseApplication extends DaggerApplication {
     protected void initPlugins() {
         SwipeBackActivityManager.init(this);
         registerState();
-        StateSaver.setEnabledForAllActivitiesAndSupportFragments(this,true);
+        StateSaver.setEnabledForAllActivitiesAndSupportFragments(this, true);
         RouterUtils.init(this, isDebug());
         ShareUtils.preInit(this, getShareAppKey(), getChannel(), isDebug());
         RxJavaPlugins.setErrorHandler(ExceptionServiceManager::postCaughtException);
@@ -76,10 +77,10 @@ public abstract class BaseApplication extends DaggerApplication {
      * 注册页面视图状态
      */
     private void registerState() {
-        StateRepository.registerState(EmptyState.STATE,EmptyState.class);
-        StateRepository.registerState(LoadingState.STATE,LoadingState.class);
-        StateRepository.registerState(ExceptionState.STATE,ExceptionState.class);
-        StateRepository.registerState(NetworkExceptionState.STATE,NetworkExceptionState.class);
+        StateRepository.registerState(EmptyState.STATE, EmptyState.class);
+        StateRepository.registerState(LoadingState.STATE, LoadingState.class);
+        StateRepository.registerState(ExceptionState.STATE, ExceptionState.class);
+        StateRepository.registerState(NetworkExceptionState.STATE, NetworkExceptionState.class);
         StateRepository.registerState(UnKnowExceptionState.STATE, UnKnowExceptionState.class);
         StateRepository.registerState(RequestErrorState.STATE, RequestErrorState.class);
     }
@@ -95,12 +96,79 @@ public abstract class BaseApplication extends DaggerApplication {
      * 设置分享相关
      */
     public void setupShare() {
-        ShareUtils.init(this,getShareAppKey(),getShareSecret(),getChannel(),isDebug());
+        ShareUtils.init(this, getShareAppKey(), getShareSecret(), getChannel(), isDebug());
     }
 
     //endregion
 
     //region: 提供方法
+
+    /**
+     * 服务端的加密key
+     */
+    private String mRemoteEncryptKey;
+
+    /**
+     * 本地的加密key
+     */
+    private String mLocalEncryptKey;
+
+    /**
+     * 获取服务端的加密key
+     *
+     * @return
+     */
+    public String getRemoteEncryptKey() {
+        synchronized (this) {
+            if (mRemoteEncryptKey == null) {
+                mRemoteEncryptKey = buildEncryptKey(getRemoteEncryptKeyString());
+            }
+            return mRemoteEncryptKey;
+        }
+    }
+
+    /**
+     * 获取本地的加密key
+     *
+     * @return
+     */
+    public String getLocalEncryptKey() {
+        synchronized (this) {
+            if (mLocalEncryptKey == null) {
+                mLocalEncryptKey = buildEncryptKey(getLocalEncryptKeyString());
+            }
+            return mLocalEncryptKey;
+        }
+    }
+
+    /**
+     * 构建加密key
+     *
+     * @param encryptKey
+     * @return
+     */
+    public String buildEncryptKey(@NonNull final String encryptKey) {
+        try {
+            return AESCrypt.decrypt(AppUtils.getAppSignaturesMD5String(), encryptKey);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 获取服务端的加密key
+     *
+     * @return
+     */
+    public abstract String getRemoteEncryptKeyString();
+
+    /**
+     * 获取本地加密的key
+     *
+     * @return
+     */
+    public abstract String getLocalEncryptKeyString();
 
     /**
      * 获取分享 appkey

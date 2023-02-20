@@ -108,6 +108,8 @@ dependencies {
 
     implementation deps.logger
 
+    implementation deps.aescrypt
+
     implementation deps.arouter.arouter
     kapt deps.arouter.arouter_processor
 
