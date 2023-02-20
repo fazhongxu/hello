@@ -174,7 +174,6 @@ public class HelloApplication extends BaseApplication implements IApplication, M
      */
     @Override
     public String getLocalEncryptKeyString() {
-        // 网站随机生成一个16位的密码，再用AES工具先加密一次得到
         return "7INg1uUMJn+kD/0EfVV/gWa0jt/cknkKXSaq8bU8R8c=";
     }
 
