@@ -29,7 +29,11 @@ import com.xxl.kit.ColorUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.nodes.Node;
 import org.jsoup.select.Elements;
+
+import java.net.URLDecoder;
+import java.util.List;
 
 /**
  * @author xxl.
@@ -109,6 +113,7 @@ public abstract class BaseWebFragment<V extends BaseViewModel, T extends ViewDat
 
         preAgentWeb.go(getUrl());
         getWebView().setScrollBarSize(0);
+
     }
 
     //endregion
@@ -129,14 +134,34 @@ public abstract class BaseWebFragment<V extends BaseViewModel, T extends ViewDat
         @JavascriptInterface
         public void showSource(String html) {
 
-            Document document = Jsoup.parse(html);
-            Element head = document.head();
-            for (Element child : head.children()) {
-                Log.e("aaa", "showSource: " + child);
+            String s = decode(html);
+            Document document = Jsoup.parse(s);
+            Elements videoElements = document.select("video");
+
+            String videoUrl = "https:";
+            for (Element element : videoElements) {
+                final List<Node> nodes = element.childNodes();
+                if (nodes != null && nodes.size() > 0) {
+                    videoUrl = videoUrl + nodes.get(0).attr("src");
+                    break;
+                }
             }
+            Log.e("aaa", "showSource: " + videoUrl);
         }
 
     }
+
+    public static String decode(String data) {
+        try {
+            data = data.replaceAll("%(?![0-9a-fA-F]{2})", "%25");
+            data = data.replaceAll("\\+", "%2B");
+            data = URLDecoder.decode(data, "utf-8");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return data;
+    }
+
 
     private WebViewClient mWebViewClient = new WebViewClient() {
         @Override
