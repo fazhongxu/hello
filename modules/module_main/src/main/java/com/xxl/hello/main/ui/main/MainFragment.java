@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
@@ -228,7 +230,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
         String UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36";
 
 
-        webView = mViewDataBinding.webView;
+        webView = new WebView(getActivity());
         WebSettings settings = webView.getSettings();
         settings.setUserAgentString(UA);
         webView.setWebChromeClient(new WebChromeClient());
@@ -311,6 +313,12 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
             Log.e("aaa", "showSource: " + videoUrl);
         }
 
+    }
+
+    @Override
+    public void onPause() {
+        webView.onPause();
+        super.onPause();
     }
 
     public static String decode(String data) {

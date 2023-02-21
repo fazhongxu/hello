@@ -69,12 +69,6 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="test" />
 
-            <WebView
-                android:id="@+id/web_view"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-
 
             <com.xxl.hello.widget.ui.view.record.RecordButton
                 android:id="@+id/recordBtn"
