@@ -34,7 +34,7 @@ public class MainActivity extends SingleFragmentBarActivity<MainFragment> {
     }
 
     @Override
-    public boolean isInSwipeBack() {
+    protected boolean canDragBack() {
         return false;
     }
 
