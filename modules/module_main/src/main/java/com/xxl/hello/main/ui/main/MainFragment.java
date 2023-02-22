@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.tbruyelle.rxpermissions3.RxPermissions;
+import com.xxl.core.aop.annotation.Async;
 import com.xxl.core.aop.annotation.Safe;
 import com.xxl.core.media.audio.AudioCapture;
 import com.xxl.core.media.audio.AudioCapture.OnAudioFrameCapturedListener;
@@ -25,6 +26,7 @@ import com.xxl.core.utils.DecorationUtils;
 import com.xxl.core.widget.recyclerview.OnRefreshDataListener;
 import com.xxl.core.widget.text.LinkTouchMovementMethod;
 import com.xxl.hello.common.config.CacheDirConfig;
+import com.xxl.hello.common.utils.DouYinUtils;
 import com.xxl.hello.main.BR;
 import com.xxl.hello.main.R;
 import com.xxl.hello.main.databinding.MainFragmentBinding;
@@ -198,17 +200,16 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
     //region: MainNavigator
 
+    @Async
     @Safe
     @Override
     public void onTestClick() {
-        TikTokUtils tikTokUtils = new TikTokUtils();
-        tikTokUtils.parseVideo(new OnRequestCallBack<String>() {
+        DouYinUtils.fetchVideoRealUrl("4.66 fBT:/ 复制打开抖音，看看【南阳头条的作品】新疆大叔在赴藏列车上 将氛围拉满# 传递正能量 #... https://v.douyin.com/BTuFqDD/", new OnRequestCallBack<String>() {
             @Override
             public void onSuccess(@Nullable String s) {
-                Log.e("ccc", "onSuccess: " + s);
+                Log.e("ccc", "onSuccess: "+s );
             }
         });
-
     }
 
     /**

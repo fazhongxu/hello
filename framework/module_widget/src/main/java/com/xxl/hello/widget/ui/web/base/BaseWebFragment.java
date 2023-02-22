@@ -1,11 +1,8 @@
 package com.xxl.hello.widget.ui.web.base;
 
-import android.graphics.Bitmap;
 import android.net.http.SslError;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.JavascriptInterface;
 import android.webkit.SslErrorHandler;
 import android.webkit.ValueCallback;
 import android.webkit.WebSettings;
@@ -25,15 +22,6 @@ import com.xxl.core.R;
 import com.xxl.core.ui.BaseViewModel;
 import com.xxl.core.ui.fragment.BaseViewModelFragment;
 import com.xxl.kit.ColorUtils;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.nodes.Node;
-import org.jsoup.select.Elements;
-
-import java.net.URLDecoder;
-import java.util.List;
 
 /**
  * @author xxl.
@@ -90,13 +78,11 @@ public abstract class BaseWebFragment<V extends BaseViewModel, T extends ViewDat
      * 设置webview
      */
     private void setupWebView() {
-        String UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36";
         AgentWeb.PreAgentWeb preAgentWeb = AgentWeb.with(this)
                 .setAgentWebParent(getAgentWebParent(), new LinearLayout.LayoutParams(-1, -1))
                 .useDefaultIndicator(ColorUtils.getColor(R.color.colorPrimary))
                 .setWebChromeClient(getWebChromeClient())
                 .setWebViewClient(getWebViewClient())
-                .addJavascriptInterface("local_obj", new InJavaScriptLocalObj())
                 .setMainFrameErrorView(R.layout.agentweb_error_page, -1)
                 .setSecurityType(AgentWeb.SecurityType.STRICT_CHECK)
                 .setOpenOtherPageWays(DefaultWebClient.OpenOtherPageWays.ASK)
@@ -105,15 +91,12 @@ public abstract class BaseWebFragment<V extends BaseViewModel, T extends ViewDat
                 .ready();
 
         mAgentWeb = preAgentWeb.get();
-
         IAgentWebSettings agentWebSettings = mAgentWeb.getAgentWebSettings();
         WebSettings webSettings = agentWebSettings.getWebSettings();
-        webSettings.setUserAgentString(UA);
         webSettings.setDefaultTextEncodingName("UTF-8");
 
         preAgentWeb.go(getUrl());
         getWebView().setScrollBarSize(0);
-
     }
 
     //endregion
@@ -129,65 +112,13 @@ public abstract class BaseWebFragment<V extends BaseViewModel, T extends ViewDat
         }
     };
 
-    final class InJavaScriptLocalObj {
-
-        @JavascriptInterface
-        public void showSource(String html) {
-
-            String s = decode(html);
-            Document document = Jsoup.parse(s);
-            Elements videoElements = document.select("video");
-
-            String videoUrl = "https:";
-            for (Element element : videoElements) {
-                final List<Node> nodes = element.childNodes();
-                if (nodes != null && nodes.size() > 0) {
-                    videoUrl = videoUrl + nodes.get(0).attr("src");
-                    break;
-                }
-            }
-            Log.e("aaa", "showSource: " + videoUrl);
-        }
-
-    }
-
-    public static String decode(String data) {
-        try {
-            data = data.replaceAll("%(?![0-9a-fA-F]{2})", "%25");
-            data = data.replaceAll("\\+", "%2B");
-            data = URLDecoder.decode(data, "utf-8");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return data;
-    }
-
-
     private WebViewClient mWebViewClient = new WebViewClient() {
-        @Override
-        public void onPageStarted(WebView view, String url, Bitmap favicon) {
-            super.onPageStarted(view, url, favicon);
-        }
-
-        @Override
-        public void onPageFinished(WebView view, String url) {
-            showSource();
-            super.onPageFinished(view, url);
-        }
 
         @Override
         public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
             super.onReceivedSslError(view, handler, error);
         }
     };
-
-    /**
-     * 获取html网页源码
-     */
-    private void showSource() {
-        getWebView().loadUrl("javascript:window.local_obj.showSource('<head>'+"
-                + "document.getElementsByTagName('html')[0].innerHTML+'</head>');");
-    }
 
     public AgentWeb getAgentWeb() {
         return mAgentWeb;
