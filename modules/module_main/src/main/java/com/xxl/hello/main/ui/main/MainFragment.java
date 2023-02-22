@@ -2,7 +2,6 @@ package com.xxl.hello.main.ui.main;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Build;
@@ -10,8 +9,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewParent;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
@@ -22,11 +19,9 @@ import android.webkit.WebViewClient;
 import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 
 import com.tbruyelle.rxpermissions3.RxPermissions;
 import com.xxl.core.aop.annotation.Safe;
-import com.xxl.core.data.router.SystemRouterApi;
 import com.xxl.core.media.audio.AudioCapture;
 import com.xxl.core.media.audio.AudioCapture.OnAudioFrameCapturedListener;
 import com.xxl.core.media.audio.AudioRecordFormat;
@@ -49,7 +44,6 @@ import com.xxl.hello.service.data.model.api.QueryUserInfoResponse;
 import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
 import com.xxl.hello.widget.ui.view.record.OnRecordListener;
 import com.xxl.hello.widget.ui.view.record.RecordButton;
-import com.xxl.hello.widget.ui.web.base.BaseWebFragment;
 import com.xxl.kit.AppRouterApi;
 import com.xxl.kit.AppUtils;
 import com.xxl.kit.FFmpegUtils;
@@ -326,16 +320,6 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
         }
 
     }
-
-    /**
-     * 获取音频焦点
-     **/
-    private AudioManager.OnAudioFocusChangeListener adfocusChangeListener = new AudioManager.OnAudioFocusChangeListener() {
-        @Override
-        public void onAudioFocusChange(int focusChange) {
-
-        }
-    };
 
     @Override
     public void onPause() {
