@@ -2,7 +2,9 @@ package com.xxl.hello.main.ui.main;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -101,6 +103,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     @Inject
     MainEventBusWrapper mMainEventBusWrapper;
     private WebView webView;
+    private AudioManager audioManager;
 
     //endregion
 
@@ -217,6 +220,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     //endregion
 
     //region: MainNavigator
+    String UC_UA = "Mozilla/5.0 (Linux; U; Android 4.0.3; zh-cn; M032 Build/IML74K) UC AppleWebKit/534.31 (KHTML, like Gecko) Mobile Safari/534.31";
 
     @Safe
     @Override
@@ -310,10 +314,28 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
                     break;
                 }
             }
-            Log.e("aaa", "showSource: " + videoUrl);
+            Log.e("aaa", "showSource: " + videoUrl+Thread.currentThread().getName());
+
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    webView.destroy();
+                }
+            });
+
         }
 
     }
+
+    /**
+     * 获取音频焦点
+     **/
+    private AudioManager.OnAudioFocusChangeListener adfocusChangeListener = new AudioManager.OnAudioFocusChangeListener() {
+        @Override
+        public void onAudioFocusChange(int focusChange) {
+
+        }
+    };
 
     @Override
     public void onPause() {
