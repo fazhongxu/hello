@@ -4,17 +4,11 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.media.AudioManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.webkit.JavascriptInterface;
-import android.webkit.WebChromeClient;
-import android.webkit.WebResourceRequest;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 
 import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
@@ -57,14 +51,7 @@ import com.xxl.kit.StringUtils;
 import com.xxl.kit.TimeUtils;
 import com.xxl.kit.ToastUtils;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.nodes.Node;
-import org.jsoup.select.Elements;
-
 import java.io.File;
-import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.List;
@@ -88,6 +75,8 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
      */
     private MainViewModel mMainViewModel;
 
+    private TikTokUtils tikTokUtils;
+
     @Inject
     TestBindingAdapter mTestBindingAdapter;
 
@@ -96,8 +85,6 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
      */
     @Inject
     MainEventBusWrapper mMainEventBusWrapper;
-    private WebView webView;
-    private AudioManager audioManager;
 
     //endregion
 
@@ -214,130 +201,27 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     //endregion
 
     //region: MainNavigator
-    String UC_UA = "Mozilla/5.0 (Linux; U; Android 4.0.3; zh-cn; M032 Build/IML74K) UC AppleWebKit/534.31 (KHTML, like Gecko) Mobile Safari/534.31";
 
     @Safe
     @Override
     public void onTestClick() {
-//        SystemRouterApi.WebView.newBuilder("https://v.douyin.com/B5JbFqd/", false)
-//                .navigation(getActivity());
-//
-//        SystemRouterApi.WebView.newBuilder("https://www.douyin.com/video/7198027871871438114", false)
-//                .navigation(getActivity());
-
-        String UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36";
-
-
-        webView = new WebView(getActivity());
-        WebSettings settings = webView.getSettings();
-        settings.setUserAgentString(UA);
-        webView.setWebChromeClient(new WebChromeClient());
-        webView.addJavascriptInterface(new InJavaScriptLocalObj(),"local_obj");
-
-        /* 设置缓存模式,我这里使用的默认,不做多讲解 */
-        settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
-        /* 设置默认文字格式UTF8 */
-        settings.setDefaultTextEncodingName("UTF-8");
-        /* 设置支持Js,必须设置的,不然网页基本上不能看 */
-        settings.setJavaScriptEnabled(true);
-        /* 设置交互Js接口 */
-
-        settings.setSupportMultipleWindows(true);
-        /* 设置为使用webview推荐的窗口 */
-        settings.setUseWideViewPort(true);
-        /* 设置网页自适应屏幕大小 ---这个属性应该是跟上面一个属性一起用 */
-        settings.setLoadWithOverviewMode(true);
-        /* 大部分网页需要自己保存一些数据,这个时候就的设置下面这个属性 */
-
-        //最重要的一个属性
-        settings.setDomStorageEnabled(true);
-        /* HTML5的地理位置服务,设置为true,启用地理定位 */
-        settings.setGeolocationEnabled(true);
-        /* 设置是否允许webview使用缩放的功能,我这里设为false,不允许 */
-        settings.setBuiltInZoomControls(false);
-        /* 设置允许https + http混用 */
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
-        }
-        /* 设置显示水平滚动条,就是网页右边的滚动条.我这里设置的不显示 */
-        webView.setHorizontalScrollBarEnabled(false);
-        /* 设置滚动条的样式 */
-        webView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
-        settings.setJavaScriptEnabled(true);
-        webView.setWebViewClient(new WebViewClient() {
+        tikTokUtils = new TikTokUtils();
+        tikTokUtils.parseVideo(new OnRequestCallBack<String>() {
             @Override
-            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    view.loadUrl(request.getUrl().toString());
-                }
-                return true;
-            }
-
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                showSource();
-                super.onPageFinished(view, url);
+            public void onSuccess(@Nullable String s) {
+                Log.e("ccc", "onSuccess: "+s );
             }
         });
-        webView.loadUrl("https://www.douyin.com/video/7198027871871438114");
-    }
-
-    /**
-     * 获取html网页源码
-     */
-    private void showSource() {
-        webView.loadUrl("javascript:window.local_obj.showSource('<head>'+"
-                + "document.getElementsByTagName('html')[0].innerHTML+'</head>');");
-    }
-
-
-    final class InJavaScriptLocalObj {
-
-        @JavascriptInterface
-        public void showSource(String html) {
-
-            String s = decode(html);
-            Document document = Jsoup.parse(s);
-            Elements videoElements = document.select("video");
-
-            String videoUrl = "https:";
-            for (Element element : videoElements) {
-                final List<Node> nodes = element.childNodes();
-                if (nodes != null && nodes.size() > 0) {
-                    videoUrl = videoUrl + nodes.get(0).attr("src");
-                    break;
-                }
-            }
-            Log.e("aaa", "showSource: " + videoUrl+Thread.currentThread().getName());
-
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    webView.destroy();
-                }
-            });
-
-        }
 
     }
 
     @Override
     public void onPause() {
-        webView.onPause();
+        if (tikTokUtils != null) {
+            tikTokUtils.onPause();
+        }
         super.onPause();
     }
-
-    public static String decode(String data) {
-        try {
-            data = data.replaceAll("%(?![0-9a-fA-F]{2})", "%25");
-            data = data.replaceAll("\\+", "%2B");
-            data = URLDecoder.decode(data, "utf-8");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return data;
-    }
-
 
     /**
      * 测试按钮长按点击
