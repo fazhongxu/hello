@@ -104,6 +104,7 @@ public class TikTokUtils {
                     @Override
                     public void run() {
                         if (webView != null) {
+                            webView.onPause();
                             webView.destroy();
                         }
                     }

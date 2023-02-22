@@ -3,12 +3,10 @@ package com.xxl.hello.main.ui.main;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
-import android.media.AudioManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.webkit.WebView;
 
 import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
@@ -74,8 +72,6 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
      * 首页数据模型
      */
     private MainViewModel mMainViewModel;
-
-    private TikTokUtils tikTokUtils;
 
     @Inject
     TestBindingAdapter mTestBindingAdapter;
@@ -205,22 +201,14 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     @Safe
     @Override
     public void onTestClick() {
-        tikTokUtils = new TikTokUtils();
+        TikTokUtils tikTokUtils = new TikTokUtils();
         tikTokUtils.parseVideo(new OnRequestCallBack<String>() {
             @Override
             public void onSuccess(@Nullable String s) {
-                Log.e("ccc", "onSuccess: "+s );
+                Log.e("ccc", "onSuccess: " + s);
             }
         });
 
-    }
-
-    @Override
-    public void onPause() {
-        if (tikTokUtils != null) {
-            tikTokUtils.onPause();
-        }
-        super.onPause();
     }
 
     /**
