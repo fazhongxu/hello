@@ -1,4 +1,4 @@
-package com.xxl.core.widget;
+package com.xxl.core.widget.toolbar;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -13,7 +13,7 @@ import androidx.appcompat.widget.Toolbar;
  * @author xxl.
  * @date 2021/10/11.
  */
-public class CustomToolBar extends Toolbar {
+public class CustomToolBar extends Toolbar implements OnToolbarListener {
 
     //region: 成员变量
 
@@ -37,7 +37,25 @@ public class CustomToolBar extends Toolbar {
 
     //region: 提供方法
 
+    /**
+     * 设置标题
+     *
+     * @param title
+     */
+    @Override
+    public void setToolbarTitle(@NonNull CharSequence title) {
+        setTitle(title);
+    }
 
+    /**
+     * 设置标题
+     *
+     * @param resId
+     */
+    @Override
+    public void setToolbarTitle(int resId) {
+        setTitle(resId);
+    }
 
     //endregion
 

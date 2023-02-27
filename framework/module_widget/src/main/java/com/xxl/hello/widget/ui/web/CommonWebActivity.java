@@ -3,6 +3,7 @@ package com.xxl.hello.widget.ui.web;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.xxl.core.data.router.SystemRouterApi;
 import com.xxl.core.ui.activity.SingleFragmentBarActivity;
+import com.xxl.core.widget.toolbar.OnToolbarListener;
 
 /**
  * 通用的WebView页面
@@ -11,7 +12,8 @@ import com.xxl.core.ui.activity.SingleFragmentBarActivity;
  * @date 2022/6/25.
  */
 @Route(path = SystemRouterApi.WebView.COMMON_WEB_PATH)
-public class CommonWebActivity extends SingleFragmentBarActivity<CommonWebFragment> {
+public class CommonWebActivity extends SingleFragmentBarActivity<CommonWebFragment>
+        implements OnToolbarListener {
 
     //region: 页面生命周期
 

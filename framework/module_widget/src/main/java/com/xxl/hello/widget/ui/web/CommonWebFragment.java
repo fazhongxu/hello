@@ -102,7 +102,7 @@ public class CommonWebFragment extends BaseWebFragment<CommonWebViewModel, Widge
     }
 
     @Override
-    protected void setupLayout(@NonNull View view) {
+    public void setupLayout(@NonNull View view) {
         mLLContentContainer = ViewUtils.findView(view, R.id.ll_content_container);
         super.setupLayout(view);
     }

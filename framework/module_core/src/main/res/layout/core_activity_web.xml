@@ -16,7 +16,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.xxl.core.widget.CustomToolBar
+        <com.xxl.core.widget.toolbar.CustomToolBar
             android:id="@+id/tool_bar"
             android:layout_width="match_parent"
             android:layout_height="56dp"

@@ -6,9 +6,8 @@ import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
 
-import com.google.android.material.appbar.AppBarLayout;
 import com.xxl.core.R;
-import com.xxl.core.widget.CustomToolBar;
+import com.xxl.core.widget.toolbar.ToolbarWrapper;
 import com.xxl.kit.DisplayUtils;
 import com.xxl.kit.StatusBarUtil;
 
@@ -23,14 +22,9 @@ public abstract class SingleFragmentBarActivity<F extends Fragment> extends Sing
     //region: 成员变量
 
     /**
-     * app bar
+     * Toolbar包装类
      */
-    private AppBarLayout mAppBarLayout;
-
-    /**
-     * tool bar
-     */
-    private CustomToolBar mCustomToolBar;
+    private ToolbarWrapper mToolbarWrapper;
 
     //endregion
 
@@ -64,20 +58,6 @@ public abstract class SingleFragmentBarActivity<F extends Fragment> extends Sing
 
     }
 
-    /**
-     * 设置toolbar
-     */
-    protected void setupToolbarLayout() {
-        mAppBarLayout = findViewById(R.id.app_bar);
-        mCustomToolBar = findViewById(R.id.tool_bar);
-        StatusBarUtil.setDarkMode(this);
-        final int statusBarHeight = StatusBarUtil.getStatusBarHeight();
-        mAppBarLayout.setPadding(DisplayUtils.dp2px(this, 15), statusBarHeight - DisplayUtils.dp2px(this, 20), DisplayUtils.dp2px(this, 15), 0);
-
-        if (getToolbarTitle() != 0) {
-            mCustomToolBar.setTitle(getToolbarTitle());
-        }
-    }
 
     /**
      * 获取toolbar标题
@@ -86,6 +66,43 @@ public abstract class SingleFragmentBarActivity<F extends Fragment> extends Sing
      */
     @StringRes
     protected abstract int getToolbarTitle();
+
+    /**
+     * 设置toolbar
+     */
+    protected void setupToolbarLayout() {
+        mToolbarWrapper = ToolbarWrapper.create(this);
+        mToolbarWrapper.setupToolbar(findViewById(R.id.ll_root_container));
+
+        if (getToolbarTitle() != 0) {
+            mToolbarWrapper.setToolbarTitle(getToolbarTitle());
+        }
+        StatusBarUtil.setDarkMode(this);
+        final int statusBarHeight = StatusBarUtil.getStatusBarHeight();
+        mToolbarWrapper.setAppbarPadding(DisplayUtils.dp2px(this, 15), statusBarHeight - DisplayUtils.dp2px(this, 20), DisplayUtils.dp2px(this, 15), 0);
+    }
+
+    /**
+     * 设置标题
+     *
+     * @param title
+     */
+    public void setToolbarTitle(CharSequence title) {
+        if (mToolbarWrapper != null) {
+            mToolbarWrapper.setToolbarTitle(title);
+        }
+    }
+
+    /**
+     * 设置标题
+     *
+     * @param resId
+     */
+    public void setToolbarTitle(@StringRes int resId) {
+        if (mToolbarWrapper != null) {
+            mToolbarWrapper.setToolbarTitle(resId);
+        }
+    }
 
     //endregion
 }

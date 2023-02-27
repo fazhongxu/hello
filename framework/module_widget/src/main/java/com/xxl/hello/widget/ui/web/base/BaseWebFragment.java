@@ -1,5 +1,6 @@
 package com.xxl.hello.widget.ui.web.base;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.http.SslError;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.just.agentweb.WebViewClient;
 import com.xxl.core.R;
 import com.xxl.core.ui.BaseViewModel;
 import com.xxl.core.ui.fragment.BaseViewModelFragment;
+import com.xxl.core.widget.toolbar.OnToolbarListener;
 import com.xxl.kit.ColorUtils;
 
 /**
@@ -40,9 +42,22 @@ public abstract class BaseWebFragment<V extends BaseViewModel, T extends ViewDat
      */
     protected LinearLayout mLLContentContainer;
 
+    /**
+     * toobar监听
+     */
+    private OnToolbarListener mOnToolbarListener;
+
     //endregion
 
     //region: 页面生命周期
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof OnToolbarListener) {
+            mOnToolbarListener = (OnToolbarListener) context;
+        }
+    }
 
     /**
      * 设置数据
@@ -58,7 +73,7 @@ public abstract class BaseWebFragment<V extends BaseViewModel, T extends ViewDat
      * @param view
      */
     @Override
-    protected void setupLayout(@NonNull View view) {
+    public void setupLayout(@NonNull View view) {
         setupWebView();
     }
 
@@ -100,8 +115,9 @@ public abstract class BaseWebFragment<V extends BaseViewModel, T extends ViewDat
         @Override
         public void onReceivedTitle(WebView view, String title) {
             super.onReceivedTitle(view, title);
-//            mToolbar.setTitle(title);
-            // TODO: 2022/7/30
+            if (mOnToolbarListener != null) {
+                mOnToolbarListener.setToolbarTitle(title);
+            }
         }
     };
 

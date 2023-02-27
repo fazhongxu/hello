@@ -185,9 +185,9 @@ public abstract class BaseViewModelFragment<V extends BaseViewModel, T extends V
     /**
      * 设置页面视图
      *
-     * @param rootViwe
+     * @param rootView
      */
-    protected abstract void setupLayout(@NonNull final View rootViwe);
+    protected abstract void setupLayout(@NonNull final View rootView);
 
     /**
      * 获取页面绑定视图
