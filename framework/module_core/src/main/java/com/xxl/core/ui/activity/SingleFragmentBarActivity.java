@@ -2,6 +2,7 @@ package com.xxl.core.ui.activity;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
@@ -87,7 +88,7 @@ public abstract class SingleFragmentBarActivity<F extends Fragment> extends Sing
      *
      * @param title
      */
-    public void setToolbarTitle(CharSequence title) {
+    public void setToolbarTitle(@NonNull CharSequence title) {
         if (mToolbarWrapper != null) {
             mToolbarWrapper.setToolbarTitle(title);
         }
