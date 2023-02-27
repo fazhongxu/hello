@@ -13,7 +13,7 @@ import com.xxl.kit.DisplayUtils;
 import com.xxl.kit.StatusBarUtil;
 
 /**
- * 单个带r的Fragment带通用tool bar Activity页面
+ * 单个带Fragment通用tool bar Activity页面
  *
  * @author xxl.
  * @date 2021/7/19.
@@ -30,7 +30,6 @@ public abstract class SingleFragmentBarActivity<F extends Fragment> extends Sing
     //endregion
 
     //region: 页面生命周期
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,7 +57,6 @@ public abstract class SingleFragmentBarActivity<F extends Fragment> extends Sing
     protected void setupLayout() {
 
     }
-
 
     /**
      * 获取toolbar标题
