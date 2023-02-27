@@ -73,11 +73,14 @@ public class MainViewModel extends BaseViewModel<MainNavigator> {
 
     //region: 列表测试数据相关
 
-    long mCurrentTimeMillis = TimeUtils.currentServiceTimeMillis();
+    long mCurrentTimeMillis;
 
     public void requestListData(int page,
                                 int pageSize,
                                 @NonNull final OnRequestCallBack<List<TestListEntity>> callBack) {
+        if (mCurrentTimeMillis <= 0) {
+            mCurrentTimeMillis = TimeUtils.currentServiceTimeMillis();
+        }
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
