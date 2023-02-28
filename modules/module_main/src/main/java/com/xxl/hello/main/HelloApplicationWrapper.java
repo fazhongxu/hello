@@ -70,6 +70,13 @@ public class HelloApplicationWrapper extends ContextWrapper {
         return mServiceWrapper.getCurrentUserId();
     }
 
+    /**
+     * 退出登录
+     */
+    public void logout() {
+        mServiceWrapper.logout();
+    }
+
     //endregion
 
     //region: 内部辅助方法

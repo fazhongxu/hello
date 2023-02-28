@@ -104,6 +104,13 @@ public abstract class BaseApplication extends DaggerApplication {
     //region: 提供方法
 
     /**
+     * 退出登录
+     */
+    public void logout() {
+
+    }
+
+    /**
      * 服务端的加密key
      */
     private String mRemoteEncryptKey;

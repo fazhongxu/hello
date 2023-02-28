@@ -5,6 +5,7 @@ import android.content.ContextWrapper;
 
 import androidx.annotation.NonNull;
 
+import com.xxl.hello.service.data.local.db.api.DBClientKit;
 import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.hello.service.data.repository.api.UserRepositoryApi;
@@ -31,6 +32,11 @@ public class ServiceWrapper extends ContextWrapper {
     private final DataRepositoryKit mDataRepositoryKit;
 
     /**
+     * 数据库服务组建集合
+     */
+    private final DBClientKit mDBClientKit;
+
+    /**
      * 资源处理服务
      */
     private final ResourcesProcessService mResourcesProcessService;
@@ -41,10 +47,12 @@ public class ServiceWrapper extends ContextWrapper {
 
     public ServiceWrapper(@NonNull final Application application,
                           @NonNull final DataRepositoryKit dataRepositoryKit,
+                          @NonNull final DBClientKit dbClientKit,
                           @NonNull final ResourcesProcessService resourcesProcessService) {
         super(application);
         mApplication = application;
         mDataRepositoryKit = dataRepositoryKit;
+        mDBClientKit = dbClientKit;
         mResourcesProcessService = resourcesProcessService;
     }
 
@@ -78,6 +86,14 @@ public class ServiceWrapper extends ContextWrapper {
      */
     public void logout() {
         onCleared();
+        closeDatabase();
+    }
+
+    /**
+     * 关闭数据库
+     */
+    public void closeDatabase() {
+        mDBClientKit.closeDatabase();
     }
 
     /**

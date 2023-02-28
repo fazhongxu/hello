@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import com.xxl.hello.service.ResourceProcessWrapper;
 import com.xxl.hello.service.ResourcesProcessService;
 import com.xxl.hello.service.ServiceWrapper;
+import com.xxl.hello.service.data.local.db.api.DBClientKit;
 import com.xxl.hello.service.data.local.prefs.impl.PreferencesDataStoreModule;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.hello.service.data.repository.impl.ServiceRepositoryDataStoreModule;
@@ -46,9 +47,10 @@ public class ServiceDataStoreModule {
     @Provides
     ServiceWrapper provideServiceWrapper(@ForApplication final Application application,
                                          @NonNull final DataRepositoryKit dataRepositoryKit,
+                                         @NonNull final DBClientKit dbClientKit,
                                          @NonNull final ResourcesProcessService resourcesProcessService) {
         // TODO: 2021/7/23  构造入 DBClientKit,UploadService 等
-        return new ServiceWrapper(application, dataRepositoryKit, resourcesProcessService);
+        return new ServiceWrapper(application, dataRepositoryKit, dbClientKit,resourcesProcessService);
     }
 
     /**

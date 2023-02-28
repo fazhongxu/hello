@@ -78,9 +78,6 @@ public class AppExpandUtils {
      */
     public static boolean isLogin() {
         final Application application = AppUtils.getApplication();
-        if (application == null) {
-            return false;
-        }
         if (application instanceof IApplication) {
             return ((IApplication) application).isLogin();
         }
@@ -94,6 +91,16 @@ public class AppExpandUtils {
      */
     public static boolean isDebug() {
         return getApplication() != null && getApplication().isDebug();
+    }
+
+    /**
+     * 退出登录
+     */
+    public static void logout() {
+        if (getApplication() == null) {
+            return;
+        }
+        getApplication().logout();
     }
 
 

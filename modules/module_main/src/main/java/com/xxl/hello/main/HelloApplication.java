@@ -157,6 +157,14 @@ public class HelloApplication extends BaseApplication implements IApplication, M
     }
 
     /**
+     * 退出登录
+     */
+    @Override
+    public void logout() {
+        mApplicationWrapper.logout();
+    }
+
+    /**
      * 获取服务端的加密key
      *
      * @return
