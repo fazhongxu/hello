@@ -21,7 +21,7 @@ import com.xxl.core.widget.swipebacklayout.SwipeBackActivityManager;
 import com.xxl.kit.AppUtils;
 import com.xxl.kit.ProcessUtils;
 import com.xxl.kit.RouterUtils;
-import com.xxl.kit.ShareUtils;
+import com.xxl.core.utils.ShareUtils;
 
 import dagger.android.DaggerApplication;
 import io.reactivex.rxjava3.plugins.RxJavaPlugins;

@@ -148,4 +148,18 @@ dependencies {
     compileOnly deps.aria.core
     kapt deps.aria.aira_processor
 
+    compileOnly deps.umeng.umeng_common
+    compileOnly deps.umeng.umeng_asms
+    compileOnly deps.umeng.umeng_share_core
+
+    compileOnly deps.umeng.umeng_push
+
+    compileOnly deps.umeng.umeng_share_board
+    compileOnly deps.umeng.umeng_share_qq
+    compileOnly deps.umeng.umeng_share_we_chat
+    compileOnly deps.umeng.umeng_share_sina
+
+    compileOnly deps.we_chat
+    compileOnly deps.qq
+    compileOnly deps.sina
 }

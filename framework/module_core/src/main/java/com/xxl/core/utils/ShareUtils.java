@@ -1,4 +1,4 @@
-package com.xxl.kit;
+package com.xxl.core.utils;
 
 import android.app.Activity;
 import android.content.Context;
@@ -8,12 +8,14 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
+import com.xxl.core.listener.OnPayListener;
 
 /**
  * 分享工具类
@@ -22,6 +24,11 @@ import com.umeng.socialize.media.UMImage;
  * @date 2022/7/20.
  */
 public class ShareUtils {
+
+    /**
+     * 支付监听
+     */
+    private static OnPayListener sOnPayListener;
 
     /**
      * 预初始化
@@ -116,6 +123,66 @@ public class ShareUtils {
                 .setCallback(listener)
                 .withMedia(image)
                 .share();
+    }
+
+    /**
+     * 微信支付
+     *
+     * @param orderNo
+     * @param listener
+     */
+    public static void doWeChatPay(@NonNull final String orderNo,
+                                   @NonNull final OnPayListener listener) {
+        // TODO: 2023/3/1 检查是否安装微信，未安装微信返回监听 onNotInstall ，否则调起微信支付
+        sOnPayListener = listener;
+    }
+
+    /**
+     * 销毁
+     */
+    public static void onDestory() {
+        sOnPayListener = null;
+    }
+
+    /**
+     * 微信支付回调
+     *
+     * @param resp
+     */
+    public static boolean onWeChatPayCallback(@NonNull final BaseResp resp) {
+        OnPayListener listener = sOnPayListener;
+        if (listener != null) {
+            if (resp.errCode == WeChatPayErrCode.ERR_OK) {
+                listener.onPayComplete();
+            } else if (resp.errCode == WeChatPayErrCode.ERR_USER_CANCEL) {
+                listener.onPayCancel();
+            } else if (resp.errCode == WeChatPayErrCode.ERR_AUTH_DENIED) {
+                listener.onPayFailure();
+            }
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 微信支付错误码
+     */
+    public final static class WeChatPayErrCode {
+
+        /**
+         * 用户同意
+         */
+        public static int ERR_OK = 0;
+
+        /**
+         * 用户拒绝授权
+         */
+        public static int ERR_AUTH_DENIED = -1;
+
+        /**
+         * 用户取消
+         */
+        public static int ERR_USER_CANCEL = -2;
     }
 
     private ShareUtils() {

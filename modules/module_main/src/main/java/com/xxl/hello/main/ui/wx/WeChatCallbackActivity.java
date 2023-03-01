@@ -2,9 +2,11 @@ package com.xxl.hello.main.ui.wx;
 
 import android.os.Bundle;
 
+import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.umeng.socialize.weixin.view.WXCallbackActivity;
+import com.xxl.core.utils.ShareUtils;
 
 /**
  * 微信回调处理页面
@@ -30,6 +32,11 @@ public class WeChatCallbackActivity extends WXCallbackActivity {
     @Override
     public void onResp(BaseResp resp) {
         super.onResp(resp);
+        if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
+            if (ShareUtils.onWeChatPayCallback(resp)) {
+                finish();
+            }
+        }
     }
 
     @Override

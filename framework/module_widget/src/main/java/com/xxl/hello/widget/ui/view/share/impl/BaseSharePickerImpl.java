@@ -26,7 +26,7 @@ import com.xxl.kit.FileUtils;
 import com.xxl.kit.ListUtils;
 import com.xxl.kit.LogUtils;
 import com.xxl.kit.OnRequestCallBack;
-import com.xxl.kit.ShareUtils;
+import com.xxl.core.utils.ShareUtils;
 
 import java.util.ArrayList;
 import java.util.List;
