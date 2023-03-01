@@ -9,13 +9,19 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.tencent.mm.opensdk.modelbase.BaseResp;
+import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.umeng.commonsdk.UMConfigure;
+import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
+import com.xxl.core.data.model.entity.pay.WXPayEntity;
 import com.xxl.core.listener.OnPayListener;
+import com.xxl.kit.AppUtils;
 
 /**
  * 分享工具类
@@ -127,14 +133,32 @@ public class ShareUtils {
 
     /**
      * 微信支付
-     *
-     * @param orderNo
+     * @param activity
+     * @param wxPayEntity
      * @param listener
      */
-    public static void doWeChatPay(@NonNull final String orderNo,
+    public static void doWeChatPay(@NonNull final Activity activity,
+                                   @NonNull final WXPayEntity wxPayEntity,
                                    @NonNull final OnPayListener listener) {
-        // TODO: 2023/3/1 检查是否安装微信，未安装微信返回监听 onNotInstall ，否则调起微信支付
+        boolean isInstall = UMShareAPI.get(AppUtils.getApplication()).isInstall(activity, SHARE_MEDIA.WEIXIN);
+        if (!isInstall) {
+            if (listener != null) {
+                listener.onNotInstall();
+            }
+            return;
+        }
         sOnPayListener = listener;
+        String appId = PlatformConfig.getPlatform(SHARE_MEDIA.WEIXIN).getAppid();
+        IWXAPI api = WXAPIFactory.createWXAPI(activity, appId, false);
+        PayReq request = new PayReq();
+        request.appId = appId;
+        request.partnerId = wxPayEntity.getPartnerId();
+        request.prepayId = wxPayEntity.getPrepayId();
+        request.packageValue = wxPayEntity.getPackageValue();
+        request.nonceStr = wxPayEntity.getNonceStr();
+        request.timeStamp = wxPayEntity.getTimestamp();
+        request.sign = wxPayEntity.getSign();
+        api.sendReq(request);
     }
 
     /**
