@@ -74,7 +74,7 @@ public class DataStoreModule {
     @Singleton
     @Provides
     boolean provideNetworkDebug() {
-        return NetworkConfig.isNetworkDebug();
+        return NetworkConfig.Companion.isNetworkDebug();
     }
 
     /**
@@ -86,7 +86,7 @@ public class DataStoreModule {
     @Singleton
     @Provides
     boolean provideDebug() {
-        return NetworkConfig.isDebug();
+        return NetworkConfig.Companion.isDebug();
     }
 
     /**

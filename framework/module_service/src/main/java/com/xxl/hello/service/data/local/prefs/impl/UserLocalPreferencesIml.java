@@ -27,7 +27,7 @@ public class UserLocalPreferencesIml implements UserLocalPreferences {
     //region: 构造函数
 
     public UserLocalPreferencesIml() {
-        mUserLocalCache = MMKV.mmkvWithID(AppConfig.buildPreferencesName("local_user"), MMKV.MULTI_PROCESS_MODE);
+        mUserLocalCache = MMKV.mmkvWithID(AppConfig.Companion.buildPreferencesName("local_user"), MMKV.MULTI_PROCESS_MODE);
     }
 
     //endregion
@@ -130,7 +130,7 @@ public class UserLocalPreferencesIml implements UserLocalPreferences {
      * @return
      */
     private MMKV getLoginUserLocalCache() {
-        return MMKV.mmkvWithID(AppConfig.buildPreferencesName("local_login_user" + AppExpandUtils.getCurrentUserId()), MMKV.MULTI_PROCESS_MODE);
+        return MMKV.mmkvWithID(AppConfig.Companion.buildPreferencesName("local_login_user" + AppExpandUtils.getCurrentUserId()), MMKV.MULTI_PROCESS_MODE);
     }
 
     //endregion

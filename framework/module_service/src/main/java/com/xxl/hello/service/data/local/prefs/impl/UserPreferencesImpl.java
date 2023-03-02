@@ -42,7 +42,7 @@ public class UserPreferencesImpl implements UserPreferences<LoginUserEntity> {
     //region: 构造函数
 
     public UserPreferencesImpl() {
-        mUserCache = MMKV.mmkvWithID(AppConfig.buildPreferencesName("user"), MMKV.MULTI_PROCESS_MODE);
+        mUserCache = MMKV.mmkvWithID(AppConfig.Companion.buildPreferencesName("user"), MMKV.MULTI_PROCESS_MODE);
         mCurrentLoginUserEntity = getCurrentLoginUserEntity();
     }
 

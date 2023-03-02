@@ -148,7 +148,7 @@ public class LoginUserEntity implements Serializable {
      * @return
      */
     public static final LoginUserEntity obtainTestUserEntity() {
-        if (NetworkConfig.isNetworkDebug()) {
+        if (NetworkConfig.Companion.isNetworkDebug()) {
             return LoginUserEntity.obtain()
                     .setUserId(String.valueOf(TimeUtils.currentServiceTimeMillis()))
                     .setUserName("six six");
