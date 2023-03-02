@@ -78,7 +78,7 @@ uploadArchives {
 
  方式二：
 
- apksigner sign --ks 密钥库名 --ks-key-alias 密钥别名 xxx.apk
+ apksigner sign --ks 密钥库名(或者密钥文件完整路径）--ks-key-alias 密钥别名 xxx.apk
 
  上述命令，签名后没有改变文件名称。如何判断是否签名成功？可以采用如下命令。
 
