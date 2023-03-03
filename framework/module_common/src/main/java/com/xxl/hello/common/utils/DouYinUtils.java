@@ -25,6 +25,7 @@ import org.jsoup.nodes.Node;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
@@ -47,8 +48,6 @@ public class DouYinUtils {
      * User-Agent
      */
     public static final String UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36";
-
-//    private static final String PC_UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36";
 
     /**
      * API
@@ -108,17 +107,7 @@ public class DouYinUtils {
             callBack.onSuccess(videoAddress);
             return;
         }
-
-        Activity activity = AppUtils.getTopActivity();
-        if (activity != null) {
-            final String finalVideoShareRealUrl = videoShareRealUrl;
-            activity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    parseVideo(finalVideoShareRealUrl, callBack);
-                }
-            });
-        }
+        parseVideoByWebView(videoShareRealUrl, callBack);
 
     }
 
@@ -303,49 +292,58 @@ public class DouYinUtils {
         return "";
     }
 
-    private static WebView webView;
+    private static WeakReference<WebView> weakReference;
 
     private static OnRequestCallBack<String> mCallBack;
 
-    public static void parseVideo(@NonNull final String targetUrl,
-                                  @NonNull OnRequestCallBack<String> callBack) {
-        mCallBack = callBack;
-
-        webView = new WebView(AppUtils.getTopActivity());
-        WebSettings settings = webView.getSettings();
-        settings.setUserAgentString(UA);
-        webView.setWebChromeClient(new WebChromeClient());
-        webView.addJavascriptInterface(new InJavaScriptLocalObj(), "local_obj");
-        settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
-        settings.setDefaultTextEncodingName("UTF-8");
-        settings.setJavaScriptEnabled(true);
-        settings.setSupportMultipleWindows(true);
-        settings.setUseWideViewPort(true);
-        settings.setLoadWithOverviewMode(true);
-        settings.setDomStorageEnabled(true);
-        settings.setGeolocationEnabled(true);
-        settings.setBuiltInZoomControls(false);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+    public static void parseVideoByWebView(@NonNull final String targetUrl,
+                                           @NonNull OnRequestCallBack<String> callBack) {
+        final Activity activity = AppUtils.getTopActivity();
+        if (activity == null || activity.isFinishing()) {
+            return;
         }
-        webView.setHorizontalScrollBarEnabled(false);
-        webView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
-        webView.setWebViewClient(new WebViewClient() {
+        activity.runOnUiThread(new Runnable() {
             @Override
-            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+            public void run() {
+                final WebView webView = new WebView(activity);
+                weakReference = new WeakReference<>(webView);
+                mCallBack = callBack;
+                WebSettings settings = webView.getSettings();
+                settings.setUserAgentString(UA);
+                webView.setWebChromeClient(new WebChromeClient());
+                webView.addJavascriptInterface(new InJavaScriptLocalObj(), "local_obj");
+                settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+                settings.setDefaultTextEncodingName("UTF-8");
+                settings.setJavaScriptEnabled(true);
+                settings.setSupportMultipleWindows(true);
+                settings.setUseWideViewPort(true);
+                settings.setLoadWithOverviewMode(true);
+                settings.setDomStorageEnabled(true);
+                settings.setGeolocationEnabled(true);
+                settings.setBuiltInZoomControls(false);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    view.loadUrl(request.getUrl().toString());
+                    settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
                 }
-                return true;
-            }
+                webView.setHorizontalScrollBarEnabled(false);
+                webView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
+                webView.setWebViewClient(new WebViewClient() {
+                    @Override
+                    public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            view.loadUrl(request.getUrl().toString());
+                        }
+                        return true;
+                    }
 
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                showSource();
-                super.onPageFinished(view, url);
+                    @Override
+                    public void onPageFinished(WebView view, String url) {
+                        showSource();
+                        super.onPageFinished(view, url);
+                    }
+                });
+                webView.loadUrl(targetUrl);
             }
         });
-        webView.loadUrl(targetUrl);
     }
 
     final static class InJavaScriptLocalObj {
@@ -357,11 +355,16 @@ public class DouYinUtils {
             Document document = Jsoup.parse(s);
             Elements videoElements = document.select("video");
 
-            String videoUrl = "https:";
+            String videoUrl = "";
             for (Element element : videoElements) {
                 final List<Node> nodes = element.childNodes();
                 if (nodes != null && nodes.size() > 0) {
-                    videoUrl = videoUrl + nodes.get(0).attr("src");
+                    String url = nodes.get(0).attr("src");
+                    if (!TextUtils.isEmpty(url) && !url.startsWith("http")) {
+                        videoUrl = "https:" + url;
+                    } else {
+                        videoUrl = url;
+                    }
                     break;
                 }
             }
@@ -373,27 +376,35 @@ public class DouYinUtils {
             LogUtils.d("showSource: " + videoUrl);
 
             Activity activity = AppUtils.getTopActivity();
-            if (activity != null) {
+            if (activity != null && !activity.isFinishing()) {
                 activity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if (webView != null) {
-                            webView.onPause();
-                            webView.destroy();
+                        if (weakReference != null) {
+                            final WebView webView = weakReference.get();
+                            if (webView != null) {
+                                webView.onPause();
+                                webView.destroy();
+                                weakReference.clear();
+                            }
                         }
                     }
                 });
             }
         }
-
     }
 
     /**
      * 获取html网页源码
      */
     private static void showSource() {
-        webView.loadUrl("javascript:window.local_obj.showSource('<head>'+"
-                + "document.getElementsByTagName('html')[0].innerHTML+'</head>');");
+        if (weakReference != null) {
+            final WebView webView = weakReference.get();
+            if (webView != null) {
+                webView.loadUrl("javascript:window.local_obj.showSource('<head>'+"
+                        + "document.getElementsByTagName('html')[0].innerHTML+'</head>');");
+            }
+        }
     }
 
     public static String decode(String data) {

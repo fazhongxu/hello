@@ -204,7 +204,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     @Safe
     @Override
     public void onTestClick() {
-        DouYinUtils.fetchVideoRealUrl("4.66 fBT:/ 复制打开抖音，看看【南阳头条的作品】新疆大叔在赴藏列车上 将氛围拉满# 传递正能量 #... https://v.douyin.com/BTuFqDD/", new OnRequestCallBack<String>() {
+        DouYinUtils.fetchVideoRealUrl("0.23 gbA:/ 复制打开抖音，看看【刘刘溜了的作品】后续来了，视频虽然有点长，但还是有说不完的嘱托，希... https://v.douyin.com/SMXhdM1/", new OnRequestCallBack<String>() {
             @Override
             public void onSuccess(@Nullable String s) {
                 Log.e("ccc", "onSuccess: "+s );
