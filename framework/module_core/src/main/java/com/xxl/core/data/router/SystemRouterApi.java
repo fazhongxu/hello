@@ -1,6 +1,5 @@
 package com.xxl.core.data.router;
 
-import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -44,13 +43,18 @@ public final class SystemRouterApi {
          */
         public static final String PARAMS_KEY_SHARE_ENABLE = "params_key_share_enable";
 
+        /**
+         * 是否可以刷新（默认可以刷新）
+         */
+        public static final String PARAMS_KEY_REFRESH_ENABLE = "params_key_refresh_enable";
+
         public static Builder newBuilder(@NonNull final String url) {
             return new Builder(url);
         }
 
         public static Builder newBuilder(@NonNull final String url,
                                          final boolean isJoinTimeMills) {
-            return new Builder(url,isJoinTimeMills);
+            return new Builder(url, isJoinTimeMills);
         }
 
         public static class Builder {
@@ -64,11 +68,10 @@ public final class SystemRouterApi {
             public Builder(String url,
                            boolean isJoinTimeMills) {
                 mParams.putString(PARAMS_KEY_URL, isJoinTimeMills ? StringUtils.joinTimeMillis(url) : url);
-                setShareEnable(true);
             }
 
             /**
-             * 设置是否可以分享
+             * 设置是否可以分享（默认可分享）
              *
              * @param shareEnable
              * @return
@@ -79,12 +82,21 @@ public final class SystemRouterApi {
             }
 
             /**
-             * 跳转到webview
+             * 设置是否可以刷新（默认可以刷新）
              *
-             * @param activity
+             * @param refreshEnable
+             * @return
              */
-            public void navigation(@NonNull final Activity activity) {
-                RouterUtils.navigation(activity, COMMON_WEB_PATH, mParams);
+            public Builder setRefreshEnable(final boolean refreshEnable) {
+                mParams.putBoolean(PARAMS_KEY_REFRESH_ENABLE, refreshEnable);
+                return this;
+            }
+
+            /**
+             * 跳转到webview
+             */
+            public void navigation() {
+                RouterUtils.navigation(COMMON_WEB_PATH, mParams);
             }
         }
     }

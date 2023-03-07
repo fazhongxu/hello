@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.databinding.ViewDataBinding;
 
 import com.just.agentweb.AgentWeb;
+import com.just.agentweb.AgentWebView;
 import com.just.agentweb.DefaultWebClient;
 import com.just.agentweb.JsAccessEntrace;
 import com.just.agentweb.WebChromeClient;
@@ -22,6 +23,7 @@ import com.xxl.core.R;
 import com.xxl.core.ui.BaseViewModel;
 import com.xxl.core.ui.fragment.BaseViewModelFragment;
 import com.xxl.core.widget.toolbar.OnToolbarListener;
+import com.xxl.core.widget.web.AgentScrollWebView;
 import com.xxl.kit.ColorUtils;
 
 /**
@@ -38,14 +40,9 @@ public abstract class BaseWebFragment<V extends BaseViewModel, T extends ViewDat
     private AgentWeb mAgentWeb;
 
     /**
-     * content container
-     */
-    protected LinearLayout mLLContentContainer;
-
-    /**
      * toobar监听
      */
-    private OnToolbarListener mOnToolbarListener;
+    protected OnToolbarListener mOnToolbarListener;
 
     //endregion
 
@@ -95,6 +92,7 @@ public abstract class BaseWebFragment<V extends BaseViewModel, T extends ViewDat
         mAgentWeb = AgentWeb.with(this)
                 .setAgentWebParent(getAgentWebParent(), new LinearLayout.LayoutParams(-1, -1))
                 .useDefaultIndicator(ColorUtils.getColor(R.color.colorPrimary))
+                .setWebView(getCustomWebView())
                 .setWebChromeClient(getWebChromeClient())
                 .setWebViewClient(getWebViewClient())
                 .setMainFrameErrorView(R.layout.agentweb_error_page, -1)
@@ -147,6 +145,15 @@ public abstract class BaseWebFragment<V extends BaseViewModel, T extends ViewDat
     }
 
     protected abstract ViewGroup getAgentWebParent();
+
+    /**
+     * 获取自定义的WebView
+     *
+     * @return
+     */
+    protected WebView getCustomWebView() {
+        return new AgentWebView(getActivity());
+    }
 
     protected WebChromeClient getWebChromeClient() {
         return mWebChromeClient;

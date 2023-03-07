@@ -322,7 +322,7 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
     @Override
     public void onAboutMeClick() {
         SystemRouterApi.WebView.newBuilder(NetworkConfig.API_HOST + AppConfig.User.GITHUB_USER_NAME + "/hello")
-                .navigation(getActivity());
+                .navigation();
     }
 
     /**

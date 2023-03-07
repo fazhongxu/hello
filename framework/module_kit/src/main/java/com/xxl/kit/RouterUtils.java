@@ -108,6 +108,19 @@ public class RouterUtils {
     /**
      * 跳转到指定页面
      *
+     * @param path
+     * @param bundle
+     */
+    public static void navigation(@NonNull final String path,
+                                  @NonNull final Bundle bundle) {
+        buildPostcard(path)
+                .with(bundle)
+                .navigation();
+    }
+
+    /**
+     * 跳转到指定页面
+     *
      * @param activity
      * @param path
      * @param bundle
