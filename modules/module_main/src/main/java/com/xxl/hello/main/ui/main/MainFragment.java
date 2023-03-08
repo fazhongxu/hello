@@ -39,6 +39,7 @@ import com.xxl.hello.widget.ui.view.record.RecordButton;
 import com.xxl.kit.AppRouterApi;
 import com.xxl.kit.AppUtils;
 import com.xxl.kit.FFmpegUtils;
+import com.xxl.kit.GsonUtils;
 import com.xxl.kit.ListUtils;
 import com.xxl.kit.LogUtils;
 import com.xxl.kit.MediaUtils;
@@ -51,8 +52,10 @@ import com.xxl.kit.ToastUtils;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -200,7 +203,48 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     @Safe
     @Override
     public void onTestClick() {
-        AppRouterApi.Login.navigation(getActivity());
+        String s = "[\n" +
+                "  { \"usdt_cnyx\": {\n" +
+                "        \"decimal_places\": 3,\n" +
+                "        \"amount_decimal_places\": 3,\n" +
+                "        \"min_amount\": 1,\n" +
+                "        \"min_amount_a\": 1,\n" +
+                "        \"min_amount_b\": 3,\n" +
+                "        \"fee\": 0.02,\n" +
+                "        \"trade_disabled\": 1,\n" +
+                "        \"buy_disabled\": 0,\n" +
+                "        \"sell_disabled\": 0\n" +
+                "    }\n" +
+                "  },\n" +
+                "   { \"usdt_en\": {\n" +
+                "        \"decimal_places\": 3.55,\n" +
+                "        \"amount_decimal_places\": 3.11,\n" +
+                "        \"min_amount\": 1.33,\n" +
+                "        \"min_amount_a\": 1,\n" +
+                "        \"min_amount_b\": 3,\n" +
+                "        \"fee\": 0.02,\n" +
+                "        \"trade_disabled\": 1,\n" +
+                "        \"buy_disabled\": 0,\n" +
+                "        \"sell_disabled\": 0\n" +
+                "    }\n" +
+                "  }\n" +
+                "\n" +
+                "\n" +
+                "  ]";
+        List<TestBean> list = new ArrayList<>();
+        List<Object> objects = GsonUtils.fromJsonList(s, Object.class);
+        for (Object o : objects) {
+            list.addAll(GsonUtils.fromJsonMap(GsonUtils.toJson(o), TestBean.class).values());
+        }
+        Log.e("aaa", "onTestClick: " + list);
+
+    }
+
+    private static class TestBean {
+        String decimal_places;
+
+        String amount_decimal_places;
+
     }
 
     /**

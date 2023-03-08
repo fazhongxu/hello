@@ -147,6 +147,39 @@ public final class GsonUtils {
     /**
      * Converts {@link String} to given type.
      *
+     * @param json The json to convert.
+     * @param type Type json will be converted to.
+     * @return instance of type
+     */
+    public static <T> List<T> fromJsonList(final String json, @NonNull final Class<T> type) {
+        try {
+            return fromJson(getGson(), json, getListType(type));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * Converts {@link String} to given type.
+     *
+     * @param json The json to convert.
+     * @param type Type json will be converted to.
+     * @return instance of type
+     */
+    public static <T> Map<String,T> fromJsonMap(final String json, @NonNull final Class<T> type) {
+        try {
+            return fromJson(getGson(), json, getMapType(String.class,type));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    /**
+     * Converts {@link String} to given type.
+     *
      * @param json the json to convert.
      * @param type type type json will be converted to.
      * @return instance of type
@@ -305,7 +338,7 @@ public final class GsonUtils {
 
     /**
      * 解决Gson json String转 Map 对象的时候
-     *  主要解决 json 解析为map 对象时 Integer等数字类型转换为Double类型的问题（0->0.0)
+     * 主要解决 json 解析为map 对象时 Integer等数字类型转换为Double类型的问题（0->0.0)
      */
     public static class MapTypeAdapter extends TypeAdapter<Object> {
         private final TypeAdapter<Object> delegate = new Gson().getAdapter(Object.class);
