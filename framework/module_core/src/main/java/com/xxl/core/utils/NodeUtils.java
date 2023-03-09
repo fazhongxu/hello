@@ -30,7 +30,7 @@ public class NodeUtils {
                                                                   @NonNull final T rootNodeEntity,
                                                                   @Nullable final T parentNodeEntity) {
         if (parentNodeEntity != null) {
-            rootNodeEntity.setParentNodeId(parentNodeEntity.getParentNodeId());
+            rootNodeEntity.setParentNodeId(parentNodeEntity.getNodeId());
         }
         resultNodeEntities.add(rootNodeEntity);
         if (ListUtils.isEmpty(rootNodeEntity.getChildrenNodes())) {
