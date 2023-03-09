@@ -1,4 +1,6 @@
-apply plugin: 'AndResGuard'
+plugins{
+    'id' 'AndResGuard'
+}
 
 andResGuard {
     // mappingFile = file("./resource_mapping.txt")

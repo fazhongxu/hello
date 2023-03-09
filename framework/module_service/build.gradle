@@ -1,19 +1,39 @@
 apply from: project.getRootDir().getAbsolutePath()+"/framework/common.gradle"
 apply plugin: 'io.objectbox'
-apply plugin: 'maven'
+apply plugin: 'maven-publish'
 
 android {
 
 }
 
-uploadArchives {
-    repositories.mavenDeployer {
-        repository(url: hello_maven_config.url) {
-            authentication(userName: hello_maven_config.userName, password: hello_maven_config.password)
+//uploadArchives {
+//    repositories.mavenDeployer {
+//        repository(url: hello_maven_config.url) {
+//            authentication(userName: hello_maven_config.userName, password: hello_maven_config.password)
+//        }
+//        pom.version = versions.service
+//        pom.artifactId = "service"
+//        pom.groupId = "com.xxl.hello.service"
+//    }
+//}
+publishing {
+    publications {
+        publish2Local(MavenPublication) {
+            groupId = 'com.xxl.hello.service'
+            artifactId = 'service'
+            version = versions.service
         }
-        pom.version = versions.service
-        pom.artifactId = "service"
-        pom.groupId = "com.xxl.hello.service"
+    }
+
+    repositories {
+        maven {
+            allowInsecureProtocol true
+            url = hello_maven_config.url
+            credentials {
+                username = hello_maven_config.userName
+                password =hello_maven_config.password
+            }
+        }
     }
 }
 

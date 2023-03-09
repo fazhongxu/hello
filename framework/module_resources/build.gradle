@@ -1,7 +1,15 @@
-apply plugin: 'com.android.library'
-apply plugin: 'maven'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
+//apply plugin: 'com.android.library'
+//apply plugin: 'maven'
+//apply plugin: 'kotlin-android'
+//apply plugin: 'kotlin-kapt'
+
+plugins {
+    id 'com.android.library'
+//    id 'maven-publish'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+}
+
 
 android {
     compileSdkVersion build_versions.compileSdkVersion

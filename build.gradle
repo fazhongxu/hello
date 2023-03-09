@@ -18,12 +18,11 @@ buildscript {
     }
 }
 
-
-allprojects {
-    repositories {
-        addRepos(repositories)
-    }
-}
+//allprojects {
+//    repositories {
+//        addRepos(repositories)
+//    }
+//}
 
 task clean(type: Delete) {
     delete rootProject.buildDir

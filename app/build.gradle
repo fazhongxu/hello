@@ -1,11 +1,19 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'com.alibaba.arouter'
-apply from: '../and_res_guard.gradle'
-apply plugin: 'io.objectbox'
-apply plugin: 'android-aspectjx'
-apply from: '../aspectjx_excludes.gradle'
+//apply plugin: 'com.android.application'
+//apply plugin: 'kotlin-android'
+//apply plugin: 'kotlin-kapt'
+//apply plugin: 'com.alibaba.arouter'
+//apply from: '../and_res_guard.gradle'
+//apply plugin: 'io.objectbox'
+//apply plugin: 'android-aspectjx'
+//apply from: '../aspectjx_excludes.gradle'
+
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+}
+//apply from: '../and_res_guard.gradle'
+//apply from: '../aspectjx_excludes.gradle'
 
 android {
 

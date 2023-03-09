@@ -1,3 +1,81 @@
+//include ':framework:module_core'
+//include ':framework:module_kit'
+//include ':framework:module_common'
+//include ':framework:module_service'
+//include ':framework:module_resources'
+//include ':framework:module_widget'
+//include ':framework:module_router'
+//
+//include ':framework:module_annotation'
+//include ':framework:module_compiler'
+//
+//include ':module_libs:lib_ffmpeg'
+//include ':module_libs:lib_picture_selector'
+//
+//include ':app'
+//include ':modules:module_main'
+//include ':modules:module_user'
+//
+
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+
+        maven {
+            url "https://maven.aliyun.com/repository/google"
+            allowInsecureProtocol = true
+        }
+
+        maven {
+            url "https://maven.aliyun.com/repository/jcenter"
+            allowInsecureProtocol = true
+        }
+
+        maven {
+            url "https://maven.aliyun.com/repository/public"
+            allowInsecureProtocol = true
+        }
+
+        maven {
+            url "https://jitpack.io"
+            allowInsecureProtocol = true
+        }
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+
+    repositories {
+        google()
+        mavenCentral()
+
+        maven {
+            url "https://maven.aliyun.com/repository/google"
+            allowInsecureProtocol = true
+        }
+
+        maven {
+            url "https://maven.aliyun.com/repository/jcenter"
+            allowInsecureProtocol = true
+        }
+
+        maven {
+            url "https://maven.aliyun.com/repository/public"
+            allowInsecureProtocol = true
+        }
+
+        maven {
+            url "https://jitpack.io"
+            allowInsecureProtocol = true
+        }
+    }
+}
+
+rootProject.name = "hello"
+
+include ':app'
 include ':framework:module_core'
 include ':framework:module_kit'
 include ':framework:module_common'
@@ -15,6 +93,7 @@ include ':module_libs:lib_picture_selector'
 include ':app'
 include ':modules:module_main'
 include ':modules:module_user'
+
 
 
 

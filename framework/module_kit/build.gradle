@@ -1,7 +1,15 @@
-apply plugin: 'com.android.library'
-apply plugin: 'maven'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
+//apply plugin: 'com.android.library'
+//apply plugin: 'maven'
+//apply plugin: 'kotlin-android'
+//apply plugin: 'kotlin-kapt'
+
+plugins {
+    id 'com.android.library'
+    id 'maven-publish'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+}
+apply from: "../../config.gradle"
 
 android {
     compileSdkVersion build_versions.compileSdkVersion
@@ -40,16 +48,37 @@ android {
     }
 }
 
-uploadArchives {
-    repositories.mavenDeployer {
-        repository(url: origin_maven_config.url) {
-            authentication(userName: origin_maven_config.userName, password: origin_maven_config.password)
-        }
-        pom.version = versions.kit
-        pom.artifactId = "kit"
-        pom.groupId = "com.xxl.kit"
-    }
-}
+//uploadArchives {
+//    repositories.mavenDeployer {
+//        repository(url: origin_maven_config.url) {
+//            authentication(userName: origin_maven_config.userName, password: origin_maven_config.password)
+//        }
+//        pom.version = versions.kit
+//        pom.artifactId = "kit"
+//        pom.groupId = "com.xxl.kit"
+//    }
+//}
+
+//publishing {
+//    publications {
+//        publish2Local(MavenPublication) {
+//            groupId = 'com.xxl.hello.kit'
+//            artifactId = 'kit'
+//            version = versions.kit
+//        }
+//    }
+//
+//    repositories {
+//        maven {
+//            allowInsecureProtocol true
+//            url = hello_maven_config.url
+//            credentials {
+//                username = hello_maven_config.userName
+//                password =hello_maven_config.password
+//            }
+//        }
+//    }
+//}
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])

@@ -1,20 +1,9 @@
 apply from: project.getRootDir().getAbsolutePath()+"/framework/common.gradle"
 apply plugin: 'io.objectbox'
-apply plugin: 'maven'
+apply plugin: 'maven-publish'
 
 android {
 
-}
-
-uploadArchives {
-//    repositories.mavenDeployer {
-//        repository(url: hello_maven_config.url) {
-//            authentication(userName: hello_maven_config.userName, password: hello_maven_config.password)
-//        }
-//        pom.version = versions.router
-//        pom.artifactId = "router"
-//        pom.groupId = "com.xxl.hello.router"
-//    }
 }
 
 dependencies {
