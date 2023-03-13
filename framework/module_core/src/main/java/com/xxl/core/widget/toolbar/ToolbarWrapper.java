@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.material.appbar.AppBarLayout;
 import com.xxl.core.R;
+import com.xxl.kit.StringUtils;
 
 /**
  * @author xxl.
@@ -23,6 +24,11 @@ public class ToolbarWrapper {
     private FragmentActivity mFragmentActivity;
 
     /**
+     * 监听
+     */
+    private OnToolbarProvider mOnToolbarProvider;
+
+    /**
      * appbar
      */
     private AppBarLayout mAppBarLayout;
@@ -36,12 +42,15 @@ public class ToolbarWrapper {
 
     //region: 构造函数
 
-    public ToolbarWrapper(@NonNull final FragmentActivity fragmentActivity) {
+    public ToolbarWrapper(@NonNull final FragmentActivity fragmentActivity,
+                          @NonNull final OnToolbarProvider onToolbarProvider) {
         mFragmentActivity = fragmentActivity;
+        mOnToolbarProvider = onToolbarProvider;
     }
 
-    public final static ToolbarWrapper create(@NonNull final FragmentActivity fragmentActivity) {
-        return new ToolbarWrapper(fragmentActivity);
+    public final static ToolbarWrapper create(@NonNull final FragmentActivity fragmentActivity,
+                                              @NonNull final OnToolbarProvider onToolbarProvider) {
+        return new ToolbarWrapper(fragmentActivity, onToolbarProvider);
     }
 
     //endregion
@@ -75,6 +84,12 @@ public class ToolbarWrapper {
         // TODO: 2023/2/27 点击事件等
         mAppBarLayout = rootView.findViewById(R.id.app_bar);
         mCustomToolBar = rootView.findViewById(R.id.tool_bar);
+
+        if (mOnToolbarProvider != null) {
+            if (mOnToolbarProvider.isDisplayLeft()) {
+                mCustomToolBar.setupToolbarLeftLayout(mOnToolbarProvider.getLeftTextRes(), v -> mOnToolbarProvider.onToolbarLeftClick(v));
+            }
+        }
     }
 
     /**

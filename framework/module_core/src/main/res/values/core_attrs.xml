@@ -14,7 +14,11 @@
  limitations under the License.
 -->
 
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <attr format="reference" name="toolbarLeftIcon"/>
+    <attr format="reference" name="toolbarTitleColor"/>
+
     <declare-styleable name="SwipeBackLayout">
         <attr name="edge_flag">
             <enum name="left" value="0" />
@@ -43,4 +47,6 @@
         <attr name="leftFadingEdgeStrength" format="float" />
         <attr name="rightFadingEdgeStrength" format="float" />
     </declare-styleable>
+
+
 </resources>

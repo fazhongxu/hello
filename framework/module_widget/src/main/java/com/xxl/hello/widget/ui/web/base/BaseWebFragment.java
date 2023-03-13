@@ -23,7 +23,6 @@ import com.xxl.core.R;
 import com.xxl.core.ui.BaseViewModel;
 import com.xxl.core.ui.fragment.BaseViewModelFragment;
 import com.xxl.core.widget.toolbar.OnToolbarListener;
-import com.xxl.core.widget.web.AgentScrollWebView;
 import com.xxl.kit.ColorUtils;
 
 /**
@@ -114,7 +113,7 @@ public abstract class BaseWebFragment<V extends BaseViewModel, T extends ViewDat
         public void onReceivedTitle(WebView view, String title) {
             super.onReceivedTitle(view, title);
             if (mOnToolbarListener != null) {
-                mOnToolbarListener.setToolbarTitle(title);
+                mOnToolbarListener.setTitle(title);
             }
         }
     };

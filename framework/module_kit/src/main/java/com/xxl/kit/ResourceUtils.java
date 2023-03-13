@@ -44,6 +44,21 @@ public final class ResourceUtils {
         return typedValue.data;
     }
 
+
+    /**
+     * 获取属性的图标
+     *
+     * @param context
+     * @param attr
+     * @return
+     */
+    public static Drawable getAttrDrawable(Context context,
+                                           int attr) {
+        final TypedValue typedValue = new TypedValue();
+        context.getTheme().resolveAttribute(attr, typedValue, true);
+        return DrawableUtils.getDrawable(context, typedValue.resourceId);
+    }
+
     /**
      * Return the drawable by identifier.
      *

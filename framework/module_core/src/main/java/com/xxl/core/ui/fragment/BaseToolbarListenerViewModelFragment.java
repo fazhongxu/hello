@@ -7,6 +7,7 @@ import androidx.annotation.StringRes;
 import androidx.databinding.ViewDataBinding;
 
 import com.xxl.core.ui.BaseViewModel;
+import com.xxl.core.widget.toolbar.OnToolbarProvider;
 import com.xxl.core.widget.toolbar.ToolbarWrapper;
 
 /**
@@ -15,7 +16,8 @@ import com.xxl.core.widget.toolbar.ToolbarWrapper;
  * @author xxl.
  * @date 2022/4/8.
  */
-public abstract class BaseToolbarListenerViewModelFragment<V extends BaseViewModel, T extends ViewDataBinding> extends BaseViewModelFragment<V, T> {
+public abstract class BaseToolbarListenerViewModelFragment<V extends BaseViewModel, T extends ViewDataBinding> extends BaseViewModelFragment<V, T>
+        implements OnToolbarProvider {
 
     //region: 成员变量
 
@@ -30,7 +32,7 @@ public abstract class BaseToolbarListenerViewModelFragment<V extends BaseViewMod
 
     @Override
     public void setupLayout(@NonNull View rootView) {
-        mToolbarWrapper = ToolbarWrapper.create(getActivity());
+        mToolbarWrapper = ToolbarWrapper.create(getActivity(),this);
         mToolbarWrapper.setupToolbar(rootView);
     }
 
@@ -39,6 +41,7 @@ public abstract class BaseToolbarListenerViewModelFragment<V extends BaseViewMod
      *
      * @param title
      */
+    @Override
     public void setToolbarTitle(@NonNull CharSequence title) {
         if (mToolbarWrapper != null) {
             mToolbarWrapper.setToolbarTitle(title);
@@ -50,6 +53,7 @@ public abstract class BaseToolbarListenerViewModelFragment<V extends BaseViewMod
      *
      * @param resId
      */
+    @Override
     public void setToolbarTitle(@StringRes int resId) {
         if (mToolbarWrapper != null) {
             mToolbarWrapper.setToolbarTitle(resId);

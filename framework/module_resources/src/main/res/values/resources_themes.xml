@@ -4,6 +4,9 @@
     <!-- Base application theme. -->
     <style name="BaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
+        <item name="toolbarLeftIcon">@drawable/core_ic_left_arrow_white</item>
+        <item name="toolbarTitleColor">@color/resources_white_color</item>
+
         <item name="colorPrimary">@color/resources_primary_color</item>
         <item name="colorPrimaryDark">@color/resources_secondary_color</item>
         <item name="colorAccent">@color/resources_accent_color</item>

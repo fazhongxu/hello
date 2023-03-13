@@ -16,7 +16,7 @@ public interface OnToolbarListener {
      *
      * @param title
      */
-    default void setToolbarTitle(@NonNull CharSequence title){
+    default void setTitle(@NonNull CharSequence title) {
 
     }
 
@@ -25,16 +25,26 @@ public interface OnToolbarListener {
      *
      * @param resId
      */
-    default void setToolbarTitle(@StringRes int resId){
+    default void setTitle(@StringRes int resId) {
 
     }
+
+    /**
+     * 设置子标题
+     *
+     * @param title
+     */
+    default void setSubTitle(@NonNull CharSequence title) {
+
+    }
+
 
     /**
      * 左边按钮点击
      *
      * @param view
      */
-    default void onToobarLeftClick(View view) {
+    default void onLeftClick(View view) {
 
     }
 
@@ -43,7 +53,8 @@ public interface OnToolbarListener {
      *
      * @param view
      */
-    default void onToobarRightClick(View view) {
+    default void onRightClick(View view) {
 
     }
+
 }

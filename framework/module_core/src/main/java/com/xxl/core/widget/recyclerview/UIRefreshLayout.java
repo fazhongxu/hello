@@ -118,7 +118,7 @@ public class UIRefreshLayout extends SwipeRefreshLayout implements SwipeRefreshL
     }
 
     private void setupRefreshLayout() {
-        setColorSchemeColors(ColorUtils.getColor(R.color.resources_refresh_color));
+        setColorSchemeColors(ColorUtils.getColor(R.color.framework_core_refresh_color));
         setOnRefreshListener(this);
     }
 

@@ -1,6 +1,7 @@
 package com.xxl.core.ui.activity;
 
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -8,6 +9,7 @@ import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
 
 import com.xxl.core.R;
+import com.xxl.core.widget.toolbar.OnToolbarProvider;
 import com.xxl.core.widget.toolbar.ToolbarWrapper;
 import com.xxl.kit.DisplayUtils;
 import com.xxl.kit.StatusBarUtil;
@@ -18,7 +20,8 @@ import com.xxl.kit.StatusBarUtil;
  * @author xxl.
  * @date 2021/7/19.
  */
-public abstract class SingleFragmentBarActivity<F extends Fragment> extends SingleFragmentActivity<F> {
+public abstract class SingleFragmentBarActivity<F extends Fragment> extends SingleFragmentActivity<F>
+        implements OnToolbarProvider {
 
     //region: 成员变量
 
@@ -70,7 +73,7 @@ public abstract class SingleFragmentBarActivity<F extends Fragment> extends Sing
      * 设置toolbar
      */
     protected void setupToolbarLayout() {
-        mToolbarWrapper = ToolbarWrapper.create(this);
+        mToolbarWrapper = ToolbarWrapper.create(this, this);
         mToolbarWrapper.setupToolbar(findViewById(R.id.ll_root_container));
 
         if (getToolbarTitle() != 0) {
@@ -81,12 +84,18 @@ public abstract class SingleFragmentBarActivity<F extends Fragment> extends Sing
         mToolbarWrapper.setAppbarPadding(DisplayUtils.dp2px(this, 15), statusBarHeight - DisplayUtils.dp2px(this, 20), DisplayUtils.dp2px(this, 15), 0);
     }
 
+    @Override
+    public boolean isDisplayLeft() {
+        return true;
+    }
+
     /**
      * 设置标题
      *
      * @param title
      */
-    public void setToolbarTitle(@NonNull CharSequence title) {
+    @Override
+    public void setTitle(@NonNull CharSequence title) {
         if (mToolbarWrapper != null) {
             mToolbarWrapper.setToolbarTitle(title);
         }
@@ -97,10 +106,16 @@ public abstract class SingleFragmentBarActivity<F extends Fragment> extends Sing
      *
      * @param resId
      */
-    public void setToolbarTitle(@StringRes int resId) {
+    @Override
+    public void setTitle(@StringRes int resId) {
         if (mToolbarWrapper != null) {
             mToolbarWrapper.setToolbarTitle(resId);
         }
+    }
+
+    @Override
+    public void onToolbarLeftClick(View view) {
+        finish();
     }
 
     //endregion

@@ -34,6 +34,11 @@ public class MainActivity extends SingleFragmentBarActivity<MainFragment> {
     }
 
     @Override
+    public boolean isDisplayLeft() {
+        return false;
+    }
+
+    @Override
     protected boolean canDragBack() {
         return false;
     }
