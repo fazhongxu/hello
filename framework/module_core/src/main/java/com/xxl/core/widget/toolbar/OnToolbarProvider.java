@@ -25,7 +25,7 @@ public interface OnToolbarProvider {
      *
      * @return
      */
-    default String getLeftTextRes() {
+    default String getLeftText() {
         return "";
     }
 

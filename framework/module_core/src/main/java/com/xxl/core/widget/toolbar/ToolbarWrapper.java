@@ -8,7 +8,6 @@ import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.material.appbar.AppBarLayout;
 import com.xxl.core.R;
-import com.xxl.kit.StringUtils;
 
 /**
  * @author xxl.
@@ -87,7 +86,7 @@ public class ToolbarWrapper {
 
         if (mOnToolbarProvider != null) {
             if (mOnToolbarProvider.isDisplayLeft()) {
-                mCustomToolBar.setupToolbarLeftLayout(mOnToolbarProvider.getLeftTextRes(), v -> mOnToolbarProvider.onToolbarLeftClick(v));
+                mCustomToolBar.setupToolbarLeftLayout(mOnToolbarProvider.getLeftText(), v -> mOnToolbarProvider.onToolbarLeftClick(v));
             }
         }
     }
