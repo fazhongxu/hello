@@ -2,6 +2,7 @@ package com.xxl.kit;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -87,24 +88,64 @@ public class AppRouterApi {
     public static class Main {
 
         /**
-         * 导航到首页
+         * 跳转的下一个页面路径
          */
-        public static void navigation(@NonNull final Activity activity) {
-            RouterUtils.navigation(activity, MAIN_PATH);
-        }
+        public static final String PARAMS_KEY_NEXT_PATH = "params_key_next_path";
 
         /**
-         * 导航到首页
+         * 一些类似app离线情况下，拉起app，发现没登录或者没打开首页时，先打开登录或者打开首页，携带过来的数据
          */
-        public static void navigationWithFinish(@NonNull final Activity activity) {
-            RouterUtils.navigationWithFinish(activity, MAIN_PATH);
+        public static final String PARAMS_KEY_EXTRA_DATA = "params_key_extra_data";
+
+        public static Builder newBuilder() {
+            return new Builder();
         }
 
-        /**
-         * 导航到首页
-         */
-        public static void navigationAndClearTop() {
-            RouterUtils.navigationAndClearTop(MAIN_PATH);
+        public static class Builder {
+            Bundle mParams = new Bundle();
+
+            /**
+             * 设置跳转的下一个页面路径
+             *
+             * @param path
+             * @return
+             */
+            public Builder setNextPath(@NonNull final String path) {
+                mParams.putString(PARAMS_KEY_NEXT_PATH, path);
+                return this;
+            }
+
+            /**
+             * 设置跳转携带的数据
+             *
+             * @param data
+             * @return
+             */
+            public Builder setExtraData(@NonNull final String data) {
+                mParams.putString(PARAMS_KEY_EXTRA_DATA, data);
+                return this;
+            }
+
+            /**
+             * 导航到首页
+             */
+            public void navigation(@NonNull final Activity activity) {
+                RouterUtils.navigation(activity, MAIN_PATH, mParams);
+            }
+
+            /**
+             * 导航到首页
+             */
+            public void navigationWithFinish(@NonNull final Activity activity) {
+                RouterUtils.navigationWithFinish(activity, MAIN_PATH, mParams);
+            }
+
+            /**
+             * 导航到首页
+             */
+            public void navigationAndClearTop() {
+                RouterUtils.navigationAndClearTop(MAIN_PATH);
+            }
         }
     }
 

@@ -87,7 +87,7 @@ public class SplashFragment extends BaseViewModelFragment<SplashViewModel, MainF
                 return;
             }
             // TODO: 2022/4/2  模拟数据请求
-            AppRouterApi.Main.navigationWithFinish(getActivity());
+            AppRouterApi.Main.newBuilder().navigationWithFinish(getActivity());
         }, 200);
     }
 

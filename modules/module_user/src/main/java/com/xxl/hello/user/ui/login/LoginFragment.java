@@ -102,7 +102,7 @@ public class LoginFragment extends BaseViewModelFragment<LoginViewModel, UserFra
         if (RouterUtils.hasActivity(AppRouterApi.MAIN_PATH)) {
             AppRouterApi.Login.setActivityResult(getActivity());
         }else {
-            AppRouterApi.Main.navigationWithFinish(getActivity());
+            AppRouterApi.Main.newBuilder().navigationWithFinish(getActivity());
         }
     }
 

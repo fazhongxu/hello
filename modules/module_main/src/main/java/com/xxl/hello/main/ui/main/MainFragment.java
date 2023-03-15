@@ -12,6 +12,7 @@ import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.tbruyelle.rxpermissions3.RxPermissions;
 import com.xxl.core.aop.annotation.Safe;
 import com.xxl.core.media.audio.AudioCapture;
@@ -34,6 +35,7 @@ import com.xxl.hello.main.ui.main.adapter.TestListEntity;
 import com.xxl.hello.main.ui.main.window.PrivacyPolicyPopupWindow;
 import com.xxl.hello.service.data.model.api.QueryUserInfoResponse;
 import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
+import com.xxl.hello.service.handle.api.AppSchemeService;
 import com.xxl.hello.widget.ui.view.record.OnRecordListener;
 import com.xxl.hello.widget.ui.view.record.RecordButton;
 import com.xxl.kit.AppRouterApi;
@@ -73,6 +75,18 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
      */
     private MainViewModel mMainViewModel;
 
+    /**
+     * 携带到首页的数据
+     */
+    @Autowired(name = AppRouterApi.Main.PARAMS_KEY_NEXT_PATH)
+    String mNextPath;
+
+    /**
+     * 携带到首页的数据
+     */
+    @Autowired(name = AppRouterApi.Main.PARAMS_KEY_EXTRA_DATA)
+    String mExtraData;
+
     @Inject
     TestBindingAdapter mTestBindingAdapter;
 
@@ -81,6 +95,12 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
      */
     @Inject
     MainEventBusWrapper mMainEventBusWrapper;
+
+    /**
+     * Scheme 处理
+     */
+    @Inject
+    AppSchemeService mAppSchemeService;
 
     //endregion
 
@@ -116,6 +136,11 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
         mMainViewModel = createViewModel(MainViewModel.class);
         mMainViewModel.setNavigator(this);
         return mMainViewModel;
+    }
+
+    @Override
+    protected boolean enableRouterInject() {
+        return true;
     }
 
     @Override
@@ -172,6 +197,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     @Override
     protected void setupLayout(@NonNull final View view) {
         registerAppStatusChangedListener(this);
+        handleNavigationPath();
         mViewDataBinding.tvTest.setMovementMethod(LinkTouchMovementMethod.getInstance());
         mMainViewModel.setObservableUserId(String.valueOf(TimeUtils.currentServiceTimeMillis()));
         setupRecord();
@@ -336,6 +362,15 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
                     requestData();
                 })
                 .showPopupWindow();
+    }
+
+    /**
+     * 处理导航跳转路径
+     */
+    private void handleNavigationPath() {
+        if (!TextUtils.isEmpty(mNextPath)) {
+            //mAppSchemeService
+        }
     }
 
     /**
