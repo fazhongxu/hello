@@ -1,20 +1,20 @@
 package com.xxl.hello.main.ui.jump;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 
+import com.google.gson.JsonObject;
 import com.xxl.core.ui.fragment.BaseViewModelFragment;
-import com.xxl.core.utils.AppExpandUtils;
+import com.xxl.hello.common.config.AppConfig;
 import com.xxl.hello.main.BR;
 import com.xxl.hello.main.R;
 import com.xxl.hello.main.databinding.MainFragmentSchemeJumpBinding;
-import com.xxl.hello.router.api.UserRouterApi;
-import com.xxl.kit.AppRouterApi;
-import com.xxl.kit.LogUtils;
-import com.xxl.kit.RouterUtils;
+import com.xxl.hello.service.handle.api.AppSchemeService;
+
+import javax.inject.Inject;
 
 /**
  * scheme跳转处理页
@@ -31,6 +31,12 @@ public class SchemeJumpFragment extends BaseViewModelFragment<SchemeJumpViewMode
      * scheme跳转处理页视图模型
      */
     private SchemeJumpViewModel mSchemeJumpViewModel;
+
+    /**
+     * Scheme 处理
+     */
+    @Inject
+    AppSchemeService mAppSchemeService;
 
     //endregion
 
@@ -108,27 +114,18 @@ public class SchemeJumpFragment extends BaseViewModelFragment<SchemeJumpViewMode
 
     @Override
     protected void requestData() {
-        final boolean isLogged = !TextUtils.isEmpty(AppExpandUtils.getCurrentUserId());
-        if (isLogged) {
-            if (RouterUtils.hasActivity(AppRouterApi.MAIN_PATH)) {
-                // 直接跳转到目标页
-                LogUtils.d("Scheme 已登录 主页已经启动 ");
-                UserRouterApi.UserSetting.navigationWithFinish(getActivity());
-            } else {
-                // 先跳转打开主页，再跳转到目标页 携带数据跳转过去再跳转到具体页
-                LogUtils.d("Scheme 已登录 主页还没启动");
-                AppRouterApi.Splash.navigationAndClearTop();
+        Intent intent = getActivity().getIntent();
+        if (intent != null && intent.getDataString() != null) {
+            //hl://hello.com/user_setting
+            String payload = "";
+            if (!intent.getDataString().contains(AppConfig.APP_DEFAULT_SCHEME)) {
+                JsonObject jsonObject = new JsonObject();
+                jsonObject.addProperty(AppConfig.APP_DEFAULT_SCHEME,intent.getDataString());
+                payload = jsonObject.toString();
             }
-        } else {
-            if (RouterUtils.hasActivity(AppRouterApi.MAIN_PATH)) {
-                // 先跳转登录页，再跳转到目标页
-                LogUtils.d("Scheme 未登录 主页已经启动");
-            } else {
-                // 先跳转打开主页，再跳转登录页，再跳转到目标页
-                LogUtils.d("Scheme 未登录 主页还没启动");
-            }
-            AppRouterApi.Login.navigationWithFinish(getActivity());
+            mAppSchemeService.navigationToScheme(getActivity(),payload,true);
         }
+        getActivity().finish();
     }
 
     //endregion

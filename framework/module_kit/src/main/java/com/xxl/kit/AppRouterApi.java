@@ -57,27 +57,62 @@ public class AppRouterApi {
     //region: 启动页路由相关
 
     public static class Splash {
-        /**
-         * 导航到首页
-         */
-        public static void navigation() {
-            RouterUtils.navigationWithFlag(SPLASH_PATH, Intent.FLAG_ACTIVITY_NEW_TASK);
-        }
+
 
         /**
-         * 导航到首页
+         * 跳转的下一个页面路径
          */
-        public static void navigationAndClearTop() {
-            RouterUtils.navigationAndClearTop(SPLASH_PATH);
-        }
+        public static final String PARAMS_KEY_NEXT_PATH = "params_key_next_path";
 
         /**
-         * 导航到首页
+         * 携带过来的数据
          */
-        public static void navigationAndClearTop(@NonNull final String navigationPath,
-                                                 @NonNull final String data) {
-            // TODO: 2023/1/6
-            RouterUtils.navigationAndClearTop(SPLASH_PATH);
+        public static final String PARAMS_KEY_EXTRA_DATA = "params_key_extra_data";
+
+        public static Builder newBuilder() {
+            return new Builder();
+        }
+
+        public static class Builder {
+
+            Bundle mParams = new Bundle();
+
+
+            /**
+             * 设置跳转的下一个页面路径
+             *
+             * @param path
+             * @return
+             */
+            public Builder setNextPath(@NonNull final String path) {
+                mParams.putString(PARAMS_KEY_NEXT_PATH, path);
+                return this;
+            }
+
+            /**
+             * 设置跳转携带的数据
+             *
+             * @param data
+             * @return
+             */
+            public Builder setExtraData(@NonNull final String data) {
+                mParams.putString(PARAMS_KEY_EXTRA_DATA, data);
+                return this;
+            }
+
+            /**
+             * 导航到首页
+             */
+            public void navigation() {
+                RouterUtils.navigationWithFlag(SPLASH_PATH, Intent.FLAG_ACTIVITY_NEW_TASK);
+            }
+
+            /**
+             * 导航到首页
+             */
+            public void navigationAndClearTop() {
+                RouterUtils.navigationAndClearTop(SPLASH_PATH,mParams);
+            }
         }
     }
 
@@ -144,7 +179,7 @@ public class AppRouterApi {
              * 导航到首页
              */
             public void navigationAndClearTop() {
-                RouterUtils.navigationAndClearTop(MAIN_PATH);
+                RouterUtils.navigationAndClearTop(MAIN_PATH,mParams);
             }
         }
     }

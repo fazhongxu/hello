@@ -53,11 +53,15 @@ public class AppSchemeServiceImpl implements AppSchemeService {
                 JSONObject jsonObject = new JSONObject(payload);
                 String scheme = jsonObject.getString(AppConfig.APP_DEFAULT_SCHEME);
                 if (!TextUtils.isEmpty(scheme)) {
-                    boolean isLogged = TextUtils.isEmpty(AppExpandUtils.getCurrentUserId()) && RouterUtils.hasActivity(AppRouterApi.MAIN_PATH);
+                    boolean isLogged = !TextUtils.isEmpty(AppExpandUtils.getCurrentUserId()) && RouterUtils.hasActivity(AppRouterApi.MAIN_PATH);
                     if (isLogged) {
                         return navigation(context, scheme, true);
                     } else {
-                        AppRouterApi.Splash.navigationAndClearTop(scheme, scheme);
+                        AppRouterApi.Splash.newBuilder()
+                                .setNextPath(scheme)
+                                .setExtraData(scheme)
+                                .navigationAndClearTop();
+                        return true;
                     }
                 }
             } catch (Exception e) {
@@ -83,7 +87,7 @@ public class AppSchemeServiceImpl implements AppSchemeService {
             final String targetPath = targetUri.getPath();
             final SchemeHandle schemeHandle = SCHEME_HANDLES.get(targetPath);
             if (schemeHandle != null) {
-                schemeHandle.handle(context, targetUri, isToast);
+                return schemeHandle.handle(context, targetUri, isToast);
             } else {
                 if (isToast) {
                     ToastUtils.warning(R.string.resources_can_not_parse_link_tips).show();

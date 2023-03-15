@@ -25,6 +25,7 @@ import com.xxl.core.utils.AppExpandUtils;
 import com.xxl.core.utils.DecorationUtils;
 import com.xxl.core.widget.recyclerview.OnRefreshDataListener;
 import com.xxl.core.widget.text.LinkTouchMovementMethod;
+import com.xxl.hello.common.config.AppConfig;
 import com.xxl.hello.common.config.CacheDirConfig;
 import com.xxl.hello.main.BR;
 import com.xxl.hello.main.R;
@@ -76,7 +77,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     private MainViewModel mMainViewModel;
 
     /**
-     * 携带到首页的数据
+     * 携带到首页跳转下个页面的路径
      */
     @Autowired(name = AppRouterApi.Main.PARAMS_KEY_NEXT_PATH)
     String mNextPath;
@@ -369,7 +370,13 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
      */
     private void handleNavigationPath() {
         if (!TextUtils.isEmpty(mNextPath)) {
-            //mAppSchemeService
+            if (StringUtils.containsIgnoreCase(mNextPath, AppConfig.APP_DEFAULT_SCHEME)) {
+                // 由于demo不是必须登录的，避免循环跳转，暂时不处理，实际项目需要登录才能用时，需要处理
+                //mAppSchemeService.navigationToScheme(getActivity(), mExtraData, true);
+                mNextPath = null;
+                mExtraData = null;
+            }
+
         }
     }
 

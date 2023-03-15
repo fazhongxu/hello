@@ -1,14 +1,17 @@
 package com.xxl.hello.main.ui.splash;
 
+import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 
+import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.xxl.core.ui.fragment.BaseViewModelFragment;
 import com.xxl.hello.main.BR;
 import com.xxl.hello.main.R;
 import com.xxl.hello.main.databinding.MainFragmentBinding;
+import com.xxl.hello.main.ui.main.MainFragment;
 import com.xxl.kit.AppRouterApi;
 
 /**
@@ -19,8 +22,26 @@ public class SplashFragment extends BaseViewModelFragment<SplashViewModel, MainF
 
     //region: 构造函数
 
-    public final static SplashFragment newInstance() {
-        return new SplashFragment();
+    /**
+     * 下一个跳转路径
+     */
+    @Autowired(name = AppRouterApi.Splash.PARAMS_KEY_NEXT_PATH)
+    String mNextPath;
+
+    /**
+     * 数据
+     */
+    @Autowired(name = AppRouterApi.Splash.PARAMS_KEY_EXTRA_DATA)
+    String mExtraData;
+
+    //endregion
+
+    //region: 构造函数
+
+    public final static SplashFragment newInstance(@NonNull final Bundle bundle) {
+        final SplashFragment splashFragment = new SplashFragment();
+        splashFragment.setArguments(bundle);
+        return splashFragment;
     }
 
     //endregion
@@ -45,6 +66,11 @@ public class SplashFragment extends BaseViewModelFragment<SplashViewModel, MainF
     @Override
     protected SplashViewModel createViewModel() {
         return null;
+    }
+
+    @Override
+    protected boolean enableRouterInject() {
+        return true;
     }
 
     /**
@@ -87,7 +113,10 @@ public class SplashFragment extends BaseViewModelFragment<SplashViewModel, MainF
                 return;
             }
             // TODO: 2022/4/2  模拟数据请求
-            AppRouterApi.Main.newBuilder().navigationWithFinish(getActivity());
+            AppRouterApi.Main.newBuilder()
+                    .setNextPath(mNextPath)
+                    .setExtraData(mExtraData)
+                    .navigationWithFinish(getActivity());
         }, 200);
     }
 

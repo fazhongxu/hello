@@ -28,7 +28,7 @@ public class SplashActivity extends SingleFragmentActivity<SplashFragment> {
      */
     @Override
     public SplashFragment createFragment() {
-        return SplashFragment.newInstance();
+        return SplashFragment.newInstance(getExtras());
     }
 
     @Override

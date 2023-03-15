@@ -174,8 +174,10 @@ public class RouterUtils {
      * 跳转到指定页面并清除栈顶的其他页面
      *
      * @param path
+     * @param data
      */
-    public static void navigationAndClearTop(@NonNull final String path) {
+    public static void navigationAndClearTop(@NonNull final String path,
+                                             @NonNull final Bundle data) {
         final List<Activity> waitClearActivities = new ArrayList<>();
         final List<Activity> activities = AppUtils.getActivityList();
         final Class<?> destination = getDestination(path);
@@ -189,6 +191,7 @@ public class RouterUtils {
             }
         }
         buildPostcard(path)
+                .with(data)
                 .navigation(AppUtils.getApplication(), new NavCallback() {
                     @Override
                     public void onArrival(Postcard postcard) {

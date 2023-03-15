@@ -224,7 +224,7 @@ public class AppUtils {
                 }
             }
         }
-        AppRouterApi.Splash.navigation();
+        AppRouterApi.Splash.newBuilder().navigation();
         Process.killProcess(Process.myPid());
         System.exit(1);
     }
