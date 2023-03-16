@@ -1,5 +1,12 @@
-# hello_nexus
-hello_nexus
+
+[项目app层结构](https://github.com/fazhongxu/hello/blob/feature/mvvm/app/app.deps.txt)
+
+[项目framework层结构](https://github.com/fazhongxu/hello/blob/feature/mvvm/app/framework_deps.deps.txt)
+
+[项目modules业务层结构](https://github.com/fazhongxu/hello/blob/feature/mvvm/app/modules.deps.txt)
+
+# hello
+hello
 
 1.安装nexus，配置好环境变量
 
@@ -69,9 +76,10 @@ uploadArchives {
  gradlew app:dependencies >app/build/deps.txt
 
  查看本地模块依赖关系 并输出log到指定txt文件 grep 正则过滤一下
- gradlew :app:dependencies | grep project > app/build/deps.txt
+ .gradlew :app:dependencies | grep project > app/build/deps.txt
 
  ./gradlew :app:dependencies | grep framework >app/framework_deps.txt
+
  ./gradlew :app:dependencies | grep modules >app/modules_deps.txt
 
 
