@@ -1,0 +1,314 @@
++--- project :framework:module_core
++--- project :framework:module_service
++--- project :framework:module_common
++--- project :framework:module_resources
++--- project :framework:module_widget
++--- project :framework:module_router
++--- project :framework:module_annotation
++--- project :framework:module_core
+|    +--- project :framework:module_kit
++--- project :framework:module_service
+|    +--- project :framework:module_core (*)
+|    +--- project :framework:module_kit (*)
+|    +--- project :framework:module_common
+|    |    +--- project :framework:module_core (*)
+|    |    +--- project :framework:module_kit (*)
+|    |    \--- project :framework:module_resources
+|    |         \--- project :framework:module_core (*)
+|    +--- project :framework:module_resources (*)
+|    \--- project :framework:module_router
+|         +--- project :framework:module_core (*)
+|         +--- project :framework:module_kit (*)
+|         \--- project :framework:module_resources (*)
++--- project :framework:module_common (*)
++--- project :framework:module_resources (*)
++--- project :framework:module_widget
+|    +--- project :framework:module_core (*)
+|    +--- project :framework:module_kit (*)
+|    +--- project :framework:module_resources (*)
+|    +--- project :framework:module_service (*)
+|    \--- project :framework:module_common (*)
++--- project :framework:module_router (*)
++--- project :framework:module_annotation
+|    +--- project :framework:module_core (*)
+|    +--- project :framework:module_kit (*)
+|    +--- project :framework:module_service (*)
+|    +--- project :framework:module_common (*)
+|    +--- project :framework:module_router (*)
+|    +--- project :framework:module_widget (*)
+|    +--- project :framework:module_resources (*)
+|    +--- project :framework:module_annotation
+|         +--- project :framework:module_core (*)
+|         +--- project :framework:module_kit (*)
+|         +--- project :framework:module_service (*)
+|         +--- project :framework:module_common (*)
+|         +--- project :framework:module_router (*)
+|         +--- project :framework:module_widget (*)
+|         +--- project :framework:module_resources (*)
+|         +--- project :framework:module_annotation
+     |    |    +--- org.checkerframework:checker-qual:2.8.1
++--- project :framework:module_core
++--- project :framework:module_service
++--- project :framework:module_common
++--- project :framework:module_resources
++--- project :framework:module_widget
++--- project :framework:module_router
++--- project :framework:module_annotation
++--- project :framework:module_core FAILED
++--- project :framework:module_service FAILED
++--- project :framework:module_common FAILED
++--- project :framework:module_resources FAILED
++--- project :framework:module_widget FAILED
++--- project :framework:module_router FAILED
++--- project :framework:module_annotation
++--- project :framework:module_core
+|    +--- project :framework:module_kit
++--- project :framework:module_service
+|    +--- project :framework:module_core (*)
+|    +--- project :framework:module_kit (*)
+|    +--- project :framework:module_common
+|    |    +--- project :framework:module_core (*)
+|    |    +--- project :framework:module_kit (*)
+|    |    \--- project :framework:module_resources
+|    |         \--- project :framework:module_core (*)
+|    +--- project :framework:module_resources (*)
+|    \--- project :framework:module_router
+|         +--- project :framework:module_core (*)
+|         +--- project :framework:module_kit (*)
+|         \--- project :framework:module_resources (*)
++--- project :framework:module_common (*)
++--- project :framework:module_resources (*)
++--- project :framework:module_widget
+|    +--- project :framework:module_core (*)
+|    +--- project :framework:module_kit (*)
+|    +--- project :framework:module_resources (*)
+|    +--- project :framework:module_service (*)
+|    \--- project :framework:module_common (*)
++--- project :framework:module_router (*)
++--- project :framework:module_annotation
+|    +--- project :framework:module_core (*)
+|    +--- project :framework:module_kit (*)
+|    +--- project :framework:module_service (*)
+|    +--- project :framework:module_common (*)
+|    +--- project :framework:module_router (*)
+|    +--- project :framework:module_widget (*)
+|    +--- project :framework:module_resources (*)
+|    +--- project :framework:module_annotation
+|         +--- project :framework:module_core (*)
+|         +--- project :framework:module_kit (*)
+|         +--- project :framework:module_service (*)
+|         +--- project :framework:module_common (*)
+|         +--- project :framework:module_router (*)
+|         +--- project :framework:module_widget (*)
+|         +--- project :framework:module_resources (*)
+|         +--- project :framework:module_annotation
++--- project :framework:module_core
++--- project :framework:module_service
++--- project :framework:module_common
++--- project :framework:module_resources
++--- project :framework:module_widget
++--- project :framework:module_router
++--- project :framework:module_annotation
++--- project :framework:module_core
+|    +--- project :framework:module_kit
++--- project :framework:module_service
+|    +--- project :framework:module_core (*)
+|    +--- project :framework:module_kit (*)
+|    +--- project :framework:module_common
+|    |    +--- project :framework:module_core (*)
+|    |    +--- project :framework:module_kit (*)
+|    |    \--- project :framework:module_resources
+|    |         \--- project :framework:module_core (*)
+|    +--- project :framework:module_resources (*)
+|    \--- project :framework:module_router
+|         +--- project :framework:module_core (*)
+|         +--- project :framework:module_kit (*)
+|         \--- project :framework:module_resources (*)
++--- project :framework:module_common (*)
++--- project :framework:module_resources (*)
++--- project :framework:module_widget
+|    +--- project :framework:module_core (*)
+|    +--- project :framework:module_kit (*)
+|    +--- project :framework:module_resources (*)
+|    +--- project :framework:module_service (*)
+|    \--- project :framework:module_common (*)
++--- project :framework:module_router (*)
++--- project :framework:module_annotation
+|    +--- project :framework:module_core (*)
+|    +--- project :framework:module_kit (*)
+|    +--- project :framework:module_service (*)
+|    +--- project :framework:module_common (*)
+|    +--- project :framework:module_router (*)
+|    +--- project :framework:module_widget (*)
+|    +--- project :framework:module_resources (*)
+|    +--- project :framework:module_annotation
+|         +--- project :framework:module_core (*)
+|         +--- project :framework:module_kit (*)
+|         +--- project :framework:module_service (*)
+|         +--- project :framework:module_common (*)
+|         +--- project :framework:module_router (*)
+|         +--- project :framework:module_widget (*)
+|         +--- project :framework:module_resources (*)
+|         +--- project :framework:module_annotation
++--- project :framework:module_core FAILED
++--- project :framework:module_service FAILED
++--- project :framework:module_common FAILED
++--- project :framework:module_resources FAILED
++--- project :framework:module_widget FAILED
++--- project :framework:module_router FAILED
++--- project :framework:module_annotation
++--- project :framework:module_compiler
+|    +--- project :framework:module_annotation
+|    |    |         +--- org.checkerframework:checker-qual:2.8.1
+|    |    \--- org.checkerframework:checker-compat-qual:2.5.3
+|    +--- org.checkerframework:checker-compat-qual:2.5.3
++--- project :framework:module_compiler
+|    +--- project :framework:module_annotation
+|    |    |         +--- org.checkerframework:checker-qual:2.8.1
+|    |    \--- org.checkerframework:checker-compat-qual:2.5.3
+|    +--- org.checkerframework:checker-compat-qual:2.5.3
++--- project :framework:module_compiler
+|    +--- project :framework:module_annotation
+|    |    |         +--- org.checkerframework:checker-qual:2.8.1
+|    |    \--- org.checkerframework:checker-compat-qual:2.5.3
+|    +--- org.checkerframework:checker-compat-qual:2.5.3
++--- project :framework:module_compiler
+|    +--- project :framework:module_annotation
+|    |    |         +--- org.checkerframework:checker-qual:2.8.1
+|    |    \--- org.checkerframework:checker-compat-qual:2.5.3
+|    +--- org.checkerframework:checker-compat-qual:2.5.3
++--- project :framework:module_compiler
+|    +--- project :framework:module_annotation
+|    |    |         +--- org.checkerframework:checker-qual:2.8.1
+|    |    \--- org.checkerframework:checker-compat-qual:2.5.3
+|    +--- org.checkerframework:checker-compat-qual:2.5.3
++--- project :framework:module_compiler
+|    +--- project :framework:module_annotation
+|    |    |         +--- org.checkerframework:checker-qual:2.8.1
+|    |    \--- org.checkerframework:checker-compat-qual:2.5.3
+|    +--- org.checkerframework:checker-compat-qual:2.5.3
++--- project :framework:module_compiler
+|    +--- project :framework:module_annotation
+|    |    |         +--- org.checkerframework:checker-qual:2.8.1
+|    |    \--- org.checkerframework:checker-compat-qual:2.5.3
+|    +--- org.checkerframework:checker-compat-qual:2.5.3
++--- project :framework:module_compiler
+|    +--- project :framework:module_annotation
+|    |    |         +--- org.checkerframework:checker-qual:2.8.1
+|    |    \--- org.checkerframework:checker-compat-qual:2.5.3
+|    +--- org.checkerframework:checker-compat-qual:2.5.3
++--- project :framework:module_compiler
+|    +--- project :framework:module_annotation
+|    |    |         +--- org.checkerframework:checker-qual:2.8.1
+|    |    \--- org.checkerframework:checker-compat-qual:2.5.3
+|    +--- org.checkerframework:checker-compat-qual:2.5.3
++--- project :framework:module_compiler
+|    +--- project :framework:module_annotation
+|    |    |         +--- org.checkerframework:checker-qual:2.8.1
+|    |    \--- org.checkerframework:checker-compat-qual:2.5.3
+|    +--- org.checkerframework:checker-compat-qual:2.5.3
+     |    |    |    |    |    +--- org.checkerframework:checker-qual:2.8.1
+     |    |    +--- org.checkerframework:checker-qual:2.8.1
++--- project :framework:module_core
++--- project :framework:module_service
++--- project :framework:module_common
++--- project :framework:module_resources
++--- project :framework:module_widget
++--- project :framework:module_router
++--- project :framework:module_annotation
++--- project :framework:module_core FAILED
++--- project :framework:module_service FAILED
++--- project :framework:module_common FAILED
++--- project :framework:module_resources FAILED
++--- project :framework:module_widget FAILED
++--- project :framework:module_router FAILED
++--- project :framework:module_annotation
++--- project :framework:module_core
+|    +--- project :framework:module_kit
++--- project :framework:module_service
+|    +--- project :framework:module_core (*)
+|    +--- project :framework:module_kit (*)
+|    +--- project :framework:module_common
+|    |    +--- project :framework:module_core (*)
+|    |    +--- project :framework:module_kit (*)
+|    |    \--- project :framework:module_resources
+|    |         \--- project :framework:module_core (*)
+|    +--- project :framework:module_resources (*)
+|    \--- project :framework:module_router
+|         +--- project :framework:module_core (*)
+|         +--- project :framework:module_kit (*)
+|         \--- project :framework:module_resources (*)
++--- project :framework:module_common (*)
++--- project :framework:module_resources (*)
++--- project :framework:module_widget
+|    +--- project :framework:module_core (*)
+|    +--- project :framework:module_kit (*)
+|    +--- project :framework:module_resources (*)
+|    +--- project :framework:module_service (*)
+|    \--- project :framework:module_common (*)
++--- project :framework:module_router (*)
++--- project :framework:module_annotation
+|    +--- project :framework:module_core (*)
+|    +--- project :framework:module_kit (*)
+|    +--- project :framework:module_service (*)
+|    +--- project :framework:module_common (*)
+|    +--- project :framework:module_router (*)
+|    +--- project :framework:module_widget (*)
+|    +--- project :framework:module_resources (*)
+|    +--- project :framework:module_annotation
+|         +--- project :framework:module_core (*)
+|         +--- project :framework:module_kit (*)
+|         +--- project :framework:module_service (*)
+|         +--- project :framework:module_common (*)
+|         +--- project :framework:module_router (*)
+|         +--- project :framework:module_widget (*)
+|         +--- project :framework:module_resources (*)
+|         +--- project :framework:module_annotation
++--- project :framework:module_core
++--- project :framework:module_service
++--- project :framework:module_common
++--- project :framework:module_resources
++--- project :framework:module_widget
++--- project :framework:module_router
++--- project :framework:module_annotation
++--- project :framework:module_core
+|    +--- project :framework:module_kit
++--- project :framework:module_service
+|    +--- project :framework:module_core (*)
+|    +--- project :framework:module_kit (*)
+|    +--- project :framework:module_common
+|    |    +--- project :framework:module_core (*)
+|    |    +--- project :framework:module_kit (*)
+|    |    \--- project :framework:module_resources
+|    |         \--- project :framework:module_core (*)
+|    +--- project :framework:module_resources (*)
+|    \--- project :framework:module_router
+|         +--- project :framework:module_core (*)
+|         +--- project :framework:module_kit (*)
+|         \--- project :framework:module_resources (*)
++--- project :framework:module_common (*)
++--- project :framework:module_resources (*)
++--- project :framework:module_widget
+|    +--- project :framework:module_core (*)
+|    +--- project :framework:module_kit (*)
+|    +--- project :framework:module_resources (*)
+|    +--- project :framework:module_service (*)
+|    \--- project :framework:module_common (*)
++--- project :framework:module_router (*)
++--- project :framework:module_annotation
+|    +--- project :framework:module_core (*)
+|    +--- project :framework:module_kit (*)
+|    +--- project :framework:module_service (*)
+|    +--- project :framework:module_common (*)
+|    +--- project :framework:module_router (*)
+|    +--- project :framework:module_widget (*)
+|    +--- project :framework:module_resources (*)
+|    +--- project :framework:module_annotation
+|         +--- project :framework:module_core (*)
+|         +--- project :framework:module_kit (*)
+|         +--- project :framework:module_service (*)
+|         +--- project :framework:module_common (*)
+|         +--- project :framework:module_router (*)
+|         +--- project :framework:module_widget (*)
+|         +--- project :framework:module_resources (*)
+|         +--- project :framework:module_annotation

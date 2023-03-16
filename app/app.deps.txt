@@ -1,0 +1,345 @@
++--- project :framework:module_core
++--- project :framework:module_service
++--- project :framework:module_common
++--- project :framework:module_resources
++--- project :framework:module_widget
++--- project :framework:module_router
++--- project :framework:module_annotation
++--- project :modules:module_main
++--- project :modules:module_user
++--- project :module_libs:lib_ffmpeg
++--- project :framework:module_core
+|    +--- project :framework:module_kit
++--- project :framework:module_service
+|    +--- project :framework:module_core (*)
+|    +--- project :framework:module_kit (*)
+|    +--- project :framework:module_common
+|    |    +--- project :framework:module_core (*)
+|    |    +--- project :framework:module_kit (*)
+|    |    \--- project :framework:module_resources
+|    |         \--- project :framework:module_core (*)
+|    +--- project :framework:module_resources (*)
+|    \--- project :framework:module_router
+|         +--- project :framework:module_core (*)
+|         +--- project :framework:module_kit (*)
+|         \--- project :framework:module_resources (*)
++--- project :framework:module_common (*)
++--- project :framework:module_resources (*)
++--- project :framework:module_widget
+|    +--- project :framework:module_core (*)
+|    +--- project :framework:module_kit (*)
+|    +--- project :framework:module_resources (*)
+|    +--- project :framework:module_service (*)
+|    \--- project :framework:module_common (*)
++--- project :framework:module_router (*)
++--- project :framework:module_annotation
++--- project :modules:module_main
+|    +--- project :framework:module_core (*)
+|    +--- project :framework:module_kit (*)
+|    +--- project :framework:module_service (*)
+|    +--- project :framework:module_common (*)
+|    +--- project :framework:module_router (*)
+|    +--- project :framework:module_widget (*)
+|    +--- project :framework:module_resources (*)
+|    +--- project :framework:module_annotation
+|    +--- project :module_libs:lib_ffmpeg
+|    \--- project :modules:module_user
+|         +--- project :framework:module_core (*)
+|         +--- project :framework:module_kit (*)
+|         +--- project :framework:module_service (*)
+|         +--- project :framework:module_common (*)
+|         +--- project :framework:module_router (*)
+|         +--- project :framework:module_widget (*)
+|         +--- project :framework:module_resources (*)
+|         +--- project :framework:module_annotation
+|         +--- project :module_libs:lib_ffmpeg
++--- project :modules:module_user (*)
++--- project :module_libs:lib_ffmpeg
++--- project :framework:module_core
++--- project :framework:module_service
++--- project :framework:module_common
++--- project :framework:module_resources
++--- project :framework:module_widget
++--- project :framework:module_router
++--- project :framework:module_annotation
++--- project :modules:module_main
++--- project :modules:module_user
++--- project :module_libs:lib_ffmpeg
++--- project :framework:module_core FAILED
++--- project :framework:module_service FAILED
++--- project :framework:module_common FAILED
++--- project :framework:module_resources FAILED
++--- project :framework:module_widget FAILED
++--- project :framework:module_router FAILED
++--- project :framework:module_annotation
++--- project :modules:module_main FAILED
++--- project :modules:module_user FAILED
++--- project :module_libs:lib_ffmpeg
++--- project :framework:module_core
+|    +--- project :framework:module_kit
++--- project :framework:module_service
+|    +--- project :framework:module_core (*)
+|    +--- project :framework:module_kit (*)
+|    +--- project :framework:module_common
+|    |    +--- project :framework:module_core (*)
+|    |    +--- project :framework:module_kit (*)
+|    |    \--- project :framework:module_resources
+|    |         \--- project :framework:module_core (*)
+|    +--- project :framework:module_resources (*)
+|    \--- project :framework:module_router
+|         +--- project :framework:module_core (*)
+|         +--- project :framework:module_kit (*)
+|         \--- project :framework:module_resources (*)
++--- project :framework:module_common (*)
++--- project :framework:module_resources (*)
++--- project :framework:module_widget
+|    +--- project :framework:module_core (*)
+|    +--- project :framework:module_kit (*)
+|    +--- project :framework:module_resources (*)
+|    +--- project :framework:module_service (*)
+|    \--- project :framework:module_common (*)
++--- project :framework:module_router (*)
++--- project :framework:module_annotation
++--- project :modules:module_main
+|    +--- project :framework:module_core (*)
+|    +--- project :framework:module_kit (*)
+|    +--- project :framework:module_service (*)
+|    +--- project :framework:module_common (*)
+|    +--- project :framework:module_router (*)
+|    +--- project :framework:module_widget (*)
+|    +--- project :framework:module_resources (*)
+|    +--- project :framework:module_annotation
+|    +--- project :module_libs:lib_ffmpeg
+|    \--- project :modules:module_user
+|         +--- project :framework:module_core (*)
+|         +--- project :framework:module_kit (*)
+|         +--- project :framework:module_service (*)
+|         +--- project :framework:module_common (*)
+|         +--- project :framework:module_router (*)
+|         +--- project :framework:module_widget (*)
+|         +--- project :framework:module_resources (*)
+|         +--- project :framework:module_annotation
+|         +--- project :module_libs:lib_ffmpeg
++--- project :modules:module_user (*)
++--- project :module_libs:lib_ffmpeg
++--- project :framework:module_core
++--- project :framework:module_service
++--- project :framework:module_common
++--- project :framework:module_resources
++--- project :framework:module_widget
++--- project :framework:module_router
++--- project :framework:module_annotation
++--- project :modules:module_main
++--- project :modules:module_user
++--- project :module_libs:lib_ffmpeg
++--- project :framework:module_core
+|    +--- project :framework:module_kit
++--- project :framework:module_service
+|    +--- project :framework:module_core (*)
+|    +--- project :framework:module_kit (*)
+|    +--- project :framework:module_common
+|    |    +--- project :framework:module_core (*)
+|    |    +--- project :framework:module_kit (*)
+|    |    \--- project :framework:module_resources
+|    |         \--- project :framework:module_core (*)
+|    +--- project :framework:module_resources (*)
+|    \--- project :framework:module_router
+|         +--- project :framework:module_core (*)
+|         +--- project :framework:module_kit (*)
+|         \--- project :framework:module_resources (*)
++--- project :framework:module_common (*)
++--- project :framework:module_resources (*)
++--- project :framework:module_widget
+|    +--- project :framework:module_core (*)
+|    +--- project :framework:module_kit (*)
+|    +--- project :framework:module_resources (*)
+|    +--- project :framework:module_service (*)
+|    \--- project :framework:module_common (*)
++--- project :framework:module_router (*)
++--- project :framework:module_annotation
++--- project :modules:module_main
+|    +--- project :framework:module_core (*)
+|    +--- project :framework:module_kit (*)
+|    +--- project :framework:module_service (*)
+|    +--- project :framework:module_common (*)
+|    +--- project :framework:module_router (*)
+|    +--- project :framework:module_widget (*)
+|    +--- project :framework:module_resources (*)
+|    +--- project :framework:module_annotation
+|    +--- project :module_libs:lib_ffmpeg
+|    \--- project :modules:module_user
+|         +--- project :framework:module_core (*)
+|         +--- project :framework:module_kit (*)
+|         +--- project :framework:module_service (*)
+|         +--- project :framework:module_common (*)
+|         +--- project :framework:module_router (*)
+|         +--- project :framework:module_widget (*)
+|         +--- project :framework:module_resources (*)
+|         +--- project :framework:module_annotation
+|         +--- project :module_libs:lib_ffmpeg
++--- project :modules:module_user (*)
++--- project :module_libs:lib_ffmpeg
++--- project module_core (n)
++--- project module_service (n)
++--- project module_common (n)
++--- project module_resources (n)
++--- project module_widget (n)
++--- project module_router (n)
++--- project module_annotation (n)
++--- project module_main (n)
++--- project module_user (n)
++--- project lib_ffmpeg (n)
++--- project :framework:module_core FAILED
++--- project :framework:module_service FAILED
++--- project :framework:module_common FAILED
++--- project :framework:module_resources FAILED
++--- project :framework:module_widget FAILED
++--- project :framework:module_router FAILED
++--- project :framework:module_annotation
++--- project :modules:module_main FAILED
++--- project :modules:module_user FAILED
++--- project :module_libs:lib_ffmpeg
++--- project :framework:module_compiler
+|    +--- project :framework:module_annotation
++--- project :framework:module_compiler
+|    +--- project :framework:module_annotation
++--- project :framework:module_compiler
+|    +--- project :framework:module_annotation
++--- project :framework:module_compiler
+|    +--- project :framework:module_annotation
++--- project :framework:module_compiler
+|    +--- project :framework:module_annotation
++--- project :framework:module_compiler
+|    +--- project :framework:module_annotation
++--- project :framework:module_compiler
+|    +--- project :framework:module_annotation
++--- project :framework:module_compiler
+|    +--- project :framework:module_annotation
++--- project :framework:module_compiler
+|    +--- project :framework:module_annotation
++--- project :framework:module_compiler
+|    +--- project :framework:module_annotation
++--- project :framework:module_core
++--- project :framework:module_service
++--- project :framework:module_common
++--- project :framework:module_resources
++--- project :framework:module_widget
++--- project :framework:module_router
++--- project :framework:module_annotation
++--- project :modules:module_main
++--- project :modules:module_user
++--- project :module_libs:lib_ffmpeg
++--- project :framework:module_core FAILED
++--- project :framework:module_service FAILED
++--- project :framework:module_common FAILED
++--- project :framework:module_resources FAILED
++--- project :framework:module_widget FAILED
++--- project :framework:module_router FAILED
++--- project :framework:module_annotation
++--- project :modules:module_main FAILED
++--- project :modules:module_user FAILED
++--- project :module_libs:lib_ffmpeg
++--- project :framework:module_core
+|    +--- project :framework:module_kit
++--- project :framework:module_service
+|    +--- project :framework:module_core (*)
+|    +--- project :framework:module_kit (*)
+|    +--- project :framework:module_common
+|    |    +--- project :framework:module_core (*)
+|    |    +--- project :framework:module_kit (*)
+|    |    \--- project :framework:module_resources
+|    |         \--- project :framework:module_core (*)
+|    +--- project :framework:module_resources (*)
+|    \--- project :framework:module_router
+|         +--- project :framework:module_core (*)
+|         +--- project :framework:module_kit (*)
+|         \--- project :framework:module_resources (*)
++--- project :framework:module_common (*)
++--- project :framework:module_resources (*)
++--- project :framework:module_widget
+|    +--- project :framework:module_core (*)
+|    +--- project :framework:module_kit (*)
+|    +--- project :framework:module_resources (*)
+|    +--- project :framework:module_service (*)
+|    \--- project :framework:module_common (*)
++--- project :framework:module_router (*)
++--- project :framework:module_annotation
++--- project :modules:module_main
+|    +--- project :framework:module_core (*)
+|    +--- project :framework:module_kit (*)
+|    +--- project :framework:module_service (*)
+|    +--- project :framework:module_common (*)
+|    +--- project :framework:module_router (*)
+|    +--- project :framework:module_widget (*)
+|    +--- project :framework:module_resources (*)
+|    +--- project :framework:module_annotation
+|    +--- project :module_libs:lib_ffmpeg
+|    \--- project :modules:module_user
+|         +--- project :framework:module_core (*)
+|         +--- project :framework:module_kit (*)
+|         +--- project :framework:module_service (*)
+|         +--- project :framework:module_common (*)
+|         +--- project :framework:module_router (*)
+|         +--- project :framework:module_widget (*)
+|         +--- project :framework:module_resources (*)
+|         +--- project :framework:module_annotation
+|         +--- project :module_libs:lib_ffmpeg
++--- project :modules:module_user (*)
++--- project :module_libs:lib_ffmpeg
++--- project :framework:module_core
++--- project :framework:module_service
++--- project :framework:module_common
++--- project :framework:module_resources
++--- project :framework:module_widget
++--- project :framework:module_router
++--- project :framework:module_annotation
++--- project :modules:module_main
++--- project :modules:module_user
++--- project :module_libs:lib_ffmpeg
++--- project :framework:module_core
+|    +--- project :framework:module_kit
++--- project :framework:module_service
+|    +--- project :framework:module_core (*)
+|    +--- project :framework:module_kit (*)
+|    +--- project :framework:module_common
+|    |    +--- project :framework:module_core (*)
+|    |    +--- project :framework:module_kit (*)
+|    |    \--- project :framework:module_resources
+|    |         \--- project :framework:module_core (*)
+|    +--- project :framework:module_resources (*)
+|    \--- project :framework:module_router
+|         +--- project :framework:module_core (*)
+|         +--- project :framework:module_kit (*)
+|         \--- project :framework:module_resources (*)
++--- project :framework:module_common (*)
++--- project :framework:module_resources (*)
++--- project :framework:module_widget
+|    +--- project :framework:module_core (*)
+|    +--- project :framework:module_kit (*)
+|    +--- project :framework:module_resources (*)
+|    +--- project :framework:module_service (*)
+|    \--- project :framework:module_common (*)
++--- project :framework:module_router (*)
++--- project :framework:module_annotation
++--- project :modules:module_main
+|    +--- project :framework:module_core (*)
+|    +--- project :framework:module_kit (*)
+|    +--- project :framework:module_service (*)
+|    +--- project :framework:module_common (*)
+|    +--- project :framework:module_router (*)
+|    +--- project :framework:module_widget (*)
+|    +--- project :framework:module_resources (*)
+|    +--- project :framework:module_annotation
+|    +--- project :module_libs:lib_ffmpeg
+|    \--- project :modules:module_user
+|         +--- project :framework:module_core (*)
+|         +--- project :framework:module_kit (*)
+|         +--- project :framework:module_service (*)
+|         +--- project :framework:module_common (*)
+|         +--- project :framework:module_router (*)
+|         +--- project :framework:module_widget (*)
+|         +--- project :framework:module_resources (*)
+|         +--- project :framework:module_annotation
+|         +--- project :module_libs:lib_ffmpeg
++--- project :modules:module_user (*)
++--- project :module_libs:lib_ffmpeg
