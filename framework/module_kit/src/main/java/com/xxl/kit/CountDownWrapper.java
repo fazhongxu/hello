@@ -1,6 +1,8 @@
 package com.xxl.kit;
 
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Looper;
 
 /**
  * 倒计时包装类
@@ -13,6 +15,8 @@ public class CountDownWrapper {
     private CountDownTimer mCountDownTimer;
 
     private PreciseCountdown mPreciseCountdown;
+
+    private Handler mHander = new Handler(Looper.getMainLooper());
 
     /**
      * 是否是自定义精确的倒计时
@@ -28,7 +32,7 @@ public class CountDownWrapper {
     }
 
     public static CountDownWrapper create(OnCountDownCallback callback) {
-        return new CountDownWrapper(true, callback);
+        return new CountDownWrapper(false, callback);
     }
 
     public static CountDownWrapper create(boolean isPrecise,
@@ -46,15 +50,15 @@ public class CountDownWrapper {
             mPreciseCountdown = new PreciseCountdown(millisInFuture, countDownInterval) {
                 @Override
                 public void onTick(long millisUntilFinished) {
-                    if (mCallBack != null) {
-                        mCallBack.onTick(millisUntilFinished);
+                    if (mHander != null) {
+                        mHander.post(() -> mCallBack.onTick(millisUntilFinished));
                     }
                 }
 
                 @Override
                 public void onFinished() {
-                    if (mCallBack != null) {
-                        mCallBack.onFinish();
+                    if (mHander != null) {
+                        mHander.post(() -> mCallBack.onFinish());
                     }
                 }
             };
@@ -91,6 +95,11 @@ public class CountDownWrapper {
     }
 
     public void dispose() {
+
+        if (mCountDownTimer != null) {
+            mCountDownTimer.cancel();
+        }
+
         if (mPreciseCountdown != null) {
             mPreciseCountdown.dispose();
         }
