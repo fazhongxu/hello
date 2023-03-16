@@ -1,9 +1,9 @@
 
 [项目app层结构](https://github.com/fazhongxu/hello/blob/feature/mvvm/app/app.deps.txt)
 
-[项目framework层结构](https://github.com/fazhongxu/hello/blob/feature/mvvm/app/framework_deps.deps.txt)
+[项目framework层结构](https://github.com/fazhongxu/hello/blob/feature/mvvm/app/framework_deps.txt)
 
-[项目modules业务层结构](https://github.com/fazhongxu/hello/blob/feature/mvvm/app/modules.deps.txt)
+[项目modules业务层结构](https://github.com/fazhongxu/hello/blob/feature/mvvm/app/module_deps.txt)
 
 # hello
 hello
