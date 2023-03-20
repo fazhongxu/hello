@@ -245,6 +245,10 @@ public final class StringUtils {
         return text;
     }
 
+    public static String trim(@NonNull final String text) {
+        return isEmpty(text) ? null : text.trim();
+    }
+
     /**
      * 设置高亮
      *
