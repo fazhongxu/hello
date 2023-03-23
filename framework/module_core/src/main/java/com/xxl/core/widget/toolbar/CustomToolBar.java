@@ -6,6 +6,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -29,6 +30,11 @@ public class CustomToolBar extends Toolbar implements OnToolbarProvider {
      * 标题
      */
     private TextView mTvTitle;
+
+    /**
+     * 左边视图
+     */
+    private LinearLayout mLeftContainer;
 
     //endregion
 
@@ -98,8 +104,18 @@ public class CustomToolBar extends Toolbar implements OnToolbarProvider {
      * @param onClickListener
      */
     public void setupToolbarLeftLayout(CharSequence leftText,
-                                       View.OnClickListener onClickListener) {
-        setupToolbarLeftLayout(true, true, getNavigationLeftIconRes(), leftText, onClickListener);
+                                       View.OnClickListener onClickListener,
+                                       View.OnLongClickListener onLongClickListener) {
+        setupToolbarLeftLayout(true, true, getNavigationLeftIconRes(), leftText, onClickListener, onLongClickListener);
+    }
+
+    /**
+     * 获取导航栏左边视图
+     *
+     * @return
+     */
+    public LinearLayout getLeftContainer() {
+        return mLeftContainer;
     }
 
     /**
@@ -133,8 +149,10 @@ public class CustomToolBar extends Toolbar implements OnToolbarProvider {
                                        boolean isDisplayLeftText,
                                        Drawable leftIcon,
                                        CharSequence leftText,
-                                       View.OnClickListener onClickListener) {
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.core_layout_include_toolbar_left, this);
+                                       View.OnClickListener onClickListener,
+                                       View.OnLongClickListener onLongClickListener) {
+        LayoutInflater.from(getContext()).inflate(R.layout.core_layout_include_toolbar_left, this);
+        mLeftContainer = findViewById(R.id.ll_left_container);
         ImageView ivLeftIcon = findViewById(R.id.iv_left_icon);
         TextView tvLeftText = findViewById(R.id.tv_left_text);
         if (leftIcon != null) {
@@ -145,8 +163,10 @@ public class CustomToolBar extends Toolbar implements OnToolbarProvider {
         }
         ivLeftIcon.setVisibility(isDisplayLeftIcon ? View.VISIBLE : View.GONE);
         tvLeftText.setVisibility(isDisplayLeftText ? View.VISIBLE : View.GONE);
-        view.setOnClickListener(onClickListener);
-
+        if (mLeftContainer != null) {
+            mLeftContainer.setOnClickListener(onClickListener);
+            mLeftContainer.setOnLongClickListener(onLongClickListener);
+        }
     }
 
     //endregion

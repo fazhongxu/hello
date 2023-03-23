@@ -57,6 +57,15 @@ public interface OnToolbarProvider {
     }
 
     /**
+     * 左边按钮长按点击
+     *
+     * @param view
+     */
+    default boolean onToolbarLeftLongClick(View view) {
+        return false;
+    }
+
+    /**
      * 右边按钮点击
      *
      * @param view

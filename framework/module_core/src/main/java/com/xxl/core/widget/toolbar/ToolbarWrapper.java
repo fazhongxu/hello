@@ -86,7 +86,7 @@ public class ToolbarWrapper {
 
         if (mOnToolbarProvider != null) {
             if (mOnToolbarProvider.isDisplayLeft()) {
-                mCustomToolBar.setupToolbarLeftLayout(mOnToolbarProvider.getLeftText(), v -> mOnToolbarProvider.onToolbarLeftClick(v));
+                mCustomToolBar.setupToolbarLeftLayout(mOnToolbarProvider.getLeftText(), v -> mOnToolbarProvider.onToolbarLeftClick(v), v -> mOnToolbarProvider.onToolbarLeftLongClick(v));
             }
         }
     }
