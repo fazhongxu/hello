@@ -44,6 +44,17 @@ public interface BaseSharePicker<T extends BaseShareResourceEntity> {
                        @NonNull final T targetShareResourcesEntity);
 
     /**
+     * 操作处理
+     *
+     * @param fragment                   fragment
+     * @param operateTypes               操作类型
+     * @param targetShareResourcesEntity 资源分享实体
+     */
+    void operateHandle(@NonNull final Fragment fragment,
+                       @NonNull final List<Integer> operateTypes,
+                       @NonNull final BaseShareResourceEntity targetShareResourcesEntity);
+
+    /**
      * 展示分享弹窗
      *
      * @param fragment

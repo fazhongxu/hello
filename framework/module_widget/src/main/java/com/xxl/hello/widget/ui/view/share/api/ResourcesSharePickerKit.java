@@ -48,9 +48,20 @@ public interface ResourcesSharePickerKit {
                        @NonNull final BaseShareResourceEntity targetShareResourcesEntity);
 
     /**
+     * 操作处理
+     *
+     * @param fragment                   fragment
+     * @param operateTypes               操作类型
+     * @param targetShareResourcesEntity 资源分享实体
+     */
+    void operateHandle(@NonNull final Fragment fragment,
+                       @NonNull final List<Integer> operateTypes,
+                       @NonNull final BaseShareResourceEntity targetShareResourcesEntity);
+
+    /**
      * 展示分享弹窗
      *
-     * @param fragment                fragment
+     * @param fragment                   fragment
      * @param targetShareResourcesEntity 资源分享实体
      */
     void showSharePicker(@NonNull final Fragment fragment,
@@ -59,7 +70,7 @@ public interface ResourcesSharePickerKit {
     /**
      * 展示分享弹窗
      *
-     * @param fragment                fragment
+     * @param fragment                   fragment
      * @param targetShareResourcesEntity 资源分享实体
      * @param operate                    自定义操作事件
      */
@@ -70,7 +81,7 @@ public interface ResourcesSharePickerKit {
     /**
      * 展示分享弹窗
      *
-     * @param fragment                fragment
+     * @param fragment                   fragment
      * @param operateTypes               操作类型
      * @param targetShareResourcesEntity 资源分享实体
      */
@@ -81,7 +92,7 @@ public interface ResourcesSharePickerKit {
     /**
      * 展示分享弹窗
      *
-     * @param fragment                fragment
+     * @param fragment                   fragment
      * @param operateTypes               操作类型
      * @param targetShareResourcesEntity 资源分享实体
      * @param operate                    自定义操作事件

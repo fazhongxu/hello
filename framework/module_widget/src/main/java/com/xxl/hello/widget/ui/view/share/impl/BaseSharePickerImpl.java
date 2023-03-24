@@ -140,6 +140,25 @@ public abstract class BaseSharePickerImpl<T extends BaseShareResourceEntity> imp
     }
 
     /**
+     * 操作处理
+     *
+     * @param fragment                   fragment
+     * @param operateTypes               操作类型
+     * @param targetShareResourcesEntity 资源分享实体
+     */
+    @Override
+    public void operateHandle(@NonNull final Fragment fragment,
+                              @NonNull final List<Integer> operateTypes,
+                              @NonNull final BaseShareResourceEntity targetShareResourcesEntity) {
+        final List<ShareOperateItem> operateItems = buildOperateItems(operateTypes);
+        if (!ListUtils.isEmpty(operateItems)) {
+            for (ShareOperateItem operateItem : operateItems) {
+                operateItem.onClick(targetShareResourcesEntity);
+            }
+        }
+    }
+
+    /**
      * 构建操作条目集合
      *
      * @param operateTypes

@@ -129,6 +129,23 @@ public class ResourcesSharePickerKitImpl implements ResourcesSharePickerKit {
     }
 
     /**
+     * 操作处理
+     *
+     * @param fragment                   fragment
+     * @param operateTypes               操作类型
+     * @param targetShareResourcesEntity 资源分享实体
+     */
+    @Override
+    public void operateHandle(@NonNull final Fragment fragment,
+                              @NonNull final List<Integer> operateTypes,
+                              @NonNull final BaseShareResourceEntity targetShareResourcesEntity) {
+        final BaseSharePicker sharePicker = getSharePicker(targetShareResourcesEntity);
+        if (sharePicker != null) {
+            sharePicker.operateHandle(fragment, operateTypes, targetShareResourcesEntity);
+        }
+    }
+
+    /**
      * 展示分享弹窗
      *
      * @param fragment                   fragment
@@ -226,7 +243,7 @@ public class ResourcesSharePickerKitImpl implements ResourcesSharePickerKit {
     public VideoSharePicker getVideoSharePicker() {
         synchronized (this) {
             if (mVideoSharePicker == null) {
-                mVideoSharePicker = VideoSharePickerImpl.create(mApplication,mFragment, mDownloadService, mDataRepositoryKit);
+                mVideoSharePicker = VideoSharePickerImpl.create(mApplication, mFragment, mDownloadService, mDataRepositoryKit);
                 mSharePickerMap.put(ShareResourcesType.VIDEO, mImageSharePicker);
             }
             return mVideoSharePicker;
