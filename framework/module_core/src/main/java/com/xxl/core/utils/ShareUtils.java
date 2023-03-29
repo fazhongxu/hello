@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.tencent.mm.opensdk.modelbase.BaseResp;
+import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -20,8 +21,12 @@ import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
 import com.xxl.core.data.model.entity.pay.WXPayEntity;
+import com.xxl.core.listener.OnAuthListener;
 import com.xxl.core.listener.OnPayListener;
 import com.xxl.kit.AppUtils;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 分享工具类
@@ -35,6 +40,16 @@ public class ShareUtils {
      * 支付监听
      */
     private static OnPayListener sOnPayListener;
+
+    /**
+     * 登录授权监听
+     */
+    private static OnAuthListener sOnAuthListener;
+
+    /**
+     * 微信的回调Code
+     */
+    private final static String WE_CHAT_MAP_KEY_CODE = "code";
 
     /**
      * 预初始化
@@ -133,6 +148,7 @@ public class ShareUtils {
 
     /**
      * 微信支付
+     *
      * @param activity
      * @param wxPayEntity
      * @param listener
@@ -166,6 +182,7 @@ public class ShareUtils {
      */
     public static void onDestory() {
         sOnPayListener = null;
+        sOnAuthListener = null;
     }
 
     /**
@@ -186,6 +203,43 @@ public class ShareUtils {
             return true;
         }
         return false;
+    }
+
+    /**
+     * 微信授权回调（登录）
+     *
+     * @param resp
+     * @return
+     */
+    public static boolean onWeChatAuthCallback(@NonNull final SendAuth.Resp resp) {
+        OnAuthListener listener = sOnAuthListener;
+        if (listener != null) {
+            if (resp.errCode == WeChatPayErrCode.ERR_OK) {
+                Map<String, String> data = new HashMap<>(10);
+                data.put(WE_CHAT_MAP_KEY_CODE, resp.code);
+                listener.onComplete(SHARE_MEDIA.WEIXIN, 0, data);
+            } else if (resp.errCode == WeChatPayErrCode.ERR_USER_CANCEL
+                    || resp.errCode == WeChatPayErrCode.ERR_AUTH_DENIED) {
+                listener.onCancel(SHARE_MEDIA.WEIXIN, 0);
+            } else {
+                listener.onError(SHARE_MEDIA.WEIXIN,0,new Throwable("wechat auth failure"));
+            }
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 获取微信的 Code 数据
+     *
+     * @param data
+     * @return
+     */
+    public static String getWechatCode(@NonNull Map<String, String> data) {
+        if (data == null || !data.containsKey(WE_CHAT_MAP_KEY_CODE)) {
+            return null;
+        }
+        return data.get(WE_CHAT_MAP_KEY_CODE);
     }
 
     /**

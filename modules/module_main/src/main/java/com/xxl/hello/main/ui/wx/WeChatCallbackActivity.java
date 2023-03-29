@@ -1,10 +1,12 @@
 package com.xxl.hello.main.ui.wx;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
+import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.umeng.socialize.weixin.view.WXCallbackActivity;
 import com.xxl.core.utils.ShareUtils;
 
@@ -30,11 +32,24 @@ public class WeChatCallbackActivity extends WXCallbackActivity {
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        ShareUtils.onActivityResult(this, requestCode, resultCode, data);
+    }
+
+    @Override
     public void onResp(BaseResp resp) {
         super.onResp(resp);
         if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
             if (ShareUtils.onWeChatPayCallback(resp)) {
                 finish();
+            }
+            return;
+        }
+        if (resp.getType() == ConstantsAPI.COMMAND_SENDAUTH) {
+            if (ShareUtils.onWeChatAuthCallback((SendAuth.Resp) resp)) {
+                finish();
+                return;
             }
         }
     }
