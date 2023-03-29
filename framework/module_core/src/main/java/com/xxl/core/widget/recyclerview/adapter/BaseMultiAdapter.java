@@ -90,6 +90,18 @@ public abstract class BaseMultiAdapter<T, L extends BaseRecycleItemListener> ext
         remove(targetItemEntity);
     }
 
+    /**
+     * 通知数据更新
+     *
+     * @param position 数据更新
+     */
+    public void notifyDataChanged(int position) {
+        if (position >= 0) {
+            position = getHeaderLayoutCount() + position;
+            notifyItemChanged(position);
+        }
+    }
+
     public void setListener(L listener) {
         mListener = listener;
     }
