@@ -178,11 +178,14 @@ public class ShareUtils {
     }
 
     /**
-     * 销毁
+     * 微信授权
+     *
+     * @param activity
+     * @param listener
      */
-    public static void onDestory() {
-        sOnPayListener = null;
-        sOnAuthListener = null;
+    public static void doWeChatAuth(@NonNull final Activity activity,
+                                    @NonNull final OnAuthListener listener) {
+        // TODO: 2023/3/30
     }
 
     /**
@@ -222,7 +225,7 @@ public class ShareUtils {
                     || resp.errCode == WeChatPayErrCode.ERR_AUTH_DENIED) {
                 listener.onCancel(SHARE_MEDIA.WEIXIN, 0);
             } else {
-                listener.onError(SHARE_MEDIA.WEIXIN,0,new Throwable("wechat auth failure"));
+                listener.onError(SHARE_MEDIA.WEIXIN, 0, new Throwable("wechat auth failure"));
             }
             return true;
         }
@@ -240,6 +243,15 @@ public class ShareUtils {
             return null;
         }
         return data.get(WE_CHAT_MAP_KEY_CODE);
+    }
+
+
+    /**
+     * 销毁
+     */
+    public static void onDestory() {
+        sOnPayListener = null;
+        sOnAuthListener = null;
     }
 
     /**

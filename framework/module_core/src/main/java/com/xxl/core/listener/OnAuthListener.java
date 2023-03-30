@@ -17,12 +17,12 @@ public interface OnAuthListener extends UMAuthListener {
     }
 
     @Override
-    default void onError(SHARE_MEDIA share_media, int i, Throwable throwable) {
+    default void onError(SHARE_MEDIA share_media, int action, Throwable throwable) {
 
     }
 
     @Override
-    default void onCancel(SHARE_MEDIA share_media, int i) {
+    default void onCancel(SHARE_MEDIA share_media, int action) {
 
     }
 }
