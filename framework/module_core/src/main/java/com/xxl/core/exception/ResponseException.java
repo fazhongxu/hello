@@ -5,10 +5,13 @@ import androidx.annotation.Nullable;
 
 import com.google.gson.JsonParseException;
 import com.google.gson.annotations.SerializedName;
+import com.xxl.core.ui.state.UnKnowExceptionState;
 
 import org.json.JSONException;
 
 import java.net.ConnectException;
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 import java.text.ParseException;
 
 /**
@@ -100,6 +103,10 @@ public class ResponseException extends Exception {
 
         if (throwable instanceof ConnectException) {
             return create(ResponseCode.RESPONSE_CODE_NETWORK_CONNECT, throwable.getMessage());
+        }
+        if (throwable instanceof UnknownHostException
+                || throwable instanceof SocketTimeoutException) {
+            return create(ResponseCode.RESPONSE_CODE_HTTP_ERROR, throwable.getMessage());
         }
 
         // TODO: 2021/11/26 处理token失效等异常

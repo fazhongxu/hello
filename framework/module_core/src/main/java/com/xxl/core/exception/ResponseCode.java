@@ -40,6 +40,11 @@ public class ResponseCode {
      */
     public static final int RESPONSE_CODE_NETWORK_CONNECT = 1001;
 
+    /**
+     * http错误
+     */
+    public static final int RESPONSE_CODE_HTTP_ERROR = 10002;
+
     //endregion
 
     //region: 构造函数
