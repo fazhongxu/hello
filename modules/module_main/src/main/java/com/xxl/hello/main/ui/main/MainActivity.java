@@ -1,6 +1,7 @@
 package com.xxl.hello.main.ui.main;
 
 import android.content.Intent;
+import android.view.KeyEvent;
 
 import androidx.annotation.Nullable;
 
@@ -41,6 +42,15 @@ public class MainActivity extends SingleFragmentBarActivity<MainFragment> {
     @Override
     protected boolean canDragBack() {
         return false;
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK){
+            moveTaskToBack(true);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override

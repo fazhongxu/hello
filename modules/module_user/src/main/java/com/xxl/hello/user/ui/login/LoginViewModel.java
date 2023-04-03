@@ -9,6 +9,7 @@ import androidx.databinding.ObservableField;
 import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.core.ui.BaseViewModel;
+import com.xxl.hello.service.data.repository.api.UserRepositoryApi;
 import com.xxl.hello.user.data.model.api.UserLoginRequest;
 import com.xxl.hello.user.data.repository.UserRepository;
 
@@ -58,6 +59,20 @@ public class LoginViewModel extends BaseViewModel<LoginNavigator> {
         super(application);
         mDataRepositoryKit = dataRepositoryKit;
         mUserRepository = userRepository;
+    }
+
+    //endregion
+
+    //region: 与隐私政策相关
+
+    /**
+     * 设置用户同意"隐私协议"的状态
+     *
+     * @param isAgree
+     */
+    void setAgreePrivacyPolicyStatus(final boolean isAgree) {
+        final UserRepositoryApi userRepositoryApi = mDataRepositoryKit.getUserRepositoryApi();
+        userRepositoryApi.setAgreePrivacyPolicyStatus(isAgree);
     }
 
     //endregion

@@ -21,7 +21,7 @@ public class LoginActivity extends SingleFragmentBarActivity<LoginFragment> {
      */
     @Override
     public LoginFragment createFragment() {
-        return LoginFragment.newInstance();
+        return LoginFragment.newInstance(getExtras());
     }
 
     @Override

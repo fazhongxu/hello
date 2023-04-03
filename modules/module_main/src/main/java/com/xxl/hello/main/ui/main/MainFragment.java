@@ -33,7 +33,6 @@ import com.xxl.hello.main.databinding.MainFragmentBinding;
 import com.xxl.hello.main.ui.main.adapter.TestBindingAdapter;
 import com.xxl.hello.main.ui.main.adapter.TestBindingRecycleItemListener;
 import com.xxl.hello.main.ui.main.adapter.TestListEntity;
-import com.xxl.hello.main.ui.main.window.PrivacyPolicyPopupWindow;
 import com.xxl.hello.service.data.model.api.QueryUserInfoResponse;
 import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
 import com.xxl.hello.service.handle.api.AppSchemeService;
@@ -175,9 +174,6 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     @Override
     protected void setupData() {
         LogUtils.d("当前登录用户ID..." + AppExpandUtils.getCurrentUserId());
-        if (!AppExpandUtils.isAgreePrivacyPolicy()) {
-            showPrivacyPolicyPopupWindow();
-        }
     }
 
     @Override
@@ -227,7 +223,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     @Safe
     @Override
     public void onTestClick() {
-        AppRouterApi.Login.navigation(getActivity());
+        AppRouterApi.Login.newBuilder().navigation(getActivity());
     }
 
     /**
@@ -350,33 +346,16 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     //region: Fragment 操作
 
     /**
-     * 弹出隐私政策弹窗
-     */
-    private void showPrivacyPolicyPopupWindow() {
-        PrivacyPolicyPopupWindow.from(getActivity())
-                .setOnDisagreeClickListener(v -> {
-                    AppUtils.exitApp();
-                })
-                .setOnAgreeClickListener(v -> {
-                    mMainViewModel.setAgreePrivacyPolicyStatus(true);
-                    AppExpandUtils.initPluginsAfterAgreePrivacyPolicy();
-                    requestData();
-                })
-                .showPopupWindow();
-    }
-
-    /**
      * 处理导航跳转路径
      */
     private void handleNavigationPath() {
+        LogUtils.d("main scheme path " + mNextPath);
         if (!TextUtils.isEmpty(mNextPath)) {
-            if (StringUtils.containsIgnoreCase(mNextPath, AppConfig.APP_DEFAULT_SCHEME)) {
-                // 由于demo不是必须登录的，避免循环跳转，暂时不处理，实际项目需要登录才能用时，需要处理
-                //mAppSchemeService.navigationToScheme(getActivity(), mExtraData, true);
+            if (StringUtils.containsIgnoreCase(mNextPath, AppConfig.APP_SCHEME_TAG)) {
+                mAppSchemeService.navigation(getActivity(), mExtraData, true);
                 mNextPath = null;
                 mExtraData = null;
             }
-
         }
     }
 

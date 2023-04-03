@@ -111,7 +111,7 @@ public class AppRouterApi {
              * 导航到首页
              */
             public void navigationAndClearTop() {
-                RouterUtils.navigationAndClearTop(SPLASH_PATH,mParams);
+                RouterUtils.navigationAndClearTop(SPLASH_PATH, mParams);
             }
         }
     }
@@ -128,7 +128,7 @@ public class AppRouterApi {
         public static final String PARAMS_KEY_NEXT_PATH = "params_key_next_path";
 
         /**
-         * 一些类似app离线情况下，拉起app，发现没登录或者没打开首页时，先打开登录或者打开首页，携带过来的数据
+         * 携带的数据
          */
         public static final String PARAMS_KEY_EXTRA_DATA = "params_key_extra_data";
 
@@ -137,6 +137,7 @@ public class AppRouterApi {
         }
 
         public static class Builder {
+
             Bundle mParams = new Bundle();
 
             /**
@@ -179,7 +180,7 @@ public class AppRouterApi {
              * 导航到首页
              */
             public void navigationAndClearTop() {
-                RouterUtils.navigationAndClearTop(MAIN_PATH,mParams);
+                RouterUtils.navigationAndClearTop(MAIN_PATH, mParams);
             }
         }
     }
@@ -196,15 +197,14 @@ public class AppRouterApi {
         public static final int LOGIN_REQUEST_CODE = 10011;
 
         /**
-         * 设置页面返回结果
-         *
-         * @param activity
+         * 跳转的下一个页面路径
          */
-        public static void setActivityResult(@NonNull final Activity activity) {
-            final Intent intent = new Intent();
-            activity.setResult(Activity.RESULT_OK, intent);
-            activity.finish();
-        }
+        public static final String PARAMS_KEY_NEXT_PATH = "params_key_next_path";
+
+        /**
+         * 携带参数
+         */
+        public static final String PARAMS_KEY_EXTRA_DATA = "params_key_extra_data";
 
         /**
          * 判断是否是登录页面的请求码 (默认请求码才可以用此方法）
@@ -217,58 +217,99 @@ public class AppRouterApi {
         }
 
         /**
-         * 导航到登录页
+         * 设置页面返回结果
          *
          * @param activity
          */
-        public static void navigation(@NonNull final Activity activity) {
-            navigation(activity, LOGIN_REQUEST_CODE);
+        public static void setActivityResult(@NonNull final Activity activity) {
+            final Intent intent = new Intent();
+            activity.setResult(Activity.RESULT_OK, intent);
+            activity.finish();
         }
 
-        /**
-         * 导航到登录页
-         *
-         * @param activity
-         */
-        public static void navigationWithFinish(@NonNull final Activity activity) {
-            navigationWithFinish(activity, LOGIN_REQUEST_CODE);
+        public static Builder newBuilder() {
+            return new Builder();
         }
 
-        /**
-         * 导航到登录页
-         *
-         * @param activity
-         * @param requestCode
-         */
-        public static void navigation(@NonNull final Activity activity,
-                                      final int requestCode) {
-            RouterUtils.navigation(activity, LOGIN_PATH, requestCode);
-        }
+        public static class Builder {
+            Bundle mParams = new Bundle();
+
+            /**
+             * 设置跳转的下一个页面路径
+             *
+             * @param path
+             * @return
+             */
+            public Builder setNextPath(@NonNull final String path) {
+                mParams.putString(PARAMS_KEY_NEXT_PATH, path);
+                return this;
+            }
+
+            /**
+             * 设置跳转携带的数据
+             *
+             * @param data
+             * @return
+             */
+            public Builder setExtraData(@NonNull final String data) {
+                mParams.putString(PARAMS_KEY_EXTRA_DATA, data);
+                return this;
+            }
+
+            /**
+             * 导航到登录页
+             *
+             * @param activity
+             */
+            public void navigation(@NonNull final Activity activity) {
+                RouterUtils.navigation(activity, LOGIN_PATH, LOGIN_REQUEST_CODE);
+            }
+
+            /**
+             * 导航到登录页
+             *
+             * @param activity
+             */
+            public void navigationWithFinish(@NonNull final Activity activity) {
+                navigationWithFinish(activity, LOGIN_REQUEST_CODE);
+            }
+
+            /**
+             * 导航到登录页
+             *
+             * @param activity
+             * @param requestCode
+             */
+            public void navigation(@NonNull final Activity activity,
+                                   final int requestCode) {
+                RouterUtils.navigation(activity, LOGIN_PATH, mParams, requestCode);
+            }
 
 
-        /**
-         * 导航到登录页
-         *
-         * @param activity
-         * @param requestCode
-         */
-        public static void navigationWithFinish(@NonNull final Activity activity,
-                                                final int requestCode) {
-            RouterUtils.navigationWithFinish(activity, LOGIN_PATH, requestCode);
-        }
+            /**
+             * 导航到登录页
+             *
+             * @param activity
+             * @param requestCode
+             */
+            public void navigationWithFinish(@NonNull final Activity activity,
+                                             final int requestCode) {
+                RouterUtils.navigationWithFinish(activity, LOGIN_PATH, mParams, requestCode);
+            }
 
-        /**
-         * 导航到登录页
-         *
-         * @param fragment
-         * @param requestCode
-         */
-        public static void navigation(@NonNull final Fragment fragment,
-                                      final int requestCode) {
-            Postcard postcard = RouterUtils.buildPostcard(LOGIN_PATH);
-            RouterUtils.completion(postcard);
-            Intent intent = new Intent(fragment.getActivity(), postcard.getDestination());
-            fragment.startActivityForResult(intent, requestCode);
+            /**
+             * 导航到登录页
+             *
+             * @param fragment
+             * @param requestCode
+             */
+            public void navigation(@NonNull final Fragment fragment,
+                                   final int requestCode) {
+                Postcard postcard = RouterUtils.buildPostcard(LOGIN_PATH);
+                RouterUtils.completion(postcard);
+                Intent intent = new Intent(fragment.getActivity(), postcard.getDestination());
+                fragment.startActivityForResult(intent, requestCode);
+            }
         }
 
     }

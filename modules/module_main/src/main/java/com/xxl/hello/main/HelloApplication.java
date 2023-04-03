@@ -255,10 +255,10 @@ public class HelloApplication extends BaseApplication implements IApplication, M
             return;
         }
         if (requestCode > 0) {
-            AppRouterApi.Login.navigation(AppUtils.getTopActivity(), requestCode);
+            AppRouterApi.Login.newBuilder().navigation(AppUtils.getTopActivity(), requestCode);
             return;
         }
-        AppRouterApi.Login.navigation(AppUtils.getTopActivity());
+        AppRouterApi.Login.newBuilder().navigation(AppUtils.getTopActivity());
     }
 
     //endregion

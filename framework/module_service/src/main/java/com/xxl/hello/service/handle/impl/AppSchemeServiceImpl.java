@@ -12,6 +12,7 @@ import com.xxl.hello.router.api.UserRouterApi;
 import com.xxl.hello.service.R;
 import com.xxl.hello.service.handle.api.AppSchemeService;
 import com.xxl.kit.AppRouterApi;
+import com.xxl.kit.LogUtils;
 import com.xxl.kit.RouterUtils;
 import com.xxl.kit.StringUtils;
 import com.xxl.kit.ToastUtils;
@@ -82,6 +83,7 @@ public class AppSchemeServiceImpl implements AppSchemeService {
     public boolean navigation(@NonNull Context context,
                               @NonNull String path,
                               final boolean isToast) {
+        LogUtils.d("navigation path " + path);
         if (StringUtils.containsIgnoreCase(path, APP_SCHEME_TAG)) {
             final Uri targetUri = Uri.parse(path);
             final String targetPath = targetUri.getPath();

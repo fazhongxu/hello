@@ -3,6 +3,7 @@ package com.xxl.hello.user.ui.setting;
 import android.app.Application;
 import android.net.Uri;
 import android.os.Handler;
+import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -232,7 +233,9 @@ public class UserSettingModel extends BaseResourceQueueViewModel<UserSettingNavi
         mTargetLoginUserEntity = targetLoginUserEntity;
         if (mTargetLoginUserEntity != null) {
             mObservableUserName.set(targetLoginUserEntity.getUserName() + "--" + targetLoginUserEntity.getUserId());
-            setObservableUserAvatarUrl(targetLoginUserEntity.getAvatar());
+            if (!TextUtils.isEmpty(targetLoginUserEntity.getAvatar())) {
+                setObservableUserAvatarUrl(targetLoginUserEntity.getAvatar());
+            }
         }
     }
 

@@ -1,4 +1,4 @@
-package com.xxl.hello.main.ui.main.window;
+package com.xxl.hello.user.ui.login.window;
 
 import android.content.Context;
 import android.view.Gravity;
@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import com.xxl.hello.main.R;
+import com.xxl.hello.user.R;
 
 import razerdp.basepopup.BasePopupWindow;
 
@@ -56,7 +56,7 @@ public class PrivacyPolicyPopupWindow extends BasePopupWindow {
      * 设置视图
      */
     private void setupLayout() {
-        View rootView = createPopupById(R.layout.main_window_layout_privacy_policy);
+        View rootView = createPopupById(R.layout.user_window_layout_privacy_policy);
         setContentView(rootView);
         final TextView tvDisagree = rootView.findViewById(R.id.tv_disagree);
         final TextView tvAgree = rootView.findViewById(R.id.tv_agree);

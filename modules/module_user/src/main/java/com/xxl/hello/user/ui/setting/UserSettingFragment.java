@@ -167,7 +167,7 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
         mKeyboardWrapper.setKeyboardStateChangeListener(this);
         setupCommentLayout();
         setupShareLayout();
-        mUserSettingModel.setObservableUserAvatarUrl("https://avatars.githubusercontent.com/u/24353536?s=400&u=43f37f2e73f15a1dfad58f0d63c35418715a5621&v=4");
+        mUserSettingModel.setObservableUserAvatarUrl(AppConfig.User.GITHUB_USER_AVATAR);
     }
 
     @Override

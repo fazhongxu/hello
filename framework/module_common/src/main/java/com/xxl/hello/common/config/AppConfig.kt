@@ -53,7 +53,10 @@ class AppConfig private constructor() {
 
     class User private constructor() {
         companion object {
+
             const val GITHUB_USER_NAME = "fazhongxu"
+
+            const val GITHUB_USER_AVATAR = "https://avatars.githubusercontent.com/u/24353536?s=400&u=43f37f2e73f15a1dfad58f0d63c35418715a5621&v=4"
         }
     }
 
