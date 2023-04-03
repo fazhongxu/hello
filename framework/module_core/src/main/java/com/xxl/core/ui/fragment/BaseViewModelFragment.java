@@ -15,9 +15,9 @@ import androidx.databinding.ViewDataBinding;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.kaopiz.kprogresshud.KProgressHUD;
 import com.xxl.core.ui.BaseEventBusWrapper;
 import com.xxl.core.ui.BaseViewModel;
+import com.xxl.core.ui.ProgressBarWrapper;
 import com.xxl.kit.AppUtils;
 import com.xxl.kit.OnAppStatusChangedListener;
 
@@ -50,7 +50,7 @@ public abstract class BaseViewModelFragment<V extends BaseViewModel, T extends V
     /**
      * 进度条
      */
-    protected KProgressHUD mKProgressHUD;
+    protected ProgressBarWrapper mProgressBarWrapper;
 
     @Inject
     protected ViewModelProvider.Factory mViewModelProviderFactory;
@@ -101,6 +101,14 @@ public abstract class BaseViewModelFragment<V extends BaseViewModel, T extends V
             eventBusWrapper.register(this);
         }
         requestData();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (mProgressBarWrapper != null) {
+            mProgressBarWrapper.onDestroyView();
+        }
     }
 
     @Override
@@ -221,26 +229,19 @@ public abstract class BaseViewModelFragment<V extends BaseViewModel, T extends V
         if (mViewModel == null) {
             return;
         }
-        mKProgressHUD = KProgressHUD.create(getContext())
-                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
-                .setCancellable(true)
-                .setAnimationSpeed(2)
-                .setDimAmount(0.5f);
 
-        mViewModel.getViewLoading().addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+        mProgressBarWrapper = ProgressBarWrapper.create(getContext());
+
+        mViewModel.getViewLoadingAttrs().addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable sender,
                                           int propertyId) {
-                final boolean isLoading = mViewModel.getViewLoading().get();
-                if (mKProgressHUD == null) {
-                    return;
+                try {
+                    ProgressBarWrapper.Attributes attributes = (ProgressBarWrapper.Attributes) mViewModel.getViewLoadingAttrs().get();
+                    mProgressBarWrapper.loading(attributes);
+                }catch (Exception e) {
+                    e.printStackTrace();
                 }
-                if (isLoading) {
-                    mKProgressHUD.show();
-                } else {
-                    mKProgressHUD.dismiss();
-                }
-
             }
         });
     }
