@@ -16,7 +16,7 @@ public class CountDownWrapper {
 
     private PreciseCountdown mPreciseCountdown;
 
-    private Handler mHander = new Handler(Looper.getMainLooper());
+    private Handler mHandler = new Handler(Looper.getMainLooper());
 
     /**
      * 是否是自定义精确的倒计时
@@ -50,15 +50,15 @@ public class CountDownWrapper {
             mPreciseCountdown = new PreciseCountdown(millisInFuture, countDownInterval) {
                 @Override
                 public void onTick(long millisUntilFinished) {
-                    if (mHander != null) {
-                        mHander.post(() -> mCallBack.onTick(millisUntilFinished));
+                    if (mHandler != null) {
+                        mHandler.post(() -> mCallBack.onTick(millisUntilFinished));
                     }
                 }
 
                 @Override
                 public void onFinished() {
-                    if (mHander != null) {
-                        mHander.post(() -> mCallBack.onFinish());
+                    if (mHandler != null) {
+                        mHandler.post(() -> mCallBack.onFinish());
                     }
                 }
             };
