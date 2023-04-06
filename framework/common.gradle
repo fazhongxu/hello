@@ -67,6 +67,8 @@ dependencies {
     implementation deps.luban
     implementation deps.video_processor
 
+    compileOnly deps.glide.glide
+
     implementation deps.kprogresshud
 
     implementation deps.dagger.dagger

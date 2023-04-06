@@ -1,7 +1,10 @@
 package com.xxl.hello.service.data.model.entity.media;
 
+import android.view.View;
+
 import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * 多媒体预览条目信息
@@ -39,6 +42,31 @@ public class MediaPreviewItemEntity {
      */
     private long mHeight;
 
+    /**
+     * 开始横坐标
+     */
+    private int mStartX;
+
+    /**
+     * 开始纵坐标
+     */
+    private int mStartY;
+
+    /**
+     * 预览的宽度
+     */
+    private int mPreviewWidth;
+
+    /**
+     * 预览的高度
+     */
+    private int mPreviewHeight;
+
+    /**
+     * 位置
+     */
+    private int mPosition;
+
     //endregion
 
     //region: 构造函数
@@ -55,6 +83,10 @@ public class MediaPreviewItemEntity {
 
     //region: 提供方法
 
+    public String getMediaUrl() {
+        return mMediaUrl;
+    }
+
     public long getWidth() {
         return mWidth;
     }
@@ -65,6 +97,26 @@ public class MediaPreviewItemEntity {
 
     public long getDuration() {
         return mDuration;
+    }
+
+    public int getStartX() {
+        return mStartX;
+    }
+
+    public int getStartY() {
+        return mStartY;
+    }
+
+    public int getPreviewWidth() {
+        return mPreviewWidth;
+    }
+
+    public int getPreviewHeight() {
+        return mPreviewHeight;
+    }
+
+    public int getPosition() {
+        return mPosition;
     }
 
     /**
@@ -119,6 +171,58 @@ public class MediaPreviewItemEntity {
      */
     public MediaPreviewItemEntity setHeight(final long height) {
         this.mHeight = height;
+        return this;
+    }
+
+    /**
+     * 设置开始横坐标
+     *
+     * @param startX
+     * @return
+     */
+    public MediaPreviewItemEntity setStartX(final int startX) {
+        this.mStartX = startX;
+        return this;
+    }
+
+    /**
+     * 设置开始纵坐标
+     *
+     * @param startY
+     * @return
+     */
+    public MediaPreviewItemEntity setStartY(final int startY) {
+        this.mStartY = startY;
+        return this;
+    }
+
+    /**
+     * 设置位置索引
+     *
+     * @param position
+     * @return
+     */
+    public MediaPreviewItemEntity setPosition(final int position) {
+        this.mPosition = position;
+        return this;
+    }
+
+    /**
+     * 设置view的属性
+     *
+     * @param targetView
+     * @return
+     */
+    public MediaPreviewItemEntity setTargetViewAttributes(@Nullable final View targetView) {
+        if (targetView != null) {
+            int[] location = new int[2];
+            targetView.getLocationOnScreen(location);
+            mStartX = location[0];
+            mStartY = location[1];
+
+            mPreviewWidth = targetView.getMeasuredWidth();
+            mPreviewHeight = targetView.getMeasuredHeight();
+        }
         return this;
     }
 

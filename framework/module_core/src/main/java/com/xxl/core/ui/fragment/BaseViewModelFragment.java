@@ -298,5 +298,15 @@ public abstract class BaseViewModelFragment<V extends BaseViewModel, T extends V
         return getActivity().isFinishing();
     }
 
+    /**
+     * 关闭当前页面
+     */
+    public void finishActivity() {
+        if (getActivity() == null) {
+            return;
+        }
+        getActivity().finish();
+    }
+
     //endregion
 }

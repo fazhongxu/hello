@@ -3,6 +3,7 @@ package com.xxl.hello.widget.data.router;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.xxl.hello.service.data.model.entity.media.MediaPreviewItemEntity;
 import com.xxl.kit.ListUtils;
@@ -52,7 +53,7 @@ public final class WidgetRouterApi {
          *
          * @return
          */
-        public List<MediaPreviewItemEntity> getMediaPreviewItemEntities() {
+        public static List<MediaPreviewItemEntity> getMediaPreviewItemEntities() {
             final List<MediaPreviewItemEntity> mediaPreviewItemEntities = new ArrayList<>();
             if (!ListUtils.isEmpty(sMediaPreviewItemEntities)) {
                 mediaPreviewItemEntities.addAll(sMediaPreviewItemEntities);
@@ -85,6 +86,22 @@ public final class WidgetRouterApi {
 
             /**
              * 设置多媒体预览条目数据
+             *
+             * @param mediaPreviewItemEntity
+             * @return
+             */
+            public Builder setMediaPreviewItemEntity(@Nullable final MediaPreviewItemEntity mediaPreviewItemEntity) {
+                final List<MediaPreviewItemEntity> mediaPreviewItemEntities = new ArrayList<>();
+                if (mediaPreviewItemEntity != null) {
+                    mediaPreviewItemEntities.add(mediaPreviewItemEntity);
+                }
+                setMediaPreviewItemEntities(mediaPreviewItemEntities);
+                return this;
+            }
+
+            /**
+             * 设置多媒体预览条目数据
+             *
              * @param mediaPreviewItemEntities
              * @return
              */
