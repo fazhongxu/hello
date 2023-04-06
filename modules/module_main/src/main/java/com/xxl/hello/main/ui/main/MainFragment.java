@@ -15,7 +15,6 @@ import androidx.annotation.Nullable;
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.tbruyelle.rxpermissions3.RxPermissions;
 import com.xxl.core.aop.annotation.Safe;
-import com.xxl.core.data.router.SystemRouterApi;
 import com.xxl.core.media.audio.AudioCapture;
 import com.xxl.core.media.audio.AudioCapture.OnAudioFrameCapturedListener;
 import com.xxl.core.media.audio.AudioRecordFormat;
@@ -37,6 +36,7 @@ import com.xxl.hello.main.ui.main.adapter.TestListEntity;
 import com.xxl.hello.service.data.model.api.QueryUserInfoResponse;
 import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
 import com.xxl.hello.service.handle.api.AppSchemeService;
+import com.xxl.hello.widget.data.router.WidgetRouterApi;
 import com.xxl.hello.widget.ui.view.record.OnRecordListener;
 import com.xxl.hello.widget.ui.view.record.RecordButton;
 import com.xxl.kit.AppRouterApi;
@@ -224,7 +224,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     @Safe
     @Override
     public void onTestClick() {
-        SystemRouterApi.MediaPreview.newBuilder()
+        WidgetRouterApi.MediaPreview.newBuilder()
                 .navigation();
     }
 

@@ -1,8 +1,8 @@
 package com.xxl.hello.widget.ui.preview;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.xxl.core.data.router.SystemRouterApi.MediaPreview;
 import com.xxl.core.ui.activity.SingleFragmentActivity;
+import com.xxl.hello.widget.data.router.WidgetRouterApi.MediaPreview;
 
 /**
  * 多媒体预览页面

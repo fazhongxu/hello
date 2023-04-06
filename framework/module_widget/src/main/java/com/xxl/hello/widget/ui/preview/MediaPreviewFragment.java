@@ -10,6 +10,7 @@ import com.xxl.core.data.router.SystemRouterApi;
 import com.xxl.core.ui.fragment.BaseViewModelFragment;
 import com.xxl.hello.widget.BR;
 import com.xxl.hello.widget.R;
+import com.xxl.hello.widget.data.router.WidgetRouterApi;
 import com.xxl.hello.widget.databinding.WidgetFragmentMediaPreviewBinding;
 
 /**
@@ -36,7 +37,7 @@ public class MediaPreviewFragment extends BaseViewModelFragment<MediaPreviewMode
     /**
      * 是否可以分享
      */
-    @Autowired(name = SystemRouterApi.WebView.PARAMS_KEY_SHARE_ENABLE)
+    @Autowired(name = WidgetRouterApi.MediaPreview.PARAMS_KEY_SHARE_ENABLE)
     boolean mShareEnable = true;
 
     //endregion
