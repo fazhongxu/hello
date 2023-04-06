@@ -4,5 +4,6 @@
 
     <application>
         <activity android:name=".ui.web.CommonWebActivity" />
+        <activity android:name=".ui.preview.MediaPreviewActivity"/>
     </application>
 </manifest>

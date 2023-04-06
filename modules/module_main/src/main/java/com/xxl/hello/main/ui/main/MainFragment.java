@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.tbruyelle.rxpermissions3.RxPermissions;
 import com.xxl.core.aop.annotation.Safe;
+import com.xxl.core.data.router.SystemRouterApi;
 import com.xxl.core.media.audio.AudioCapture;
 import com.xxl.core.media.audio.AudioCapture.OnAudioFrameCapturedListener;
 import com.xxl.core.media.audio.AudioRecordFormat;
@@ -223,7 +224,8 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     @Safe
     @Override
     public void onTestClick() {
-        AppRouterApi.Login.newBuilder().navigation(getActivity());
+        SystemRouterApi.MediaPreview.newBuilder()
+                .navigation();
     }
 
     /**

@@ -101,6 +101,57 @@ public final class SystemRouterApi {
         }
     }
 
+    //endregion
+
+    //region: 多媒体预览路由相关
+
+    public static class MediaPreview {
+
+        /**
+         * 多媒体预览页面路径地址
+         */
+        public static final String PATH = SYSTEM_MODULE_NAME + "/media_preview";
+
+        /**
+         * 多媒体信息地址
+         */
+        public static final String PARAMS_KEY_MEDIA_ENTITIES = "params_key_media_entities";
+
+        /**
+         * 是否可以分享
+         */
+        public static final String PARAMS_KEY_SHARE_ENABLE = "params_key_share_enable";
+
+        public static Builder newBuilder() {
+            return new Builder();
+        }
+
+        public static class Builder {
+
+            private Bundle mParams = new Bundle();
+
+            public Builder() {
+            }
+
+            /**
+             * 设置是否可以分享（默认可分享）
+             *
+             * @param shareEnable
+             * @return
+             */
+            public Builder setShareEnable(final boolean shareEnable) {
+                mParams.putBoolean(PARAMS_KEY_SHARE_ENABLE, shareEnable);
+                return this;
+            }
+
+            /**
+             * 跳转到多媒体预览
+             */
+            public void navigation() {
+                RouterUtils.navigation(PATH, mParams);
+            }
+        }
+    }
 
     //endregion
 }
