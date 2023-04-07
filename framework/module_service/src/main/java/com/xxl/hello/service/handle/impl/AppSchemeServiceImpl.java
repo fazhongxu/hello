@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 
 import com.xxl.core.utils.AppExpandUtils;
 import com.xxl.hello.common.config.AppConfig;
+import com.xxl.hello.router.api.MainRouterApi;
 import com.xxl.hello.router.api.UserRouterApi;
 import com.xxl.hello.service.R;
 import com.xxl.hello.service.handle.api.AppSchemeService;
@@ -54,7 +55,7 @@ public class AppSchemeServiceImpl implements AppSchemeService {
                 JSONObject jsonObject = new JSONObject(payload);
                 String scheme = jsonObject.getString(AppConfig.APP_DEFAULT_SCHEME);
                 if (!TextUtils.isEmpty(scheme)) {
-                    boolean isLogged = !TextUtils.isEmpty(AppExpandUtils.getCurrentUserId()) && RouterUtils.hasActivity(AppRouterApi.MAIN_PATH);
+                    boolean isLogged = !TextUtils.isEmpty(AppExpandUtils.getCurrentUserId()) && RouterUtils.hasActivity(MainRouterApi.Main.PATH);
                     if (isLogged) {
                         return navigation(context, scheme, true);
                     } else {

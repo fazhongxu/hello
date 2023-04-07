@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.xxl.core.ui.fragment.BaseViewModelFragment;
 import com.xxl.core.utils.AppExpandUtils;
+import com.xxl.hello.router.api.MainRouterApi;
 import com.xxl.hello.router.api.UserRouterApi;
 import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
 import com.xxl.hello.user.BR;
@@ -42,13 +43,13 @@ public class LoginFragment extends BaseViewModelFragment<LoginViewModel, UserFra
     /**
      * 下一个跳转路径
      */
-    @Autowired(name = AppRouterApi.Login.PARAMS_KEY_NEXT_PATH)
+    @Autowired(name = UserRouterApi.Login.PARAMS_KEY_NEXT_PATH)
     String mNextPath;
 
     /**
      * 数据
      */
-    @Autowired(name = AppRouterApi.Login.PARAMS_KEY_EXTRA_DATA)
+    @Autowired(name = UserRouterApi.Login.PARAMS_KEY_EXTRA_DATA)
     String mExtraData;
 
     /**
@@ -128,10 +129,10 @@ public class LoginFragment extends BaseViewModelFragment<LoginViewModel, UserFra
     @Override
     public void onRequestLoginComplete(@NonNull final UserLoginResponse loginResponse) {
         mLoginViewModel.setTargetUserInfo(loginResponse.getLoginUserEntity());
-        if (RouterUtils.hasActivity(AppRouterApi.MAIN_PATH)) {
-            AppRouterApi.Login.setActivityResult(getActivity());
+        if (RouterUtils.hasActivity(MainRouterApi.Main.PATH)) {
+            UserRouterApi.Login.setActivityResult(getActivity());
         }else {
-            AppRouterApi.Main.newBuilder()
+            MainRouterApi.Main.newBuilder()
                     .setNextPath(mNextPath)
                     .setExtraData(mExtraData)
                     .navigationWithFinish(getActivity());

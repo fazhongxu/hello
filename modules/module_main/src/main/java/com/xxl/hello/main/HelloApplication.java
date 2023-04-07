@@ -21,6 +21,7 @@ import com.xxl.hello.common.config.ShareConfig;
 import com.xxl.hello.common.config.ShortcutConfig;
 import com.xxl.hello.common.utils.TbsUtils;
 import com.xxl.hello.main.di.component.DaggerAppComponent;
+import com.xxl.hello.router.api.UserRouterApi;
 import com.xxl.hello.service.handle.api.AppSchemeService;
 import com.xxl.hello.user.ui.setting.UserSettingActivity;
 import com.xxl.kit.AppRouterApi;
@@ -255,10 +256,10 @@ public class HelloApplication extends BaseApplication implements IApplication, M
             return;
         }
         if (requestCode > 0) {
-            AppRouterApi.Login.newBuilder().navigation(AppUtils.getTopActivity(), requestCode);
+            UserRouterApi.Login.newBuilder().navigation(AppUtils.getTopActivity(), requestCode);
             return;
         }
-        AppRouterApi.Login.newBuilder().navigation(AppUtils.getTopActivity());
+        UserRouterApi.Login.newBuilder().navigation(AppUtils.getTopActivity());
     }
 
     //endregion

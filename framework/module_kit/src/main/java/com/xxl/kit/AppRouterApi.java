@@ -29,21 +29,6 @@ public class AppRouterApi {
      */
     public static final String USER_MODULE_NAME = "/user_module";
 
-    /**
-     * 启动页面路径地址
-     */
-    public static final String SPLASH_PATH = MAIN_MODULE_NAME + "/splash";
-
-    /**
-     * 首页路径地址
-     */
-    public static final String MAIN_PATH = MAIN_MODULE_NAME + "/main";
-
-    /**
-     * 登录页面路径
-     */
-    public static final String LOGIN_PATH = USER_MODULE_NAME + "/login";
-
     //endregion
 
     //region: 构造函数
@@ -58,6 +43,10 @@ public class AppRouterApi {
 
     public static class Splash {
 
+        /**
+         * 启动页面路径地址
+         */
+        public static final String PATH = MAIN_MODULE_NAME + "/splash";
 
         /**
          * 跳转的下一个页面路径
@@ -104,14 +93,14 @@ public class AppRouterApi {
              * 导航到首页
              */
             public void navigation() {
-                RouterUtils.navigationWithFlag(SPLASH_PATH, Intent.FLAG_ACTIVITY_NEW_TASK);
+                RouterUtils.navigationWithFlag(PATH, Intent.FLAG_ACTIVITY_NEW_TASK);
             }
 
             /**
              * 导航到首页
              */
             public void navigationAndClearTop() {
-                RouterUtils.navigationAndClearTop(SPLASH_PATH, mParams);
+                RouterUtils.navigationAndClearTop(PATH, mParams);
             }
         }
     }
@@ -121,6 +110,11 @@ public class AppRouterApi {
     //region: 首页路由相关
 
     public static class Main {
+
+        /**
+         * 首页路径地址
+         */
+        public static final String PATH = MAIN_MODULE_NAME + "/main";
 
         /**
          * 跳转的下一个页面路径
@@ -166,21 +160,21 @@ public class AppRouterApi {
              * 导航到首页
              */
             public void navigation(@NonNull final Activity activity) {
-                RouterUtils.navigation(activity, MAIN_PATH, mParams);
+                RouterUtils.navigation(activity, PATH, mParams);
             }
 
             /**
              * 导航到首页
              */
             public void navigationWithFinish(@NonNull final Activity activity) {
-                RouterUtils.navigationWithFinish(activity, MAIN_PATH, mParams);
+                RouterUtils.navigationWithFinish(activity, PATH, mParams);
             }
 
             /**
              * 导航到首页
              */
             public void navigationAndClearTop() {
-                RouterUtils.navigationAndClearTop(MAIN_PATH, mParams);
+                RouterUtils.navigationAndClearTop(PATH, mParams);
             }
         }
     }
@@ -190,6 +184,11 @@ public class AppRouterApi {
     //region: 登录路由相关
 
     public static class Login {
+
+        /**
+         * 登录页面路径
+         */
+        public static final String PATH = USER_MODULE_NAME + "/login";
 
         /**
          * 登录页请求码
@@ -262,7 +261,7 @@ public class AppRouterApi {
              * @param activity
              */
             public void navigation(@NonNull final Activity activity) {
-                RouterUtils.navigation(activity, LOGIN_PATH, LOGIN_REQUEST_CODE);
+                RouterUtils.navigation(activity, PATH, LOGIN_REQUEST_CODE);
             }
 
             /**
@@ -282,7 +281,7 @@ public class AppRouterApi {
              */
             public void navigation(@NonNull final Activity activity,
                                    final int requestCode) {
-                RouterUtils.navigation(activity, LOGIN_PATH, mParams, requestCode);
+                RouterUtils.navigation(activity, PATH, mParams, requestCode);
             }
 
 
@@ -294,7 +293,7 @@ public class AppRouterApi {
              */
             public void navigationWithFinish(@NonNull final Activity activity,
                                              final int requestCode) {
-                RouterUtils.navigationWithFinish(activity, LOGIN_PATH, mParams, requestCode);
+                RouterUtils.navigationWithFinish(activity, PATH, mParams, requestCode);
             }
 
             /**
@@ -305,7 +304,7 @@ public class AppRouterApi {
              */
             public void navigation(@NonNull final Fragment fragment,
                                    final int requestCode) {
-                Postcard postcard = RouterUtils.buildPostcard(LOGIN_PATH);
+                Postcard postcard = RouterUtils.buildPostcard(PATH);
                 RouterUtils.completion(postcard);
                 Intent intent = new Intent(fragment.getActivity(), postcard.getDestination());
                 fragment.startActivityForResult(intent, requestCode);

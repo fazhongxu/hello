@@ -15,27 +15,35 @@ import com.xxl.kit.RouterUtils;
  */
 public class UserRouterApi {
 
+    //region: 成员变量
+
     /**
      * 用户模块名称
      */
     private static final String MODULE_NAME = AppRouterApi.USER_MODULE_NAME;
 
+    //endregion
+
+    //region: 构造函数
+
     private UserRouterApi() {
 
     }
 
-    public static class Login {
+    //endregion
 
-        /**
-         * 登录页面路径
-         */
-        public static final String PATH = AppRouterApi.LOGIN_PATH;
+    //region: 登录路由相关
 
-        public static void navigation(@NonNull final Activity activity) {
-            AppRouterApi.Login.newBuilder().navigation(activity);
-        }
+    /**
+     * 登录页面路由相关
+     */
+    public static class Login extends AppRouterApi.Login {
+
     }
 
+    //endregion
+
+    //region: 用户设置页路由相关
 
     public static class UserSetting {
 
@@ -49,8 +57,10 @@ public class UserRouterApi {
         }
 
         public static void navigationWithFinish(@NonNull final Activity activity) {
-            RouterUtils.navigationWithFinish(activity,PATH);
+            RouterUtils.navigationWithFinish(activity, PATH);
         }
     }
+
+    //endregion
 
 }

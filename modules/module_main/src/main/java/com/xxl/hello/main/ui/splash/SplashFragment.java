@@ -11,6 +11,8 @@ import com.xxl.core.utils.AppExpandUtils;
 import com.xxl.hello.main.BR;
 import com.xxl.hello.main.R;
 import com.xxl.hello.main.databinding.MainFragmentBinding;
+import com.xxl.hello.router.api.MainRouterApi;
+import com.xxl.hello.router.api.UserRouterApi;
 import com.xxl.kit.AppRouterApi;
 
 /**
@@ -108,12 +110,12 @@ public class SplashFragment extends BaseViewModelFragment<SplashViewModel, MainF
     @Override
     protected void setupLayout(@NonNull final View view) {
         if (AppExpandUtils.isLogin()) {
-            AppRouterApi.Main.newBuilder()
+            MainRouterApi.Main.newBuilder()
                     .setNextPath(mNextPath)
                     .setExtraData(mExtraData)
                     .navigationWithFinish(getActivity());
         } else {
-            AppRouterApi.Login.newBuilder()
+            UserRouterApi.Login.newBuilder()
                     .setNextPath(mNextPath)
                     .setExtraData(mExtraData)
                     .navigationWithFinish(getActivity());

@@ -16,7 +16,7 @@ import com.xxl.kit.AppRouterApi;
  * @author xxl.
  * @date 2021/8/13.
  */
-@Route(path = AppRouterApi.SPLASH_PATH)
+@Route(path = AppRouterApi.Splash.PATH)
 public class SplashActivity extends SingleFragmentActivity<SplashFragment> {
 
     //region: 页面生命周期

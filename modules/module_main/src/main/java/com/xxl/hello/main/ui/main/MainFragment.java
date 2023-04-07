@@ -34,6 +34,7 @@ import com.xxl.hello.main.databinding.MainFragmentBinding;
 import com.xxl.hello.main.ui.main.adapter.TestBindingAdapter;
 import com.xxl.hello.main.ui.main.adapter.TestBindingRecycleItemListener;
 import com.xxl.hello.main.ui.main.adapter.TestListEntity;
+import com.xxl.hello.router.api.MainRouterApi;
 import com.xxl.hello.router.api.UserRouterApi;
 import com.xxl.hello.service.data.model.api.QueryUserInfoResponse;
 import com.xxl.hello.service.data.model.entity.media.MediaPreviewItemEntity;
@@ -82,13 +83,13 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     /**
      * 携带到首页跳转下个页面的路径
      */
-    @Autowired(name = AppRouterApi.Main.PARAMS_KEY_NEXT_PATH)
+    @Autowired(name = MainRouterApi.Main.PARAMS_KEY_NEXT_PATH)
     String mNextPath;
 
     /**
      * 携带到首页的数据
      */
-    @Autowired(name = AppRouterApi.Main.PARAMS_KEY_EXTRA_DATA)
+    @Autowired(name = MainRouterApi.Main.PARAMS_KEY_EXTRA_DATA)
     String mExtraData;
 
     @Inject
@@ -231,7 +232,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     @Safe
     @Override
     public void onTestClick() {
-        AppRouterApi.Login.newBuilder().navigation(getActivity());
+        UserRouterApi.Login.newBuilder().navigation(getActivity());
 
 //        MediaPreviewItemEntity mediaPreviewItemEntity = MediaPreviewItemEntity.obtain()
 //                .setMediaUrl(AppConfig.User.GITHUB_USER_AVATAR)
@@ -471,7 +472,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
         if (isActivityFinishing()) {
             return;
         }
-        if (AppRouterApi.Login.isRequestCode(requestCode)) {
+        if (UserRouterApi.Login.isRequestCode(requestCode)) {
             ToastUtils.success(R.string.resources_login_success).show();
         }
     }
