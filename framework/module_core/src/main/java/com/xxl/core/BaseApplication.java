@@ -16,6 +16,7 @@ import com.xxl.core.ui.state.LoadingState;
 import com.xxl.core.ui.state.NetworkExceptionState;
 import com.xxl.core.ui.state.RequestErrorState;
 import com.xxl.core.ui.state.UnKnowExceptionState;
+import com.xxl.core.utils.BuglyUtils;
 import com.xxl.core.utils.CacheUtils;
 import com.xxl.core.widget.swipebacklayout.SwipeBackActivityManager;
 import com.xxl.kit.AppUtils;
@@ -90,6 +91,7 @@ public abstract class BaseApplication extends DaggerApplication {
      */
     public void initPluginsAfterAgreePrivacyPolicy() {
         setupShare();
+        setupBugly();
     }
 
     /**
@@ -97,6 +99,13 @@ public abstract class BaseApplication extends DaggerApplication {
      */
     public void setupShare() {
         ShareUtils.init(this, getShareAppKey(), getShareSecret(), getChannel(), isDebug());
+    }
+
+    /**
+     * 设置bugly
+     */
+    public void setupBugly() {
+        BuglyUtils.init(this, getBuglyAppId(),isDebug());
     }
 
     //endregion
@@ -108,6 +117,15 @@ public abstract class BaseApplication extends DaggerApplication {
      */
     public void logout() {
 
+    }
+
+    /**
+     * 获取bugly appID
+     *
+     * @return
+     */
+    public String getBuglyAppId() {
+        return null;
     }
 
     /**

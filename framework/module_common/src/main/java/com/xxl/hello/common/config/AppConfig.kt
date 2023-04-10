@@ -34,6 +34,11 @@ class AppConfig private constructor() {
         const val APP_SCHEME_TAG = "hl://hello.com"
 
         /**
+         * bugly appId
+         */
+        const val BUGLY_APPID = "8e8e5e32db"
+
+        /**
          * 构建本地数据存储文件名称
          *
          * @param targetName 文件名称

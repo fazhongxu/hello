@@ -163,6 +163,7 @@ dependencies {
     implementation deps.flyco_round_view
 
     implementation deps.tbs
+    implementation deps.bugly
 
     implementation deps.state_manager
     implementation deps.adapter_helper

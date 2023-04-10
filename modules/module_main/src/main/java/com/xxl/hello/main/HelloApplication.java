@@ -16,6 +16,7 @@ import com.xxl.core.image.selector.PictureSelectorEngineImpl;
 import com.xxl.core.listener.IApplication;
 import com.xxl.core.service.download.DownloadServiceUtils;
 import com.xxl.core.utils.CrashHandler;
+import com.xxl.hello.common.config.AppConfig;
 import com.xxl.hello.common.config.NetworkConfig;
 import com.xxl.hello.common.config.ShareConfig;
 import com.xxl.hello.common.config.ShortcutConfig;
@@ -24,7 +25,6 @@ import com.xxl.hello.main.di.component.DaggerAppComponent;
 import com.xxl.hello.router.api.UserRouterApi;
 import com.xxl.hello.service.handle.api.AppSchemeService;
 import com.xxl.hello.user.ui.setting.UserSettingActivity;
-import com.xxl.kit.AppRouterApi;
 import com.xxl.kit.AppUtils;
 import com.xxl.kit.LogUtils;
 import com.xxl.kit.StringUtils;
@@ -163,6 +163,11 @@ public class HelloApplication extends BaseApplication implements IApplication, M
     @Override
     public void logout() {
         mApplicationWrapper.logout();
+    }
+
+    @Override
+    public String getBuglyAppId() {
+        return AppConfig.BUGLY_APPID;
     }
 
     /**

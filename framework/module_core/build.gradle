@@ -126,7 +126,8 @@ dependencies {
     implementation deps.statemanager
     implementation deps.swipe_menu_layout
 
-    implementation deps.mmkv
+    compileOnly deps.mmkv
+    compileOnly deps.bugly
 
     implementation deps.evetbus
 

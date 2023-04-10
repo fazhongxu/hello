@@ -3,7 +3,7 @@ package com.xxl.core.aop.aspect;
 import android.text.TextUtils;
 
 import com.xxl.core.aop.annotation.Safe;
-import com.xxl.kit.LogUtils;
+import com.xxl.core.manager.ExceptionServiceManager;
 import com.xxl.kit.ReflectUtils;
 
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -32,13 +32,13 @@ public class SafeAspect {
         try {
             result = joinPoint.proceed();
         } catch (Exception e) {
-            LogUtils.e(e);
+            ExceptionServiceManager.postCaughtException(e);
             String callBack = safe.callBack();
             if (!TextUtils.isEmpty(callBack)) {
                 try {
                     ReflectUtils.reflect(joinPoint.getTarget()).method(callBack, e);
                 } catch (Exception e1) {
-                    LogUtils.e(e1);
+                    ExceptionServiceManager.postCaughtException(e);
                 }
             }
         }

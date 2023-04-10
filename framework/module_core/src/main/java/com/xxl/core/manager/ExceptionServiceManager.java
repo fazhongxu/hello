@@ -1,5 +1,6 @@
 package com.xxl.core.manager;
 
+import com.xxl.core.utils.BuglyUtils;
 import com.xxl.kit.LogUtils;
 
 public final class ExceptionServiceManager {
@@ -38,6 +39,7 @@ public final class ExceptionServiceManager {
     public final static void postCaughtException(final Throwable throwable) {
         if (throwable != null) {
             LogUtils.e(throwable.getMessage());
+            BuglyUtils.postCatchedException(throwable);
         }
     }
 

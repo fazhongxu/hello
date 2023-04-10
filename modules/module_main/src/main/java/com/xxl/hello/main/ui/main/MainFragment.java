@@ -15,7 +15,6 @@ import androidx.annotation.Nullable;
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.tbruyelle.rxpermissions3.RxPermissions;
 import com.xxl.core.aop.annotation.Safe;
-import com.xxl.core.image.loader.ImageLoader;
 import com.xxl.core.media.audio.AudioCapture;
 import com.xxl.core.media.audio.AudioCapture.OnAudioFrameCapturedListener;
 import com.xxl.core.media.audio.AudioRecordFormat;
@@ -37,13 +36,10 @@ import com.xxl.hello.main.ui.main.adapter.TestListEntity;
 import com.xxl.hello.router.api.MainRouterApi;
 import com.xxl.hello.router.api.UserRouterApi;
 import com.xxl.hello.service.data.model.api.QueryUserInfoResponse;
-import com.xxl.hello.service.data.model.entity.media.MediaPreviewItemEntity;
 import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
 import com.xxl.hello.service.handle.api.AppSchemeService;
-import com.xxl.hello.widget.data.router.WidgetRouterApi;
 import com.xxl.hello.widget.ui.view.record.OnRecordListener;
 import com.xxl.hello.widget.ui.view.record.RecordButton;
-import com.xxl.kit.AppRouterApi;
 import com.xxl.kit.AppUtils;
 import com.xxl.kit.FFmpegUtils;
 import com.xxl.kit.ListUtils;
@@ -204,10 +200,6 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
         mMainViewModel.setObservableUserId(String.valueOf(TimeUtils.currentServiceTimeMillis()));
         setupRecord();
         setupRecyclerView();
-
-        ImageLoader.with(this)
-                .load(AppConfig.User.GITHUB_USER_AVATAR)
-                .into(mViewDataBinding.ivPhoto);
     }
 
     private void setupRecyclerView() {
@@ -233,14 +225,6 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     @Override
     public void onTestClick() {
         UserRouterApi.Login.newBuilder().navigation(getActivity());
-
-//        MediaPreviewItemEntity mediaPreviewItemEntity = MediaPreviewItemEntity.obtain()
-//                .setMediaUrl(AppConfig.User.GITHUB_USER_AVATAR)
-//                .setTargetViewAttributes(mViewDataBinding.ivPhoto);
-//
-//        WidgetRouterApi.MediaPreview.newBuilder()
-//                .setMediaPreviewItemEntity(mediaPreviewItemEntity)
-//                .navigation();
     }
 
     /**
