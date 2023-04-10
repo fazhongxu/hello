@@ -115,7 +115,7 @@ public class SchemeJumpFragment extends BaseViewModelFragment<SchemeJumpViewMode
     @Override
     protected void requestData() {
         Intent intent = getActivity().getIntent();
-        if (intent != null && intent.getDataString() != null) {
+        if (intent != null && intent.getDataString() != null && intent.getDataString().contains(AppConfig.APP_SCHEME_TAG)) {
             //hl://hello.com/user_setting
             String payload = "";
             if (!intent.getDataString().contains(AppConfig.APP_DEFAULT_SCHEME)) {
