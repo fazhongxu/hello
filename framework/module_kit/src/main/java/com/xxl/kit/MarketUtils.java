@@ -12,34 +12,35 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 /**
- * Author: i小灰
- * Desc: 各大应用市场工具类
+ * reference https://github.com/dahui888/StartMarket/blob/master/tostart/src/main/java/com/ph/tostart/utils/MarketUtils.java
+ * 跳转各大应用市场工具类
  * 使用方法：
  * 参数1.上下文  2.你想跳转的应用包名  3.本机的应用市场或者指定的应用市场名,这里以跳转微信为例
  * MarketUtils.getTools().startMarket(this, "com.tencent.mm");
+ *
+ * @author xxl.
+ * @date 2023/04/14.
  **/
-
 public class MarketUtils {
 
     private static final String schemaUrl = "market://details?id=";
 
-
     /***
      * 不指定包名
-     * @param mContext 上下文
+     * @param context 上下文
      */
-    public static void startMarket(Context mContext) {
-        String packageName = mContext.getPackageName(); //得到包名
-        startMarket(mContext, packageName);
+    public static boolean startMarket(Context context) {
+        String packageName = context.getPackageName(); //得到包名
+        return startMarket(context, packageName);
     }
 
     /**
      * 指定包名
      *
-     * @param mContext    上下文
+     * @param context     上下文
      * @param packageName 包名
      */
-    public static boolean startMarket(Context mContext, String packageName) {
+    public static boolean startMarket(Context context, String packageName) {
         try {
             String deviceBrand = getDeviceBrand(); //获得手机厂商
             //根据厂商获取对应市场的包名
@@ -52,19 +53,25 @@ public class MarketUtils {
             if (null == marketPackageName || "".equals(marketPackageName)) {
                 //手机不再列表里面,去尝试寻找
                 //检测百度和应用宝是否在手机上安装,如果安装，则跳转到这两个市场的其中一个
-                boolean isExit1 = isCheckBaiduOrYYB(mContext, PACKAGE_NAME.BAIDU_PACKAGE_NAME);
+                boolean isExit1 = isCheckBaiduOrYYB(context, PACKAGE_NAME.BAIDU_PACKAGE_NAME);
                 if (isExit1) {
-                    startMarket(mContext, packageName, PACKAGE_NAME.BAIDU_PACKAGE_NAME);
-                    return true;
+                    return startMarket(context, packageName, PACKAGE_NAME.BAIDU_PACKAGE_NAME);
                 }
-                boolean isExit2 = isCheckBaiduOrYYB(mContext, PACKAGE_NAME.TENCENT_PACKAGE_NAME);
+                boolean isExit2 = isCheckBaiduOrYYB(context, PACKAGE_NAME.TENCENT_PACKAGE_NAME);
                 if (isExit2) {
-                    startMarket(mContext, packageName, PACKAGE_NAME.TENCENT_PACKAGE_NAME);
-                    return true;
+                    return startMarket(context, packageName, PACKAGE_NAME.TENCENT_PACKAGE_NAME);
                 }
             }
-            startMarket(mContext, packageName, marketPackageName);
-            return true;
+            if (startMarket(context, packageName, marketPackageName)) {
+                return true;
+            }
+            if (RomUtils.isOppo()) {
+                return startMarket(context, packageName, PACKAGE_NAME.OPPO_PACKAGE_NAME1);
+            }
+            if (RomUtils.isVivo()) {
+                return startMarket(context, packageName, PACKAGE_NAME.VIVO_PACKAGE_NAME1);
+            }
+            return false;
         } catch (ActivityNotFoundException anf) {
             Log.e("MarketUtils", "要跳转的应用市场不存在!");
         } catch (Exception e) {
@@ -79,14 +86,15 @@ public class MarketUtils {
      * @param packageName 包名
      * @param marketPackageName 应用市场包名
      */
-    public static void startMarket(Context mContext, String packageName, String marketPackageName) {
+    public static boolean startMarket(Context mContext, String packageName, String marketPackageName) {
         try {
-            openMarket(mContext, packageName, marketPackageName);
+            return openMarket(mContext, packageName, marketPackageName);
         } catch (ActivityNotFoundException anf) {
             Log.e("MarketUtils", "要跳转的应用市场不存在!-1");
         } catch (Exception e) {
             Log.e("MarketUtils", "其他错误：" + e.getMessage());
         }
+        return false;
     }
 
     /***
@@ -95,7 +103,7 @@ public class MarketUtils {
      * @param packageName 包名
      * @param marketPackageName 应用市场包名
      */
-    private static void openMarket(Context mContext, String packageName, String marketPackageName) {
+    private static boolean openMarket(Context mContext, String packageName, String marketPackageName) {
         try {
             Uri uri = Uri.parse(schemaUrl + packageName);
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
@@ -104,9 +112,12 @@ public class MarketUtils {
             mContext.startActivity(intent);
         } catch (ActivityNotFoundException anf) {
             Log.e("MarketUtils", "要跳转的应用市场不存在!-2");
+            return false;
         } catch (Exception e) {
             Log.e("MarketUtils", "其他错误：" + e.getMessage());
+            return false;
         }
+        return true;
     }
 
     /***
@@ -237,7 +248,9 @@ public class MarketUtils {
      **/
     public static class PACKAGE_NAME {
         public static final String OPPO_PACKAGE_NAME = "com.oppo.market";                    //oppo
+        public static final String OPPO_PACKAGE_NAME1 = "com.heytap.market";                 //oppo
         public static final String VIVO_PACKAGE_NAME = "com.bbk.appstore";                   //vivo
+        public static final String VIVO_PACKAGE_NAME1 = "com.bbk.appstore";                   //vivo1
         public static final String HUAWEI_PACKAGE_NAME = "com.huawei.appmarket";             //华为
         public static final String QH360_PACKAGE_NAME = "com.qihoo.appstore";                //360
         public static final String XIAOMI_PACKAGE_NAME = "com.xiaomi.market";                //小米
@@ -267,9 +280,7 @@ public class MarketUtils {
      */
     public static void launchAppDetail(Context context, String appPkg, String marketPkg) {
         try {
-            if (TextUtils.isEmpty(appPkg)) {
-                return;
-            }
+            if (TextUtils.isEmpty(appPkg)) return;
             Uri uri = Uri.parse("market://details?id=" + appPkg);
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             if (!TextUtils.isEmpty(marketPkg)) {
