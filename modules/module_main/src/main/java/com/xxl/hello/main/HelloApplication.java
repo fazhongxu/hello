@@ -16,6 +16,7 @@ import com.xxl.core.image.selector.PictureSelectorEngineImpl;
 import com.xxl.core.listener.IApplication;
 import com.xxl.core.service.download.DownloadServiceUtils;
 import com.xxl.core.utils.CrashHandler;
+import com.xxl.core.utils.DoKitHelper;
 import com.xxl.hello.common.config.AppConfig;
 import com.xxl.hello.common.config.NetworkConfig;
 import com.xxl.hello.common.config.ShareConfig;
@@ -152,6 +153,7 @@ public class HelloApplication extends BaseApplication implements IApplication, M
             TimeUtils.initialize();
             DownloadServiceUtils.init(this, isDebug());
             TbsUtils.initX5Environment(this);
+            DoKitHelper.init(this,isDebug());
         } catch (Exception e) {
             e.printStackTrace();
         }

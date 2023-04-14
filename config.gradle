@@ -103,6 +103,8 @@ versions.viewanimator = "1.1.0"
 
 versions.aescrypt = "0.0.1"
 
+versions.dokit = "3.5.0"
+
 versions.umeng_common = "9.5.2"
 versions.umeng_asms = "1.6.3"
 versions.umeng_share = "7.1.9"
@@ -311,6 +313,9 @@ deps.viewanimator = "com.github.florent37:viewanimator:$versions.viewanimator"
 
 //AES 加密 https://github.com/scottyab/AESCrypt-Android
 deps.aescrypt = "com.scottyab:aescrypt:$versions.aescrypt"
+
+// https://github.com/didi/DoKit
+deps.dokit = "io.github.didi.dokit:dokitx:$versions.dokit"
 
 // umeng https://devs.umeng.com/
 // 最新sdk 查看地址 https://github.com/umeng/MultiFunctionAndroidMavenDemo-master/blob/master/app/build.gradle

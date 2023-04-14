@@ -83,6 +83,10 @@ android {
         sourceCompatibility build_versions.sourceCompatibility
         targetCompatibility build_versions.targetCompatibility
     }
+
+    packagingOptions {
+        exclude 'META-INF/gradle/incremental.annotation.processors'
+    }
 }
 
 dependencies {
@@ -175,6 +179,8 @@ dependencies {
     kapt deps.aria.aira_processor
 
     implementation deps.viewanimator
+
+    implementation deps.dokit
 
     implementation deps.umeng.umeng_common
     implementation deps.umeng.umeng_asms
