@@ -1,4 +1,5 @@
 apply from: project.getRootDir().getAbsolutePath()+"/common.gradle"
 dependencies {
+    debugImplementation deps.dokit
     implementation deps.hello.user
 }

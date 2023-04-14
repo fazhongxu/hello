@@ -1,4 +1,4 @@
-package com.xxl.core.utils;
+package com.xxl.hello;
 
 import android.app.Application;
 
@@ -22,14 +22,10 @@ public class DoKitHelper {
      * 初始化
      *
      * @param application
-     * @param isDebug
      */
-    public static void init(@NonNull final Application application,
-                            final boolean isDebug) {
-        if (isDebug) {
-            new DoKit.Builder(application)
-                    .build();
-        }
+    public static void init(@NonNull final Application application) {
+        new DoKit.Builder(application)
+                .build();
     }
 
 }

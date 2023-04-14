@@ -153,8 +153,6 @@ dependencies {
     compileOnly deps.aria.core
     kapt deps.aria.aira_processor
 
-    compileOnly deps.dokit
-
     compileOnly deps.umeng.umeng_common
     compileOnly deps.umeng.umeng_asms
     compileOnly deps.umeng.umeng_share_core
