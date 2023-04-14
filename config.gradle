@@ -316,6 +316,8 @@ deps.aescrypt = "com.scottyab:aescrypt:$versions.aescrypt"
 
 // https://github.com/didi/DoKit
 deps.dokit = "io.github.didi.dokit:dokitx:$versions.dokit"
+//no-op
+deps.dokit_no_op = "io.github.didi.dokit:dokitx-no-op:$versions.dokit"
 
 // umeng https://devs.umeng.com/
 // 最新sdk 查看地址 https://github.com/umeng/MultiFunctionAndroidMavenDemo-master/blob/master/app/build.gradle
