@@ -25,16 +25,8 @@ public class MediaPlayerWrapper implements MediaPlayer.OnPreparedListener {
 
     //region: 构造函数
 
-    private MediaPlayerWrapper() {
+    public MediaPlayerWrapper() {
 
-    }
-
-    public static MediaPlayerWrapper getInstance() {
-        return Holder.INSTANCE;
-    }
-
-    private static class Holder {
-        private static MediaPlayerWrapper INSTANCE = new MediaPlayerWrapper();
     }
 
     //endregion
