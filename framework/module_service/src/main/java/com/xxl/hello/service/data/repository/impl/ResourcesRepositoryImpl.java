@@ -45,8 +45,6 @@ public class ResourcesRepositoryImpl implements ResourceRepositoryApi {
      */
     @Override
     public Observable<Boolean> putResourcesUploadQueueDBEntities(@NonNull final List<ResourcesUploadQueueDBEntity> targetResourcesUploadQueueDBEntities) {
-        // TODO: 2022/5/28
-        // TODO: 2022/5/28 添加数据库，发送EventBus事件通知上传队列服务运行，队列服务监听Bus事件，检查队列服务运行状态，开始上传资源
         return Observable.just(true)
                 .doOnNext(aBoolean -> {
                     EventBus.getDefault().post(OnPutResources2UploadQueueEvent.obtain(targetResourcesUploadQueueDBEntities));
