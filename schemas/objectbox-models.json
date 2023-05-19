@@ -1,0 +1,151 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:4526322376195424999",
+      "lastPropertyId": "5:6238017468895174076",
+      "name": "h_t_cache",
+      "properties": [
+        {
+          "id": "1:6029327953198356649",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:4883645474378373041",
+          "name": "create_time",
+          "type": 6
+        },
+        {
+          "id": "3:7412652820935003172",
+          "name": "update_time",
+          "type": 6
+        },
+        {
+          "id": "4:5956660481309559402",
+          "name": "key",
+          "indexId": "1:6329135904354485489",
+          "type": 9,
+          "flags": 2080
+        },
+        {
+          "id": "5:6238017468895174076",
+          "name": "value",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "2:5161050270207000031",
+      "lastPropertyId": "6:7435421821174087412",
+      "name": "h_t_category",
+      "properties": [
+        {
+          "id": "1:9022388934235645620",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:1932005944711580222",
+          "name": "create_time",
+          "type": 6
+        },
+        {
+          "id": "3:8334684752948941034",
+          "name": "update_time",
+          "type": 6
+        },
+        {
+          "id": "4:217077622998793174",
+          "name": "category_id",
+          "indexId": "2:25826072448542770",
+          "type": 6,
+          "flags": 40
+        },
+        {
+          "id": "5:1817030339043400691",
+          "name": "category_name",
+          "type": 6
+        },
+        {
+          "id": "6:7435421821174087412",
+          "name": "category_ext",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "3:2609695920169403388",
+      "lastPropertyId": "9:3299768727028829769",
+      "name": "h_t_resources_upload_queue",
+      "properties": [
+        {
+          "id": "1:3882501420063929168",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:8609389426574520186",
+          "name": "create_time",
+          "type": 6
+        },
+        {
+          "id": "3:6123259185768945694",
+          "name": "update_time",
+          "type": 6
+        },
+        {
+          "id": "4:4537170438148575064",
+          "name": "resources_upload_id",
+          "indexId": "3:5191770911680992787",
+          "type": 9,
+          "flags": 2080
+        },
+        {
+          "id": "5:4740238713085358069",
+          "name": "submit_task_id",
+          "type": 9
+        },
+        {
+          "id": "6:8600177718137614680",
+          "name": "upload_url",
+          "type": 9
+        },
+        {
+          "id": "7:7866498176452698642",
+          "name": "wait_upload_path",
+          "type": 9
+        },
+        {
+          "id": "8:2897970353246857915",
+          "name": "media_type",
+          "type": 9
+        },
+        {
+          "id": "9:3299768727028829769",
+          "name": "uploadChannel",
+          "type": 5
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "3:2609695920169403388",
+  "lastIndexId": "3:5191770911680992787",
+  "lastRelationId": "0:0",
+  "lastSequenceId": "0:0",
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
+  "retiredEntityUids": [],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [],
+  "retiredRelationUids": [],
+  "version": 1
+}

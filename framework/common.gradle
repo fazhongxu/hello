@@ -19,6 +19,7 @@ android {
         kapt {
             arguments {
                 arg("AROUTER_MODULE_NAME", project.getName())
+                arg("objectbox.modelPath", project.getRootDir().getAbsolutePath() + "/schemas/objectbox-models.json".toString())
             }
         }
     }

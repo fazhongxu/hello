@@ -32,6 +32,12 @@ public class CategoryDBEntity extends BaseDBEntity<CategoryDBEntity> {
     @NameInDb("category_name")
     private long categoryName;
 
+    /**
+     * 扩展字段
+     */
+    @NameInDb("category_ext")
+    String categoryExt;
+
     //endregion
 
     //region: 构造函数
