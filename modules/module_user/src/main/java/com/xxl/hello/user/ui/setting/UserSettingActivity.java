@@ -26,6 +26,11 @@ public class UserSettingActivity extends SingleFragmentBarActivity<UserSettingFr
         return R.string.user_setting_title;
     }
 
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
+
     //endregion
 
 }
