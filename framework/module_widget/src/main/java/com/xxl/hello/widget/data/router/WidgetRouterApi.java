@@ -1,9 +1,13 @@
 package com.xxl.hello.widget.data.router;
 
+import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.view.ViewCompat;
 
 import com.xxl.hello.service.data.model.entity.media.MediaPreviewItemEntity;
 import com.xxl.kit.ListUtils;
@@ -44,6 +48,11 @@ public final class WidgetRouterApi {
         public static final String PARAMS_KEY_SHARE_ENABLE = "params_key_share_enable";
 
         /**
+         * 共享元素标识
+         */
+        public static final String PARAMS_KEY_IMAGE_TRANSITION_NAME = "share_image";
+
+        /**
          * 多媒体数据
          */
         private static final List<MediaPreviewItemEntity> sMediaPreviewItemEntities = new ArrayList<>();
@@ -71,18 +80,9 @@ public final class WidgetRouterApi {
             private Bundle mParams = new Bundle();
 
             public Builder() {
+
             }
 
-            /**
-             * 设置是否可以分享（默认可分享）
-             *
-             * @param shareEnable
-             * @return
-             */
-            public Builder setShareEnable(final boolean shareEnable) {
-                mParams.putBoolean(PARAMS_KEY_SHARE_ENABLE, shareEnable);
-                return this;
-            }
 
             /**
              * 设置多媒体预览条目数据
@@ -116,8 +116,16 @@ public final class WidgetRouterApi {
             /**
              * 跳转到多媒体预览
              */
-            public void navigation() {
-                RouterUtils.navigation(PATH, mParams);
+            public void navigation(@NonNull final Activity activity,
+                                   @NonNull final View targetView) {
+
+                ViewCompat.setTransitionName(targetView, PARAMS_KEY_IMAGE_TRANSITION_NAME);
+                ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, targetView, MediaPreview.PARAMS_KEY_IMAGE_TRANSITION_NAME);
+
+                RouterUtils.buildPostcard(PATH)
+                        .with(mParams)
+                        .withOptionsCompat(optionsCompat)
+                        .navigation(activity);
             }
         }
     }

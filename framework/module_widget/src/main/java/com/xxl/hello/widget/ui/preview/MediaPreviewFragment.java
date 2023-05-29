@@ -11,6 +11,7 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.xxl.core.image.loader.ImageLoader;
@@ -101,10 +102,10 @@ public class MediaPreviewFragment extends BaseViewModelFragment<MediaPreviewMode
     @Override
     protected void setupData() {
         mMediaPreviewItemEntities = WidgetRouterApi.MediaPreview.getMediaPreviewItemEntities();
-        if (ListUtils.isEmpty(mMediaPreviewItemEntities)) {
-            finishActivity();
-            return;
-        }
+//        if (ListUtils.isEmpty(mMediaPreviewItemEntities)) {
+//            finishActivity();
+//            return;
+//        }
     }
 
     @Override
@@ -118,8 +119,11 @@ public class MediaPreviewFragment extends BaseViewModelFragment<MediaPreviewMode
                     .load(mediaPreviewItemEntity.getMediaUrl())
                     .into(mMediaPreviewBinding.ivPhoto);
         }
+        ImageLoader.with(this)
+                .load(R.drawable.resources_ic_hello)
+                .into(mMediaPreviewBinding.ivPhoto);
 
-        openAnim(getActivity(),mMediaPreviewBinding.ivPhoto,mediaPreviewItemEntity);
+        //  openAnim(getActivity(),mMediaPreviewBinding.ivPhoto,mediaPreviewItemEntity);
     }
 
     //endregion
@@ -246,8 +250,8 @@ public class MediaPreviewFragment extends BaseViewModelFragment<MediaPreviewMode
             return false;
         }
         // TODO: 2023/4/6
-        closeAnim(getActivity(),mMediaPreviewBinding.ivPhoto,ListUtils.getFirst(mMediaPreviewItemEntities));
-
+//        closeAnim(getActivity(),mMediaPreviewBinding.ivPhoto,ListUtils.getFirst(mMediaPreviewItemEntities));
+        ActivityCompat.finishAfterTransition(getActivity());
         return true;
     }
 
