@@ -8,7 +8,6 @@ import android.os.Build;
 import android.os.Parcelable;
 import android.view.View;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 /**
@@ -20,15 +19,19 @@ import androidx.annotation.Nullable;
 public class SharedElementUtils {
 
     /**
-     * 解决共享元素拖拽结束后回到上一个页面空白问题
+     * 解决共享元素拖拽漏出上一个页面看到的控件空白问题
      * reference https://github.com/bauer-bao/DragCloseHelper/tree/master
-     * // TODO: 2023/5/29 使用还是有点麻烦，多个页面如果用了同一个查看图片，有可能有问题，解决方案2，在目标view下面盖一个fake view，共享元素动画让fake view 来做（也是有点麻烦）
      *
      * @param activity
+     * @param targetView
      */
-    public static void setExitSharedElementCallback(@NonNull final Activity activity,
-                                                    @NonNull OnMediaPreviewSharedElementListener listener) {
+    public static void setExitSharedElementCallback(@Nullable final Activity activity,
+                                                    @Nullable final View targetView) {
+        if (activity == null || targetView == null) {
+            return;
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            //解决共享元素拖拽结束后回到上一个页面空白问题
             activity.setExitSharedElementCallback(new SharedElementCallback() {
 
                 @Override
@@ -37,41 +40,9 @@ public class SharedElementUtils {
                     return super.onCaptureSharedElementSnapshot(sharedElement, viewToGlobalMatrix, screenBounds);
                 }
             });
-            setMediaPreviewSharedElementListener(listener);
+
+            // 解决共享元素开始拖拽时看到底部原来的targetView空白问题
+            targetView.postDelayed(() -> targetView.setAlpha(1F), 600);
         }
-    }
-
-    private static OnMediaPreviewSharedElementListener sMediaPreviewSharedElementListener;
-
-    public static void setMediaPreviewSharedElementListener(@Nullable final OnMediaPreviewSharedElementListener listener) {
-        sMediaPreviewSharedElementListener = listener;
-    }
-
-    /**
-     * 清除多媒体查看页面共享元素监听事件
-     * 在跳转查看多媒体的上一个页面的 onResume 里面调用
-     */
-    public static void clearMediaPreviewSharedElementListener() {
-        setMediaPreviewSharedElementListener(null);
-    }
-
-    /**
-     * 多媒体查看页面共享元素拖拽开始
-     */
-    public static void onMediaPreviewSharedElementDragStart() {
-        if (sMediaPreviewSharedElementListener != null) {
-            sMediaPreviewSharedElementListener.onSharedElementDragStart();
-        }
-    }
-
-    /**
-     * 多媒体查看页面共享元素监听
-     */
-    public interface OnMediaPreviewSharedElementListener {
-
-        /**
-         * 共享元素拖拽开始
-         */
-        void onSharedElementDragStart();
     }
 }

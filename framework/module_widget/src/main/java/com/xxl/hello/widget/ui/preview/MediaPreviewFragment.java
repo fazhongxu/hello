@@ -157,7 +157,7 @@ public class MediaPreviewFragment extends BaseViewModelFragment<MediaPreviewMode
 
             @Override
             public void onDragStart() {
-                SharedElementUtils.onMediaPreviewSharedElementDragStart();
+
             }
 
             @Override

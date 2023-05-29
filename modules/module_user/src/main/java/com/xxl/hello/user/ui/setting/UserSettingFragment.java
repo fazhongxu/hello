@@ -140,12 +140,6 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        WidgetRouterApi.MediaPreview.clearMediaPreviewSharedElementListener();
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
         mKeyboardWrapper.onDestroy();
