@@ -14,23 +14,30 @@
             type="com.xxl.hello.widget.ui.preview.MediaPreviewNavigator" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <FrameLayout
+        android:id="@+id/fl_root_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/black">
+        android:layout_height="match_parent">
 
-        <com.luck.picture.lib.photoview.PhotoView
-            android:id="@+id/iv_photo"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:transitionName="share_image"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@tools:sample/avatars" />
+        <com.xxl.hello.widget.ui.view.DragDismissLayout
+            android:id="@+id/drag_dismiss_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <com.luck.picture.lib.photoview.PhotoView
+                android:id="@+id/iv_photo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:transitionName="share_image"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@tools:sample/avatars" />
+
+        </com.xxl.hello.widget.ui.view.DragDismissLayout>
+
+    </FrameLayout>
 
 </layout>
 

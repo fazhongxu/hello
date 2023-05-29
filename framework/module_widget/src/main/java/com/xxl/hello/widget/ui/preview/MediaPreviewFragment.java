@@ -1,16 +1,13 @@
 package com.xxl.hello.widget.ui.preview;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.ValueAnimator;
-import android.app.Activity;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.AccelerateInterpolator;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
@@ -21,7 +18,7 @@ import com.xxl.hello.widget.BR;
 import com.xxl.hello.widget.R;
 import com.xxl.hello.widget.data.router.WidgetRouterApi;
 import com.xxl.hello.widget.databinding.WidgetFragmentMediaPreviewBinding;
-import com.xxl.kit.DisplayUtils;
+import com.xxl.hello.widget.ui.view.DragDismissLayout;
 import com.xxl.kit.ListUtils;
 
 import java.util.List;
@@ -46,6 +43,8 @@ public class MediaPreviewFragment extends BaseViewModelFragment<MediaPreviewMode
      * 多媒体预览页面视图模型
      */
     private MediaPreviewModel mMediaPreviewModel;
+
+    private ColorDrawable mColorDrawable;
 
     /**
      * 是否可以分享
@@ -102,16 +101,27 @@ public class MediaPreviewFragment extends BaseViewModelFragment<MediaPreviewMode
     @Override
     protected void setupData() {
         mMediaPreviewItemEntities = WidgetRouterApi.MediaPreview.getMediaPreviewItemEntities();
-//        if (ListUtils.isEmpty(mMediaPreviewItemEntities)) {
-//            finishActivity();
-//            return;
-//        }
+        if (ListUtils.isEmpty(mMediaPreviewItemEntities)) {
+            finishActivity();
+            return;
+        }
     }
 
     @Override
     public void setupLayout(@NonNull View view) {
-
         mMediaPreviewBinding = getViewDataBinding();
+        setupLayout();
+    }
+
+    //endregion
+
+    //region: 页面视图渲染
+
+    private void setupLayout() {
+        mColorDrawable = new ColorDrawable();
+        mColorDrawable.setColor(Color.BLACK);
+        mMediaPreviewBinding.flRootContainer.setBackground(mColorDrawable);
+        mMediaPreviewBinding.dragDismissLayout.setDefaultColorDrawable();
 
         final MediaPreviewItemEntity mediaPreviewItemEntity = ListUtils.getFirst(mMediaPreviewItemEntities);
         if (mediaPreviewItemEntity != null) {
@@ -119,118 +129,47 @@ public class MediaPreviewFragment extends BaseViewModelFragment<MediaPreviewMode
                     .load(mediaPreviewItemEntity.getMediaUrl())
                     .into(mMediaPreviewBinding.ivPhoto);
         }
-        ImageLoader.with(this)
-                .load(R.drawable.resources_ic_hello)
-                .into(mMediaPreviewBinding.ivPhoto);
-
-        //  openAnim(getActivity(),mMediaPreviewBinding.ivPhoto,mediaPreviewItemEntity);
-    }
-
-    //endregion
-
-    //region: 页面视图渲染
-
-    private void openAnim(@NonNull final Activity activity,
-                          @NonNull final ImageView targetImageView,
-                          @NonNull final MediaPreviewItemEntity mediaPreviewItemEntity) {
-        if (mediaPreviewItemEntity == null) {
-            return;
-        }
-        ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams(mediaPreviewItemEntity.getPreviewWidth(), mediaPreviewItemEntity.getPreviewHeight());
-        layoutParams.leftMargin = mediaPreviewItemEntity.getStartX();
-        layoutParams.topMargin = mediaPreviewItemEntity.getStartY();
-        targetImageView.setLayoutParams(layoutParams);
-
-        ValueAnimator animator = ValueAnimator.ofFloat(1F, 0);
-        animator.setDuration(1400);
-        animator.setInterpolator(new AccelerateInterpolator());
-
-        final int screenWidth = DisplayUtils.getScreenWidth(getActivity());
-        final int screenHeight = DisplayUtils.getScreenHeight(getActivity());
-        animator.addUpdateListener(animation -> {
-            if (isActivityFinishing()){
-                return;
-            }
-             float value = (float) animation.getAnimatedValue();
-            final ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) targetImageView.getLayoutParams();
-            params.leftMargin = (int) (mediaPreviewItemEntity.getStartX() * value);
-            params.topMargin = (int) (mediaPreviewItemEntity.getStartY() * value);
-            params.width = (int) (mediaPreviewItemEntity.getPreviewWidth() + ((screenWidth - mediaPreviewItemEntity.getPreviewWidth()) * (1F - value)));
-            params.height = (int) (mediaPreviewItemEntity.getPreviewHeight() + ((screenHeight - mediaPreviewItemEntity.getPreviewHeight()) * (1F - value)));
-            targetImageView.setLayoutParams(params);
-        });
-        animator.addListener(new AnimatorListenerAdapter() {
+        mMediaPreviewBinding.ivPhoto.setOnDoubleTapListener(new GestureDetector.OnDoubleTapListener() {
             @Override
-            public void onAnimationEnd(Animator animation) {
-
+            public boolean onSingleTapConfirmed(MotionEvent e) {
+                finishActivity();
+                return true;
             }
-        });
-        animator.start();
-    }
 
-    private void closeAnim(@NonNull final Activity activity,
-                          @NonNull final ImageView targetImageView,
-                          @NonNull final MediaPreviewItemEntity mediaPreviewItemEntity) {
-        if (mediaPreviewItemEntity == null) {
-            return;
-        }
-
-        ValueAnimator animator = ValueAnimator.ofFloat(0, 1F);
-        animator.setDuration(1400);
-        animator.setInterpolator(new AccelerateInterpolator());
-
-        final int screenWidth = DisplayUtils.getScreenWidth(activity);
-        final int screenHeight = DisplayUtils.getScreenHeight(activity);
-        animator.addUpdateListener(animation -> {
-            if (isActivityFinishing()) {
-                return;
-            }
-            float value = (float) animation.getAnimatedValue();
-            final ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) targetImageView.getLayoutParams();
-            params.leftMargin = (int) (mediaPreviewItemEntity.getStartX() * value);
-            params.topMargin = (int) (mediaPreviewItemEntity.getStartY() * value);
-            params.width = (int) (screenWidth - ((screenWidth - mediaPreviewItemEntity.getPreviewWidth()) * value));
-            params.height = (int) (screenHeight - ((screenHeight - mediaPreviewItemEntity.getPreviewHeight()) * value));
-            targetImageView.setLayoutParams(params);
-        });
-        animator.addListener(new AnimatorListenerAdapter() {
             @Override
-            public void onAnimationEnd(Animator animation) {
-                if (activity.isFinishing()) {
-                    return;
+            public boolean onDoubleTap(MotionEvent e) {
+                if (mMediaPreviewBinding.ivPhoto.getScale() > mMediaPreviewBinding.ivPhoto.getMinimumScale()) {
+                    mMediaPreviewBinding.ivPhoto.setScale(mMediaPreviewBinding.ivPhoto.getMinimumScale(), true);
+                } else {
+                    mMediaPreviewBinding.ivPhoto.setScale(mMediaPreviewBinding.ivPhoto.getMediumScale(), true);
                 }
-                activity.finish();
-//                activity.overridePendingTransition(R.anim.serviceui_image_scan_in_0, R.anim.serviceui_image_scan_out_0)
+                return true;
+            }
+
+            @Override
+            public boolean onDoubleTapEvent(MotionEvent e) {
+                return false;
             }
         });
-        animator.start();
 
-//        var screenWidth= ScreenUtils.getScreenWidth(activity)
-//        var screenHeight= ScreenUtils.getScreenHeight(activity)
-//        animator.addUpdateListener { valueAnimator: ValueAnimator ->
-//                val value = valueAnimator.animatedValue as Float
-//            var p : CoordinatorLayout.LayoutParams = imageView.layoutParams as CoordinatorLayout.LayoutParams
-//            p.leftMargin= ((bean.startX)*value).toInt()
-//            p.topMargin=((bean.startY)*value).toInt()
-//            p.width=screenWidth- (((screenWidth-bean.width))*value).toInt()
-//            p.height=screenHeight-(((screenHeight-bean.height))*value).toInt()
-//
-//            imageView.layoutParams=p
-//        }
-//        animator.start()
-//        animator.addListener(object : Animator.AnimatorListener {
-//            override fun onAnimationStart(animation: Animator) {}
-//            override fun onAnimationEnd(animation: Animator) {
-//                activity.finish()
-//                //发现如果先关闭activity,图片缩放可能受到影响,导致中间状态消失,所以这里结束的时候执行一个非常短的动画
-//                activity.overridePendingTransition(R.anim.serviceui_image_scan_in_0, R.anim.serviceui_image_scan_out_0)
-//            }
-//            override fun onAnimationCancel(animation: Animator) {}
-//            override fun onAnimationRepeat(animation: Animator) {}
-//        })
-//    }
+        mMediaPreviewBinding.dragDismissLayout.setOnDragListener(new DragDismissLayout.OnDragListener() {
+
+            @Override
+            public void onDragStart() {
+
+            }
+
+            @Override
+            public void onDragging(int alpah) {
+                mColorDrawable.setAlpha(alpah);
+            }
+
+            @Override
+            public void onDragEnd() {
+                finishActivity();
+            }
+        });
     }
-
 
     //endregion
 
@@ -246,13 +185,16 @@ public class MediaPreviewFragment extends BaseViewModelFragment<MediaPreviewMode
      * @return
      */
     public boolean onBackPressed() {
-        if (isActivityFinishing()) {
-            return false;
-        }
-        // TODO: 2023/4/6
-//        closeAnim(getActivity(),mMediaPreviewBinding.ivPhoto,ListUtils.getFirst(mMediaPreviewItemEntities));
         ActivityCompat.finishAfterTransition(getActivity());
         return true;
+    }
+
+    @Override
+    public void finishActivity() {
+        if (isActivityFinishing()) {
+            return;
+        }
+        ActivityCompat.finishAfterTransition(getActivity());
     }
 
     //endregion

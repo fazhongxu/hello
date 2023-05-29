@@ -2,6 +2,7 @@ package com.xxl.hello.widget.ui.preview;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.xxl.core.ui.activity.SingleFragmentActivity;
+import com.xxl.hello.widget.R;
 import com.xxl.hello.widget.data.router.WidgetRouterApi.MediaPreview;
 
 /**
@@ -14,6 +15,11 @@ import com.xxl.hello.widget.data.router.WidgetRouterApi.MediaPreview;
 public class MediaPreviewActivity extends SingleFragmentActivity<MediaPreviewFragment> {
 
     //region: 页面生命周期
+
+    @Override
+    protected int getLayoutRes() {
+        return R.layout.core_layout_transparent;
+    }
 
     /**
      * 创建Fragment

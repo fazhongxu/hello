@@ -208,6 +208,15 @@ public class MediaPreviewItemEntity {
     }
 
     /**
+     * 判断是否有属性值
+     *
+     * @return
+     */
+    public boolean hasTargetViewAttributes() {
+        return mStartX > 0 && mStartY > 0 && mPreviewWidth > 0 && mPreviewHeight > 0;
+    }
+
+    /**
      * 设置view的属性
      *
      * @param targetView

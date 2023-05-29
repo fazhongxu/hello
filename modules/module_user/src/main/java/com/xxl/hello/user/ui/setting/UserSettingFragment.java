@@ -1,9 +1,12 @@
 package com.xxl.hello.user.ui.setting;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.TextUtils;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -17,6 +20,7 @@ import com.xxl.hello.common.config.AppConfig;
 import com.xxl.hello.common.config.CacheDirConfig;
 import com.xxl.hello.common.config.NetworkConfig;
 import com.xxl.hello.service.data.local.db.entity.ResourcesUploadQueueDBEntity;
+import com.xxl.hello.service.data.model.entity.media.MediaPreviewItemEntity;
 import com.xxl.hello.service.data.model.entity.share.ImageShareResourceEntity;
 import com.xxl.hello.service.data.model.entity.share.ShareOperateItem;
 import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
@@ -26,6 +30,7 @@ import com.xxl.hello.service.qunlifier.ForUserBaseUrl;
 import com.xxl.hello.user.BR;
 import com.xxl.hello.user.R;
 import com.xxl.hello.user.databinding.UserFragmentSettingBinding;
+import com.xxl.hello.widget.data.router.WidgetRouterApi;
 import com.xxl.hello.widget.ui.view.keyboard.ICommentKeyboardLayout;
 import com.xxl.hello.widget.ui.view.share.OnShareItemOperate;
 import com.xxl.hello.widget.ui.view.share.ResourcesShareWindow;
@@ -167,7 +172,7 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
         mKeyboardWrapper.setKeyboardStateChangeListener(this);
         setupCommentLayout();
         setupShareLayout();
-        mUserSettingModel.setObservableUserAvatarUrl(AppConfig.User.GITHUB_USER_AVATAR);
+        setupAvatarLayout();
     }
 
     @Override
@@ -194,6 +199,47 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
      */
     private void setupShareLayout() {
         mResourcesSharePickerKit.register(this);
+    }
+
+    /**
+     * 设置头像视图
+     */
+    @SuppressLint("ClickableViewAccessibility")
+    private void setupAvatarLayout() {
+        final GestureDetector.SimpleOnGestureListener simpleOnGestureListener = new GestureDetector.SimpleOnGestureListener() {
+            @Override
+            public boolean onSingleTapConfirmed(MotionEvent e) {
+                onUserAvatarClick();
+                return true;
+            }
+
+            @Override
+            public boolean onDoubleTap(MotionEvent e) {
+                MediaPreviewItemEntity mediaPreviewItemEntity = MediaPreviewItemEntity.obtain()
+                        .setMediaUrl(mUserSettingModel.getObservableUserAvatarUrl().get())
+                        .setTargetViewAttributes(mViewDataBinding.ivUserAvatar);
+
+                WidgetRouterApi.MediaPreview.newBuilder()
+                        .setMediaPreviewItemEntity(mediaPreviewItemEntity)
+                        .navigation(getActivity(), mViewDataBinding.ivUserAvatar);
+                return true;
+            }
+
+            @Override
+            public void onLongPress(MotionEvent e) {
+                onUserAvatarLongClick();
+            }
+
+        };
+        final GestureDetector gestureDetector = new GestureDetector(getActivity(), simpleOnGestureListener);
+        mViewDataBinding.ivUserAvatar.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                gestureDetector.onTouchEvent(event);
+                return true;
+            }
+        });
+        setupUserAvatar(AppConfig.User.GITHUB_USER_AVATAR);
     }
 
     /**

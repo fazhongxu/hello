@@ -3,7 +3,6 @@ package com.xxl.hello.main.ui.main;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -12,7 +11,6 @@ import android.view.View;
 import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.view.ViewCompat;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.tbruyelle.rxpermissions3.RxPermissions;
@@ -38,11 +36,8 @@ import com.xxl.hello.main.ui.main.adapter.TestListEntity;
 import com.xxl.hello.router.api.MainRouterApi;
 import com.xxl.hello.router.api.UserRouterApi;
 import com.xxl.hello.service.data.model.api.QueryUserInfoResponse;
-import com.xxl.hello.service.data.model.entity.media.MediaPreviewItemEntity;
 import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
 import com.xxl.hello.service.handle.api.AppSchemeService;
-import com.xxl.hello.widget.data.router.WidgetRouterApi;
-import com.xxl.hello.widget.ui.preview.MediaPreviewActivity;
 import com.xxl.hello.widget.ui.view.record.OnRecordListener;
 import com.xxl.hello.widget.ui.view.record.RecordButton;
 import com.xxl.kit.AppUtils;
@@ -228,16 +223,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
     @Override
     public void onTestClick() {
-//        UserRouterApi.Login.newBuilder().navigation(getActivity());
-
-        MediaPreviewItemEntity mediaPreviewItemEntity = MediaPreviewItemEntity.obtain()
-                .setMediaUrl(AppConfig.User.GITHUB_USER_AVATAR)
-                .setTargetViewAttributes(mViewDataBinding.ivPhoto);
-//
-        WidgetRouterApi.MediaPreview.newBuilder()
-                .setMediaPreviewItemEntity(mediaPreviewItemEntity)
-                .navigation(getActivity(),mViewDataBinding.ivPhoto);
-
+        UserRouterApi.Login.newBuilder().navigation(getActivity());
     }
 
     /**

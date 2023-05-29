@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
  Tencent is pleased to support the open source community by making QMUI_Android available.
 
  Copyright (C) 2017-2018 THL A29 Limited, a Tencent company. All rights reserved.
@@ -16,6 +15,15 @@
 -->
 
 <resources>
+
+    <style name="BaseTheme" parent="Theme.AppCompat.Light.NoActionBar"/>
+
+    <style name="TransparentTheme" parent="BaseTheme">
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
 
     <style name="SwipeBackLayout">
         <item name="shadow_left">@drawable/core_ic_shadow_left</item>

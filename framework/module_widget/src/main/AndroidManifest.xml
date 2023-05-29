@@ -4,6 +4,7 @@
 
     <application>
         <activity android:name=".ui.web.CommonWebActivity" />
-        <activity android:name=".ui.preview.MediaPreviewActivity"/>
+        <activity android:name=".ui.preview.MediaPreviewActivity"
+            android:theme="@style/TransparentTheme"/>
     </application>
 </manifest>
