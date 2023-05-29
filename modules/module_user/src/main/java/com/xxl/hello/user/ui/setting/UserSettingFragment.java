@@ -3,25 +3,19 @@ package com.xxl.hello.user.ui.setting;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Matrix;
-import android.graphics.RectF;
 import android.net.Uri;
-import android.os.Parcelable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.SharedElementCallback;
 
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.xxl.core.data.router.SystemRouterApi;
 import com.xxl.core.image.selector.MediaSelector;
 import com.xxl.core.ui.fragment.BaseViewModelFragment;
-import com.xxl.core.utils.SharedElementUtils;
 import com.xxl.hello.common.config.AppConfig;
 import com.xxl.hello.common.config.CacheDirConfig;
 import com.xxl.hello.common.config.NetworkConfig;
@@ -146,6 +140,12 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        WidgetRouterApi.MediaPreview.clearMediaPreviewSharedElementListener();
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         mKeyboardWrapper.onDestroy();
@@ -212,7 +212,6 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
      */
     @SuppressLint("ClickableViewAccessibility")
     private void setupAvatarLayout() {
-        SharedElementUtils.setExitSharedElementCallback(getActivity());
         final GestureDetector.SimpleOnGestureListener simpleOnGestureListener = new GestureDetector.SimpleOnGestureListener() {
             @Override
             public boolean onSingleTapConfirmed(MotionEvent e) {
@@ -435,16 +434,6 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
         setupUserAvatar(avatar);
         mViewDataBinding.tvTest.setText(sb);
         mViewDataBinding.scScrollView.fullScroll(View.FOCUS_DOWN);
-    }
-
-    /**
-     * 共享元素开始拖拽事件
-     */
-    public void handleSharedElementDragStartEvent() {
-        if (isActivityFinishing()) {
-            return;
-        }
-        mViewDataBinding.ivUserAvatar.setAlpha(1F);
     }
 
     //endregion

@@ -157,12 +157,12 @@ public class MediaPreviewFragment extends BaseViewModelFragment<MediaPreviewMode
 
             @Override
             public void onDragStart() {
-                SharedElementUtils.postMediaPreviewSharedElementDragStartEvent();
+                SharedElementUtils.onMediaPreviewSharedElementDragStart();
             }
 
             @Override
-            public void onDragging(int alpah) {
-                mColorDrawable.setAlpha(alpah);
+            public void onDragging(int alpha) {
+                mColorDrawable.setAlpha(alpha);
             }
 
             @Override

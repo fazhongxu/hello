@@ -9,8 +9,7 @@ import android.os.Parcelable;
 import android.view.View;
 
 import androidx.annotation.NonNull;
-
-import org.greenrobot.eventbus.EventBus;
+import androidx.annotation.Nullable;
 
 /**
  * 共享元素工具
@@ -21,17 +20,14 @@ import org.greenrobot.eventbus.EventBus;
 public class SharedElementUtils {
 
     /**
-     * 多媒体预览页面共享元素拖拽开始事件
-     */
-    public static final String MEDIA_PREVIEW_SHARED_ELEMENT_DRAG_START_EVENT = "media_preview_shared_element_drag_start_event";
-
-    /**
      * 解决共享元素拖拽结束后回到上一个页面空白问题
      * reference https://github.com/bauer-bao/DragCloseHelper/tree/master
+     * // TODO: 2023/5/29 使用还是有点麻烦，多个页面如果用了同一个查看图片，有可能有问题，解决方案2，在目标view下面盖一个fake view，共享元素动画让fake view 来做（也是有点麻烦）
      *
      * @param activity
      */
-    public static void setExitSharedElementCallback(@NonNull final Activity activity) {
+    public static void setExitSharedElementCallback(@NonNull final Activity activity,
+                                                    @NonNull OnMediaPreviewSharedElementListener listener) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             activity.setExitSharedElementCallback(new SharedElementCallback() {
 
@@ -41,16 +37,41 @@ public class SharedElementUtils {
                     return super.onCaptureSharedElementSnapshot(sharedElement, viewToGlobalMatrix, screenBounds);
                 }
             });
+            setMediaPreviewSharedElementListener(listener);
+        }
+    }
+
+    private static OnMediaPreviewSharedElementListener sMediaPreviewSharedElementListener;
+
+    public static void setMediaPreviewSharedElementListener(@Nullable final OnMediaPreviewSharedElementListener listener) {
+        sMediaPreviewSharedElementListener = listener;
+    }
+
+    /**
+     * 清除多媒体查看页面共享元素监听事件
+     * 在跳转查看多媒体的上一个页面的 onResume 里面调用
+     */
+    public static void clearMediaPreviewSharedElementListener() {
+        setMediaPreviewSharedElementListener(null);
+    }
+
+    /**
+     * 多媒体查看页面共享元素拖拽开始
+     */
+    public static void onMediaPreviewSharedElementDragStart() {
+        if (sMediaPreviewSharedElementListener != null) {
+            sMediaPreviewSharedElementListener.onSharedElementDragStart();
         }
     }
 
     /**
-     * 发送多媒体预览页面共享元素拖拽开始事件
-     * 解决共享元素拖拽时上一个页面空白问题
-     * reference https://github.com/bauer-bao/DragCloseHelper/tree/master
-     * 还需要在对应页面监听此事件，调用目标view#setAlpha(1F) 解决
+     * 多媒体查看页面共享元素监听
      */
-    public static void postMediaPreviewSharedElementDragStartEvent() {
-        EventBus.getDefault().post(MEDIA_PREVIEW_SHARED_ELEMENT_DRAG_START_EVENT);
+    public interface OnMediaPreviewSharedElementListener {
+
+        /**
+         * 共享元素拖拽开始
+         */
+        void onSharedElementDragStart();
     }
 }

@@ -3,7 +3,6 @@ package com.xxl.hello.user.ui.setting;
 import androidx.annotation.NonNull;
 
 import com.xxl.core.ui.BaseEventBusWrapper;
-import com.xxl.core.utils.SharedElementUtils;
 import com.xxl.hello.service.data.model.event.SystemEventApi;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -40,22 +39,6 @@ public class UserSettingEventBusWrapper extends BaseEventBusWrapper<UserSettingF
         final UserSettingFragment fragment = getFragment();
         if (fragment != null) {
             fragment.handleMaterialSubmitToServiceEvent(event);
-        }
-    }
-
-    /**
-     * 处理共享元素通知事件
-     *
-     * @param event
-     */
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEventMainThreed(@NonNull final String event) {
-        if (!SharedElementUtils.MEDIA_PREVIEW_SHARED_ELEMENT_DRAG_START_EVENT.equals(event)) {
-            return;
-        }
-        final UserSettingFragment fragment = getFragment();
-        if (fragment != null) {
-            fragment.handleSharedElementDragStartEvent();
         }
     }
 

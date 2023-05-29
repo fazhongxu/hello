@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.view.ViewCompat;
 
+import com.xxl.core.utils.SharedElementUtils;
 import com.xxl.hello.service.data.model.entity.media.MediaPreviewItemEntity;
 import com.xxl.kit.ListUtils;
 import com.xxl.kit.RouterUtils;
@@ -71,6 +72,14 @@ public final class WidgetRouterApi {
             return mediaPreviewItemEntities;
         }
 
+        /**
+         * 清除多媒体查看页面共享元素监听事件
+         * 通常在页面的onResume 调用
+         */
+        public static void clearMediaPreviewSharedElementListener() {
+            SharedElementUtils.clearMediaPreviewSharedElementListener();
+        }
+
         public static Builder newBuilder() {
             return new Builder();
         }
@@ -118,9 +127,15 @@ public final class WidgetRouterApi {
              */
             public void navigation(@NonNull final Activity activity,
                                    @NonNull final View targetView) {
-
                 ViewCompat.setTransitionName(targetView, PARAMS_KEY_IMAGE_TRANSITION_NAME);
                 ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, targetView, MediaPreview.PARAMS_KEY_IMAGE_TRANSITION_NAME);
+
+                final SharedElementUtils.OnMediaPreviewSharedElementListener listener = () -> {
+                    if (targetView != null) {
+                        targetView.setAlpha(1F);
+                    }
+                };
+                SharedElementUtils.setExitSharedElementCallback(activity, listener);
 
                 RouterUtils.buildPostcard(PATH)
                         .with(mParams)
