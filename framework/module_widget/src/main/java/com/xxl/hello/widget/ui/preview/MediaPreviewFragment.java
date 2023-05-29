@@ -13,6 +13,7 @@ import androidx.core.app.ActivityCompat;
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.xxl.core.image.loader.ImageLoader;
 import com.xxl.core.ui.fragment.BaseViewModelFragment;
+import com.xxl.core.utils.SharedElementUtils;
 import com.xxl.hello.service.data.model.entity.media.MediaPreviewItemEntity;
 import com.xxl.hello.widget.BR;
 import com.xxl.hello.widget.R;
@@ -156,7 +157,7 @@ public class MediaPreviewFragment extends BaseViewModelFragment<MediaPreviewMode
 
             @Override
             public void onDragStart() {
-
+                SharedElementUtils.postMediaPreviewSharedElementDragStartEvent();
             }
 
             @Override

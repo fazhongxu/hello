@@ -195,6 +195,9 @@ public class DragDismissLayout extends ViewGroup {
                 actionDownX = (int) ev.getRawX();
                 lastY = 0;
                 lastX = 0;
+                if (mOnDragListener != null) {
+                    mOnDragListener.onDragStart();
+                }
                 return false;
             case MotionEvent.ACTION_MOVE:
                 int yDistance = (int) (ev.getRawY() - actionDownY);
@@ -215,9 +218,6 @@ public class DragDismissLayout extends ViewGroup {
                 actionDownY = (int) event.getRawX();
                 lastY = 0;
                 lastX = 0;
-                if (mOnDragListener != null) {
-                    mOnDragListener.onDragStart();
-                }
                 return true;
             case MotionEvent.ACTION_MOVE:
                 final int currentY = (int) event.getRawY();
