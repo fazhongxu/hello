@@ -1,7 +1,10 @@
 package com.xxl.hello.widget.ui.preview;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -13,7 +16,6 @@ import androidx.core.app.ActivityCompat;
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.xxl.core.image.loader.ImageLoader;
 import com.xxl.core.ui.fragment.BaseViewModelFragment;
-import com.xxl.core.utils.SharedElementUtils;
 import com.xxl.hello.service.data.model.entity.media.MediaPreviewItemEntity;
 import com.xxl.hello.widget.BR;
 import com.xxl.hello.widget.R;
@@ -187,6 +189,21 @@ public class MediaPreviewFragment extends BaseViewModelFragment<MediaPreviewMode
      */
     public boolean onBackPressed() {
         ActivityCompat.finishAfterTransition(getActivity());
+        return true;
+    }
+
+    /**
+     * 当前图片的索引
+     */
+    private int mCurrentPosition;
+
+    /**
+     * 执行之后关闭页面
+     *
+     * @return
+     */
+    public boolean finishAfterTransition() {
+        WidgetRouterApi.MediaPreview.setActivityResult(getActivity(), mCurrentPosition);
         return true;
     }
 

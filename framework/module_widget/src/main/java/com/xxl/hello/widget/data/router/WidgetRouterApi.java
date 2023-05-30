@@ -1,6 +1,8 @@
 package com.xxl.hello.widget.data.router;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
@@ -44,6 +46,11 @@ public final class WidgetRouterApi {
         public static final String PATH = WIDGET_MODULE_NAME + "/media_preview";
 
         /**
+         * 当前位置索引结果
+         */
+        public static final String RESULT_KEY_CURRENT_POSITION = "result_key_current_position";
+
+        /**
          * 是否可以分享
          */
         public static final String PARAMS_KEY_SHARE_ENABLE = "params_key_share_enable";
@@ -70,6 +77,28 @@ public final class WidgetRouterApi {
                 sMediaPreviewItemEntities.clear();
             }
             return mediaPreviewItemEntities;
+        }
+
+        /**
+         * 设置页面返回结果
+         *
+         * @param activity
+         * @param currentPosition
+         */
+        public static void setActivityResult(@NonNull final Activity activity,
+                                             final int currentPosition) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                Intent intent = new Intent();
+                intent.putExtra(RESULT_KEY_CURRENT_POSITION, currentPosition);
+                activity.setResult(Activity.RESULT_OK, intent);
+                activity.finishAfterTransition();
+                WidgetRouterApi.MediaPreview.setActivityResult(activity, currentPosition);
+            } else {
+                Intent intent = new Intent();
+                intent.putExtra(RESULT_KEY_CURRENT_POSITION, currentPosition);
+                activity.setResult(Activity.RESULT_OK, intent);
+                activity.finish();
+            }
         }
 
         public static Builder newBuilder() {
