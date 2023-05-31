@@ -92,6 +92,16 @@ public class DisplayUtils {
     }
 
     /**
+     * 获取屏幕的比例
+     *
+     * @param context
+     * @return
+     */
+    public static float getScreenAspectRatio(Context context) {
+        return getScreenWidth(context) * 1.0f / getScreenHeight(context);
+    }
+
+    /**
      * 获取屏幕宽度
      *
      * @return

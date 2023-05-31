@@ -263,10 +263,10 @@ public class DragDismissLayout extends ViewGroup {
     }
 
     private void dismiss() {
-        if (mOnDragListener != null) {
-            mOnDragListener.onDragEnd();
-            return;
-        }
+//        if (mOnDragListener != null) {
+//            mOnDragListener.onDragEnd();
+//            return;
+//        }
         colorDrawable.setAlpha(0);
 
         ObjectAnimator scaleX = ObjectAnimator.ofFloat(contentView, View.SCALE_X, 1.0f, 1.0f * width / contentView.getMeasuredWidth());

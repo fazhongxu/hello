@@ -4,14 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityOptionsCompat;
-import androidx.core.view.ViewCompat;
 
-import com.xxl.core.utils.SharedElementUtils;
 import com.xxl.hello.service.data.model.entity.media.MediaPreviewItemEntity;
 import com.xxl.kit.ListUtils;
 import com.xxl.kit.RouterUtils;
@@ -146,17 +142,8 @@ public final class WidgetRouterApi {
             /**
              * 跳转到多媒体预览
              */
-            public void navigation(@NonNull final Activity activity,
-                                   @NonNull final View targetView) {
-                ViewCompat.setTransitionName(targetView, PARAMS_KEY_IMAGE_TRANSITION_NAME);
-                ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, targetView, MediaPreview.PARAMS_KEY_IMAGE_TRANSITION_NAME);
-
-                RouterUtils.buildPostcard(PATH)
-                        .with(mParams)
-                        .withOptionsCompat(optionsCompat)
-                        .navigation(activity);
-
-                SharedElementUtils.setExitSharedElementCallback(activity, targetView);
+            public void navigation() {
+                RouterUtils.navigation(PATH,mParams);
             }
         }
     }

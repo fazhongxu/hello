@@ -221,7 +221,7 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
 
                 WidgetRouterApi.MediaPreview.newBuilder()
                         .setMediaPreviewItemEntity(mediaPreviewItemEntity)
-                        .navigation(getActivity(), mViewDataBinding.ivUserAvatar);
+                        .navigation();
                 return true;
             }
 

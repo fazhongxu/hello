@@ -1,8 +1,8 @@
 package com.xxl.hello.user.ui.setting;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.xxl.hello.router.api.UserRouterApi;
 import com.xxl.core.ui.activity.SingleFragmentBarActivity;
+import com.xxl.hello.router.api.UserRouterApi;
 import com.xxl.hello.user.R;
 
 /**
@@ -24,11 +24,6 @@ public class UserSettingActivity extends SingleFragmentBarActivity<UserSettingFr
     @Override
     protected int getToolbarTitle() {
         return R.string.user_setting_title;
-    }
-
-    @Override
-    public void onBackPressed() {
-        finish();
     }
 
     //endregion

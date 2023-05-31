@@ -67,6 +67,16 @@ import top.zibin.luban.OnCompressListener;
 public final class ImageUtils {
 
     /**
+     * 计算图片的宽高比
+     *
+     * @return
+     */
+    public static float getImageAspectRatio(final float width,
+                                            final float height) {
+        return width * 1.0f / height;
+    }
+
+    /**
      * Bitmap to bytes.
      *
      * @param bitmap The bitmap.
