@@ -188,23 +188,8 @@ public class MediaPreviewFragment extends BaseViewModelFragment<MediaPreviewMode
      * @return
      */
     public boolean onBackPressed() {
-        ActivityCompat.finishAfterTransition(getActivity());
-        return true;
-    }
-
-    /**
-     * 当前图片的索引
-     */
-    private int mCurrentPosition;
-
-    /**
-     * 执行之后关闭页面
-     *
-     * @return
-     */
-    public boolean finishAfterTransition() {
-        WidgetRouterApi.MediaPreview.setActivityResult(getActivity(), mCurrentPosition);
-        return true;
+        finishActivity();
+        return false;
     }
 
     @Override

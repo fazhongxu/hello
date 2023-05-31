@@ -92,7 +92,6 @@ public final class WidgetRouterApi {
                 intent.putExtra(RESULT_KEY_CURRENT_POSITION, currentPosition);
                 activity.setResult(Activity.RESULT_OK, intent);
                 activity.finishAfterTransition();
-                WidgetRouterApi.MediaPreview.setActivityResult(activity, currentPosition);
             } else {
                 Intent intent = new Intent();
                 intent.putExtra(RESULT_KEY_CURRENT_POSITION, currentPosition);

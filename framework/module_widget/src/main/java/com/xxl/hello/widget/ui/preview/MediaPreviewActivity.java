@@ -42,17 +42,6 @@ public class MediaPreviewActivity extends SingleFragmentActivity<MediaPreviewFra
         super.onBackPressed();
     }
 
-    @Override
-    public void finishAfterTransition() {
-        final MediaPreviewFragment fragment = getCurrentFragment();
-        if (fragment != null) {
-            if (fragment.finishAfterTransition()) {
-                return;
-            }
-        }
-        super.finishAfterTransition();
-    }
-
     //endregion
 
 }
