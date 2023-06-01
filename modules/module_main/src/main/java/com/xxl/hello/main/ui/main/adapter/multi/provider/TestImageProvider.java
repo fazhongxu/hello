@@ -5,6 +5,7 @@ import androidx.databinding.DataBindingUtil;
 
 import com.chad.library.adapter.base.provider.BaseItemProvider;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
+import com.xxl.core.image.loader.ImageLoader;
 import com.xxl.hello.main.R;
 import com.xxl.hello.main.databinding.MainRecyclerItemTestImageProviderBinding;
 import com.xxl.hello.main.ui.main.adapter.TestListEntity;
@@ -61,6 +62,12 @@ public class TestImageProvider extends BaseItemProvider<TestListEntity> {
             viewModel = new TestRecycleItemViewModel();
         }
         viewModel.setItemEntity(testListEntity);
+
+        // TODO: 2023/6/1 以后放 TestRecycleItemViewModel 里面绑定
+        ImageLoader.with(getContext())
+                .load(testListEntity.getUrl())
+                .into(binding.ivPhoto);
+
         binding.setViewModel(viewModel);
         binding.executePendingBindings();
     }

@@ -42,19 +42,14 @@ public final class WidgetRouterApi {
         public static final String PATH = WIDGET_MODULE_NAME + "/media_preview";
 
         /**
-         * 当前位置索引结果
-         */
-        public static final String RESULT_KEY_CURRENT_POSITION = "result_key_current_position";
-
-        /**
          * 是否可以分享
          */
         public static final String PARAMS_KEY_SHARE_ENABLE = "params_key_share_enable";
 
         /**
-         * 共享元素标识
+         * 当前位置索引
          */
-        public static final String PARAMS_KEY_IMAGE_TRANSITION_NAME = "share_image";
+        public static final String PARAMS_KEY_CURRENT_POSITION = "params_key_current_position";
 
         /**
          * 多媒体数据
@@ -73,28 +68,6 @@ public final class WidgetRouterApi {
                 sMediaPreviewItemEntities.clear();
             }
             return mediaPreviewItemEntities;
-        }
-
-        /**
-         * 设置页面返回结果
-         *
-         * @param activity
-         * @param currentPosition
-         */
-        public static void setActivityResult(@NonNull final Activity activity,
-                                             final int currentPosition) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                Intent intent = new Intent();
-                intent.putExtra(RESULT_KEY_CURRENT_POSITION, currentPosition);
-                activity.setResult(Activity.RESULT_OK, intent);
-                activity.finishAfterTransition();
-                WidgetRouterApi.MediaPreview.setActivityResult(activity, currentPosition);
-            } else {
-                Intent intent = new Intent();
-                intent.putExtra(RESULT_KEY_CURRENT_POSITION, currentPosition);
-                activity.setResult(Activity.RESULT_OK, intent);
-                activity.finish();
-            }
         }
 
         public static Builder newBuilder() {
@@ -140,10 +113,21 @@ public final class WidgetRouterApi {
             }
 
             /**
+             * 设置当前索引
+             *
+             * @param position
+             * @return
+             */
+            public Builder setCurrentPosition(final int position) {
+                mParams.putInt(PARAMS_KEY_CURRENT_POSITION, position);
+                return this;
+            }
+
+            /**
              * 跳转到多媒体预览
              */
             public void navigation() {
-                RouterUtils.navigation(PATH,mParams);
+                RouterUtils.navigation(PATH, mParams);
             }
         }
     }

@@ -13,6 +13,7 @@ import com.xxl.hello.main.ui.main.adapter.TestListEntity;
 import com.xxl.hello.service.data.model.api.QueryUserInfoRequest;
 import com.xxl.hello.service.data.model.api.QueryUserInfoResponse;
 import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
+import com.xxl.hello.service.data.model.enums.SystemEnumsApi;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.hello.service.data.repository.api.UserRepositoryApi;
 import com.xxl.hello.service.upload.api.UploadService;
@@ -88,6 +89,9 @@ public class MainViewModel extends BaseViewModel<MainNavigator> {
                 for (int i = 0; i < pageSize; i++) {
                     TestListEntity testListEntity = TestListEntity.obtain()
                             .setContent(String.format("测试数据 page %d index %d", page, i))
+//                            .setMediaType(i % 2 == 0 ? SystemEnumsApi.CircleMediaType.IMAGE : SystemEnumsApi.CircleMediaType.TEXT)
+                            .setMediaType(SystemEnumsApi.CircleMediaType.IMAGE)
+                            .setUrl("https://img0.baidu.com/it/u=3684478795,3974987506&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=747")
                             .setSortTime(mCurrentTimeMillis + 1)
                             .setHeader(i == 5);
                     list.add(testListEntity);

@@ -3,6 +3,7 @@ package com.xxl.hello.widget.ui.preview;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -56,14 +57,15 @@ public class MediaPreviewFragment extends BaseViewModelFragment<MediaPreviewMode
     boolean mShareEnable = true;
 
     /**
+     * 当前图片索引
+     */
+    @Autowired(name = WidgetRouterApi.MediaPreview.PARAMS_KEY_CURRENT_POSITION)
+    int mCurrentPosition;
+
+    /**
      * 多媒体数据
      */
     private List<MediaPreviewItemEntity> mMediaPreviewItemEntities;
-
-    /**
-     * 当前图片的索引
-     */
-    private int mCurrentPosition;
 
     //endregion
 
@@ -129,21 +131,23 @@ public class MediaPreviewFragment extends BaseViewModelFragment<MediaPreviewMode
         mColorDrawable = new ColorDrawable();
         mColorDrawable.setColor(Color.BLACK);
         mMediaPreviewBinding.flRootContainer.setBackground(mColorDrawable);
-        mMediaPreviewBinding.dragDismissLayout.setDefaultColorDrawable();
+        mMediaPreviewBinding.dragDismissLayout.bindPhotoView(mMediaPreviewBinding.ivPhoto);
 
-        final MediaPreviewItemEntity mediaPreviewItemEntity = ListUtils.getFirst(mMediaPreviewItemEntities);
-        if (mediaPreviewItemEntity != null) {
-            ImageLoader.with(this)
-                    .load(mediaPreviewItemEntity.getMediaUrl())
-                    .into(mMediaPreviewBinding.ivPhoto);
-            if (mediaPreviewItemEntity.hasTargetViewAttributes()) {
-                mMediaPreviewBinding.dragDismissLayout.setTargetData(mediaPreviewItemEntity.getStartX(), mediaPreviewItemEntity.getStartY(), mediaPreviewItemEntity.getPreviewWidth(), mediaPreviewItemEntity.getPreviewHeight());
+        if (ListUtils.getSize(mMediaPreviewItemEntities) > mCurrentPosition) {
+            final MediaPreviewItemEntity mediaPreviewItemEntity = ListUtils.getItem(mMediaPreviewItemEntities, mCurrentPosition);
+            if (mediaPreviewItemEntity != null) {
+                ImageLoader.with(this)
+                        .load(mediaPreviewItemEntity.getMediaUrl())
+                        .into(mMediaPreviewBinding.ivPhoto);
+                if (mediaPreviewItemEntity.hasTargetViewAttributes()) {
+                    mMediaPreviewBinding.dragDismissLayout.setTargetData(mediaPreviewItemEntity.getStartX(), mediaPreviewItemEntity.getStartY(), mediaPreviewItemEntity.getPreviewWidth(), mediaPreviewItemEntity.getPreviewHeight());
+                }
             }
         }
         mMediaPreviewBinding.ivPhoto.setOnDoubleTapListener(new GestureDetector.OnDoubleTapListener() {
             @Override
             public boolean onSingleTapConfirmed(MotionEvent e) {
-                finishActivity();
+                onExitAnim();
                 return true;
             }
 
@@ -162,21 +166,25 @@ public class MediaPreviewFragment extends BaseViewModelFragment<MediaPreviewMode
                 return false;
             }
         });
-
-        mMediaPreviewBinding.dragDismissLayout.setOnDragListener(new DragDismissLayout.OnDragListener() {
-
-            @Override
-            public void onDragStart() {
-
-            }
+        mMediaPreviewBinding.dragDismissLayout.setOnDragDismissLayoutListener(new DragDismissLayout.OnDragDismissLayoutListener() {
 
             @Override
-            public void onDragging(int alpha) {
+            public void onComputeAlpha(int alpha) {
                 mColorDrawable.setAlpha(alpha);
             }
 
             @Override
-            public void onDragEnd() {
+            public void onDismiss() {
+
+            }
+
+            @Override
+            public void onDragging() {
+
+            }
+
+            @Override
+            public void onEndDrag() {
                 onExitAnim();
             }
         });
@@ -184,7 +192,7 @@ public class MediaPreviewFragment extends BaseViewModelFragment<MediaPreviewMode
         onEnterAnimator();
     }
 
-    private static final int ANIMATOR_DURATION = 200;
+    private static final int ANIMATOR_DURATION = 300;
 
     /**
      * 进入动画效果
@@ -192,14 +200,17 @@ public class MediaPreviewFragment extends BaseViewModelFragment<MediaPreviewMode
      */
     private void onEnterAnimator() {
         synchronized (this) {
-            MediaPreviewItemEntity mediaPreviewItemEntity = ListUtils.getFirst(mMediaPreviewItemEntities);
-            if (mediaPreviewItemEntity == null || mediaPreviewItemEntity.getPreviewWidth() < 0 || mediaPreviewItemEntity.getPreviewHeight() < 0) {
-                ViewAnimator.animate(mMediaPreviewBinding.ivPhoto)
-                        .zoomIn()
-                        .duration(ANIMATOR_DURATION)
-                        //.custom((view, value) -> setColorDrawableAlpha(value), 0, 1.f)
-                        .start();
-                return;
+            MediaPreviewItemEntity mediaPreviewItemEntity = null;
+            if (ListUtils.getSize(mMediaPreviewItemEntities) > mCurrentPosition) {
+                mediaPreviewItemEntity = ListUtils.getItem(mMediaPreviewItemEntities, mCurrentPosition);
+                if (mediaPreviewItemEntity == null || mediaPreviewItemEntity.getPreviewWidth() < 0 || mediaPreviewItemEntity.getPreviewHeight() < 0) {
+                    ViewAnimator.animate(mMediaPreviewBinding.ivPhoto)
+                            .zoomIn()
+                            .duration(ANIMATOR_DURATION)
+                            .custom((view, value) -> setColorDrawableAlpha(value), 0, 1.f)
+                            .start();
+                    return;
+                }
             }
 
             int targetViewWidth = mediaPreviewItemEntity.getPreviewWidth();
@@ -236,7 +247,7 @@ public class MediaPreviewFragment extends BaseViewModelFragment<MediaPreviewMode
                     .fadeIn()
 //                    .onStart(() -> getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN))
                     .duration(ANIMATOR_DURATION)
-//                    .custom((view, value) -> setColorDrawableAlpha(value), 0, 1.f)
+                    .custom((view, value) -> setColorDrawableAlpha(value), 0, 1.f)
                     .start();
         }
     }
@@ -247,6 +258,9 @@ public class MediaPreviewFragment extends BaseViewModelFragment<MediaPreviewMode
     private void onExitAnim() {
         // TODO: 2023/5/31 索引获取当前图片
         mCurrentPosition = 0;
+        if (ListUtils.getSize(mMediaPreviewItemEntities) > 1) {
+            mCurrentPosition = 1;
+        }
         MediaPreviewItemEntity mediaPreviewItemEntity = ListUtils.getItem(mMediaPreviewItemEntities, mCurrentPosition);
         if (mediaPreviewItemEntity == null) {
             finishActivity();
@@ -297,8 +311,23 @@ public class MediaPreviewFragment extends BaseViewModelFragment<MediaPreviewMode
                 })
                 .interpolator(new AccelerateDecelerateInterpolator())
                 .duration(ANIMATOR_DURATION)
-//                .custom((view, value) -> setColorDrawableAlpha(value), 1, 0)
+                .custom((view, value) -> setColorDrawableAlpha(value), 1, 0)
                 .start();
+    }
+
+    private void setColorDrawableAlpha(float alpha) {
+        synchronized (this) {
+            if (mColorDrawable == null) {
+                return;
+            }
+            if (alpha >= 1) {
+                alpha = 1f;
+            }
+            if (alpha <= 0) {
+                alpha = 0.0f;
+            }
+            mColorDrawable.setAlpha((int) (255 * alpha));
+        }
     }
 
     //endregion
