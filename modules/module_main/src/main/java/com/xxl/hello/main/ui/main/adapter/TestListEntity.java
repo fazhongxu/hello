@@ -26,6 +26,11 @@ public class TestListEntity implements SectionEntity {
     private String mContent;
 
     /**
+     * url
+     */
+    private String mUrl;
+
+    /**
      * 排序时间戳
      */
     private long mSortTime;
@@ -64,6 +69,10 @@ public class TestListEntity implements SectionEntity {
         return mContent;
     }
 
+    public String getUrl() {
+        return mUrl;
+    }
+
     public long getSortTime() {
         return mSortTime;
     }
@@ -85,6 +94,11 @@ public class TestListEntity implements SectionEntity {
 
     public TestListEntity setContent(String content) {
         this.mContent = content;
+        return this;
+    }
+
+    public TestListEntity setUrl(String url) {
+        mUrl = url;
         return this;
     }
 

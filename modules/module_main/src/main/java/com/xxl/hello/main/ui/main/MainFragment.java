@@ -30,14 +30,18 @@ import com.xxl.hello.common.config.CacheDirConfig;
 import com.xxl.hello.main.BR;
 import com.xxl.hello.main.R;
 import com.xxl.hello.main.databinding.MainFragmentBinding;
-import com.xxl.hello.main.ui.main.adapter.TestBindingAdapter;
+import com.xxl.hello.main.ui.main.adapter.OnTestRecycleItemListener;
 import com.xxl.hello.main.ui.main.adapter.TestBindingRecycleItemListener;
 import com.xxl.hello.main.ui.main.adapter.TestListEntity;
+import com.xxl.hello.main.ui.main.adapter.multi.TestMultiAdapter;
 import com.xxl.hello.router.api.MainRouterApi;
 import com.xxl.hello.router.api.UserRouterApi;
 import com.xxl.hello.service.data.model.api.QueryUserInfoResponse;
+import com.xxl.hello.service.data.model.entity.media.MediaPreviewItemEntity;
 import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
+import com.xxl.hello.service.data.model.enums.SystemEnumsApi;
 import com.xxl.hello.service.handle.api.AppSchemeService;
+import com.xxl.hello.widget.data.router.WidgetRouterApi;
 import com.xxl.hello.widget.ui.view.record.OnRecordListener;
 import com.xxl.hello.widget.ui.view.record.RecordButton;
 import com.xxl.kit.AppUtils;
@@ -54,6 +58,7 @@ import com.xxl.kit.ToastUtils;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -67,7 +72,7 @@ import io.reactivex.rxjava3.disposables.Disposable;
  */
 public class MainFragment extends BaseStateViewModelFragment<MainViewModel, MainFragmentBinding>
         implements MainNavigator, OnAppStatusChangedListener, OnAudioFrameCapturedListener,
-        TestBindingRecycleItemListener, OnRefreshDataListener {
+        TestBindingRecycleItemListener, OnRefreshDataListener, OnTestRecycleItemListener {
 
     //region: 成员变量
 
@@ -89,7 +94,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     String mExtraData;
 
     @Inject
-    TestBindingAdapter mTestBindingAdapter;
+    TestMultiAdapter mTestBindingAdapter;
 
     /**
      * 首页EventBus通知事件监听
@@ -208,7 +213,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
         mViewDataBinding.refreshLayout.bindRecyclerView(mViewDataBinding.rvList, mTestBindingAdapter);
         mViewDataBinding.refreshLayout.setPageSize(20);
         mTestBindingAdapter.setListener(this);
-        mTestBindingAdapter.setDragItemEnable(true, R.id.tv_content, mViewDataBinding.rvList);
+//        mTestBindingAdapter.setDragItemEnable(true, R.id.tv_content, mViewDataBinding.rvList);
     }
 
     @Override
@@ -470,6 +475,40 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     @Override
     public void onItemClick(@NonNull TestListEntity value) {
         ToastUtils.success(value.getContent()).show();
+    }
+
+    /**
+     * 媒体视图点击
+     *
+     * @param testListEntity
+     * @param targetView
+     */
+    @Override
+    public void onMediaItemClick(@NonNull TestListEntity testListEntity,
+                                 @NonNull View targetView) {
+        if (isActivityFinishing()) {
+            return;
+        }
+        List<MediaPreviewItemEntity> mediaPreviewItemEntities = new ArrayList<>();
+        List<TestListEntity> entities = mTestBindingAdapter.getData();
+        if (!ListUtils.isEmpty(entities)) {
+            for (TestListEntity entity : entities) {
+                int position = mTestBindingAdapter.findItemPositon(entity);
+                if (entity.getMediaType() == SystemEnumsApi.CircleMediaType.IMAGE) {
+                    MediaPreviewItemEntity mediaPreviewItemEntity = MediaPreviewItemEntity.obtain()
+                            .setMediaUrl(entity.getUrl());
+                    mediaPreviewItemEntities.add(mediaPreviewItemEntity);
+                    if (position >= 0) {
+                        mediaPreviewItemEntity.setTargetViewAttributes(mTestBindingAdapter.getViewByPosition(position, R.id.iv_photo));
+                    }
+                }
+            }
+        }
+
+        WidgetRouterApi.MediaPreview.newBuilder()
+                .setMediaPreviewItemEntities(mediaPreviewItemEntities)
+                .setCurrentPosition(mTestBindingAdapter.findItemPositon(testListEntity))
+                .navigation();
     }
 
     /**

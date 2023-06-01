@@ -20,15 +20,13 @@
         android:orientation="vertical">
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/iv_icon"
+            android:id="@+id/iv_photo"
             android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center_horizontal"
             android:foreground="?attr/selectableItemBackground"
-            android:onClick="@{()->listener.onItemClick(viewModel.itemEntity)}"
-            android:layout_height="100dp"
-            android:paddingLeft="15dp"
-            android:paddingTop="12dp"
-            android:paddingRight="15dp"
-            android:paddingBottom="12dp"
+            android:onClick="@{(v)->listener.onMediaItemClick(viewModel.itemEntity,v)}"
+            android:scaleType="centerCrop"
             android:src="@drawable/resources_ic_hello" />
 
     </LinearLayout>
