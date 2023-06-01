@@ -3,7 +3,6 @@ package com.xxl.hello.widget.ui.preview;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -39,6 +38,11 @@ public class MediaPreviewFragment extends BaseViewModelFragment<MediaPreviewMode
     //region: 成员变量
 
     /**
+     * 动画时长
+     */
+    private static final int ANIMATOR_DURATION = 300;
+
+    /**
      * 多媒体预览页面视图
      */
     private WidgetFragmentMediaPreviewBinding mMediaPreviewBinding;
@@ -48,6 +52,9 @@ public class MediaPreviewFragment extends BaseViewModelFragment<MediaPreviewMode
      */
     private MediaPreviewModel mMediaPreviewModel;
 
+    /**
+     * 背景
+     */
     private ColorDrawable mColorDrawable;
 
     /**
@@ -133,15 +140,13 @@ public class MediaPreviewFragment extends BaseViewModelFragment<MediaPreviewMode
         mMediaPreviewBinding.flRootContainer.setBackground(mColorDrawable);
         mMediaPreviewBinding.dragDismissLayout.bindPhotoView(mMediaPreviewBinding.ivPhoto);
 
-        if (ListUtils.getSize(mMediaPreviewItemEntities) > mCurrentPosition) {
-            final MediaPreviewItemEntity mediaPreviewItemEntity = ListUtils.getItem(mMediaPreviewItemEntities, mCurrentPosition);
-            if (mediaPreviewItemEntity != null) {
-                ImageLoader.with(this)
-                        .load(mediaPreviewItemEntity.getMediaUrl())
-                        .into(mMediaPreviewBinding.ivPhoto);
-                if (mediaPreviewItemEntity.hasTargetViewAttributes()) {
-                    mMediaPreviewBinding.dragDismissLayout.setTargetData(mediaPreviewItemEntity.getStartX(), mediaPreviewItemEntity.getStartY(), mediaPreviewItemEntity.getPreviewWidth(), mediaPreviewItemEntity.getPreviewHeight());
-                }
+        MediaPreviewItemEntity mediaPreviewItemEntity = getCurrentItem(mCurrentPosition);
+        if (mediaPreviewItemEntity != null) {
+            ImageLoader.with(this)
+                    .load(mediaPreviewItemEntity.getMediaUrl())
+                    .into(mMediaPreviewBinding.ivPhoto);
+            if (mediaPreviewItemEntity.hasTargetViewAttributes()) {
+                mMediaPreviewBinding.dragDismissLayout.setTargetData(mediaPreviewItemEntity.getStartX(), mediaPreviewItemEntity.getStartY(), mediaPreviewItemEntity.getPreviewWidth(), mediaPreviewItemEntity.getPreviewHeight());
             }
         }
         mMediaPreviewBinding.ivPhoto.setOnDoubleTapListener(new GestureDetector.OnDoubleTapListener() {
@@ -185,14 +190,12 @@ public class MediaPreviewFragment extends BaseViewModelFragment<MediaPreviewMode
 
             @Override
             public void onEndDrag() {
-                onExitAnim();
+
             }
         });
 
         onEnterAnimator();
     }
-
-    private static final int ANIMATOR_DURATION = 300;
 
     /**
      * 进入动画效果
@@ -200,19 +203,15 @@ public class MediaPreviewFragment extends BaseViewModelFragment<MediaPreviewMode
      */
     private void onEnterAnimator() {
         synchronized (this) {
-            MediaPreviewItemEntity mediaPreviewItemEntity = null;
-            if (ListUtils.getSize(mMediaPreviewItemEntities) > mCurrentPosition) {
-                mediaPreviewItemEntity = ListUtils.getItem(mMediaPreviewItemEntities, mCurrentPosition);
-                if (mediaPreviewItemEntity == null || mediaPreviewItemEntity.getPreviewWidth() < 0 || mediaPreviewItemEntity.getPreviewHeight() < 0) {
-                    ViewAnimator.animate(mMediaPreviewBinding.ivPhoto)
-                            .zoomIn()
-                            .duration(ANIMATOR_DURATION)
-                            .custom((view, value) -> setColorDrawableAlpha(value), 0, 1.f)
-                            .start();
-                    return;
-                }
+            MediaPreviewItemEntity mediaPreviewItemEntity = getCurrentItem(mCurrentPosition);
+            if (mediaPreviewItemEntity == null || mediaPreviewItemEntity.getPreviewWidth() < 0 || mediaPreviewItemEntity.getPreviewHeight() < 0) {
+                ViewAnimator.animate(mMediaPreviewBinding.ivPhoto)
+                        .zoomIn()
+                        .duration(ANIMATOR_DURATION)
+                        .custom((view, value) -> setColorDrawableAlpha(value), 0, 1.f)
+                        .start();
+                return;
             }
-
             int targetViewWidth = mediaPreviewItemEntity.getPreviewWidth();
             int targetViewHeight = mediaPreviewItemEntity.getPreviewHeight();
 
@@ -245,7 +244,6 @@ public class MediaPreviewFragment extends BaseViewModelFragment<MediaPreviewMode
                     .pivotY(pivotY)
                     .scale(aspectRatio, 1.0f)
                     .fadeIn()
-//                    .onStart(() -> getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN))
                     .duration(ANIMATOR_DURATION)
                     .custom((view, value) -> setColorDrawableAlpha(value), 0, 1.f)
                     .start();
@@ -256,12 +254,12 @@ public class MediaPreviewFragment extends BaseViewModelFragment<MediaPreviewMode
      * 退出activity动画
      */
     private void onExitAnim() {
-        // TODO: 2023/5/31 索引获取当前图片
+        // TODO: 2023/5/31 索引获取当前图片，这里没做ViewPager，模拟滑动过位置了
         mCurrentPosition = 0;
         if (ListUtils.getSize(mMediaPreviewItemEntities) > 1) {
             mCurrentPosition = 1;
         }
-        MediaPreviewItemEntity mediaPreviewItemEntity = ListUtils.getItem(mMediaPreviewItemEntities, mCurrentPosition);
+        MediaPreviewItemEntity mediaPreviewItemEntity = getCurrentItem(mCurrentPosition);
         if (mediaPreviewItemEntity == null) {
             finishActivity();
             getActivity().overridePendingTransition(0, 0);
@@ -330,6 +328,19 @@ public class MediaPreviewFragment extends BaseViewModelFragment<MediaPreviewMode
         }
     }
 
+    /**
+     * 获取当前条目
+     *
+     * @param position
+     * @return
+     */
+    private MediaPreviewItemEntity getCurrentItem(final int position) {
+        if (ListUtils.getSize(mMediaPreviewItemEntities) > position) {
+            return ListUtils.getItem(mMediaPreviewItemEntities, position);
+        }
+        return null;
+    }
+
     //endregion
 
     //region: MediaPreviewNavigator
@@ -349,5 +360,6 @@ public class MediaPreviewFragment extends BaseViewModelFragment<MediaPreviewMode
     }
 
     //endregion
+
 
 }
