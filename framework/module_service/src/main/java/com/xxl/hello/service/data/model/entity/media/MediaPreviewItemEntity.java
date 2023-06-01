@@ -213,7 +213,7 @@ public class MediaPreviewItemEntity {
      * @return
      */
     public boolean hasTargetViewAttributes() {
-        return mStartX > 0 && mStartY > 0 && mPreviewWidth > 0 && mPreviewHeight > 0;
+        return mPreviewWidth > 0 && mPreviewHeight > 0;
     }
 
     /**
