@@ -215,11 +215,17 @@ public class MediaPreviewFragment extends BaseViewModelFragment<MediaPreviewMode
             float aspectRatio;
             if (targetAspectRatio >= windowAspectRatio) {
                 aspectRatio = targetViewWidth * 1.0f / DisplayUtils.getScreenWidth(getContext());
+                if (aspectRatio == 1) {
+                    aspectRatio = 0.999F;
+                }
                 animStartHeight = DisplayUtils.getScreenHeight(getActivity()) * aspectRatio;
                 pivotX = targetViewX / (1 - aspectRatio);
                 pivotY = (targetViewY - (animStartHeight - targetViewHeight) / 2) / (1 - aspectRatio);
             } else {
                 aspectRatio = targetViewHeight * 1.0f / DisplayUtils.getScreenHeight(getContext());
+                if (aspectRatio == 1) {
+                    aspectRatio = 0.999F;
+                }
                 animStartWidth = DisplayUtils.getScreenWidth(getContext()) * aspectRatio;
                 pivotX = (targetViewX - (animStartWidth - targetViewWidth) / 2) / (1 - aspectRatio);
                 pivotY = targetViewY / (1 - aspectRatio);
@@ -264,11 +270,17 @@ public class MediaPreviewFragment extends BaseViewModelFragment<MediaPreviewMode
         float aspectRatio;
         if (targetAspectRatio >= windowAspectRatio) {
             aspectRatio = targetViewWidth * 1.0f / DisplayUtils.getScreenWidth(getContext());
+            if (aspectRatio == 1) {
+                aspectRatio = 0.999F;
+            }
             animStartHeight = DisplayUtils.getScreenHeight(getContext()) * aspectRatio;
             pivotX = targetViewStatX / (1 - aspectRatio);
             pivotY = (targetViewStartY - (animStartHeight - targetViewHeight) / 2) / (1 - aspectRatio);
         } else {
             aspectRatio = targetViewHeight * 1.0f / DisplayUtils.getScreenHeight(getContext());
+            if (aspectRatio == 1) {
+                aspectRatio = 0.999F;
+            }
             animStartWidth = DisplayUtils.getScreenWidth(getContext()) * aspectRatio;
             pivotX = (targetViewStatX - (animStartWidth - targetViewWidth) / 2) / (1 - aspectRatio);
             pivotY = targetViewStartY / (1 - aspectRatio);
