@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.Player;
+import com.google.android.exoplayer2.Player.PlayWhenReadyChangeReason;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.xxl.kit.ListUtils;
 import com.xxl.kit.LogUtils;
@@ -53,6 +54,13 @@ public class AudioPlayerWrapper implements Player.Listener {
     public void onPlaybackStateChanged(int state) {
         if (mOnAudioPlayListener != null) {
             mOnAudioPlayListener.onPlaybackStateChanged(state);
+        }
+    }
+
+    @Override
+    public void onPlayWhenReadyChanged(boolean playWhenReady, @PlayWhenReadyChangeReason int reason) {
+        if (mOnAudioPlayListener != null) {
+            mOnAudioPlayListener.onPlayWhenReadyChanged(playWhenReady, reason);
         }
     }
 
@@ -277,6 +285,30 @@ public class AudioPlayerWrapper implements Player.Listener {
             return 0;
         }
         return mMediaPlayer.getCurrentPosition();
+    }
+
+    public MediaItem getCurrentItem() {
+        return mMediaPlayer.getCurrentMediaItem();
+    }
+
+    public int getCurrentWindowIndex() {
+        return mMediaPlayer.getCurrentWindowIndex();
+    }
+
+    public int getItemCount() {
+        return mMediaPlayer.getMediaItemCount();
+    }
+
+    MediaItem getMediaItemAt(int index) {
+        return mMediaPlayer.getMediaItemAt(index);
+    }
+
+    public void seekTo(int windowIndex, long positionMs) {
+        mMediaPlayer.seekTo(windowIndex, positionMs);
+    }
+
+    public void setPauseAtEndOfMediaItems(boolean pauseAtEndOfMediaItems) {
+        mMediaPlayer.setPauseAtEndOfMediaItems(pauseAtEndOfMediaItems);
     }
 
     /**

@@ -16,4 +16,12 @@ public interface OnAudioPlayListener {
     default void onPlaybackStateChanged(int state) {
 
     }
+
+    /**
+     * @param playWhenReady
+     * @param reason
+     */
+    default void onPlayWhenReadyChanged(boolean playWhenReady, int reason) {
+
+    }
 }
