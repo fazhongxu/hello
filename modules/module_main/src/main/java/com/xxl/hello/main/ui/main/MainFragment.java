@@ -1,9 +1,12 @@
 package com.xxl.hello.main.ui.main;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -18,7 +21,9 @@ import com.tbruyelle.rxpermissions3.RxPermissions;
 import com.xxl.core.aop.annotation.Safe;
 import com.xxl.core.media.audio.AudioCapture;
 import com.xxl.core.media.audio.AudioCapture.OnAudioFrameCapturedListener;
+import com.xxl.core.media.audio.AudioPlayerWrapper;
 import com.xxl.core.media.audio.AudioRecordFormat;
+import com.xxl.core.media.audio.OnAudioPlayListener;
 import com.xxl.core.ui.BaseEventBusWrapper;
 import com.xxl.core.ui.fragment.BaseStateViewModelFragment;
 import com.xxl.core.ui.state.EmptyState;
@@ -211,7 +216,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     private void setupRecyclerView() {
         mViewDataBinding.rvList.addItemDecoration(DecorationUtils.createHorizontalDividerItemDecoration(ResourceUtils.getAttrColor(AppUtils.getTopActivity(), R.attr.h_common_divider_color), 10, 0));
         mViewDataBinding.refreshLayout.setRefreshDataListener(this);
-        mViewDataBinding.refreshLayout.bindRecyclerView(mViewDataBinding.rvList, mTestBindingAdapter,new GridLayoutManager(getActivity(),3));
+        mViewDataBinding.refreshLayout.bindRecyclerView(mViewDataBinding.rvList, mTestBindingAdapter, new GridLayoutManager(getActivity(), 3));
         mViewDataBinding.refreshLayout.setPageSize(20);
         mTestBindingAdapter.setListener(this);
 //        mTestBindingAdapter.setDragItemEnable(true, R.id.tv_content, mViewDataBinding.rvList);
@@ -221,15 +226,110 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     protected void requestData() {
         showLoadingState();
         mMainViewModel.requestQueryUserInfo(getStateResponseListener());
+        mAudioPlayerWrapper = AudioPlayerWrapper.create(getActivity());
     }
 
     //endregion
 
     //region: MainNavigator
 
+    @SuppressLint("HandlerLeak")
+    Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            switch (msg.what) {
+                case PLAY_NEXT:
+                    if (!mAutoPlay) {
+                        return;
+                    }
+                    mAudioPlayerWrapper.play();
+                    break;
+                default:
+            }
+        }
+    };
+
+    AudioPlayerWrapper mAudioPlayerWrapper;
+
+    String[] audios = new String[]{"http://eduoss.yun.hw99.com/files/15l60nLplNQf6zj4hFmA==/eQzJz8mvT024VZKVPoyU3g==.mp3"
+            , "http://eduoss.yun.hw99.com/files/15l60nLplNQf6zj4hFmA==/7CvssMPRIKKrmmtsf4byhQ==.mp3",
+            "http://eduoss.yun.hw99.com/files/15l60nLplNQf6zj4hFmA==/6oOfYkZrohDwyr1JG2tN3w==.mp3",
+    };
+
+    /**
+     * 播放下一条指令
+     */
+    private static final int PLAY_NEXT = 1001;
+
+    /**
+     * 播放次数
+     */
+    private static final int PLAY_COUNT = 2;
+
+    /**
+     * 播放延迟时间
+     */
+    private static final int DELAY = 4 * 1000;
+
+    /**
+     * 播放
+     */
     @Override
     public void onTestClick() {
-        UserRouterApi.Login.newBuilder().navigation(getActivity());
+        List<String> list = new ArrayList<>();
+        for (String audio : audios) {
+            for (int i = 0; i < PLAY_COUNT; i++) {
+                list.add(audio);
+            }
+        }
+        mAudioPlayerWrapper.setMediaItems(list);
+        mAudioPlayerWrapper.setOnAudioPlayListener(new OnAudioPlayListener() {
+            @Override
+            public void onPlaybackStateChanged(int state) {
+                Log.e("aaa", "onPlaybackStateChanged: " + state);
+            }
+
+            @Override
+            public void onPlayWhenReadyChanged(boolean playWhenReady, int reason) {
+                if (!playWhenReady && reason == 5) {
+                    Message message = Message.obtain();
+                    message.what = PLAY_NEXT;
+                    mHandler.sendMessageDelayed(message, DELAY);
+                    mAutoPlay = true;
+                    Log.e("aaa", "onPlayWhenReadyChanged: " + mAudioPlayerWrapper.getPlaybackState());
+                }
+            }
+        });
+        mAudioPlayerWrapper.setPauseAtEndOfMediaItems(true);
+        mAudioPlayerWrapper.play();
+    }
+
+    /**
+     * 是否自动播放
+     */
+    private boolean mAutoPlay = true;
+
+    /**
+     * 点击下一个
+     */
+    @Override
+    public void onNextClick() {
+        mAutoPlay = false;
+        mHandler.removeMessages(PLAY_NEXT);
+        int currentWindowIndex = mAudioPlayerWrapper.getCurrentWindowIndex();
+        int nextIndex = currentWindowIndex;
+        if (currentWindowIndex % PLAY_COUNT == 0) {
+            //0,2,4    当前 0，播放 2，当前2，播放4
+            nextIndex += 2;
+        } else {
+            //1,3,5    当前1，播放2，当前3，播放4
+            nextIndex += 1;
+        }
+        Log.e("aaa", "onNextClick: " + currentWindowIndex + "----" + currentWindowIndex % PLAY_COUNT + "---" + nextIndex);
+        if (nextIndex < mAudioPlayerWrapper.getItemCount()) {
+            mAudioPlayerWrapper.seekTo(nextIndex, 0);
+        }
+        ToastUtils.success("总共" + mAudioPlayerWrapper.getItemCount() + " 当前是第 " + currentWindowIndex + " 个音频 " + "即将播放" + nextIndex).show();
     }
 
     /**

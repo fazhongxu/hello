@@ -16,4 +16,8 @@ public interface OnAudioPlayListener {
     default void onPlaybackStateChanged(int state) {
 
     }
+
+    default void onPlayWhenReadyChanged( boolean playWhenReady, int reason) {
+
+    }
 }

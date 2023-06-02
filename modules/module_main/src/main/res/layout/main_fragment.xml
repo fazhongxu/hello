@@ -35,12 +35,12 @@
                 android:paddingRight="20dp"
                 android:text="@{viewModel.observableUserInfo}"
                 android:visibility="gone"
-                tools:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="user info" />
+                tools:text="user info"
+                tools:visibility="visible" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_duration"
@@ -59,15 +59,28 @@
                 style="@style/TextStyle.Content.Regular"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onLongClick="@{()->navigator.onTestLongClick()}"
                 android:onClick="@{()->navigator.onTestClick()}"
+                android:onLongClick="@{()->navigator.onTestLongClick()}"
+                android:text="播放"
                 android:visibility="visible"
-                android:text="@{viewModel.observableUserId}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="test" />
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_next"
+                style="@style/TextStyle.Content.Regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{()->navigator.onNextClick()}"
+                android:onLongClick="@{()->navigator.onTestLongClick()}"
+                android:text="下一个"
+                android:layout_marginTop="10dp"
+                android:visibility="visible"
+                app:layout_constraintLeft_toLeftOf="@+id/tv_test"
+                app:layout_constraintRight_toRightOf="@+id/tv_test"
+                app:layout_constraintTop_toBottomOf="@+id/tv_test" />
 
             <com.xxl.hello.widget.ui.view.record.RecordButton
                 android:id="@+id/recordBtn"
