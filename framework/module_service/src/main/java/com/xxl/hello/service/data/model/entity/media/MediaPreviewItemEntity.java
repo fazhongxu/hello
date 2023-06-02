@@ -1,5 +1,7 @@
 package com.xxl.hello.service.data.model.entity.media;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.view.View;
 
 import androidx.annotation.Keep;
@@ -13,7 +15,7 @@ import androidx.annotation.Nullable;
  * @date 2023/04/06.
  */
 @Keep
-public class MediaPreviewItemEntity {
+public class MediaPreviewItemEntity implements Parcelable {
 
     //region: 成员变量
 
@@ -237,8 +239,51 @@ public class MediaPreviewItemEntity {
 
     //endregion
 
-    //region: 内部辅助方法
+    //region: Parcelable
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.mMediaUrl);
+        dest.writeByte(this.mVideo ? (byte) 1 : (byte) 0);
+        dest.writeLong(this.mDuration);
+        dest.writeLong(this.mWidth);
+        dest.writeLong(this.mHeight);
+        dest.writeInt(this.mStartX);
+        dest.writeInt(this.mStartY);
+        dest.writeInt(this.mPreviewWidth);
+        dest.writeInt(this.mPreviewHeight);
+        dest.writeInt(this.mPosition);
+    }
+
+    protected MediaPreviewItemEntity(Parcel in) {
+        this.mMediaUrl = in.readString();
+        this.mVideo = in.readByte() != 0;
+        this.mDuration = in.readLong();
+        this.mWidth = in.readLong();
+        this.mHeight = in.readLong();
+        this.mStartX = in.readInt();
+        this.mStartY = in.readInt();
+        this.mPreviewWidth = in.readInt();
+        this.mPreviewHeight = in.readInt();
+        this.mPosition = in.readInt();
+    }
+
+    public static final Creator<MediaPreviewItemEntity> CREATOR = new Creator<MediaPreviewItemEntity>() {
+        @Override
+        public MediaPreviewItemEntity createFromParcel(Parcel source) {
+            return new MediaPreviewItemEntity(source);
+        }
+
+        @Override
+        public MediaPreviewItemEntity[] newArray(int size) {
+            return new MediaPreviewItemEntity[size];
+        }
+    };
 
     //endregion
-
 }

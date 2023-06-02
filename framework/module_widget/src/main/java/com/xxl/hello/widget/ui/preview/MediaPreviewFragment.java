@@ -3,27 +3,29 @@ package com.xxl.hello.widget.ui.preview;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.view.GestureDetector;
-import android.view.MotionEvent;
+import android.os.Handler;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.github.florent37.viewanimator.ViewAnimator;
-import com.xxl.core.image.loader.ImageLoader;
+import com.xxl.core.ui.CommonFragmentAdapter;
 import com.xxl.core.ui.fragment.BaseViewModelFragment;
 import com.xxl.hello.service.data.model.entity.media.MediaPreviewItemEntity;
 import com.xxl.hello.widget.BR;
 import com.xxl.hello.widget.R;
 import com.xxl.hello.widget.data.router.WidgetRouterApi;
 import com.xxl.hello.widget.databinding.WidgetFragmentMediaPreviewBinding;
-import com.xxl.hello.widget.ui.view.DragDismissLayout;
+import com.xxl.hello.widget.ui.preview.item.MediaPreviewItemFragment;
 import com.xxl.kit.DisplayUtils;
 import com.xxl.kit.ImageUtils;
 import com.xxl.kit.ListUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -51,6 +53,16 @@ public class MediaPreviewFragment extends BaseViewModelFragment<MediaPreviewMode
      * 多媒体预览页面视图模型
      */
     private MediaPreviewModel mMediaPreviewModel;
+
+    /**
+     * adapter
+     */
+    private CommonFragmentAdapter mFragmentAdapter;
+
+    /**
+     * handler
+     */
+    private Handler mHandler = new Handler();
 
     /**
      * 背景
@@ -101,6 +113,14 @@ public class MediaPreviewFragment extends BaseViewModelFragment<MediaPreviewMode
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mHandler != null) {
+            mHandler.removeCallbacksAndMessages(null);
+        }
+    }
+
+    @Override
     protected boolean enableRouterInject() {
         return true;
     }
@@ -138,74 +158,40 @@ public class MediaPreviewFragment extends BaseViewModelFragment<MediaPreviewMode
         mColorDrawable = new ColorDrawable();
         mColorDrawable.setColor(Color.BLACK);
         mMediaPreviewBinding.flRootContainer.setBackground(mColorDrawable);
-        mMediaPreviewBinding.dragDismissLayout.bindPhotoView(mMediaPreviewBinding.ivPhoto);
-
-        MediaPreviewItemEntity mediaPreviewItemEntity = getCurrentItem(mCurrentPosition);
-        if (mediaPreviewItemEntity != null) {
-            ImageLoader.with(this)
-                    .load(mediaPreviewItemEntity.getMediaUrl())
-                    .into(mMediaPreviewBinding.ivPhoto);
-            if (mediaPreviewItemEntity.hasTargetViewAttributes()) {
-                mMediaPreviewBinding.dragDismissLayout.setTargetData(mediaPreviewItemEntity.getStartX(), mediaPreviewItemEntity.getStartY(), mediaPreviewItemEntity.getPreviewWidth(), mediaPreviewItemEntity.getPreviewHeight());
-            }
-        }
-        mMediaPreviewBinding.ivPhoto.setOnDoubleTapListener(new GestureDetector.OnDoubleTapListener() {
-            @Override
-            public boolean onSingleTapConfirmed(MotionEvent e) {
-                onExitAnim();
-                return true;
-            }
-
-            @Override
-            public boolean onDoubleTap(MotionEvent e) {
-                if (mMediaPreviewBinding.ivPhoto.getScale() > mMediaPreviewBinding.ivPhoto.getMinimumScale()) {
-                    mMediaPreviewBinding.ivPhoto.setScale(mMediaPreviewBinding.ivPhoto.getMinimumScale(), true);
-                } else {
-                    mMediaPreviewBinding.ivPhoto.setScale(mMediaPreviewBinding.ivPhoto.getMediumScale(), true);
-                }
-                return true;
-            }
-
-            @Override
-            public boolean onDoubleTapEvent(MotionEvent e) {
-                return false;
-            }
-        });
-        mMediaPreviewBinding.dragDismissLayout.setOnDragDismissLayoutListener(new DragDismissLayout.OnDragDismissLayoutListener() {
-
-            @Override
-            public void onComputeAlpha(int alpha) {
-                mColorDrawable.setAlpha(alpha);
-            }
-
-            @Override
-            public void onDismiss() {
-
-            }
-
-            @Override
-            public void onDragging() {
-
-            }
-
-            @Override
-            public void onEndDrag() {
-
-            }
-        });
-
+        setupViewPager();
         onEnterAnimator();
+    }
+
+    private void setupViewPager() {
+        ViewPager2 viewpager = mMediaPreviewBinding.viewpager;
+        final List<Fragment> fragments = new ArrayList<>();
+        for (MediaPreviewItemEntity mediaPreviewItemEntity : mMediaPreviewItemEntities) {
+            MediaPreviewItemFragment mediaPreviewItemFragment = MediaPreviewItemFragment.newInstance(mediaPreviewItemEntity, true);
+            fragments.add(mediaPreviewItemFragment);
+        }
+        mFragmentAdapter = new CommonFragmentAdapter(getActivity(), fragments);
+        viewpager.setAdapter(mFragmentAdapter);
+        viewpager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                mCurrentPosition = position;
+            }
+        });
+
+        if (mCurrentPosition < mFragmentAdapter.getItemCount()) {
+            viewpager.setCurrentItem(mCurrentPosition, false);
+        }
     }
 
     /**
      * 进入动画效果
-     * https://github.com/VicJcc/BrowseImg/blob/c42239826cc98e50bcf75b88b76cb5df103a9ff7/app/src/main/java/jcc/example/com/browseimg/JBrowseImgActivity.java#L196
      */
     private void onEnterAnimator() {
         synchronized (this) {
             MediaPreviewItemEntity mediaPreviewItemEntity = getCurrentItem(mCurrentPosition);
             if (mediaPreviewItemEntity == null || mediaPreviewItemEntity.getPreviewWidth() < 0 || mediaPreviewItemEntity.getPreviewHeight() < 0) {
-                ViewAnimator.animate(mMediaPreviewBinding.ivPhoto)
+                ViewAnimator.animate(mMediaPreviewBinding.viewpager)
                         .zoomIn()
                         .duration(ANIMATOR_DURATION)
                         .custom((view, value) -> setColorDrawableAlpha(value), 0, 1.f)
@@ -239,7 +225,7 @@ public class MediaPreviewFragment extends BaseViewModelFragment<MediaPreviewMode
                 pivotY = targetViewY / (1 - aspectRatio);
             }
 
-            ViewAnimator.animate(mMediaPreviewBinding.ivPhoto)
+            ViewAnimator.animate(mMediaPreviewBinding.viewpager)
                     .pivotX(pivotX)
                     .pivotY(pivotY)
                     .scale(aspectRatio, 1.0f)
@@ -254,11 +240,6 @@ public class MediaPreviewFragment extends BaseViewModelFragment<MediaPreviewMode
      * 退出activity动画
      */
     private void onExitAnim() {
-        // TODO: 2023/5/31 索引获取当前图片，这里没做ViewPager，模拟滑动过位置了
-        mCurrentPosition = 0;
-        if (ListUtils.getSize(mMediaPreviewItemEntities) > 1) {
-            mCurrentPosition = 1;
-        }
         MediaPreviewItemEntity mediaPreviewItemEntity = getCurrentItem(mCurrentPosition);
         if (mediaPreviewItemEntity == null) {
             finishActivity();
@@ -293,14 +274,21 @@ public class MediaPreviewFragment extends BaseViewModelFragment<MediaPreviewMode
             pivotY = targetViewStartY / (1 - aspectRatio);
         }
 
-        float translationX = mMediaPreviewBinding.ivPhoto.getTranslationX() + (DisplayUtils.getScreenWidth(getContext()) / 2.f * (1 - mMediaPreviewBinding.ivPhoto.getScaleX()) - mMediaPreviewBinding.ivPhoto.getPivotX() * (1 - mMediaPreviewBinding.ivPhoto.getScaleX()));
-        float translationY = mMediaPreviewBinding.ivPhoto.getTranslationY() + (DisplayUtils.getScreenHeight(getContext()) / 2.f * (1 - mMediaPreviewBinding.ivPhoto.getScaleY()) - mMediaPreviewBinding.ivPhoto.getPivotY() * (1 - mMediaPreviewBinding.ivPhoto.getScaleY()));
+        float translationX = mMediaPreviewBinding.viewpager.getTranslationX() + (DisplayUtils.getScreenWidth(getContext()) / 2.f * (1 - mMediaPreviewBinding.viewpager.getScaleX()) - mMediaPreviewBinding.viewpager.getPivotX() * (1 - mMediaPreviewBinding.viewpager.getScaleX()));
+        float translationY = mMediaPreviewBinding.viewpager.getTranslationY() + (DisplayUtils.getScreenHeight(getContext()) / 2.f * (1 - mMediaPreviewBinding.viewpager.getScaleY()) - mMediaPreviewBinding.viewpager.getPivotY() * (1 - mMediaPreviewBinding.viewpager.getScaleY()));
 
-        ViewAnimator.animate(mMediaPreviewBinding.ivPhoto)
+        mHandler.postDelayed(() -> {
+            final Fragment fragment = mFragmentAdapter.getFragment(mCurrentPosition);
+            if (fragment instanceof MediaPreviewItemFragment) {
+                ((MediaPreviewItemFragment) fragment).setDismissPhotoViewState(targetAspectRatio);
+            }
+        }, 50);
+
+        ViewAnimator.animate(mMediaPreviewBinding.viewpager)
                 .pivotX(pivotX)
                 .pivotY(pivotY)
-                .scaleX(mMediaPreviewBinding.ivPhoto.getScaleX(), aspectRatio)
-                .scaleY(mMediaPreviewBinding.ivPhoto.getScaleY(), aspectRatio)
+                .scaleX(mMediaPreviewBinding.viewpager.getScaleX(), aspectRatio)
+                .scaleY(mMediaPreviewBinding.viewpager.getScaleY(), aspectRatio)
                 .translationX(translationX, 0)
                 .translationY(translationY, 0)
                 .onStop(() -> {
@@ -347,6 +335,7 @@ public class MediaPreviewFragment extends BaseViewModelFragment<MediaPreviewMode
 
     //endregion
 
+
     //region: Activity 操作
 
     /**
@@ -357,6 +346,33 @@ public class MediaPreviewFragment extends BaseViewModelFragment<MediaPreviewMode
     public boolean onBackPressed() {
         onExitAnim();
         return true;
+    }
+
+    public void onComputeAlpha(int alpha) {
+        if (isActivityFinishing()) {
+            return;
+        }
+        mColorDrawable.setAlpha(alpha);
+    }
+
+    public void onDismiss() {
+        if (isActivityFinishing()) {
+            return;
+        }
+    }
+
+    public void onDragging() {
+        if (isActivityFinishing()) {
+            return;
+        }
+        mMediaPreviewBinding.viewpager.setUserInputEnabled(false);
+    }
+
+    public void onEndDrag() {
+        if (isActivityFinishing()) {
+            return;
+        }
+        mMediaPreviewBinding.viewpager.setUserInputEnabled(true);
     }
 
     //endregion

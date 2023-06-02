@@ -2,6 +2,7 @@ package com.xxl.hello.widget.di.builder;
 
 import com.xxl.hello.widget.ui.preview.MediaPreviewActivity;
 import com.xxl.hello.widget.ui.preview.MediaPreviewFragmentProvider;
+import com.xxl.hello.widget.ui.preview.item.MediaPreviewItemFragmentProvider;
 import com.xxl.hello.widget.ui.web.CommonWebActivity;
 import com.xxl.hello.widget.ui.web.CommonWebFragmentProvider;
 
@@ -28,6 +29,6 @@ public abstract class WidgetActivityBuilder {
      *
      * @return
      */
-    @ContributesAndroidInjector(modules = MediaPreviewFragmentProvider.class)
+    @ContributesAndroidInjector(modules = {MediaPreviewFragmentProvider.class, MediaPreviewItemFragmentProvider.class})
     abstract MediaPreviewActivity bindMediaPreviewActivityBuilder();
 }
