@@ -233,6 +233,10 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
     //region: MainNavigator
 
+    private long mRepeatCount = 1;
+
+    private long mPreWindowIndex = -1;
+
     @SuppressLint("HandlerLeak")
     Handler mHandler = new Handler() {
         @Override
@@ -242,7 +246,18 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
                     if (!mAutoPlay) {
                         return;
                     }
+                    int currentWindowIndex = mAudioPlayerWrapper.getCurrentWindowIndex();
+                    // 上次播放的是这个,重复次数也够了
+                    if (mPreWindowIndex == currentWindowIndex && mRepeatCount >= PLAY_COUNT) {
+                        mAudioPlayerWrapper.seekToNextWindow();
+                        mRepeatCount = 1;
+                    } else {
+                        mAudioPlayerWrapper.seekTo(currentWindowIndex, 0);
+                        mRepeatCount++;
+                    }
                     mAudioPlayerWrapper.play();
+                    mPreWindowIndex = currentWindowIndex;
+
                     break;
                 default:
             }
@@ -278,9 +293,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     public void onTestClick() {
         List<String> list = new ArrayList<>();
         for (String audio : audios) {
-            for (int i = 0; i < PLAY_COUNT; i++) {
-                list.add(audio);
-            }
+            list.add(audio);
         }
         mAudioPlayerWrapper.setMediaItems(list);
         mAudioPlayerWrapper.setOnAudioPlayListener(new OnAudioPlayListener() {
@@ -317,17 +330,11 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
         mAutoPlay = false;
         mHandler.removeMessages(PLAY_NEXT);
         int currentWindowIndex = mAudioPlayerWrapper.getCurrentWindowIndex();
-        int nextIndex = currentWindowIndex;
-        if (currentWindowIndex % PLAY_COUNT == 0) {
-            //0,2,4    当前 0，播放 2，当前2，播放4
-            nextIndex += 2;
-        } else {
-            //1,3,5    当前1，播放2，当前3，播放4
-            nextIndex += 1;
-        }
-        Log.e("aaa", "onNextClick: " + currentWindowIndex + "----" + currentWindowIndex % PLAY_COUNT + "---" + nextIndex);
+        mPreWindowIndex = currentWindowIndex;
+        int nextIndex = currentWindowIndex + 1;
         if (nextIndex < mAudioPlayerWrapper.getItemCount()) {
             mAudioPlayerWrapper.seekTo(nextIndex, 0);
+            mAudioPlayerWrapper.play();
         }
         ToastUtils.success("总共" + mAudioPlayerWrapper.getItemCount() + " 当前是第 " + currentWindowIndex + " 个音频 " + "即将播放" + nextIndex).show();
     }

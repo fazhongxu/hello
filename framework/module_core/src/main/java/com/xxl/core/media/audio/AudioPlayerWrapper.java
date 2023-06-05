@@ -275,6 +275,20 @@ public class AudioPlayerWrapper implements Player.Listener {
         mMediaPlayer.seekTo(position);
     }
 
+    public void seekToNextWindow() {
+        if (mMediaPlayer == null) {
+            return;
+        }
+        mMediaPlayer.seekToNextWindow();
+    }
+
+    public void seekToPreviousWindow() {
+        if (mMediaPlayer == null) {
+            return;
+        }
+        mMediaPlayer.seekToPreviousWindow();
+    }
+
     /**
      * 获取当前播放位置
      *
