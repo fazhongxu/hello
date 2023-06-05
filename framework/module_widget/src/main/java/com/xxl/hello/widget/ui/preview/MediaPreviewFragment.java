@@ -290,6 +290,9 @@ public class MediaPreviewFragment extends BaseViewModelFragment<MediaPreviewMode
         float translationY = mMediaPreviewBinding.viewpager.getTranslationY() + (DisplayUtils.getScreenHeight(getContext()) / 2.f * (1 - mMediaPreviewBinding.viewpager.getScaleY()) - mMediaPreviewBinding.viewpager.getPivotY() * (1 - mMediaPreviewBinding.viewpager.getScaleY()));
 
         mHandler.postDelayed(() -> {
+            if (isActivityFinishing()) {
+                return;
+            }
             final Fragment fragment = mFragmentAdapter.getFragment(mCurrentPosition);
             if (fragment instanceof MediaPreviewItemFragment) {
                 ((MediaPreviewItemFragment) fragment).setDismissPhotoViewState(targetAspectRatio);
@@ -304,6 +307,9 @@ public class MediaPreviewFragment extends BaseViewModelFragment<MediaPreviewMode
                 .translationX(translationX, 0)
                 .translationY(translationY, 0)
                 .onStop(() -> {
+                    if (isActivityFinishing()) {
+                        return;
+                    }
                     finishActivity();
                     getActivity().overridePendingTransition(0, 0);
                 })
