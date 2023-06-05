@@ -151,6 +151,8 @@ dependencies {
 
     implementation deps.evetbus
 
+    implementation deps.photo_view
+
     implementation deps.arouter.arouter
     kapt deps.arouter.arouter_processor
 

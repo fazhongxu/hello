@@ -55,6 +55,8 @@ dependencies {
     implementation deps.androidx.material
     implementation deps.androidx.constraintlayout
 
+    implementation deps.photo_view
+
     implementation deps.okhttp.okhttp
     implementation deps.okhttp.logging
     implementation deps.retrofit.retrofit

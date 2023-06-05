@@ -133,6 +133,8 @@ dependencies {
 
     implementation deps.evetbus
 
+    compileOnly deps.photo_view
+
     implementation deps.state.state
     implementation deps.state.state_processor
 

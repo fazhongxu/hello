@@ -22,8 +22,8 @@ import android.widget.Scroller;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.github.chrisbanes.photoview.PhotoView;
 import com.github.florent37.viewanimator.ViewAnimator;
-import com.luck.picture.lib.photoview.PhotoView;
 
 /**
  * 自定义可拖拽消失的viewGroup
