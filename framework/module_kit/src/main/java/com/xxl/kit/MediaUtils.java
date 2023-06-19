@@ -4,6 +4,7 @@ import android.media.MediaMetadataRetriever;
 
 import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -25,16 +26,6 @@ public final class MediaUtils {
 
     public static final String NO = "no";
 
-    public static final int METADATA_KEY_HAS_VIDEO = MediaMetadataRetriever.METADATA_KEY_HAS_VIDEO;
-
-    public static final int METADATA_KEY_HAS_AUDIO = MediaMetadataRetriever.METADATA_KEY_HAS_AUDIO;
-
-    public static final int METADATA_KEY_VIDEO_WIDTH = MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH;
-
-    public static final int METADATA_KEY_VIDEO_HEIGHT = MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT;
-
-    public static final int METADATA_KEY_DURATION = MediaMetadataRetriever.METADATA_KEY_DURATION;
-
     /**
      * 获取视频信息
      *
@@ -49,7 +40,6 @@ public final class MediaUtils {
 
         try {
             retriever.setDataSource(path);
-            String orientation = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_ROTATION);
             width = Long.parseLong(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH));
             height = Long.parseLong(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT));
         } catch (Exception e) {
@@ -61,30 +51,50 @@ public final class MediaUtils {
     }
 
     /**
-     * 获取多媒体信息 (音视频）
+     * 获取常用的多媒体信息key
+     *
+     * @return
+     */
+    public static List<Integer> getCommonMediaRetrieverKeys() {
+        List<Integer> retrieverKey = new ArrayList<>();
+        retrieverKey.add(MediaMetadataRetriever.METADATA_KEY_HAS_VIDEO);
+        retrieverKey.add(MediaMetadataRetriever.METADATA_KEY_HAS_AUDIO);
+        retrieverKey.add(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH);
+        retrieverKey.add(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT);
+        retrieverKey.add(MediaMetadataRetriever.METADATA_KEY_DURATION);
+        return retrieverKey;
+    }
+
+    /**
+     * 获取多媒体信息
      *
      * @param targetPath
      * @return
      */
     public static Map<Integer, String> getMediaInfo(@NonNull final String targetPath) {
-        MediaMetadataRetriever retriever = null;
+        return getMediaInfo(targetPath, getCommonMediaRetrieverKeys());
+    }
+
+    /**
+     * 获取多媒体信息
+     *
+     * @param targetPath
+     * @param targetRetrieverKeys
+     * @return
+     */
+    public static Map<Integer, String> getMediaInfo(@NonNull final String targetPath,
+                                                    @Nullable final List<Integer> targetRetrieverKeys) {
         Map<Integer, String> mediaInfoMap = new LinkedHashMap<>();
-        String hasVideo = null;
-        String hasAudio = null;
+        if (targetRetrieverKeys == null || targetRetrieverKeys.size() == 0) {
+            return mediaInfoMap;
+        }
+        MediaMetadataRetriever retriever = null;
         try {
             retriever = new MediaMetadataRetriever();
             retriever.setDataSource(targetPath);
-            hasVideo = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_HAS_VIDEO);
-            hasAudio = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_HAS_AUDIO);
-            mediaInfoMap.put(METADATA_KEY_HAS_VIDEO, hasVideo);
-            mediaInfoMap.put(METADATA_KEY_HAS_AUDIO, hasAudio);
-
-            if (YES.equalsIgnoreCase(hasVideo)) {
-                mediaInfoMap.put(METADATA_KEY_VIDEO_WIDTH, retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH));
-                mediaInfoMap.put(METADATA_KEY_VIDEO_HEIGHT, retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT));
+            for (Integer retrieverKey : targetRetrieverKeys) {
+                mediaInfoMap.put(retrieverKey, retriever.extractMetadata(retrieverKey));
             }
-
-            mediaInfoMap.put(METADATA_KEY_DURATION, retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION));
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -92,7 +102,6 @@ public final class MediaUtils {
                 retriever.release();
             }
         }
-        LogUtils.d(String.format("has video %s has audio %s", hasVideo, hasAudio));
         return mediaInfoMap;
     }
 
