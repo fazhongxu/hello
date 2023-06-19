@@ -9,36 +9,23 @@ import com.chad.library.adapter.base.dragswipe.DragAndSwipeCallback;
 import com.chad.library.adapter.base.listener.OnItemDragListener;
 import com.chad.library.adapter.base.module.BaseDraggableModule;
 import com.chad.library.adapter.base.module.DraggableModule;
-import com.chad.library.adapter.base.viewholder.BaseViewHolder;
-
-import org.jetbrains.annotations.Nullable;
-
-import java.util.List;
 
 /**
- * 条目可以拖拽的适配器
+ * 课拖拽多条目类型
  *
  * @author xxl.
  * @date 2022/8/1.
  */
-public abstract class BaseItemDraggableAdapter<T, L extends BaseRecycleItemListener, V extends BaseViewHolder> extends BaseAdapter<T, L, V>
+public abstract class BaseMultiDraggableAdapter<T, L extends BaseRecycleItemListener> extends BaseMultiAdapter<T, L>
         implements DraggableModule {
 
-    //region: 构造函数
-
-    public BaseItemDraggableAdapter(int layoutResId, @Nullable List<T> data) {
-        super(layoutResId, data);
-    }
+    //region: 与拖拽相关
 
     @Override
     @NonNull
     public BaseDraggableModule addDraggableModule(@NonNull BaseQuickAdapter<?, ?> baseQuickAdapter) {
         return new BaseDraggableModule(baseQuickAdapter);
     }
-
-    //endregion
-
-    //region: 与拖拽相关
 
     /**
      * 设置是否可以拖拽
@@ -173,5 +160,6 @@ public abstract class BaseItemDraggableAdapter<T, L extends BaseRecycleItemListe
     }
 
     //endregion
+
 
 }

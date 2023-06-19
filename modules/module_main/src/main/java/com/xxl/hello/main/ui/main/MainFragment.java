@@ -214,7 +214,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
         mViewDataBinding.refreshLayout.bindRecyclerView(mViewDataBinding.rvList, mTestBindingAdapter,new GridLayoutManager(getActivity(),3));
         mViewDataBinding.refreshLayout.setPageSize(20);
         mTestBindingAdapter.setListener(this);
-//        mTestBindingAdapter.setDragItemEnable(true, R.id.tv_content, mViewDataBinding.rvList);
+        mTestBindingAdapter.setDragItemEnable(true, R.id.tv_content, mViewDataBinding.rvList);
     }
 
     @Override

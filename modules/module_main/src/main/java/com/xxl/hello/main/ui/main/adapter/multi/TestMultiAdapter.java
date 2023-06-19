@@ -2,13 +2,17 @@ package com.xxl.hello.main.ui.main.adapter.multi;
 
 import androidx.annotation.NonNull;
 
-import com.xxl.core.widget.recyclerview.adapter.BaseMultiAdapter;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.module.BaseDraggableModule;
+import com.xxl.core.widget.recyclerview.adapter.BaseMultiDraggableAdapter;
 import com.xxl.hello.main.ui.main.adapter.OnTestRecycleItemListener;
 import com.xxl.hello.main.ui.main.adapter.TestListEntity;
 import com.xxl.hello.main.ui.main.adapter.multi.provider.OnTestItemProviderListener;
 import com.xxl.hello.main.ui.main.adapter.multi.provider.TestImageProvider;
 import com.xxl.hello.main.ui.main.adapter.multi.provider.TestTextProvider;
 import com.xxl.hello.main.ui.main.adapter.multi.provider.TestVideoProvider;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -20,7 +24,7 @@ import javax.inject.Inject;
  * @author xxl.
  * @date 2022/10/10.
  */
-public class TestMultiAdapter extends BaseMultiAdapter<TestListEntity, OnTestRecycleItemListener>
+public class TestMultiAdapter extends BaseMultiDraggableAdapter<TestListEntity, OnTestRecycleItemListener>
         implements OnTestItemProviderListener {
 
     //region: 成员变量
