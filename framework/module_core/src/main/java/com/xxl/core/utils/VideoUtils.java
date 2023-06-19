@@ -33,7 +33,7 @@ public class VideoUtils {
     public static void compress(@NonNull final String inputVideoPath,
                                 @NonNull final String outputVideoPath,
                                 @NonNull final OnVideoProgressListener listener) {
-        final MediaUtils.MediaEntity mediaInfo = MediaUtils.getMediaInfo(inputVideoPath);
+        final MediaUtils.MediaEntity mediaInfo = MediaUtils.getMediaEntity(inputVideoPath);
         compressObservable(inputVideoPath, outputVideoPath, listener)
                 .compose(SchedulersProvider.applySchedulers())
                 .subscribe(isSuccess -> {
@@ -113,7 +113,7 @@ public class VideoUtils {
                 @Override
                 public void onComplete(String videoPath) {
                     if (listener != null) {
-                        final MediaUtils.MediaEntity mediaInfo = MediaUtils.getMediaInfo(videoPath);
+                        final MediaUtils.MediaEntity mediaInfo = MediaUtils.getMediaEntity(videoPath);
                         listener.onComplete(videoPath, mediaInfo.getWidth(), mediaInfo.getHeight());
                     }
                 }

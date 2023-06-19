@@ -6,7 +6,9 @@ import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -19,9 +21,19 @@ public final class MediaUtils {
         throw new UnsupportedOperationException("u can't instantiate me...");
     }
 
-    private static final String YES = "yes";
+    public static final String YES = "yes";
 
-    private static final String NO = "no";
+    public static final String NO = "no";
+
+    public static final int METADATA_KEY_HAS_VIDEO = MediaMetadataRetriever.METADATA_KEY_HAS_VIDEO;
+
+    public static final int METADATA_KEY_HAS_AUDIO = MediaMetadataRetriever.METADATA_KEY_HAS_AUDIO;
+
+    public static final int METADATA_KEY_VIDEO_WIDTH = MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH;
+
+    public static final int METADATA_KEY_VIDEO_HEIGHT = MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT;
+
+    public static final int METADATA_KEY_DURATION = MediaMetadataRetriever.METADATA_KEY_DURATION;
 
     /**
      * 获取视频信息
@@ -54,7 +66,43 @@ public final class MediaUtils {
      * @param targetPath
      * @return
      */
-    public static MediaEntity getMediaInfo(@NonNull final String targetPath) {
+    public static Map<Integer, String> getMediaInfo(@NonNull final String targetPath) {
+        MediaMetadataRetriever retriever = null;
+        Map<Integer, String> mediaInfoMap = new LinkedHashMap<>();
+        String hasVideo = null;
+        String hasAudio = null;
+        try {
+            retriever = new MediaMetadataRetriever();
+            retriever.setDataSource(targetPath);
+            hasVideo = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_HAS_VIDEO);
+            hasAudio = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_HAS_AUDIO);
+            mediaInfoMap.put(METADATA_KEY_HAS_VIDEO, hasVideo);
+            mediaInfoMap.put(METADATA_KEY_HAS_AUDIO, hasAudio);
+
+            if (YES.equalsIgnoreCase(hasVideo)) {
+                mediaInfoMap.put(METADATA_KEY_VIDEO_WIDTH, retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH));
+                mediaInfoMap.put(METADATA_KEY_VIDEO_HEIGHT, retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT));
+            }
+
+            mediaInfoMap.put(METADATA_KEY_DURATION, retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION));
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (retriever != null) {
+                retriever.release();
+            }
+        }
+        LogUtils.d(String.format("has video %s has audio %s", hasVideo, hasAudio));
+        return mediaInfoMap;
+    }
+
+    /**
+     * 获取多媒体信息 (音视频）
+     *
+     * @param targetPath
+     * @return
+     */
+    public static MediaEntity getMediaEntity(@NonNull final String targetPath) {
         MediaMetadataRetriever retriever = null;
         long width = 0;
         long height = 0;

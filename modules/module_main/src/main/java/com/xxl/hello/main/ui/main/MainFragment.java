@@ -320,7 +320,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
      */
     @Override
     public void onCompleteRecord(@NonNull final File audioFile) {
-        MediaUtils.MediaEntity mediaInfo = MediaUtils.getMediaInfo(audioFile.getAbsolutePath());
+        MediaUtils.MediaEntity mediaInfo = MediaUtils.getMediaEntity(audioFile.getAbsolutePath());
         LogUtils.d("音频文件-->" + audioFile.getAbsolutePath() + "--" + mediaInfo.getDuration());
         mViewDataBinding.tvTest.setText(getString(R.string.core_start_record_audio_text));
 
