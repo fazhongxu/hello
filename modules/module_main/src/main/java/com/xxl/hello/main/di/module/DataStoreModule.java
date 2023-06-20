@@ -190,6 +190,10 @@ public class DataStoreModule {
             builder.addNetworkInterceptor(httpLoggingInterceptor);
         }
 
+        //SSLSocketFactory socketFactory = CertificationUtils.getP12SSLSocketFactory(AppUtils.getApplication(), R.raw.xxx, "");
+        //X509TrustManager x509TrustManager = CertificationUtils.getX509TrustManager();
+        //builder.sslSocketFactory(socketFactory,x509TrustManager);
+
         return builder.build();
     }
 
