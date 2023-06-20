@@ -11,6 +11,13 @@ import com.umeng.socialize.bean.SHARE_MEDIA;
  */
 public interface OnAuthListener extends UMAuthListener {
 
+    /**
+     * 未安装客户端
+     */
+    default void onNotInstall() {
+
+    }
+
     @Override
     default void onStart(SHARE_MEDIA share_media) {
 

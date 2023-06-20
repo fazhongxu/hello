@@ -49,7 +49,20 @@ public class ShareUtils {
     /**
      * 微信的回调Code
      */
-    private final static String WE_CHAT_MAP_KEY_CODE = "code";
+    private static final String WE_CHAT_MAP_KEY_CODE = "code";
+
+    /**
+     * 应用授权作用域，如获取用户个人信息则填写snsapi_userinfo
+     * https://developers.weixin.qq.com/doc/oplatform/Mobile_App/WeChat_Login/Development_Guide.html
+     */
+    public static final String WE_CHAT_AUTH_SCOPE = "snsapi_userinfo";
+
+    /**
+     * 用用于保持请求和回调的状态，授权请求后原样带回给第三方。该参数可用于防止 csrf 攻击（跨站请求伪造攻击），
+     * 建议第三方带上该参数，可设置为简单的随机数加 session 进行校验。在state传递的过程中会将该参数作为url的一部分进行处理，
+     * 因此建议对该参数进行url encode操作，防止其中含有影响url解析的特殊字符（如'#'、'&'等）导致该参数无法正确回传。
+     */
+    public static final String WE_CHAT_AUTH_STATE = "xxl_hello_state";
 
     /**
      * 预初始化
@@ -185,7 +198,35 @@ public class ShareUtils {
      */
     public static void doWeChatAuth(@NonNull final Activity activity,
                                     @NonNull final OnAuthListener listener) {
-        // TODO: 2023/3/30
+        doWeChatAuth(activity, WE_CHAT_AUTH_SCOPE, WE_CHAT_AUTH_STATE, listener);
+    }
+
+    /**
+     * 微信授权
+     *
+     * @param activity
+     * @param scope
+     * @param state
+     * @param listener
+     */
+    public static void doWeChatAuth(@NonNull final Activity activity,
+                                    @NonNull final String scope,
+                                    @NonNull final String state,
+                                    @NonNull final OnAuthListener listener) {
+        boolean isInstall = UMShareAPI.get(AppUtils.getApplication()).isInstall(activity, SHARE_MEDIA.WEIXIN);
+        if (!isInstall) {
+            if (listener != null) {
+                listener.onNotInstall();
+            }
+            return;
+        }
+        sOnAuthListener = listener;
+        String appId = PlatformConfig.getPlatform(SHARE_MEDIA.WEIXIN).getAppid();
+        IWXAPI api = WXAPIFactory.createWXAPI(activity, appId, false);
+        final SendAuth.Req request = new SendAuth.Req();
+        request.scope = scope;
+        request.state = state;
+        api.sendReq(request);
     }
 
     /**
