@@ -82,13 +82,13 @@ public class MarketUtils {
 
     /***
      * 指定包名，指定市场
-     * @param mContext 上下文
+     * @param context 上下文
      * @param packageName 包名
      * @param marketPackageName 应用市场包名
      */
-    public static boolean startMarket(Context mContext, String packageName, String marketPackageName) {
+    public static boolean startMarket(Context context, String packageName, String marketPackageName) {
         try {
-            return openMarket(mContext, packageName, marketPackageName);
+            return openMarket(context, packageName, marketPackageName);
         } catch (ActivityNotFoundException anf) {
             Log.e("MarketUtils", "要跳转的应用市场不存在!-1");
         } catch (Exception e) {
@@ -99,17 +99,17 @@ public class MarketUtils {
 
     /***
      * 打开应用市场
-     * @param mContext 上下文
+     * @param context 上下文
      * @param packageName 包名
      * @param marketPackageName 应用市场包名
      */
-    private static boolean openMarket(Context mContext, String packageName, String marketPackageName) {
+    private static boolean openMarket(Context context, String packageName, String marketPackageName) {
         try {
             Uri uri = Uri.parse(schemaUrl + packageName);
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             intent.setPackage(marketPackageName);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            mContext.startActivity(intent);
+            context.startActivity(intent);
         } catch (ActivityNotFoundException anf) {
             Log.e("MarketUtils", "要跳转的应用市场不存在!-2");
             return false;
@@ -122,12 +122,12 @@ public class MarketUtils {
 
     /***
      * 检测是否是应用宝或者是百度市场
-     * @param mContext 上下文
+     * @param context 上下文
      * @param packageName 包名
      * @return
      */
-    private static boolean isCheckBaiduOrYYB(Context mContext, String packageName) {
-        return isInstalled(packageName, mContext);
+    private static boolean isCheckBaiduOrYYB(Context context, String packageName) {
+        return isInstalled(packageName, context);
     }
 
     /****
