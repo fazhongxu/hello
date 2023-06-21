@@ -26,4 +26,11 @@ public interface LoginNavigator {
      * 设置按钮点击
      */
     void onSettingClick();
+
+    /**
+     * 设置按钮长按点击
+     *
+     * @return
+     */
+    boolean onSettingLongClick();
 }

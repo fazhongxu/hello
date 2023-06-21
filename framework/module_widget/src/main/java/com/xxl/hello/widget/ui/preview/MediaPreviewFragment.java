@@ -34,7 +34,7 @@ import java.util.List;
  * @author xxl.
  * @date 2023/04/06.
  */
-public class MediaPreviewFragment extends BaseViewModelFragment<MediaPreviewModel, WidgetFragmentMediaPreviewBinding>
+public class MediaPreviewFragment extends BaseViewModelFragment<MediaPreviewViewModel, WidgetFragmentMediaPreviewBinding>
         implements MediaPreviewNavigator {
 
     //region: 成员变量
@@ -52,7 +52,7 @@ public class MediaPreviewFragment extends BaseViewModelFragment<MediaPreviewMode
     /**
      * 多媒体预览页面视图模型
      */
-    private MediaPreviewModel mMediaPreviewModel;
+    private MediaPreviewViewModel mMediaPreviewViewModel;
 
     /**
      * adapter
@@ -106,10 +106,10 @@ public class MediaPreviewFragment extends BaseViewModelFragment<MediaPreviewMode
     }
 
     @Override
-    protected MediaPreviewModel createViewModel() {
-        mMediaPreviewModel = createViewModel(MediaPreviewModel.class);
-        mMediaPreviewModel.setNavigator(this);
-        return mMediaPreviewModel;
+    protected MediaPreviewViewModel createViewModel() {
+        mMediaPreviewViewModel = createViewModel(MediaPreviewViewModel.class);
+        mMediaPreviewViewModel.setNavigator(this);
+        return mMediaPreviewViewModel;
     }
 
     @Override

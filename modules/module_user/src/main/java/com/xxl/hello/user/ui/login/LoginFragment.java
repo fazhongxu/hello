@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.xxl.core.ui.fragment.BaseViewModelFragment;
 import com.xxl.core.utils.AppExpandUtils;
+import com.xxl.hello.common.config.CacheDirConfig;
 import com.xxl.hello.router.api.MainRouterApi;
 import com.xxl.hello.router.api.UserRouterApi;
 import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
@@ -16,12 +17,16 @@ import com.xxl.hello.user.R;
 import com.xxl.hello.user.data.model.api.UserLoginResponse;
 import com.xxl.hello.user.databinding.UserFragmentLoginBinding;
 import com.xxl.hello.user.ui.login.window.PrivacyPolicyPopupWindow;
-import com.xxl.kit.AppRouterApi;
+import com.xxl.hello.widget.data.router.WidgetRouterApi;
 import com.xxl.kit.AppUtils;
+import com.xxl.kit.FileUtils;
 import com.xxl.kit.LogUtils;
+import com.xxl.kit.ResourceUtils;
 import com.xxl.kit.RouterUtils;
 import com.xxl.kit.TimeUtils;
 import com.xxl.kit.ToastUtils;
+
+import java.io.File;
 
 import javax.inject.Inject;
 
@@ -131,7 +136,7 @@ public class LoginFragment extends BaseViewModelFragment<LoginViewModel, UserFra
         mLoginViewModel.setTargetUserInfo(loginResponse.getLoginUserEntity());
         if (RouterUtils.hasActivity(MainRouterApi.Main.PATH)) {
             UserRouterApi.Login.setActivityResult(getActivity());
-        }else {
+        } else {
             MainRouterApi.Main.newBuilder()
                     .setNextPath(mNextPath)
                     .setExtraData(mExtraData)
@@ -157,6 +162,27 @@ public class LoginFragment extends BaseViewModelFragment<LoginViewModel, UserFra
     @Override
     public void onSettingClick() {
         UserRouterApi.UserSetting.navigation();
+    }
+
+    /**
+     * 设置按钮长按点击
+     *
+     * @return
+     */
+    @Override
+    public boolean onSettingLongClick() {
+        final String targetFilePath = CacheDirConfig.CACHE_DIR + File.separator + "alibaba_doc.pdf";
+        if (!FileUtils.isFileExists(targetFilePath)) {
+            boolean isSuccess = ResourceUtils.copyFileFromAssets("alibaba_doc.pdf", targetFilePath);
+            if (!isSuccess) {
+                ToastUtils.warning(R.string.resources_file_copy_failure_text).show();
+                return false;
+            }
+        }
+        WidgetRouterApi.FileBrowser.newBuilder()
+                .setFilePath(targetFilePath)
+                .navigation();
+        return true;
     }
 
     //endregion

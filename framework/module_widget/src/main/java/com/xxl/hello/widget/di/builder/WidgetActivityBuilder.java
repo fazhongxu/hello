@@ -1,5 +1,7 @@
 package com.xxl.hello.widget.di.builder;
 
+import com.xxl.hello.widget.ui.browser.FileBrowserActivity;
+import com.xxl.hello.widget.ui.browser.FileBrowserFragmentProvider;
 import com.xxl.hello.widget.ui.preview.MediaPreviewActivity;
 import com.xxl.hello.widget.ui.preview.MediaPreviewFragmentProvider;
 import com.xxl.hello.widget.ui.preview.item.MediaPreviewItemFragmentProvider;
@@ -31,4 +33,12 @@ public abstract class WidgetActivityBuilder {
      */
     @ContributesAndroidInjector(modules = {MediaPreviewFragmentProvider.class, MediaPreviewItemFragmentProvider.class})
     abstract MediaPreviewActivity bindMediaPreviewActivityBuilder();
+
+    /**
+     * 绑定文件浏览页面
+     *
+     * @return
+     */
+    @ContributesAndroidInjector(modules = {FileBrowserFragmentProvider.class})
+    abstract FileBrowserActivity bindFileBrowserActivityBuilder();
 }

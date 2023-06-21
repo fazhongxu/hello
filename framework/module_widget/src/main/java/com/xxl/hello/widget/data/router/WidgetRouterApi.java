@@ -130,4 +130,69 @@ public final class WidgetRouterApi {
     }
 
     //endregion
+
+    //region: 文件浏览路由相关
+
+    public static class FileBrowser {
+
+        /**
+         * 多媒体预览页面路径地址
+         */
+        public static final String PATH = WIDGET_MODULE_NAME + "/file_browser";
+
+        /**
+         * 文件路径
+         */
+        public static final String PARAMS_KEY_FILE_PATH = "params_key_file_path";
+
+        /**
+         * 是否可以分享
+         */
+        public static final String PARAMS_KEY_SHARE_ENABLE = "params_key_share_enable";
+
+
+        public static Builder newBuilder() {
+            return new Builder();
+        }
+
+        public static class Builder {
+
+            private Bundle mParams = new Bundle();
+
+            public Builder() {
+
+            }
+
+            /**
+             * 设置文件路径
+             *
+             * @param filePath
+             * @return
+             */
+            public Builder setFilePath(@NonNull final String filePath) {
+                mParams.putString(PARAMS_KEY_FILE_PATH, filePath);
+                return this;
+            }
+
+            /**
+             * 设置是否可分享
+             *
+             * @param shareEnable
+             * @return
+             */
+            public Builder setShareEnable(final boolean shareEnable) {
+                mParams.putBoolean(PARAMS_KEY_SHARE_ENABLE, shareEnable);
+                return this;
+            }
+
+            /**
+             * 跳转到多媒体预览
+             */
+            public void navigation() {
+                RouterUtils.navigation(PATH, mParams);
+            }
+        }
+    }
+
+    //endregion
 }

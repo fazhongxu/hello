@@ -13,6 +13,9 @@
     <string name="resources_agree_text">同意</string>
     <string name="resources_disagree_and_exit_text">不同意并退出</string>
 
+    <string name="resources_file_text">文件</string>
+    <string name="resources_file_copy_failure_text">拷贝文件失败</string>
+
     <string name="resources_delete_text">删除</string>
     <string name="resources_set_top_text">置顶</string>
     <string name="resources_refresh_to_top_text">刷新到顶部</string>

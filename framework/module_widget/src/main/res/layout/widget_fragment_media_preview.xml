@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.xxl.hello.widget.ui.preview.MediaPreviewModel" />
+            type="com.xxl.hello.widget.ui.preview.MediaPreviewViewModel" />
 
         <variable
             name="navigator"

@@ -48,6 +48,7 @@
             android:alpha="0.6"
             android:onClick="@{()->navigator.onSettingClick()}"
             android:padding="5dp"
+            android:onLongClick="@{()->navigator.onSettingLongClick()}"
             android:src="@drawable/user_ic_setting"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent" />

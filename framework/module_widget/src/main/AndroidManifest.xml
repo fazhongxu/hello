@@ -6,5 +6,6 @@
         <activity android:name=".ui.web.CommonWebActivity" />
         <activity android:name=".ui.preview.MediaPreviewActivity"
             android:theme="@style/TransparentTheme"/>
+        <activity android:name=".ui.browser.FileBrowserActivity"/>
     </application>
 </manifest>

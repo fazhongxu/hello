@@ -1,4 +1,4 @@
-package com.xxl.hello.widget.ui.preview;
+package com.xxl.hello.widget.ui.browser;
 
 import android.app.Application;
 
@@ -13,22 +13,22 @@ import dagger.Module;
 import dagger.Provides;
 
 /**
- * 多媒体预览页面
+ * 文件浏览页面
  *
  * @author xxl.
- * @date 2023/04/06.
+ * @date 2023/07/21.
  */
 @Module
-public class MediaPreviewFragmentModule {
+public class FileBrowserFragmentModule {
 
     @Provides
-    MediaPreviewViewModel provideMediaPreviewModel(@ForApplication final Application application,
+    FileBrowserViewModel provideFileBrowserModel(@ForApplication final Application application,
                                                    @NonNull final DataRepositoryKit dataRepositoryKit) {
-        return new MediaPreviewViewModel(application, dataRepositoryKit);
+        return new FileBrowserViewModel(application, dataRepositoryKit);
     }
 
     @Provides
-    ViewModelProvider.Factory provideMediaPreviewModelFactory(@NonNull final MediaPreviewViewModel viewModel) {
+    ViewModelProvider.Factory provideFileBrowserModelFactory(@NonNull final FileBrowserViewModel viewModel) {
         return new ViewModelProviderFactory<>(viewModel);
     }
 

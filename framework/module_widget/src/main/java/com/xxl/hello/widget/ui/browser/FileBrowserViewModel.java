@@ -1,4 +1,4 @@
-package com.xxl.hello.widget.ui.preview;
+package com.xxl.hello.widget.ui.browser;
 
 import android.app.Application;
 
@@ -6,15 +6,14 @@ import androidx.annotation.NonNull;
 
 import com.xxl.core.ui.BaseViewModel;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
-import com.xxl.hello.widget.ui.web.CommonWebNavigator;
 
 /**
- * 多媒体预览页面视图模型
+ * 文件浏览页面
  *
  * @author xxl.
- * @date 2023/04/06.
+ * @date 2023/07/21.
  */
-public class MediaPreviewModel extends BaseViewModel<MediaPreviewNavigator> {
+public class FileBrowserViewModel extends BaseViewModel<FileBrowserNavigator> {
 
     //region: 成员变量
 
@@ -22,8 +21,8 @@ public class MediaPreviewModel extends BaseViewModel<MediaPreviewNavigator> {
 
     //region: 构造函数
 
-    public MediaPreviewModel(@NonNull final Application application,
-                             @NonNull final DataRepositoryKit dataRepositoryKit) {
+    public FileBrowserViewModel(@NonNull final Application application,
+                                @NonNull final DataRepositoryKit dataRepositoryKit) {
         super(application);
     }
 
