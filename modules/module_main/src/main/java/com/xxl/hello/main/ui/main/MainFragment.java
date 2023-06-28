@@ -4,7 +4,10 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
 
@@ -46,13 +49,16 @@ import com.xxl.hello.widget.data.router.WidgetRouterApi;
 import com.xxl.hello.widget.ui.view.record.OnRecordListener;
 import com.xxl.hello.widget.ui.view.record.RecordButton;
 import com.xxl.kit.AppUtils;
+import com.xxl.kit.ColorUtils;
 import com.xxl.kit.FFmpegUtils;
+import com.xxl.kit.GsonUtils;
 import com.xxl.kit.ListUtils;
 import com.xxl.kit.LogUtils;
 import com.xxl.kit.MediaUtils;
 import com.xxl.kit.OnAppStatusChangedListener;
 import com.xxl.kit.OnRequestCallBack;
 import com.xxl.kit.ResourceUtils;
+import com.xxl.kit.SensitiveUtils;
 import com.xxl.kit.StringUtils;
 import com.xxl.kit.TimeUtils;
 import com.xxl.kit.ToastUtils;
@@ -62,6 +68,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 
@@ -211,7 +219,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     private void setupRecyclerView() {
         mViewDataBinding.rvList.addItemDecoration(DecorationUtils.createHorizontalDividerItemDecoration(ResourceUtils.getAttrColor(AppUtils.getTopActivity(), R.attr.h_common_divider_color), 10, 0));
         mViewDataBinding.refreshLayout.setRefreshDataListener(this);
-        mViewDataBinding.refreshLayout.bindRecyclerView(mViewDataBinding.rvList, mTestBindingAdapter,new GridLayoutManager(getActivity(),3));
+        mViewDataBinding.refreshLayout.bindRecyclerView(mViewDataBinding.rvList, mTestBindingAdapter, new GridLayoutManager(getActivity(), 3));
         mViewDataBinding.refreshLayout.setPageSize(20);
         mTestBindingAdapter.setListener(this);
         mTestBindingAdapter.setDragItemEnable(true, R.id.tv_content, mViewDataBinding.rvList);
@@ -227,9 +235,52 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
     //region: MainNavigator
 
+    static final String REGEX = "\\w+@\\w+\\.\\w+";
+
+    /**
+     * Regex of simple mobile.
+     */
+//    public static final String REGEX_MOBILE_SIMPLE = "[\\\\d]{11}\"";
+    public static final String REGEX_MOBILE_SIMPLE = "[\\d]{11}";
+
+    public static final String REGEX_ID_CARD = "\\d{17}[\\d|x|X]|\\d{15}";
+
     @Override
     public void onTestClick() {
-        UserRouterApi.Login.newBuilder().navigation(getActivity());
+//        UserRouterApi.Login.newBuilder().navigation(getActivity());
+
+        String string = "This is my 163 email 123abc@163.com ,This is my qq email 1234@qq.com,I'm so happy!";
+//        Pattern pattern = Pattern.compile(REGEX);
+//        Matcher matcher = pattern.matcher(string);
+//        List<String> groups = new ArrayList<>();
+//        while (matcher.find()) {
+//            groups.add(matcher.group());
+//        }
+//        SpannableString spannable = new SpannableString(string);
+//        for (String group : groups) {
+//            int start = string.indexOf(group);
+//            int end =start+group.length();
+//            ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(ColorUtils.getColor(R.color.resources_primary_color));
+//            spannable.setSpan(foregroundColorSpan,start,end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//        }
+//        mViewDataBinding.tvTest.setText(spannable == null ? string : spannable);
+
+        String text = "我是一堆字符串字符串 12 1222122可，13111111111，我12 13800000000我的 身份证148502147502130123";
+
+
+        Pattern pattern = Pattern.compile(REGEX_ID_CARD);
+        Matcher matcher = pattern.matcher(text);
+        List<String> groups = new ArrayList<>();
+
+        while (matcher.find()) {
+            groups.add(matcher.group());
+        }
+        Log.e("aaa", "onTestClick: " + groups);
+
+        for (String group : groups) {
+            Log.e("aaa", "onTestClick: " + SensitiveUtils.mobileEncrypt(group) + "---" + SensitiveUtils.identityEncrypt(group));
+        }
+
     }
 
     /**
