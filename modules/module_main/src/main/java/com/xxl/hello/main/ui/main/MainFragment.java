@@ -53,7 +53,6 @@ import com.xxl.kit.MediaUtils;
 import com.xxl.kit.OnAppStatusChangedListener;
 import com.xxl.kit.OnRequestCallBack;
 import com.xxl.kit.ResourceUtils;
-import com.xxl.kit.SensitiveUtils;
 import com.xxl.kit.StringUtils;
 import com.xxl.kit.TimeUtils;
 import com.xxl.kit.ToastUtils;
@@ -230,13 +229,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
     @Override
     public void onTestClick() {
-//        UserRouterApi.Login.newBuilder().navigation(getActivity());
-
-        String text = "这是一段测试文本，手机号是 13812345678，身份证号是 320123199001011234。另外还有一个手机号是 13987654321，身份证号是 310101198001012345。";
-
-        String encrypt = SensitiveUtils.findPhoneAndIdCardEncrypt(text);
-        Log.e("aaa", "onTestClick: "+encrypt );
-
+        UserRouterApi.Login.newBuilder().navigation(getActivity());
     }
 
     /**
