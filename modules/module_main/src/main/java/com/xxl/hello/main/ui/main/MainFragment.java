@@ -4,10 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.SpannableString;
-import android.text.Spanned;
 import android.text.TextUtils;
-import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
 
@@ -49,9 +46,7 @@ import com.xxl.hello.widget.data.router.WidgetRouterApi;
 import com.xxl.hello.widget.ui.view.record.OnRecordListener;
 import com.xxl.hello.widget.ui.view.record.RecordButton;
 import com.xxl.kit.AppUtils;
-import com.xxl.kit.ColorUtils;
 import com.xxl.kit.FFmpegUtils;
-import com.xxl.kit.GsonUtils;
 import com.xxl.kit.ListUtils;
 import com.xxl.kit.LogUtils;
 import com.xxl.kit.MediaUtils;
@@ -67,6 +62,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -241,7 +237,8 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
      * Regex of simple mobile.
      */
 //    public static final String REGEX_MOBILE_SIMPLE = "[\\\\d]{11}\"";
-    public static final String REGEX_MOBILE_SIMPLE = "[\\d]{11}";
+//    public static final String REGEX_MOBILE_SIMPLE = "[\\d]{11}";
+    public static final String REGEX_MOBILE_SIMPLE = "^[1][3,4,5,7,8][0-9]{9}$";
 
     public static final String REGEX_ID_CARD = "\\d{17}[\\d|x|X]|\\d{15}";
 
@@ -249,38 +246,33 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     public void onTestClick() {
 //        UserRouterApi.Login.newBuilder().navigation(getActivity());
 
-        String string = "This is my 163 email 123abc@163.com ,This is my qq email 1234@qq.com,I'm so happy!";
-//        Pattern pattern = Pattern.compile(REGEX);
-//        Matcher matcher = pattern.matcher(string);
-//        List<String> groups = new ArrayList<>();
-//        while (matcher.find()) {
-//            groups.add(matcher.group());
-//        }
-//        SpannableString spannable = new SpannableString(string);
-//        for (String group : groups) {
-//            int start = string.indexOf(group);
-//            int end =start+group.length();
-//            ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(ColorUtils.getColor(R.color.resources_primary_color));
-//            spannable.setSpan(foregroundColorSpan,start,end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-//        }
-//        mViewDataBinding.tvTest.setText(spannable == null ? string : spannable);
-
-        String text = "我是一堆字符串字符串 12 1222122可，13111111111，我12 13800000000我的 身份证148502147502130123";
+        test3();
+    }
 
 
-        Pattern pattern = Pattern.compile(REGEX_ID_CARD);
-        Matcher matcher = pattern.matcher(text);
-        List<String> groups = new ArrayList<>();
+    public static void test3() {
+        String text = "这是一段测试文本，手机号是 13812345678，身份证号是 320123199001011234。另外还有一个手机号是 13987654321，身份证号是 310101198001012345。";
 
-        while (matcher.find()) {
-            groups.add(matcher.group());
-        }
-        Log.e("aaa", "onTestClick: " + groups);
-
-        for (String group : groups) {
-            Log.e("aaa", "onTestClick: " + SensitiveUtils.mobileEncrypt(group) + "---" + SensitiveUtils.identityEncrypt(group));
+        // 匹配手机号
+        Pattern phonePattern = Pattern.compile("(?<!\\d)(?:(?:\\+86|86)?1\\d{2})\\d{4}(\\d{4})(?!\\d)");
+        Matcher phoneMatcher = phonePattern.matcher(text);
+        while (phoneMatcher.find()) {
+            String phone = phoneMatcher.group();
+            String replacement = phone.replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2");
+            text = text.replace(phone, replacement);
         }
 
+        // 匹配身份证号
+        Pattern idCardPattern = Pattern.compile("(?<!\\d)\\d{6}(\\d{8})\\d{4}(?!\\d)");
+        Matcher idCardMatcher = idCardPattern.matcher(text);
+        while (idCardMatcher.find()) {
+            String idCard = idCardMatcher.group();
+            String replacement = idCard.replaceAll("(\\d{3})\\d{8}(\\d{4})", "$1********$2");
+            text = text.replace(idCard, replacement);
+        }
+
+        System.out.println(text);
+        Log.e("aaa", "main: " + text);
     }
 
     /**
