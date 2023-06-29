@@ -62,10 +62,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 
@@ -231,48 +228,15 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
     //region: MainNavigator
 
-    static final String REGEX = "\\w+@\\w+\\.\\w+";
-
-    /**
-     * Regex of simple mobile.
-     */
-//    public static final String REGEX_MOBILE_SIMPLE = "[\\\\d]{11}\"";
-//    public static final String REGEX_MOBILE_SIMPLE = "[\\d]{11}";
-    public static final String REGEX_MOBILE_SIMPLE = "^[1][3,4,5,7,8][0-9]{9}$";
-
-    public static final String REGEX_ID_CARD = "\\d{17}[\\d|x|X]|\\d{15}";
-
     @Override
     public void onTestClick() {
 //        UserRouterApi.Login.newBuilder().navigation(getActivity());
 
-        test3();
-    }
-
-
-    public static void test3() {
         String text = "这是一段测试文本，手机号是 13812345678，身份证号是 320123199001011234。另外还有一个手机号是 13987654321，身份证号是 310101198001012345。";
 
-        // 匹配手机号
-        Pattern phonePattern = Pattern.compile("(?<!\\d)(?:(?:\\+86|86)?1\\d{2})\\d{4}(\\d{4})(?!\\d)");
-        Matcher phoneMatcher = phonePattern.matcher(text);
-        while (phoneMatcher.find()) {
-            String phone = phoneMatcher.group();
-            String replacement = phone.replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2");
-            text = text.replace(phone, replacement);
-        }
+        String encrypt = SensitiveUtils.findPhoneAndIdCardEncrypt(text);
+        Log.e("aaa", "onTestClick: "+encrypt );
 
-        // 匹配身份证号
-        Pattern idCardPattern = Pattern.compile("(?<!\\d)\\d{6}(\\d{8})\\d{4}(?!\\d)");
-        Matcher idCardMatcher = idCardPattern.matcher(text);
-        while (idCardMatcher.find()) {
-            String idCard = idCardMatcher.group();
-            String replacement = idCard.replaceAll("(\\d{3})\\d{8}(\\d{4})", "$1********$2");
-            text = text.replace(idCard, replacement);
-        }
-
-        System.out.println(text);
-        Log.e("aaa", "main: " + text);
     }
 
     /**
