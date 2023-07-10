@@ -37,6 +37,9 @@ import com.xxl.hello.main.ui.main.adapter.TestListEntity;
 import com.xxl.hello.main.ui.main.adapter.multi.TestMultiAdapter;
 import com.xxl.hello.router.api.MainRouterApi;
 import com.xxl.hello.router.api.UserRouterApi;
+import com.xxl.hello.service.data.local.db.entity.CustomerDBEntity;
+import com.xxl.hello.service.data.local.db.entity.GoodsDBEntity;
+import com.xxl.hello.service.data.local.db.entity.OrderDBEntity;
 import com.xxl.hello.service.data.model.api.QueryUserInfoResponse;
 import com.xxl.hello.service.data.model.entity.media.MediaPreviewItemEntity;
 import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
@@ -62,6 +65,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 import javax.inject.Inject;
 
@@ -229,7 +233,13 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
     @Override
     public void onTestClick() {
-        UserRouterApi.Login.newBuilder().navigation(getActivity());
+//        UserRouterApi.Login.newBuilder().navigation(getActivity());
+
+        CustomerDBEntity customerDBEntity = CustomerDBEntity.obtain();
+        OrderDBEntity orderDBEntity = OrderDBEntity.obtain();
+
+        orderDBEntity.setOrderNo("123")
+                .setCustomer(customerDBEntity);
     }
 
     /**

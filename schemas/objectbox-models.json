@@ -135,17 +135,137 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "4:7376154998138602146",
+      "lastPropertyId": "6:6080900002515470426",
+      "name": "h_t_customer",
+      "properties": [
+        {
+          "id": "1:5954427424684156174",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:8956775710878161628",
+          "name": "create_time",
+          "type": 6
+        },
+        {
+          "id": "3:6377052036840211444",
+          "name": "update_time",
+          "type": 6
+        },
+        {
+          "id": "4:4509272055734006838",
+          "name": "customer_id",
+          "indexId": "4:811874509293410776",
+          "type": 9,
+          "flags": 2080
+        },
+        {
+          "id": "5:8635040360018067451",
+          "name": "customer_uid",
+          "type": 9
+        },
+        {
+          "id": "6:6080900002515470426",
+          "name": "customer_nickname",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "5:1460157739472705470",
+      "lastPropertyId": "6:3958911020968646947",
+      "name": "h_t_goods",
+      "properties": [
+        {
+          "id": "1:5924867799545327652",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:4423976816223840882",
+          "name": "create_time",
+          "type": 6
+        },
+        {
+          "id": "3:8224738021113163901",
+          "name": "update_time",
+          "type": 6
+        },
+        {
+          "id": "4:7863209645801807383",
+          "name": "goods_id",
+          "indexId": "5:1030006772420920921",
+          "type": 9,
+          "flags": 2080
+        },
+        {
+          "id": "5:5783553504286776961",
+          "name": "good_name",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "6:341021886639798867",
+      "lastPropertyId": "5:3350027933936479011",
+      "name": "h_t_order",
+      "properties": [
+        {
+          "id": "1:7484461053327866416",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:7216330451586860977",
+          "name": "create_time",
+          "type": 6
+        },
+        {
+          "id": "3:8606067329730047837",
+          "name": "update_time",
+          "type": 6
+        },
+        {
+          "id": "4:581593719649561745",
+          "name": "order_no",
+          "indexId": "7:9016644873316291713",
+          "type": 9,
+          "flags": 2080
+        },
+        {
+          "id": "5:3350027933936479011",
+          "name": "customerId",
+          "indexId": "8:6788774560344070187",
+          "type": 11,
+          "flags": 520,
+          "relationTarget": "h_t_customer"
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "3:2609695920169403388",
-  "lastIndexId": "3:5191770911680992787",
+  "lastEntityId": "6:341021886639798867",
+  "lastIndexId": "8:6788774560344070187",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
   "modelVersion": 5,
   "modelVersionParserMinimum": 5,
   "retiredEntityUids": [],
-  "retiredIndexUids": [],
-  "retiredPropertyUids": [],
+  "retiredIndexUids": [
+    1410533711739487784
+  ],
+  "retiredPropertyUids": [
+    3958911020968646947
+  ],
   "retiredRelationUids": [],
   "version": 1
 }
