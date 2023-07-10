@@ -233,13 +233,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
     @Override
     public void onTestClick() {
-//        UserRouterApi.Login.newBuilder().navigation(getActivity());
-
-        CustomerDBEntity customerDBEntity = CustomerDBEntity.obtain();
-        OrderDBEntity orderDBEntity = OrderDBEntity.obtain();
-
-        orderDBEntity.setOrderNo("123")
-                .setCustomer(customerDBEntity);
+        UserRouterApi.Login.newBuilder().navigation(getActivity());
     }
 
     /**
