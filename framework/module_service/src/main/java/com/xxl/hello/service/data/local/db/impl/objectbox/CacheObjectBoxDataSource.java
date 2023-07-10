@@ -103,6 +103,7 @@ public class CacheObjectBoxDataSource extends BaseObjectBoxDataSource<CacheDBEnt
                 .query()
                 .equal(getTableId(), key, QueryBuilder.StringOrder.CASE_INSENSITIVE)
                 .build()
+                //.find(/*"final long offset, final long limit"*/) 分页操作
                 .findFirst();
         if (cacheDBEntity == null) {
             return null;
