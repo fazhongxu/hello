@@ -2,13 +2,12 @@ package com.xxl.hello.service.data.local.db.impl.objectbox;
 
 import androidx.annotation.NonNull;
 
-import com.xxl.kit.GsonUtils;
 import com.xxl.hello.service.data.local.db.api.CacheDBDataService;
 import com.xxl.hello.service.data.local.db.entity.CacheDBEntity;
 import com.xxl.hello.service.data.local.db.entity.CacheDBEntity_;
+import com.xxl.kit.GsonUtils;
 
 import io.objectbox.Property;
-import io.objectbox.query.QueryBuilder;
 
 /**
  * 实现{@link CacheDBDataService} 针对 {@link CacheDBEntity} 数据表操作服务
@@ -24,19 +23,19 @@ public class CacheObjectBoxDataSource extends BaseObjectBoxDataSource<CacheDBEnt
         super(objectBoxDBClientKit);
     }
 
+    //endregion
+
+    //region: 生命周期
+
     /**
-     * 获取数据表ID
+     * 获取数据表主键ID
      *
      * @return
      */
     @Override
-    public Property<CacheDBEntity> getTableId() {
+    public Property<CacheDBEntity> getPrimaryKey() {
         return CacheDBEntity_.key;
     }
-
-    //endregion
-
-    //region: 生命周期
 
     //endregion
 
@@ -50,17 +49,7 @@ public class CacheObjectBoxDataSource extends BaseObjectBoxDataSource<CacheDBEnt
      */
     @Override
     public boolean removeCacheData(@NonNull final String key) {
-        // TODO: 2021/11/21 操作方法抽象，抽取基础类 get getAll put remove(key),removeAll等等
-
-        if (getOoxStore() == null) {
-            return false;
-        }
-        Property<CacheDBEntity> tableId = getTableId();
-        return getOoxStore().boxFor(CacheDBEntity.class)
-                .query()
-                .in(getTableId(), new String[]{key}, QueryBuilder.StringOrder.CASE_INSENSITIVE)
-                .build()
-                .remove() > 0;
+        return remove(key);
     }
 
     /**
@@ -73,43 +62,28 @@ public class CacheObjectBoxDataSource extends BaseObjectBoxDataSource<CacheDBEnt
     @Override
     public <T> boolean putCacheData(@NonNull final String key,
                                     @NonNull final T value) {
-        if (getOoxStore() == null) {
-            return false;
-        }
-        Property<CacheDBEntity> tableId = getTableId();
         // TODO: 2021/11/21 先获取，如果有，修改更新时间，否则创建 get()
         CacheDBEntity cacheDBEntity = new CacheDBEntity();
         cacheDBEntity.setKey(key)
                 .setValue(GsonUtils.toJson(value));
-
-        return getOoxStore().boxFor(CacheDBEntity.class)
-                .put(cacheDBEntity) > 0;
+        return put(cacheDBEntity) > 0;
     }
 
     /**
      * 获取缓存数据
      *
-     * @param key          缓存key
+     * @param key   缓存key
      * @param clazz 默认值
      * @return
      */
     @Override
     public <T> T getCacheData(@NonNull final String key,
                               @NonNull final Class<T> clazz) {
-        if (getOoxStore() == null) {
-            return null;
-        }
-        // offset = (page-1) * pageSize
-        CacheDBEntity cacheDBEntity = getOoxStore().boxFor(CacheDBEntity.class)
-                .query()
-                .equal(getTableId(), key, QueryBuilder.StringOrder.CASE_INSENSITIVE)
-                .build()
-                //.find(/*"final long offset, final long limit"*/) 分页操作
-                .findFirst();
+        CacheDBEntity cacheDBEntity = get(key);
         if (cacheDBEntity == null) {
             return null;
         }
-        return GsonUtils.fromJson(cacheDBEntity.getValue(),clazz);
+        return GsonUtils.fromJson(cacheDBEntity.getValue(), clazz);
 
     }
 
