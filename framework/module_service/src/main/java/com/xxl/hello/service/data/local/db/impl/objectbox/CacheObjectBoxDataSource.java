@@ -99,6 +99,7 @@ public class CacheObjectBoxDataSource extends BaseObjectBoxDataSource<CacheDBEnt
         if (getOoxStore() == null) {
             return null;
         }
+        // offset = (page-1) * pageSize
         CacheDBEntity cacheDBEntity = getOoxStore().boxFor(CacheDBEntity.class)
                 .query()
                 .equal(getTableId(), key, QueryBuilder.StringOrder.CASE_INSENSITIVE)
