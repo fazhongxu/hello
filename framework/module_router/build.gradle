@@ -1,5 +1,4 @@
 apply from: project.getRootDir().getAbsolutePath()+"/framework/common.gradle"
-apply plugin: 'io.objectbox'
 apply plugin: 'maven'
 
 android {
@@ -23,3 +22,5 @@ dependencies {
 
     implementation deps.hello.resources
 }
+
+apply plugin: 'io.objectbox'

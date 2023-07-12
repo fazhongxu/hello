@@ -157,7 +157,9 @@ retrofit.converter = "com.squareup.retrofit2:converter-gson:$versions.retrofit"
 deps.retrofit = retrofit
 
 // objectbox https://github.com/objectbox/objectbox-java
-deps.objectboct_plugin = "io.objectbox:objectbox-gradle-plugin:$versions.objectbox"
+deps.objectbobx_plugin = "io.objectbox:objectbox-gradle-plugin:$versions.objectbox"
+deps.objectbox_browser_debug = "io.objectbox:objectbox-android-objectbrowser:$versions.objectbox"
+deps.objectbox_browser_release = "io.objectbox:objectbox-android:$versions.objectbox"
 
 // aspectjx aop https://github.com/HujiangTechnology/gradle_plugin_android_aspectjx
 deps.aspectjx_plugin = "com.hujiang.aspectjx:gradle-android-plugin-aspectjx:$versions.aspectjx_plugin"

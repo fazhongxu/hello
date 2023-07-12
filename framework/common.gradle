@@ -67,6 +67,9 @@ dependencies {
     implementation deps.rxandroid
     implementation deps.rxpermission
 
+    debugImplementation deps.objectbox_browser_debug
+    releaseImplementation deps.objectbox_browser_release
+
     implementation deps.luban
     implementation deps.video_processor
 
@@ -111,6 +114,5 @@ dependencies {
     implementation deps.jsoup
 
     implementation deps.viewanimator
-
 }
 

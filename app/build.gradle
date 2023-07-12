@@ -3,7 +3,6 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.alibaba.arouter'
 apply from: '../and_res_guard.gradle'
-apply plugin: 'io.objectbox'
 apply plugin: 'android-aspectjx'
 apply from: '../aspectjx_excludes.gradle'
 
@@ -118,6 +117,9 @@ dependencies {
 
     implementation deps.gson
 
+    debugImplementation deps.objectbox_browser_debug
+    releaseImplementation deps.objectbox_browser_release
+
     implementation deps.okhttp.okhttp
     implementation deps.okhttp.logging
     implementation deps.retrofit.retrofit
@@ -199,6 +201,8 @@ dependencies {
     implementation deps.qq
     implementation deps.sina
 
-
 }
+
+apply plugin: 'io.objectbox'
+
 
