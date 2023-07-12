@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 
 import com.xxl.hello.common.config.NetworkConfig;
+import com.xxl.hello.service.BuildConfig;
 import com.xxl.hello.service.data.local.db.api.DBClientKit;
 import com.xxl.hello.service.data.local.db.entity.MyObjectBox;
 import com.xxl.hello.service.data.local.prefs.api.UserPreferences;
@@ -91,7 +92,7 @@ public class ObjectBoxDBClientKit implements DBClientKit {
                     .name(dataBaseName)
                     .build();
 
-            if (NetworkConfig.Companion.isNetworkDebug()) {
+            if (BuildConfig.DEBUG) {
                 final boolean start = new AndroidObjectBrowser(mOoxStore)
                         .start(mApplication);
                 LogUtils.d("数据库网页浏览服务开启状态" + start);
