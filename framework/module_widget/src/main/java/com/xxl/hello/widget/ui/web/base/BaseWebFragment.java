@@ -23,6 +23,7 @@ import com.xxl.core.R;
 import com.xxl.core.ui.BaseViewModel;
 import com.xxl.core.ui.fragment.BaseViewModelFragment;
 import com.xxl.core.widget.toolbar.OnToolbarListener;
+import com.xxl.hello.widget.ui.web.CommonJavascriptInterface;
 import com.xxl.kit.ColorUtils;
 
 /**
@@ -93,6 +94,7 @@ public abstract class BaseWebFragment<V extends BaseViewModel, T extends ViewDat
                 .useDefaultIndicator(ColorUtils.getColor(R.color.colorPrimary))
                 .setWebView(getCustomWebView())
                 .setWebChromeClient(getWebChromeClient())
+                .addJavascriptInterface("Android", getJavascriptInterface())
                 .setWebViewClient(getWebViewClient())
                 .setMainFrameErrorView(R.layout.agentweb_error_page, -1)
                 .setSecurityType(AgentWeb.SecurityType.STRICT_CHECK)
@@ -162,24 +164,42 @@ public abstract class BaseWebFragment<V extends BaseViewModel, T extends ViewDat
         return mWebViewClient;
     }
 
-    protected JsAccessEntrace getJsAccessEntrace() {
-        return mAgentWeb.getJsAccessEntrace();
+    //endregion
+
+    //region: js 调用  java 相关
+
+    /**
+     * 获取js调用java的接口对象
+     *
+     * @return
+     */
+    protected Object getJavascriptInterface() {
+        return new CommonJavascriptInterface();
     }
 
     //endregion
 
-    //region: Android 调用 Js 相关
+    //region: java 调用 js 相关
+
+    /**
+     * 获取java 调用 js 对象
+     *
+     * @return
+     */
+    protected JsAccessEntrace getJsAccessEntrance() {
+        return mAgentWeb.getJsAccessEntrace();
+    }
 
     public void quickCallJs(String method, ValueCallback<String> callback, String... params) {
-        getJsAccessEntrace().quickCallJs(method, callback, params);
+        getJsAccessEntrance().quickCallJs(method, callback, params);
     }
 
     public void quickCallJs(String method, String... params) {
-        getJsAccessEntrace().quickCallJs(method, params);
+        getJsAccessEntrance().quickCallJs(method, params);
     }
 
     public void quickCallJs(String method) {
-        getJsAccessEntrace().quickCallJs(method);
+        getJsAccessEntrance().quickCallJs(method);
     }
 
     //endregion
