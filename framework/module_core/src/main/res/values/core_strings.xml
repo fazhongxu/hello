@@ -8,6 +8,9 @@
     <string name="core_stop_record_audio_text">停止录音</string>
     <string name="core_record_audio_finish_text">录音结束</string>
 
+    <string name="core_the_function_need_vip_text">此功能是VIP功能</string>
+    <string name="core_click_open_vip_text">点击开通VIP</string>
+
     <string name="core_data_parse_error_tips">数据解析异常</string>
     <string name="core_network_error_tips">网络错误，请稍后再试！</string>
     <string name="core_create_dir_failure">创建文件夹失败</string>

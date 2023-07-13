@@ -99,6 +99,16 @@ public class HelloApplication extends BaseApplication implements IApplication, M
     }
 
     /**
+     * 是否是VIP
+     *
+     * @return
+     */
+    @Override
+    public boolean isVip() {
+        return mApplicationWrapper.isVip();
+    }
+
+    /**
      * 是否是debug模式
      *
      * @return
@@ -249,6 +259,16 @@ public class HelloApplication extends BaseApplication implements IApplication, M
     @Override
     public boolean isLogin() {
         return !TextUtils.isEmpty(getCurrentUserId());
+    }
+
+    /**
+     * 是否是VIP
+     *
+     * @return
+     */
+    @Override
+    public boolean isLoginUserVip() {
+        return isVip();
     }
 
     /**

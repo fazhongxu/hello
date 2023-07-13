@@ -71,6 +71,15 @@ public class HelloApplicationWrapper extends ContextWrapper {
     }
 
     /**
+     * 当前用户是否是VIP
+     *
+     * @return
+     */
+    public boolean isVip() {
+        return mServiceWrapper.isVip();
+    }
+
+    /**
      * 退出登录
      */
     public void logout() {

@@ -18,11 +18,11 @@ import com.xxl.core.ui.state.RequestErrorState;
 import com.xxl.core.ui.state.UnKnowExceptionState;
 import com.xxl.core.utils.BuglyUtils;
 import com.xxl.core.utils.CacheUtils;
+import com.xxl.core.utils.ShareUtils;
 import com.xxl.core.widget.swipebacklayout.SwipeBackActivityManager;
 import com.xxl.kit.AppUtils;
 import com.xxl.kit.ProcessUtils;
 import com.xxl.kit.RouterUtils;
-import com.xxl.core.utils.ShareUtils;
 
 import dagger.android.DaggerApplication;
 import io.reactivex.rxjava3.plugins.RxJavaPlugins;
@@ -105,7 +105,7 @@ public abstract class BaseApplication extends DaggerApplication {
      * 设置bugly
      */
     public void setupBugly() {
-        BuglyUtils.init(this, getBuglyAppId(),isDebug());
+        BuglyUtils.init(this, getBuglyAppId(), isDebug());
     }
 
     //endregion
@@ -229,6 +229,13 @@ public abstract class BaseApplication extends DaggerApplication {
      * @return
      */
     public abstract String getCurrentUserId();
+
+    /**
+     * 当前用户是否是VIP
+     *
+     * @return
+     */
+    public abstract boolean isVip();
 
     /**
      * 是否是debug模式

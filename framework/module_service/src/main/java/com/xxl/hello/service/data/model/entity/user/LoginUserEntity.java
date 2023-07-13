@@ -76,6 +76,18 @@ public class LoginUserEntity implements Serializable {
         return mSex == UserSex.MALE;
     }
 
+    /**
+     * 当前用户是否是VIP
+     *
+     * @return
+     */
+    public boolean isVip() {
+        if (NetworkConfig.Companion.isNetworkDebug()) {
+            return true;
+        }
+        return false;
+    }
+
     public String getUserId() {
         return mUserId;
     }

@@ -120,6 +120,15 @@ public class ServiceWrapper extends ContextWrapper {
     }
 
     /**
+     * 当前用户是否是VIP
+     *
+     * @return
+     */
+    public boolean isVip() {
+        return getCurrentLoginUserEntity() != null && getCurrentLoginUserEntity().isVip();
+    }
+
+    /**
      * 获取当前登录用户的信息
      *
      * @return

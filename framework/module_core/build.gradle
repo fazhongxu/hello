@@ -143,6 +143,8 @@ dependencies {
     implementation deps.arouter.arouter
     kapt deps.arouter.arouter_processor
 
+    compileOnly deps.base_popup
+
     // 仅参与编译，不参与打包，编译的时候本地有对应的aar，不报错，上传私服，不把aar打包进去，让项目不报错，分离aar和库
     compileOnly deps.ffmpeg_kit
     compileOnly deps.ffmpeg_kit_exception

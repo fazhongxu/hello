@@ -85,6 +85,19 @@ public class AppExpandUtils {
     }
 
     /**
+     * 判断当前用户是否是VIP
+     *
+     * @return
+     */
+    public static boolean isVip() {
+        final Application application = AppUtils.getApplication();
+        if (application instanceof IApplication) {
+            return ((IApplication) application).isLoginUserVip();
+        }
+        return false;
+    }
+
+    /**
      * 是否是debug模式
      *
      * @return

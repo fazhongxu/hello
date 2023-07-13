@@ -14,6 +14,15 @@ public interface IApplication {
     boolean isLogin();
 
     /**
+     * 是否是VIP
+     *
+     * @return
+     */
+    default boolean isLoginUserVip() {
+        return false;
+    }
+
+    /**
      * 跳转到登录
      *
      * @param requestCode
