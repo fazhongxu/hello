@@ -6,9 +6,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 
 import com.xxl.core.R;
+import com.xxl.kit.ToastUtils;
 import com.xxl.kit.ViewUtils;
 
 import razerdp.basepopup.BasePopupWindow;
@@ -61,6 +61,8 @@ public class VipInterceptPopupWindow extends BasePopupWindow {
             if (mListener != null) {
                 mListener.onOpenVipClick();
             }
+            ToastUtils.success(R.string.core_clicked_open_vip_text).show();
+            dismiss();
         });
         setContentView(rootView);
     }

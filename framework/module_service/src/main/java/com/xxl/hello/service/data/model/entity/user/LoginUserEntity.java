@@ -8,6 +8,7 @@ import com.xxl.hello.service.data.model.enums.UserEnumsApi.UserSex;
 import com.xxl.kit.TimeUtils;
 
 import java.io.Serializable;
+import java.util.Random;
 
 /**
  * 登录用户信息
@@ -82,10 +83,7 @@ public class LoginUserEntity implements Serializable {
      * @return
      */
     public boolean isVip() {
-        if (NetworkConfig.Companion.isNetworkDebug()) {
-            return true;
-        }
-        return false;
+        return new Random().nextInt(2) == 1;
     }
 
     public String getUserId() {

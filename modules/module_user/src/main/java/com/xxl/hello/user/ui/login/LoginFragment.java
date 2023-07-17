@@ -6,8 +6,10 @@ import android.view.View;
 import androidx.annotation.NonNull;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
+import com.xxl.core.aop.annotation.VipIntercept;
 import com.xxl.core.ui.fragment.BaseViewModelFragment;
 import com.xxl.core.utils.AppExpandUtils;
+import com.xxl.hello.common.config.AppOptions.VipConfig;
 import com.xxl.hello.common.config.CacheDirConfig;
 import com.xxl.hello.router.api.MainRouterApi;
 import com.xxl.hello.router.api.UserRouterApi;
@@ -171,18 +173,27 @@ public class LoginFragment extends BaseViewModelFragment<LoginViewModel, UserFra
      */
     @Override
     public boolean onSettingLongClick() {
+        navigationToFileBrowser();
+        return true;
+    }
+
+    /**
+     * 导航到文件浏览页面
+     * 记录下，AOP 直接作用在长按点击事件上无效，原因暂时不知道，所以拆了个方法出来，点击事件生效
+     */
+    @VipIntercept(functionId = VipConfig.LONG_CLICK_USER_SETTING_VIP_FUNCTION_ID)
+    private void navigationToFileBrowser() {
         final String targetFilePath = CacheDirConfig.CACHE_DIR + File.separator + "alibaba_doc.pdf";
         if (!FileUtils.isFileExists(targetFilePath)) {
             boolean isSuccess = ResourceUtils.copyFileFromAssets("alibaba_doc.pdf", targetFilePath);
             if (!isSuccess) {
                 ToastUtils.warning(R.string.resources_file_copy_failure_text).show();
-                return false;
+                return;
             }
         }
         WidgetRouterApi.FileBrowser.newBuilder()
                 .setFilePath(targetFilePath)
                 .navigation();
-        return true;
     }
 
     //endregion
