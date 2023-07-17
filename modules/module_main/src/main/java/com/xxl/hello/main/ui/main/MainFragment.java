@@ -28,6 +28,7 @@ import com.xxl.core.widget.recyclerview.OnRefreshDataListener;
 import com.xxl.core.widget.text.LinkTouchMovementMethod;
 import com.xxl.hello.common.config.AppConfig;
 import com.xxl.hello.common.config.CacheDirConfig;
+import com.xxl.hello.common.utils.ArrayExpandUtils;
 import com.xxl.hello.main.BR;
 import com.xxl.hello.main.R;
 import com.xxl.hello.main.databinding.MainFragmentBinding;
@@ -229,7 +230,41 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
     @Override
     public void onTestClick() {
-        UserRouterApi.Login.newBuilder().navigation(getActivity());
+        List<List<String>> targetList = new ArrayList<>();
+        List<List<String>> resultList = new ArrayList<>();
+
+        // list1 {1,2}
+        List<String> list1 = new ArrayList<>();
+        // list1 {A,B}
+        List<String> list2 = new ArrayList<>();
+        // list1 {a,b}
+        List<String> list3 = new ArrayList<>();
+
+        // list1 {j,k}
+        List<String> list4 = new ArrayList<>();
+
+        list1.add(String.valueOf(1));
+        list1.add(String.valueOf(2));
+
+        list2.add("A");
+        list2.add("B");
+
+        list3.add("a");
+        list3.add("b");
+
+        list4.add("j");
+        list4.add("k");
+
+        targetList.add(list1);
+        targetList.add(list2);
+        targetList.add(list3);
+        //targetList.add(list4);
+
+        ArrayExpandUtils.descartes(targetList, resultList, 0, new ArrayList<>());
+
+        for (List<String> list : resultList) {
+            Log.e("aaa", "onTestClick: " + list.toString());
+        }
     }
 
     /**
