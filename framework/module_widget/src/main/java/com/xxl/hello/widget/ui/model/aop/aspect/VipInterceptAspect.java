@@ -3,8 +3,12 @@ package com.xxl.hello.widget.ui.model.aop.aspect;
 import android.app.Activity;
 import android.text.TextUtils;
 
+import androidx.annotation.NonNull;
+
 import com.xxl.core.R;
 import com.xxl.core.utils.AppExpandUtils;
+import com.xxl.hello.service.data.repository.DataRepositoryKit;
+import com.xxl.hello.widget.ui.listener.OnVipInterceptListener;
 import com.xxl.hello.widget.ui.model.aop.annotation.VipIntercept;
 import com.xxl.hello.widget.ui.window.VipInterceptPopupWindow;
 import com.xxl.kit.AppUtils;
@@ -33,10 +37,12 @@ public class VipInterceptAspect {
     }
 
     @Around("onVipInterceptMethod() && @annotation(vipIntercept)")
-    public void doVipInterceptMethod(final ProceedingJoinPoint joinPoint, VipIntercept vipIntercept) throws Throwable {
+    public void doVipInterceptMethod(@NonNull final ProceedingJoinPoint joinPoint,
+                                     @NonNull final VipIntercept vipIntercept) throws Throwable {
+        final Activity topActivity = AppUtils.getTopActivity();
         final String vipModel = vipIntercept.vipModel();
         final long functionId = vipIntercept.functionId();
-        if (TextUtils.isEmpty(vipModel) || functionId <= 0) {
+        if (TextUtils.isEmpty(vipModel) || functionId <= 0 || topActivity == null) {
             joinPoint.proceed();
             return;
         }
@@ -46,27 +52,31 @@ public class VipInterceptAspect {
             joinPoint.proceed();
             return;
         }
-        final Activity topActivity = AppUtils.getTopActivity();
-        if (topActivity == null) {
-            return;
+        final Object target = joinPoint.getTarget();
+        if (target instanceof OnVipInterceptListener) {
+            final OnVipInterceptListener vipInterceptListener = (OnVipInterceptListener) target;
+            final DataRepositoryKit dataRepositoryKit = vipInterceptListener.getDataRepositoryKit();
+            if (dataRepositoryKit != null) {
+                final VipInterceptPopupWindow.OnVipInterceptPopupWindowListener listener = new VipInterceptPopupWindow.OnVipInterceptPopupWindowListener() {
+                    @Override
+                    public void onOpenVipClick() {
+                        ToastUtils.success(R.string.core_clicked_open_vip_text).show();
+                    }
+
+                    @Override
+                    public void onVerifyComplete(boolean isSuccess) {
+                        try {
+                            joinPoint.proceed();
+                        } catch (Throwable throwable) {
+                            throwable.printStackTrace();
+                        }
+                    }
+                };
+                VipInterceptPopupWindow.from(topActivity, listener, vipModel, functionId)
+                        .show();
+                return;
+            }
         }
-        final VipInterceptPopupWindow.OnVipInterceptPopupWindowListener listener = new VipInterceptPopupWindow.OnVipInterceptPopupWindowListener() {
-
-            @Override
-            public void onOpenVipClick() {
-                ToastUtils.success(R.string.core_clicked_open_vip_text).show();
-            }
-
-            @Override
-            public void onVerifyComplete(boolean isSuccess) {
-                try {
-                    joinPoint.proceed();
-                } catch (Throwable throwable) {
-                    throwable.printStackTrace();
-                }
-            }
-        };
-        VipInterceptPopupWindow.from(topActivity, listener, vipModel, functionId)
-                .show();
+        joinPoint.proceed();
     }
 }

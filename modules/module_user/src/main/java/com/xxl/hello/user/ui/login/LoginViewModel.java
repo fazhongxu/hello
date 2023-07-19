@@ -111,6 +111,10 @@ public class LoginViewModel extends BaseViewModel<LoginNavigator> {
 
     //region: get or set
 
+    public DataRepositoryKit getDataRepositoryKit() {
+        return mDataRepositoryKit;
+    }
+
     public ObservableField<String> getObservableUserName() {
         return mObservableUserName;
     }

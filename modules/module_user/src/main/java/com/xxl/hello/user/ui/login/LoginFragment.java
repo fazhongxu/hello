@@ -13,12 +13,14 @@ import com.xxl.hello.common.config.CacheDirConfig;
 import com.xxl.hello.router.api.MainRouterApi;
 import com.xxl.hello.router.api.UserRouterApi;
 import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
+import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.hello.user.BR;
 import com.xxl.hello.user.R;
 import com.xxl.hello.user.data.model.api.UserLoginResponse;
 import com.xxl.hello.user.databinding.UserFragmentLoginBinding;
 import com.xxl.hello.user.ui.login.window.PrivacyPolicyPopupWindow;
 import com.xxl.hello.widget.data.router.WidgetRouterApi;
+import com.xxl.hello.widget.ui.listener.OnVipInterceptListener;
 import com.xxl.hello.widget.ui.model.aop.annotation.VipIntercept;
 import com.xxl.kit.AppUtils;
 import com.xxl.kit.FileUtils;
@@ -38,7 +40,7 @@ import javax.inject.Inject;
  * @author xxl.
  * @date 2022/7/29.
  */
-public class LoginFragment extends BaseViewModelFragment<LoginViewModel, UserFragmentLoginBinding> implements LoginNavigator {
+public class LoginFragment extends BaseViewModelFragment<LoginViewModel, UserFragmentLoginBinding> implements LoginNavigator, OnVipInterceptListener {
 
     //region: 成员变量
 
@@ -194,6 +196,20 @@ public class LoginFragment extends BaseViewModelFragment<LoginViewModel, UserFra
         WidgetRouterApi.FileBrowser.newBuilder()
                 .setFilePath(targetFilePath)
                 .navigation();
+    }
+
+    //endregion
+
+    //region: OnVipInterceptListener
+
+    /**
+     * 获取数据服务接口集合
+     *
+     * @return
+     */
+    @Override
+    public DataRepositoryKit getDataRepositoryKit() {
+        return mViewModel.getDataRepositoryKit();
     }
 
     //endregion
