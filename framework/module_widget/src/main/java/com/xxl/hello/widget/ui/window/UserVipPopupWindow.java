@@ -1,4 +1,4 @@
-package com.xxl.core.widget.window;
+package com.xxl.hello.widget.ui.window;
 
 import android.app.Activity;
 import android.view.Gravity;
@@ -8,8 +8,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.xxl.core.R;
-import com.xxl.kit.ToastUtils;
+import com.xxl.hello.widget.R;
 import com.xxl.kit.ViewUtils;
 
 import razerdp.basepopup.BasePopupWindow;
@@ -69,7 +68,7 @@ public class UserVipPopupWindow extends BasePopupWindow {
      * 设置视图
      */
     private void setupLayout() {
-        View rootView = createPopupById(R.layout.core_window_layout_vip_user);
+        View rootView = createPopupById(R.layout.widget_window_layout_vip_user);
         mTvFreeTrial = ViewUtils.findView(rootView, R.id.tv_free_trial);
         mTvOpenVip = ViewUtils.findView(rootView, R.id.tv_open_vip);
 

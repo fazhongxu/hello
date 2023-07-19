@@ -1,4 +1,4 @@
-package com.xxl.core.widget.window;
+package com.xxl.hello.widget.ui.window;
 
 import android.app.Activity;
 import android.os.Handler;
@@ -7,8 +7,8 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 
-import com.xxl.core.R;
-import com.xxl.core.data.model.enums.VipEnumsApi.VipModel;
+import com.xxl.hello.service.data.model.enums.UserEnumsApi.VipModel;
+import com.xxl.hello.widget.R;
 import com.xxl.kit.ToastUtils;
 
 import java.util.Random;
@@ -76,7 +76,7 @@ public class VipInterceptPopupWindow extends BasePopupWindow {
      * 设置视图
      */
     private void setupLayout() {
-        View rootView = createPopupById(R.layout.core_window_layout_vip_intercept);
+        View rootView = createPopupById(R.layout.widget_window_layout_vip_intercept);
         setContentView(rootView);
     }
 

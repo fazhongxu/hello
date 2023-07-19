@@ -1,6 +1,7 @@
 package com.xxl.hello.service.data.model.enums;
 
 import androidx.annotation.IntDef;
+import androidx.annotation.StringDef;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -35,6 +36,27 @@ public class UserEnumsApi {
          * 女
          */
         int FEMALE = 2;
+    }
+
+    //endregion
+
+    //region: VIP模块
+
+    @StringDef({VipModel.USER,
+            VipModel.MATERIAL,
+    })
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface VipModel {
+
+        /**
+         * 用户模块
+         */
+        String USER = "user";
+
+        /**
+         * 素材模块
+         */
+        String MATERIAL = "material";
     }
 
     //endregion

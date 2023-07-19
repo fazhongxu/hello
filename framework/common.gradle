@@ -77,6 +77,8 @@ dependencies {
 
     implementation deps.kprogresshud
 
+    implementation deps.aspectjrt
+
     implementation deps.dagger.dagger
     kapt deps.dagger.processor
     implementation deps.dagger.android

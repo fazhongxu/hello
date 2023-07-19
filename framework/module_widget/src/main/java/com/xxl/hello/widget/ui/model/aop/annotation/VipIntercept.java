@@ -1,6 +1,6 @@
-package com.xxl.core.aop.annotation;
+package com.xxl.hello.widget.ui.model.aop.annotation;
 
-import com.xxl.core.data.model.enums.VipEnumsApi.VipModel;
+import com.xxl.hello.service.data.model.enums.UserEnumsApi.VipModel;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

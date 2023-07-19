@@ -1,12 +1,12 @@
-package com.xxl.core.aop.aspect;
+package com.xxl.hello.widget.ui.model.aop.aspect;
 
 import android.app.Activity;
 import android.text.TextUtils;
 
 import com.xxl.core.R;
-import com.xxl.core.aop.annotation.VipIntercept;
 import com.xxl.core.utils.AppExpandUtils;
-import com.xxl.core.widget.window.VipInterceptPopupWindow;
+import com.xxl.hello.widget.ui.model.aop.annotation.VipIntercept;
+import com.xxl.hello.widget.ui.window.VipInterceptPopupWindow;
 import com.xxl.kit.AppUtils;
 import com.xxl.kit.LogUtils;
 import com.xxl.kit.ToastUtils;
@@ -25,7 +25,7 @@ import org.aspectj.lang.annotation.Pointcut;
 @Aspect
 public class VipInterceptAspect {
 
-    private static final String POINTCUT_METHOD = "execution(@com.xxl.core.aop.annotation.VipIntercept * *(..))";
+    private static final String POINTCUT_METHOD = "execution(@com.xxl.hello.widget.ui.model.aop.annotation.VipIntercept * *(..))";
 
     @Pointcut(POINTCUT_METHOD)
     public void onVipInterceptMethod() {

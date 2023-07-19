@@ -6,7 +6,6 @@ import android.view.View;
 import androidx.annotation.NonNull;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
-import com.xxl.core.aop.annotation.VipIntercept;
 import com.xxl.core.ui.fragment.BaseViewModelFragment;
 import com.xxl.core.utils.AppExpandUtils;
 import com.xxl.hello.common.config.AppOptions.VipConfig;
@@ -20,6 +19,7 @@ import com.xxl.hello.user.data.model.api.UserLoginResponse;
 import com.xxl.hello.user.databinding.UserFragmentLoginBinding;
 import com.xxl.hello.user.ui.login.window.PrivacyPolicyPopupWindow;
 import com.xxl.hello.widget.data.router.WidgetRouterApi;
+import com.xxl.hello.widget.ui.model.aop.annotation.VipIntercept;
 import com.xxl.kit.AppUtils;
 import com.xxl.kit.FileUtils;
 import com.xxl.kit.LogUtils;
