@@ -122,7 +122,7 @@ uploadArchives {
 
  1.mvvm 架构 dagger2 运用 ，dagger2+Retrofit+okhttp 搭建网络框架，ARouter 实现路由
 
- 2.aspectjx 实现AOP面向切面编程，try catch 、登录检测、网络检测等
+ 2.aspectjx 实现AOP面向切面编程，try catch 、登录检测、网络检测，VIP拦截等
 
  3.nexus搭建私服,上传本地核心库和对应模块库，实现切换本地和远程库代码
 

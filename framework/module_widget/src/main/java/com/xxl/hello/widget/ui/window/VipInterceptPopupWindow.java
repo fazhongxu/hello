@@ -102,10 +102,10 @@ public class VipInterceptPopupWindow extends BasePopupWindow {
             @Override
             public void run() {
                 //模拟请求VIP功能信息
-                int nextInt = new Random().nextInt(2);
+                int nextInt = new Random().nextInt(4);
                 dismiss();
-                // 1 不需要VIP 0 需要VIP
-                if (nextInt == 1) {
+                // 0 不需要VIP ,否则需要VIP
+                if (nextInt > 0) {
                     final UserVipPopupWindow.OnUserVipPopupWindowListener listener = new UserVipPopupWindow.OnUserVipPopupWindowListener() {
                         @Override
                         public void onOpenVipClick() {
