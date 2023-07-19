@@ -11,6 +11,7 @@
     <string name="core_the_function_need_vip_text">此功能是VIP功能</string>
     <string name="core_click_open_vip_text">点击开通VIP</string>
     <string name="core_clicked_open_vip_text">点击了开通VIP</string>
+    <string name="core_vip_free_trial_text">免费试用</string>
 
     <string name="core_data_parse_error_tips">数据解析异常</string>
     <string name="core_network_error_tips">网络错误，请稍后再试！</string>

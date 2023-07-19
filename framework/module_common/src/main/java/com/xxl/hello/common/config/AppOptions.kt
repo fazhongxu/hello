@@ -28,7 +28,7 @@ class AppOptions {
             /**
              * 长按用户设置功能ID
              */
-            const val LONG_CLICK_USER_SETTING_VIP_FUNCTION_ID = "10002"
+            const val LONG_CLICK_USER_SETTING_VIP_FUNCTION_ID = 10002
         }
     }
 

@@ -3,11 +3,13 @@ package com.xxl.core.aop.aspect;
 import android.app.Activity;
 import android.text.TextUtils;
 
+import com.xxl.core.R;
 import com.xxl.core.aop.annotation.VipIntercept;
 import com.xxl.core.utils.AppExpandUtils;
 import com.xxl.core.widget.window.VipInterceptPopupWindow;
 import com.xxl.kit.AppUtils;
 import com.xxl.kit.LogUtils;
+import com.xxl.kit.ToastUtils;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -32,8 +34,10 @@ public class VipInterceptAspect {
 
     @Around("onVipInterceptMethod() && @annotation(vipIntercept)")
     public void doVipInterceptMethod(final ProceedingJoinPoint joinPoint, VipIntercept vipIntercept) throws Throwable {
-        final String functionId = vipIntercept.functionId();
-        if (TextUtils.isEmpty(functionId)) {
+        final String vipModel = vipIntercept.vipModel();
+        final long functionId = vipIntercept.functionId();
+        if (TextUtils.isEmpty(vipModel) || functionId <= 0) {
+            joinPoint.proceed();
             return;
         }
         final boolean isVip = AppExpandUtils.isVip();
@@ -46,7 +50,23 @@ public class VipInterceptAspect {
         if (topActivity == null) {
             return;
         }
-        VipInterceptPopupWindow.from(topActivity)
+        final VipInterceptPopupWindow.OnVipInterceptPopupWindowListener listener = new VipInterceptPopupWindow.OnVipInterceptPopupWindowListener() {
+
+            @Override
+            public void onOpenVipClick() {
+                ToastUtils.success(R.string.core_clicked_open_vip_text).show();
+            }
+
+            @Override
+            public void onVerifyComplete(boolean isSuccess) {
+                try {
+                    joinPoint.proceed();
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                }
+            }
+        };
+        VipInterceptPopupWindow.from(topActivity, listener, vipModel, functionId)
                 .show();
     }
 }

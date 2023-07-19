@@ -1,15 +1,17 @@
 package com.xxl.core.widget.window;
 
 import android.app.Activity;
-import android.view.Gravity;
+import android.os.Handler;
+import android.text.TextUtils;
 import android.view.View;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
 import com.xxl.core.R;
+import com.xxl.core.data.model.enums.VipEnumsApi.VipModel;
 import com.xxl.kit.ToastUtils;
-import com.xxl.kit.ViewUtils;
+
+import java.util.Random;
 
 import razerdp.basepopup.BasePopupWindow;
 
@@ -29,22 +31,41 @@ public class VipInterceptPopupWindow extends BasePopupWindow {
     private OnVipInterceptPopupWindowListener mListener;
 
     /**
-     * 开通VIP按钮
+     * VIP模块
      */
-    private TextView mTvOpenVip;
+    @VipModel
+    private String mVipModel;
+
+    /**
+     * 功能ID
+     */
+    private long mFunctionId;
 
     //endregion
 
     //region: 构造函数
 
-    public VipInterceptPopupWindow(@NonNull final Activity activity) {
+    public VipInterceptPopupWindow(@NonNull final Activity activity,
+                                   @NonNull final OnVipInterceptPopupWindowListener listener,
+                                   @VipModel final String vipModel,
+                                   final long functionId) {
         super(activity);
-        setPopupGravity(Gravity.CENTER);
+        mListener = listener;
+        mVipModel = vipModel;
+        mFunctionId = functionId;
+        setBackgroundColor(0);
         setupLayout();
+        setOnBeforeShowCallback((view, view1, b) -> {
+            requestData();
+            return true;
+        });
     }
 
-    public static VipInterceptPopupWindow from(@NonNull final Activity activity) {
-        return new VipInterceptPopupWindow(activity);
+    public static VipInterceptPopupWindow from(@NonNull final Activity activity,
+                                               @NonNull final OnVipInterceptPopupWindowListener listener,
+                                               @VipModel final String vipModel,
+                                               final long functionId) {
+        return new VipInterceptPopupWindow(activity, listener, vipModel, functionId);
     }
 
     //endregion
@@ -56,15 +77,62 @@ public class VipInterceptPopupWindow extends BasePopupWindow {
      */
     private void setupLayout() {
         View rootView = createPopupById(R.layout.core_window_layout_vip_intercept);
-        mTvOpenVip = ViewUtils.findView(rootView, R.id.tv_open_vip);
-        ViewUtils.setOnClickListener(mTvOpenVip, v -> {
-            if (mListener != null) {
-                mListener.onOpenVipClick();
-            }
-            ToastUtils.success(R.string.core_clicked_open_vip_text).show();
-            dismiss();
-        });
         setContentView(rootView);
+    }
+
+    //endregion
+
+    //region: 页面声明周期
+
+    /**
+     * 请求数据
+     */
+    private void requestData() {
+        if (TextUtils.equals(mVipModel, VipModel.USER)) {
+            requestUserVipFunctionInfo();
+            return;
+        }
+    }
+
+    /**
+     * 请求用户模块VIP功能信息
+     */
+    private void requestUserVipFunctionInfo() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //模拟请求VIP功能信息
+                int nextInt = new Random().nextInt(2);
+                dismiss();
+                // 1 不需要VIP 0 需要VIP
+                if (nextInt == 1) {
+                    final UserVipPopupWindow.OnUserVipPopupWindowListener listener = new UserVipPopupWindow.OnUserVipPopupWindowListener() {
+                        @Override
+                        public void onOpenVipClick() {
+                            if (mListener != null) {
+                                mListener.onOpenVipClick();
+                            }
+                        }
+
+                        @Override
+                        public void onVerifyComplete(boolean isSuccess) {
+                            if (mListener != null) {
+                                mListener.onVerifyComplete(isSuccess);
+                            }
+                        }
+                    };
+                    UserVipPopupWindow.from(getContext(), listener)
+                            .setFunctionId(mFunctionId)
+                            .setUserVipInfo(false)
+                            .showPopupWindow();
+                } else {
+                    ToastUtils.success("此功能不需要VIP了").show();
+                    if (mListener != null) {
+                        mListener.onVerifyComplete(true);
+                    }
+                }
+            }
+        }, 60);
     }
 
     //endregion
@@ -88,6 +156,13 @@ public class VipInterceptPopupWindow extends BasePopupWindow {
          * 开通VIP点击
          */
         void onOpenVipClick();
+
+        /**
+         * 验证完成
+         *
+         * @param isSuccess
+         */
+        void onVerifyComplete(final boolean isSuccess);
     }
 
     //endregion

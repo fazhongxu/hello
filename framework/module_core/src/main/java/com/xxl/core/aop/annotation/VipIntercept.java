@@ -1,5 +1,7 @@
 package com.xxl.core.aop.annotation;
 
+import com.xxl.core.data.model.enums.VipEnumsApi.VipModel;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -16,9 +18,16 @@ import java.lang.annotation.Target;
 public @interface VipIntercept {
 
     /**
+     * VIP模块
+     *
+     * @return
+     */
+    String vipModel() default VipModel.USER;
+
+    /**
      * 功能ID
      *
      * @return
      */
-    String functionId() default "";
+    long functionId() default 0;
 }
