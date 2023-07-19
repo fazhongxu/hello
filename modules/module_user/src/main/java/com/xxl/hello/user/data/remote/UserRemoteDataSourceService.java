@@ -1,6 +1,6 @@
 package com.xxl.hello.user.data.remote;
 
-import com.xxl.hello.service.data.model.api.QueryUserInfoResponse;
+import com.xxl.hello.service.data.model.api.user.QueryUserInfoResponse;
 import com.xxl.hello.user.data.model.api.UserLoginResponse;
 
 import java.util.Map;

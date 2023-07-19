@@ -2,7 +2,7 @@ package com.xxl.hello.main.ui.main;
 
 import androidx.annotation.NonNull;
 
-import com.xxl.hello.service.data.model.api.QueryUserInfoResponse;
+import com.xxl.hello.service.data.model.api.user.QueryUserInfoResponse;
 
 /**
  * @author xxl

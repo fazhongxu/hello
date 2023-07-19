@@ -1,12 +1,12 @@
-package com.xxl.hello.service.data.model.api;
+package com.xxl.hello.service.data.model.api.material;
 
 /**
- * 素材编辑请求参数
+ * 素材添加请求参数
  *
  * @author xxl.
  * @date 2022/5/28.
  */
-public class MaterialEditRequest {
+public class MaterialAddRequest {
 
     //region: 成员变量
 
@@ -14,12 +14,12 @@ public class MaterialEditRequest {
 
     //region: 构造函数
 
-    private MaterialEditRequest() {
+    private MaterialAddRequest() {
 
     }
 
-    public final static MaterialEditRequest obtain() {
-        return new MaterialEditRequest();
+    public final static MaterialAddRequest obtain() {
+        return new MaterialAddRequest();
     }
 
     //endregion

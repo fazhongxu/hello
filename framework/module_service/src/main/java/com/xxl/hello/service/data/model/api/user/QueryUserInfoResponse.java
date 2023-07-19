@@ -1,9 +1,8 @@
-package com.xxl.hello.service.data.model.api;
+package com.xxl.hello.service.data.model.api.user;
 
 import androidx.annotation.Keep;
 
 import com.google.gson.annotations.SerializedName;
-import com.xxl.core.data.model.api.response.DataResponseResult;
 
 
 
@@ -14,7 +13,7 @@ import com.xxl.core.data.model.api.response.DataResponseResult;
  * @date 2021/7/27.
  */
 @Keep
-public class QueryUserInfoResponseTest extends DataResponseResult<QueryUserInfoResponseTest> {
+public class QueryUserInfoResponse {
 
     //region: 成员变量
 
@@ -41,17 +40,29 @@ public class QueryUserInfoResponseTest extends DataResponseResult<QueryUserInfoR
 
     //region: 构造函数
 
-    private QueryUserInfoResponseTest() {
+    private QueryUserInfoResponse() {
 
     }
 
-    public final static QueryUserInfoResponseTest obtain() {
-        return new QueryUserInfoResponseTest();
+    public final static QueryUserInfoResponse obtain() {
+        return new QueryUserInfoResponse();
     }
 
     //endregion
 
     //region: get or set
+
+    public String getUserId() {
+        return mUserId;
+    }
+
+    public String getNickName() {
+        return mNickName;
+    }
+
+    public String getAvatarUrl() {
+        return mAvatarUrl;
+    }
 
     //endregion
 

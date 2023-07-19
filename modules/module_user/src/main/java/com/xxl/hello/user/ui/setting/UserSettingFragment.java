@@ -26,7 +26,7 @@ import com.xxl.hello.service.data.model.entity.share.ShareOperateItem;
 import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi.ShareOperateType;
 import com.xxl.hello.service.data.model.event.SystemEventApi;
-import com.xxl.hello.service.qunlifier.ForUserBaseUrl;
+import com.xxl.hello.service.qunlifier.ForUserHost;
 import com.xxl.hello.user.BR;
 import com.xxl.hello.user.R;
 import com.xxl.hello.user.databinding.UserFragmentSettingBinding;
@@ -73,7 +73,7 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
     /**
      * 用户模块主机地址
      */
-    @ForUserBaseUrl
+    @ForUserHost
     @Inject
     String mBaseUrl;
 

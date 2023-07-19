@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 
 import com.xxl.kit.OnRequestCallBack;
 import com.xxl.hello.service.data.local.db.entity.ResourcesUploadQueueDBEntity;
-import com.xxl.hello.service.data.model.api.MaterialAddRequest;
+import com.xxl.hello.service.data.model.api.material.MaterialAddRequest;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi.ResourcesSubmitType;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.hello.service.process.BaseSubmitProcessProvider;

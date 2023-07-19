@@ -1,4 +1,4 @@
-package com.xxl.hello.service.data.model.api;
+package com.xxl.hello.service.data.model.api.user;
 
 import androidx.annotation.NonNull;
 

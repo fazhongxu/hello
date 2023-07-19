@@ -17,14 +17,14 @@ import com.xxl.hello.service.data.local.db.impl.objectbox.ObjectBoxDataStoreMode
 import com.xxl.hello.service.data.local.prefs.api.UserPreferences;
 import com.xxl.hello.service.di.module.ServiceDataStoreModule;
 import com.xxl.hello.service.qunlifier.ForApplication;
-import com.xxl.hello.service.qunlifier.ForBaseUrl;
+import com.xxl.hello.service.qunlifier.ForHost;
 import com.xxl.hello.service.qunlifier.ForDebug;
 import com.xxl.hello.service.qunlifier.ForNetWorkDebug;
 import com.xxl.hello.service.qunlifier.ForNetworkEncryptKey;
-import com.xxl.hello.service.qunlifier.ForOkHttp;
+import com.xxl.hello.service.qunlifier.ForOkHttpClient;
 import com.xxl.hello.service.qunlifier.ForRetrofit;
 import com.xxl.hello.service.qunlifier.ForUserAgent;
-import com.xxl.hello.service.qunlifier.ForUserBaseUrl;
+import com.xxl.hello.service.qunlifier.ForUserHost;
 import com.xxl.hello.service.qunlifier.ForUserPreference;
 import com.xxl.hello.service.qunlifier.ForUserRetrofit;
 import com.xxl.hello.user.di.module.UserDataStoreModule;
@@ -106,7 +106,7 @@ public class DataStoreModule {
      *
      * @return
      */
-    @ForBaseUrl
+    @ForHost
     @Singleton
     @Provides
     String provideHostUrl(@ForNetWorkDebug boolean isNetworkDebug) {
@@ -118,7 +118,7 @@ public class DataStoreModule {
      *
      * @return
      */
-    @ForUserBaseUrl
+    @ForUserHost
     @Singleton
     @Provides
     String provideUserHostUrl(@ForNetWorkDebug boolean isNetworkDebug) {
@@ -175,7 +175,7 @@ public class DataStoreModule {
      *
      * @return
      */
-    @ForOkHttp
+    @ForOkHttpClient
     @Singleton
     @Provides
     OkHttpClient provideOkHttpClient(@ForDebug boolean isDebug) {
@@ -205,8 +205,8 @@ public class DataStoreModule {
     @ForRetrofit
     @Singleton
     @Provides
-    Retrofit provideRetrofit(@ForOkHttp final OkHttpClient okHttpClient,
-                             @ForBaseUrl final String baseUrl) {
+    Retrofit provideRetrofit(@ForOkHttpClient final OkHttpClient okHttpClient,
+                             @ForHost final String baseUrl) {
         return new Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .client(okHttpClient)
@@ -223,8 +223,8 @@ public class DataStoreModule {
     @ForUserRetrofit
     @Singleton
     @Provides
-    Retrofit provideUserRetrofit(@ForOkHttp final OkHttpClient okHttpClient,
-                                 @ForUserBaseUrl final String userBaseUrl) {
+    Retrofit provideUserRetrofit(@ForOkHttpClient final OkHttpClient okHttpClient,
+                                 @ForUserHost final String userBaseUrl) {
         return new Retrofit.Builder()
                 .baseUrl(userBaseUrl)
                 .client(okHttpClient)

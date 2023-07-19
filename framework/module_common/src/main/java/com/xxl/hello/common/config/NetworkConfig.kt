@@ -27,6 +27,16 @@ class NetworkConfig private constructor() {
         var PREF_KEY_IS_NETWORK_DEBUG = "pref_key_is_network_debug"
 
         /**
+         * config主机地址
+         */
+        const val CONFIG_HOST = "https://github.com/"
+
+        /**
+         * 测试环境config主机地址
+         */
+        const val CONFIG_HOST_DEBUG = "https://github.com/"
+
+        /**
          * 正式环境主机地址
          */
         const val API_HOST = "https://github.com/"

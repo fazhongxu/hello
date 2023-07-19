@@ -2,6 +2,8 @@ package com.xxl.hello.service.data.repository.impl;
 
 import androidx.annotation.NonNull;
 
+import com.xxl.hello.service.data.local.source.api.ConfigLocalDataSource;
+import com.xxl.hello.service.data.remote.api.ConfigRemoteDataSource;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.hello.service.data.repository.api.ConfigRepositoryApi;
 import com.xxl.hello.service.data.repository.api.ResourceRepositoryApi;
@@ -26,8 +28,9 @@ public class ServiceRepositoryDataStoreModule {
 
     @Singleton
     @Provides
-    ConfigRepositoryApi provideConfigRepositoryImpl() {
-        return new ConfigRepositoryImpl();
+    ConfigRepositoryApi provideConfigRepositoryImpl(@NonNull final ConfigLocalDataSource configLocalDataSource,
+                                                    @NonNull final ConfigRemoteDataSource configRemoteDataSource) {
+        return new ConfigRepositoryImpl(configLocalDataSource, configRemoteDataSource);
     }
 
     @Singleton

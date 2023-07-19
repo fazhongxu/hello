@@ -5,7 +5,7 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 
-import com.xxl.hello.service.qunlifier.ForUserBaseUrl;
+import com.xxl.hello.service.qunlifier.ForUserHost;
 import com.xxl.kit.LogUtils;
 import com.xxl.kit.ToastUtils;
 
@@ -31,7 +31,7 @@ public class HelloAppWidgetProvider extends AppWidgetProvider {
     /**
      * 用户模块主机地址
      */
-    @ForUserBaseUrl
+    @ForUserHost
     @Inject
     String mBaseUrl;
 

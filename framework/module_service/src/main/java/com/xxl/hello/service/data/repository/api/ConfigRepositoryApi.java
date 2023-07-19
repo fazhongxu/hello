@@ -1,5 +1,9 @@
 package com.xxl.hello.service.data.repository.api;
 
+import com.xxl.hello.service.data.model.api.config.QueryAppConfigResponse;
+
+import io.reactivex.rxjava3.core.Observable;
+
 /**
  * config 对外开放的API接口
  *
@@ -8,4 +12,15 @@ package com.xxl.hello.service.data.repository.api;
  */
 public interface ConfigRepositoryApi {
 
+    //region: 与config相关
+
+    /**
+     * 查询config
+     *
+     * @param isForce 是否强制请求网络
+     * @return
+     */
+    Observable<QueryAppConfigResponse> queryAppConfig(final boolean isForce);
+
+    //endregion
 }

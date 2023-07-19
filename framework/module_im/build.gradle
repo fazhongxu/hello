@@ -1,0 +1,15 @@
+apply from: project.getRootDir().getAbsolutePath()+"/framework/common.gradle"
+
+android {
+
+}
+
+dependencies {
+    implementation deps.hello.resources
+    implementation deps.hello.service
+    implementation deps.hello.common
+
+    api deps.dkplayer.dkplayer
+    api deps.dkplayer.dkplayer_ijk
+}
+

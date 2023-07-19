@@ -9,6 +9,7 @@ import com.xxl.hello.service.ResourcesProcessService;
 import com.xxl.hello.service.ServiceWrapper;
 import com.xxl.hello.service.data.local.db.api.DBClientKit;
 import com.xxl.hello.service.data.local.prefs.impl.PreferencesDataStoreModule;
+import com.xxl.hello.service.data.remote.impl.ServiceRemoteDataStoreModule;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.hello.service.data.repository.impl.ServiceRepositoryDataStoreModule;
 import com.xxl.hello.service.handle.api.AppSchemeService;
@@ -31,6 +32,7 @@ import dagger.Provides;
  * @date 2021/7/21.
  */
 @Module(includes = {PreferencesDataStoreModule.class,
+        ServiceRemoteDataStoreModule.class,
         ServiceRepositoryDataStoreModule.class,
         ServiceQueueDataStoreModule.class,
         UploadDataStoreModule.class})
