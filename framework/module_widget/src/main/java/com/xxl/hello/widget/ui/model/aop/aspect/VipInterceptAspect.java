@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 
 import com.xxl.core.R;
 import com.xxl.core.utils.AppExpandUtils;
+import com.xxl.hello.service.data.model.enums.UserEnumsApi.VipModel;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.hello.widget.ui.listener.OnVipInterceptListener;
 import com.xxl.hello.widget.ui.model.aop.annotation.VipIntercept;
@@ -39,10 +40,10 @@ public class VipInterceptAspect {
     @Around("onVipInterceptMethod() && @annotation(vipIntercept)")
     public void doVipInterceptMethod(@NonNull final ProceedingJoinPoint joinPoint,
                                      @NonNull final VipIntercept vipIntercept) throws Throwable {
-        final Activity topActivity = AppUtils.getTopActivity();
+        final Activity activity = AppUtils.getTopActivity();
         final String vipModel = vipIntercept.vipModel();
         final long functionId = vipIntercept.functionId();
-        if (TextUtils.isEmpty(vipModel) || functionId <= 0 || topActivity == null) {
+        if (TextUtils.isEmpty(vipModel) || functionId <= 0 || activity == null) {
             joinPoint.proceed();
             return;
         }
@@ -54,29 +55,55 @@ public class VipInterceptAspect {
         }
         final Object target = joinPoint.getTarget();
         if (target instanceof OnVipInterceptListener) {
-            final OnVipInterceptListener vipInterceptListener = (OnVipInterceptListener) target;
-            final DataRepositoryKit dataRepositoryKit = vipInterceptListener.getDataRepositoryKit();
-            if (dataRepositoryKit != null) {
-                final VipInterceptPopupWindow.OnVipInterceptPopupWindowListener listener = new VipInterceptPopupWindow.OnVipInterceptPopupWindowListener() {
-                    @Override
-                    public void onOpenVipClick() {
-                        ToastUtils.success(R.string.core_clicked_open_vip_text).show();
-                    }
-
-                    @Override
-                    public void onVerifyComplete(boolean isSuccess) {
-                        try {
-                            joinPoint.proceed();
-                        } catch (Throwable throwable) {
-                            throwable.printStackTrace();
-                        }
-                    }
-                };
-                VipInterceptPopupWindow.from(topActivity, listener, vipModel, functionId)
-                        .show();
-                return;
-            }
+            onVipIntercept(joinPoint, activity, vipModel, functionId);
+            return;
         }
         joinPoint.proceed();
+    }
+
+    /**
+     * VIP拦截处理
+     *
+     * @param joinPoint
+     * @param activity
+     * @param vipModel
+     * @param functionId
+     * @return
+     */
+    private void onVipIntercept(@NonNull final ProceedingJoinPoint joinPoint,
+                                @NonNull final Activity activity,
+                                @VipModel final String vipModel,
+                                final long functionId) {
+        try {
+            final Object target = joinPoint.getTarget();
+            if (target instanceof OnVipInterceptListener) {
+                final OnVipInterceptListener vipInterceptListener = (OnVipInterceptListener) target;
+                final DataRepositoryKit dataRepositoryKit = vipInterceptListener.getDataRepositoryKit();
+                if (dataRepositoryKit != null) {
+                    final VipInterceptPopupWindow.OnVipInterceptPopupWindowListener listener = new VipInterceptPopupWindow.OnVipInterceptPopupWindowListener() {
+
+                        @Override
+                        public void onOpenVipClick() {
+                            ToastUtils.success(R.string.core_clicked_open_vip_text).show();
+                        }
+
+                        @Override
+                        public void onVerifyComplete(boolean isSuccess) {
+                            try {
+                                joinPoint.proceed();
+                            } catch (Throwable throwable) {
+                                throwable.printStackTrace();
+                            }
+                        }
+                    };
+                    VipInterceptPopupWindow.from(activity, dataRepositoryKit, listener, vipModel, functionId)
+                            .showPopupWindow();
+                    return;
+                }
+            }
+            joinPoint.proceed();
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
     }
 }

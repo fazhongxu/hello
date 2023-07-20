@@ -8,6 +8,7 @@ import android.view.View;
 import androidx.annotation.NonNull;
 
 import com.xxl.hello.service.data.model.enums.UserEnumsApi.VipModel;
+import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.hello.widget.R;
 import com.xxl.kit.ToastUtils;
 
@@ -24,6 +25,11 @@ import razerdp.basepopup.BasePopupWindow;
 public class VipInterceptPopupWindow extends BasePopupWindow {
 
     //region: 成员变量
+
+    /**
+     * 数据服务接口集合
+     */
+    private DataRepositoryKit mDataRepositoryKit;
 
     /**
      * 点击事件
@@ -46,10 +52,12 @@ public class VipInterceptPopupWindow extends BasePopupWindow {
     //region: 构造函数
 
     public VipInterceptPopupWindow(@NonNull final Activity activity,
+                                   @NonNull final DataRepositoryKit dataRepositoryKit,
                                    @NonNull final OnVipInterceptPopupWindowListener listener,
                                    @VipModel final String vipModel,
                                    final long functionId) {
         super(activity);
+        mDataRepositoryKit = dataRepositoryKit;
         mListener = listener;
         mVipModel = vipModel;
         mFunctionId = functionId;
@@ -62,10 +70,11 @@ public class VipInterceptPopupWindow extends BasePopupWindow {
     }
 
     public static VipInterceptPopupWindow from(@NonNull final Activity activity,
+                                               @NonNull final DataRepositoryKit dataRepositoryKit,
                                                @NonNull final OnVipInterceptPopupWindowListener listener,
                                                @VipModel final String vipModel,
                                                final long functionId) {
-        return new VipInterceptPopupWindow(activity, listener, vipModel, functionId);
+        return new VipInterceptPopupWindow(activity, dataRepositoryKit, listener, vipModel, functionId);
     }
 
     //endregion
@@ -138,13 +147,6 @@ public class VipInterceptPopupWindow extends BasePopupWindow {
     //endregion
 
     //region: 提供方法
-
-    /**
-     * 展示弹窗
-     */
-    public void show() {
-        showPopupWindow();
-    }
 
     //endregion
 
