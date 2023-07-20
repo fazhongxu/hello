@@ -75,27 +75,27 @@ public class VipInterceptAspect {
                                 @VipModel final String vipModel,
                                 final long functionId) {
         try {
+            final VipInterceptPopupWindow.OnVipInterceptPopupWindowListener listener = new VipInterceptPopupWindow.OnVipInterceptPopupWindowListener() {
+
+                @Override
+                public void onOpenVipClick() {
+                    ToastUtils.success(R.string.core_clicked_open_vip_text).show();
+                }
+
+                @Override
+                public void onVerifyComplete(boolean isSuccess) {
+                    try {
+                        joinPoint.proceed();
+                    } catch (Throwable throwable) {
+                        throwable.printStackTrace();
+                    }
+                }
+            };
             final Object target = joinPoint.getTarget();
             if (target instanceof OnVipInterceptListener) {
                 final OnVipInterceptListener vipInterceptListener = (OnVipInterceptListener) target;
                 final DataRepositoryKit dataRepositoryKit = vipInterceptListener.getDataRepositoryKit();
                 if (dataRepositoryKit != null) {
-                    final VipInterceptPopupWindow.OnVipInterceptPopupWindowListener listener = new VipInterceptPopupWindow.OnVipInterceptPopupWindowListener() {
-
-                        @Override
-                        public void onOpenVipClick() {
-                            ToastUtils.success(R.string.core_clicked_open_vip_text).show();
-                        }
-
-                        @Override
-                        public void onVerifyComplete(boolean isSuccess) {
-                            try {
-                                joinPoint.proceed();
-                            } catch (Throwable throwable) {
-                                throwable.printStackTrace();
-                            }
-                        }
-                    };
                     VipInterceptPopupWindow.from(activity, dataRepositoryKit, listener, vipModel, functionId)
                             .showPopupWindow();
                     return;
