@@ -21,6 +21,11 @@ import static com.xxl.core.image.thumbnail.ImageThumbnail.OriginalType.UNKNOW;
 public class ImageThumbnail {
 
     /**
+     * 默认缩略图宽度
+     */
+    private static final int DEFAULT_THUMBNAIL_WIDTH = 180;
+
+    /**
      * 原始路径
      */
     private final String mOriginalUrl;
@@ -33,7 +38,7 @@ public class ImageThumbnail {
     /**
      * 宽度
      */
-    private int mWidth;
+    private int mWidth = DEFAULT_THUMBNAIL_WIDTH;
 
     private ImageThumbnail(@NonNull final String originalUrl) {
         mOriginalUrl = originalUrl;
