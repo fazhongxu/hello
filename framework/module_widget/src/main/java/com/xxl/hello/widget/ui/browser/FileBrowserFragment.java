@@ -2,19 +2,20 @@ package com.xxl.hello.widget.ui.browser;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.tencent.smtt.sdk.TbsReaderView;
 import com.xxl.core.ui.fragment.BaseViewModelFragment;
-import com.xxl.hello.common.utils.TbsUtils;
 import com.xxl.hello.widget.BR;
 import com.xxl.hello.widget.R;
 import com.xxl.hello.widget.data.router.WidgetRouterApi;
 import com.xxl.hello.widget.databinding.WidgetFragmentFileBrowserBinding;
 import com.xxl.kit.FileUtils;
+import com.xxl.kit.LogUtils;
+
+import java.io.File;
 
 /**
  * 文件浏览页面
@@ -114,14 +115,15 @@ public class FileBrowserFragment extends BaseViewModelFragment<FileBrowserViewMo
     //region: 页面视图渲染
 
     private void setupLayout() {
-        mTbsReaderView = new TbsReaderView(getContext(), new TbsReaderView.ReaderCallback() {
-            @Override
-            public void onCallBackAction(Integer integer, Object o, Object o1) {
-
-            }
-        });
-        mMediaPreviewBinding.llRootContainer.addView(mTbsReaderView, 0, new LinearLayout.LayoutParams(-1, -1));
-        TbsUtils.openFile(mTbsReaderView, mFilePath);
+        mMediaPreviewBinding.pdfView.fromFile(new File(mFilePath))
+                .pageFitPolicy()
+                .onLoad(pagesCount -> {
+                    if (isActivityFinishing()) {
+                        return;
+                    }
+                    LogUtils.d("loadComplete " + pagesCount);
+                })
+                .load();
     }
 
     //endregion

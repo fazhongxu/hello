@@ -351,5 +351,9 @@
 -dontwarn com.tencent.bugly.**
 -keep public class com.tencent.bugly.**{*;}
 
+#barteksc/androidpdfviewer
+-keep class com.shockwave.**
+
+
 
 
