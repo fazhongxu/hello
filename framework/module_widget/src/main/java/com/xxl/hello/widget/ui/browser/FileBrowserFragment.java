@@ -6,7 +6,6 @@ import android.view.View;
 import androidx.annotation.NonNull;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
-import com.tencent.smtt.sdk.TbsReaderView;
 import com.xxl.core.ui.fragment.BaseViewModelFragment;
 import com.xxl.hello.widget.BR;
 import com.xxl.hello.widget.R;
@@ -37,11 +36,6 @@ public class FileBrowserFragment extends BaseViewModelFragment<FileBrowserViewMo
      * 文件预览页面视图模型
      */
     private FileBrowserViewModel mFileBrowserViewModel;
-
-    /**
-     * Tbs显示视图
-     */
-    private TbsReaderView mTbsReaderView;
 
     /**
      * 文件路径
