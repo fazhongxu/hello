@@ -116,7 +116,6 @@ public class FileBrowserFragment extends BaseViewModelFragment<FileBrowserViewMo
 
     private void setupLayout() {
         mMediaPreviewBinding.pdfView.fromFile(new File(mFilePath))
-                .pageFitPolicy()
                 .onLoad(pagesCount -> {
                     if (isActivityFinishing()) {
                         return;
