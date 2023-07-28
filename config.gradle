@@ -96,7 +96,7 @@ versions.exoplayer = "2.15.0"
 versions.flyco_round_view = "1.1.4"
 
 versions.tbs = "44181"
-versions.pdf_viewer = "3.2.0-beta.1"
+versions.pdf_view = "1.0.4"
 
 versions.aria = "3.8.16"
 
@@ -305,8 +305,8 @@ deps.flyco_round_view = "com.flyco.roundview:FlycoRoundView_Lib:$versions.flyco_
 // tbs https://x5.tencent.com/docs/access.html
 deps.tbs = "com.tencent.tbs:tbssdk:$versions.tbs"
 
-//https://github.com/barteksc/androidpdfviewer
-deps.pdf_viewer = "com.github.barteksc:android-pdf-viewer:$versions.pdf_viewer"
+// https://github.com/wdeo3601/PDFView/
+deps.pdf_view = "com.wdeo3601:pdf-view:$versions.pdf_view"
 
 // aria https://github.com/AriaLyy/Aria
 def aria = [:]

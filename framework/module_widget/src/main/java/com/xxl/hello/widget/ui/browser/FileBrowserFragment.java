@@ -115,14 +115,7 @@ public class FileBrowserFragment extends BaseViewModelFragment<FileBrowserViewMo
     //region: 页面视图渲染
 
     private void setupLayout() {
-        mMediaPreviewBinding.pdfView.fromFile(new File(mFilePath))
-                .onLoad(pagesCount -> {
-                    if (isActivityFinishing()) {
-                        return;
-                    }
-                    LogUtils.d("loadComplete " + pagesCount);
-                })
-                .load();
+        mMediaPreviewBinding.pdfView.showPdfFromPath(mFilePath);
     }
 
     //endregion

@@ -21,7 +21,7 @@
         android:name="android.permission.RECEIVE_BOOT_COMPLETED"
         tools:node="remove" />
 
-    <uses-sdk tools:overrideLibrary="com.arthenica.mobileffmpeg,com.arthenica.ffmpegkit,com.hw.videoprocessor" />
+    <uses-sdk tools:overrideLibrary="com.arthenica.mobileffmpeg,com.arthenica.ffmpegkit,com.hw.videoprocessor,com.wdeo3601.pdfview" />
 
     <!-- https://developer.umeng.com/docs/128606/detail/193879-->
     <queries>
