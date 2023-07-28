@@ -18,8 +18,8 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.wdeo3601.pdfview.PDFView
-            android:id="@+id/pdf_view"
+        <com.github.barteksc.pdfviewer.PDFView
+            android:id="@+id/pdfView"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
