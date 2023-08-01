@@ -21,7 +21,7 @@
         android:name="android.permission.RECEIVE_BOOT_COMPLETED"
         tools:node="remove" />
 
-    <uses-sdk tools:overrideLibrary="com.arthenica.mobileffmpeg,com.arthenica.ffmpegkit,com.hw.videoprocessor,com.wdeo3601.pdfview" />
+    <uses-sdk tools:overrideLibrary="com.arthenica.mobileffmpeg,com.arthenica.ffmpegkit,com.hw.videoprocessor,com.wdeo3601.pdfview,org.opencv,com.king.wechat.qrcode.scanning,com.king.mlkit.vision.camera,org.opencv.opencv_armv7a,com.king.wechat.qrcode,org.opencv.*,com.king.*,org.opencv.opencv_armv64,org.opencv.opencv_x86,org.opencv.opencv_x86_64" />
 
     <!-- https://developer.umeng.com/docs/128606/detail/193879-->
     <queries>

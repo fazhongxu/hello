@@ -4,9 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ShortcutInfo;
 import android.text.TextUtils;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.king.wechat.qrcode.WeChatQRCodeDetector;
 import com.luck.picture.lib.engine.PictureSelectorEngine;
 import com.umeng.socialize.PlatformConfig;
 import com.xxl.core.BaseApplication;
@@ -30,6 +32,8 @@ import com.xxl.kit.AppUtils;
 import com.xxl.kit.LogUtils;
 import com.xxl.kit.StringUtils;
 import com.xxl.kit.TimeUtils;
+
+import org.opencv.OpenCV;
 
 import javax.inject.Inject;
 
@@ -149,6 +153,15 @@ public class HelloApplication extends BaseApplication implements IApplication, M
         CrashHandler.getInstance().init(this, "Hello", isDebug());
         MediaSelector.init(this);
         registerShortcuts(this);
+        
+        try {
+            OpenCV.initAsync(this);
+            WeChatQRCodeDetector.init(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.e("aaaa", "initPlugins: " + e.getMessage());
+        }
+
     }
 
     /**

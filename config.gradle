@@ -115,6 +115,9 @@ versions.sina = "11.11.1@aar"
 versions.we_chat = "6.8.0"
 versions.qq = "3.52.0"
 
+versions.we_chat_qrcode = "1.2.1"
+versions.viewfinderview = "1.0.0"
+
 ext.versions = versions
 
 deps.android_build_gradle = "com.android.tools.build:gradle:$build_versions.android_build_gradle"
@@ -354,6 +357,20 @@ deps.qq = "com.tencent.tauth:qqopensdk:$versions.qq"
 
 // 新浪微博官方SDK 微博必选
 deps.sina = "io.github.sinaweibosdk:core:$versions.sina"
+
+// OpenCV基础库（*必须）https://github.com/jenly1314/WeChatQRCode
+deps.wcqr_opencv = "com.github.jenly1314.WeChatQRCode:opencv:$versions.we_chat_qrcode"
+deps.wcqr_opencv_armv7a = "com.github.jenly1314.WeChatQRCode:opencv-armv7a:$versions.we_chat_qrcode"
+
+// 微信二维码识别功能（可选）
+deps.wcqr_qrcode = "com.github.jenly1314.WeChatQRCode:wechat-qrcode:$versions.we_chat_qrcode"
+// 微信二维码扫码功能（可选）
+deps.wcqr_scanning = "com.github.jenly1314.WeChatQRCode:wechat-qrcode-scanning:$versions.we_chat_qrcode"
+
+deps.wcqr_opencv_armv64 = "com.github.jenly1314.WeChatQRCode:opencv-armv64:$versions.we_chat_qrcode"
+
+//扫描边框
+deps.viewfinderview = "com.github.jenly1314:viewfinderview:$versions.viewfinderview"
 
 def origin = [:]
 // 是否使用远程依赖 true使用远程依赖（远程私服存储的aar依赖）
