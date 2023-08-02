@@ -16,8 +16,10 @@
 
 <resources xmlns:tools="http://schemas.android.com/tools">
 
+    <attr format="reference" name="toolbarBackgroundColor"/>
     <attr format="reference" name="toolbarLeftIcon"/>
     <attr format="reference" name="toolbarTitleColor"/>
+    <attr format="reference" name="toolbarRightTextColor"/>
 
     <declare-styleable name="SwipeBackLayout">
         <attr name="edge_flag">

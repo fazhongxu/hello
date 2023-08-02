@@ -85,8 +85,17 @@ public class ToolbarWrapper {
         mCustomToolBar = rootView.findViewById(R.id.tool_bar);
 
         if (mOnToolbarProvider != null) {
+            if (mOnToolbarProvider.getBackgroundColor() != 0) {
+                mAppBarLayout.setBackgroundColor(mOnToolbarProvider.getBackgroundColor());
+            }
+
             if (mOnToolbarProvider.isDisplayLeft()) {
                 mCustomToolBar.setupToolbarLeftLayout(mOnToolbarProvider.getLeftText(), v -> mOnToolbarProvider.onToolbarLeftClick(v), v -> mOnToolbarProvider.onToolbarLeftLongClick(v));
+            }
+            if (mOnToolbarProvider.isDisplayRightText() || mOnToolbarProvider.isDisplayRightIcon()) {
+                mCustomToolBar.setupToolbarRightLayout(mOnToolbarProvider.getRightText(), mOnToolbarProvider.getRightIcon(), v -> mOnToolbarProvider.onToolbarRightClick(v), v -> mOnToolbarProvider.onToolbarRightLongClick(v));
+            } else if (mOnToolbarProvider.isDisplayRightCustom()) {
+                // TODO: 2023/8/2 自定义右边视图
             }
         }
     }

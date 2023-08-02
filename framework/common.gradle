@@ -117,5 +117,12 @@ dependencies {
     implementation deps.jsoup
 
     implementation deps.viewanimator
+
+    implementation deps.wcqr_opencv
+    implementation deps.wcqr_opencv_armv7a
+    implementation deps.wcqr_qrcode
+    implementation deps.wcqr_scanning
+    implementation deps.wcqr_opencv_armv64
+    implementation deps.viewfinderview
 }
 

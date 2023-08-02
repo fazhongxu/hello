@@ -115,7 +115,7 @@ public class RefreshWebView extends FrameLayout implements SwipeRefreshLayout.On
     private void init(Context context, AttributeSet attrs) {
         inflate(context, R.layout.core_layout_refresh_web, this);
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.RefreshWebView);
-        mRefreshColorRes = typedArray.getColor(R.styleable.RefreshWebView_refresh_color, ColorUtils.getColor(R.color.colorPrimary));
+        mRefreshColorRes = typedArray.getColor(R.styleable.RefreshWebView_refresh_color, ColorUtils.getColor(R.color.framework_core_primary_color));
         mRefreshEnable = typedArray.getBoolean(R.styleable.RefreshWebView_refresh_enable, true);
         mShowProgress = typedArray.getBoolean(R.styleable.RefreshWebView_show_progress, true);
         typedArray.recycle();

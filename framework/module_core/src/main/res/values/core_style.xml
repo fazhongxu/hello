@@ -16,9 +16,9 @@
 
 <resources>
 
-    <style name="BaseTheme" parent="Theme.AppCompat.Light.NoActionBar"/>
+    <style name="BasicTheme" parent="Theme.AppCompat.Light.NoActionBar"/>
 
-    <style name="TransparentTheme" parent="BaseTheme">
+    <style name="TransparentTheme" parent="BasicTheme">
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>

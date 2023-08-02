@@ -12,6 +12,15 @@ import androidx.annotation.StringRes;
 public interface OnToolbarProvider {
 
     /**
+     * 获取导航栏背景颜色
+     *
+     * @return
+     */
+    default int getBackgroundColor() {
+        return 0;
+    }
+
+    /**
      * 是否展示左边视图
      *
      * @return
@@ -21,12 +30,57 @@ public interface OnToolbarProvider {
     }
 
     /**
+     * 是否展示右边自定义视图
+     *
+     * @return
+     */
+    default boolean isDisplayRightCustom() {
+        return false;
+    }
+
+    /**
+     * 是否展示右边文本视图
+     *
+     * @return
+     */
+    default boolean isDisplayRightText() {
+        return false;
+    }
+
+    /**
+     * 是否展示右边图标
+     *
+     * @return
+     */
+    default boolean isDisplayRightIcon() {
+        return false;
+    }
+
+    /**
      * 获取左边按钮文字
      *
      * @return
      */
-    default String getLeftText() {
+    default CharSequence getLeftText() {
         return "";
+    }
+
+    /**
+     * 获取右边按钮文字
+     *
+     * @return
+     */
+    default CharSequence getRightText() {
+        return "";
+    }
+
+    /**
+     * 获取右边按钮图标
+     *
+     * @return
+     */
+    default int getRightIcon() {
+        return 0;
     }
 
     /**
@@ -60,6 +114,7 @@ public interface OnToolbarProvider {
      * 左边按钮长按点击
      *
      * @param view
+     * @return
      */
     default boolean onToolbarLeftLongClick(View view) {
         return false;
@@ -72,5 +127,15 @@ public interface OnToolbarProvider {
      */
     default void onToolbarRightClick(View view) {
 
+    }
+
+    /**
+     * 右边边按钮长按点击
+     *
+     * @param view
+     * @return
+     */
+    default boolean onToolbarRightLongClick(View view) {
+        return false;
     }
 }

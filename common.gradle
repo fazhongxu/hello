@@ -141,16 +141,12 @@ dependencies {
     implementation deps.qq
     implementation deps.sina
 
-    // OpenCV基础库（*必须）
     implementation deps.wcqr_opencv
     implementation deps.wcqr_opencv_armv7a
-
-    // 微信二维码识别功能（可选）
     implementation deps.wcqr_qrcode
-    // 微信二维码扫码功能（可选）
     implementation deps.wcqr_scanning
-
     implementation deps.wcqr_opencv_armv64
+    implementation deps.viewfinderview
 
 }
 

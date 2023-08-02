@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.xxl.hello.widget.ui.qrcode.QRCodeViewModel" />
+
+        <variable
+            name="navigator"
+            type="com.xxl.hello.widget.ui.qrcode.QRCodeNavigator" />
+    </data>
+
+    <FrameLayout
+        android:id="@+id/fl_root_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black">
+
+        <androidx.camera.view.PreviewView
+            android:id="@+id/preview_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <com.king.view.viewfinderview.ViewfinderView
+            android:id="@+id/v_finder_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:vvViewfinderStyle="popular" />
+
+    </FrameLayout>
+
+</layout>
+
+

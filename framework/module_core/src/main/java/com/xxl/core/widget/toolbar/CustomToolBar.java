@@ -2,6 +2,7 @@ package com.xxl.core.widget.toolbar;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,6 +36,11 @@ public class CustomToolBar extends Toolbar implements OnToolbarProvider {
      * 左边视图
      */
     private LinearLayout mLeftContainer;
+
+    /**
+     * 右边视图
+     */
+    private LinearLayout mRightContainer;
 
     //endregion
 
@@ -110,12 +116,42 @@ public class CustomToolBar extends Toolbar implements OnToolbarProvider {
     }
 
     /**
+     * 设置导航栏右边视图
+     *
+     * @param rightText
+     * @param onClickListener
+     */
+    public void setupToolbarRightLayout(CharSequence rightText,
+                                        int rightIcon,
+                                        View.OnClickListener onClickListener,
+                                        View.OnLongClickListener onLongClickListener) {
+        Drawable rightDrawable = null;
+        try {
+            if (rightIcon > 0) {
+                rightDrawable = ResourceUtils.getDrawable(rightIcon);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        setupToolbarRightLayout(rightIcon > 0, !TextUtils.isEmpty(rightText), rightDrawable, rightText, onClickListener, onLongClickListener);
+    }
+
+    /**
      * 获取导航栏左边视图
      *
      * @return
      */
     public LinearLayout getLeftContainer() {
         return mLeftContainer;
+    }
+
+    /**
+     * 获取导航栏右边视图
+     *
+     * @return
+     */
+    public LinearLayout getRightContainer() {
+        return mRightContainer;
     }
 
     /**
@@ -134,6 +170,15 @@ public class CustomToolBar extends Toolbar implements OnToolbarProvider {
      */
     public int getNavigationTitleColor() {
         return ResourceUtils.getAttrColor(getContext(), R.attr.toolbarTitleColor);
+    }
+
+    /**
+     * 获取导航栏右边文本颜色
+     *
+     * @return
+     */
+    public int getNavigationRightTextColor() {
+        return ResourceUtils.getAttrColor(getContext(), R.attr.toolbarRightTextColor);
     }
 
     /**
@@ -166,6 +211,40 @@ public class CustomToolBar extends Toolbar implements OnToolbarProvider {
         if (mLeftContainer != null) {
             mLeftContainer.setOnClickListener(onClickListener);
             mLeftContainer.setOnLongClickListener(onLongClickListener);
+        }
+    }
+
+
+    /**
+     * 设置导航栏左边视图
+     *
+     * @param isDisplayRightIcon
+     * @param isDisplayRightText
+     * @param rightIcon
+     * @param rightText
+     * @param onClickListener
+     */
+    public void setupToolbarRightLayout(boolean isDisplayRightIcon,
+                                        boolean isDisplayRightText,
+                                        Drawable rightIcon,
+                                        CharSequence rightText,
+                                        View.OnClickListener onClickListener,
+                                        View.OnLongClickListener onLongClickListener) {
+        LayoutInflater.from(getContext()).inflate(R.layout.core_layout_include_toolbar_right, this);
+        mRightContainer = findViewById(R.id.ll_right_container);
+        ImageView ivRightIcon = findViewById(R.id.iv_right_icon);
+        TextView tvRightText = findViewById(R.id.tv_right_text);
+        if (rightIcon != null) {
+            ivRightIcon.setImageDrawable(rightIcon);
+        }
+        if (rightText != null) {
+            tvRightText.setText(rightText);
+        }
+        ivRightIcon.setVisibility(isDisplayRightIcon ? View.VISIBLE : View.GONE);
+        tvRightText.setVisibility(isDisplayRightText ? View.VISIBLE : View.GONE);
+        if (mRightContainer != null) {
+            mRightContainer.setOnClickListener(onClickListener);
+            mRightContainer.setOnLongClickListener(onLongClickListener);
         }
     }
 

@@ -24,6 +24,7 @@ versions.material = "1.3.0"
 versions.multidex = "2.0.1"
 versions.gson = "2.8.5"
 versions.lifecycle_extensions = "2.2.0"
+versions.camera2 = "1.1.0-alpha10"
 versions.dagger = "2.38.1"
 
 versions.true_time = "3.5"
@@ -130,6 +131,7 @@ androidx.appcompat = "androidx.appcompat:appcompat:$versions.appcompat"
 androidx.material = "com.google.android.material:material:$versions.material"
 androidx.multidex = "androidx.multidex:multidex:$versions.multidex"
 androidx.lifecycle_extensions = "androidx.lifecycle:lifecycle-extensions:$versions.lifecycle_extensions"
+androidx.camera2 = "androidx.camera:camera-camera2:$versions.camera2"
 deps.androidx = androidx
 deps.gson = "com.google.code.gson:gson:$versions.gson"
 

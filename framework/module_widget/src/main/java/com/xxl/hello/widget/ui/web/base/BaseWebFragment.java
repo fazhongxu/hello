@@ -19,10 +19,10 @@ import com.just.agentweb.DefaultWebClient;
 import com.just.agentweb.JsAccessEntrace;
 import com.just.agentweb.WebChromeClient;
 import com.just.agentweb.WebViewClient;
-import com.xxl.core.R;
 import com.xxl.core.ui.BaseViewModel;
 import com.xxl.core.ui.fragment.BaseViewModelFragment;
 import com.xxl.core.widget.toolbar.OnToolbarListener;
+import com.xxl.hello.widget.R;
 import com.xxl.hello.widget.ui.web.CommonJavascriptInterface;
 import com.xxl.kit.ColorUtils;
 
@@ -91,7 +91,7 @@ public abstract class BaseWebFragment<V extends BaseViewModel, T extends ViewDat
     private void setupWebView() {
         mAgentWeb = AgentWeb.with(this)
                 .setAgentWebParent(getAgentWebParent(), new LinearLayout.LayoutParams(-1, -1))
-                .useDefaultIndicator(ColorUtils.getColor(R.color.colorPrimary))
+                .useDefaultIndicator(ColorUtils.getColor(R.color.resources_primary_color))
                 .setWebView(getCustomWebView())
                 .setWebChromeClient(getWebChromeClient())
                 .addJavascriptInterface("Android", getJavascriptInterface())

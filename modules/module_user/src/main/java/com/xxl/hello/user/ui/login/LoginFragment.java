@@ -1,6 +1,8 @@
 package com.xxl.hello.user.ui.login;
 
 import android.os.Bundle;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -123,7 +125,44 @@ public class LoginFragment extends BaseViewModelFragment<LoginViewModel, UserFra
 
     @Override
     protected void setupLayout(@NonNull View view) {
+        setupSettingLayout();
+    }
 
+    //endregion
+
+    //region: 页面视图渲染
+
+    /**
+     * 设置"设置"视图
+     */
+    private void setupSettingLayout() {
+        final GestureDetector.SimpleOnGestureListener simpleOnGestureListener = new GestureDetector.SimpleOnGestureListener() {
+            @Override
+            public boolean onSingleTapConfirmed(MotionEvent e) {
+                onSettingClick();
+                return true;
+            }
+
+            @Override
+            public boolean onDoubleTap(MotionEvent e) {
+                onSettingDoubleClick();
+                return true;
+            }
+
+            @Override
+            public void onLongPress(MotionEvent e) {
+                onSettingLongClick();
+            }
+
+        };
+        final GestureDetector gestureDetector = new GestureDetector(getActivity(), simpleOnGestureListener);
+        mViewDataBinding.ivSetting.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                gestureDetector.onTouchEvent(event);
+                return true;
+            }
+        });
     }
 
     //endregion
@@ -196,6 +235,14 @@ public class LoginFragment extends BaseViewModelFragment<LoginViewModel, UserFra
         WidgetRouterApi.FileBrowser.newBuilder()
                 .setFilePath(targetFilePath)
                 .navigation();
+    }
+
+    /**
+     * 设置按钮双击击
+     */
+    public void onSettingDoubleClick() {
+        WidgetRouterApi.QRCode.newBuilder()
+                .navigation(this);
     }
 
     //endregion

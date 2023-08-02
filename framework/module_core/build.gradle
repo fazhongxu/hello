@@ -79,6 +79,7 @@ dependencies {
     implementation deps.androidx.material
     implementation deps.androidx.lifecycle_extensions
     implementation deps.androidx.multidex
+    implementation deps.androidx.camera2
 
     implementation deps.origin.kit
 

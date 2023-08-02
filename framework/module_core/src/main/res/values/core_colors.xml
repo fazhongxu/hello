@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#2F9DD8</color>
-    <color name="colorPrimaryDark">#62B3D2</color>
-    <color name="colorAccent">#C5E1EC</color>
-
     <color name="framework_core_primary_color">#2F9DD8</color>
     <color name="framework_core_primary_dark_color">#62B3D2</color>
     <color name="framework_core_accent_color">#C5E1EC</color>

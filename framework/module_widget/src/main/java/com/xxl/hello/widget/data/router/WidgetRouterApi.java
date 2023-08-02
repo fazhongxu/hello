@@ -1,16 +1,23 @@
 package com.xxl.hello.widget.data.router;
 
+import android.Manifest;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
+import com.tbruyelle.rxpermissions3.RxPermissions;
 import com.xxl.hello.service.data.model.entity.media.MediaPreviewItemEntity;
+import com.xxl.hello.widget.R;
 import com.xxl.kit.ListUtils;
 import com.xxl.kit.RouterUtils;
+import com.xxl.kit.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.reactivex.rxjava3.disposables.Disposable;
 
 /**
  * 系统模块路由
@@ -190,6 +197,50 @@ public final class WidgetRouterApi {
              */
             public void navigation() {
                 RouterUtils.navigation(PATH, mParams);
+            }
+        }
+    }
+
+    //endregion
+
+    //region: 二维码路由相关
+
+    public static class QRCode {
+
+        /**
+         * 二维码页面路径地址
+         */
+        public static final String PATH = WIDGET_MODULE_NAME + "/qrcode";
+
+        public static Builder newBuilder() {
+            return new Builder();
+        }
+
+        public static class Builder {
+
+            private Bundle mParams = new Bundle();
+
+            public Builder() {
+
+            }
+
+            /**
+             * 跳转到多媒体预览
+             */
+            public void navigation(@NonNull final Fragment fragment) {
+                final RxPermissions rxPermissions = new RxPermissions(fragment);
+                final Disposable disposable = rxPermissions.request(Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.CAMERA)
+                        .subscribe(isSuccess -> {
+                            if (isSuccess) {
+                                RouterUtils.navigation(PATH, mParams);
+                            } else {
+                                ToastUtils.error(R.string.core_permission_read_of_white_external_storage_failure_tips).show();
+                            }
+                        }, throwable -> {
+                            ToastUtils.error(R.string.core_permission_read_of_white_external_storage_failure_tips).show();
+                        });
             }
         }
     }

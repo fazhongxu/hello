@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ShortcutInfo;
 import android.text.TextUtils;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -153,15 +152,6 @@ public class HelloApplication extends BaseApplication implements IApplication, M
         CrashHandler.getInstance().init(this, "Hello", isDebug());
         MediaSelector.init(this);
         registerShortcuts(this);
-        
-        try {
-            OpenCV.initAsync(this);
-            WeChatQRCodeDetector.init(this);
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.e("aaaa", "initPlugins: " + e.getMessage());
-        }
-
     }
 
     /**
@@ -173,6 +163,7 @@ public class HelloApplication extends BaseApplication implements IApplication, M
         LogUtils.d("initPluginAfterAgreePrivacyPolicy");
         try {
             initSharePlatform();
+            initWeChatQRCodeDetector();
             TimeUtils.initialize();
             DownloadServiceUtils.init(this, isDebug());
             TbsUtils.initX5Environment(this);
@@ -180,6 +171,14 @@ public class HelloApplication extends BaseApplication implements IApplication, M
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 初始化微信二维码检测器
+     */
+    private void initWeChatQRCodeDetector() {
+        OpenCV.initAsync(this);
+        WeChatQRCodeDetector.init(this);
     }
 
     /**
