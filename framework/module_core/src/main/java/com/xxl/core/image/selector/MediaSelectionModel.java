@@ -44,6 +44,12 @@ public class MediaSelectionModel extends PictureSelectionModel {
         return this;
     }
 
+    @Override
+    public MediaSelectionModel maxSelectNum(int maxSelectNum) {
+        super.maxSelectNum(maxSelectNum);
+        return this;
+    }
+
     public void forResult() {
         this.forResult(PictureConfig.CHOOSE_REQUEST);
     }

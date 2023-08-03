@@ -258,6 +258,7 @@ public class QRCodeFragment extends BaseViewModelFragment<QRCodeViewModel, Widge
         }
         MediaSelector.create(this)
                 .openGallery(PictureMimeType.ofImage())
+                .maxSelectNum(1)
                 .forResult();
     }
 
