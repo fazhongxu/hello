@@ -12,27 +12,6 @@
         <variable
             name="listener"
             type="com.xxl.hello.main.ui.main.adapter.TestBindingRecycleItemListener" />
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     </data>
 
     <LinearLayout

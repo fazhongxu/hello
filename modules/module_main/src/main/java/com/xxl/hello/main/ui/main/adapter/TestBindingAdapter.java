@@ -1,12 +1,10 @@
 package com.xxl.hello.main.ui.main.adapter;
 
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.listener.OnItemDragListener;
-import com.xxl.core.image.loader.ImageLoader;
 import com.xxl.core.widget.recyclerview.adapter.BaseItemDraggableBindingAdapter;
 import com.xxl.hello.main.R;
 import com.xxl.hello.main.databinding.MainRecyclerItemTestBindingBinding;
@@ -44,34 +42,14 @@ public class TestBindingAdapter extends BaseItemDraggableBindingAdapter<TestList
             layoutParams.width = DisplayUtils.dp2px(getContext(), 160);
             layoutParams.height = DisplayUtils.dp2px(getContext(), 160);
         } else if (itemCount == 2 || itemCount == 3) {
-            layoutParams.width = DisplayUtils.dp2px(getContext(), 120);
-            layoutParams.height = DisplayUtils.dp2px(getContext(), 120);
+            int width = (DisplayUtils.getScreenWidth(getContext()) / 2) -DisplayUtils.dp2px(getContext(),30);
+            layoutParams.width = width;
+            layoutParams.height = width;
         } else {
-            layoutParams.width = DisplayUtils.dp2px(getContext(), 110);
-            layoutParams.height = DisplayUtils.dp2px(getContext(), 110);
+            int width = (DisplayUtils.getScreenWidth(getContext()) / 3) -DisplayUtils.dp2px(getContext(),10);
+            layoutParams.width = width;
+            layoutParams.height = width;
         }
-
-//        if (itemCount == 1) {
-//            int width = DisplayUtils.getScreenWidth(getContext()) / 2;
-//            layoutParams.width =width;
-//            layoutParams.height =width;
-////            layoutParams.width = DisplayUtils.dp2px(getContext(),160);
-////            layoutParams.height = DisplayUtils.dp2px(getContext(),160);
-//        } else if (itemCount == 2 || itemCount == 3) {
-////            layoutParams.width = DisplayUtils.dp2px(getContext(), 120);
-////            layoutParams.height = DisplayUtils.dp2px(getContext(), 120);
-//
-//            int width = DisplayUtils.getScreenWidth(getContext()) / 2;
-//            layoutParams.width =width;
-//            layoutParams.height =width;
-//        } else {
-////            layoutParams.width = DisplayUtils.dp2px(getContext(), 110);
-////            layoutParams.height = DisplayUtils.dp2px(getContext(), 110);
-//
-//            int width = DisplayUtils.getScreenWidth(getContext()) / 3;
-//            layoutParams.width =width;
-//            layoutParams.height =width;
-//        }
 
         binding.ivAvatar.setLayoutParams(layoutParams);
 
