@@ -1,11 +1,17 @@
 package com.xxl.hello.main.ui.main.adapter;
 
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.listener.OnItemDragListener;
+import com.xxl.core.image.loader.ImageLoader;
 import com.xxl.core.widget.recyclerview.adapter.BaseItemDraggableBindingAdapter;
 import com.xxl.hello.main.R;
 import com.xxl.hello.main.databinding.MainRecyclerItemTestBindingBinding;
+import com.xxl.kit.DisplayUtils;
+import com.xxl.kit.ListUtils;
 import com.xxl.kit.VibrateUtils;
 import com.xxl.kit.ViewUtils;
 
@@ -31,15 +37,54 @@ public class TestBindingAdapter extends BaseItemDraggableBindingAdapter<TestList
             viewModel = new TestBindingRecycleItemViewModel();
             binding.setViewModel(viewModel);
         }
+        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) binding.ivAvatar.getLayoutParams();
+        int itemCount = ListUtils.getSize(getData());
+
+        if (itemCount == 1) {
+            layoutParams.width = DisplayUtils.dp2px(getContext(), 160);
+            layoutParams.height = DisplayUtils.dp2px(getContext(), 160);
+        } else if (itemCount == 2 || itemCount == 3) {
+            layoutParams.width = DisplayUtils.dp2px(getContext(), 120);
+            layoutParams.height = DisplayUtils.dp2px(getContext(), 120);
+        } else {
+            layoutParams.width = DisplayUtils.dp2px(getContext(), 110);
+            layoutParams.height = DisplayUtils.dp2px(getContext(), 110);
+        }
+
+//        if (itemCount == 1) {
+//            int width = DisplayUtils.getScreenWidth(getContext()) / 2;
+//            layoutParams.width =width;
+//            layoutParams.height =width;
+////            layoutParams.width = DisplayUtils.dp2px(getContext(),160);
+////            layoutParams.height = DisplayUtils.dp2px(getContext(),160);
+//        } else if (itemCount == 2 || itemCount == 3) {
+////            layoutParams.width = DisplayUtils.dp2px(getContext(), 120);
+////            layoutParams.height = DisplayUtils.dp2px(getContext(), 120);
+//
+//            int width = DisplayUtils.getScreenWidth(getContext()) / 2;
+//            layoutParams.width =width;
+//            layoutParams.height =width;
+//        } else {
+////            layoutParams.width = DisplayUtils.dp2px(getContext(), 110);
+////            layoutParams.height = DisplayUtils.dp2px(getContext(), 110);
+//
+//            int width = DisplayUtils.getScreenWidth(getContext()) / 3;
+//            layoutParams.width =width;
+//            layoutParams.height =width;
+//        }
+
+        binding.ivAvatar.setLayoutParams(layoutParams);
+
+
         viewModel.setItemEntity(item);
         binding.setListener(mListener);
-        ViewUtils.setOnClickListener(binding.tvSetTop,v -> {
+        ViewUtils.setOnClickListener(binding.tvSetTop, v -> {
             binding.swipeMenuLayout.resetStatus();
             if (mListener != null) {
                 mListener.onTopItemClick(item);
             }
         });
-        ViewUtils.setOnClickListener(binding.tvRefreshTop,v -> {
+        ViewUtils.setOnClickListener(binding.tvRefreshTop, v -> {
             binding.swipeMenuLayout.resetStatus();
             if (mListener != null) {
                 mListener.onRefreshTopItemClick(item);

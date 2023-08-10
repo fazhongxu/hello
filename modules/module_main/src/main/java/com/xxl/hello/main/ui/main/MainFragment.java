@@ -32,9 +32,9 @@ import com.xxl.hello.main.BR;
 import com.xxl.hello.main.R;
 import com.xxl.hello.main.databinding.MainFragmentBinding;
 import com.xxl.hello.main.ui.main.adapter.OnTestRecycleItemListener;
+import com.xxl.hello.main.ui.main.adapter.TestBindingAdapter;
 import com.xxl.hello.main.ui.main.adapter.TestBindingRecycleItemListener;
 import com.xxl.hello.main.ui.main.adapter.TestListEntity;
-import com.xxl.hello.main.ui.main.adapter.multi.TestMultiAdapter;
 import com.xxl.hello.router.api.MainRouterApi;
 import com.xxl.hello.router.api.UserRouterApi;
 import com.xxl.hello.service.data.model.api.user.QueryUserInfoResponse;
@@ -95,7 +95,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     String mExtraData;
 
     @Inject
-    TestMultiAdapter mTestBindingAdapter;
+    TestBindingAdapter mTestBindingAdapter;
 
     /**
      * 首页EventBus通知事件监听
@@ -206,12 +206,64 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
         mMainViewModel.setObservableUserId(String.valueOf(TimeUtils.currentServiceTimeMillis()));
         setupRecord();
         setupRecyclerView();
+        mViewDataBinding.btnAdd.setOnClickListener(v -> {
+            TestListEntity testListEntity = TestListEntity.obtain()
+                    .setMediaType(SystemEnumsApi.CircleMediaType.IMAGE);
+            mTestBindingAdapter.addData(testListEntity);
+            refreshAvatarLayout();
+
+        });
+
+        mViewDataBinding.sub.setOnClickListener(v -> {
+            mTestBindingAdapter.remove(0);
+            refreshAvatarLayout();
+        });
     }
+
+    private void refreshAvatarLayout() {
+        mGridLayoutManager.setSpanCount(getSpanCount());
+        mTestBindingAdapter.notifyDataSetChanged();
+    }
+
+    private int getSpanCount() {
+        if (ListUtils.getSize(mTestBindingAdapter.getData()) == 2 || ListUtils.getSize(mTestBindingAdapter.getData()) == 3) {
+            return 2;
+        } else {
+            return 3;
+        }
+    }
+
+    GridLayoutManager mGridLayoutManager;
 
     private void setupRecyclerView() {
         mViewDataBinding.rvList.addItemDecoration(DecorationUtils.createHorizontalDividerItemDecoration(ResourceUtils.getAttrColor(AppUtils.getTopActivity(), R.attr.h_common_divider_color), 10, 0));
         mViewDataBinding.refreshLayout.setRefreshDataListener(this);
-        mViewDataBinding.refreshLayout.bindRecyclerView(mViewDataBinding.rvList, mTestBindingAdapter, new GridLayoutManager(getActivity(), 3));
+        mGridLayoutManager = new GridLayoutManager(getActivity(), 3) {
+            @Override
+            public SpanSizeLookup getSpanSizeLookup() {
+                return new SpanSizeLookup() {
+                    @Override
+                    public int getSpanSize(int position) {
+                        int itemCount = ListUtils.getSize(mTestBindingAdapter.getData());
+                        Log.e("aaa", "getSpanSize: " + position + "---" + itemCount);
+                        if (itemCount == 1) {
+                            return 3;
+                        } else if (itemCount == 2) {
+                            return 1;
+                        }
+                        if (itemCount == 3) {
+                            if (position == 2) {
+                                return 2;
+                            } else {
+                                return 1;
+                            }
+                        }
+                        return 1;
+                    }
+                };
+            }
+        };
+        mViewDataBinding.refreshLayout.bindRecyclerView(mViewDataBinding.rvList, mTestBindingAdapter, mGridLayoutManager);
         mViewDataBinding.refreshLayout.setPageSize(20);
         mTestBindingAdapter.setListener(this);
         mTestBindingAdapter.setDragItemEnable(true, R.id.tv_content, mViewDataBinding.rvList);

@@ -86,7 +86,7 @@ public class MainViewModel extends BaseViewModel<MainNavigator> {
             @Override
             public void run() {
                 final List<TestListEntity> list = new ArrayList<>();
-                for (int i = 0; i < pageSize; i++) {
+                for (int i = 0; i < 2; i++) {
                     TestListEntity testListEntity = TestListEntity.obtain()
                             .setContent(String.format("测试数据 page %d index %d", page, i))
 //                            .setMediaType(i % 2 == 0 ? SystemEnumsApi.CircleMediaType.IMAGE : SystemEnumsApi.CircleMediaType.TEXT)
