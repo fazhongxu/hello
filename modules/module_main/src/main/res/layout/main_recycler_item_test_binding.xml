@@ -14,93 +14,74 @@
             type="com.xxl.hello.main.ui.main.adapter.TestBindingRecycleItemListener" />
     </data>
 
-    <LinearLayout
+    <com.xxl.core.widget.SwipeMenuLayout
+        android:id="@+id/swipe_menu_layout"
         android:layout_width="match_parent"
-        android:background="@android:color/transparent"
-        android:gravity="center_horizontal"
-        android:layout_margin="2dp"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
         android:orientation="vertical"
-        android:layout_height="wrap_content">
+        app:canLeftSwipe="true"
+        app:contentView="@id/tv_content"
+        app:rightMenuView="@id/ll_right_menu">
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/iv_avatar"
-            android:layout_width="120dp"
-            android:layout_gravity="center_horizontal"
-            android:src="@drawable/ic_launcher_background"
-            android:scaleType="centerCrop"
-            android:layout_height="120dp"/>
-
-        <com.xxl.core.widget.SwipeMenuLayout
-            android:id="@+id/swipe_menu_layout"
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/white"
-            android:orientation="vertical"
-            android:visibility="gone"
-            app:canLeftSwipe="true"
-            app:contentView="@id/tv_content"
-            app:rightMenuView="@id/ll_right_menu">
+            android:foreground="?selectableItemBackground"
+            android:onClick="@{()->listener.onItemClick(viewModel.targetItemEntity)}"
+            android:paddingLeft="15dp"
+            android:paddingTop="12dp"
+            android:paddingRight="15dp"
+            android:paddingBottom="12dp"
+            android:text="@{viewModel.observableTestValue}"
+            tools:text="测试" />
+
+        <LinearLayout
+            android:id="@+id/ll_right_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_content"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:foreground="?selectableItemBackground"
-                android:onClick="@{()->listener.onItemClick(viewModel.targetItemEntity)}"
-                android:paddingLeft="15dp"
-                android:paddingTop="12dp"
-                android:paddingRight="15dp"
-                android:paddingBottom="12dp"
-                android:text="@{viewModel.observableTestValue}"
-                tools:text="测试" />
-
-            <LinearLayout
-                android:id="@+id/ll_right_menu"
+                android:id="@+id/tv_delete"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:background="?attr/h_common_red_color"
+                android:gravity="center"
+                android:onClick="@{()->listener.onRemoveItemClick(viewModel.targetItemEntity)}"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:text="@string/resources_delete_text"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/resources_font_size_14" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_delete"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:background="?attr/h_common_red_color"
-                    android:gravity="center"
-                    android:onClick="@{()->listener.onRemoveItemClick(viewModel.targetItemEntity)}"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp"
-                    android:text="@string/resources_delete_text"
-                    android:textColor="@android:color/white"
-                    android:textSize="@dimen/resources_font_size_14" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_set_top"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="?attr/h_common_yellow_color"
+                android:gravity="center"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:text="@string/resources_set_top_text"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/resources_font_size_14" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_set_top"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:background="?attr/h_common_yellow_color"
-                    android:gravity="center"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp"
-                    android:text="@string/resources_set_top_text"
-                    android:textColor="@android:color/white"
-                    android:textSize="@dimen/resources_font_size_14" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_refresh_top"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="?attr/h_common_primary_color"
+                android:gravity="center"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:text="@string/resources_refresh_to_top_text"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/resources_font_size_14" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_refresh_top"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:background="?attr/h_common_primary_color"
-                    android:gravity="center"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp"
-                    android:text="@string/resources_refresh_to_top_text"
-                    android:textColor="@android:color/white"
-                    android:textSize="@dimen/resources_font_size_14" />
+        </LinearLayout>
 
-            </LinearLayout>
-
-        </com.xxl.core.widget.SwipeMenuLayout>
-
-    </LinearLayout>
+    </com.xxl.core.widget.SwipeMenuLayout>
 
 </layout>
