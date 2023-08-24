@@ -151,6 +151,7 @@ public class AudioPlayerWrapper implements Player.Listener {
         if (mMediaPlayer == null) {
             return;
         }
+        prepare();
         mMediaPlayer.setPlayWhenReady(playWhenReady);
     }
 
