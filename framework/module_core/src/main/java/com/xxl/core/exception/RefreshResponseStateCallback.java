@@ -112,6 +112,17 @@ public class RefreshResponseStateCallback extends ResponseCallback implements St
         return false;
     }
 
+    /**
+     * 网络解析异常
+     *
+     * @param exception
+     * @return
+     */
+    @Override
+    public boolean onNetworkParseException(@NonNull final ResponseException exception) {
+        return false;
+    }
+
     public EmptyState.EmptyStateProperty getEmptyStateProperty() {
         return EmptyState.obtain();
     }

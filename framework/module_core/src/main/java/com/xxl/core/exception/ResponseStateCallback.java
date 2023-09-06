@@ -80,6 +80,18 @@ public class ResponseStateCallback extends ResponseCallback {
         return true;
     }
 
+    /**
+     * 网络解析异常
+     *
+     * @param exception
+     * @return
+     */
+    @Override
+    public boolean onNetworkParseException(@NonNull final ResponseException exception) {
+        onParseExceptionState(exception);
+        return true;
+    }
+
     public EmptyState.EmptyStateProperty getEmptyStateProperty() {
         return EmptyState.obtain();
     }

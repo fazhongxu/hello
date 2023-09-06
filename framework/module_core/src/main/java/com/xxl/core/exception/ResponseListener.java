@@ -59,6 +59,14 @@ public abstract class ResponseListener {
     public abstract boolean onNetworkException(@NonNull final ResponseException exception);
 
     /**
+     * 网络解析异常
+     *
+     * @param exception
+     * @return
+     */
+    public abstract boolean onNetworkParseException(@NonNull final ResponseException exception);
+
+    /**
      * 异常处理
      *
      * @param exception
@@ -82,6 +90,10 @@ public abstract class ResponseListener {
 
         if (exception.getCode() == ResponseCode.RESPONSE_CODE_NETWORK_CONNECT) {
             return onNetworkException(exception);
+        }
+
+        if (exception.getCode() == ResponseCode.RESPONSE_CODE_HTTP_ERROR) {
+            return onNetworkParseException(exception);
         }
 
         // TODO: 2021/11/26 登录token失效，解析异常，网络异常，Http异常等

@@ -77,6 +77,17 @@ public class ResponseCallback extends ResponseListener {
         return false;
     }
 
+    /**
+     * 网络解析异常
+     *
+     * @param exception
+     * @return
+     */
+    @Override
+    public boolean onNetworkParseException(@NonNull final ResponseException exception) {
+        return false;
+    }
+
     //endregion
 
     //region: 提供方法
