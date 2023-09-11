@@ -2,8 +2,11 @@ package com.xxl.hello.widget.ui.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.text.Layout;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextPaint;
@@ -11,6 +14,7 @@ import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ImageSpan;
+import android.text.style.StyleSpan;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -122,6 +126,11 @@ public class CollapsedTextView extends AppCompatTextView implements View.OnClick
     private boolean mTipsClickable;
 
     /**
+     * 提示是否需要加粗
+     */
+    private boolean mIsTipsBold = false;
+
+    /**
      * 提示文本的点击事件
      */
     private ExpandedClickableSpan mClickableSpan = new ExpandedClickableSpan();
@@ -170,6 +179,7 @@ public class CollapsedTextView extends AppCompatTextView implements View.OnClick
             mTipsColor = typed.getColor(R.styleable.CollapsedTextView_tipsColor, 0);
             mTipsUnderline = typed.getBoolean(R.styleable.CollapsedTextView_tipsUnderline, false);
             mTipsClickable = typed.getBoolean(R.styleable.CollapsedTextView_tipsClickable, true);
+            mIsTipsBold = typed.getBoolean(R.styleable.CollapsedTextView_tipsBold, false);
             typed.recycle();
         }
     }
@@ -437,11 +447,25 @@ public class CollapsedTextView extends AppCompatTextView implements View.OnClick
         int tipsLen;
         // 判断是展开还是收起
         if (mIsExpanded) {
-            spannable.append(mCollapsedText);
+            if (mIsTipsBold) {
+                SpannableString spannableString = new SpannableString(mExpandedText);
+                StyleSpan styleSpan = new StyleSpan(Typeface.BOLD);
+                spannableString.setSpan(styleSpan, 0, spannableString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                spannable.append(spannableString);
+            } else {
+                spannable.append(mCollapsedText);
+            }
             drawable = mCollapsedDrawable;
             tipsLen = mCollapsedText.length();
         } else {
-            spannable.append(mExpandedText);
+            if (mIsTipsBold) {
+                SpannableString spannableString = new SpannableString(mExpandedText);
+                StyleSpan styleSpan = new StyleSpan(Typeface.BOLD);
+                spannableString.setSpan(styleSpan, 0, spannableString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                spannable.append(spannableString);
+            } else {
+                spannable.append(mExpandedText);
+            }
             drawable = mExpandedDrawable;
             tipsLen = mExpandedText.length();
         }

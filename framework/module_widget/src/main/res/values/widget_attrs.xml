@@ -36,6 +36,7 @@
         <attr name="tipsColor" format="reference|color" />
         <attr name="tipsUnderline" format="boolean" />
         <attr name="tipsClickable" format="boolean" />
+        <attr name="tipsBold" format="boolean" />
     </declare-styleable>
 
 </resources>
