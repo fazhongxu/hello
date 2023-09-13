@@ -28,6 +28,22 @@ public abstract class ResponseListener {
     public abstract boolean onUnKowException(@NonNull final ResponseException exception);
 
     /**
+     * 逻辑错误
+     *
+     * @param exception
+     * @return
+     */
+    public abstract boolean onLogicalException(@NonNull final ResponseException exception);
+
+    /**
+     * 逻辑错误弹窗¬
+     *
+     * @param exception
+     * @return
+     */
+    public abstract boolean onLogicalExceptionAlert(@NonNull final ResponseException exception);
+
+    /**
      * token失效
      *
      * @param exception

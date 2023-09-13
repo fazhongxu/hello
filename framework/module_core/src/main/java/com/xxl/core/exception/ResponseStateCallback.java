@@ -5,7 +5,6 @@ import androidx.annotation.NonNull;
 import com.alipictures.statemanager.manager.StateManager;
 import com.xxl.core.ui.state.EmptyState;
 import com.xxl.core.ui.state.RequestErrorState;
-import com.xxl.kit.ToastUtils;
 
 /**
  * @author xxl.
@@ -43,6 +42,28 @@ public class ResponseStateCallback extends ResponseCallback {
     public boolean onUnKowException(@NonNull ResponseException exception) {
         onUnKowExceptionState(exception);
         return true;
+    }
+
+    /**
+     * 逻辑错误
+     *
+     * @param exception
+     * @return
+     */
+    @Override
+    public boolean onLogicalException(@NonNull final ResponseException exception) {
+        return false;
+    }
+
+    /**
+     * 逻辑错误弹窗
+     *
+     * @param exception
+     * @return
+     */
+    @Override
+    public boolean onLogicalExceptionAlert(@NonNull final ResponseException exception) {
+        return false;
     }
 
     /**

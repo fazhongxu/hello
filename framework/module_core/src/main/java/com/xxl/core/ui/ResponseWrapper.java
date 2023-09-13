@@ -60,6 +60,31 @@ public class ResponseWrapper extends ResponseListener {
     }
 
     /**
+     * 逻辑错误
+     *
+     * @param e
+     * @return
+     */
+    @Override
+    public boolean onLogicalException(@NonNull final ResponseException e) {
+        ToastUtils.error(e == null ? "" : e.getMessage()).show();
+        // TODO: 2023/9/13
+        return false;
+    }
+
+    /**
+     * 逻辑错误弹窗
+     *
+     * @param e
+     * @return
+     */
+    @Override
+    public boolean onLogicalExceptionAlert(@NonNull final ResponseException e) {
+        // TODO: 2023/9/13 弹窗
+        return false;
+    }
+
+    /**
      * token失效
      *
      * @param e

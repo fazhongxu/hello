@@ -16,6 +16,16 @@ public class ResponseCode {
     public static final int RESPONSE_CODE_UN_KNOW = -1;
 
     /**
+     * 逻辑错误 提示用户错误信息
+     */
+    public static final int RESPONSE_LOGICAL_ERROR_TIPS = 0;
+
+    /**
+     * 逻辑错误 弹窗提示用户
+     */
+    public static final int RESPONSE_LOGICAL_ERROR_ALERT = 1;
+
+    /**
      * 请求成功
      */
     public static final int RESPONSE_CODE_SUCCESS = 200;
@@ -44,6 +54,7 @@ public class ResponseCode {
      * http错误
      */
     public static final int RESPONSE_CODE_HTTP_ERROR = 10002;
+
 
     //endregion
 
