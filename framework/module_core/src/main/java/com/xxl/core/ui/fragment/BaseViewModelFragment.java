@@ -234,6 +234,9 @@ public abstract class BaseViewModelFragment<V extends BaseViewModel, T extends V
      * 设置异常状态
      */
     protected void setupResponseException() {
+        if (mViewModel == null) {
+            return;
+        }
         mResponseWrapper = ResponseWrapper.create(getActivity(), this);
         mViewModel.getObservableResponseException().addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
