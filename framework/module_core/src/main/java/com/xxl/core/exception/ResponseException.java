@@ -92,9 +92,6 @@ public class ResponseException extends Exception {
      * @return
      */
     public static ResponseException handleException(@Nullable final Throwable throwable) {
-        if (throwable == null) {
-            return create(ResponseCode.RESPONSE_CODE_UN_KNOW, "UN_KNOW");
-        }
         if (throwable instanceof JsonParseException
                 || throwable instanceof JSONException
                 || throwable instanceof ParseException) {

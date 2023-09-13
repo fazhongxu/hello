@@ -14,7 +14,6 @@ import com.xxl.core.manager.ExceptionServiceManager;
 import com.xxl.core.rx.SchedulersProvider;
 import com.xxl.core.ui.ProgressBarWrapper.Attributes;
 import com.xxl.kit.LogUtils;
-import com.xxl.kit.ToastUtils;
 
 import io.reactivex.rxjava3.core.ObservableTransformer;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
@@ -30,6 +29,11 @@ import io.reactivex.rxjava3.disposables.Disposable;
 public class BaseViewModel<N> extends AndroidViewModel {
 
     //region: 成员变量
+
+    /**
+     * 异常响应信息
+     */
+    private ObservableField<ResponseException> mObservableResponseException = new ObservableField<>();
 
     /**
      * 进度加载属性
@@ -74,6 +78,10 @@ public class BaseViewModel<N> extends AndroidViewModel {
             mCompositeDisposable.dispose();
             mCompositeDisposable.clear();
         }
+    }
+
+    public ObservableField<ResponseException> getObservableResponseException() {
+        return mObservableResponseException;
     }
 
     public ObservableField<Attributes> getViewLoadingAttrs() {
@@ -165,10 +173,10 @@ public class BaseViewModel<N> extends AndroidViewModel {
         if (throwable != null) {
             final ResponseException exception = ResponseException.converter(throwable);
             if (listener != null && listener.handleException(exception)) {
-                // TODO: 2021/7/19 处理异常信息
+                return;
             }
-            ToastUtils.error(exception.getMessage()).show();
-            LogUtils.e(exception.getMessage());
+            mObservableResponseException.set(exception);
+            LogUtils.e(exception != null ? exception.getMessage() : "");
         }
         mHandler.post(() -> {
             setViewLoading(false);

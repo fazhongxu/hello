@@ -1,6 +1,7 @@
 package com.xxl.core.exception;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * @author xxl.
@@ -71,11 +72,10 @@ public abstract class ResponseListener {
      *
      * @param exception
      */
-    public boolean handleException(@NonNull final ResponseException exception) {
-        if (exception.getCode() == ResponseCode.RESPONSE_CODE_UN_KNOW) {
+    public boolean handleException(@Nullable final ResponseException exception) {
+        if (exception == null) {
             return onUnKowException(exception);
         }
-
         if (exception.getCode() == ResponseCode.RESPONSE_CODE_TOKEN_TOKEN_INVALID) {
             return onTokenInvalid(exception);
         }
@@ -97,7 +97,8 @@ public abstract class ResponseListener {
         }
 
         // TODO: 2021/11/26 登录token失效，解析异常，网络异常，Http异常等
-        return false;
+
+        return onUnKowException(exception);
     }
 
     //endregion

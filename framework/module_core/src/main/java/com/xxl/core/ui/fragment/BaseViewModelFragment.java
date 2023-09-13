@@ -15,9 +15,11 @@ import androidx.databinding.ViewDataBinding;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.xxl.core.exception.ResponseException;
 import com.xxl.core.ui.BaseEventBusWrapper;
 import com.xxl.core.ui.BaseViewModel;
 import com.xxl.core.ui.ProgressBarWrapper;
+import com.xxl.core.ui.ResponseWrapper;
 import com.xxl.kit.AppUtils;
 import com.xxl.kit.OnAppStatusChangedListener;
 
@@ -46,6 +48,11 @@ public abstract class BaseViewModelFragment<V extends BaseViewModel, T extends V
      * ViewModel数据模型
      */
     protected V mViewModel;
+
+    /**
+     * 响应数据包装类
+     */
+    private ResponseWrapper mResponseWrapper;
 
     /**
      * 进度条
@@ -85,6 +92,7 @@ public abstract class BaseViewModelFragment<V extends BaseViewModel, T extends V
         mViewDataBinding = DataBindingUtil.bind(mRootView);
         mViewModel = createViewModel();
         setupData();
+        setupResponseException();
         setupLoadingLayout();
         setupLayout(mRootView);
         return mRootView;
@@ -223,6 +231,24 @@ public abstract class BaseViewModelFragment<V extends BaseViewModel, T extends V
     }
 
     /**
+     * 设置异常状态
+     */
+    protected void setupResponseException() {
+        mResponseWrapper = ResponseWrapper.create(getActivity(), this);
+        mViewModel.getObservableResponseException().addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable sender, int propertyId) {
+                try {
+                    final ResponseException exception = (ResponseException) mViewModel.getObservableResponseException().get();
+                    mResponseWrapper.handleException(exception);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    /**
      * loading状态相关视图
      */
     protected void setupLoadingLayout() {
@@ -239,7 +265,7 @@ public abstract class BaseViewModelFragment<V extends BaseViewModel, T extends V
                 try {
                     ProgressBarWrapper.Attributes attributes = (ProgressBarWrapper.Attributes) mViewModel.getViewLoadingAttrs().get();
                     mProgressBarWrapper.loading(attributes);
-                }catch (Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }

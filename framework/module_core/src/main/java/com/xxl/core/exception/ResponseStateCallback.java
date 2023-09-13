@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import com.alipictures.statemanager.manager.StateManager;
 import com.xxl.core.ui.state.EmptyState;
 import com.xxl.core.ui.state.RequestErrorState;
+import com.xxl.kit.ToastUtils;
 
 /**
  * @author xxl.
@@ -111,19 +112,19 @@ public class ResponseStateCallback extends ResponseCallback {
     /**
      * 网络异常
      *
-     * @param exception
+     * @param e
      * @return
      */
     @Override
-    public boolean onNetworkException(@NonNull ResponseException exception) {
-        if (mStateManager == null || exception == null) {
+    public boolean onNetworkException(@NonNull ResponseException e) {
+        if (mStateManager == null || e == null) {
             return false;
         }
         return mStateManager.showState(RequestErrorState.STATE);
     }
 
-    private void onUnKowExceptionState(ResponseException exception) {
-        if (mStateManager == null || exception == null) {
+    private void onUnKowExceptionState(ResponseException e) {
+        if (mStateManager == null) {
             return;
         }
         mStateManager.showState(RequestErrorState.STATE);
@@ -136,8 +137,8 @@ public class ResponseStateCallback extends ResponseCallback {
         mStateManager.showState(getEmptyStateProperty());
     }
 
-    private void onParseExceptionState(ResponseException exception) {
-        if (mStateManager == null || exception == null) {
+    private void onParseExceptionState(ResponseException e) {
+        if (mStateManager == null || e == null) {
             return;
         }
         mStateManager.showState(RequestErrorState.STATE);
