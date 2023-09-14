@@ -448,7 +448,7 @@ public class CollapsedTextView extends AppCompatTextView implements View.OnClick
         // 判断是展开还是收起
         if (mIsExpanded) {
             if (mIsTipsBold) {
-                SpannableString spannableString = new SpannableString(mExpandedText);
+                SpannableString spannableString = new SpannableString(mCollapsedText);
                 StyleSpan styleSpan = new StyleSpan(Typeface.BOLD);
                 spannableString.setSpan(styleSpan, 0, spannableString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 spannable.append(spannableString);
