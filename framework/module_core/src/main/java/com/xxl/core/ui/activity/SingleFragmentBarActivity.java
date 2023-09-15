@@ -81,7 +81,7 @@ public abstract class SingleFragmentBarActivity<F extends Fragment> extends Sing
         }
         StatusBarUtil.setDarkMode(this);
         final int statusBarHeight = StatusBarUtil.getStatusBarHeight();
-        mToolbarWrapper.setAppbarPadding(DisplayUtils.dp2px(this, 15), statusBarHeight - DisplayUtils.dp2px(this, 15), DisplayUtils.dp2px(this, 15),0);
+        mToolbarWrapper.setAppbarPadding(DisplayUtils.dp2px(this, 15), statusBarHeight - DisplayUtils.dp2px(this, 10), DisplayUtils.dp2px(this, 15),0);
     }
 
     @Override
