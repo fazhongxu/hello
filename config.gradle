@@ -58,7 +58,7 @@ versions.bugly = "4.1.9.2"
 
 versions.android_state = "1.4.1"
 
-versions.objectbox = "3.0.1"
+versions.objectbox = "3.7.0"
 
 versions.aspectjx_plugin = "2.0.10"
 versions.aspectjrt = "1.9.6"
