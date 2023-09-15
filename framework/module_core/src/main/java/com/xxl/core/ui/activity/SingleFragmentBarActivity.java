@@ -70,6 +70,15 @@ public abstract class SingleFragmentBarActivity<F extends Fragment> extends Sing
     protected abstract int getToolbarTitle();
 
     /**
+     * 获取toolbar标题 {@link #getToolbarTitle 不生效时使用}
+     *
+     * @return
+     */
+    protected CharSequence getDisplayToolbarTitle() {
+        return "";
+    }
+
+    /**
      * 设置toolbar
      */
     protected void setupToolbarLayout() {
@@ -79,9 +88,14 @@ public abstract class SingleFragmentBarActivity<F extends Fragment> extends Sing
         if (getToolbarTitle() != 0) {
             mToolbarWrapper.setToolbarTitle(getToolbarTitle());
         }
+
+        if (getDisplayToolbarTitle() != null) {
+            mToolbarWrapper.setToolbarTitle(getDisplayToolbarTitle());
+        }
+
         StatusBarUtil.setDarkMode(this);
         final int statusBarHeight = StatusBarUtil.getStatusBarHeight();
-        mToolbarWrapper.setAppbarPadding(DisplayUtils.dp2px(this, 15), statusBarHeight - DisplayUtils.dp2px(this, 10), DisplayUtils.dp2px(this, 15),0);
+        mToolbarWrapper.setAppbarPadding(DisplayUtils.dp2px(this, 15), statusBarHeight - DisplayUtils.dp2px(this, 10), DisplayUtils.dp2px(this, 15), 0);
     }
 
     @Override
