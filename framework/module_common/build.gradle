@@ -86,6 +86,8 @@ dependencies {
 
     implementation deps.hello.resources
 
+    implementation deps.jsoup
+
 }
 
 // module gradle-> other->makejar  即可在module build->libs看到生成的文件
