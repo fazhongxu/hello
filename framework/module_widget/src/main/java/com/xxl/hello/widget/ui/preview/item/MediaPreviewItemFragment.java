@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
+import com.bumptech.glide.request.target.Target;
 import com.xxl.core.image.loader.ImageLoader;
 import com.xxl.core.ui.fragment.BaseViewModelFragment;
 import com.xxl.hello.service.data.model.entity.media.MediaPreviewItemEntity;
@@ -160,6 +161,7 @@ public class MediaPreviewItemFragment extends BaseViewModelFragment<MediaPreview
 
         ImageLoader.with(this)
                 .load(mTargetMediaPreviewItemEntity.getMediaUrl())
+                .override(Target.SIZE_ORIGINAL,Target.SIZE_ORIGINAL)
                 .into(mMediaPreviewBinding.ivPhoto);
         if (mTargetMediaPreviewItemEntity.hasTargetViewAttributes()) {
             mMediaPreviewBinding.dragDismissLayout.setTargetData(mTargetMediaPreviewItemEntity.getStartX(), mTargetMediaPreviewItemEntity.getStartY(), mTargetMediaPreviewItemEntity.getPreviewWidth(), mTargetMediaPreviewItemEntity.getPreviewHeight());
