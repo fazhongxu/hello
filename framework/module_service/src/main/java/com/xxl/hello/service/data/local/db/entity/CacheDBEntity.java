@@ -21,8 +21,10 @@ public class CacheDBEntity extends BaseDBEntity<CacheDBEntity> {
 
     /**
      * 缓存数据的key
+     *
+     * @Unique(/*onConflict = ConflictStrategy.REPLACE 直接put，如果已经有相同的Unique 存在，数据库会直接报错，如果这里设置为 ConflictStrategy.REPLACE，则会替换 https://github.com/objectbox/objectbox-java/issues/167)
      */
-    @Unique(/*onConflict = ConflictStrategy.REPLACE 直接put，如果已经有相同的Unique 存在，数据库会直接报错，如果这里设置为 ConflictStrategy.REPLACE，则会替换*/)
+    @Unique
     @NameInDb("key")
     private String key;
 
