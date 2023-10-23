@@ -83,6 +83,8 @@ public class BitmapUtils {
         if (watermarkText.getTextFont() != 0) {
             Typeface typeface = ResourcesCompat.getFont(context, watermarkText.getTextFont());
             watermarkPaint.setTypeface(typeface);
+        }else if (watermarkText.getTypeFace() != null) {
+            watermarkPaint.setTypeface(watermarkText.getTypeFace());
         }
 
         watermarkPaint.setAntiAlias(true);
