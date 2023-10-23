@@ -22,6 +22,7 @@ buildscript {
 allprojects {
     repositories {
         addRepos(repositories)
+        google()
     }
 }
 

@@ -377,7 +377,8 @@ deps.wcqr_opencv_armv64 = "com.github.jenly1314.WeChatQRCode:opencv-armv64:$vers
 deps.viewfinderview = "com.github.jenly1314:viewfinderview:$versions.viewfinderview"
 
 // 水印添加 https://github.com/huangyz0918/AndroidWM
-deps.watermark = "com.huangyz0918:androidwm-light:$versions.watermark"
+//deps.watermark = "com.huangyz0918:androidwm-light:$versions.watermark"
+deps.watermark = project(':module_libs:lib_watermark')
 
 def origin = [:]
 // 是否使用远程依赖 true使用远程依赖（远程私服存储的aar依赖）

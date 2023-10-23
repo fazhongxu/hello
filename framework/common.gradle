@@ -108,6 +108,8 @@ dependencies {
     implementation deps.tbs
     implementation deps.pdf_viewer
 
+    implementation deps.watermark
+
     implementation deps.aria.core
     kapt deps.aria.aira_processor
 
