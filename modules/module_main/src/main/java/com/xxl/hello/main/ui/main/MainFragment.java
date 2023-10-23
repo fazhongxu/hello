@@ -15,8 +15,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.tbruyelle.rxpermissions3.RxPermissions;
-import com.watermark.androidwm.WatermarkBuilder;
-import com.watermark.androidwm.bean.WatermarkImage;
 import com.xxl.core.aop.annotation.Safe;
 import com.xxl.core.media.audio.AudioCapture;
 import com.xxl.core.media.audio.AudioCapture.OnAudioFrameCapturedListener;
@@ -48,7 +46,6 @@ import com.xxl.hello.widget.data.router.WidgetRouterApi;
 import com.xxl.hello.widget.ui.view.record.OnRecordListener;
 import com.xxl.hello.widget.ui.view.record.RecordButton;
 import com.xxl.kit.AppUtils;
-import com.xxl.kit.DisplayUtils;
 import com.xxl.kit.FFmpegUtils;
 import com.xxl.kit.ListUtils;
 import com.xxl.kit.LogUtils;
@@ -232,16 +229,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
     @Override
     public void onTestClick() {
-//        UserRouterApi.Login.newBuilder().navigation(getActivity());
-        WatermarkImage watermarkImage = new WatermarkImage(getActivity(),R.drawable.resources_ic_we_chat);
-
-        WatermarkBuilder.create(getActivity(),mViewDataBinding.ivImage)
-                .loadWatermarkImage(watermarkImage)
-                .setTileMode(true)
-                .setSpacing(20)
-                .getWatermark()
-                .setToImageView(mViewDataBinding.ivImage);
-
+        UserRouterApi.Login.newBuilder().navigation(getActivity());
     }
 
     /**

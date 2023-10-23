@@ -70,15 +70,6 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="test" />
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/iv_image"
-                android:layout_width="match_parent"
-                android:background="@color/resources_primary_color"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:src="@drawable/resources_ic_app_logo"
-                android:layout_height="300dp"/>
-
             <com.xxl.hello.widget.ui.view.record.RecordButton
                 android:id="@+id/recordBtn"
                 android:layout_width="wrap_content"
