@@ -3,6 +3,7 @@ package com.xxl.hello.main.ui.main;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -15,7 +16,11 @@ import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.tbruyelle.rxpermissions3.RxPermissions;
+import com.watermark.androidwm.WatermarkBuilder;
+import com.watermark.androidwm.bean.WatermarkImage;
+import com.xxl.core.aop.annotation.Async;
 import com.xxl.core.aop.annotation.Safe;
+import com.xxl.core.image.loader.ImageLoader;
 import com.xxl.core.media.audio.AudioCapture;
 import com.xxl.core.media.audio.AudioCapture.OnAudioFrameCapturedListener;
 import com.xxl.core.media.audio.AudioRecordFormat;
@@ -47,6 +52,7 @@ import com.xxl.hello.widget.ui.view.record.OnRecordListener;
 import com.xxl.hello.widget.ui.view.record.RecordButton;
 import com.xxl.kit.AppUtils;
 import com.xxl.kit.FFmpegUtils;
+import com.xxl.kit.ImageUtils;
 import com.xxl.kit.ListUtils;
 import com.xxl.kit.LogUtils;
 import com.xxl.kit.MediaUtils;
@@ -227,9 +233,31 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
     //region: MainNavigator
 
+    @Async
     @Override
     public void onTestClick() {
-        UserRouterApi.Login.newBuilder().navigation(getActivity());
+//        UserRouterApi.Login.newBuilder().navigation(getActivity());
+        WatermarkImage watermarkImage = new WatermarkImage(getActivity(), R.drawable.resources_ic_we_chat);
+
+        try {
+            Bitmap bitmap = ImageLoader.with(AppUtils.getApplication())
+                    .asBitmap()
+                    .load(AppConfig.User.GITHUB_USER_AVATAR)
+                    .submit()
+                    .get();
+
+            Bitmap watermarkBitmap = WatermarkBuilder.create(getActivity(), bitmap)
+                    .loadWatermarkImage(watermarkImage)
+                    .setTileMode(true)
+                    .setSpacing(20)
+                    .getWatermark()
+                    .getOutputImage();
+
+            String watermarkImagePath = CacheDirConfig.SHARE_FILE_DIR + File.separator + "watermark.png";
+            ImageUtils.save(watermarkBitmap, watermarkImagePath, Bitmap.CompressFormat.PNG);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
