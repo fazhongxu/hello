@@ -1,8 +1,10 @@
 package com.xxl.hello.user.ui.setting;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.view.GestureDetector;
@@ -13,7 +15,11 @@ import androidx.annotation.NonNull;
 
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
+import com.tbruyelle.rxpermissions3.RxPermissions;
+import com.watermark.androidwm.WatermarkBuilder;
+import com.watermark.androidwm.bean.WatermarkImage;
 import com.xxl.core.data.router.SystemRouterApi;
+import com.xxl.core.image.loader.ImageLoader;
 import com.xxl.core.image.selector.MediaSelector;
 import com.xxl.core.ui.fragment.BaseViewModelFragment;
 import com.xxl.hello.common.config.AppConfig;
@@ -35,7 +41,9 @@ import com.xxl.hello.widget.ui.view.keyboard.ICommentKeyboardLayout;
 import com.xxl.hello.widget.ui.view.share.OnShareItemOperate;
 import com.xxl.hello.widget.ui.view.share.ResourcesShareWindow;
 import com.xxl.hello.widget.ui.view.share.api.ResourcesSharePickerKit;
+import com.xxl.kit.AppUtils;
 import com.xxl.kit.FileUtils;
+import com.xxl.kit.ImageUtils;
 import com.xxl.kit.KeyboardWrapper;
 import com.xxl.kit.MomentShareUtils;
 import com.xxl.kit.PathUtils;
@@ -48,6 +56,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
+
+import io.reactivex.rxjava3.disposables.Disposable;
 
 /**
  * 用户设置页面
@@ -333,7 +343,11 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
                                    @NonNull ShareOperateItem operateItem,
                                    @NonNull View targetView,
                                    int position) {
-                if (operateItem.getOperateType() == ShareOperateType.WE_CHAT_CIRCLE) {
+                if (operateItem.getOperateType() == ShareOperateType.WE_CHAT) {
+                    onShareWaterImageClick();
+                    window.dismiss();
+                    return true;
+                } else if (operateItem.getOperateType() == ShareOperateType.WE_CHAT_CIRCLE) {
                     ToastUtils.success("自定义点击事件" + operateItem.getTitle()).show();
                     final List<File> files = FileUtils.listFilesInDirWithFilter(CacheDirConfig.SHARE_FILE_DIR, new FileFilter() {
                         @Override
@@ -360,6 +374,61 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
             }
         });
         return true;
+    }
+
+    /**
+     * 分享水印图片
+     */
+    private void onShareWaterImageClick() {
+        final RxPermissions rxPermissions = new RxPermissions(this);
+        final Disposable disposable = rxPermissions.request(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .subscribe(isSuccess -> {
+                    if (isSuccess) {
+                        doShareWaterImage();
+                    } else {
+                        ToastUtils.error(R.string.core_permission_read_of_white_external_storage_failure_tips).show();
+                    }
+                }, throwable -> {
+                    throwable.printStackTrace();
+                    ToastUtils.error(R.string.core_permission_read_of_white_external_storage_failure_tips).show();
+                });
+        mUserSettingModel.addCompositeDisposable(disposable);
+    }
+
+    /**
+     * 执行水印图片分享
+     */
+    private void doShareWaterImage() {
+        try {
+            new Thread() {
+                @Override
+                public void run() {
+                    WatermarkImage watermarkImage = new WatermarkImage(getActivity(), R.drawable.resources_ic_app_logo);
+                    watermarkImage.setRotation(30);
+                    Bitmap bitmap = null;
+                    try {
+                        bitmap = ImageLoader.with(AppUtils.getApplication())
+                                .asBitmap()
+                                .load(AppConfig.User.GITHUB_USER_AVATAR)
+                                .submit()
+                                .get();
+                        Bitmap watermarkBitmap = WatermarkBuilder.create(getActivity(), bitmap)
+                                .loadWatermarkImage(watermarkImage)
+                                .setTileMode(true)
+                                .setSpacing(5)
+                                .getWatermark()
+                                .getOutputImage();
+                        String watermarkImagePath = CacheDirConfig.SHARE_FILE_DIR + File.separator + "watermark.png";
+                        ImageUtils.save(watermarkBitmap, watermarkImagePath, Bitmap.CompressFormat.PNG);
+                        MomentShareUtils.shareImageToWeChatFriend(getActivity(), watermarkImagePath);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
