@@ -119,6 +119,8 @@ versions.qq = "3.52.0"
 versions.we_chat_qrcode = "1.2.1"
 versions.viewfinderview = "1.0.0"
 
+versions.watermark = "0.1.2"
+
 ext.versions = versions
 
 deps.android_build_gradle = "com.android.tools.build:gradle:$build_versions.android_build_gradle"
@@ -373,6 +375,9 @@ deps.wcqr_opencv_armv64 = "com.github.jenly1314.WeChatQRCode:opencv-armv64:$vers
 
 //扫描边框
 deps.viewfinderview = "com.github.jenly1314:viewfinderview:$versions.viewfinderview"
+
+// 水印添加 https://github.com/huangyz0918/AndroidWM
+deps.watermark = "com.huangyz0918:androidwm-light:$versions.watermark"
 
 def origin = [:]
 // 是否使用远程依赖 true使用远程依赖（远程私服存储的aar依赖）

@@ -207,6 +207,8 @@ dependencies {
     implementation deps.qq
     implementation deps.sina
 
+    implementation deps.watermark
+
 }
 
 apply plugin: 'io.objectbox'
