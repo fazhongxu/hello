@@ -18,6 +18,8 @@ import com.luck.picture.lib.entity.LocalMedia;
 import com.tbruyelle.rxpermissions3.RxPermissions;
 import com.watermark.androidwm.WatermarkBuilder;
 import com.watermark.androidwm.bean.WatermarkImage;
+import com.watermark.androidwm.bean.WatermarkLocation;
+import com.watermark.androidwm.bean.WatermarkPosition;
 import com.xxl.core.data.router.SystemRouterApi;
 import com.xxl.core.image.loader.ImageLoader;
 import com.xxl.core.image.selector.MediaSelector;
@@ -42,6 +44,7 @@ import com.xxl.hello.widget.ui.view.share.OnShareItemOperate;
 import com.xxl.hello.widget.ui.view.share.ResourcesShareWindow;
 import com.xxl.hello.widget.ui.view.share.api.ResourcesSharePickerKit;
 import com.xxl.kit.AppUtils;
+import com.xxl.kit.DisplayUtils;
 import com.xxl.kit.FileUtils;
 import com.xxl.kit.ImageUtils;
 import com.xxl.kit.KeyboardWrapper;
@@ -250,6 +253,7 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
             }
         });
         setupUserAvatar(AppConfig.User.GITHUB_USER_AVATAR);
+        onShareWaterImageClick();
     }
 
     /**
@@ -403,8 +407,10 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
             new Thread() {
                 @Override
                 public void run() {
-                    WatermarkImage watermarkImage = new WatermarkImage(getActivity(), R.drawable.resources_ic_app_logo);
+                    WatermarkImage watermarkImage = new WatermarkImage(getActivity(), R.drawable.resources_ic_we_chat);
                     watermarkImage.setRotation(30);
+                    watermarkImage.setImageAlpha(255);
+                    watermarkImage.setPosition(new WatermarkPosition(0,0).setWatermarkLocation(WatermarkLocation.TOP_RIGHT));
                     Bitmap bitmap = null;
                     try {
                         bitmap = ImageLoader.with(AppUtils.getApplication())
@@ -414,13 +420,20 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
                                 .get();
                         Bitmap watermarkBitmap = WatermarkBuilder.create(getActivity(), bitmap)
                                 .loadWatermarkImage(watermarkImage)
-                                .setTileMode(true)
-                                .setSpacing(5)
+                                .setTileMode(false)
+                                .setSpacing(6)
                                 .getWatermark()
                                 .getOutputImage();
                         String watermarkImagePath = CacheDirConfig.SHARE_FILE_DIR + File.separator + "watermark.png";
-                        ImageUtils.save(watermarkBitmap, watermarkImagePath, Bitmap.CompressFormat.PNG);
-                        MomentShareUtils.shareImageToWeChatFriend(getActivity(), watermarkImagePath);
+//                        ImageUtils.save(watermarkBitmap, watermarkImagePath, Bitmap.CompressFormat.PNG);
+//                        MomentShareUtils.shareImageToWeChatFriend(getActivity(), watermarkImagePath);
+
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mViewDataBinding.ivUserAvatar.setImageBitmap(watermarkBitmap);
+                            }
+                        });
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
