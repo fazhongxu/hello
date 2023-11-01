@@ -322,6 +322,8 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
     public void onUserAvatarClick() {
         MediaSelector.create(this)
                 .openGallery(PictureMimeType.ofAll())
+                .isEnableCrop(true)
+                .freeStyleCropEnabled(true)
                 .forResult();
     }
 

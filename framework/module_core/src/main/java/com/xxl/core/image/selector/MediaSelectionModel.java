@@ -5,6 +5,7 @@ import android.Manifest;
 import com.luck.picture.lib.PictureSelectionModel;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
+import com.luck.picture.lib.config.UCropOptions;
 import com.tbruyelle.rxpermissions3.RxPermissions;
 import com.xxl.core.R;
 import com.xxl.kit.ToastUtils;
@@ -47,6 +48,30 @@ public class MediaSelectionModel extends PictureSelectionModel {
     @Override
     public MediaSelectionModel maxSelectNum(int maxSelectNum) {
         super.maxSelectNum(maxSelectNum);
+        return this;
+    }
+
+    @Override
+    public MediaSelectionModel isEnableCrop(boolean enableCrop) {
+        super.isEnableCrop(enableCrop);
+        return this;
+    }
+
+    @Override
+    public MediaSelectionModel withAspectRatio(int aspect_ratio_x, int aspect_ratio_y) {
+        super.withAspectRatio(aspect_ratio_x, aspect_ratio_y);
+        return this;
+    }
+
+    @Override
+    public MediaSelectionModel freeStyleCropEnabled(boolean freeStyleCropEnabled) {
+        super.freeStyleCropEnabled(freeStyleCropEnabled);
+        return this;
+    }
+
+    @Override
+    public MediaSelectionModel basicUCropConfig(UCropOptions uCropOptions) {
+        super.basicUCropConfig(uCropOptions);
         return this;
     }
 
