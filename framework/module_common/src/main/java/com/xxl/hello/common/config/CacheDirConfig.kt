@@ -29,7 +29,7 @@ class CacheDirConfig private constructor() {
          * 分享缓存文件夹
          */
         @JvmField
-        val SHARE_FILE_DIR = PathUtils.getExtStoragePath() + File.separator + "hello_share"
+        val SHARE_FILE_DIR = PathUtils.getExtPicturesPath() + File.separator + "hello_share"
 
         /**
          * Tbs缓存文件夹
