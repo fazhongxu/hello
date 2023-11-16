@@ -252,7 +252,7 @@ public class Watermark {
                         }
                     }
                 } else {
-                    int location = watermarkImg.getPosition().getLocation();
+                    int location = watermarkText.getPosition().getLocation();
                     if (location != WatermarkLocation.NONE) {
                         float targetWidth = 0;
                         float targetHeight = 0;
@@ -279,8 +279,8 @@ public class Watermark {
                             targetHeight = height + spacing;
                         }
                         watermarkCanvas.drawBitmap(scaledWMBitmap,
-                                (float) watermarkImg.getPosition().getPositionX() * backgroundImg.getWidth() - targetWidth,
-                                (float) watermarkImg.getPosition().getPositionY() * backgroundImg.getHeight() - targetHeight,
+                                (float) watermarkText.getPosition().getPositionX() * backgroundImg.getWidth() - targetWidth,
+                                (float) watermarkText.getPosition().getPositionY() * backgroundImg.getHeight() - targetHeight,
                                 watermarkPaint);
                     } else {
                         watermarkCanvas.drawBitmap(scaledWMBitmap,
