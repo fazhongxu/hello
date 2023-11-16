@@ -252,7 +252,6 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
             }
         });
         setupUserAvatar(AppConfig.User.GITHUB_USER_AVATAR);
-        onShareWaterImageClick();
     }
 
     /**
