@@ -5,6 +5,8 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.view.GestureDetector;
@@ -20,6 +22,7 @@ import com.watermark.androidwm.WatermarkBuilder;
 import com.watermark.androidwm.bean.WatermarkImage;
 import com.watermark.androidwm.bean.WatermarkLocation;
 import com.watermark.androidwm.bean.WatermarkPosition;
+import com.watermark.androidwm.utils.BitmapUtils;
 import com.xxl.core.data.router.SystemRouterApi;
 import com.xxl.core.image.loader.ImageLoader;
 import com.xxl.core.image.selector.MediaSelector;
@@ -44,7 +47,9 @@ import com.xxl.hello.widget.ui.view.share.OnShareItemOperate;
 import com.xxl.hello.widget.ui.view.share.ResourcesShareWindow;
 import com.xxl.hello.widget.ui.view.share.api.ResourcesSharePickerKit;
 import com.xxl.kit.AppUtils;
+import com.xxl.kit.ColorUtils;
 import com.xxl.kit.DisplayUtils;
+import com.xxl.kit.DrawableUtils;
 import com.xxl.kit.FileUtils;
 import com.xxl.kit.ImageUtils;
 import com.xxl.kit.KeyboardWrapper;
@@ -407,10 +412,18 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
             new Thread() {
                 @Override
                 public void run() {
-                    WatermarkImage watermarkImage = new WatermarkImage(getActivity(), R.drawable.resources_ic_we_chat);
+                    Bitmap bitmap2 = Bitmap.createBitmap(360,360,Bitmap.Config.ARGB_8888);
+                    bitmap2.eraseColor(ColorUtils.getColor(R.color.resources_primary_color));
+
+//                    bitmap2 = ImageUtils.getBitmap(R.drawable.resources_ic_we_chat);
+
+//                   bitmap2 =  BitmapFactory.decodeResource(getActivity().getResources(),R.drawable.resources_ic_we_chat);
+
+//                    WatermarkImage watermarkImage = new WatermarkImage(bitmap2,new WatermarkPosition(0,0));
+                    WatermarkImage watermarkImage = new WatermarkImage(getActivity(),R.drawable.resources_ic_we_chat);
                     watermarkImage.setRotation(30);
                     watermarkImage.setImageAlpha(255);
-                    watermarkImage.setPosition(new WatermarkPosition(0,0).setWatermarkLocation(WatermarkLocation.TOP_RIGHT));
+                    watermarkImage.setPosition(new WatermarkPosition(0,0).setWatermarkLocation(WatermarkLocation.CENTER));
                     Bitmap bitmap = null;
                     try {
                         bitmap = ImageLoader.with(AppUtils.getApplication())
@@ -418,7 +431,10 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
                                 .load(AppConfig.User.GITHUB_USER_AVATAR)
                                 .submit()
                                 .get();
-                        Bitmap watermarkBitmap = WatermarkBuilder.create(getActivity(), bitmap)
+
+//                         bitmap = Bitmap.createBitmap(360,360, Bitmap.Config.ARGB_8888);
+//                        bitmap.eraseColor(ColorUtils.getColor(R.color.resources_common_yellow_color));
+                        Bitmap watermarkBitmap = WatermarkBuilder.create(getActivity(),bitmap)
                                 .loadWatermarkImage(watermarkImage)
                                 .setTileMode(false)
                                 .setSpacing(6)

@@ -18,12 +18,13 @@ package com.watermark.androidwm.bean;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.widget.ImageView;
 
 import androidx.annotation.DrawableRes;
 import androidx.annotation.FloatRange;
+
+import com.watermark.androidwm.utils.BitmapUtils;
 
 import static com.watermark.androidwm.utils.BitmapUtils.resizeBitmap;
 import static com.watermark.androidwm.utils.Constant.MAX_IMAGE_SIZE;
@@ -153,7 +154,9 @@ public class WatermarkImage {
     }
 
     private Bitmap getBitmapFromDrawable(@DrawableRes int imageDrawable) {
-        return resizeBitmap(BitmapFactory.decodeResource(context.getResources(),
-                imageDrawable), MAX_IMAGE_SIZE);
+        //        原来的方式获取得到的bitmap导致间距
+        //        return resizeBitmap(BitmapFactory.decodeResource(context.getResources(),
+        //                imageDrawable), MAX_IMAGE_SIZE);
+        return resizeBitmap(BitmapUtils.getBitmap(imageDrawable), MAX_IMAGE_SIZE);
     }
 }
