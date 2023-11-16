@@ -20,7 +20,6 @@ import com.watermark.androidwm.WatermarkBuilder;
 import com.watermark.androidwm.bean.WatermarkImage;
 import com.watermark.androidwm.bean.WatermarkLocation;
 import com.watermark.androidwm.bean.WatermarkPosition;
-import com.watermark.androidwm.bean.WatermarkText;
 import com.xxl.core.data.router.SystemRouterApi;
 import com.xxl.core.image.loader.ImageLoader;
 import com.xxl.core.image.selector.MediaSelector;
@@ -408,9 +407,10 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
             new Thread() {
                 @Override
                 public void run() {
-                    WatermarkText watermarkImage = new WatermarkText("测试",new WatermarkPosition(0,0).setWatermarkLocation(WatermarkLocation.CENTER));
+                    WatermarkImage watermarkImage = new WatermarkImage(getActivity(),R.drawable.resources_ic_we_chat);
                     watermarkImage.setRotation(30);
-                    watermarkImage.setTextAlpha(255);
+                    watermarkImage.setImageAlpha(255);
+                    watermarkImage.setPosition(new WatermarkPosition(0,0).setWatermarkLocation(WatermarkLocation.CENTER));
                     Bitmap bitmap = null;
                     try {
                         bitmap = ImageLoader.with(AppUtils.getApplication())
@@ -420,7 +420,7 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
                                 .get();
 
                         Bitmap watermarkBitmap = WatermarkBuilder.create(getActivity(),bitmap)
-                                .loadWatermarkText(watermarkImage)
+                                .loadWatermarkImage(watermarkImage)
                                 .setTileMode(false)
                                 .setSpacing(6)
                                 .getWatermark()
