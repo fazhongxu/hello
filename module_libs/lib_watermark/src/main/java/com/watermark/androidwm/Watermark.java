@@ -146,8 +146,8 @@ public class Watermark {
                     int canvasWidth = backgroundImg.getWidth();
                     int canvasHeight = backgroundImg.getHeight();
 
-                    for (int y = 0; y < canvasHeight; y += height + spacing) {
-                        for (int x = 0; x < canvasWidth; x += width + spacing) {
+                    for (int y = (int) spacing; y < canvasHeight; y += height + spacing) {
+                        for (int x = (int) spacing; x < canvasWidth; x += width + spacing) {
                             watermarkCanvas.drawBitmap(scaledWMBitmap, x, y, null);
                         }
                     }
@@ -246,8 +246,8 @@ public class Watermark {
                     int canvasWidth = backgroundImg.getWidth();
                     int canvasHeight = backgroundImg.getHeight();
 
-                    for (int y = 0; y < canvasHeight; y += height + spacing) {
-                        for (int x = 0; x < canvasWidth; x += width + spacing) {
+                    for (int y = (int) spacing; y < canvasHeight; y += height + spacing) {
+                        for (int x = (int) spacing; x < canvasWidth; x += width + spacing) {
                             watermarkCanvas.drawBitmap(scaledWMBitmap, x, y, null);
                         }
                     }

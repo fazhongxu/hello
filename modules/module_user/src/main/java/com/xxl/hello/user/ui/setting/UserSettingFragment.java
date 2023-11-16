@@ -422,7 +422,7 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
                         Bitmap watermarkBitmap = WatermarkBuilder.create(getActivity(),bitmap)
                                 .loadWatermarkImage(watermarkImage)
                                 .setTileMode(false)
-                                .setSpacing(6)
+                                .setSpacing(10)
                                 .getWatermark()
                                 .getOutputImage();
                         String watermarkImagePath = CacheDirConfig.SHARE_FILE_DIR + File.separator + "watermark.png";
