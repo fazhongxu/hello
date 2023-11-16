@@ -45,7 +45,7 @@ public final class WatermarkBuilder {
     private Context context;
     private Bitmap backgroundImg;
     private boolean isTileMode = false;
-    private float spacing = 10;
+    private float spacing;
     private boolean isLSB = false;
     private boolean resizeBackgroundImg;
     private BuildFinishListener<Bitmap> buildFinishListener = null;
@@ -283,7 +283,7 @@ public final class WatermarkBuilder {
     }
 
     /**
-     * Set spacing.only title mode
+     * Set spacing
      */
     public WatermarkBuilder setSpacing(final float spacing) {
         this.spacing = spacing;

@@ -26,16 +26,20 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.Environment;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.util.Base64;
 import android.util.TypedValue;
 
+import androidx.annotation.DrawableRes;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 
 import com.watermark.androidwm.bean.WatermarkImage;
 import com.watermark.androidwm.bean.WatermarkText;
+import com.xxl.kit.AppUtils;
 import com.xxl.kit.LogUtils;
 
 import java.io.ByteArrayOutputStream;
@@ -239,5 +243,26 @@ public class BitmapUtils {
         }
 
         return bitmapArray;
+    }
+
+    /**
+     * Return bitmap.
+     *
+     * @param resId The resource id.
+     * @return bitmap
+     */
+    public static Bitmap getBitmap(@DrawableRes final int resId) {
+        Drawable drawable = ContextCompat.getDrawable(AppUtils.getApplication(), resId);
+        if (drawable == null) {
+            return null;
+        }
+        Canvas canvas = new Canvas();
+        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(),
+                drawable.getIntrinsicHeight(),
+                Bitmap.Config.ARGB_8888);
+        canvas.setBitmap(bitmap);
+        drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+        drawable.draw(canvas);
+        return bitmap;
     }
 }

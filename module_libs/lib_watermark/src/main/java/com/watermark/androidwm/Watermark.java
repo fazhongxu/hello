@@ -28,6 +28,7 @@ import androidx.annotation.Nullable;
 
 import com.watermark.androidwm.bean.AsyncTaskParams;
 import com.watermark.androidwm.bean.WatermarkImage;
+import com.watermark.androidwm.bean.WatermarkLocation;
 import com.watermark.androidwm.bean.WatermarkText;
 import com.watermark.androidwm.listener.BuildFinishListener;
 import com.watermark.androidwm.task.FDWatermarkTask;
@@ -138,11 +139,10 @@ public class Watermark {
                 Bitmap scaledWMBitmap = resizeBitmap(watermarkImg.getImage(), (float) watermarkImg.getSize(), backgroundImg);
                 scaledWMBitmap = adjustPhotoRotation(scaledWMBitmap,
                         (int) watermarkImg.getPosition().getRotation());
+                int width = scaledWMBitmap.getWidth();
+                int height = scaledWMBitmap.getHeight();
 
                 if (isTileMode) {
-                    int width = scaledWMBitmap.getWidth();
-                    int height = scaledWMBitmap.getHeight();
-
                     int canvasWidth = backgroundImg.getWidth();
                     int canvasHeight = backgroundImg.getHeight();
 
@@ -152,10 +152,43 @@ public class Watermark {
                         }
                     }
                 } else {
-                    watermarkCanvas.drawBitmap(scaledWMBitmap,
-                            (float) watermarkImg.getPosition().getPositionX() * backgroundImg.getWidth(),
-                            (float) watermarkImg.getPosition().getPositionY() * backgroundImg.getHeight(),
-                            watermarkPaint);
+                    int location = watermarkImg.getPosition().getLocation();
+                    if (location != WatermarkLocation.NONE) {
+                        float targetWidth = 0;
+                        float targetHeight = 0;
+                        if (location == WatermarkLocation.TOP_LEFT) {
+                            targetWidth = -spacing;
+                            targetHeight = -spacing;
+                        } else if (location == WatermarkLocation.TOP_CENTER) {
+                            targetWidth = width / 2F;
+                            targetHeight = -spacing;
+                        } else if (location == WatermarkLocation.TOP_RIGHT) {
+                            targetWidth = width + spacing;
+                            targetHeight = -spacing;
+                        } else if (location == WatermarkLocation.CENTER) {
+                            targetWidth = width / 2F;
+                            targetHeight = height / 2F;
+                        } else if (location == WatermarkLocation.BOTTOM_LEFT) {
+                            targetWidth = -spacing;
+                            targetHeight = height + spacing;
+                        } else if (location == WatermarkLocation.BOTTOM_CENTER) {
+                            targetWidth = width / 2F;
+                            targetHeight = height + spacing;
+                        } else if (location == WatermarkLocation.BOTTOM_RIGHT) {
+                            targetWidth = width + spacing;
+                            targetHeight = height + spacing;
+                        }
+
+                        watermarkCanvas.drawBitmap(scaledWMBitmap,
+                                (float) watermarkImg.getPosition().getPositionX() * backgroundImg.getWidth() - targetWidth,
+                                (float) watermarkImg.getPosition().getPositionY() * backgroundImg.getHeight() - targetHeight,
+                                watermarkPaint);
+                    } else {
+                        watermarkCanvas.drawBitmap(scaledWMBitmap,
+                                (float) watermarkImg.getPosition().getPositionX() * backgroundImg.getWidth(),
+                                (float) watermarkImg.getPosition().getPositionY() * backgroundImg.getHeight(),
+                                watermarkPaint);
+                    }
                 }
 
                 canvasBitmap = newBitmap;
@@ -206,10 +239,10 @@ public class Watermark {
                 scaledWMBitmap = adjustPhotoRotation(scaledWMBitmap,
                         (int) watermarkText.getPosition().getRotation());
 
-                if (isTileMode) {
-                    int width = scaledWMBitmap.getWidth();
-                    int height = scaledWMBitmap.getHeight();
+                int width = scaledWMBitmap.getWidth();
+                int height = scaledWMBitmap.getHeight();
 
+                if (isTileMode) {
                     int canvasWidth = backgroundImg.getWidth();
                     int canvasHeight = backgroundImg.getHeight();
 
@@ -219,10 +252,42 @@ public class Watermark {
                         }
                     }
                 } else {
-                    watermarkCanvas.drawBitmap(scaledWMBitmap,
-                            (float) watermarkText.getPosition().getPositionX() * backgroundImg.getWidth(),
-                            (float) watermarkText.getPosition().getPositionY() * backgroundImg.getHeight(),
-                            watermarkPaint);
+                    int location = watermarkImg.getPosition().getLocation();
+                    if (location != WatermarkLocation.NONE) {
+                        float targetWidth = 0;
+                        float targetHeight = 0;
+                        if (location == WatermarkLocation.TOP_LEFT) {
+                            targetWidth = -spacing;
+                            targetHeight = -spacing;
+                        } else if (location == WatermarkLocation.TOP_CENTER) {
+                            targetWidth = width / 2F;
+                            targetHeight = -spacing;
+                        } else if (location == WatermarkLocation.TOP_RIGHT) {
+                            targetWidth = width + spacing;
+                            targetHeight = -spacing;
+                        } else if (location == WatermarkLocation.CENTER) {
+                            targetWidth = width / 2F;
+                            targetHeight = height / 2F;
+                        } else if (location == WatermarkLocation.BOTTOM_LEFT) {
+                            targetWidth = -spacing;
+                            targetHeight = height + spacing;
+                        } else if (location == WatermarkLocation.BOTTOM_CENTER) {
+                            targetWidth = width / 2F;
+                            targetHeight = height + spacing;
+                        } else if (location == WatermarkLocation.BOTTOM_RIGHT) {
+                            targetWidth = width + spacing;
+                            targetHeight = height + spacing;
+                        }
+                        watermarkCanvas.drawBitmap(scaledWMBitmap,
+                                (float) watermarkImg.getPosition().getPositionX() * backgroundImg.getWidth() - targetWidth,
+                                (float) watermarkImg.getPosition().getPositionY() * backgroundImg.getHeight() - targetHeight,
+                                watermarkPaint);
+                    } else {
+                        watermarkCanvas.drawBitmap(scaledWMBitmap,
+                                (float) watermarkText.getPosition().getPositionX() * backgroundImg.getWidth(),
+                                (float) watermarkText.getPosition().getPositionY() * backgroundImg.getHeight(),
+                                watermarkPaint);
+                    }
                 }
 
                 canvasBitmap = newBitmap;

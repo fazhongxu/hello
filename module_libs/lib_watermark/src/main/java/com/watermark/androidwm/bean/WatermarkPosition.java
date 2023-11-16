@@ -32,6 +32,9 @@ public class WatermarkPosition {
     private double positionY;
     private double rotation;
 
+    @WatermarkLocation
+    private int watermarkLocation;
+
     /**
      * Constructors for WatermarkImage
      */
@@ -49,11 +52,42 @@ public class WatermarkPosition {
         this.rotation = rotation;
     }
 
+    public WatermarkPosition(@WatermarkLocation int watermarkLocation) {
+        this.watermarkLocation = watermarkLocation;
+    }
+
+    public WatermarkPosition setWatermarkLocation(@WatermarkLocation int watermarkLocation) {
+        this.watermarkLocation = watermarkLocation;
+        return this;
+    }
+
+    public int getLocation() {
+        return watermarkLocation;
+    }
+
     /**
      * Getters and Setters for those attrs.
      */
     public double getPositionX() {
-        return positionX;
+        switch (watermarkLocation) {
+            case WatermarkLocation.TOP_CENTER:
+                return 0.5;
+            case WatermarkLocation.BOTTOM_CENTER:
+                return 0.5;
+            case WatermarkLocation.TOP_LEFT:
+                return 0;
+            case WatermarkLocation.TOP_RIGHT:
+                return 1;
+            case WatermarkLocation.CENTER:
+                return 0.5;
+            case WatermarkLocation.BOTTOM_LEFT:
+                return 0;
+            case WatermarkLocation.BOTTOM_RIGHT:
+                return 1;
+            case WatermarkLocation.NONE:
+            default:
+                return positionX;
+        }
     }
 
     public WatermarkPosition setPositionX(double positionX) {
@@ -62,7 +96,25 @@ public class WatermarkPosition {
     }
 
     public double getPositionY() {
-        return positionY;
+        switch (watermarkLocation) {
+            case WatermarkLocation.TOP_CENTER:
+                return 0;
+            case WatermarkLocation.BOTTOM_CENTER:
+                return 1;
+            case WatermarkLocation.TOP_LEFT:
+                return 0;
+            case WatermarkLocation.TOP_RIGHT:
+                return 0;
+            case WatermarkLocation.CENTER:
+                return 0.5;
+            case WatermarkLocation.BOTTOM_LEFT:
+                return 1;
+            case WatermarkLocation.BOTTOM_RIGHT:
+                return 1;
+            case WatermarkLocation.NONE:
+            default:
+                return positionY;
+        }
     }
 
     public WatermarkPosition setPositionY(double positionY) {
