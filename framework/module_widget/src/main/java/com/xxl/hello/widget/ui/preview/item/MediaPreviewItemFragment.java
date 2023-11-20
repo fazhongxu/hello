@@ -17,6 +17,7 @@ import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.bumptech.glide.request.target.Target;
 import com.xxl.core.image.loader.ImageLoader;
 import com.xxl.core.ui.fragment.BaseViewModelFragment;
+import com.xxl.hello.common.config.AppConfig;
 import com.xxl.hello.service.data.model.entity.media.MediaPreviewItemEntity;
 import com.xxl.hello.widget.BR;
 import com.xxl.hello.widget.R;
@@ -161,8 +162,18 @@ public class MediaPreviewItemFragment extends BaseViewModelFragment<MediaPreview
 
         ImageLoader.with(this)
                 .load(mTargetMediaPreviewItemEntity.getMediaUrl())
-                .override(Target.SIZE_ORIGINAL,Target.SIZE_ORIGINAL)
+                .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
                 .into(mMediaPreviewBinding.ivPhoto);
+
+        mMediaPreviewModel.requestGenerateWatermarkImage(mTargetMediaPreviewItemEntity.getMediaUrl(), AppConfig.User.GITHUB_USER_AVATAR, targetBitmap -> {
+            if (targetBitmap != null) {
+                ImageLoader.with(getActivity())
+                        .load(targetBitmap)
+                        .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                        .into(mMediaPreviewBinding.ivPhoto);
+            }
+        });
+
         if (mTargetMediaPreviewItemEntity.hasTargetViewAttributes()) {
             mMediaPreviewBinding.dragDismissLayout.setTargetData(mTargetMediaPreviewItemEntity.getStartX(), mTargetMediaPreviewItemEntity.getStartY(), mTargetMediaPreviewItemEntity.getPreviewWidth(), mTargetMediaPreviewItemEntity.getPreviewHeight());
         }
