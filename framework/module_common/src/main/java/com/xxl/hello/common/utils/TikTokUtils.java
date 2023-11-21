@@ -15,12 +15,14 @@ import androidx.annotation.NonNull;
 import com.xxl.kit.AppUtils;
 import com.xxl.kit.OnRequestCallBack;
 
+import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
 import org.jsoup.select.Elements;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.List;
 
@@ -81,6 +83,15 @@ public class TikTokUtils {
         @JavascriptInterface
         public void showSource(String html) {
 
+            try {
+                html = html.replaceAll("%(?![0-9a-fA-F]{2})", "%25");
+                html = html.replaceAll("\\+", "%2B");
+
+                String decode = URLDecoder.decode(html, "UTF-8");
+                Log.e("aaa", "showSource: "+decode );
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             String s = decode(html);
             Document document = Jsoup.parse(s);
             Elements videoElements = document.select("video");
@@ -112,6 +123,13 @@ public class TikTokUtils {
             }
         }
 
+    }
+
+    public static String getRedirectUrl(String url) throws Exception {
+        Connection connection = Jsoup.connect(url);
+        Connection.Response response = connection.execute();
+        String redirectUrl = response.url().toString();
+        return redirectUrl;
     }
 
     /**
