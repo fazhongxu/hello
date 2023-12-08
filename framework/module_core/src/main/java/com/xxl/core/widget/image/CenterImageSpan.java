@@ -7,7 +7,6 @@ import android.graphics.drawable.Drawable;
 import android.text.style.ImageSpan;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 /**
  * SpannableString 使用的时候，居中文字和图片的ImageSpan
@@ -76,12 +75,16 @@ public class CenterImageSpan extends ImageSpan {
     }
 
     @Override
-    public int getSize(@NonNull final Paint paint,
-                       @NonNull final CharSequence text,
-                       final int start,
-                       final int end,
-                       @Nullable final Paint.FontMetricsInt fm) {
-        return mMarginLeft + super.getSize(paint, text, start, end, fm) + mMarginRight;
+    public int getSize(Paint paint, CharSequence text, int start, int end, Paint.FontMetricsInt fm) {
+        if (fm != null) {
+            int fontHeight = paint.getFontMetricsInt().descent - paint.getFontMetricsInt().ascent;
+            int imageHeight = getDrawable().getBounds().height();
+            fm.ascent = paint.getFontMetricsInt().ascent - ((imageHeight - fontHeight) / 2);
+            fm.top = fm.ascent;
+            fm.descent = fm.ascent + imageHeight;
+            fm.bottom = fm.descent;
+        }
+        return getDrawable().getBounds().right + mMarginLeft + mMarginRight;
     }
 
     //endregion

@@ -169,7 +169,7 @@ public class MainViewModel extends BaseViewModel<MainNavigator> {
      *
      * @param targetUserId
      */
-    public void setObservableUserId(@NonNull final String targetUserId) {
+    public void setObservableUserId(@NonNull final CharSequence targetUserId) {
         this.mObservableUserId.set(targetUserId);
     }
 
