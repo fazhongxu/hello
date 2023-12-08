@@ -33,7 +33,7 @@ public class MainActivity extends SingleFragmentBarActivity<MainFragment> {
 
     @Override
     protected int getToolbarTitle() {
-        return R.string.main_title;
+        return 0;
     }
 
     @Override

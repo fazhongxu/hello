@@ -75,7 +75,7 @@ public abstract class SingleFragmentBarActivity<F extends Fragment> extends Sing
      * @return
      */
     protected CharSequence getDisplayToolbarTitle() {
-        return "";
+        return null;
     }
 
     /**
