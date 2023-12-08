@@ -62,12 +62,6 @@ public class TestImageProvider extends BaseItemProvider<TestListEntity> {
             viewModel = new TestRecycleItemViewModel();
         }
         viewModel.setItemEntity(testListEntity);
-
-        // TODO: 2023/6/1 以后放 TestRecycleItemViewModel 里面绑定
-        ImageLoader.with(getContext())
-                .load(testListEntity.getUrl())
-                .into(binding.ivPhoto);
-
         binding.setViewModel(viewModel);
         binding.executePendingBindings();
     }
