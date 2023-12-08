@@ -60,7 +60,6 @@
                 style="@style/TextStyle.Content.Regular"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/resources_primary_color"
                 android:onClick="@{()->navigator.onTestClick()}"
                 android:onLongClick="@{()->navigator.onTestLongClick()}"
                 android:text="@{viewModel.observableUserId}"
@@ -70,7 +69,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="我的我的我的我的我的我的" />
+                tools:text="test" />
 
             <com.xxl.hello.widget.ui.view.record.RecordButton
                 android:id="@+id/recordBtn"
