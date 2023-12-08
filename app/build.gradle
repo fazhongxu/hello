@@ -150,6 +150,7 @@ dependencies {
 
     implementation deps.luban
     implementation deps.glide.glide
+    implementation deps.glide.glide_okhttp
     kapt deps.glide.glide_processor
     implementation deps.picture_selector
 

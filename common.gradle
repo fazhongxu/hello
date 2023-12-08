@@ -84,6 +84,7 @@ dependencies {
     implementation deps.auto_size
 
     compileOnly deps.glide.glide
+    compileOnly deps.glide.glide_okhttp
     kapt deps.glide.glide_processor
     implementation deps.picture_selector
 
