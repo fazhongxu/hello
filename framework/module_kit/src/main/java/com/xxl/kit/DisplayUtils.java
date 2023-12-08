@@ -94,6 +94,34 @@ public class DisplayUtils {
     /**
      * 获取屏幕的比例
      *
+     * @return
+     */
+    public static float getScreenAspectRatio() {
+        return getScreenAspectRatio(AppUtils.getApplication());
+    }
+
+    /**
+     * 获取屏幕宽度
+     *
+     * @return
+     */
+    public static int getScreenWidth() {
+        return getScreenWidth(AppUtils.getApplication());
+    }
+
+    /**
+     * 获取屏幕高度
+     *
+     * @return
+     */
+    public static int getScreenHeight() {
+        return getScreenHeight(AppUtils.getApplication());
+    }
+
+
+    /**
+     * 获取屏幕的比例
+     *
      * @param context
      * @return
      */

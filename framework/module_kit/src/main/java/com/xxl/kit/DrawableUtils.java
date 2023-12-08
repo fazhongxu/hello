@@ -18,6 +18,15 @@ import androidx.core.content.ContextCompat;
  */
 public class DrawableUtils {
 
+    /**
+     * Return the drawable by identifier.
+     *
+     * @param id The identifier.
+     * @return the drawable by identifier
+     */
+    public static Drawable getDrawable(@DrawableRes int id) {
+        return getDrawable(AppUtils.getApplication(), id);
+    }
 
     /**
      * Return the drawable by identifier.
