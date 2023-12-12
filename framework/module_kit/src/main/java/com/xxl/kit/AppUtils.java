@@ -242,6 +242,19 @@ public class AppUtils {
         System.exit(0);
     }
 
+    /**
+     * 判断是否有最新版本
+     *
+     * @param onLineVersionName
+     * @return
+     */
+    public boolean isNewAppVersion(@NonNull final String onLineVersionName) {
+        final String localVersionName = getAppVersionName();
+        if (TextUtils.isEmpty(onLineVersionName) || TextUtils.isEmpty(localVersionName)) {
+            return false;
+        }
+        return localVersionName.compareTo(onLineVersionName) < 0;
+    }
 
     /**
      * Return the application's version name.
