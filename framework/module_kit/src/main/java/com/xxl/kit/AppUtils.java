@@ -248,9 +248,20 @@ public class AppUtils {
      * @param onLineVersionName
      * @return
      */
-    public boolean isNewAppVersion(@NonNull final String onLineVersionName) {
-        final String localVersionName = getAppVersionName();
-        if (TextUtils.isEmpty(onLineVersionName) || TextUtils.isEmpty(localVersionName)) {
+    public static boolean isNewAppVersion(@NonNull final String onLineVersionName) {
+        return isNewAppVersion(getAppVersionName(),onLineVersionName);
+    }
+
+    /**
+     * 判断是否有最新版本
+     *
+     * @param localVersionName
+     * @param onLineVersionName
+     * @return
+     */
+    public static boolean isNewAppVersion(@NonNull final String localVersionName,
+                                          @NonNull final String onLineVersionName) {
+        if (TextUtils.isEmpty(localVersionName) || TextUtils.isEmpty(onLineVersionName)) {
             return false;
         }
         return localVersionName.compareTo(onLineVersionName) < 0;
