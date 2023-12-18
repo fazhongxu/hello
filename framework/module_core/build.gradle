@@ -47,7 +47,6 @@ android {
     }
 
 
-
     // TODO: 2022/4/6 音频实时转码 需要用时，build.gradle 打开 cmake文件，才可以用，暂时注释掉（debug费时间）
 //    externalNativeBuild {
 //        cmake {
@@ -89,7 +88,9 @@ dependencies {
     implementation deps.dagger.dagger
     kapt deps.dagger.processor
     implementation deps.dagger.android
-    implementation deps.dagger.android_support
+    implementation(deps.dagger.android_support) {
+        exclude group: 'androidx.activity', module: 'activity'
+    }
     kapt deps.dagger.android_processor
 
     implementation deps.aspectjrt

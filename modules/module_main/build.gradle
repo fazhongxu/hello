@@ -1,5 +1,8 @@
 apply from: project.getRootDir().getAbsolutePath()+"/common.gradle"
 dependencies {
-    debugImplementation deps.dokit
+    debugImplementation (deps.dokit) {
+        exclude group: 'androidx.activity', module: 'activity'
+        exclude group: 'androidx.activity', module: 'activity-ktx'
+    }
     implementation deps.hello.user
 }

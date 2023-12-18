@@ -137,7 +137,9 @@ dependencies {
     implementation deps.dagger.dagger
     kapt deps.dagger.processor
     implementation deps.dagger.android
-    implementation deps.dagger.android_support
+    implementation(deps.dagger.android_support) {
+        exclude group: 'androidx.activity', module: 'activity'
+    }
     kapt deps.dagger.android_processor
 
     implementation deps.rxjava
@@ -191,7 +193,10 @@ dependencies {
 
     implementation deps.viewanimator
 
-    debugImplementation deps.dokit
+    debugImplementation (deps.dokit) {
+        exclude group: 'androidx.activity', module: 'activity'
+        exclude group: 'androidx.activity', module: 'activity-ktx'
+    }
 
     implementation deps.umeng.umeng_common
     implementation deps.umeng.umeng_asms
