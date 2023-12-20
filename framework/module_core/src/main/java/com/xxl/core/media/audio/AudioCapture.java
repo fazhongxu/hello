@@ -11,13 +11,18 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.arthenica.ffmpegkit.MediaInformation;
+import com.arthenica.ffmpegkit.MediaInformationSession;
 import com.xxl.kit.FFmpegUtils;
 import com.xxl.kit.FileUtils;
 import com.xxl.kit.LogUtils;
+import com.xxl.kit.OnRequestCallBack;
 import com.xxl.kit.TimeUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 音频采集类
@@ -76,6 +81,11 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
      * 音频文件 mp3
      */
     private File mAudioMp3File;
+
+    /**
+     * 音频文件临时文件（主要用于多段录音支持回删)
+     */
+    private List<File> mAudioTempFiles;
 
     /**
      * 输出的音频流
@@ -166,6 +176,17 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
      */
     public AudioCapture setOutFilePath(@NonNull final String filePath) {
         this.mOutFilePath = filePath;
+        return this;
+    }
+
+    /**
+     * 设置音频临时文件(主要用于多段录音支持回删）
+     *
+     * @param audioTempFiles
+     * @return
+     */
+    public AudioCapture setAudioTempFiles(@NonNull final List<File> audioTempFiles) {
+        this.mAudioTempFiles = new ArrayList<>();
         return this;
     }
 
@@ -328,6 +349,15 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
         }
     }
 
+    /**
+     * 获取音频临时文件
+     *
+     * @return
+     */
+    public List<File> getAudioTempFiles() {
+        return mAudioTempFiles;
+    }
+
     //endregion
 
     //region: 内部辅助方法
@@ -344,6 +374,23 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
         }
 
         mAudioFrameCapturedListener = null;
+
+        if (mAudioTempFiles != null && FileUtils.isFileExists(outAudioFile)) {
+            final OnRequestCallBack<MediaInformationSession> onRequestCallBack = new OnRequestCallBack<MediaInformationSession>() {
+                @Override
+                public void onSuccess(@Nullable MediaInformationSession mediaInformationSession) {
+                    if (mediaInformationSession != null) {
+                        MediaInformation mediaInformation = mediaInformationSession.getMediaInformation();
+                        if (mediaInformation != null) {
+                            String duration = mediaInformation.getDuration();
+                            // TODO: 2023/12/20 map 存一下时间，删除的时候方便知道删除了多少时长，或者记录一下 
+                            mAudioTempFiles.add(outAudioFile);
+                        }
+                    }
+                }
+            };
+            FFmpegUtils.getMediaInformationAsync(outAudioFile.getAbsolutePath(), onRequestCallBack);
+        }
 
         LogUtils.d(TAG, "Stop audio capture success !");
     }

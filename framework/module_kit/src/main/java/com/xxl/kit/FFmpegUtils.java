@@ -10,6 +10,8 @@ import com.arthenica.ffmpegkit.FFmpegSession;
 import com.arthenica.ffmpegkit.FFmpegSessionCompleteCallback;
 import com.arthenica.ffmpegkit.FFprobeKit;
 import com.arthenica.ffmpegkit.MediaInformation;
+import com.arthenica.ffmpegkit.MediaInformationSession;
+import com.arthenica.ffmpegkit.MediaInformationSessionCompleteCallback;
 import com.arthenica.ffmpegkit.ReturnCode;
 
 import java.util.List;
@@ -43,6 +45,28 @@ public class FFmpegUtils {
             return null;
         }
         return FFprobeKit.getMediaInformation(path).getMediaInformation();
+    }
+
+    /**
+     * 获取多媒体信息
+     *
+     * @param path     path or uri of media file
+     * @param callBack
+     * @return
+     */
+    public static MediaInformation getMediaInformationAsync(@NonNull final String path,
+                                                            @NonNull final OnRequestCallBack<MediaInformationSession> callBack) {
+        if (Thread.currentThread() == Looper.getMainLooper().getThread()) {
+            return null;
+        }
+        final MediaInformationSessionCompleteCallback callback = new MediaInformationSessionCompleteCallback() {
+
+            @Override
+            public void apply(MediaInformationSession session) {
+                callBack.onSuccess(session);
+            }
+        };
+        return FFprobeKit.getMediaInformationAsync(path, callback).getMediaInformation();
     }
 
     /**
