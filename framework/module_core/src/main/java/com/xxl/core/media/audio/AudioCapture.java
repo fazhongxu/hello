@@ -11,12 +11,10 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.arthenica.ffmpegkit.MediaInformation;
-import com.arthenica.ffmpegkit.MediaInformationSession;
 import com.xxl.kit.FFmpegUtils;
 import com.xxl.kit.FileUtils;
+import com.xxl.kit.ListUtils;
 import com.xxl.kit.LogUtils;
-import com.xxl.kit.OnRequestCallBack;
 import com.xxl.kit.TimeUtils;
 
 import java.io.File;
@@ -344,6 +342,9 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
             if (mCountDownTimer != null) {
                 mCountDownTimer.cancel();
             }
+            if (!ListUtils.isEmpty(mAudioTempFiles)) {
+                mAudioTempFiles.clear();
+            }
         } catch (Throwable e) {
             LogUtils.e(TAG, "AudioRecord release");
         }
@@ -376,20 +377,7 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
         mAudioFrameCapturedListener = null;
 
         if (mAudioTempFiles != null && FileUtils.isFileExists(outAudioFile)) {
-            final OnRequestCallBack<MediaInformationSession> onRequestCallBack = new OnRequestCallBack<MediaInformationSession>() {
-                @Override
-                public void onSuccess(@Nullable MediaInformationSession mediaInformationSession) {
-                    if (mediaInformationSession != null) {
-                        MediaInformation mediaInformation = mediaInformationSession.getMediaInformation();
-                        if (mediaInformation != null) {
-                            String duration = mediaInformation.getDuration();
-                            // TODO: 2023/12/20 map 存一下时间，删除的时候方便知道删除了多少时长，或者记录一下 
-                            mAudioTempFiles.add(outAudioFile);
-                        }
-                    }
-                }
-            };
-            FFmpegUtils.getMediaInformationAsync(outAudioFile.getAbsolutePath(), onRequestCallBack);
+            mAudioTempFiles.add(outAudioFile);
         }
 
         LogUtils.d(TAG, "Stop audio capture success !");
