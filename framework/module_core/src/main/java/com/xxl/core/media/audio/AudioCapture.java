@@ -13,14 +13,11 @@ import androidx.annotation.Nullable;
 
 import com.xxl.kit.FFmpegUtils;
 import com.xxl.kit.FileUtils;
-import com.xxl.kit.ListUtils;
 import com.xxl.kit.LogUtils;
 import com.xxl.kit.TimeUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 音频采集类
@@ -79,11 +76,6 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
      * 音频文件 mp3
      */
     private File mAudioMp3File;
-
-    /**
-     * 音频文件临时文件（主要用于多段录音支持回删)
-     */
-    private List<File> mAudioTempFiles;
 
     /**
      * 输出的音频流
@@ -174,17 +166,6 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
      */
     public AudioCapture setOutFilePath(@NonNull final String filePath) {
         this.mOutFilePath = filePath;
-        return this;
-    }
-
-    /**
-     * 设置音频临时文件(主要用于多段录音支持回删）
-     *
-     * @param audioTempFiles
-     * @return
-     */
-    public AudioCapture setAudioTempFiles(@NonNull final List<File> audioTempFiles) {
-        this.mAudioTempFiles = new ArrayList<>();
         return this;
     }
 
@@ -342,21 +323,9 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
             if (mCountDownTimer != null) {
                 mCountDownTimer.cancel();
             }
-            if (!ListUtils.isEmpty(mAudioTempFiles)) {
-                mAudioTempFiles.clear();
-            }
         } catch (Throwable e) {
             LogUtils.e(TAG, "AudioRecord release");
         }
-    }
-
-    /**
-     * 获取音频临时文件
-     *
-     * @return
-     */
-    public List<File> getAudioTempFiles() {
-        return mAudioTempFiles;
     }
 
     //endregion
@@ -375,10 +344,6 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
         }
 
         mAudioFrameCapturedListener = null;
-
-        if (mAudioTempFiles != null && FileUtils.isFileExists(outAudioFile)) {
-            mAudioTempFiles.add(outAudioFile);
-        }
 
         LogUtils.d(TAG, "Stop audio capture success !");
     }
