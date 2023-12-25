@@ -1,4 +1,4 @@
-package com.xxl.hello.widget.ui.view;
+package com.xxl.hello.widget.ui.view.recyclerview;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -11,26 +11,27 @@ import com.xxl.kit.DisplayUtils;
 
 /**
  * 自定义最大高度的RecyclerView
+ * 关掉recyclerview的滑动recyclerview#setNestedScrollingEnabled(false)
  *
  * @author xxl.
  * @date 2021/12/31.
  */
-public class UIMaxHeightRecyclerView extends RecyclerView {
+public class MaxHeightRecyclerView extends RecyclerView {
 
     /**
      * 最大高度
      */
     private int mMaxHeight;
 
-    public UIMaxHeightRecyclerView(@NonNull Context context) {
+    public MaxHeightRecyclerView(@NonNull Context context) {
         super(context);
     }
 
-    public UIMaxHeightRecyclerView(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public MaxHeightRecyclerView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public UIMaxHeightRecyclerView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public MaxHeightRecyclerView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
