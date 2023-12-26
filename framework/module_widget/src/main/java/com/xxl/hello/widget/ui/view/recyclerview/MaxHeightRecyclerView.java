@@ -8,10 +8,18 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.xxl.kit.DisplayUtils;
+import com.xxl.kit.ViewUtils;
 
 /**
  * 自定义最大高度的RecyclerView
- * 关掉recyclerview的滑动recyclerview#setNestedScrollingEnabled(false)
+ * <p>
+ * 解决ScrollView,NestScrollView嵌套RecyclerView导致
+ * recyclerview复用机制失效，滑动卡顿问题
+ * <p>
+ * 1.关掉recyclerview的滑动recyclerview#setNestedScrollingEnabled(false)
+ *
+ * 2.监听scrollview的滑动，自定义rv 的layoutManager 控制rv是否可以滑动
+ * 比如某个控件可见的时候，rv设置为不可滑动，反之则可以滑动{@link ViewUtils#isVisibleLocal}
  *
  * @author xxl.
  * @date 2021/12/31.

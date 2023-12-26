@@ -1,8 +1,11 @@
 package com.xxl.kit;
 
 import android.app.Activity;
+import android.graphics.Rect;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 
 /**
@@ -108,6 +111,19 @@ public final class ViewUtils {
             return;
         }
         targetTextView.setText(stringRes);
+    }
+
+
+    /**
+     * 判断View是否在屏幕上可见
+     *
+     * @param target
+     * @return 当 View 有一点点不可见时立即返回false!
+     */
+    public static boolean isVisibleLocal(@NonNull final View target) {
+        Rect rect = new Rect();
+        target.getLocalVisibleRect(rect);
+        return rect.top == 0;
     }
 
     /**
