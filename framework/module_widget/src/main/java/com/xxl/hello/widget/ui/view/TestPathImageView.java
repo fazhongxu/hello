@@ -34,7 +34,44 @@ public class TestPathImageView extends AppCompatImageView {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        drawOvalBitmap(canvas);
+        drawWaterBitmap(canvas);
+    }
+
+    /**
+     * 画水滴
+     *
+     * @param canvas
+     */
+    private void drawWaterBitmap(Canvas canvas) {
+        Paint paint = new Paint();
+        paint.setColor(Color.RED);
+        paint.setStrokeWidth(5);
+        paint.setStyle(Paint.Style.FILL);
+
+        Path path = new Path();
+
+        int width = getWidth();
+        int height = getHeight();
+
+        RectF rectF = new RectF(0, 0, width, height);
+        float centerX = rectF.centerX();
+        float centerY = rectF.centerY();
+
+       /* path.moveTo(200,700);
+        path.quadTo(50,900,200,910);
+        path.quadTo(350,900,200,700);
+        canvas.drawPath(path,paint);*/
+
+     /*   path.moveTo(200, 700);
+
+        path.quadTo(350, 500, 200, 490);
+        path.quadTo(50, 500, 200, 700);
+        canvas.drawPath(path, paint);*/
+        path.moveTo(centerX,0);
+        path.quadTo(centerX -width*0.75F,centerY+height*0.45F,centerX,height-10);
+        path.quadTo(centerX  +width*0.75F,centerY+height*0.45F,centerX,0);
+        canvas.drawPath(path,paint);
+
     }
 
     /**
