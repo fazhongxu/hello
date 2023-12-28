@@ -8,8 +8,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.Rect;
-import android.graphics.RectF;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -258,8 +256,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
     @Override
     public void onTestClick() {
-//        UserRouterApi.Login.newBuilder().navigation(getActivity());
-        drawBitmap();
+        UserRouterApi.Login.newBuilder().navigation(getActivity());
     }
 
     /**

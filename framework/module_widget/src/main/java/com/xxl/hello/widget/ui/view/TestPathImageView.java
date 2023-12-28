@@ -33,11 +33,15 @@ public class TestPathImageView extends AppCompatImageView {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-//        drawBitmap(canvas);
+        drawLineBitmap(canvas);
     }
 
-
-    private void drawBitmap(Canvas canvas) {
+    /**
+     * 画线条
+     *
+     * @param canvas
+     */
+    private void drawLineBitmap(Canvas canvas) {
 
         Paint paint = new Paint();
         paint.setColor(Color.RED);
@@ -46,9 +50,12 @@ public class TestPathImageView extends AppCompatImageView {
 
         Path path = new Path();
 
+        // 第一个点的坐标
         path.lineTo(100, 100);
+        // 第二个点的坐标
+        path.lineTo(100,200);
 
-        canvas.drawPath(path,paint);
+        canvas.drawPath(path, paint);
     }
 
 }
