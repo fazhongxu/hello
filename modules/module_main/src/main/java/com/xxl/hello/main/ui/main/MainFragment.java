@@ -220,13 +220,12 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
         Canvas canvas = new Canvas(bitmap);
 
-        Rect rect = new Rect(0,0,bitmap.getWidth(),bitmap.getHeight());
+        RectF rectF = new RectF(0,0,bitmap.getWidth(),bitmap.getHeight());
 
         Paint paint = new Paint();
         paint.setColor(Color.RED);
 
-        canvas.drawRect(rect,paint);
-
+        canvas.drawCircle(rectF.centerX(),rectF.centerY(),rectF.height()/2,paint);
         mViewDataBinding.ivImage.setImageBitmap(bitmap);
     }
 
