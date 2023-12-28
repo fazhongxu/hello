@@ -3,6 +3,13 @@ package com.xxl.hello.main.ui.main;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -208,6 +215,21 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
         setupRecyclerView();
     }
 
+    private void drawBitmap() {
+        Bitmap bitmap = Bitmap.createBitmap(200, 200, Bitmap.Config.ARGB_8888);
+
+        Canvas canvas = new Canvas(bitmap);
+
+        Rect rect = new Rect(0,0,bitmap.getWidth(),bitmap.getHeight());
+
+        Paint paint = new Paint();
+        paint.setColor(Color.RED);
+
+        canvas.drawRect(rect,paint);
+
+        mViewDataBinding.ivImage.setImageBitmap(bitmap);
+    }
+
     private void setupRecyclerView() {
         mViewDataBinding.rvList.addItemDecoration(DecorationUtils.createHorizontalDividerItemDecoration(ResourceUtils.getAttrColor(AppUtils.getTopActivity(), R.attr.h_common_divider_color), 10, 0));
         mViewDataBinding.refreshLayout.setRefreshDataListener(this);
@@ -229,7 +251,8 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
     @Override
     public void onTestClick() {
-        UserRouterApi.Login.newBuilder().navigation(getActivity());
+//        UserRouterApi.Login.newBuilder().navigation(getActivity());
+        drawBitmap();
     }
 
     /**
