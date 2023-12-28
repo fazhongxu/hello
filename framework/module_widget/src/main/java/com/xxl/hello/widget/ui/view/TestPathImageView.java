@@ -33,7 +33,33 @@ public class TestPathImageView extends AppCompatImageView {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        drawLineBitmap(canvas);
+        drawTriangleBitmap(canvas);
+    }
+
+    /**
+     * 画一个三角形
+     *
+     * @param canvas
+     */
+    private void drawTriangleBitmap(Canvas canvas) {
+        Paint paint = new Paint();
+        paint.setColor(Color.RED);
+        paint.setStrokeWidth(5);
+        paint.setStyle(Paint.Style.STROKE);
+
+        int width = getWidth();
+        int height = getHeight();
+
+        Path path = new Path();
+
+        path.moveTo(width/2,paint.getStrokeWidth());
+
+        path.lineTo(0,height-paint.getStrokeWidth());
+
+        path.lineTo(width-paint.getStrokeWidth(),height-paint.getStrokeWidth());
+        path.close();
+
+        canvas.drawPath(path,paint);
     }
 
     /**
