@@ -67,11 +67,15 @@ public class TestPathImageView extends AppCompatImageView {
         path.quadTo(350, 500, 200, 490);
         path.quadTo(50, 500, 200, 700);
         canvas.drawPath(path, paint);*/
-        path.moveTo(centerX,0);
+      /*  path.moveTo(centerX,0);
         path.quadTo(centerX -width*0.75F,centerY+height*0.45F,centerX,height-10);
         path.quadTo(centerX  +width*0.75F,centerY+height*0.45F,centerX,0);
-        canvas.drawPath(path,paint);
+        canvas.drawPath(path,paint);*/
 
+        path.moveTo(centerX, height);
+        path.quadTo(centerX - width * 0.75F, centerY - height * 0.45F, centerX, 10);
+        path.quadTo(centerX + width * 0.75F, centerY - height * 0.45F, centerX, height);
+        canvas.drawPath(path, paint);
     }
 
     /**
