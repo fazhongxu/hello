@@ -220,13 +220,21 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
         Canvas canvas = new Canvas(bitmap);
 
-        RectF rectF = new RectF(0,0,bitmap.getWidth(),bitmap.getHeight());
-
         Paint paint = new Paint();
         paint.setColor(Color.RED);
+        paint.setStrokeWidth(5);
+        paint.setStyle(Paint.Style.STROKE);
 
-        canvas.drawCircle(rectF.centerX(),rectF.centerY(),rectF.height()/2,paint);
+        Path path = new Path();
+
+        path.moveTo(10, 10);
+        path.lineTo(100, 100);  // 添加一条直线
+
+
+        canvas.drawPath(path,paint);
+
         mViewDataBinding.ivImage.setImageBitmap(bitmap);
+
     }
 
     private void setupRecyclerView() {
