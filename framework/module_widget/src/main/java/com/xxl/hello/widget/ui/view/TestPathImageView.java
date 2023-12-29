@@ -1,11 +1,11 @@
 package com.xxl.hello.widget.ui.view;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PointF;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 
@@ -46,7 +46,7 @@ public class TestPathImageView extends AppCompatImageView {
         Paint paint = new Paint();
         paint.setColor(Color.RED);
         paint.setStrokeWidth(5);
-        paint.setStyle(Paint.Style.FILL);
+        paint.setStyle(Paint.Style.STROKE);
 
         Path path = new Path();
 
@@ -57,24 +57,32 @@ public class TestPathImageView extends AppCompatImageView {
         float centerX = rectF.centerX();
         float centerY = rectF.centerY();
 
-       /* path.moveTo(200,700);
-        path.quadTo(50,900,200,910);
-        path.quadTo(350,900,200,700);
-        canvas.drawPath(path,paint);*/
+        PointF controlPointOne = new PointF();
+        PointF controlPointTwo = new PointF();
 
-     /*   path.moveTo(200, 700);
+        controlPointOne.x = centerX - width * 0.5F;
+        controlPointOne.y = centerY + height * 0.5F;
 
-        path.quadTo(350, 500, 200, 490);
-        path.quadTo(50, 500, 200, 700);
-        canvas.drawPath(path, paint);*/
-      /*  path.moveTo(centerX,0);
-        path.quadTo(centerX -width*0.75F,centerY+height*0.45F,centerX,height-10);
-        path.quadTo(centerX  +width*0.75F,centerY+height*0.45F,centerX,0);
-        canvas.drawPath(path,paint);*/
+        controlPointTwo.x = centerX - width * 0.75F;
+        controlPointTwo.y = centerY;
+
+        PointF controlPointThree = new PointF();
+        PointF controlPointFour = new PointF();
+
+        controlPointThree.x = centerX + width * 0.5F;
+        controlPointThree.y = centerY + height * 0.5F;
+
+        controlPointFour.x = centerX + width * 0.75F;
+        controlPointFour.y = centerY;
 
         path.moveTo(centerX, height);
-        path.quadTo(centerX - width * 0.75F, centerY - height * 0.45F, centerX, 10);
-        path.quadTo(centerX + width * 0.75F, centerY - height * 0.45F, centerX, height);
+        path.cubicTo(controlPointOne.x, controlPointOne.y, controlPointTwo.x, controlPointTwo.y, centerX, 10);
+
+        path.moveTo(centerX, height);
+        path.cubicTo(controlPointThree.x, controlPointThree.y, controlPointFour.x, controlPointFour.y, centerX, 10);
+
+        canvas.drawCircle(controlPointOne.x, controlPointOne.y, 10, paint);
+        canvas.drawCircle(controlPointTwo.x, controlPointTwo.y, 10, paint);
         canvas.drawPath(path, paint);
     }
 
