@@ -75,10 +75,10 @@ public class TestPathImageView extends AppCompatImageView {
         controlPointFour.x = centerX + width * 0.75F;
         controlPointFour.y = centerY;
 
-        path.moveTo(centerX, height);
+        path.moveTo(centerX, height-10);
         path.cubicTo(controlPointOne.x, controlPointOne.y, controlPointTwo.x, controlPointTwo.y, centerX, 10);
 
-        path.moveTo(centerX, height);
+        path.moveTo(centerX, height-10);
         path.cubicTo(controlPointThree.x, controlPointThree.y, controlPointFour.x, controlPointFour.y, centerX, 10);
 
         canvas.drawCircle(controlPointOne.x, controlPointOne.y, 10, paint);
