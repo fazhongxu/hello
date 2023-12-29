@@ -33,7 +33,7 @@ public class TestPathImageView extends AppCompatImageView {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        drawHeartBitmap(canvas);
+        drawWaterBitmap(canvas);
     }
 
     /**
@@ -58,7 +58,7 @@ public class TestPathImageView extends AppCompatImageView {
         // 移动到顶部中心点
         path.moveTo(centerX, centerY - radius * 0.75F);
         // 左半边心 从顶部画到底部 (x1,y1) 为控制点1坐标;(x2,y2) 为控制点2坐标;(x3,y3) 为终点坐标;
-        path.cubicTo(centerX - radius * 0.75F, centerY - radius * 1.2F, centerX - radius * 1.5F, centerY, centerX, centerY+radius*0.85F);
+        path.cubicTo(centerX - radius * 0.75F, centerY - radius * 1.2F, centerX - radius * 1.5F, centerY, centerX, centerY + radius * 0.85F);
 
         // 移动到顶部中心点
         path.moveTo(centerX, centerY - radius * 0.75F);
@@ -95,24 +95,16 @@ public class TestPathImageView extends AppCompatImageView {
         float centerY = rectF.centerY();
         float radius = rectF.width() / 2;
 
-        // 移动到底部中心点
+        // 左边水滴
         path.moveTo(centerX, centerY + radius - 10);
-        // 左半边水滴 从底部画到顶部 (x1,y1) 为控制点1坐标;(x2,y2) 为控制点2坐标;(x3,y3) 为终点坐标;
-        path.cubicTo(centerX - radius, centerY + radius, centerX - radius * 1.5F, centerY, centerX, centerY - radius + 10);
+        path.cubicTo(centerX - radius * 0.7F, centerY + radius, centerX - radius * 1.5F, centerY, centerX, centerY - radius * 0.9F);
 
-        // 右半边水滴
+        // 右边水滴
         path.moveTo(centerX, centerY + radius - 10);
-        path.cubicTo(centerX + radius, centerY + radius, centerX + radius * 1.5F, centerY, centerX, centerY - radius + 10);
-
-        // 左半边水滴控制点，为了方便看控制点位置，方便调整形状
-        canvas.drawCircle(centerX - radius, centerY + radius, 10, paint);
-        canvas.drawCircle(centerX - radius * 1.5F, centerY, 10, paint);
-
-        // 右半边水滴控制点
-        canvas.drawCircle(centerX + radius, centerY + radius, 10, paint);
-        canvas.drawCircle(centerX + radius * 1.5F, centerY, 10, paint);
+        path.cubicTo(centerX + radius * 0.7F, centerY + radius, centerX + radius * 1.5F, centerY, centerX, centerY - radius * 0.9F);
 
         canvas.drawPath(path, paint);
+
     }
 
     /**
