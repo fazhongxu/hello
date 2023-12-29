@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.PointF;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 
@@ -50,29 +49,28 @@ public class TestPathImageView extends AppCompatImageView {
 
         Path path = new Path();
 
-        int width = getWidth();
-        int height = getHeight();
+        RectF rectF = new RectF(0, 0, getWidth(), getHeight());
 
-        RectF rectF = new RectF(0, 0, width, height);
         float centerX = rectF.centerX();
         float centerY = rectF.centerY();
+        float radius = rectF.width() / 2;
 
         // 移动到底部中心点
-        path.moveTo(centerX, height - 10);
+        path.moveTo(centerX, centerY + radius - 10);
         // 左半边水滴 从底部画到顶部 (x1,y1) 为控制点1坐标;(x2,y2) 为控制点2坐标;(x3,y3) 为终点坐标;
-        path.cubicTo(centerX - width * 0.5F, centerY + height * 0.5F, centerX - width * 0.75F, centerY, centerX, 10);
+        path.cubicTo(centerX - radius, centerY + radius, centerX - radius * 1.5F, centerY, centerX, centerY - radius + 10);
 
-        // 移动到底部中心点
-        path.moveTo(centerX, height - 10);
-        // 右半边水滴 从底部画到顶部
-        path.cubicTo(centerX + width * 0.5F, centerY + height * 0.5F, centerX + width * 0.75F, centerY, centerX, 10);
+        // 右半边水滴
+        path.moveTo(centerX, centerY + radius - 10);
+        path.cubicTo(centerX + radius, centerY + radius, centerX + radius * 1.5F, centerY, centerX, centerY - radius + 10);
 
         // 左半边水滴控制点，为了方便看控制点位置，方便调整形状
-        canvas.drawCircle(centerX - width * 0.5F, centerY + height * 0.5F, 10, paint);
-        canvas.drawCircle(centerX - width * 0.75F, centerY, 10, paint);
+        canvas.drawCircle(centerX - radius, centerY + radius, 10, paint);
+        canvas.drawCircle(centerX - radius * 1.5F, centerY, 10, paint);
+
         // 右半边水滴控制点
-        canvas.drawCircle(centerX + width * 0.5F, centerY + height * 0.5F, 10, paint);
-        canvas.drawCircle(centerX + width * 0.75F, centerY, 10, paint);
+        canvas.drawCircle(centerX + radius, centerY + radius, 10, paint);
+        canvas.drawCircle(centerX + radius * 1.5F, centerY, 10, paint);
 
         canvas.drawPath(path, paint);
     }
