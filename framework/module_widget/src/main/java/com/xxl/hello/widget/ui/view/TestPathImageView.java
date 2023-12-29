@@ -57,32 +57,23 @@ public class TestPathImageView extends AppCompatImageView {
         float centerX = rectF.centerX();
         float centerY = rectF.centerY();
 
-        PointF controlPointOne = new PointF();
-        PointF controlPointTwo = new PointF();
+        // 移动到底部中心点
+        path.moveTo(centerX, height - 10);
+        // 左半边水滴 从底部画到顶部 (x1,y1) 为控制点1坐标;(x2,y2) 为控制点2坐标;(x3,y3) 为终点坐标;
+        path.cubicTo(centerX - width * 0.5F, centerY + height * 0.5F, centerX - width * 0.75F, centerY, centerX, 10);
 
-        controlPointOne.x = centerX - width * 0.5F;
-        controlPointOne.y = centerY + height * 0.5F;
+        // 移动到底部中心点
+        path.moveTo(centerX, height - 10);
+        // 右半边水滴 从底部画到顶部
+        path.cubicTo(centerX + width * 0.5F, centerY + height * 0.5F, centerX + width * 0.75F, centerY, centerX, 10);
 
-        controlPointTwo.x = centerX - width * 0.75F;
-        controlPointTwo.y = centerY;
+        // 左半边水滴控制点，为了方便看控制点位置，方便调整形状
+        canvas.drawCircle(centerX - width * 0.5F, centerY + height * 0.5F, 10, paint);
+        canvas.drawCircle(centerX - width * 0.75F, centerY, 10, paint);
+        // 右半边水滴控制点
+        canvas.drawCircle(centerX + width * 0.5F, centerY + height * 0.5F, 10, paint);
+        canvas.drawCircle(centerX + width * 0.75F, centerY, 10, paint);
 
-        PointF controlPointThree = new PointF();
-        PointF controlPointFour = new PointF();
-
-        controlPointThree.x = centerX + width * 0.5F;
-        controlPointThree.y = centerY + height * 0.5F;
-
-        controlPointFour.x = centerX + width * 0.75F;
-        controlPointFour.y = centerY;
-
-        path.moveTo(centerX, height-10);
-        path.cubicTo(controlPointOne.x, controlPointOne.y, controlPointTwo.x, controlPointTwo.y, centerX, 10);
-
-        path.moveTo(centerX, height-10);
-        path.cubicTo(controlPointThree.x, controlPointThree.y, controlPointFour.x, controlPointFour.y, centerX, 10);
-
-        canvas.drawCircle(controlPointOne.x, controlPointOne.y, 10, paint);
-        canvas.drawCircle(controlPointTwo.x, controlPointTwo.y, 10, paint);
         canvas.drawPath(path, paint);
     }
 
