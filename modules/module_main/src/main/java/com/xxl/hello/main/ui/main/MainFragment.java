@@ -3,11 +3,6 @@ package com.xxl.hello.main.ui.main;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Path;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -211,28 +206,6 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
         mMainViewModel.setObservableUserId(String.valueOf(TimeUtils.currentServiceTimeMillis()));
         setupRecord();
         setupRecyclerView();
-    }
-
-    private void drawBitmap() {
-        Bitmap bitmap = Bitmap.createBitmap(200, 200, Bitmap.Config.ARGB_8888);
-
-        Canvas canvas = new Canvas(bitmap);
-
-        Paint paint = new Paint();
-        paint.setColor(Color.RED);
-        paint.setStrokeWidth(5);
-        paint.setStyle(Paint.Style.STROKE);
-
-        Path path = new Path();
-
-        path.moveTo(10, 10);
-        path.lineTo(100, 100);  // 添加一条直线
-
-
-        canvas.drawPath(path,paint);
-
-        mViewDataBinding.ivImage.setImageBitmap(bitmap);
-
     }
 
     private void setupRecyclerView() {
