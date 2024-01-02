@@ -69,6 +69,15 @@ public final class RomUtils {
     }
 
     /**
+     * Return whether the rom is made by honor.
+     *
+     * @return
+     */
+    public static boolean isHonorDevice() {
+        return Build.MANUFACTURER.equalsIgnoreCase("HONOR");
+    }
+
+    /**
      * Return whether the rom is made by vivo.
      *
      * @return {@code true}: yes<br>{@code false}: no

@@ -96,12 +96,16 @@ public class TestPathImageView extends AppCompatImageView {
         float radius = rectF.width() / 2;
 
         // 左边水滴
-        path.moveTo(centerX, centerY + radius - 10);
-        path.cubicTo(centerX - radius * 0.7F, centerY + radius, centerX - radius * 1.5F, centerY, centerX, centerY - radius * 0.9F);
+        path.moveTo(centerX, centerY + radius *0.9F);
+        path.cubicTo(centerX - radius * 0.7F, centerY + radius*0.9F, centerX - radius * 1.5F, centerY, centerX, centerY - radius * 0.9F);
 
         // 右边水滴
-        path.moveTo(centerX, centerY + radius - 10);
-        path.cubicTo(centerX + radius * 0.7F, centerY + radius, centerX + radius * 1.5F, centerY, centerX, centerY - radius * 0.9F);
+        path.moveTo(centerX, centerY + radius *0.9F);
+        path.cubicTo(centerX + radius * 0.7F, centerY + radius*0.9F, centerX + radius * 1.5F, centerY, centerX, centerY - radius * 0.9F);
+
+//        canvas.drawCircle(centerX, centerY + radius *0.9F,10,paint);
+        canvas.drawCircle(centerX - radius * 0.7F, centerY + radius*0.8F,10,paint);
+        canvas.drawCircle(centerX - radius * 1.5F, centerY,10,paint);
 
         canvas.drawPath(path, paint);
 
