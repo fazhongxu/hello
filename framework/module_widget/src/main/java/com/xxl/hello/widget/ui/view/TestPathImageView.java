@@ -65,9 +65,11 @@ public class TestPathImageView extends AppCompatImageView {
 
         // 重新指定bitmap宽高
         Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, getWidth() / 2, getHeight() / 2, false);
-        // 旋转45度 以bitmap中心坐标为原点
         Rect rect = new Rect(0,0,getWidth()/2,getHeight()/2);
-        matrix.setRotate(45,rect.centerX(),rect.centerY());
+        // 旋转45度 以bitmap中心坐标为原点
+        matrix.preRotate(45,rect.centerX(),rect.centerY());
+        // 缩小 以bitmap中心坐标为原点
+        matrix.preScale(0.6F,0.6F,rect.centerX(),rect.centerY());
         canvas.drawBitmap(scaledBitmap, matrix, null);
 
         // src 要裁剪的bitmap的区域（需要裁剪原图的某个区域，比如左上角，宽高），null则表示需要绘制整个图片
