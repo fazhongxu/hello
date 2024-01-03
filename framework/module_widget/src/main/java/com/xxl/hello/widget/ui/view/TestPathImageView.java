@@ -1,16 +1,21 @@
 package com.xxl.hello.widget.ui.view;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
+
+import com.xxl.hello.widget.R;
+import com.xxl.kit.ImageUtils;
 
 /**
  * @author xxl.
@@ -33,7 +38,38 @@ public class TestPathImageView extends AppCompatImageView {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        drawWaterBitmap(canvas);
+        drawBitmap(canvas);
+    }
+
+    /**
+     * 画图片
+     * https://blog.csdn.net/hanxiongwei/article/details/103686476
+     *
+     * @param canvas
+     */
+    private void drawBitmap(Canvas canvas) {
+        Paint paint = new Paint();
+        paint.setAntiAlias(true);
+        paint.setFilterBitmap(true);
+
+        Bitmap bitmap = ImageUtils.getBitmap(R.drawable.resources_ic_app_white_logo);
+        // 绘制一个left 左边偏移量 top 上边偏移量
+        canvas.drawBitmap(bitmap, 10, 10, paint);
+
+        // src 要裁剪的bitmap的区域（需要裁剪原图的某个区域，比如左上角，宽高），null则表示需要绘制整个图片
+        // dst 表示需要绘制bitmap的矩形区域
+        // 把这个图片画到右上角4分之1区域内（避免和下面的遮挡，留10像素的间隔区域）
+        canvas.drawBitmap(bitmap, null, new Rect(getWidth() / 2, 10, getWidth() - 10, (getHeight() / 2) - 10), null);
+
+        // 先裁剪再展示 取图片的左上角4分之1区域，绘制到右下角4分之1区域
+        canvas.drawBitmap(bitmap, new Rect(0, 0, bitmap.getWidth() / 2, bitmap.getHeight() / 2), new Rect(getWidth() / 2, getHeight() / 2, getWidth(), getHeight()), null);
+
+        // 裁剪再展示 取图片4分之1中间区域，绘制到左下角4分之1区域
+        int cropBitmapWidth = bitmap.getWidth() / 4;
+
+        Rect srcRect = new Rect(bitmap.getWidth() / 2 - cropBitmapWidth, bitmap.getHeight() / 2 - cropBitmapWidth, bitmap.getWidth() / 2 + cropBitmapWidth, bitmap.getHeight() / 2 + cropBitmapWidth);
+        Rect dstRect = new Rect(0, getHeight() / 2, getWidth() / 2 - 10, getHeight() - 10);
+        canvas.drawBitmap(bitmap, srcRect, dstRect, null);
     }
 
     /**
@@ -96,16 +132,16 @@ public class TestPathImageView extends AppCompatImageView {
         float radius = rectF.width() / 2;
 
         // 左边水滴
-        path.moveTo(centerX, centerY + radius *0.9F);
-        path.cubicTo(centerX - radius * 0.7F, centerY + radius*0.9F, centerX - radius * 1.5F, centerY, centerX, centerY - radius * 0.9F);
+        path.moveTo(centerX, centerY + radius * 0.9F);
+        path.cubicTo(centerX - radius * 0.7F, centerY + radius * 0.9F, centerX - radius * 1.5F, centerY, centerX, centerY - radius * 0.9F);
 
         // 右边水滴
-        path.moveTo(centerX, centerY + radius *0.9F);
-        path.cubicTo(centerX + radius * 0.7F, centerY + radius*0.9F, centerX + radius * 1.5F, centerY, centerX, centerY - radius * 0.9F);
+        path.moveTo(centerX, centerY + radius * 0.9F);
+        path.cubicTo(centerX + radius * 0.7F, centerY + radius * 0.9F, centerX + radius * 1.5F, centerY, centerX, centerY - radius * 0.9F);
 
 //        canvas.drawCircle(centerX, centerY + radius *0.9F,10,paint);
-        canvas.drawCircle(centerX - radius * 0.7F, centerY + radius*0.8F,10,paint);
-        canvas.drawCircle(centerX - radius * 1.5F, centerY,10,paint);
+        canvas.drawCircle(centerX - radius * 0.7F, centerY + radius * 0.8F, 10, paint);
+        canvas.drawCircle(centerX - radius * 1.5F, centerY, 10, paint);
 
         canvas.drawPath(path, paint);
 
