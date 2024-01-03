@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
@@ -54,7 +55,13 @@ public class TestPathImageView extends AppCompatImageView {
 
         Bitmap bitmap = ImageUtils.getBitmap(R.drawable.resources_ic_app_white_logo);
         // 绘制一个left 左边偏移量 top 上边偏移量
-        canvas.drawBitmap(bitmap, 10, 10, paint);
+        //canvas.drawBitmap(bitmap, 10, 10, paint);
+
+        Matrix matrix = new Matrix();
+        //preTranslate 可以叠加，如果不用pre 使用 setTranslate 则效果不叠加
+        //matrix.preTranslate(10, 10);
+        matrix.setRotate(45);
+        canvas.drawBitmap(bitmap, matrix, null);
 
         // src 要裁剪的bitmap的区域（需要裁剪原图的某个区域，比如左上角，宽高），null则表示需要绘制整个图片
         // dst 表示需要绘制bitmap的矩形区域
