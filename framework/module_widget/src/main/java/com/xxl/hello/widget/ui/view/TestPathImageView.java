@@ -60,8 +60,15 @@ public class TestPathImageView extends AppCompatImageView {
         Matrix matrix = new Matrix();
         //preTranslate 可以叠加，如果不用pre 使用 setTranslate 则效果不叠加
         //matrix.preTranslate(10, 10);
-        matrix.setRotate(45);
-        canvas.drawBitmap(bitmap, matrix, null);
+        //matrix.setRotate(45);
+        //canvas.drawBitmap(bitmap, matrix, null);
+
+        // 重新指定bitmap宽高
+        Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, getWidth() / 2, getHeight() / 2, false);
+        // 旋转45度 以bitmap中心坐标为原点
+        Rect rect = new Rect(0,0,getWidth()/2,getHeight()/2);
+        matrix.setRotate(45,rect.centerX(),rect.centerY());
+        canvas.drawBitmap(scaledBitmap, matrix, null);
 
         // src 要裁剪的bitmap的区域（需要裁剪原图的某个区域，比如左上角，宽高），null则表示需要绘制整个图片
         // dst 表示需要绘制bitmap的矩形区域
