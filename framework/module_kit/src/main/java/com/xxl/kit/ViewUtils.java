@@ -2,11 +2,15 @@ package com.xxl.kit;
 
 import android.app.Activity;
 import android.graphics.Rect;
+import android.os.Build;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.annotation.StringRes;
+
+import com.xxl.view.RectCornerViewOutlineProvider;
 
 /**
  * View 相关工具类 findViewById,设置padding,margin,背景色，文本，获取layoutParams等
@@ -70,6 +74,22 @@ public final class ViewUtils {
             return;
         }
         targetView.setVisibility(visibility);
+    }
+
+    /**
+     * set view corner
+     *
+     * @param targetView
+     * @param radius
+     */
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public static void setViewCorner(View targetView, int radius) {
+        try {
+            targetView.setOutlineProvider(RectCornerViewOutlineProvider.obtain(radius));
+            targetView.setClipToOutline(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
