@@ -381,6 +381,15 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     }
 
     private void setupRecord() {
+        mViewDataBinding.tvDeleteLatest.setOnClickListener(v -> {
+            AudioCapture.getInstance().deleteLastAudioFile();
+            List<String> audioFiles = AudioCapture.getInstance().getAudioFiles();
+            ToastUtils.success("删除最后一条录音成功 " + ListUtils.getSize(audioFiles)).show();
+        });
+        mViewDataBinding.tvComplete.setOnClickListener(v -> {
+            List<String> audioFiles = AudioCapture.getInstance().getAudioFiles();
+            ToastUtils.success("完成录音 " + ListUtils.getSize(audioFiles)).show();
+        });
         RecordButton recordButton = mViewDataBinding.recordBtn;
         mViewDataBinding.recordBtn.setOnClickListener(v -> {
             final RxPermissions rxPermissions = new RxPermissions(this);
@@ -408,7 +417,8 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
             public void onButtonRecordStart() {
                 AudioCapture.getInstance()
                         .setAudioRecordFormat(AudioRecordFormat.MP3)
-                        .setOutFilePath(CacheDirConfig.SHARE_FILE_DIR)
+                        .setOutFilePath(CacheDirConfig.SHARE_MUSIC_FILE_DIR)
+                        .setMultiRecord(true)
                         .setOnAudioFrameCapturedListener(MainFragment.this)
                         .startCapture();
             }

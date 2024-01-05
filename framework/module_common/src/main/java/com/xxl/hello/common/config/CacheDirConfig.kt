@@ -26,10 +26,16 @@ class CacheDirConfig private constructor() {
         val COMPRESSION_FILE_DIR = PathUtils.getAppExtCachePath() + "/.compression_file_dir"
 
         /**
-         * 分享缓存文件夹
+         * 分享缓存文件夹（图片/视频）
          */
         @JvmField
         val SHARE_FILE_DIR = PathUtils.getExtPicturesPath() + File.separator + "hello_share"
+
+        /**
+         * 分享缓存文件夹(音频）
+         */
+        @JvmField
+        val SHARE_MUSIC_FILE_DIR = PathUtils.getAppExtMusicPath() + File.separator + "hello_music_share"
 
         /**
          * Tbs缓存文件夹

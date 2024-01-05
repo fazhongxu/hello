@@ -13,11 +13,14 @@ import androidx.annotation.Nullable;
 
 import com.xxl.kit.FFmpegUtils;
 import com.xxl.kit.FileUtils;
+import com.xxl.kit.ListUtils;
 import com.xxl.kit.LogUtils;
 import com.xxl.kit.TimeUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 音频采集类
@@ -76,6 +79,16 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
      * 音频文件 mp3
      */
     private File mAudioMp3File;
+
+    /**
+     * 是否支持多段录制
+     */
+    private boolean mMultiRecord;
+
+    /**
+     * 音频文件路径（支持多段录制使用）
+     */
+    private List<String> mAudioPaths;
 
     /**
      * 输出的音频流
@@ -167,6 +180,65 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
     public AudioCapture setOutFilePath(@NonNull final String filePath) {
         this.mOutFilePath = filePath;
         return this;
+    }
+
+    /**
+     * 设置支持多段录制
+     *
+     * @param isMultiRecord
+     * @return
+     */
+    public AudioCapture setMultiRecord(final boolean isMultiRecord) {
+        mMultiRecord = isMultiRecord;
+        if (isMultiRecord && mAudioPaths == null) {
+            mAudioPaths = new ArrayList<>();
+        }
+        return this;
+    }
+
+    /**
+     * 获取录音文件(支持多段录制时才会有值）
+     *
+     * @return
+     */
+    public List<String> getAudioFiles() {
+        return mAudioPaths;
+    }
+
+    /**
+     * 合并音频文件
+     *
+     * @return 返回合并后的音频文件路径
+     */
+    public String mergeAudioFiles() {
+        // TODO: 2024/1/5 音频合并后是否能继续删除
+        if (!ListUtils.isEmpty(mAudioPaths)) {
+            if (mAudioRecordFormat == AudioRecordFormat.MP3) {
+                FFmpegUtils.concatAudio(mAudioPaths, mAudioMp3File.getAbsolutePath());
+                return mAudioMp3File.getAbsolutePath();
+            } else if (mAudioRecordFormat == AudioRecordFormat.AAC) {
+                //FFmpegUtils.concatAudio(mAudioPaths, mAudioFile.getAbsolutePath());
+                return mAudioFile.getAbsolutePath();
+            }
+        }
+        return "";
+    }
+
+    /**
+     * 删除最后一个音频文件
+     */
+    public void deleteLastAudioFile() {
+        synchronized (this) {
+            try {
+                if (ListUtils.getSize(mAudioPaths) > 0) {
+                    String targetPath = mAudioPaths.remove(ListUtils.getSize(mAudioPaths) - 1);
+                    FileUtils.deleteFile(targetPath);
+                    LogUtils.d(TAG, "deleteLastAudioFile: " + " path " + targetPath + "  " + mAudioPaths.size());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public boolean startCapture() {
@@ -323,6 +395,7 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
             if (mCountDownTimer != null) {
                 mCountDownTimer.cancel();
             }
+            clearAudioFiles();
         } catch (Throwable e) {
             LogUtils.e(TAG, "AudioRecord release");
         }
@@ -344,6 +417,10 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
         }
 
         mAudioFrameCapturedListener = null;
+
+        if (mMultiRecord) {
+            putAudioFile(outAudioFile);
+        }
 
         LogUtils.d(TAG, "Stop audio capture success !");
     }
@@ -411,6 +488,47 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
             e.printStackTrace();
         }
         return mAudioOutputStream;
+    }
+
+    /**
+     * 添加音频文件
+     *
+     * @param outAudioFile
+     */
+    private void putAudioFile(final File outAudioFile) {
+        synchronized (this) {
+            try {
+                if (outAudioFile == null) {
+                    return;
+                }
+                if (mAudioPaths != null) {
+                    mAudioPaths.add(outAudioFile.getAbsolutePath());
+                }
+                LogUtils.d(TAG, "putAudioFile: " + outAudioFile.getAbsolutePath() + "  " + mAudioPaths.size());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * 清除音频文件
+     */
+    private void clearAudioFiles() {
+        synchronized (this) {
+            try {
+                if (mMultiRecord && !ListUtils.isEmpty(mAudioPaths)) {
+                    for (String audioPath : mAudioPaths) {
+                        FileUtils.deleteFile(audioPath);
+                    }
+                    LogUtils.d(TAG, "clearAudioFiles: " + mAudioPaths.size());
+                    mAudioPaths.clear();
+                    mAudioPaths = null;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     //endregion
