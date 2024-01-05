@@ -54,6 +54,7 @@ import com.xxl.kit.OnAppStatusChangedListener;
 import com.xxl.kit.OnRequestCallBack;
 import com.xxl.kit.ResourceUtils;
 import com.xxl.kit.StringUtils;
+import com.xxl.kit.ThreadUtils;
 import com.xxl.kit.TimeUtils;
 import com.xxl.kit.ToastUtils;
 
@@ -388,7 +389,19 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
         });
         mViewDataBinding.tvComplete.setOnClickListener(v -> {
             List<String> audioFiles = AudioCapture.getInstance().getAudioFiles();
-            ToastUtils.success("完成录音 " + ListUtils.getSize(audioFiles)).show();
+
+            AudioCapture.getInstance().mergeAudioFiles(new OnRequestCallBack<String>() {
+                @Override
+                public void onSuccess(@Nullable String path) {
+                    ThreadUtils.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            ToastUtils.success("完成录音 " + path + " " + ListUtils.getSize(audioFiles)).show();
+                        }
+                    });
+                }
+            });
+
         });
         RecordButton recordButton = mViewDataBinding.recordBtn;
         mViewDataBinding.recordBtn.setOnClickListener(v -> {

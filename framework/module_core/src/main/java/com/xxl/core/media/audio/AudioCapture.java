@@ -11,10 +11,13 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.arthenica.ffmpegkit.FFmpegSession;
+import com.xxl.core.utils.ThreadExpandUtils;
 import com.xxl.kit.FFmpegUtils;
 import com.xxl.kit.FileUtils;
 import com.xxl.kit.ListUtils;
 import com.xxl.kit.LogUtils;
+import com.xxl.kit.OnRequestCallBack;
 import com.xxl.kit.TimeUtils;
 
 import java.io.File;
@@ -210,18 +213,32 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
      *
      * @return 返回合并后的音频文件路径
      */
-    public String mergeAudioFiles() {
-        // TODO: 2024/1/5 音频合并后是否能继续删除
-        if (!ListUtils.isEmpty(mAudioPaths)) {
-            if (mAudioRecordFormat == AudioRecordFormat.MP3) {
-                FFmpegUtils.concatAudio(mAudioPaths, mAudioMp3File.getAbsolutePath());
-                return mAudioMp3File.getAbsolutePath();
-            } else if (mAudioRecordFormat == AudioRecordFormat.AAC) {
-                //FFmpegUtils.concatAudio(mAudioPaths, mAudioFile.getAbsolutePath());
-                return mAudioFile.getAbsolutePath();
+    public void mergeAudioFiles(@NonNull final OnRequestCallBack<String> callBack) {
+        final Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                if (!ListUtils.isEmpty(mAudioPaths)) {
+                    if (mAudioRecordFormat == AudioRecordFormat.MP3) {
+                        File audioFile = createAudioMp3File();
+                        FFmpegSession ffmpegSession = FFmpegUtils.concatAudio(mAudioPaths,audioFile.getAbsolutePath());
+                        if (ffmpegSession.getReturnCode().isValueSuccess()) {
+                            callBack.onSuccess(audioFile.getAbsolutePath());
+                        } else {
+                            callBack.onFailure(new Throwable("音频文件合并失败"));
+                        }
+                    } else if (mAudioRecordFormat == AudioRecordFormat.AAC) {
+                        File audioFile = createAudioAACFile();
+                        FFmpegSession ffmpegSession = FFmpegUtils.concatAudio(mAudioPaths, audioFile.getAbsolutePath());
+                        if (ffmpegSession.getReturnCode().isValueSuccess()) {
+                            callBack.onSuccess(audioFile.getAbsolutePath());
+                        } else {
+                            callBack.onFailure(new Throwable("音频文件合并失败"));
+                        }
+                    }
+                }
             }
-        }
-        return "";
+        };
+        ThreadExpandUtils.createDefaultThreadPoolExecutor().execute(runnable);
     }
 
     /**
