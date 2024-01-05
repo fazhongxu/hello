@@ -429,7 +429,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
             @Override
             public void onButtonRecordStart() {
                 AudioCapture.getInstance()
-                        .setAudioRecordFormat(AudioRecordFormat.MP3)
+                        .setAudioRecordFormat(AudioRecordFormat.AAC)
                         .setOutFilePath(CacheDirConfig.SHARE_MUSIC_FILE_DIR)
                         .setMultiRecord(true)
                         .setOnAudioFrameCapturedListener(MainFragment.this)

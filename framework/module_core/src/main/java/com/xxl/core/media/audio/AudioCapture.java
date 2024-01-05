@@ -220,7 +220,7 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
                 if (!ListUtils.isEmpty(mAudioPaths)) {
                     if (mAudioRecordFormat == AudioRecordFormat.MP3) {
                         File audioFile = createAudioMp3File();
-                        FFmpegSession ffmpegSession = FFmpegUtils.concatAudio(mAudioPaths,audioFile.getAbsolutePath());
+                        FFmpegSession ffmpegSession = FFmpegUtils.concatAudio(mAudioPaths, audioFile.getAbsolutePath());
                         if (ffmpegSession.getReturnCode().isValueSuccess()) {
                             callBack.onSuccess(audioFile.getAbsolutePath());
                         } else {
@@ -280,7 +280,9 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
             throw new IllegalArgumentException("必须设置音频文件输出路径！");
         }
         mAudioFile = createAudioAACFile();
-        mAudioMp3File = createAudioMp3File();
+        if (mAudioRecordFormat == AudioRecordFormat.MP3) {
+            mAudioMp3File = createAudioMp3File();
+        }
         mAudioOutputStream = createFileOutputStream();
 
         if (mPcmEncoderAac == null || mPcmEncoderAac.getSampleRate() != sampleRateInHz) {
