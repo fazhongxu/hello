@@ -60,23 +60,14 @@ public final class LogUtils {
     }
 
     public static void i(@NonNull final String message, Object... objects) {
-        if (!sIsDebug) {
-            return;
-        }
         Logger.i(message, objects);
     }
 
     public static void d(@NonNull final String message, Object... objects) {
-        if (!sIsDebug) {
-            return;
-        }
         Logger.d(message, objects);
     }
 
     public static void d(@NonNull final String message, boolean printStack) {
-        if (!sIsDebug) {
-            return;
-        }
         if (printStack) {
             Logger.d(String.format("%s %s", getStackTrace(new Exception()), message));
             return;
@@ -85,16 +76,10 @@ public final class LogUtils {
     }
 
     public static void w(@NonNull final String message, Object... objects) {
-        if (!sIsDebug) {
-            return;
-        }
         Logger.w(message, objects);
     }
 
     public static void e(@NonNull final String message, Object... objects) {
-        if (!sIsDebug) {
-            return;
-        }
         if (TextUtils.isEmpty(message)) {
             return;
         }
@@ -102,9 +87,6 @@ public final class LogUtils {
     }
 
     public static void e(@NonNull final Object object, Object... objects) {
-        if (!sIsDebug) {
-            return;
-        }
         if (object instanceof String) {
             Logger.e((String) object);
         } else {
