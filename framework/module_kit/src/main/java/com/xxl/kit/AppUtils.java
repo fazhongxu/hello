@@ -247,7 +247,7 @@ public class AppUtils {
      *
      * @return
      */
-    private String getChannelFromAndroidManifest() {
+    public static String getChannelFromAndroidManifest() {
         String metaChannel = "";
         try {
             ApplicationInfo info = AppUtils.getApplication().getPackageManager().getApplicationInfo(AppUtils.getApplication().getPackageName(), PackageManager.GET_META_DATA);

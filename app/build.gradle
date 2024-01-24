@@ -60,6 +60,11 @@ android {
             manifestPlaceholders = [CHANNEL: "oppo"]
             dimension = "channel"
         }
+
+        normal {
+            manifestPlaceholders = [CHANNEL: ""]
+            dimension = "channel"
+        }
     }
 
     buildTypes {

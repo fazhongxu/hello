@@ -230,6 +230,9 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
     @Override
     public void onTestClick() {
+        String channel = AppUtils.getChannelFromAndroidManifest();
+        ToastUtils.success(channel).show();
+
         UserRouterApi.Login.newBuilder().navigation(getActivity());
     }
 
