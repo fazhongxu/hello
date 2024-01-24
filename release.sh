@@ -6,4 +6,5 @@
 #如果提示permission denied，使用命令 chmod u+x release.sh先获取release.sh文件访问权限，再执行./release.sh 命令打包
 #-----------------------------------------------------------------------------------------------------------
 ./gradlew resguardRelease
+#./gradlew resguardHuaweiRelease 如果需要华为渠道，可以把这个放开，可同时打华为渠道包,oppo resguardOppoRelease 一样
 #./gradlew app:resguardRelease 如果一个项目有多个app，加上app的项目名称即可

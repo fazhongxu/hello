@@ -243,13 +243,32 @@ public class AppUtils {
     }
 
     /**
+     * 从清单文件获取渠道信息
+     *
+     * @return
+     */
+    private String getChannelFromAndroidManifest() {
+        String metaChannel = "";
+        try {
+            ApplicationInfo info = AppUtils.getApplication().getPackageManager().getApplicationInfo(AppUtils.getApplication().getPackageName(), PackageManager.GET_META_DATA);
+            if (info == null || info.metaData == null) {
+                return metaChannel;
+            }
+            metaChannel = info.metaData.getString("channel");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return metaChannel;
+    }
+
+    /**
      * 判断是否有最新版本
      *
      * @param onLineVersionName
      * @return
      */
     public static boolean isNewAppVersion(@NonNull final String onLineVersionName) {
-        return isNewAppVersion(getAppVersionName(),onLineVersionName);
+        return isNewAppVersion(getAppVersionName(), onLineVersionName);
     }
 
     /**
