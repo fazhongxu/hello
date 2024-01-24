@@ -50,19 +50,21 @@ android {
 
     // 多渠道
     flavorDimensions "channel"
+
     productFlavors {
+        origin {
+            manifestPlaceholders = [CHANNEL: "origin"]
+            dimension = "channel"
+        }
+
         huawei {
             manifestPlaceholders = [CHANNEL: "huawei"]
             dimension = "channel"
             //AppUtils#getChannelFromAndroidManifest 获取设置的渠道，或者 buildConfigField("String","CHANNEL","\"huawei\"") 配置
         }
+
         oppo {
             manifestPlaceholders = [CHANNEL: "oppo"]
-            dimension = "channel"
-        }
-
-        normal {
-            manifestPlaceholders = [CHANNEL: ""]
             dimension = "channel"
         }
     }
