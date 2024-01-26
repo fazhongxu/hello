@@ -55,12 +55,12 @@ android {
         origin {
             manifestPlaceholders = [CHANNEL: "origin"]
             dimension = "channel"
+            //清单文件配置mata-data channel,AppUtils#getChannelFromAndroidManifest 获取设置的渠道，或者 buildConfigField("String","CHANNEL","\"origin\"") 配置
         }
 
         huawei {
             manifestPlaceholders = [CHANNEL: "huawei"]
             dimension = "channel"
-            //AppUtils#getChannelFromAndroidManifest 获取设置的渠道，或者 buildConfigField("String","CHANNEL","\"huawei\"") 配置
         }
 
         oppo {
