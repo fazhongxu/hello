@@ -111,9 +111,9 @@
             tools:replace="android:configChanges" />
 
         <!--设置多渠道-->
-        <meta-data
+        <!--<meta-data
             android:name="channel"
-            android:value="${CHANNEL}" />
+            android:value="${CHANNEL}" />-->
 
         <!-- auto size 屏幕适配-->
         <meta-data

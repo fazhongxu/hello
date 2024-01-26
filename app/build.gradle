@@ -49,7 +49,7 @@ android {
     }
 
     // 多渠道
-    flavorDimensions "channel"
+  /*  flavorDimensions "channel"
 
     productFlavors {
         origin {
@@ -67,7 +67,7 @@ android {
             manifestPlaceholders = [CHANNEL: "oppo"]
             dimension = "channel"
         }
-    }
+    }*/
 
     buildTypes {
         debug {
