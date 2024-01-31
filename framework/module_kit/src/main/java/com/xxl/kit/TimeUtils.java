@@ -745,11 +745,11 @@ public class TimeUtils {
     }
 
     /**
-     * 清空时间戳的十、分、秒、毫秒
+     * 获取当天零点时刻时间戳
      *
      * @return
      */
-    private static long getWeeOfToday() {
+    public static long getWeeOfToday() {
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.HOUR_OF_DAY, 0);
         cal.set(Calendar.SECOND, 0);
