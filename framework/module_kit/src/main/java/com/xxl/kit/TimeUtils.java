@@ -1187,6 +1187,111 @@ public class TimeUtils {
     }
 
     /**
+     * Return whether it is yesterday.
+     *
+     * @param millis The milliseconds.
+     * @return {@code true}: yes<br>{@code false}: no
+     */
+    public static boolean isYesterday(final long millis) {
+        long wee = getWeeOfToday();
+        return millis >= wee && millis < wee - TimeConstants.DAY;
+    }
+
+    /**
+     * Return whether it is current year.
+     *
+     * @param millis The milliseconds.
+     * @return {@code true}: yes<br>{@code false}: no
+     */
+    public static boolean isCurrentYear(final long millis) {
+        Calendar calendar = Calendar.getInstance();
+        int currentYear = calendar.get(Calendar.YEAR);
+        calendar.setTimeInMillis(millis);
+        int targetYear = calendar.get(Calendar.YEAR);
+        return currentYear == targetYear;
+    }
+
+
+    /**
+     * Return whether it is year.
+     *
+     * @param millis The milliseconds.
+     * @return {@code true}: yes<br>{@code false}: no
+     */
+    public static int getYear(final long millis) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(millis);
+        return calendar.get(Calendar.YEAR);
+    }
+
+    /**
+     * Return whether it is month.
+     *
+     * @param millis The milliseconds.
+     * @return {@code true}: yes<br>{@code false}: no
+     */
+    public static int getMonth(final long millis) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(millis);
+        return calendar.get(Calendar.MONTH) + 1;
+    }
+
+    /**
+     * Return whether it is day.
+     *
+     * @param millis The milliseconds.
+     * @return {@code true}: yes<br>{@code false}: no
+     */
+    public static int getDay(final long millis) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(millis);
+        return calendar.get(Calendar.DAY_OF_MONTH);
+    }
+
+    /**
+     * Return whether it is same year and month.
+     *
+     * @param millis1
+     * @param millis2
+     * @return
+     */
+    public static boolean isSameYearMonth(final long millis1,
+                                          final long millis2) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(millis1);
+        int year1 = calendar.get(Calendar.YEAR);
+        int month1 = calendar.get(Calendar.MONTH) + 1;
+
+        calendar.setTimeInMillis(millis2);
+        int year2 = calendar.get(Calendar.YEAR);
+        int month2 = calendar.get(Calendar.MONTH) + 1;
+        return year1 == year2 && month1 == month2;
+    }
+
+    /**
+     * Return whether it is same year , month and day.
+     *
+     * @param millis1
+     * @param millis2
+     * @return
+     */
+    public static boolean isSameYearMonthDay(final long millis1,
+                                             final long millis2) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(millis1);
+        int year1 = calendar.get(Calendar.YEAR);
+        int month1 = calendar.get(Calendar.MONTH) + 1;
+        int day1 = calendar.get(Calendar.DAY_OF_MONTH);
+
+        calendar.setTimeInMillis(millis2);
+        int year2 = calendar.get(Calendar.YEAR);
+        int month2 = calendar.get(Calendar.MONTH) + 1;
+        int day2 = calendar.get(Calendar.DAY_OF_MONTH);
+
+        return year1 == year2 && month1 == month2 && day1 == day2;
+    }
+
+    /**
      * Return whether it is leap year.
      * <p>The pattern is {@code yyyy-MM-dd HH:mm:ss}.</p>
      *
