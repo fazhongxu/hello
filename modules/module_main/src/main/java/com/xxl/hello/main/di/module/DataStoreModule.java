@@ -17,8 +17,8 @@ import com.xxl.hello.service.data.local.db.impl.objectbox.ObjectBoxDataStoreMode
 import com.xxl.hello.service.data.local.prefs.api.UserPreferences;
 import com.xxl.hello.service.di.module.ServiceDataStoreModule;
 import com.xxl.hello.service.qunlifier.ForApplication;
-import com.xxl.hello.service.qunlifier.ForHost;
 import com.xxl.hello.service.qunlifier.ForDebug;
+import com.xxl.hello.service.qunlifier.ForHost;
 import com.xxl.hello.service.qunlifier.ForNetWorkDebug;
 import com.xxl.hello.service.qunlifier.ForNetworkEncryptKey;
 import com.xxl.hello.service.qunlifier.ForOkHttpClient;
@@ -31,11 +31,16 @@ import com.xxl.hello.user.di.module.UserDataStoreModule;
 import com.xxl.hello.widget.di.module.WidgetDataStoreModule;
 import com.xxl.kit.LogUtils;
 
+import java.io.IOException;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
@@ -171,6 +176,21 @@ public class DataStoreModule {
     //region: 构建网络请求相关对象
 
     /**
+     * 常用公共参数拦截器
+     */
+    private class CommonParamsInterceptor implements Interceptor {
+
+        @Override
+        public Response intercept(Chain chain) throws IOException {
+            Request originRequest = chain.request();
+            Request newRequest = originRequest.newBuilder()
+                    .addHeader("xxx", "123")
+                    .build();
+            return chain.proceed(newRequest);
+        }
+    }
+
+    /**
      * 构建 OkHttp
      *
      * @return
@@ -189,6 +209,8 @@ public class DataStoreModule {
             httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
             builder.addNetworkInterceptor(httpLoggingInterceptor);
         }
+
+        builder.addInterceptor(new CommonParamsInterceptor());
 
         //SSLSocketFactory socketFactory = CertificationUtils.getP12SSLSocketFactory(AppUtils.getApplication(), R.raw.xxx, "");
         //X509TrustManager x509TrustManager = CertificationUtils.getX509TrustManager();
