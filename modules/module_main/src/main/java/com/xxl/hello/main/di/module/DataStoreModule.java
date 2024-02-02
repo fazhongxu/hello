@@ -179,12 +179,17 @@ public class DataStoreModule {
      * 常用公共参数拦截器
      */
     private class CommonParamsInterceptor implements Interceptor {
+        private final ApiHeader.PublicApiHeader mPublicApiHeader;
+
+        public CommonParamsInterceptor(@NonNull final ApiHeader.PublicApiHeader publicApiHeader) {
+            mPublicApiHeader = publicApiHeader;
+        }
 
         @Override
         public Response intercept(Chain chain) throws IOException {
             Request originRequest = chain.request();
             Request newRequest = originRequest.newBuilder()
-                    .addHeader("xxx", "123")
+                    .addHeader("xxx", mPublicApiHeader.getUserAgent())
                     .build();
             return chain.proceed(newRequest);
         }
@@ -198,7 +203,8 @@ public class DataStoreModule {
     @ForOkHttpClient
     @Singleton
     @Provides
-    OkHttpClient provideOkHttpClient(@ForDebug boolean isDebug) {
+    OkHttpClient provideOkHttpClient(@ForDebug boolean isDebug,
+                                     @NonNull final ApiHeader.PublicApiHeader publicApiHeader) {
         final OkHttpClient.Builder builder = new OkHttpClient()
                 .newBuilder();
 
@@ -210,7 +216,7 @@ public class DataStoreModule {
             builder.addNetworkInterceptor(httpLoggingInterceptor);
         }
 
-        builder.addInterceptor(new CommonParamsInterceptor());
+        builder.addInterceptor(new CommonParamsInterceptor(publicApiHeader));
 
         //SSLSocketFactory socketFactory = CertificationUtils.getP12SSLSocketFactory(AppUtils.getApplication(), R.raw.xxx, "");
         //X509TrustManager x509TrustManager = CertificationUtils.getX509TrustManager();
