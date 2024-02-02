@@ -1,18 +1,19 @@
-package com.xxl.hello.widget.ui.view;
+package com.xxl.hello.widget.ui.view.combine;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.RectF;
 
 import com.othershe.combinebitmap.layout.ILayoutManager;
 
 /**
- * 支持视频标识的自定义视图管理
+ * 自定义视图管理
  *
  * @author xxl.
  * @date 2024/02/02.
  */
-public class SupportVideoLayoutManager implements ILayoutManager {
+public class CustomLayoutManager implements ILayoutManager {
 
     /**
      * 是否有视频
@@ -29,11 +30,11 @@ public class SupportVideoLayoutManager implements ILayoutManager {
      */
     private Bitmap mVideoBitmap;
 
-    public SupportVideoLayoutManager() {
+    public CustomLayoutManager() {
 
     }
 
-    public SupportVideoLayoutManager(boolean hasVideo, int videoPosition, Bitmap videoBitmap) {
+    public CustomLayoutManager(boolean hasVideo, int videoPosition, Bitmap videoBitmap) {
         mHasVideo = hasVideo;
         mVideoPosition = videoPosition;
         mVideoBitmap = videoBitmap;
@@ -69,7 +70,8 @@ public class SupportVideoLayoutManager implements ILayoutManager {
 
             canvas.drawBitmap(subBitmap, dx * (size + gap) / 2.0f, dy * (size + gap) / 2.0f, null);
             if (mHasVideo && mVideoPosition >= 0 && mVideoPosition == i && mVideoBitmap != null) {
-                canvas.drawBitmap(mVideoBitmap, dx * (size + gap) / 2.0f, dy * (size + gap) / 2.0f, null);
+                RectF rectF = new RectF(dx * (size + gap) / 2.0f, dy * (size + gap) / 2.0f, dx * (size + gap) / 2.0f + subBitmap.getWidth(), dy * (size + gap) / 2.0f + subBitmap.getHeight());
+                canvas.drawBitmap(mVideoBitmap, (int) (rectF.centerX() - mVideoBitmap.getWidth() / 2), (int) (rectF.centerY() - mVideoBitmap.getHeight() / 2), null);
             }
         }
         return result;

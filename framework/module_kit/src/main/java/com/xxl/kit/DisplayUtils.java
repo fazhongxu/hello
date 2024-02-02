@@ -266,6 +266,17 @@ public class DisplayUtils {
         return context.getResources().getDimensionPixelSize(resourceId);
     }
 
+
+    /**
+     * 单位转换: dp -> px
+     *
+     * @param dp
+     * @return
+     */
+    public static int dp2px(int dp) {
+        return dp2px(AppUtils.getApplication(), dp);
+    }
+
     /**
      * 单位转换: dp -> px
      *
@@ -282,8 +293,28 @@ public class DisplayUtils {
      * @param sp
      * @return
      */
+    public static int sp2px(int sp) {
+        return sp2px(AppUtils.getApplication(), sp);
+    }
+
+    /**
+     * 单位转换: sp -> px
+     *
+     * @param sp
+     * @return
+     */
     public static int sp2px(Context context, int sp) {
         return (int) (getFontDensity(context) * sp + 0.5);
+    }
+
+    /**
+     * 单位转换:px -> dp
+     *
+     * @param px
+     * @return
+     */
+    public static int px2dp(int px) {
+        return px2dp(AppUtils.getApplication(), px);
     }
 
     /**
