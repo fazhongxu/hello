@@ -3,8 +3,6 @@ package com.xxl.hello.main.ui.main;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -16,9 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
-import com.othershe.combinebitmap.listener.OnProgressListener;
 import com.tbruyelle.rxpermissions3.RxPermissions;
-import com.watermark.androidwm.utils.BitmapUtils;
 import com.xxl.core.aop.annotation.Safe;
 import com.xxl.core.media.audio.AudioCapture;
 import com.xxl.core.media.audio.AudioCapture.OnAudioFrameCapturedListener;
@@ -47,14 +43,10 @@ import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi;
 import com.xxl.hello.service.handle.api.AppSchemeService;
 import com.xxl.hello.widget.data.router.WidgetRouterApi;
-import com.xxl.hello.widget.ui.view.combine.CombineBitmap;
-import com.xxl.hello.widget.ui.view.combine.CustomLayoutManager;
 import com.xxl.hello.widget.ui.view.record.OnRecordListener;
 import com.xxl.hello.widget.ui.view.record.RecordButton;
 import com.xxl.kit.AppUtils;
-import com.xxl.kit.DisplayUtils;
 import com.xxl.kit.FFmpegUtils;
-import com.xxl.kit.ImageUtils;
 import com.xxl.kit.ListUtils;
 import com.xxl.kit.LogUtils;
 import com.xxl.kit.MediaUtils;
@@ -238,31 +230,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
     @Override
     public void onTestClick() {
-//        UserRouterApi.Login.newBuilder().navigation(getActivity());
-
-        String[] urls = new String[]{AppConfig.User.GITHUB_USER_AVATAR, AppConfig.User.GITHUB_USER_AVATAR, AppConfig.User.GITHUB_USER_AVATAR, AppConfig.User.GITHUB_USER_AVATAR};
-        // DingLayoutManager() 最多支持4张图，多了会报错
-        Bitmap bitmap = BitmapUtils.resizeBitmap(ImageUtils.getBitmap(R.drawable.resources_ic_video), DisplayUtils.dp2px(100));
-        CombineBitmap.init(AppUtils.getApplication())
-                .setLayoutManager(new CustomLayoutManager(true, 2, bitmap))// 如果是4张图，videoPosition 对应的第三张图片和第四张图索引是反的，需要传3的传2，需要2的传3
-                .setSize(DisplayUtils.dp2px(getActivity(), 200))
-                .setGap(DisplayUtils.dp2px(getActivity(), 2))
-                .setGapColor(Color.WHITE)
-                .setPlaceholder(R.drawable.picture_image_placeholder)
-                .setUrls(urls)
-                .setImageView(mViewDataBinding.ivImage)
-                .setOnProgressListener(new OnProgressListener() {
-                    @Override
-                    public void onStart() {
-
-                    }
-
-                    @Override
-                    public void onComplete(Bitmap bitmap) {
-                        mViewDataBinding.ivImage.setImageBitmap(bitmap);
-                    }
-                })
-                .build();
+        UserRouterApi.Login.newBuilder().navigation(getActivity());
     }
 
     /**
