@@ -67,6 +67,7 @@ versions.luban = "1.0.0"
 versions.video_processor = "2.4.2"
 versions.glide = "4.12.0"
 versions.picture_selector = "v2.6.1"
+versions.combine_bitmap = "1.0.5"
 
 versions.photo_view = "2.3.0"
 
@@ -198,6 +199,9 @@ if (versions.picture_selector_remote) {
 
 // photoview https://github.com/Baseflow/PhotoView
 deps.photo_view = "com.github.chrisbanes:PhotoView:$versions.photo_view"
+
+// CombineBitmap https://github.com/shehuan/CombineBitmap
+deps.combine_bitmap = "com.github.Othershe:CombineBitmap:$versions.combine_bitmap"
 
 //rxjava https://github.com/ReactiveX/RxJava
 deps.rxjava = "io.reactivex.rxjava3:rxjava:$versions.rxjava"

@@ -78,6 +78,7 @@ dependencies {
     implementation deps.video_processor
 
     implementation deps.photo_view
+    implementation deps.combine_bitmap
 
     implementation deps.ffmpeg_kit
 

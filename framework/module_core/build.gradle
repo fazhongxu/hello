@@ -136,6 +136,7 @@ dependencies {
     implementation deps.evetbus
 
     compileOnly deps.photo_view
+    compileOnly deps.combine_bitmap
 
     implementation deps.state.state
     implementation deps.state.state_processor

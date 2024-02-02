@@ -71,13 +71,13 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="test" />
 
-            <com.xxl.hello.widget.ui.view.TestPathImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iv_image"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:background="@color/resources_secondary_color"
                 android:onClick="@{()->navigator.onTestClick()}"
-                android:visibility="gone"
+                android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
