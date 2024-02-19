@@ -32,6 +32,7 @@ import com.xxl.hello.widget.di.module.WidgetDataStoreModule;
 import com.xxl.kit.LogUtils;
 
 import java.io.IOException;
+import java.util.Map;
 
 import javax.inject.Singleton;
 
@@ -188,9 +189,12 @@ public class DataStoreModule {
         @Override
         public Response intercept(Chain chain) throws IOException {
             Request originRequest = chain.request();
-            Request newRequest = originRequest.newBuilder()
-                    .addHeader("xxx", mPublicApiHeader.getUserAgent())
-                    .build();
+            Map<String, String> apiHeader = mPublicApiHeader.getApiHeader();
+            Request.Builder builder = originRequest.newBuilder();
+            for (Map.Entry<String, String> headerEntry : apiHeader.entrySet()) {
+                builder.addHeader(headerEntry.getKey(), headerEntry.getValue());
+            }
+            Request newRequest = builder.build();
             return chain.proceed(newRequest);
         }
     }
