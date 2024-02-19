@@ -7,6 +7,8 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
 /**
+ * 用targetSdkVersion 25 源码看Proxy#newProxyInstance源码比较清晰，高版本API变动较大不容易看
+ *
  * @author xxl.
  * @date 2024/2/19.
  */
