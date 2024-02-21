@@ -1,4 +1,4 @@
-package com.xxl.core.image.transform;
+package com.xxl.core.image.transformation;
 
 import android.content.Context;
 import android.graphics.Bitmap;
