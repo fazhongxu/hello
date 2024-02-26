@@ -55,6 +55,15 @@
                 app:layout_constraintRight_toRightOf="parent"
                 tools:text="" />
 
+            <com.xxl.hello.widget.ui.view.LoadingView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:color="@color/resources_primary_color"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_test"
                 style="@style/TextStyle.Content.Regular"

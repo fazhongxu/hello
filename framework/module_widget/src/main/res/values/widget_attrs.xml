@@ -67,4 +67,8 @@
         </attr>
     </declare-styleable>
 
+    <declare-styleable name="LoadingView">
+        <attr name="loadingViewSize" format="dimension" />
+        <attr name="android:color" />
+    </declare-styleable>
 </resources>
