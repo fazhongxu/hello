@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.flyco.roundview.RoundConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="320dp"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:background="@android:color/white"
-    android:minHeight="216dp">
-
+    android:minHeight="216dp"
+    app:rv_backgroundColor="@android:color/white"
+    app:rv_cornerRadius="8dp">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_title"
@@ -50,4 +50,4 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</com.flyco.roundview.RoundConstraintLayout>

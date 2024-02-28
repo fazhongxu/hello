@@ -95,7 +95,7 @@ versions.jsoup = "1.15.3"
 versions.dkplayer = "3.3.5"
 versions.exoplayer = "2.15.0"
 
-versions.flyco_round_view = "1.1.4"
+versions.flyco_round_view = "1.0.8"
 
 versions.tbs = "44181"
 versions.pdf_viewer = "3.2.0-beta.1"
@@ -311,8 +311,8 @@ deps.dkplayer = dkplayer
 //exoplayer
 deps.exoplayer = "com.google.android.exoplayer:exoplayer-core:$versions.exoplayer"
 
-//FlycoRoundView https://github.com/H07000223/FlycoRoundView
-deps.flyco_round_view = "com.flyco.roundview:FlycoRoundView_Lib:$versions.flyco_round_view@aar"
+//https://github.com/fazhongxu/FlycoRoundView
+deps.flyco_round_view = "com.github.fazhongxu:FlycoRoundView:v$versions.flyco_round_view"
 
 // tbs https://x5.tencent.com/docs/access.html
 deps.tbs = "com.tencent.tbs:tbssdk:$versions.tbs"
