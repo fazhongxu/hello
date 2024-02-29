@@ -95,7 +95,7 @@ versions.jsoup = "1.15.3"
 versions.dkplayer = "3.3.5"
 versions.exoplayer = "2.15.0"
 
-versions.flyco_round_view = "1.0.8"
+versions.flyco_round_view = "1.10.8"
 
 versions.tbs = "44181"
 versions.pdf_viewer = "3.2.0-beta.1"
