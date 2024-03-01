@@ -52,14 +52,15 @@
             app:layout_constraintRight_toRightOf="@+id/et_content"
             app:layout_constraintTop_toTopOf="@+id/et_content" />
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <com.flyco.roundview.RoundTextView
             android:id="@+id/tv_send"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/resources_shape_background_primary_corner_25"
             android:gravity="center_vertical"
             android:minHeight="28dp"
             android:paddingLeft="13dp"
+            app:rv_isRadiusHalfHeight="true"
+            app:rv_backgroundColor="@color/resources_primary_color"
             android:paddingRight="13dp"
             android:text="@string/resources_send_text"
             android:textColor="@color/white"
