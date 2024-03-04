@@ -1,9 +1,7 @@
 package com.xxl.core.ui.activity;
 
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
-import android.os.Looper;
 
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
@@ -22,8 +20,6 @@ import dagger.android.AndroidInjection;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.HasAndroidInjector;
-import me.jessyan.autosize.AutoSizeCompat;
-import me.jessyan.autosize.AutoSizeConfig;
 
 /**
  * @author xxl.
@@ -59,20 +55,6 @@ public abstract class BaseActivity extends SwipeBackActivity
         setupData();
         setupLayout();
         requestData();
-    }
-
-    @Override
-    public Resources getResources() {
-      /*
-        这样也可以解决横竖屏切换问题，application 也可以解决，但是activity没有applitaion灵活（困难改不动源码）
-       int screenWidth = AutoSizeConfig.getInstance().getScreenWidth();
-        int screenHeight = AutoSizeConfig.getInstance().getScreenHeight();
-
-        boolean isBaseOnWidth = screenWidth <= screenHeight;
-        if (Looper.myLooper() == Looper.getMainLooper()) {
-            AutoSizeCompat.autoConvertDensity(super.getResources(), 375, isBaseOnWidth);
-        }*/
-        return super.getResources();
     }
 
     @Override
