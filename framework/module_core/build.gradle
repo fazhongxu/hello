@@ -103,6 +103,8 @@ dependencies {
     implementation deps.rxjava
     implementation deps.rxandroid
 
+    compileOnly deps.auto_size
+
     compileOnly deps.rxpermission
 
     compileOnly deps.state_manager

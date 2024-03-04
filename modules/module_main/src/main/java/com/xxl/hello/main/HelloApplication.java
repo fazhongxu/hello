@@ -1,8 +1,10 @@
 package com.xxl.hello.main;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ShortcutInfo;
+import android.content.res.Configuration;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
@@ -38,6 +40,9 @@ import javax.inject.Inject;
 
 import dagger.android.AndroidInjector;
 import dagger.android.DaggerApplication;
+import me.jessyan.autosize.AutoSizeConfig;
+import me.jessyan.autosize.onAdaptListener;
+import me.jessyan.autosize.utils.ScreenUtils;
 
 /**
  * @author xxl.
@@ -152,6 +157,7 @@ public class HelloApplication extends BaseApplication implements IApplication, M
         CrashHandler.getInstance().init(this, "Hello", isDebug());
         MediaSelector.init(this);
         registerShortcuts(this);
+        configAutoSize();
     }
 
     /**
@@ -257,6 +263,43 @@ public class HelloApplication extends BaseApplication implements IApplication, M
     @Override
     public String getChannel() {
         return ShareConfig.CHANNEL;
+    }
+
+    /**
+     * 配置autosize
+     */
+    private void configAutoSize() {
+        AutoSizeConfig.getInstance()
+                //屏幕适配监听器
+                .setOnAdaptListener(new onAdaptListener() {
+                    @Override
+                    public void onAdaptBefore(Object target, Activity activity) {
+                        if (activity == null) {
+                            return;
+                        }
+                        //使用以下代码, 可以解决横竖屏切换时的屏幕适配问题
+                        //首先设置最新的屏幕尺寸，ScreenUtils.getScreenSize(activity) 的参数一定要不要传 Application !!!
+                        AutoSizeConfig.getInstance().setScreenWidth(ScreenUtils.getScreenSize(activity)[0]);
+                        AutoSizeConfig.getInstance().setScreenHeight(ScreenUtils.getScreenSize(activity)[1]);
+                        //根据屏幕方向，设置设计尺寸
+                        if (activity.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                            //设置横屏设计尺寸
+                            AutoSizeConfig.getInstance()
+                                    .setDesignWidthInDp(667)
+                                    .setDesignHeightInDp(375);
+                        } else {
+                            //设置竖屏设计尺寸
+                            AutoSizeConfig.getInstance()
+                                    .setDesignWidthInDp(375)
+                                    .setDesignHeightInDp(667);
+                        }
+                    }
+
+                    @Override
+                    public void onAdaptAfter(Object target, Activity activity) {
+
+                    }
+                });
     }
 
     //endregion
