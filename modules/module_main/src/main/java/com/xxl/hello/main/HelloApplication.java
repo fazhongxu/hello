@@ -157,7 +157,7 @@ public class HelloApplication extends BaseApplication implements IApplication, M
         CrashHandler.getInstance().init(this, "Hello", isDebug());
         MediaSelector.init(this);
         registerShortcuts(this);
-        configAutoSize();
+        setupAutoSize();
     }
 
     /**
@@ -266,9 +266,9 @@ public class HelloApplication extends BaseApplication implements IApplication, M
     }
 
     /**
-     * 配置autosize
+     * 设置autosize
      */
-    private void configAutoSize() {
+    private void setupAutoSize() {
         AutoSizeConfig.getInstance()
                 //屏幕适配监听器
                 .setOnAdaptListener(new onAdaptListener() {
