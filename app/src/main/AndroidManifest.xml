@@ -133,7 +133,7 @@
                 android:resource="@xml/file_provider" />
         </provider>
 
-        <provider
+     <!--   <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.xxl.hello.share.fileprovider"
             android:exported="false"
@@ -141,7 +141,7 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/share_file_paths" />
-        </provider>
+        </provider>-->
 
         <!--友盟分享相关 结束-->
 
