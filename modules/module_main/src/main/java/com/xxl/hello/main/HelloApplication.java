@@ -230,7 +230,7 @@ public class HelloApplication extends BaseApplication implements IApplication, M
         PlatformConfig.setWeixin("wxdc1e388c3822c80b", "3baf1193c85774b3fd9d18447d76cab0");
         PlatformConfig.setWXFileProvider("com.xxl.hello.fileprovider");
         PlatformConfig.setQQZone("101830139", "5d63ae8858f1caab67715ccd6c18d7a5");
-        PlatformConfig.setQQFileProvider("com.xxl.hello.share.fileprovider");
+        PlatformConfig.setQQFileProvider("com.xxl.hello.fileprovider");
         PlatformConfig.setSinaWeibo("3921700954", "04b48b094faeb16683c32669824ebdad", "http://sns.whalecloud.com");
         PlatformConfig.setSinaFileProvider("com.xxl.hello.fileprovider");
     }
