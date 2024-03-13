@@ -8,6 +8,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.xxl.core.service.download.DownloadListener;
 import com.xxl.core.service.download.DownloadOptions;
 import com.xxl.core.service.download.DownloadService;
@@ -35,9 +37,11 @@ import java.util.List;
  * @author xxl.
  * @date 2022/7/18.
  */
-public abstract class BaseSharePickerImpl<T extends BaseShareResourceEntity> implements BaseSharePicker<T>, DownloadListener {
+public abstract class BaseSharePickerImpl<T extends BaseShareResourceEntity> implements BaseSharePicker<T>, DownloadListener, UMShareListener {
 
     //region: 成员变量
+
+    private final static String TAG = BaseSharePickerImpl.class.getSimpleName() + " ";
 
     /**
      * application
@@ -287,6 +291,31 @@ public abstract class BaseSharePickerImpl<T extends BaseShareResourceEntity> imp
         if (isActivityFinishing()) {
             return;
         }
+    }
+
+    //endregion
+
+    //region: UMShareListener
+
+    @Override
+    public void onStart(SHARE_MEDIA share_media) {
+        LogUtils.d(TAG + "分享 onStart ");
+    }
+
+    @Override
+    public void onResult(SHARE_MEDIA share_media) {
+        LogUtils.d(TAG + "分享 onResult ");
+    }
+
+    @Override
+    public void onError(SHARE_MEDIA share_media,
+                        Throwable throwable) {
+        LogUtils.d(TAG + "分享 onError ");
+    }
+
+    @Override
+    public void onCancel(SHARE_MEDIA share_media) {
+        LogUtils.d(TAG + "分享 onCancel ");
     }
 
     //endregion

@@ -374,9 +374,7 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
                         ResourceUtils.copyFileFromAssets("hello.jpeg", shareImagePath);
                         imagePaths.add(shareImagePath);
                     }
-//                    MomentShareUtils.shareSingleImageToWeChatMoment(getActivity(), imagePaths.size() > 0 ? imagePaths.get(0) : "");
-                    ShareUtils.shareImages(getActivity(), SHARE_MEDIA.QZONE,imagePaths,null,null);
-
+                    MomentShareUtils.shareSingleImageToWeChatMoment(getActivity(), imagePaths.size() > 0 ? imagePaths.get(0) : "");
                     return true;
                 }
                 return false;
@@ -412,10 +410,10 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
             new Thread() {
                 @Override
                 public void run() {
-                    WatermarkImage watermarkImage = new WatermarkImage(getActivity(),R.drawable.resources_ic_we_chat);
+                    WatermarkImage watermarkImage = new WatermarkImage(getActivity(), R.drawable.resources_ic_we_chat);
                     watermarkImage.setRotation(30);
                     watermarkImage.setImageAlpha(255);
-                    watermarkImage.setPosition(new WatermarkPosition(0,0).setWatermarkLocation(WatermarkLocation.CENTER));
+                    watermarkImage.setPosition(new WatermarkPosition(0, 0).setWatermarkLocation(WatermarkLocation.CENTER));
                     Bitmap bitmap = null;
                     try {
                         bitmap = ImageLoader.with(AppUtils.getApplication())
@@ -424,7 +422,7 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
                                 .submit()
                                 .get();
 
-                        Bitmap watermarkBitmap = WatermarkBuilder.create(getActivity(),bitmap)
+                        Bitmap watermarkBitmap = WatermarkBuilder.create(getActivity(), bitmap)
                                 .loadWatermarkImage(watermarkImage)
                                 .setTileMode(false)
                                 .setSpacing(10)

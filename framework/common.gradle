@@ -128,5 +128,8 @@ dependencies {
     implementation deps.wcqr_scanning
     implementation deps.wcqr_opencv_armv64
     implementation deps.viewfinderview
+
+    compileOnly deps.umeng.umeng_share_core
+
 }
 
