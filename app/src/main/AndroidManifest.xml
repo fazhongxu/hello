@@ -50,6 +50,11 @@
         android:theme="@style/BaseTheme"
         android:usesCleartextTraffic="true">
 
+        <!-- 使用umeng的qq第三方登录，在小米的9.0手机上崩溃-->
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+
         <activity
             android:name="com.xxl.hello.main.ui.splash.SplashActivity"
             android:theme="@style/SplashTheme">
@@ -133,15 +138,15 @@
                 android:resource="@xml/file_provider" />
         </provider>
 
-     <!--   <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="com.xxl.hello.share.fileprovider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/share_file_paths" />
-        </provider>-->
+        <!--   <provider
+               android:name="androidx.core.content.FileProvider"
+               android:authorities="com.xxl.hello.share.fileprovider"
+               android:exported="false"
+               android:grantUriPermissions="true">
+               <meta-data
+                   android:name="android.support.FILE_PROVIDER_PATHS"
+                   android:resource="@xml/share_file_paths" />
+           </provider>-->
 
         <!--友盟分享相关 结束-->
 

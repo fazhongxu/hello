@@ -24,8 +24,12 @@ import com.xxl.core.data.model.entity.pay.WXPayEntity;
 import com.xxl.core.listener.OnAuthListener;
 import com.xxl.core.listener.OnPayListener;
 import com.xxl.kit.AppUtils;
+import com.xxl.kit.FileUtils;
+import com.xxl.kit.ListUtils;
 
+import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -122,7 +126,7 @@ public class ShareUtils {
     public static void shareImageToWeChat(@NonNull Activity context,
                                           @NonNull final String imagePath,
                                           @Nullable final UMShareListener listener) {
-        shareImage(context, SHARE_MEDIA.WEIXIN, imagePath, "", "", "", listener);
+        shareImage(context, SHARE_MEDIA.WEIXIN, FileUtils.getFileByPath(imagePath), "", listener);
     }
 
     /**
@@ -130,30 +134,58 @@ public class ShareUtils {
      *
      * @param activity    上下文
      * @param listener    分享监听
-     * @param shareMedia  分享图片
-     * @param thumb       图片缩略图
-     * @param imagePath   图片路径
-     * @param title       标题
+     * @param platform    平台
+     * @param imagePaths  图片路径
+     * @param description 描述
+     * @param
+     */
+    public static void shareImages(@NonNull Activity activity,
+                                   SHARE_MEDIA platform,
+                                   @NonNull final List<String> imagePaths,
+                                   @Nullable final String description,
+                                   UMShareListener listener) {
+        if (ListUtils.getSize(imagePaths) > 1) {
+            UMImage[] images = new UMImage[ListUtils.getSize(imagePaths)];
+            if (!ListUtils.isEmpty(imagePaths)) {
+                for (int i = 0; i < imagePaths.size(); i++) {
+                    images[i] = new UMImage(activity, FileUtils.getFileByPath(imagePaths.get(i)));
+                }
+            }
+            String text = !TextUtils.isEmpty(description) ? description : "";
+            new ShareAction(activity)
+                    .withText(text)
+                    .setPlatform(platform)
+                    .setCallback(listener)
+                    .withMedias(images)
+                    .share();
+            return;
+        } else if (ListUtils.isSingle(imagePaths)) {
+            shareImage(activity, platform, FileUtils.getFileByPath(ListUtils.getFirst(imagePaths)), description, listener);
+        }
+    }
+
+    /**
+     * 分享图片
+     *
+     * @param activity    上下文
+     * @param listener    分享监听
+     * @param platform    分享平台
+     * @param imageFile   图片文件
      * @param description 描述
      * @param
      */
     public static void shareImage(@NonNull Activity activity,
-                                  SHARE_MEDIA shareMedia,
-                                  @NonNull final String imagePath,
-                                  @Nullable final String thumb,
-                                  @Nullable final String title,
+                                  SHARE_MEDIA platform,
+                                  @NonNull final File imageFile,
                                   @Nullable final String description,
                                   UMShareListener listener) {
-        UMImage image = new UMImage(activity, imagePath);
-        image.setTitle(title);
-
-        if (!TextUtils.isEmpty(thumb)) {
-            UMImage thumbImage = new UMImage(activity, imagePath);
-            image.setThumb(thumbImage);
-        }
+        UMImage image = new UMImage(activity, imageFile);
+        image.setTitle(description);
+        UMImage thumbImage = new UMImage(activity, imageFile);
+        image.setThumb(thumbImage);
         image.setDescription(description);
         new ShareAction(activity)
-                .setPlatform(shareMedia)
+                .setPlatform(platform)
                 .setCallback(listener)
                 .withMedia(image)
                 .share();

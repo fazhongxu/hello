@@ -40,6 +40,17 @@ public final class ListUtils {
     }
 
     /**
+     * size is 1
+     *
+     * @param sourceList
+     * @param <V>
+     * @return if list is 1
+     */
+    public static <V> boolean isSingle(List<V> sourceList) {
+        return getSize(sourceList) == 1;
+    }
+
+    /**
      * is null or its size is 0
      *
      * <pre>

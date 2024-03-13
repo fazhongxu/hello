@@ -16,6 +16,9 @@ import androidx.annotation.NonNull;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.tbruyelle.rxpermissions3.RxPermissions;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
 import com.watermark.androidwm.WatermarkBuilder;
 import com.watermark.androidwm.bean.WatermarkImage;
 import com.watermark.androidwm.bean.WatermarkLocation;
@@ -24,6 +27,7 @@ import com.xxl.core.data.router.SystemRouterApi;
 import com.xxl.core.image.loader.ImageLoader;
 import com.xxl.core.image.selector.MediaSelector;
 import com.xxl.core.ui.fragment.BaseViewModelFragment;
+import com.xxl.core.utils.ShareUtils;
 import com.xxl.hello.common.config.AppConfig;
 import com.xxl.hello.common.config.CacheDirConfig;
 import com.xxl.hello.common.config.NetworkConfig;
@@ -370,8 +374,9 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
                         ResourceUtils.copyFileFromAssets("hello.jpeg", shareImagePath);
                         imagePaths.add(shareImagePath);
                     }
-                    MomentShareUtils.shareSingleImageToWeChatMoment(getActivity(), imagePaths.size() > 0 ? imagePaths.get(0) : "");
-                    window.dismiss();
+//                    MomentShareUtils.shareSingleImageToWeChatMoment(getActivity(), imagePaths.size() > 0 ? imagePaths.get(0) : "");
+                    ShareUtils.shareImages(getActivity(), SHARE_MEDIA.QZONE,imagePaths,null,null);
+
                     return true;
                 }
                 return false;
