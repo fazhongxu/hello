@@ -230,8 +230,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
     @Override
     public void onTestClick() {
-//        UserRouterApi.Login.newBuilder().navigation(getActivity());
-        mViewDataBinding.ivImage.setSelected(true);
+        UserRouterApi.Login.newBuilder().navigation(getActivity());
     }
 
     /**
