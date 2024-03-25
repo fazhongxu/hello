@@ -554,6 +554,36 @@ public final class ImageUtils {
     }
 
     /**
+     * 合并bitmap，排除不需要的区域
+     *
+     * @param originalBitmap 原图
+     * @param excludedRectF  排除的区域
+     * @return
+     */
+    public static Bitmap mergeBitmapWithExcludedArea(Bitmap originalBitmap, RectF excludedRectF) {
+        int width = originalBitmap.getWidth();
+        int height = originalBitmap.getHeight();
+
+        // 创建一个空白的 Bitmap，用于绘制结果，高度减去不需要的区域的高度
+        Bitmap resultBitmap = Bitmap.createBitmap(width, (int) (height - excludedRectF.height()), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(resultBitmap);
+
+        // 绘制原始图片，不包括不需要的区域
+        Paint paint = new Paint();
+        canvas.drawBitmap(originalBitmap, 0, 0, null);
+
+        // 在原图上绘制矩形区域，相当于裁剪掉不需要的部分
+        paint.setColor(Color.WHITE);
+        canvas.drawRect(excludedRectF, paint);
+
+        // 将剩余部分绘制到空白 Bitmap 中不包括不需要的区域的位置上
+        canvas.translate(0, -excludedRectF.height());
+        canvas.drawBitmap(originalBitmap, 0, 0, null);
+
+        return resultBitmap;
+    }
+
+    /**
      * Return the skewed bitmap.
      *
      * @param src The source of bitmap.
