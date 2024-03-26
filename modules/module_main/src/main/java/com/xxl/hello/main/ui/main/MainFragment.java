@@ -3,6 +3,10 @@ package com.xxl.hello.main.ui.main;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -47,6 +51,7 @@ import com.xxl.hello.widget.ui.view.record.OnRecordListener;
 import com.xxl.hello.widget.ui.view.record.RecordButton;
 import com.xxl.kit.AppUtils;
 import com.xxl.kit.FFmpegUtils;
+import com.xxl.kit.ImageUtils;
 import com.xxl.kit.ListUtils;
 import com.xxl.kit.LogUtils;
 import com.xxl.kit.MediaUtils;
@@ -230,7 +235,39 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
     @Override
     public void onTestClick() {
-        UserRouterApi.Login.newBuilder().navigation(getActivity());
+//        UserRouterApi.Login.newBuilder().navigation(getActivity());
+        Bitmap bitmap = ImageUtils.view2Bitmap(mViewDataBinding.ivImage);
+        RectF rectF = new RectF(0, 30, bitmap.getWidth(), 60);
+        ArrayList<RectF> rectList = new ArrayList<>();
+        rectList.add(rectF);
+        Bitmap bitmap1 = cropBitmapByRectF(bitmap, rectF);
+
+        Log.e("aaa", "onTestClick: " + bitmap1);
+
+        // 添加记录  addList   1 2
+        // 撤销 记录不变   0  2
+        // 又添加  addList 1 3
+    }
+
+    /**
+     * 根据矩形裁剪bitmap（矩形把bitmap切分成上下两个部分）
+     *
+     * @param originalBitmap
+     * @param rectF
+     * @return
+     */
+    public Bitmap cropBitmapByRectF(Bitmap originalBitmap, RectF rectF) {
+
+        int width = originalBitmap.getWidth();
+        int height = originalBitmap.getHeight();
+
+        Bitmap newBitmap = Bitmap.createBitmap(width, (int) (height - rectF.height()), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(newBitmap);
+
+        canvas.drawBitmap(originalBitmap, new Rect(0, 0, width, (int) rectF.top), new RectF(0, 0, width, rectF.top), null);
+        canvas.drawBitmap(originalBitmap, new Rect(0, (int) rectF.bottom, width, originalBitmap.getHeight()), new RectF(0, rectF.top, width, originalBitmap.getHeight() - rectF.height()), null);
+
+        return newBitmap;
     }
 
     /**

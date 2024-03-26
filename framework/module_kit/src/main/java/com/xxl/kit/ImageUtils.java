@@ -554,33 +554,24 @@ public final class ImageUtils {
     }
 
     /**
-     * 合并bitmap，排除不需要的区域
+     * 根据矩形裁剪bitmap（矩形把bitmap切分成上下两个部分）
      *
-     * @param originalBitmap 原图
-     * @param excludedRectF  排除的区域
+     * @param originalBitmap
+     * @param rectF
      * @return
      */
-    public static Bitmap mergeBitmapWithExcludedArea(Bitmap originalBitmap, RectF excludedRectF) {
+    public Bitmap cropBitmapByRectF(Bitmap originalBitmap, RectF rectF) {
+
         int width = originalBitmap.getWidth();
         int height = originalBitmap.getHeight();
 
-        // 创建一个空白的 Bitmap，用于绘制结果，高度减去不需要的区域的高度
-        Bitmap resultBitmap = Bitmap.createBitmap(width, (int) (height - excludedRectF.height()), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(resultBitmap);
+        Bitmap newBitmap = Bitmap.createBitmap(width, (int) (height - rectF.height()), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(newBitmap);
 
-        // 绘制原始图片，不包括不需要的区域
-        Paint paint = new Paint();
-        canvas.drawBitmap(originalBitmap, 0, 0, null);
+        canvas.drawBitmap(originalBitmap, new Rect(0, 0, width, (int) rectF.top), new RectF(0, 0, width, rectF.top), null);
+        canvas.drawBitmap(originalBitmap, new Rect(0, (int) rectF.bottom, width, originalBitmap.getHeight()), new RectF(0, rectF.top, width, originalBitmap.getHeight() - rectF.height()), null);
 
-        // 在原图上绘制矩形区域，相当于裁剪掉不需要的部分
-        paint.setColor(Color.WHITE);
-        canvas.drawRect(excludedRectF, paint);
-
-        // 将剩余部分绘制到空白 Bitmap 中不包括不需要的区域的位置上
-        canvas.translate(0, -excludedRectF.height());
-        canvas.drawBitmap(originalBitmap, 0, 0, null);
-
-        return resultBitmap;
+        return newBitmap;
     }
 
     /**
