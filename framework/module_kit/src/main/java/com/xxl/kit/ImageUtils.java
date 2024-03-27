@@ -555,6 +555,57 @@ public final class ImageUtils {
     }
 
     /**
+     * 计算以 dx，dy 为起始坐标原点的区域对应的坐标
+     * 计算ui上面选框对应的原始图片中的区域
+     *
+     * @param viewRect ui界面 选中的大小
+     * @param dx       原图缩放后对应的view起始点
+     * @param dy
+     * @param scale    目标宽高/原始宽高的值
+     * @return
+     */
+    public static RectF calculateCropRegion(RectF viewRect, int originalWidth, int originalHeight, int dx, int dy, float scale) {
+        //测试代码  以图片左上角为坐标原点：选框的位置
+        RectF bgRegion = new RectF();
+        bgRegion.left = viewRect.left - dx;
+        bgRegion.top = viewRect.top - dy;
+        bgRegion.right = bgRegion.left + viewRect.width();
+        bgRegion.bottom = bgRegion.top + viewRect.height();
+        Log.e("calculateCropRegion", "以图片左上角为坐标原点：选框的位置 rect=" + bgRegion);
+
+        //进行缩放恢复 计算对应的原始图片的区域
+        RectF originalRegion = new RectF();
+        //计算起始点
+        originalRegion.left = (viewRect.left - dx) / scale;
+        originalRegion.top = (viewRect.top - dy) / scale;
+        originalRegion.right = viewRect.width() / scale + originalRegion.left;
+        originalRegion.bottom = viewRect.height() / scale + originalRegion.top;
+        //校验计算后的对应的图片位置 处理超过边界的数据
+        if (originalRegion.left < 0) { //校验数据 移除不在图片上的区域
+            originalRegion.left = 0;
+        }
+        if (originalRegion.top < 0) {
+            originalRegion.top = 0;
+        }
+        if (originalRegion.right < 0) {
+            originalRegion.right = 0;
+        }
+        if (originalRegion.bottom < 0) {
+            originalRegion.bottom = 0;
+        }
+        float maxWight = originalWidth - originalRegion.left;
+        float maxHeight = originalHeight - originalRegion.top;
+        if (originalRegion.width() >= maxWight) {
+            originalRegion.right = originalRegion.left + maxWight;
+        }
+        if (originalRegion.height() >= maxHeight) {
+            originalRegion.bottom = originalRegion.top + maxHeight;
+        }
+        Log.e("calculateCropRegion", "原始图片中：对应选框的位置 rect=" + originalRegion);
+        return originalRegion;
+    }
+
+    /**
      * 拼接bitmap
      *
      * @param bitmaps

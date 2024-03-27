@@ -39,7 +39,7 @@ public class TestPathImageView extends AppCompatImageView {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        drawBitmap(canvas);
+        //drawBitmap(canvas);
     }
 
     /**
