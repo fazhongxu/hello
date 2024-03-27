@@ -53,6 +53,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.List;
 
 import top.zibin.luban.CompressionPredicate;
 import top.zibin.luban.Luban;
@@ -554,24 +555,42 @@ public final class ImageUtils {
     }
 
     /**
-     * 根据矩形裁剪bitmap（矩形把bitmap切分成上下两个部分）
+     * 拼接bitmap
      *
-     * @param originalBitmap
-     * @param rectF
+     * @param bitmaps
+     * @param isVertical
      * @return
      */
-    public Bitmap cropBitmapByRectF(Bitmap originalBitmap, RectF rectF) {
+    public static Bitmap combineBitmaps(List<Bitmap> bitmaps, boolean isVertical) {
+        int totalWidth = 0;
+        int totalHeight = 0;
 
-        int width = originalBitmap.getWidth();
-        int height = originalBitmap.getHeight();
+        for (Bitmap bitmap : bitmaps) {
+            if (isVertical) {
+                totalWidth = Math.max(totalWidth, bitmap.getWidth());
+                totalHeight += bitmap.getHeight();
+            } else {
+                totalWidth += bitmap.getWidth();
+                totalHeight = Math.max(totalHeight, bitmap.getHeight());
+            }
+        }
 
-        Bitmap newBitmap = Bitmap.createBitmap(width, (int) (height - rectF.height()), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(newBitmap);
+        Bitmap combinedBitmap = Bitmap.createBitmap(totalWidth, totalHeight, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(combinedBitmap);
 
-        canvas.drawBitmap(originalBitmap, new Rect(0, 0, width, (int) rectF.top), new RectF(0, 0, width, rectF.top), null);
-        canvas.drawBitmap(originalBitmap, new Rect(0, (int) rectF.bottom, width, originalBitmap.getHeight()), new RectF(0, rectF.top, width, originalBitmap.getHeight() - rectF.height()), null);
+        int left = 0;
+        int top = 0;
+        for (Bitmap bitmap : bitmaps) {
+            if (isVertical) {
+                canvas.drawBitmap(bitmap, 0, top, null);
+                top += bitmap.getHeight();
+            } else {
+                canvas.drawBitmap(bitmap, left, 0, null);
+                left += bitmap.getWidth();
+            }
+        }
 
-        return newBitmap;
+        return combinedBitmap;
     }
 
     /**
