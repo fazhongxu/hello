@@ -2,6 +2,7 @@ package com.xxl.hello.main.di.module;
 
 import android.app.Application;
 import android.os.Build;
+import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
@@ -38,6 +39,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import okhttp3.Headers;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -189,10 +191,14 @@ public class DataStoreModule {
         @Override
         public Response intercept(Chain chain) throws IOException {
             Request originRequest = chain.request();
+            Headers originHeaders = originRequest.headers();
             Map<String, String> apiHeader = mPublicApiHeader.getApiHeader();
             Request.Builder builder = originRequest.newBuilder();
             for (Map.Entry<String, String> headerEntry : apiHeader.entrySet()) {
-                builder.addHeader(headerEntry.getKey(), headerEntry.getValue());
+                String originHeaderValue = originHeaders.get(headerEntry.getKey());
+                if (TextUtils.isEmpty(originHeaderValue)) {
+                    builder.addHeader(headerEntry.getKey(), headerEntry.getValue());
+                }
             }
             Request newRequest = builder.build();
             return chain.proceed(newRequest);
