@@ -230,6 +230,8 @@ dependencies {
     implementation deps.qq
     implementation deps.sina
 
+    implementation deps.alipay
+
     implementation deps.watermark
 
 }

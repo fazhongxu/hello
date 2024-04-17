@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.alipay.sdk.app.PayTask;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.modelpay.PayReq;
@@ -20,6 +21,7 @@ import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
+import com.xxl.core.data.model.entity.pay.AliPayResult;
 import com.xxl.core.data.model.entity.pay.WXPayEntity;
 import com.xxl.core.listener.OnAuthListener;
 import com.xxl.core.listener.OnPayListener;
@@ -274,7 +276,7 @@ public class ShareUtils {
             } else if (resp.errCode == WeChatPayErrCode.ERR_USER_CANCEL) {
                 listener.onPayCancel();
             } else if (resp.errCode == WeChatPayErrCode.ERR_AUTH_DENIED) {
-                listener.onPayFailure();
+                listener.onPayFailure(null);
             }
             return true;
         }
@@ -316,6 +318,39 @@ public class ShareUtils {
             return null;
         }
         return data.get(WE_CHAT_MAP_KEY_CODE);
+    }
+
+    /**
+     * 支付宝支付
+     *
+     * @param activity
+     * @param orderInfo
+     * @param listener
+     */
+    public static void doAliPay(@NonNull Activity activity,
+                                @NonNull String orderInfo,
+                                @NonNull OnPayListener listener) {
+        final Runnable payRunnable = () -> {
+            PayTask payTask = new PayTask(activity);
+            Map<String, String> result = payTask.payV2(orderInfo, true);
+            AliPayResult payResult = new AliPayResult(result);
+
+            if (payResult.isSuccess()) {
+                listener.onPayComplete();
+                return;
+            }
+            if (payResult.isCancel()) {
+                listener.onPayCancel();
+                return;
+            }
+            if (payResult.isFailure()) {
+                listener.onPayFailure(null);
+                return;
+            }
+        };
+
+        Thread payThread = new Thread(payRunnable);
+        payThread.start();
     }
 
 

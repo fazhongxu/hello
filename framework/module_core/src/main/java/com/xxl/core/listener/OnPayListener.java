@@ -20,8 +20,10 @@ public interface OnPayListener {
 
     /**
      * 支付失败
+     *
+     * @param throwable
      */
-    void onPayFailure();
+    void onPayFailure(Throwable throwable);
 
     /**
      * 未安装客户端

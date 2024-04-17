@@ -367,6 +367,9 @@ deps.qq = "com.tencent.tauth:qqopensdk:$versions.qq"
 // 新浪微博官方SDK 微博必选
 deps.sina = "io.github.sinaweibosdk:core:$versions.sina"
 
+// 支付宝支付SDK
+deps.alipay = "com.alipay.sdk:alipaysdk-android:+@aar"
+
 // OpenCV基础库（*必须）https://github.com/jenly1314/WeChatQRCode
 deps.wcqr_opencv = "com.github.jenly1314.WeChatQRCode:opencv:$versions.we_chat_qrcode"
 deps.wcqr_opencv_armv7a = "com.github.jenly1314.WeChatQRCode:opencv-armv7a:$versions.we_chat_qrcode"

@@ -15,6 +15,7 @@ aspectjx {
             'top.zibin',
             'com.alipay',
             'com.taobao',
+            'com.alipay',
             'org.apache',
             'versions.9'
 }

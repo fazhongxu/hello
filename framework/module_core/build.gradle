@@ -176,4 +176,6 @@ dependencies {
     compileOnly deps.we_chat
     compileOnly deps.qq
     compileOnly deps.sina
+
+    compileOnly deps.alipay
 }
