@@ -1,6 +1,8 @@
 package com.xxl.core.utils;
 
 import android.app.Activity;
+import android.os.Handler;
+import android.os.Looper;
 
 import androidx.annotation.NonNull;
 
@@ -95,17 +97,17 @@ public class PayUtils {
             PayTask payTask = new PayTask(activity);
             Map<String, String> result = payTask.payV2(orderInfo, true);
             AliPayResult payResult = new AliPayResult(result);
-
+            Handler handler = new Handler(Looper.getMainLooper());
             if (payResult.isSuccess()) {
-                listener.onPayComplete();
+                handler.post(listener::onPayComplete);
                 return;
             }
             if (payResult.isCancel()) {
-                listener.onPayCancel();
+                handler.post(listener::onPayCancel);
                 return;
             }
             if (payResult.isFailure()) {
-                listener.onPayFailure(null);
+                handler.post(() -> listener.onPayFailure(null));
                 return;
             }
         };
