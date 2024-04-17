@@ -8,6 +8,7 @@ import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.umeng.socialize.weixin.view.WXCallbackActivity;
+import com.xxl.core.utils.PayUtils;
 import com.xxl.core.utils.ShareUtils;
 
 /**
@@ -41,7 +42,7 @@ public class WeChatCallbackActivity extends WXCallbackActivity {
     public void onResp(BaseResp resp) {
         super.onResp(resp);
         if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
-            if (ShareUtils.onWeChatPayCallback(resp)) {
+            if (PayUtils.onWeChatPayCallback(resp)) {
                 finish();
             }
             return;

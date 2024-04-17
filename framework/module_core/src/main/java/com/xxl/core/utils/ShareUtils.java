@@ -9,9 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.alipay.sdk.app.PayTask;
-import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
-import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.umeng.commonsdk.UMConfigure;
@@ -22,7 +20,6 @@ import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
 import com.xxl.core.data.model.entity.pay.AliPayResult;
-import com.xxl.core.data.model.entity.pay.WXPayEntity;
 import com.xxl.core.listener.OnAuthListener;
 import com.xxl.core.listener.OnPayListener;
 import com.xxl.kit.AppUtils;
@@ -194,37 +191,6 @@ public class ShareUtils {
     }
 
     /**
-     * 微信支付
-     *
-     * @param activity
-     * @param wxPayEntity
-     * @param listener
-     */
-    public static void doWeChatPay(@NonNull final Activity activity,
-                                   @NonNull final WXPayEntity wxPayEntity,
-                                   @NonNull final OnPayListener listener) {
-        boolean isInstall = UMShareAPI.get(AppUtils.getApplication()).isInstall(activity, SHARE_MEDIA.WEIXIN);
-        if (!isInstall) {
-            if (listener != null) {
-                listener.onNotInstall();
-            }
-            return;
-        }
-        sOnPayListener = listener;
-        String appId = PlatformConfig.getPlatform(SHARE_MEDIA.WEIXIN).getAppid();
-        IWXAPI api = WXAPIFactory.createWXAPI(activity, appId, false);
-        PayReq request = new PayReq();
-        request.appId = appId;
-        request.partnerId = wxPayEntity.getPartnerId();
-        request.prepayId = wxPayEntity.getPrepayId();
-        request.packageValue = wxPayEntity.getPackageValue();
-        request.nonceStr = wxPayEntity.getNonceStr();
-        request.timeStamp = wxPayEntity.getTimestamp();
-        request.sign = wxPayEntity.getSign();
-        api.sendReq(request);
-    }
-
-    /**
      * 微信授权
      *
      * @param activity
@@ -264,26 +230,6 @@ public class ShareUtils {
     }
 
     /**
-     * 微信支付回调
-     *
-     * @param resp
-     */
-    public static boolean onWeChatPayCallback(@NonNull final BaseResp resp) {
-        OnPayListener listener = sOnPayListener;
-        if (listener != null) {
-            if (resp.errCode == WeChatPayErrCode.ERR_OK) {
-                listener.onPayComplete();
-            } else if (resp.errCode == WeChatPayErrCode.ERR_USER_CANCEL) {
-                listener.onPayCancel();
-            } else if (resp.errCode == WeChatPayErrCode.ERR_AUTH_DENIED) {
-                listener.onPayFailure(null);
-            }
-            return true;
-        }
-        return false;
-    }
-
-    /**
      * 微信授权回调（登录）
      *
      * @param resp
@@ -292,12 +238,12 @@ public class ShareUtils {
     public static boolean onWeChatAuthCallback(@NonNull final SendAuth.Resp resp) {
         OnAuthListener listener = sOnAuthListener;
         if (listener != null) {
-            if (resp.errCode == WeChatPayErrCode.ERR_OK) {
+            if (resp.errCode == WeChatAuthErrCode.ERR_OK) {
                 Map<String, String> data = new HashMap<>(10);
                 data.put(WE_CHAT_MAP_KEY_CODE, resp.code);
                 listener.onComplete(SHARE_MEDIA.WEIXIN, 0, data);
-            } else if (resp.errCode == WeChatPayErrCode.ERR_USER_CANCEL
-                    || resp.errCode == WeChatPayErrCode.ERR_AUTH_DENIED) {
+            } else if (resp.errCode == WeChatAuthErrCode.ERR_USER_CANCEL
+                    || resp.errCode == WeChatAuthErrCode.ERR_AUTH_DENIED) {
                 listener.onCancel(SHARE_MEDIA.WEIXIN, 0);
             } else {
                 listener.onError(SHARE_MEDIA.WEIXIN, 0, new Throwable("wechat auth failure"));
@@ -363,9 +309,9 @@ public class ShareUtils {
     }
 
     /**
-     * 微信支付错误码
+     * 微信认证错误码
      */
-    public final static class WeChatPayErrCode {
+    public final static class WeChatAuthErrCode {
 
         /**
          * 用户同意
