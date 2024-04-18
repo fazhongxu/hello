@@ -47,13 +47,11 @@ import com.xxl.hello.widget.ui.view.record.OnRecordListener;
 import com.xxl.hello.widget.ui.view.record.RecordButton;
 import com.xxl.kit.AppUtils;
 import com.xxl.kit.FFmpegUtils;
-import com.xxl.kit.FileUtils;
 import com.xxl.kit.ListUtils;
 import com.xxl.kit.LogUtils;
 import com.xxl.kit.MediaUtils;
 import com.xxl.kit.OnAppStatusChangedListener;
 import com.xxl.kit.OnRequestCallBack;
-import com.xxl.kit.PathUtils;
 import com.xxl.kit.ResourceUtils;
 import com.xxl.kit.StringUtils;
 import com.xxl.kit.ThreadUtils;
@@ -232,24 +230,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
     @Override
     public void onTestClick() {
-//        UserRouterApi.Login.newBuilder().navigation(getActivity());
-
-        String path = PathUtils.getExtDCIMPath() + File.separator + "hello" + File.separator;
-        RxPermissions rxPermissions = new RxPermissions(this);
-        rxPermissions.request(Manifest.permission.MANAGE_EXTERNAL_STORAGE)
-                .subscribe(aBoolean -> {
-                    for (int i = 0; i < 10; i++) {
-                        String filePath = String.format("%s.jpeg", path + i);
-                        boolean b = ResourceUtils.copyFileFromAssets("hello.jpeg", filePath);
-                        Log.e("aa", "onTestClick: " + aBoolean + "  " + b);
-                        FileUtils.notifySystemToScan(filePath);
-                    }
-                    FileUtils.deleteFilesInDir(path);
-                    FileUtils.notifySystemToScan(path);
-
-                }, throwable -> {
-                    Log.e("aa", "onTestClick: " + throwable);
-                });
+        UserRouterApi.Login.newBuilder().navigation(getActivity());
     }
 
     /**
