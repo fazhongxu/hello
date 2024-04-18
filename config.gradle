@@ -45,7 +45,7 @@ versions.retrofit = "2.9.0"
 
 versions.rxjava = "3.0.13"
 versions.rxandroid = "3.0.0"
-versions.rxpermission = "0.12"
+versions.rxpermission = "0.13"
 
 versions.lombok = "1.18.24"
 versions.mmkv = "1.2.10"
@@ -210,7 +210,8 @@ deps.rxjava = "io.reactivex.rxjava3:rxjava:$versions.rxjava"
 deps.rxandroid = "io.reactivex.rxjava3:rxandroid:$versions.rxandroid"
 
 //rxpermission https://github.com/tbruyelle/RxPermissions
-deps.rxpermission = "com.github.tbruyelle:rxpermissions:$versions.rxpermission"
+//deps.rxpermission = "com.github.tbruyelle:rxpermissions:$versions.rxpermission"
+deps.rxpermission = "com.github.fazhongxu:RxPermissions:$versions.rxpermission"
 
 //kprogresshud 进度条 https://github.com/Kaopiz/KProgressHUD
 deps.kprogresshud = "com.kaopiz:kprogresshud:$versions.kprogresshud"

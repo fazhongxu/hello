@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -1900,10 +1901,11 @@ public final class FileUtils {
         if (file == null || !file.exists()) {
             return;
         }
-        Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        Uri uri = PathUtils.getUriForFile(file);
-        intent.setData(uri);
-        AppUtils.getApplication().sendBroadcast(intent);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+            MediaScannerConnection.scanFile(AppUtils.getApplication(), new String[]{file.getAbsolutePath()}, null, null);
+        } else {
+            AppUtils.getApplication().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(new File(file.getAbsolutePath()))));
+        }
     }
 
     /**
