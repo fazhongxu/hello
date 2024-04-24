@@ -364,7 +364,7 @@ public final class StringUtils {
      */
     public static String joinTimeMillis(@NonNull final String url) {
         if (isHttp(url)) {
-            return String.format(Locale.getDefault(), "%s?%s", url, TimeUtils.currentServiceTimeMillis());
+            return String.format(Locale.getDefault(), "%s?t=%s", url, TimeUtils.currentServiceTimeMillis());
         }
         return url;
     }
