@@ -32,7 +32,7 @@ public class SensitiveUtils {
             if (StringUtils.isEmpty(mobile) || (mobile.length() != 11)) {
                 return mobile;
             }
-            return mobile.replaceAll("(\\w{3})\\w*(\\w{4})", "$1****$2");
+            return mobile.replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -50,7 +50,7 @@ public class SensitiveUtils {
             if (StringUtils.isEmpty(identity) || (identity.length() != 18)) {
                 return identity;
             }
-            return identity.replaceAll("(\\w{3})\\w*(\\w{4})", "$1****$2");
+            return identity.replaceAll("(\\d{3})\\d{9,12}(\\d{4})", "$1****$2");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -79,7 +79,7 @@ public class SensitiveUtils {
             Matcher idCardMatcher = idCardPattern.matcher(text);
             while (idCardMatcher.find()) {
                 String idCard = idCardMatcher.group();
-                String replacement = idCard.replaceAll("(\\d{3})\\d{8}(\\d{4})", "$1********$2");
+                String replacement = idCard.replaceAll("(\\d{3})\\d{9,12}(\\d{4})", "$1********$2");
                 text = text.replace(idCard, replacement);
             }
         } catch (Exception e) {
