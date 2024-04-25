@@ -2,6 +2,7 @@ package com.xxl.core.utils;
 
 import android.app.Application;
 import android.os.Looper;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -9,7 +10,6 @@ import androidx.annotation.Nullable;
 import com.xxl.kit.AppUtils;
 import com.xxl.kit.LogUtils;
 import com.xxl.kit.TimeUtils;
-import com.xxl.kit.ToastUtils;
 
 import java.util.concurrent.ThreadPoolExecutor;
 
@@ -110,14 +110,11 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
     @Override
     public void uncaughtException(@Nullable Thread thread,
                                   @Nullable Throwable throwable) {
-        final Runnable runnable = () -> {
-            LogUtils.e("程序发生了一点小意外 " + (thread == null ? "" : throwable.getMessage()));
-            if (handleException(throwable)) {
-                return;
-            }
-            mDefaultUncaughtExceptionHandler.uncaughtException(thread, throwable);
-        };
-        mThreadPoolExecutor.execute(runnable);
+        LogUtils.e("程序发生了一点小意外 " + (thread == null ? "" : throwable.getMessage()));
+        if (handleException(throwable)) {
+            return;
+        }
+        mDefaultUncaughtExceptionHandler.uncaughtException(thread, throwable);
     }
 
     /**
@@ -136,16 +133,20 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
             System.exit(0);
         } else {
             if (mIsDebug) {
-                Looper.prepare();
-                ToastUtils.warning(throwable.getMessage()).show();
-                Looper.loop();
+                Runnable runnable = () -> {
+                    Looper.prepare();
+                    Toast.makeText(mApplication, throwable.getMessage(), Toast.LENGTH_LONG).show();
+                    Looper.loop();
+                };
+                mThreadPoolExecutor.execute(runnable);
+            }
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            if (mIsDebug) {
                 AppUtils.exitApp();
-            } else {
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
             }
         }
         return true;

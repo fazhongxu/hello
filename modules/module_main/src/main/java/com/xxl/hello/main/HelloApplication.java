@@ -155,6 +155,7 @@ public class HelloApplication extends BaseApplication implements IApplication, M
         super.initPlugins();
         LogUtils.init(isDebug(), "HELLO");
         CrashHandler.getInstance().init(this, "Hello", isDebug());
+//        MyCrashHandler.getInstance().init(this);
         MediaSelector.init(this);
         registerShortcuts(this);
         setupAutoSize();
