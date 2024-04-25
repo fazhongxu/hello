@@ -129,9 +129,10 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         if (throwable == null) {
             return false;
         }
+        long lastCrashTime = CacheUtils.decodeLong(PRE_NAME, KEY_APP_LAST_CRASH_TIME);
         CacheUtils.encode(PRE_NAME, KEY_APP_LAST_CRASH_TIME, TimeUtils.currentServiceTimeMillis());
         CacheUtils.encode(PRE_NAME, KEY_APP_LAST_CRASH_MESSAGE, throwable.toString());
-        if (TimeUtils.currentServiceTimeMillis() - CacheUtils.decodeLong(PRE_NAME, KEY_APP_LAST_CRASH_TIME) <= KILL_APP_TIME_INTERVAL_MILLS) {
+        if (TimeUtils.currentServiceTimeMillis() - lastCrashTime <= KILL_APP_TIME_INTERVAL_MILLS) {
             System.exit(0);
         } else {
             if (mIsDebug) {
