@@ -2,7 +2,6 @@ package com.xxl.core.utils;
 
 import android.app.Application;
 import android.os.Looper;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -10,6 +9,7 @@ import androidx.annotation.Nullable;
 import com.xxl.kit.AppUtils;
 import com.xxl.kit.LogUtils;
 import com.xxl.kit.TimeUtils;
+import com.xxl.kit.ToastUtils;
 
 import java.util.concurrent.ThreadPoolExecutor;
 
@@ -135,7 +135,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
             if (mIsDebug) {
                 Runnable runnable = () -> {
                     Looper.prepare();
-                    Toast.makeText(mApplication, throwable.getMessage(), Toast.LENGTH_LONG).show();
+                    ToastUtils.warning(throwable.getMessage()).show();
                     Looper.loop();
                 };
                 mThreadPoolExecutor.execute(runnable);
