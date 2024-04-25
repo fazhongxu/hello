@@ -132,22 +132,18 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         if (TimeUtils.currentServiceTimeMillis() - lastCrashTime <= KILL_APP_TIME_INTERVAL_MILLS) {
             System.exit(0);
         } else {
-            if (mIsDebug) {
-                Runnable runnable = () -> {
-                    Looper.prepare();
-                    ToastUtils.warning(throwable.getMessage()).show();
-                    Looper.loop();
-                };
-                mThreadPoolExecutor.execute(runnable);
-            }
+            Runnable runnable = () -> {
+                Looper.prepare();
+                ToastUtils.warning(throwable.getMessage()).show();
+                Looper.loop();
+            };
+            mThreadPoolExecutor.execute(runnable);
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            if (mIsDebug) {
-                AppUtils.exitApp();
-            }
+            AppUtils.exitApp();
         }
         return true;
     }
