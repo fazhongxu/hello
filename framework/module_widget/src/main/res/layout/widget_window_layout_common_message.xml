@@ -69,8 +69,7 @@
             android:textColor="@color/resources_text_content_color"
             android:textSize="15sp"
             android:textStyle="bold"
-            app:rv_backgroundColor="@color/white"
-            app:rv_backgroundPressColor="@color/resources_ripple_material_light"
+            android:background="@android:color/white"
             app:rv_cornerRadius_BL="8dp" />
 
         <View
@@ -88,8 +87,7 @@
             android:textColor="@color/resources_primary_color"
             android:textSize="15sp"
             android:textStyle="bold"
-            app:rv_backgroundColor="@color/white"
-            app:rv_backgroundPressColor="@color/resources_ripple_material_light"
+            android:background="@android:color/white"
             app:rv_cornerRadius_BR="8dp" />
 
     </com.flyco.roundview.RoundLinearLayout>
