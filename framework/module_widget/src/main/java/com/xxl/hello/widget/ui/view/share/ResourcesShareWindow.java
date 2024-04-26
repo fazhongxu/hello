@@ -125,7 +125,7 @@ public class ResourcesShareWindow extends BasePopupWindow {
     public static <T> ShareOperateItem buildDownloadAction(@NonNull final ShareOperateItem.OnItemHandle<T> handle) {
         return ShareOperateItem.obtain()
                 .setOperateType(SystemEnumsApi.ShareOperateType.DOWNLOAD)
-                .setTitle(StringUtils.getString(R.string.resources_friend_circle))
+                .setTitle(StringUtils.getString(R.string.resources_download))
                 .setIcon(R.drawable.resources_ic_save)
                 .setOnItemHandle(handle);
     }
