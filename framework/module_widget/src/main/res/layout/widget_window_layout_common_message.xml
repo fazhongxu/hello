@@ -32,6 +32,7 @@
         android:layout_marginLeft="15dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="15dp"
+        android:maxLines="10"
         android:layout_marginBottom="10dp"
         android:gravity="center"
         app:layout_constraintBottom_toTopOf="@+id/ll_bottom_container"

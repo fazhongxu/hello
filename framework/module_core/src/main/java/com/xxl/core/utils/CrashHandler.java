@@ -11,6 +11,9 @@ import com.xxl.kit.LogUtils;
 import com.xxl.kit.TimeUtils;
 import com.xxl.kit.ToastUtils;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.util.concurrent.ThreadPoolExecutor;
 
 /**
@@ -126,9 +129,11 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         if (throwable == null) {
             return false;
         }
+
+        String crashInfo = getCrashInfo(throwable);
         long lastCrashTime = CacheUtils.decodeLong(PRE_NAME, KEY_APP_LAST_CRASH_TIME);
         CacheUtils.encode(PRE_NAME, KEY_APP_LAST_CRASH_TIME, TimeUtils.currentServiceTimeMillis());
-        CacheUtils.encode(PRE_NAME, KEY_APP_LAST_CRASH_MESSAGE, throwable.toString());
+        CacheUtils.encode(PRE_NAME, KEY_APP_LAST_CRASH_MESSAGE, crashInfo);
         if (TimeUtils.currentServiceTimeMillis() - lastCrashTime <= KILL_APP_TIME_INTERVAL_MILLS) {
             System.exit(0);
         } else {
@@ -147,5 +152,33 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         }
         return true;
     }
+
+    /**
+     * 获取崩溃信息
+     *
+     * @param throwable
+     * @return
+     */
+    private String getCrashInfo(@Nullable Throwable throwable) {
+        try {
+            if (throwable == null) {
+                return "";
+            }
+            Writer info = new StringWriter();
+            PrintWriter printWriter = new PrintWriter(info);
+            throwable.printStackTrace(printWriter);
+            Throwable cause = throwable.getCause();
+            while (cause != null) {
+                cause.printStackTrace(printWriter);
+                cause = cause.getCause();
+            }
+            return info.toString();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
 
 }
