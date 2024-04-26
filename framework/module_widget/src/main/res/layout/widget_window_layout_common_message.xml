@@ -8,7 +8,8 @@
     android:maxHeight="500dp"
     android:minHeight="156dp"
     app:rv_backgroundColor="@android:color/white"
-    app:rv_cornerRadius="8dp">
+    app:rv_cornerRadius="8dp"
+    app:rv_isRippleEnable="false">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_title"
@@ -32,12 +33,12 @@
         android:layout_marginLeft="15dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="15dp"
-        android:maxLines="10"
         android:layout_marginBottom="10dp"
         android:gravity="center"
-        app:layout_constraintBottom_toTopOf="@+id/ll_bottom_container"
+        android:maxLines="10"
         android:textColor="@color/framework_core_sub_title_color"
         android:textSize="15sp"
+        app:layout_constraintBottom_toTopOf="@+id/ll_bottom_container"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_title"
@@ -64,13 +65,15 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@android:color/white"
             android:gravity="center"
             android:text="@string/resources_cancel_text"
             android:textColor="@color/resources_text_content_color"
             android:textSize="15sp"
             android:textStyle="bold"
-            android:background="@android:color/white"
-            app:rv_cornerRadius_BL="8dp" />
+            app:rv_backgroundPressColor="@color/resources_ripple_material_light"
+            app:rv_cornerRadius_BL="8dp"
+            app:rv_isRippleEnable="true" />
 
         <View
             android:layout_width="0.5dp"
@@ -82,13 +85,15 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@android:color/white"
             android:gravity="center"
             android:text="@string/resources_confirm_text"
             android:textColor="@color/resources_primary_color"
             android:textSize="15sp"
             android:textStyle="bold"
-            android:background="@android:color/white"
-            app:rv_cornerRadius_BR="8dp" />
+            app:rv_backgroundPressColor="@color/resources_ripple_material_light"
+            app:rv_cornerRadius_BR="8dp"
+            app:rv_isRippleEnable="true" />
 
     </com.flyco.roundview.RoundLinearLayout>
 
