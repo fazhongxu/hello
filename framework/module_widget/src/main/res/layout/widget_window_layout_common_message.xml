@@ -17,13 +17,13 @@
         android:layout_marginLeft="15dp"
         android:layout_marginTop="15dp"
         android:layout_marginRight="15dp"
-        android:text="@string/core_exception_info"
         android:textColor="@android:color/black"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="标题" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_message"
@@ -38,7 +38,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_title"
-        tools:text="我是异常消息我是异常消息我是" />
+        tools:text="我是内容我是内容我是内容" />
 
     <View
         android:layout_width="match_parent"
