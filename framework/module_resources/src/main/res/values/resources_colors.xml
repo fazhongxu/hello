@@ -6,6 +6,10 @@
     <color name="resources_accent_color">#C5E1EC</color>
     <color name="resources_white_color">#FFFFFF</color>
 
+    <!-- selectableItemBackground ripple_material_dark-->
+    <color name="resources_ripple_material_dark">#33FFFFFF</color>
+    <color name="resources_ripple_material_light">#1F000000</color>
+
     <color name="resources_common_gray_color">#CECECE</color>
     <color name="resources_common_gray_light_color">#B3CECECE</color>
     <color name="resources_common_red_color">#D55049</color>
