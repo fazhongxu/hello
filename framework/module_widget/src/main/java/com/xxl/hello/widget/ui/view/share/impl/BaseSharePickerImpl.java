@@ -16,6 +16,7 @@ import com.xxl.core.service.download.DownloadService;
 import com.xxl.core.service.download.DownloadServiceWrapper;
 import com.xxl.core.service.download.DownloadTaskEntity;
 import com.xxl.core.ui.activity.BaseActivity;
+import com.xxl.core.utils.ShareUtils;
 import com.xxl.hello.common.config.ShareConfig;
 import com.xxl.hello.service.data.model.entity.share.BaseShareResourceEntity;
 import com.xxl.hello.service.data.model.entity.share.ShareOperateItem;
@@ -28,7 +29,6 @@ import com.xxl.kit.FileUtils;
 import com.xxl.kit.ListUtils;
 import com.xxl.kit.LogUtils;
 import com.xxl.kit.OnRequestCallBack;
-import com.xxl.core.utils.ShareUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -193,6 +193,8 @@ public abstract class BaseSharePickerImpl<T extends BaseShareResourceEntity> imp
                 return ResourcesShareWindow.buildWeChatAction(this::onWeChatActionClick);
             case ShareOperateType.WE_CHAT_CIRCLE:
                 return ResourcesShareWindow.buildWeChatCircleAction(this::onWeChatCircleActionClick);
+            case ShareOperateType.DOWNLOAD:
+                return ResourcesShareWindow.buildDownloadAction(this::onDownloadActionClick);
             default:
                 return null;
         }
@@ -288,6 +290,17 @@ public abstract class BaseSharePickerImpl<T extends BaseShareResourceEntity> imp
      * @param targetShareResourcesEntity
      */
     public void onWeChatCircleActionClick(@NonNull T targetShareResourcesEntity) {
+        if (isActivityFinishing()) {
+            return;
+        }
+    }
+
+    /**
+     * 下载点击
+     *
+     * @param targetShareResourcesEntity
+     */
+    public void onDownloadActionClick(@NonNull T targetShareResourcesEntity) {
         if (isActivityFinishing()) {
             return;
         }

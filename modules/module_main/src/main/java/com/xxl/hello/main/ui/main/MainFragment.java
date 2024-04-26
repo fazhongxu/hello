@@ -23,6 +23,7 @@ import com.xxl.core.ui.BaseEventBusWrapper;
 import com.xxl.core.ui.fragment.BaseStateViewModelFragment;
 import com.xxl.core.ui.state.EmptyState;
 import com.xxl.core.utils.AppExpandUtils;
+import com.xxl.core.utils.CrashHandler;
 import com.xxl.core.utils.DecorationUtils;
 import com.xxl.core.widget.recyclerview.OnRefreshDataListener;
 import com.xxl.core.widget.text.LinkTouchMovementMethod;
@@ -45,7 +46,9 @@ import com.xxl.hello.service.handle.api.AppSchemeService;
 import com.xxl.hello.widget.data.router.WidgetRouterApi;
 import com.xxl.hello.widget.ui.view.record.OnRecordListener;
 import com.xxl.hello.widget.ui.view.record.RecordButton;
+import com.xxl.hello.widget.ui.window.ExceptionPopupWindow;
 import com.xxl.kit.AppUtils;
+import com.xxl.kit.ClipboardUtils;
 import com.xxl.kit.FFmpegUtils;
 import com.xxl.kit.ListUtils;
 import com.xxl.kit.LogUtils;
@@ -202,6 +205,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     @Override
     protected void setupLayout(@NonNull final View view) {
         registerAppStatusChangedListener(this);
+        setupExceptionMessage();
         handleNavigationPath();
         mViewDataBinding.tvTest.setMovementMethod(LinkTouchMovementMethod.getInstance());
         mMainViewModel.setObservableUserId(String.valueOf(TimeUtils.currentServiceTimeMillis()));
@@ -379,6 +383,25 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     private void onErrorCallback(@Nullable final Throwable throwable) {
         ToastUtils.success("我是错误回调" + throwable.getMessage()).show();
         Log.e("aaav", "错了错了v");
+    }
+
+    /**
+     * 设置异常信息展示
+     */
+    private void setupExceptionMessage() {
+        if (TextUtils.isEmpty(CrashHandler.getInstance().getAppLastCrashMessage())) {
+            return;
+        }
+        ExceptionPopupWindow.from(getActivity())
+                .setMessage(CrashHandler.getInstance().getAppLastCrashMessage())
+                .setNegativeButton(getString(R.string.resources_cancel_text), v -> {
+                    CrashHandler.getInstance().clearAppLastCrashMessage();
+                })
+                .setPositiveButton(getString(R.string.resources_copy_text), v -> {
+                    ClipboardUtils.copyText(CrashHandler.getInstance().getAppLastCrashMessage());
+                    ToastUtils.success(R.string.resources_text_copied).show();
+                    CrashHandler.getInstance().clearAppLastCrashMessage();
+                }).showPopupWindow();
     }
 
     private void setupRecord() {

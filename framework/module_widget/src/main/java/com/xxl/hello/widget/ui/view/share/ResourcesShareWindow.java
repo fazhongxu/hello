@@ -117,6 +117,20 @@ public class ResourcesShareWindow extends BasePopupWindow {
     }
 
     /**
+     * 构建下载操作
+     *
+     * @param handle
+     * @return
+     */
+    public static <T> ShareOperateItem buildDownloadAction(@NonNull final ShareOperateItem.OnItemHandle<T> handle) {
+        return ShareOperateItem.obtain()
+                .setOperateType(SystemEnumsApi.ShareOperateType.DOWNLOAD)
+                .setTitle(StringUtils.getString(R.string.resources_friend_circle))
+                .setIcon(R.drawable.resources_ic_save)
+                .setOnItemHandle(handle);
+    }
+
+    /**
      * 添加条目
      *
      * @param operateItems
