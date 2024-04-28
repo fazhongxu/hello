@@ -210,6 +210,28 @@ public class CommonMessagePopupWindow extends BasePopupWindow {
     }
 
     /**
+     * 设置只展示取消按钮
+     *
+     * @param text
+     * @param listener
+     * @return
+     */
+    public CommonMessagePopupWindow setSingleNegativeButton(CharSequence text, View.OnClickListener listener) {
+        ViewUtils.setText(mTvCancel, text);
+        ViewUtils.setOnClickListener(mTvCancel, v -> {
+            listener.onClick(v);
+            dismiss();
+        });
+        ViewUtils.setVisibility(mTvConfirm, false);
+        RoundViewDelegate delegate = mTvCancel.getDelegate();
+        if (delegate != null) {
+            delegate.setCornerRadius_BL(DisplayUtils.dp2px(8));
+            delegate.setCornerRadius_BR(DisplayUtils.dp2px(8));
+        }
+        return this;
+    }
+
+    /**
      * 设置只展示确定按钮
      *
      * @param text
