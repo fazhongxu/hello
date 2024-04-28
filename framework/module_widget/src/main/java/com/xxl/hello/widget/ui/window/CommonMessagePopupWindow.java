@@ -114,7 +114,7 @@ public class CommonMessagePopupWindow extends BasePopupWindow {
     public CommonMessagePopupWindow setTitleFakeBoldText(final boolean fakeBoldText) {
         TextPaint paint = mTvTitle.getPaint();
         if (paint != null) {
-            paint.setFakeBoldText(false);
+            paint.setFakeBoldText(fakeBoldText);
         }
         return this;
     }
@@ -161,7 +161,7 @@ public class CommonMessagePopupWindow extends BasePopupWindow {
     public CommonMessagePopupWindow setMessageFakeBoldText(final boolean fakeBoldText) {
         TextPaint paint = mTvMessage.getPaint();
         if (paint != null) {
-            paint.setFakeBoldText(false);
+            paint.setFakeBoldText(fakeBoldText);
         }
         return this;
     }
