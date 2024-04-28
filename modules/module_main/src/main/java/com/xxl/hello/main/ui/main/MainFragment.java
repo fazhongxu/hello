@@ -395,6 +395,8 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
         CommonMessagePopupWindow.from(getActivity())
                 .setTitle(getString(R.string.core_exception_info))
                 .setMessage(CrashHandler.getInstance().getAppLastCrashMessage())
+                .setNegativeButtonFakeBoldText(true)
+                .setPositiveButtonFakeBoldText(true)
                 .setNegativeButton(getString(R.string.resources_cancel_text), v -> {
                     CrashHandler.getInstance().clearAppLastCrashMessage();
                 })

@@ -14,7 +14,6 @@ import com.flyco.roundview.RoundTextView;
 import com.flyco.roundview.RoundViewDelegate;
 import com.xxl.hello.widget.R;
 import com.xxl.kit.DisplayUtils;
-import com.xxl.kit.ViewUtils;
 
 import razerdp.basepopup.BasePopupWindow;
 
@@ -71,10 +70,10 @@ public class CommonMessagePopupWindow extends BasePopupWindow {
      */
     private void setupLayout() {
         View rootView = createPopupById(R.layout.widget_window_layout_common_message);
-        mTvTitle = ViewUtils.findView(rootView, R.id.tv_title);
-        mTvMessage = ViewUtils.findView(rootView, R.id.tv_message);
-        mTvCancel = ViewUtils.findView(rootView, R.id.tv_cancel);
-        mTvConfirm = ViewUtils.findView(rootView, R.id.tv_confirm);
+        mTvTitle = rootView.findViewById(R.id.tv_title);
+        mTvMessage = rootView.findViewById(R.id.tv_message);
+        mTvCancel = rootView.findViewById(R.id.tv_cancel);
+        mTvConfirm = rootView.findViewById(R.id.tv_confirm);
         setContentView(rootView);
     }
 
@@ -89,8 +88,8 @@ public class CommonMessagePopupWindow extends BasePopupWindow {
      * @return
      */
     public CommonMessagePopupWindow setTitle(final CharSequence title) {
-        ViewUtils.setText(mTvTitle, title);
-        ViewUtils.setVisibility(mTvTitle, TextUtils.isEmpty(title) ? View.GONE : View.VISIBLE);
+        mTvTitle.setText(title);
+        mTvTitle.setVisibility(TextUtils.isEmpty(title) ? View.GONE : View.VISIBLE);
         return this;
     }
 
@@ -137,7 +136,7 @@ public class CommonMessagePopupWindow extends BasePopupWindow {
      * @return
      */
     public CommonMessagePopupWindow setMessage(final CharSequence message) {
-        ViewUtils.setText(mTvMessage, message);
+        mTvMessage.setText(message);
         return this;
     }
 
@@ -185,8 +184,8 @@ public class CommonMessagePopupWindow extends BasePopupWindow {
      * @return
      */
     public CommonMessagePopupWindow setNegativeButton(CharSequence text, View.OnClickListener listener) {
-        ViewUtils.setText(mTvCancel, text);
-        ViewUtils.setOnClickListener(mTvCancel, v -> {
+        mTvCancel.setText(text);
+        mTvCancel.setOnClickListener(v -> {
             listener.onClick(v);
             dismiss();
         });
@@ -201,8 +200,8 @@ public class CommonMessagePopupWindow extends BasePopupWindow {
      * @return
      */
     public CommonMessagePopupWindow setPositiveButton(CharSequence text, View.OnClickListener listener) {
-        ViewUtils.setText(mTvConfirm, text);
-        ViewUtils.setOnClickListener(mTvConfirm, v -> {
+        mTvConfirm.setText(text);
+        mTvConfirm.setOnClickListener(v -> {
             listener.onClick(v);
             dismiss();
         });
@@ -217,12 +216,12 @@ public class CommonMessagePopupWindow extends BasePopupWindow {
      * @return
      */
     public CommonMessagePopupWindow setSingleNegativeButton(CharSequence text, View.OnClickListener listener) {
-        ViewUtils.setText(mTvCancel, text);
-        ViewUtils.setOnClickListener(mTvCancel, v -> {
+        mTvCancel.setText(text);
+        mTvCancel.setOnClickListener(v -> {
             listener.onClick(v);
             dismiss();
         });
-        ViewUtils.setVisibility(mTvConfirm, false);
+        mTvConfirm.setVisibility(View.GONE);
         RoundViewDelegate delegate = mTvCancel.getDelegate();
         if (delegate != null) {
             delegate.setCornerRadius_BL(DisplayUtils.dp2px(8));
@@ -239,16 +238,66 @@ public class CommonMessagePopupWindow extends BasePopupWindow {
      * @return
      */
     public CommonMessagePopupWindow setSinglePositiveButton(CharSequence text, View.OnClickListener listener) {
-        ViewUtils.setText(mTvConfirm, text);
-        ViewUtils.setOnClickListener(mTvConfirm, v -> {
+        mTvConfirm.setText(text);
+        mTvConfirm.setOnClickListener(v -> {
             listener.onClick(v);
             dismiss();
         });
-        ViewUtils.setVisibility(mTvCancel, false);
+        mTvCancel.setVisibility(View.GONE);
         RoundViewDelegate delegate = mTvConfirm.getDelegate();
         if (delegate != null) {
             delegate.setCornerRadius_BL(DisplayUtils.dp2px(8));
             delegate.setCornerRadius_BR(DisplayUtils.dp2px(8));
+        }
+        return this;
+    }
+
+    /**
+     * 设置取消文本颜色
+     *
+     * @param color
+     * @return
+     */
+    public CommonMessagePopupWindow setNegativeButtonTextColor(final int color) {
+        mTvCancel.setTextColor(color);
+        return this;
+    }
+
+    /**
+     * 设置确定文本颜色
+     *
+     * @param color
+     * @return
+     */
+    public CommonMessagePopupWindow setPositiveButtonTextColor(final int color) {
+        mTvConfirm.setTextColor(color);
+        return this;
+    }
+
+    /**
+     * 设置取消文本是否加粗
+     *
+     * @param fakeBoldText
+     * @return
+     */
+    public CommonMessagePopupWindow setNegativeButtonFakeBoldText(final boolean fakeBoldText) {
+        TextPaint paint = mTvCancel.getPaint();
+        if (paint != null) {
+            paint.setFakeBoldText(fakeBoldText);
+        }
+        return this;
+    }
+
+    /**
+     * 设置确定文本是否加粗
+     *
+     * @param fakeBoldText
+     * @return
+     */
+    public CommonMessagePopupWindow setPositiveButtonFakeBoldText(final boolean fakeBoldText) {
+        TextPaint paint = mTvConfirm.getPaint();
+        if (paint != null) {
+            paint.setFakeBoldText(fakeBoldText);
         }
         return this;
     }

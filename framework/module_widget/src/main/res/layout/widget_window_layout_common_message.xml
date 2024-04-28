@@ -74,7 +74,6 @@
             android:text="@string/resources_cancel_text"
             android:textColor="@color/resources_text_content_color"
             android:textSize="15sp"
-            android:textStyle="bold"
             app:rv_backgroundPressColor="@color/resources_ripple_material_light"
             app:rv_cornerRadius_BL="8dp"
             app:rv_isRippleEnable="true" />
@@ -89,7 +88,6 @@
             android:text="@string/resources_confirm_text"
             android:textColor="@color/resources_primary_color"
             android:textSize="15sp"
-            android:textStyle="bold"
             app:rv_backgroundPressColor="@color/resources_ripple_material_light"
             app:rv_cornerRadius_BR="8dp"
             app:rv_isRippleEnable="true" />
