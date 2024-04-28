@@ -1,13 +1,19 @@
 package com.xxl.hello.widget.ui.window;
 
 import android.app.Activity;
+import android.text.TextPaint;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.IntegerRes;
 import androidx.annotation.NonNull;
 
+import com.flyco.roundview.RoundTextView;
+import com.flyco.roundview.RoundViewDelegate;
 import com.xxl.hello.widget.R;
+import com.xxl.kit.DisplayUtils;
 import com.xxl.kit.ViewUtils;
 
 import razerdp.basepopup.BasePopupWindow;
@@ -35,12 +41,12 @@ public class CommonMessagePopupWindow extends BasePopupWindow {
     /**
      * 取消
      */
-    private TextView mTvCancel;
+    private RoundTextView mTvCancel;
 
     /**
      * 确定
      */
-    private TextView mTvConfirm;
+    private RoundTextView mTvConfirm;
 
     //endregion
 
@@ -84,6 +90,43 @@ public class CommonMessagePopupWindow extends BasePopupWindow {
      */
     public CommonMessagePopupWindow setTitle(final CharSequence title) {
         ViewUtils.setText(mTvTitle, title);
+        ViewUtils.setVisibility(mTvTitle, TextUtils.isEmpty(title) ? View.GONE : View.VISIBLE);
+        return this;
+    }
+
+    /**
+     * 设置标题颜色
+     *
+     * @param color
+     * @return
+     */
+    public CommonMessagePopupWindow setTitleColor(@IntegerRes final int color) {
+        mTvTitle.setTextColor(color);
+        return this;
+    }
+
+    /**
+     * 设置标题是否加粗
+     *
+     * @param fakeBoldText
+     * @return
+     */
+    public CommonMessagePopupWindow setTitleFakeBoldText(final boolean fakeBoldText) {
+        TextPaint paint = mTvTitle.getPaint();
+        if (paint != null) {
+            paint.setFakeBoldText(false);
+        }
+        return this;
+    }
+
+    /**
+     * 设置标题是否可见
+     *
+     * @param isVisible
+     * @return
+     */
+    public CommonMessagePopupWindow setTitleVisibility(final boolean isVisible) {
+        mTvTitle.setVisibility(isVisible ? View.VISIBLE : View.GONE);
         return this;
     }
 
@@ -95,6 +138,42 @@ public class CommonMessagePopupWindow extends BasePopupWindow {
      */
     public CommonMessagePopupWindow setMessage(final CharSequence message) {
         ViewUtils.setText(mTvMessage, message);
+        return this;
+    }
+
+    /**
+     * 设置消息颜色
+     *
+     * @param color
+     * @return
+     */
+    public CommonMessagePopupWindow setMesageColor(@IntegerRes final int color) {
+        mTvMessage.setTextColor(color);
+        return this;
+    }
+
+    /**
+     * 设置消息是否加粗
+     *
+     * @param fakeBoldText
+     * @return
+     */
+    public CommonMessagePopupWindow setMessageFakeBoldText(final boolean fakeBoldText) {
+        TextPaint paint = mTvMessage.getPaint();
+        if (paint != null) {
+            paint.setFakeBoldText(false);
+        }
+        return this;
+    }
+
+    /**
+     * 设置消息是否可见
+     *
+     * @param isVisible
+     * @return
+     */
+    public CommonMessagePopupWindow setMessageVisibility(final boolean isVisible) {
+        mTvMessage.setVisibility(isVisible ? View.VISIBLE : View.GONE);
         return this;
     }
 
@@ -127,6 +206,28 @@ public class CommonMessagePopupWindow extends BasePopupWindow {
             listener.onClick(v);
             dismiss();
         });
+        return this;
+    }
+
+    /**
+     * 设置只展示确定按钮
+     *
+     * @param text
+     * @param listener
+     * @return
+     */
+    public CommonMessagePopupWindow setSinglePositiveButton(CharSequence text, View.OnClickListener listener) {
+        ViewUtils.setText(mTvConfirm, text);
+        ViewUtils.setOnClickListener(mTvConfirm, v -> {
+            listener.onClick(v);
+            dismiss();
+        });
+        ViewUtils.setVisibility(mTvCancel, false);
+        RoundViewDelegate delegate = mTvConfirm.getDelegate();
+        if (delegate != null) {
+            delegate.setCornerRadius_BL(DisplayUtils.dp2px(8));
+            delegate.setCornerRadius_BR(DisplayUtils.dp2px(8));
+        }
         return this;
     }
 

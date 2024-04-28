@@ -402,7 +402,8 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
                     ClipboardUtils.copyText(CrashHandler.getInstance().getAppLastCrashMessage());
                     ToastUtils.success(R.string.resources_text_copied).show();
                     CrashHandler.getInstance().clearAppLastCrashMessage();
-                }).showPopupWindow();
+                })
+                .showPopupWindow();
     }
 
     private void setupRecord() {
