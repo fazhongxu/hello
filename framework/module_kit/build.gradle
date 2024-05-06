@@ -74,6 +74,10 @@ dependencies {
     compileOnly deps.ffmpeg_kit_exception
 
     compileOnly deps.luban
+    compileOnly deps.glide.glide
+
+    compileOnly deps.wcqr_qrcode
+    compileOnly deps.wcqr_opencv
 
     compileOnly deps.aescrypt
 
@@ -91,6 +95,8 @@ dependencies {
     compileOnly deps.we_chat
     compileOnly deps.qq
     compileOnly deps.sina
+
+    compileOnly deps.rxjava
 
 
 }

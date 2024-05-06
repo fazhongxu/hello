@@ -9,7 +9,6 @@ import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
-import com.king.wechat.qrcode.WeChatQRCodeDetector;
 import com.luck.picture.lib.engine.PictureSelectorEngine;
 import com.umeng.socialize.PlatformConfig;
 import com.xxl.core.BaseApplication;
@@ -31,10 +30,9 @@ import com.xxl.hello.service.handle.api.AppSchemeService;
 import com.xxl.hello.user.ui.setting.UserSettingActivity;
 import com.xxl.kit.AppUtils;
 import com.xxl.kit.LogUtils;
+import com.xxl.kit.QRCodeUtils;
 import com.xxl.kit.StringUtils;
 import com.xxl.kit.TimeUtils;
-
-import org.opencv.OpenCV;
 
 import javax.inject.Inject;
 
@@ -184,8 +182,7 @@ public class HelloApplication extends BaseApplication implements IApplication, M
      * 初始化微信二维码检测器
      */
     private void initWeChatQRCodeDetector() {
-        OpenCV.initAsync(this);
-        WeChatQRCodeDetector.init(this);
+        QRCodeUtils.initWeChatQRCodeDetector(this);
     }
 
     /**
