@@ -38,7 +38,7 @@ public class QRCodeActivity extends SingleFragmentBarActivity<QRCodeFragment> {
     }
 
     @Override
-    public int getBackgroundColor() {
+    public int getToolbarBackgroundColor() {
         return Color.BLACK;
     }
 

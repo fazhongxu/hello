@@ -85,8 +85,8 @@ public class ToolbarWrapper {
         mCustomToolBar = rootView.findViewById(R.id.tool_bar);
 
         if (mOnToolbarProvider != null) {
-            if (mOnToolbarProvider.getBackgroundColor() != 0) {
-                mAppBarLayout.setBackgroundColor(mOnToolbarProvider.getBackgroundColor());
+            if (mOnToolbarProvider.getToolbarBackgroundColor() != 0) {
+                mAppBarLayout.setBackgroundColor(mOnToolbarProvider.getToolbarBackgroundColor());
             }
 
             if (mOnToolbarProvider.isDisplayLeft()) {

@@ -16,7 +16,7 @@ public interface OnToolbarProvider {
      *
      * @return
      */
-    default int getBackgroundColor() {
+    default int getToolbarBackgroundColor() {
         return 0;
     }
 
