@@ -1,16 +1,14 @@
 package com.xxl.kit;
 
+import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.Settings;
 
-import androidx.fragment.app.Fragment;
-
-import io.reactivex.ObservableTransformer;
-import io.reactivex.functions.Predicate;
+import io.reactivex.rxjava3.core.ObservableTransformer;
+import io.reactivex.rxjava3.functions.Predicate;
 
 /**
  * @author xxl.
@@ -25,15 +23,14 @@ public class PermissionUtils {
     /**
      * 权限处理，系统返回拒绝时弹窗提示去设置页开启权限
      *
-     * @param fragment
      * @return
      */
-    public ObservableTransformer<Boolean, Boolean> applyPermissionSetting(Fragment fragment) {
+    public static ObservableTransformer<Boolean, Boolean> applyPermissionSetting() {
         return upstream -> upstream.filter((Predicate<Boolean>) aBoolean -> {
             if (aBoolean) {
                 return true;
             }
-            showGoToSettingsDialog(fragment.getActivity());
+            showGoToSettingsDialog(AppUtils.getTopActivity());
             return false;
         });
     }
@@ -43,7 +40,10 @@ public class PermissionUtils {
      *
      * @param context
      */
-    public static void showGoToSettingsDialog(final Context context) {
+    public static void showGoToSettingsDialog(final Activity context) {
+        if (context == null || context.isFinishing()) {
+            return;
+        }
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("需要权限");
         builder.setMessage("我们需要您手动在设置中授权所需权限。");

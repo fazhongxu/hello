@@ -8,6 +8,7 @@ import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.UCropOptions;
 import com.tbruyelle.rxpermissions3.RxPermissions;
 import com.xxl.core.R;
+import com.xxl.kit.PermissionUtils;
 import com.xxl.kit.ToastUtils;
 
 import io.reactivex.rxjava3.disposables.Disposable;
@@ -94,6 +95,7 @@ public class MediaSelectionModel extends PictureSelectionModel {
         final Disposable disposable = rxPermissions.request(Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.CAMERA)
+                .compose(PermissionUtils.applyPermissionSetting())
                 .subscribe(isSuccess -> {
                     if (isSuccess) {
                         super.forResult(requestCode);
