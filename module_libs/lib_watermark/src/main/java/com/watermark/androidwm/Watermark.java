@@ -148,7 +148,7 @@ public class Watermark {
 
                     for (int y = (int) spacing; y < canvasHeight; y += height + spacing) {
                         for (int x = (int) spacing; x < canvasWidth; x += width + spacing) {
-                            watermarkCanvas.drawBitmap(scaledWMBitmap, x, y, null);
+                            watermarkCanvas.drawBitmap(scaledWMBitmap, x, y, watermarkPaint);
                         }
                     }
                 } else {
@@ -248,7 +248,7 @@ public class Watermark {
 
                     for (int y = (int) spacing; y < canvasHeight; y += height + spacing) {
                         for (int x = (int) spacing; x < canvasWidth; x += width + spacing) {
-                            watermarkCanvas.drawBitmap(scaledWMBitmap, x, y, null);
+                            watermarkCanvas.drawBitmap(scaledWMBitmap, x, y, watermarkPaint);
                         }
                     }
                 } else {

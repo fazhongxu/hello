@@ -409,9 +409,12 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
                 @Override
                 public void run() {
                     WatermarkImage watermarkImage = new WatermarkImage(getActivity(), R.drawable.resources_ic_we_chat);
-                    watermarkImage.setRotation(30);
-                    watermarkImage.setImageAlpha(255);
+                    //watermarkImage.setRotation(30);
+                    //watermarkImage.setImageAlpha(255);
                     watermarkImage.setPosition(new WatermarkPosition(0, 0).setWatermarkLocation(WatermarkLocation.CENTER));
+                    watermarkImage.setRotation(30);
+                    watermarkImage.setImageAlpha(50);
+
                     Bitmap bitmap = null;
                     try {
                         bitmap = ImageLoader.with(AppUtils.getApplication())
