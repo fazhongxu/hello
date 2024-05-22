@@ -28,6 +28,17 @@ import android.renderscript.ScriptIntrinsicBlur;
 
 public class FastBlur {
 
+    public static Bitmap blur(Context context, Bitmap bitmap, int radius) {
+        Bitmap targetBitmap;
+        try {
+            targetBitmap = FastBlur.rsblur(context, bitmap, radius);
+        } catch (RSRuntimeException e) {
+            e.printStackTrace();
+            targetBitmap = FastBlur.blur(bitmap, radius, true);
+        }
+        return targetBitmap;
+    }
+
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
     public static Bitmap rsblur(Context context, Bitmap bitmap, int radius) throws RSRuntimeException {
         RenderScript rs = null;
