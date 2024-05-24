@@ -1292,6 +1292,53 @@ public class TimeUtils {
     }
 
     /**
+     * 去除时间戳中的分钟和毫秒
+     *
+     * @param timestamp
+     * @return
+     */
+    public static long removeMinuteSecond(long timestamp) {
+        final Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(timestamp);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar.getTimeInMillis();
+    }
+
+    /**
+     * 去除时间戳中的小时、分钟和毫秒
+     *
+     * @param timestamp
+     * @return
+     */
+    public static long removeHourMinuteSecond(long timestamp) {
+        final Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(timestamp);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar.getTimeInMillis();
+    }
+
+    /**
+     * 将时间戳中的小时、分钟和秒改为一天中最晚的时间
+     *
+     * @param timestamp 时间戳
+     * @return 修改后的时间戳
+     */
+    public static long setToEndOfDay(long timestamp) {
+        final Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(timestamp);
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.MINUTE, 59);
+        calendar.set(Calendar.SECOND, 59);
+        calendar.set(Calendar.MILLISECOND, 999);
+        return calendar.getTimeInMillis();
+    }
+
+    /**
      * Return whether it is leap year.
      * <p>The pattern is {@code yyyy-MM-dd HH:mm:ss}.</p>
      *
