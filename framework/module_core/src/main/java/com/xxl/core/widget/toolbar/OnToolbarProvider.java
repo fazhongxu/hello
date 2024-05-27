@@ -48,6 +48,15 @@ public interface OnToolbarProvider {
     }
 
     /**
+     * 获取右边自定义视图
+     *
+     * @return
+     */
+    default View getRightCustomLayout() {
+        return null;
+    }
+
+    /**
      * 是否展示右边图标
      *
      * @return

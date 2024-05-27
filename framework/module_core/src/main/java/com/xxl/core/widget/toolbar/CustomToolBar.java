@@ -216,7 +216,7 @@ public class CustomToolBar extends Toolbar implements OnToolbarProvider {
 
 
     /**
-     * 设置导航栏左边视图
+     * 设置导航栏右边视图
      *
      * @param isDisplayRightIcon
      * @param isDisplayRightText
@@ -246,6 +246,15 @@ public class CustomToolBar extends Toolbar implements OnToolbarProvider {
             mRightContainer.setOnClickListener(onClickListener);
             mRightContainer.setOnLongClickListener(onLongClickListener);
         }
+    }
+
+    /**
+     * 设置导航栏自定义右边视图
+     *
+     * @param targetView
+     */
+    public void setupToolbarCustomRightLayout(View targetView) {
+        addView(targetView);
     }
 
     //endregion

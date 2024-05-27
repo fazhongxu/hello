@@ -80,7 +80,6 @@ public class ToolbarWrapper {
      * @param rootView
      */
     public void setupToolbar(View rootView) {
-        // TODO: 2023/2/27 点击事件等
         mAppBarLayout = rootView.findViewById(R.id.app_bar);
         mCustomToolBar = rootView.findViewById(R.id.tool_bar);
 
@@ -95,7 +94,10 @@ public class ToolbarWrapper {
             if (mOnToolbarProvider.isDisplayRightText() || mOnToolbarProvider.isDisplayRightIcon()) {
                 mCustomToolBar.setupToolbarRightLayout(mOnToolbarProvider.getRightText(), mOnToolbarProvider.getRightIcon(), v -> mOnToolbarProvider.onToolbarRightClick(v), v -> mOnToolbarProvider.onToolbarRightLongClick(v));
             } else if (mOnToolbarProvider.isDisplayRightCustom()) {
-                // TODO: 2023/8/2 自定义右边视图
+                View rightCustomLayout = mOnToolbarProvider.getRightCustomLayout();
+                if (rightCustomLayout != null) {
+                    mCustomToolBar.setupToolbarCustomRightLayout(rightCustomLayout);
+                }
             }
         }
     }
