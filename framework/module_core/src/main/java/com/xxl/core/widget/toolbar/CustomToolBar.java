@@ -254,7 +254,11 @@ public class CustomToolBar extends Toolbar implements OnToolbarProvider {
      * @param targetView
      */
     public void setupToolbarCustomRightLayout(View targetView) {
-        addView(targetView);
+        LayoutInflater.from(getContext()).inflate(R.layout.core_layout_include_toolbar_custom_right, this);
+        mRightContainer = findViewById(R.id.ll_right_container);
+        if (mRightContainer != null) {
+            mRightContainer.addView(targetView);
+        }
     }
 
     //endregion

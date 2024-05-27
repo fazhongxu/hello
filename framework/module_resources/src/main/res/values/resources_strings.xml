@@ -8,6 +8,7 @@
     <string name="resources_app_is_background_tips">进入到后台</string>
     <string name="resources_qr_code">二维码</string>
     <string name="resources_album_title">相册</string>
+    <string name="resources_share_text">分享</string>
 
     <string name="resources_cancel_text">取消</string>
     <string name="resources_confirm_text">确定</string>
