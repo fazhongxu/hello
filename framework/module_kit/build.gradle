@@ -98,5 +98,6 @@ dependencies {
 
     compileOnly deps.rxjava
 
+    compileOnly deps.tinypinyin
 
 }

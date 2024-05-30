@@ -1,11 +1,14 @@
 package com.xxl.kit;
 
 import android.app.Activity;
+import android.graphics.Outline;
 import android.graphics.Rect;
 import android.os.Build;
 import android.view.View;
+import android.view.ViewOutlineProvider;
 import android.widget.TextView;
 
+import androidx.annotation.FloatRange;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.annotation.StringRes;
@@ -176,6 +179,30 @@ public final class ViewUtils {
      * 防止重复点击的间隔时间（毫秒）
      */
     private static final long DEFAULT_CLICK_MILLIS = 500L;
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public static class RectCornerViewOutlineProvider extends ViewOutlineProvider {
+
+        /**
+         * 圆角的值
+         */
+        private float mRadius;
+
+        private RectCornerViewOutlineProvider(@FloatRange(from = 0) final float radius) {
+            mRadius = radius;
+        }
+
+        public final static RectCornerViewOutlineProvider obtain(@FloatRange(from = 0) final float radius) {
+            return new RectCornerViewOutlineProvider(radius);
+        }
+
+        @Override
+        public void getOutline(@NonNull final View view,
+                               @NonNull final Outline outline) {
+            final Rect selfRect = new Rect(0, 0, view.getWidth(), view.getHeight());
+            outline.setRoundRect(selfRect, mRadius);
+        }
+    }
 
     private ViewUtils() {
 

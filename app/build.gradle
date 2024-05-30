@@ -234,6 +234,7 @@ dependencies {
 
     implementation deps.watermark
 
+    implementation deps.tinypinyin
 }
 
 apply plugin: 'io.objectbox'
