@@ -11,6 +11,11 @@ import androidx.annotation.NonNull;
 
 import com.luck.picture.lib.engine.PictureSelectorEngine;
 import com.umeng.socialize.PlatformConfig;
+import com.vanniktech.emoji.EmojiManager;
+import com.vanniktech.emoji.EmojiPopup;
+import com.vanniktech.emoji.EmojiProvider;
+import com.vanniktech.emoji.emoji.EmojiCategory;
+import com.vanniktech.emoji.ios.IosEmojiProvider;
 import com.xxl.core.BaseApplication;
 import com.xxl.core.image.selector.MediaSelector;
 import com.xxl.core.image.selector.MediaSelectorApp;
@@ -157,6 +162,7 @@ public class HelloApplication extends BaseApplication implements IApplication, M
         MediaSelector.init(this);
         registerShortcuts(this);
         setupAutoSize();
+        EmojiManager.install(new IosEmojiProvider());
     }
 
     /**
