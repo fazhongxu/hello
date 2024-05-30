@@ -16,7 +16,6 @@ import androidx.annotation.NonNull;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.tbruyelle.rxpermissions3.RxPermissions;
-import com.vanniktech.emoji.EmojiPopup;
 import com.watermark.androidwm.WatermarkBuilder;
 import com.watermark.androidwm.bean.WatermarkImage;
 import com.watermark.androidwm.bean.WatermarkLocation;
@@ -47,7 +46,6 @@ import com.xxl.hello.widget.ui.view.share.api.ResourcesSharePickerKit;
 import com.xxl.kit.AppUtils;
 import com.xxl.kit.FileUtils;
 import com.xxl.kit.ImageUtils;
-import com.xxl.kit.KeyboardUtils;
 import com.xxl.kit.KeyboardWrapper;
 import com.xxl.kit.MomentShareUtils;
 import com.xxl.kit.PathUtils;
@@ -107,7 +105,6 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
      */
     @Inject
     ResourcesSharePickerKit mResourcesSharePickerKit;
-    private EmojiPopup emojiPopup;
 
     //endregion
 
@@ -207,18 +204,6 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
     private void setupCommentLayout() {
         ICommentKeyboardLayout commonKeyboard = mViewDataBinding.commonKeyboard;
         mKeyboardWrapper.setKeyboardStateChangeListener(commonKeyboard);
-
-        emojiPopup = EmojiPopup.Builder.fromRootView(mViewDataBinding.rlRootContainer)
-                .build(mViewDataBinding.etContent);
-
-        mViewDataBinding.btnClick.setOnClickListener(v -> {
-            if (emojiPopup.isShowing()) {
-                emojiPopup.dismiss();
-                KeyboardUtils.showSoftInput(mViewDataBinding.etContent);
-            }else {
-                emojiPopup.show();
-            }
-        });
     }
 
     /**
@@ -236,9 +221,7 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
         final GestureDetector.SimpleOnGestureListener simpleOnGestureListener = new GestureDetector.SimpleOnGestureListener() {
             @Override
             public boolean onSingleTapConfirmed(MotionEvent e) {
-//                onUserAvatarClick();
-                    emojiPopup.show();
-
+                onUserAvatarClick();
                 return true;
             }
 
