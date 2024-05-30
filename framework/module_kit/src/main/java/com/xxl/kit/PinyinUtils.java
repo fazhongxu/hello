@@ -82,9 +82,9 @@ public class PinyinUtils {
         /**
          * 设置拼音字段
          *
-         * @return
+         * @param pinyin
          */
-        String setTargetPinyin(String pinyin);
+        void setTargetPinyin(String pinyin);
     }
 
     private PinyinUtils() {

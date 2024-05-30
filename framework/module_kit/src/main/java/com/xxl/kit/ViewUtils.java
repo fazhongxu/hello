@@ -13,8 +13,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.annotation.StringRes;
 
-import com.xxl.view.RectCornerViewOutlineProvider;
-
 /**
  * View 相关工具类 findViewById,设置padding,margin,背景色，文本，获取layoutParams等
  *

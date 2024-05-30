@@ -31,6 +31,7 @@ import com.xxl.hello.common.config.AppConfig;
 import com.xxl.hello.common.config.CacheDirConfig;
 import com.xxl.hello.main.BR;
 import com.xxl.hello.main.R;
+import com.xxl.hello.main.data.model.entity.Student;
 import com.xxl.hello.main.databinding.MainFragmentBinding;
 import com.xxl.hello.main.ui.main.adapter.OnTestRecycleItemListener;
 import com.xxl.hello.main.ui.main.adapter.TestBindingRecycleItemListener;
@@ -55,6 +56,7 @@ import com.xxl.kit.LogUtils;
 import com.xxl.kit.MediaUtils;
 import com.xxl.kit.OnAppStatusChangedListener;
 import com.xxl.kit.OnRequestCallBack;
+import com.xxl.kit.PinyinUtils;
 import com.xxl.kit.ResourceUtils;
 import com.xxl.kit.StringUtils;
 import com.xxl.kit.ThreadUtils;
@@ -234,7 +236,33 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
     @Override
     public void onTestClick() {
-        UserRouterApi.Login.newBuilder().navigation(getActivity());
+//        UserRouterApi.Login.newBuilder().navigation(getActivity());
+
+        List<Student> students = new ArrayList<>();
+
+        String[] names = {
+                "赵佳琳", "钱宇航", "孙婷婷", "李鑫磊", "周思雨", "吴伟强", "郑梦洁", "王文静", "冯阳阳", "陈鑫炎",
+                "张晓宇", "王佳佳", "李明明", "赵瑞雪", "孙鹏飞", "李晓梅", "周鑫鑫", "吴嘉怡", "郑昊然", "王雨婷",
+                "赵伟伟", "钱佳佳", "孙晓燕", "李鑫磊", "周晓宇", "吴佳琳", "郑鑫炎", "王晓梅", "冯佳佳", "陈鑫鑫",
+                "杨嘉怡", "朱昊然", "秦雨婷", "尤伟伟", "许佳佳", "何晓燕", "吕鑫磊", "施晓宇", "张佳琳", "孔鑫炎",
+                "曹晓梅", "华佳佳", "金鑫鑫", "魏嘉怡", "陶昊然", "姜雨婷", "戚伟伟", "谢佳佳", "邹晓燕", "喻鑫磊",
+                "柏晓宇", "水佳琳", "窦鑫炎", "章晓梅", "云佳佳", "苏鑫鑫", "潘嘉怡", "葛昊然", "奚雨婷", "范伟伟",
+                "彭佳佳", "郎晓燕", "鲁鑫磊", "韦晓宇", "昌佳琳", "马鑫炎", "苗晓梅", "凤佳佳", "花鑫鑫", "方嘉怡",
+                "俞昊然", "任雨婷", "袁伟伟", "柳佳佳", "酆晓燕", "鲍鑫磊", "费晓宇", "廉佳琳", "岑鑫炎", "薛晓梅",
+                "雷佳佳", "倪鑫鑫", "汤嘉怡", "滕昊然", "殷雨婷", "罗伟伟", "毕佳佳", "郝晓燕", "邬鑫磊", "安晓宇",
+                "1","发动机分类","12","3","2","66","哈哈额","#fdfjd"
+        };
+
+        for (String name : names) {
+            Student student = new Student(name);
+            students.add(student);
+        }
+
+        PinyinUtils.sort(students);
+
+        for (Student student : students) {
+            Log.e("aa", "onTestClick: " + student.getName() + " " + student.getTargetPinyin());
+        }
     }
 
     /**
