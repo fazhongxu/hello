@@ -186,7 +186,9 @@ public class CommonMessagePopupWindow extends BasePopupWindow {
     public CommonMessagePopupWindow setNegativeButton(CharSequence text, View.OnClickListener listener) {
         mTvCancel.setText(text);
         mTvCancel.setOnClickListener(v -> {
-            listener.onClick(v);
+            if (listener != null) {
+                listener.onClick(v);
+            }
             dismiss();
         });
         return this;
@@ -202,7 +204,9 @@ public class CommonMessagePopupWindow extends BasePopupWindow {
     public CommonMessagePopupWindow setPositiveButton(CharSequence text, View.OnClickListener listener) {
         mTvConfirm.setText(text);
         mTvConfirm.setOnClickListener(v -> {
-            listener.onClick(v);
+            if (listener != null) {
+                listener.onClick(v);
+            }
             dismiss();
         });
         return this;
@@ -218,7 +222,9 @@ public class CommonMessagePopupWindow extends BasePopupWindow {
     public CommonMessagePopupWindow setSingleNegativeButton(CharSequence text, View.OnClickListener listener) {
         mTvCancel.setText(text);
         mTvCancel.setOnClickListener(v -> {
-            listener.onClick(v);
+            if (listener != null) {
+                listener.onClick(v);
+            }
             dismiss();
         });
         mTvConfirm.setVisibility(View.GONE);
@@ -240,7 +246,9 @@ public class CommonMessagePopupWindow extends BasePopupWindow {
     public CommonMessagePopupWindow setSinglePositiveButton(CharSequence text, View.OnClickListener listener) {
         mTvConfirm.setText(text);
         mTvConfirm.setOnClickListener(v -> {
-            listener.onClick(v);
+            if (listener != null) {
+                listener.onClick(v);
+            }
             dismiss();
         });
         mTvCancel.setVisibility(View.GONE);
