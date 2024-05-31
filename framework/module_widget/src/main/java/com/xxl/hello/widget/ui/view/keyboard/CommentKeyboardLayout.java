@@ -1,12 +1,11 @@
 package com.xxl.hello.widget.ui.view.keyboard;
 
+import android.app.Activity;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -15,7 +14,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.github.florent37.viewanimator.ViewAnimator;
 import com.xxl.core.listener.OnTextChangeListener;
 import com.xxl.hello.widget.R;
 import com.xxl.kit.KeyboardUtils;
@@ -102,16 +100,16 @@ public class CommentKeyboardLayout extends LinearLayout implements ICommentKeybo
         mLLExpressionContainer = findViewById(R.id.ll_expression_container);
         mVBottomView = findViewById(R.id.v_bottom_view);
         mEtContent.addTextChangedListener(this);
-        mIvFace.setOnClickListener(v -> {
-            changeInputType(mInputType == CommentKeyboardInputType.TEXT ? CommentKeyboardInputType.EXPRESSION : CommentKeyboardInputType.TEXT);
-        });
-        mEtContent.setOnTouchListener(new OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                changeInputType(CommentKeyboardInputType.TEXT);
-                return true;
-            }
-        });
+//        mIvFace.setOnClickListener(v -> {
+//            changeInputType(mInputType == CommentKeyboardInputType.TEXT ? CommentKeyboardInputType.EXPRESSION : CommentKeyboardInputType.TEXT);
+//        });
+//        mEtContent.setOnTouchListener(new OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                changeInputType(CommentKeyboardInputType.TEXT);
+//                return true;
+//            }
+//        });
     }
 
     /**
@@ -212,7 +210,7 @@ public class CommentKeyboardLayout extends LinearLayout implements ICommentKeybo
 
     @Override
     public void afterTextChanged(Editable s) {
-        refreshTextInputLayout();
+//        refreshTextInputLayout();
     }
 
     //endregion
@@ -224,19 +222,36 @@ public class CommentKeyboardLayout extends LinearLayout implements ICommentKeybo
     @Override
     public void onOpenKeyboard(final int keyboardHeight) {
         mKeyboardHeight = keyboardHeight;
-        if (mLockLayout) {
-            setExpressionLayoutHeight(keyboardHeight);
-        }
+//        if (mLockLayout) {
+//            setExpressionLayoutHeight(keyboardHeight);
+//        }
     }
 
     @Override
     public void onCloseKeyboard(final int keyboardHeight) {
-        mKeyboardHeight = keyboardHeight;
+//        mKeyboardHeight = keyboardHeight;
     }
 
     //endregion
 
     //region: ICommentKeyboardLayout
+
+    /**
+     * 初始化
+     *
+     * @param activity
+     * @param contentView
+     */
+    @Override
+    public void init(@NonNull Activity activity,
+                     @NonNull View contentView) {
+        EmotionKeyboard.with(activity)
+                .setEmotionView(mLLExpressionContainer)
+                .bindToContent(contentView)
+                .bindToEditText(mEtContent)
+                .bindToEmotionButton(mIvFace)
+                .build();
+    }
 
     /**
      * 显示评论键盘

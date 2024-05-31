@@ -1,5 +1,9 @@
 package com.xxl.hello.widget.ui.view.keyboard;
 
+import android.app.Activity;
+import android.view.View;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.xxl.kit.KeyboardWrapper;
@@ -9,6 +13,15 @@ import com.xxl.kit.KeyboardWrapper;
  * @date 2022/8/31.
  */
 public interface ICommentKeyboardLayout extends KeyboardWrapper.OnKeyboardStateChangeListener {
+
+    /**
+     * 初始化
+     *
+     * @param activity
+     * @param contentView
+     */
+    void init(@NonNull final Activity activity,
+              @NonNull final View contentView);
 
     /**
      * 显示评论键盘
