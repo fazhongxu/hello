@@ -32,7 +32,7 @@ public class EmotionKeyboard {
     private View mExtendLayout;//扩展布局（上传图片、拍照、位置、红包等等功能）
     private EditText mEditText;
     private View mContentView;
-    private int mSoftSoftInput;
+    private int mSoftSoftInputHeight;
 
     private EmotionKeyboard() {
     }
@@ -161,7 +161,7 @@ public class EmotionKeyboard {
 
         KeyboardUtils.registerSoftInputChangedListener(mActivity, height -> {
             if (height > 0) {
-                mSoftSoftInput = height;
+                mSoftSoftInputHeight = height;
                 sp.edit().putInt(SHARE_PREFERENCE_TAG, height).apply();
             }
         });
