@@ -3,7 +3,6 @@ package com.xxl.hello.widget.ui.view.keyboard;
 import android.app.Activity;
 import android.content.Context;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.EditText;
@@ -16,8 +15,6 @@ import androidx.annotation.Nullable;
 
 import com.xxl.core.listener.OnTextChangeListener;
 import com.xxl.hello.widget.R;
-import com.xxl.kit.KeyboardUtils;
-import com.xxl.kit.KeyboardWrapper;
 import com.xxl.kit.StringUtils;
 
 /**
@@ -48,23 +45,10 @@ public class CommentKeyboardLayout extends LinearLayout implements ICommentKeybo
 
     private LinearLayout mLLExpressionContainer;
 
-    private View mVBottomView;
-
     /**
-     * 键盘改变事件监听
+     * 表情键盘处理
      */
-    private KeyboardWrapper.OnKeyboardStateChangeListener mKeyboardStateChangeListener;
-
-    /**
-     * 输入类型
-     */
-    @CommentKeyboardInputType
-    private int mInputType;
-
-    /**
-     * 是否锁定布局
-     */
-    private boolean mLockLayout;
+    private EmotionKeyboard mEmotionKeyboard;
 
     //endregion
 
@@ -98,102 +82,7 @@ public class CommentKeyboardLayout extends LinearLayout implements ICommentKeybo
         mIvFace = findViewById(R.id.iv_face);
         mTvSend = findViewById(R.id.tv_send);
         mLLExpressionContainer = findViewById(R.id.ll_expression_container);
-        mVBottomView = findViewById(R.id.v_bottom_view);
         mEtContent.addTextChangedListener(this);
-//        mIvFace.setOnClickListener(v -> {
-//            changeInputType(mInputType == CommentKeyboardInputType.TEXT ? CommentKeyboardInputType.EXPRESSION : CommentKeyboardInputType.TEXT);
-//        });
-//        mEtContent.setOnTouchListener(new OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                changeInputType(CommentKeyboardInputType.TEXT);
-//                return true;
-//            }
-//        });
-    }
-
-    /**
-     * 键盘是否开启
-     *
-     * @return
-     */
-    private boolean isKeyboardOpen() {
-        return mKeyboardHeight > 0;
-    }
-
-    /**
-     * 切换输入类型
-     *
-     * @param inputType
-     */
-    private void changeInputType(@CommentKeyboardInputType int inputType) {
-        mInputType = inputType;
-        if (inputType == CommentKeyboardInputType.EXPRESSION) {
-            mLockLayout = true;
-            setExpressionLayoutHeight(260);
-            if (isKeyboardOpen()) {
-                KeyboardUtils.hideSoftInput(mEtContent);
-                mLLExpressionContainer.postDelayed(this::showExpressionLayout, 200);
-            } else {
-                showExpressionLayout();
-            }
-        } else {
-            mLockLayout = false;
-            showInputLayout();
-        }
-    }
-
-    /**
-     * 展示输入布局
-     */
-    private void showInputLayout() {
-        mEtContent.requestFocus();
-        KeyboardUtils.showSoftInput(mEtContent);
-        mLLExpressionContainer.setVisibility(View.GONE);
-        mIvFace.setImageResource(R.drawable.widget_ic_comment_face);
-    }
-
-    /**
-     * 展示表情布局
-     */
-    private void showExpressionLayout() {
-        mEtContent.clearFocus();
-        mLLExpressionContainer.setVisibility(View.VISIBLE);
-        mIvFace.setImageResource(R.drawable.widget_ic_comment_keyboard);
-    }
-
-    /**
-     * 隐藏表情布局
-     */
-    private void hideExpressionLayout() {
-        mLLExpressionContainer.setVisibility(View.GONE);
-    }
-
-    /**
-     * 设置表情布局高度
-     *
-     * @param height
-     */
-    private void setExpressionLayoutHeight(final int height) {
-
-    }
-
-    /**
-     * 刷新文本输入布局
-     */
-    private void refreshTextInputLayout() {
-        if (mInputType == CommentKeyboardInputType.EXPRESSION) {
-            mIvFace.setImageResource(R.drawable.widget_ic_comment_keyboard);
-            mTvSend.setVisibility(View.GONE);
-        } else {
-            mIvFace.setImageResource(R.drawable.widget_ic_comment_face);
-            final Editable editable = mEtContent.getText();
-            if (editable != null && !TextUtils.isEmpty(editable)) {
-                mTvSend.setVisibility(View.VISIBLE);
-            } else {
-                mTvSend.setVisibility(View.GONE);
-            }
-        }
     }
 
     //endregion
@@ -215,25 +104,6 @@ public class CommentKeyboardLayout extends LinearLayout implements ICommentKeybo
 
     //endregion
 
-    //region: OnKeyboardStateChangeListener
-
-    private int mKeyboardHeight;
-
-    @Override
-    public void onOpenKeyboard(final int keyboardHeight) {
-        mKeyboardHeight = keyboardHeight;
-//        if (mLockLayout) {
-//            setExpressionLayoutHeight(keyboardHeight);
-//        }
-    }
-
-    @Override
-    public void onCloseKeyboard(final int keyboardHeight) {
-//        mKeyboardHeight = keyboardHeight;
-    }
-
-    //endregion
-
     //region: ICommentKeyboardLayout
 
     /**
@@ -245,7 +115,7 @@ public class CommentKeyboardLayout extends LinearLayout implements ICommentKeybo
     @Override
     public void init(@NonNull Activity activity,
                      @NonNull View contentView) {
-        EmotionKeyboard.with(activity)
+        mEmotionKeyboard = EmotionKeyboard.with(activity)
                 .setEmotionView(mLLExpressionContainer)
                 .bindToContent(contentView)
                 .bindToEditText(mEtContent)
@@ -284,13 +154,6 @@ public class CommentKeyboardLayout extends LinearLayout implements ICommentKeybo
     @Override
     public void hide() {
         setVisibility(GONE);
-    }
-
-    /**
-     * 设置键盘状态监听
-     */
-    public void setKeyboardStateChangeListener(@NonNull final KeyboardWrapper.OnKeyboardStateChangeListener keyboardStateChangeListener) {
-        mKeyboardStateChangeListener = keyboardStateChangeListener;
     }
 
     //endregion

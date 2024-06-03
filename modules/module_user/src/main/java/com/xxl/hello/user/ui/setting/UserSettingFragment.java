@@ -204,7 +204,6 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
     private void setupCommentLayout() {
         ICommentKeyboardLayout commonKeyboard = mViewDataBinding.commonKeyboard;
         commonKeyboard.init(getActivity(),mViewDataBinding.ctlContentContainer);
-        mKeyboardWrapper.setKeyboardStateChangeListener(commonKeyboard);
     }
 
     /**

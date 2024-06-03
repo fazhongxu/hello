@@ -6,13 +6,11 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.xxl.kit.KeyboardWrapper;
-
 /**
  * @author xxl.
  * @date 2022/8/31.
  */
-public interface ICommentKeyboardLayout extends KeyboardWrapper.OnKeyboardStateChangeListener {
+public interface ICommentKeyboardLayout {
 
     /**
      * 初始化

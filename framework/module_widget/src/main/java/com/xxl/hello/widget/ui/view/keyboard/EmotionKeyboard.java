@@ -16,9 +16,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 /**
+ * 表情键盘处理
  * https://github.com/KaneShaw/EmotionKeyboard/blob/master/emotionkeyboard/src/main/java/com/xk2318/emotionkeyboard/EmotionKeyboard.java
- *
- * 仿微信表情输入与拍照上传、位置等功能的键盘
  */
 public class EmotionKeyboard {
     private static final String SHARE_PREFERENCE_NAME = "com.xk2318.EmotionKeyboard";
@@ -32,7 +31,8 @@ public class EmotionKeyboard {
     private EditText mEditText;
     private View mContentView;
 
-    private EmotionKeyboard() {}
+    private EmotionKeyboard() {
+    }
 
     public static EmotionKeyboard with(Activity activity) {
         EmotionKeyboard EmotionKeyboard = new EmotionKeyboard();
@@ -60,7 +60,7 @@ public class EmotionKeyboard {
                      * 若扩展布局可见，则 锁定内容布局高度、隐藏扩展布局、显示软键盘、解锁内容布局高度
                      * 若表情布局与扩展布局均不可见，则do nothing
                      */
-                    if(mEmotionLayout != null && mEmotionLayout.isShown()){
+                    if (mEmotionLayout != null && mEmotionLayout.isShown()) {
                         lockContentHeight();
                         hideLayout(mEmotionLayout, true);
                         mEditText.postDelayed(new Runnable() {
@@ -69,7 +69,7 @@ public class EmotionKeyboard {
                                 unlockContentHeightDelayed();
                             }
                         }, 200L);
-                    } else if(mExtendLayout != null && mExtendLayout.isShown()){
+                    } else if (mExtendLayout != null && mExtendLayout.isShown()) {
                         lockContentHeight();
                         hideLayout(mExtendLayout, true);
                         mEditText.postDelayed(new Runnable() {
@@ -101,7 +101,7 @@ public class EmotionKeyboard {
                         showLayout(mEmotionLayout);
                         unlockContentHeightDelayed();
                     } else {
-                        if(mExtendLayout != null && mExtendLayout.isShown()){
+                        if (mExtendLayout != null && mExtendLayout.isShown()) {
                             hideLayout(mExtendLayout, false);
                         }
                         showLayout(mEmotionLayout);
@@ -113,7 +113,7 @@ public class EmotionKeyboard {
     }
 
     /* 绑定扩展按钮(拍照上传、位置、红包等) */
-    public EmotionKeyboard bindToExtendButton(View extendButton){
+    public EmotionKeyboard bindToExtendButton(View extendButton) {
         extendButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -146,12 +146,12 @@ public class EmotionKeyboard {
     }
 
     /* 设置需要显示的扩展布局 */
-    public EmotionKeyboard setExtendView(View extendView){
+    public EmotionKeyboard setExtendView(View extendView) {
         mExtendLayout = extendView;
         return this;
     }
 
-    public EmotionKeyboard build(){
+    public EmotionKeyboard build() {
         mActivity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN |
                 WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         hideSoftInput();
@@ -159,7 +159,6 @@ public class EmotionKeyboard {
     }
 
     public boolean interceptBackPress() {
-        // TODO: 15/11/2 change this method's name
         if (mEmotionLayout.isShown()) {
             hideLayout(mEmotionLayout, false);
             return true;
@@ -168,8 +167,9 @@ public class EmotionKeyboard {
     }
 
     /**
-     *  显示指定布局
-     *  @param layout 需要显示的布局
+     * 显示指定布局
+     *
+     * @param layout 需要显示的布局
      */
     private void showLayout(View layout) {
         int softInputHeight = getSupportSoftInputHeight();
@@ -182,10 +182,10 @@ public class EmotionKeyboard {
     }
 
     /**
-     * @param layout 需要隐藏的布局视图
+     * @param layout        需要隐藏的布局视图
      * @param showSoftInput 是否显示软键盘
      */
-    private void hideLayout(View layout,boolean showSoftInput) {
+    private void hideLayout(View layout, boolean showSoftInput) {
         if (layout.isShown()) {
             layout.setVisibility(View.GONE);
             if (showSoftInput) {
