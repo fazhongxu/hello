@@ -6,7 +6,6 @@ import android.text.Editable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -19,11 +18,14 @@ import com.vanniktech.emoji.EmojiPopup;
 import com.vanniktech.emoji.EmojiView;
 import com.vanniktech.emoji.RecentEmojiManager;
 import com.vanniktech.emoji.emoji.Emoji;
+import com.vanniktech.emoji.listeners.OnEmojiBackspaceClickListener;
 import com.vanniktech.emoji.listeners.OnEmojiClickListener;
 import com.vanniktech.emoji.listeners.OnEmojiLongClickListener;
 import com.xxl.core.listener.OnTextChangeListener;
 import com.xxl.hello.widget.R;
+import com.xxl.hello.widget.ui.view.text.EmojiEditText;
 import com.xxl.kit.DisplayUtils;
+import com.xxl.kit.LogUtils;
 import com.xxl.kit.StringUtils;
 
 /**
@@ -32,15 +34,16 @@ import com.xxl.kit.StringUtils;
  * @author xxl.
  * @date 2022/8/31.
  */
-public class CommentKeyboardLayout extends LinearLayout implements ICommentKeyboardLayout,
-        OnTextChangeListener, OnEmojiClickListener, OnEmojiLongClickListener {
+public class CommentKeyboardLayout extends LinearLayout implements ICommentKeyboardLayout, OnTextChangeListener,
+        OnEmojiClickListener, OnEmojiLongClickListener,
+        OnEmojiBackspaceClickListener {
 
     //region: 成员变量
 
     /**
      * 内容输入框
      */
-    private EditText mEtContent;
+    private EmojiEditText mEtContent;
 
     /**
      * 表情
@@ -53,6 +56,11 @@ public class CommentKeyboardLayout extends LinearLayout implements ICommentKeybo
     private TextView mTvSend;
 
     private LinearLayout mLLExpressionContainer;
+
+    /**
+     * 最近表情管理
+     */
+    private RecentEmojiManager mRecentEmojiManager;
 
     //endregion
 
@@ -69,6 +77,18 @@ public class CommentKeyboardLayout extends LinearLayout implements ICommentKeybo
     public CommentKeyboardLayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         setupLayout(context);
+    }
+
+    //endregion
+
+    //region: 页面生命周期
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        if (mRecentEmojiManager != null) {
+            mRecentEmojiManager.persist();
+        }
     }
 
     //endregion
@@ -98,7 +118,7 @@ public class CommentKeyboardLayout extends LinearLayout implements ICommentKeybo
                               int start,
                               int before,
                               int count) {
-
+        LogUtils.d("s");
     }
 
     @Override
@@ -126,12 +146,14 @@ public class CommentKeyboardLayout extends LinearLayout implements ICommentKeybo
                 .bindToEmotionButton(mIvFace)
                 .build();
 
+        mRecentEmojiManager = new RecentEmojiManager(activity);
         EmojiPopup.Builder builder = EmojiPopup.Builder.fromRootView(new View(activity))
-                .setRecentEmoji(new RecentEmojiManager(activity));
+                .setRecentEmoji(mRecentEmojiManager);
 
         EmojiView emojiView = new EmojiView(activity, this, this, builder);
+        emojiView.setOnEmojiBackspaceClickListener(this);
         mLLExpressionContainer.removeAllViews();
-        mLLExpressionContainer.addView(emojiView,new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,DisplayUtils.dp2px(300)));
+        mLLExpressionContainer.addView(emojiView, new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, DisplayUtils.dp2px(300)));
     }
 
     /**
@@ -173,9 +195,13 @@ public class CommentKeyboardLayout extends LinearLayout implements ICommentKeybo
     //region: OnEmojiClickListener
 
     @Override
-    public void onEmojiClick(@NonNull EmojiImageView emoji,
-                             @NonNull Emoji imageView) {
+    public void onEmojiClick(@NonNull EmojiImageView view,
+                             @NonNull Emoji emoji) {
+        mRecentEmojiManager.addEmoji(emoji);
+        //variantEmoji.addVariant(emoji);
+        view.updateEmoji(emoji);
 
+        mEtContent.input(emoji);
     }
 
     //endregion
@@ -186,6 +212,15 @@ public class CommentKeyboardLayout extends LinearLayout implements ICommentKeybo
     public void onEmojiLongClick(@NonNull EmojiImageView view,
                                  @NonNull Emoji emoji) {
 
+    }
+
+    //endregion
+
+    //region: OnEmojiBackspaceClickListener
+
+    @Override
+    public void onEmojiBackspaceClick(View v) {
+        mEtContent.backspace();
     }
 
     //endregion
