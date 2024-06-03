@@ -15,6 +15,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import com.xxl.kit.KeyboardUtils;
+
 /**
  * 表情键盘处理
  * https://github.com/KaneShaw/EmotionKeyboard/blob/master/emotionkeyboard/src/main/java/com/xk2318/emotionkeyboard/EmotionKeyboard.java
@@ -30,6 +32,7 @@ public class EmotionKeyboard {
     private View mExtendLayout;//扩展布局（上传图片、拍照、位置、红包等等功能）
     private EditText mEditText;
     private View mContentView;
+    private int mSoftSoftInput;
 
     private EmotionKeyboard() {
     }
@@ -155,6 +158,13 @@ public class EmotionKeyboard {
         mActivity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN |
                 WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         hideSoftInput();
+
+        KeyboardUtils.registerSoftInputChangedListener(mActivity, height -> {
+            if (height > 0) {
+                mSoftSoftInput = height;
+                sp.edit().putInt(SHARE_PREFERENCE_TAG, height).apply();
+            }
+        });
         return this;
     }
 
@@ -172,10 +182,7 @@ public class EmotionKeyboard {
      * @param layout 需要显示的布局
      */
     private void showLayout(View layout) {
-        int softInputHeight = getSupportSoftInputHeight();
-        if (softInputHeight == 0) {
-            softInputHeight = sp.getInt(SHARE_PREFERENCE_TAG, 750);
-        }
+        int softInputHeight = getKeyBoardHeight();
         hideSoftInput();
         layout.getLayoutParams().height = softInputHeight;
         layout.setVisibility(View.VISIBLE);
@@ -198,13 +205,16 @@ public class EmotionKeyboard {
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mContentView.getLayoutParams();
         params.height = mContentView.getHeight();
         params.weight = 0.0F;
+        mContentView.setLayoutParams(params);
     }
 
     private void unlockContentHeightDelayed() {
         mEditText.postDelayed(new Runnable() {
             @Override
             public void run() {
-                ((LinearLayout.LayoutParams) mContentView.getLayoutParams()).weight = 1.0F;
+                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mContentView.getLayoutParams();
+                params.weight = 1.0F;
+                mContentView.setLayoutParams(params);
             }
         }, 200L);
     }
@@ -232,16 +242,14 @@ public class EmotionKeyboard {
         mActivity.getWindow().getDecorView().getWindowVisibleDisplayFrame(r);
         int screenHeight = mActivity.getWindow().getDecorView().getRootView().getHeight();
         int softInputHeight = screenHeight - r.bottom;
-        //        if (Build.VERSION.SDK_INT >= 20) {
-        //            // When SDK Level >= 20 (Android L), the softInputHeight will contain the height of softButtonsBar (if has)
-        //            softInputHeight = softInputHeight + getSoftButtonsBarHeight();
-        //        }
+        if (Build.VERSION.SDK_INT >= 20) {
+            // When SDK Level >= 20 (Android L), the softInputHeight will contain the height of softButtonsBar (if has)
+            softInputHeight = softInputHeight + getSoftButtonsBarHeight();
+        }
         if (softInputHeight < 0) {
             Log.w("EmotionKeyboard", "Warning: value of softInputHeight is below zero!");
         }
-        if (softInputHeight > 0) {
-            sp.edit().putInt(SHARE_PREFERENCE_TAG, softInputHeight).apply();
-        }
+        Log.d("EmotionKeyboard", "" + softInputHeight);
         return softInputHeight;
     }
 
@@ -257,5 +265,14 @@ public class EmotionKeyboard {
         } else {
             return 0;
         }
+    }
+
+    /**
+     * 获取软键盘高度，由于第一次直接弹出表情时会出现小问题，787是一个均值，作为临时解决方案
+     *
+     * @return
+     */
+    public int getKeyBoardHeight() {
+        return sp.getInt(SHARE_PREFERENCE_TAG, 787);
     }
 }
