@@ -151,6 +151,7 @@ dependencies {
     implementation deps.viewfinderview
 
     implementation deps.watermark
+    implementation deps.emoji
 
 }
 

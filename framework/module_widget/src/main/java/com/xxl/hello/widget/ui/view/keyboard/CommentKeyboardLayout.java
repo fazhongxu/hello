@@ -5,6 +5,7 @@ import android.content.Context;
 import android.text.Editable;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -13,8 +14,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.vanniktech.emoji.EmojiImageView;
+import com.vanniktech.emoji.EmojiPopup;
+import com.vanniktech.emoji.EmojiView;
+import com.vanniktech.emoji.RecentEmojiManager;
+import com.vanniktech.emoji.emoji.Emoji;
+import com.vanniktech.emoji.listeners.OnEmojiClickListener;
+import com.vanniktech.emoji.listeners.OnEmojiLongClickListener;
 import com.xxl.core.listener.OnTextChangeListener;
 import com.xxl.hello.widget.R;
+import com.xxl.kit.DisplayUtils;
 import com.xxl.kit.StringUtils;
 
 /**
@@ -24,7 +33,7 @@ import com.xxl.kit.StringUtils;
  * @date 2022/8/31.
  */
 public class CommentKeyboardLayout extends LinearLayout implements ICommentKeyboardLayout,
-        OnTextChangeListener {
+        OnTextChangeListener, OnEmojiClickListener, OnEmojiLongClickListener {
 
     //region: 成员变量
 
@@ -44,11 +53,6 @@ public class CommentKeyboardLayout extends LinearLayout implements ICommentKeybo
     private TextView mTvSend;
 
     private LinearLayout mLLExpressionContainer;
-
-    /**
-     * 表情键盘处理
-     */
-    private EmotionKeyboard mEmotionKeyboard;
 
     //endregion
 
@@ -115,12 +119,19 @@ public class CommentKeyboardLayout extends LinearLayout implements ICommentKeybo
     @Override
     public void init(@NonNull Activity activity,
                      @NonNull View contentView) {
-        mEmotionKeyboard = EmotionKeyboard.with(activity)
+        EmotionKeyboard.with(activity)
                 .setEmotionView(mLLExpressionContainer)
                 .bindToContent(contentView)
                 .bindToEditText(mEtContent)
                 .bindToEmotionButton(mIvFace)
                 .build();
+
+        EmojiPopup.Builder builder = EmojiPopup.Builder.fromRootView(new View(activity))
+                .setRecentEmoji(new RecentEmojiManager(activity));
+
+        EmojiView emojiView = new EmojiView(activity, this, this, builder);
+        mLLExpressionContainer.removeAllViews();
+        mLLExpressionContainer.addView(emojiView,new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,DisplayUtils.dp2px(300)));
     }
 
     /**
@@ -154,6 +165,27 @@ public class CommentKeyboardLayout extends LinearLayout implements ICommentKeybo
     @Override
     public void hide() {
         setVisibility(GONE);
+    }
+
+
+    //endregion
+
+    //region: OnEmojiClickListener
+
+    @Override
+    public void onEmojiClick(@NonNull EmojiImageView emoji,
+                             @NonNull Emoji imageView) {
+
+    }
+
+    //endregion
+
+    //region: OnEmojiLongClickListener
+
+    @Override
+    public void onEmojiLongClick(@NonNull EmojiImageView view,
+                                 @NonNull Emoji emoji) {
+
     }
 
     //endregion
