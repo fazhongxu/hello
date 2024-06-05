@@ -24,11 +24,13 @@ public class CustomCategory implements EmojiCategory {
 
     @Override @DrawableRes
     public int getIcon() {
-        return R.drawable.emoji_ios_category_smileysandpeople;
+        //return R.drawable.emoji_ios_category_smileysandpeople;
+        return 0;
     }
 
     @Override @StringRes
     public int getCategoryName() {
-        return R.string.emoji_ios_category_smileysandpeople;
+        return 0;
+        //return R.string.emoji_ios_category_smileysandpeople;
     }
 }

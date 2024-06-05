@@ -395,7 +395,8 @@ deps.watermark = project(':module_libs:lib_watermark')
 deps.tinypinyin = "com.github.promeg:tinypinyin:$versions.tinypinyin"
 
 //https://github.com/vanniktech/Emoji
-deps.emoji = "com.vanniktech:emoji-ios:$versions.emoji"
+deps.emoji_ios = "com.vanniktech:emoji-ios:$versions.emoji"
+deps.emoji_google_compat = "com.vanniktech:emoji-google-compat:$versions.emoji"
 
 def origin = [:]
 // 是否使用远程依赖 true使用远程依赖（远程私服存储的aar依赖）
