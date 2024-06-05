@@ -14,6 +14,7 @@ import android.os.Process;
 import android.text.TextUtils;
 import android.util.Log;
 
+import androidx.annotation.AnimRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -240,6 +241,127 @@ public class AppUtils {
         }
         Process.killProcess(Process.myPid());
         System.exit(0);
+    }
+
+    /**
+     * Finish the activity.
+     *
+     * @param activity The activity.
+     */
+    public static void finishActivity(@NonNull final Activity activity) {
+        finishActivity(activity, false);
+    }
+
+    /**
+     * Finish the activity.
+     *
+     * @param activity   The activity.
+     * @param isLoadAnim True to use animation for the outgoing activity, false otherwise.
+     */
+    public static void finishActivity(@NonNull final Activity activity, final boolean isLoadAnim) {
+        activity.finish();
+        if (!isLoadAnim) {
+            activity.overridePendingTransition(0, 0);
+        }
+    }
+
+    /**
+     * Finish the activity.
+     *
+     * @param activity  The activity.
+     * @param enterAnim A resource ID of the animation resource to use for the
+     *                  incoming activity.
+     * @param exitAnim  A resource ID of the animation resource to use for the
+     *                  outgoing activity.
+     */
+    public static void finishActivity(@NonNull final Activity activity,
+                                      @AnimRes final int enterAnim,
+                                      @AnimRes final int exitAnim) {
+        activity.finish();
+        activity.overridePendingTransition(enterAnim, exitAnim);
+    }
+
+    /**
+     * Finish the activity.
+     *
+     * @param clz The activity class.
+     */
+    public static void finishActivity(@NonNull final Class<? extends Activity> clz) {
+        finishActivity(clz, false);
+    }
+
+    /**
+     * Finish the activity.
+     *
+     * @param clz        The activity class.
+     * @param isLoadAnim True to use animation for the outgoing activity, false otherwise.
+     */
+    public static void finishActivity(@NonNull final Class<? extends Activity> clz,
+                                      final boolean isLoadAnim) {
+        List<Activity> activities = AppUtils.getActivityList();
+        for (Activity activity : activities) {
+            if (activity.getClass().equals(clz)) {
+                activity.finish();
+                if (!isLoadAnim) {
+                    activity.overridePendingTransition(0, 0);
+                }
+            }
+        }
+    }
+
+    /**
+     * Finish the activity.
+     *
+     * @param clz       The activity class.
+     * @param enterAnim A resource ID of the animation resource to use for the
+     *                  incoming activity.
+     * @param exitAnim  A resource ID of the animation resource to use for the
+     *                  outgoing activity.
+     */
+    public static void finishActivity(@NonNull final Class<? extends Activity> clz,
+                                      @AnimRes final int enterAnim,
+                                      @AnimRes final int exitAnim) {
+        List<Activity> activities = AppUtils.getActivityList();
+        for (Activity activity : activities) {
+            if (activity.getClass().equals(clz)) {
+                activity.finish();
+                activity.overridePendingTransition(enterAnim, exitAnim);
+            }
+        }
+    }
+
+    /**
+     * Finish to the activity.
+     *
+     * @param activity      The activity.
+     * @param isIncludeSelf True to include the activity, false otherwise.
+     */
+    public static boolean finishToActivity(@NonNull final Activity activity,
+                                           final boolean isIncludeSelf) {
+        return finishToActivity(activity, isIncludeSelf, false);
+    }
+
+    /**
+     * Finish to the activity.
+     *
+     * @param activity      The activity.
+     * @param isIncludeSelf True to include the activity, false otherwise.
+     * @param isLoadAnim    True to use animation for the outgoing activity, false otherwise.
+     */
+    public static boolean finishToActivity(@NonNull final Activity activity,
+                                           final boolean isIncludeSelf,
+                                           final boolean isLoadAnim) {
+        List<Activity> activities = AppUtils.getActivityList();
+        for (Activity act : activities) {
+            if (act.equals(activity)) {
+                if (isIncludeSelf) {
+                    finishActivity(act, isLoadAnim);
+                }
+                return true;
+            }
+            finishActivity(act, isLoadAnim);
+        }
+        return false;
     }
 
     /**
