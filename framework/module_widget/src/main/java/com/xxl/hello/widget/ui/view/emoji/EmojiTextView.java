@@ -47,9 +47,6 @@ public class EmojiTextView extends com.vanniktech.emoji.EmojiTextView {
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        if (isInEditMode()) {
-            return;
-        }
         super.onLayout(changed, left, top, right, bottom);
         if (delegate.isRadiusHalfHeight()) {
             delegate.setCornerRadius(getHeight() / 2);
