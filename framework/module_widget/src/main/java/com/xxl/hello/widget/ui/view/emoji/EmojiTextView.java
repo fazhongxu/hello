@@ -1,4 +1,4 @@
-package com.xxl.hello.widget.ui.view.text;
+package com.xxl.hello.widget.ui.view.emoji;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -6,24 +6,22 @@ import android.util.AttributeSet;
 import com.flyco.roundview.RoundViewDelegate;
 
 /**
- * 支持emoji的自定义edittext
- *
+ * 支持emoji的自定义textview
  * @author xxl.
  * @date 2024/6/3.
  */
-public class EmojiEditText extends com.vanniktech.emoji.EmojiEditText {
+public class EmojiTextView extends com.vanniktech.emoji.EmojiTextView {
     private RoundViewDelegate delegate;
 
-    public EmojiEditText(Context context) {
+    public EmojiTextView(Context context) {
         this(context, null);
     }
 
-    public EmojiEditText(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        delegate = new RoundViewDelegate(this, context, attrs);
+    public EmojiTextView(Context context, AttributeSet attrs) {
+        this(context, attrs, 0);
     }
 
-    public EmojiEditText(Context context, AttributeSet attrs, int defStyleAttr) {
+    public EmojiTextView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         delegate = new RoundViewDelegate(this, context, attrs);
     }

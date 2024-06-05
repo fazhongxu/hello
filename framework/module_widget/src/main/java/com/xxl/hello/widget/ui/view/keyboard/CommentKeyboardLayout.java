@@ -23,7 +23,7 @@ import com.vanniktech.emoji.listeners.OnEmojiClickListener;
 import com.vanniktech.emoji.listeners.OnEmojiLongClickListener;
 import com.xxl.core.listener.OnTextChangeListener;
 import com.xxl.hello.widget.R;
-import com.xxl.hello.widget.ui.view.text.EmojiEditText;
+import com.xxl.hello.widget.ui.view.emoji.EmojiEditText;
 import com.xxl.kit.DisplayUtils;
 import com.xxl.kit.LogUtils;
 import com.xxl.kit.StringUtils;

@@ -22,7 +22,7 @@
         android:paddingRight="10dp"
         android:paddingBottom="10dp">
 
-        <com.xxl.hello.widget.ui.view.text.EmojiEditText
+        <com.xxl.hello.widget.ui.view.emoji.EmojiEditText
             android:id="@+id/et_content"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
