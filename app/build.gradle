@@ -235,7 +235,7 @@ dependencies {
     implementation deps.watermark
     implementation deps.tinypinyin
 
-    implementation deps.emoji_google_compat
+    implementation deps.emoji_ios
 }
 
 apply plugin: 'io.objectbox'

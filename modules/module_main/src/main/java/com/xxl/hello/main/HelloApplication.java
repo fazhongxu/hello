@@ -8,9 +8,6 @@ import android.content.res.Configuration;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
-import androidx.core.provider.FontRequest;
-import androidx.emoji.text.EmojiCompat;
-import androidx.emoji.text.FontRequestEmojiCompatConfig;
 
 import com.luck.picture.lib.engine.PictureSelectorEngine;
 import com.umeng.socialize.PlatformConfig;
@@ -32,7 +29,7 @@ import com.xxl.hello.main.di.component.DaggerAppComponent;
 import com.xxl.hello.router.api.UserRouterApi;
 import com.xxl.hello.service.handle.api.AppSchemeService;
 import com.xxl.hello.user.ui.setting.UserSettingActivity;
-import com.xxl.hello.widget.ui.view.emoji.GoogleCompatEmojiProvider;
+import com.xxl.hello.widget.ui.view.emoji.IosEmojiProvider;
 import com.xxl.kit.AppUtils;
 import com.xxl.kit.LogUtils;
 import com.xxl.kit.QRCodeUtils;
@@ -163,11 +160,7 @@ public class HelloApplication extends BaseApplication implements IApplication, M
         registerShortcuts(this);
         setupAutoSize();
 
-        EmojiCompat.init(new FontRequestEmojiCompatConfig(this,
-                new FontRequest("com.google.android.gms.fonts", "com.google.android.gms",
-                        "Noto Color Emoji Compat", R.array.com_google_android_gms_fonts_certs)
-        ).setReplaceAll(true));
-        EmojiManager.install(new GoogleCompatEmojiProvider());
+        EmojiManager.install(new IosEmojiProvider());
     }
 
     /**

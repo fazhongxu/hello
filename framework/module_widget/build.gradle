@@ -12,6 +12,6 @@ dependencies {
     api deps.dkplayer.dkplayer
     api deps.dkplayer.dkplayer_ijk
 
-    implementation deps.emoji_google_compat
+    implementation deps.emoji_ios
 }
 
