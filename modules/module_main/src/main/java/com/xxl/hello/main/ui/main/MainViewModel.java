@@ -89,8 +89,8 @@ public class MainViewModel extends BaseViewModel<MainNavigator> {
                 for (int i = 0; i < pageSize; i++) {
                     TestListEntity testListEntity = TestListEntity.obtain()
                             .setContent(String.format("测试数据 page %d index %d", page, i))
-//                            .setMediaType(i % 2 == 0 ? SystemEnumsApi.CircleMediaType.IMAGE : SystemEnumsApi.CircleMediaType.TEXT)
-                            .setMediaType(SystemEnumsApi.CircleMediaType.IMAGE)
+                            .setMediaType(i % 2 == 0 ? SystemEnumsApi.CircleMediaType.IMAGE : SystemEnumsApi.CircleMediaType.TEXT)
+//                            .setMediaType(SystemEnumsApi.CircleMediaType.IMAGE)
                             .setUrl(i % 2 == 0 ? "https://img2.baidu.com/it/u=1571003126,2883312596&fm=253&fmt=auto&app=138&f=JPEG?w=667&h=500" : "https://ns-strategy.cdn.bcebos.com/ns-strategy/upload/fc_big_pic/part-00581-3070.jpg")
                             .setSortTime(mCurrentTimeMillis + 1)
                             .setHeader(i == 5);
