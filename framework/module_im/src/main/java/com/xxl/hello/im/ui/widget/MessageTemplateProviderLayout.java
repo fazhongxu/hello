@@ -8,6 +8,8 @@ import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.xxl.hello.widget.im.MessageTemplateProvider;
+
 /**
  * 消息模板内容视图
  *
@@ -21,7 +23,7 @@ public class MessageTemplateProviderLayout extends FrameLayout {
         super(context, attrs);
     }
 
-    public View inflateView() {
+    public View inflateView(MessageTemplateProvider provider) {
         return null;
     }
 }

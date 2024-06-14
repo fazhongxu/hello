@@ -56,6 +56,8 @@ public class ChatSessionAdapter extends BaseBindingAdapter<MessageEntity, ChatSe
     private void setSessionLayout(@NonNull ImRecycleItemChatSessionBinding itemBinding,
                                   @NonNull MessageEntity itemEntity) {
         MessageTemplateProviderLayout messageProviderLayout = itemBinding.flMessageProviderLayout;
+//        messageProviderLayout.inflateView()
+        //MessageTemplateWrapper.getMessageTemplate()
     }
 
     //endregion

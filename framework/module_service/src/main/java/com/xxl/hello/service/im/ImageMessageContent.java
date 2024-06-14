@@ -1,10 +1,10 @@
-package com.xxl.hello.service.im.template;
+package com.xxl.hello.service.im;
 
 /**
  * @author xxl.
  * @date 2024/6/14.
  */
-public class MessageTemplateWrapper {
+public class ImageMessageContent extends BaseMessageContent {
 
     //region: 成员变量
 
@@ -12,12 +12,12 @@ public class MessageTemplateWrapper {
 
     //region: 构造函数
 
-    private MessageTemplateWrapper() {
+    private ImageMessageContent() {
 
     }
 
-    public final static MessageTemplateWrapper obtain() {
-        return new MessageTemplateWrapper();
+    public final static ImageMessageContent obtain() {
+        return new ImageMessageContent();
     }
 
     //endregion
