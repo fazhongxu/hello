@@ -18,6 +18,6 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/widget_recycler_item_resources_share" />
+        tools:listitem="@layout/widget_recycle_item_resources_share" />
 
 </com.flyco.roundview.RoundConstraintLayout>

@@ -8,4 +8,22 @@ package com.xxl.hello.service.im;
  */
 public class MessageEntity {
 
+    /**
+     * 消息类型
+     */
+    private int mMessageType;
+
+    /**
+     * 获取消息模板类型
+     *
+     * @return
+     */
+    public String getMessageTemplateType() {
+        if (mMessageType == 1) {
+            return MessageTemplateType.TEXT;
+        } else if (mMessageType == 2) {
+            return MessageTemplateType.IMAGE;
+        }
+        return MessageTemplateType.UNKNOW;
+    }
 }

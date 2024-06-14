@@ -1,12 +1,14 @@
 package com.xxl.hello.im.ui.message.session.base.adapter;
 
+import android.view.View;
+
 import androidx.annotation.NonNull;
 
 import com.xxl.core.widget.recyclerview.adapter.BaseBindingAdapter;
 import com.xxl.hello.im.R;
 import com.xxl.hello.im.databinding.ImRecycleItemChatSessionBinding;
-import com.xxl.hello.im.ui.widget.MessageTemplateProviderLayout;
 import com.xxl.hello.service.im.MessageEntity;
+import com.xxl.hello.widget.im.MessageTemplateWrapper;
 
 /**
  * 会话列表适配器
@@ -55,9 +57,8 @@ public class ChatSessionAdapter extends BaseBindingAdapter<MessageEntity, ChatSe
      */
     private void setSessionLayout(@NonNull ImRecycleItemChatSessionBinding itemBinding,
                                   @NonNull MessageEntity itemEntity) {
-        MessageTemplateProviderLayout messageProviderLayout = itemBinding.flMessageProviderLayout;
-//        messageProviderLayout.inflateView()
-        //MessageTemplateWrapper.getMessageTemplate()
+        View view = MessageTemplateWrapper.bindView(itemBinding.flMessageProviderLayout, itemEntity,getItemPosition(itemEntity),null);
+
     }
 
     //endregion

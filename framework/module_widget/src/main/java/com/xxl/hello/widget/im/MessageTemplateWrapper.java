@@ -1,7 +1,11 @@
 package com.xxl.hello.widget.im;
 
-import androidx.annotation.NonNull;
+import android.view.View;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.xxl.hello.service.im.MessageEntity;
 import com.xxl.hello.service.im.MessageTemplate;
 
 import java.util.LinkedHashMap;
@@ -42,6 +46,29 @@ public class MessageTemplateWrapper {
      */
     public static MessageTemplateProvider getMessageTemplate(@NonNull String templateType) {
         return sMessageTemplateProviderMap.get(templateType);
+    }
+
+    /**
+     * 绑定视图
+     * @param layout
+     * @param messageEntity
+     * @param position
+     * @param listener
+     * @return
+     */
+    public static View bindView(@NonNull MessageTemplateProviderLayout layout,
+                                @NonNull MessageEntity messageEntity,
+                                int position,
+                                @Nullable OnMessageTemplateListener listener) {
+        MessageTemplateProvider provider = getMessageTemplate(messageEntity.getMessageTemplateType());
+        if (provider != null) {
+            View targetView = layout.inflate(provider);
+            if (targetView != null) {
+                provider.bindView(targetView,messageEntity,position,listener);
+            }
+            return targetView;
+        }
+        return null;
     }
 
 }

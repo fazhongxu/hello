@@ -1,26 +1,44 @@
 package com.xxl.hello.widget.im;
 
+import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.xxl.hello.service.im.MessageEntity;
+
 /**
  * 消息模板提供类
  *
  * @author xxl.
  * @date 2024/6/14.
  */
-public class MessageTemplateProvider {
+public abstract class MessageTemplateProvider {
 
-    //region: 成员变量
+    //region: 页面生命周期
 
-    //endregion
+    /**
+     * 获取视图
+     *
+     * @return
+     */
+    public abstract int getLayoutRes();
 
-    //region: 构造函数
-
+    /**
+     * 绑定视图
+     *
+     * @param rootView
+     * @param messageEntity
+     * @param position
+     * @param listener
+     */
+    public abstract void bindView(@NonNull View rootView,
+                                  @NonNull MessageEntity messageEntity,
+                                  int position,
+                                  @Nullable OnMessageTemplateListener listener);
     //endregion
 
     //region: 提供方法
-
-    //endregion
-
-    //region: 内部辅助方法
 
     //endregion
 }

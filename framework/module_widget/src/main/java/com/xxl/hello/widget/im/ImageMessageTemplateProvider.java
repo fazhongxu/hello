@@ -1,7 +1,14 @@
 package com.xxl.hello.widget.im;
 
+import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.xxl.hello.service.im.MessageEntity;
 import com.xxl.hello.service.im.MessageTemplate;
 import com.xxl.hello.service.im.MessageTemplateType;
+import com.xxl.hello.widget.R;
 
 /**
  * 图片消息模板提供类
@@ -17,6 +24,23 @@ public class ImageMessageTemplateProvider extends MessageTemplateProvider {
     //endregion
 
     //region: 构造函数
+
+    //endregion
+
+    //region: 页面生命周期
+
+    @Override
+    public int getLayoutRes() {
+        return R.layout.widget_recycle_item_message_text;
+    }
+
+    @Override
+    public void bindView(@NonNull View rootView,
+                         @NonNull MessageEntity messageEntity,
+                         int position,
+                         @Nullable OnMessageTemplateListener listener) {
+
+    }
 
     //endregion
 
