@@ -1,6 +1,6 @@
 package com.xxl.hello.im.ui.message.session.base.adapter;
 
-import com.xxl.hello.service.im.MessageEntity;
+import com.xxl.hello.im.data.model.entity.MessageEntity;
 
 /**
  * 会话数据模型

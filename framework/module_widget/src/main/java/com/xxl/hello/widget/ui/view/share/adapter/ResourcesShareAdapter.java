@@ -5,7 +5,7 @@ import androidx.annotation.NonNull;
 import com.xxl.core.widget.recyclerview.adapter.BaseBindingAdapter;
 import com.xxl.hello.service.data.model.entity.share.ShareOperateItem;
 import com.xxl.hello.widget.R;
-import com.xxl.hello.widget.databinding.WidgetRecyclerItemResourcesShareBinding;
+import com.xxl.hello.widget.databinding.WidgetRecycleItemResourcesShareBinding;
 
 /**
  * 资源分享适配器
@@ -13,7 +13,7 @@ import com.xxl.hello.widget.databinding.WidgetRecyclerItemResourcesShareBinding;
  * @author xxl.
  * @date 2022/10/24.
  */
-public class ResourcesShareAdapter extends BaseBindingAdapter<ShareOperateItem,ResourcesShareItemListener, WidgetRecyclerItemResourcesShareBinding> {
+public class ResourcesShareAdapter extends BaseBindingAdapter<ShareOperateItem,ResourcesShareItemListener, WidgetRecycleItemResourcesShareBinding> {
 
     //region: 构造函数
 
@@ -26,7 +26,7 @@ public class ResourcesShareAdapter extends BaseBindingAdapter<ShareOperateItem,R
     //region: 页面生命周期
 
     @Override
-    public void convert(@NonNull final WidgetRecyclerItemResourcesShareBinding binding,
+    public void convert(@NonNull final WidgetRecycleItemResourcesShareBinding binding,
                         @NonNull final ShareOperateItem item) {
 
         ResourcesShareItemViewModel viewModel = binding.getViewModel();

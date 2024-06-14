@@ -1,4 +1,4 @@
-package com.xxl.hello.widget.im;
+package com.xxl.hello.im.ui.template;
 
 import android.content.Context;
 import android.util.AttributeSet;

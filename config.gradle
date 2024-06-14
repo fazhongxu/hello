@@ -438,6 +438,7 @@ hello.service = project(':framework:module_service')
 hello.resources = project(':framework:module_resources')
 hello.widget = project(':framework:module_widget')
 hello.router = project(':framework:module_router')
+hello.im = project(':framework:module_im')
 
 hello.annotation = project(':framework:module_annotation')
 hello.compiler = project(':framework:module_compiler')

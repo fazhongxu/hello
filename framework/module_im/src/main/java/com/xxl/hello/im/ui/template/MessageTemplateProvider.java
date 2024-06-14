@@ -1,11 +1,11 @@
-package com.xxl.hello.widget.im;
+package com.xxl.hello.im.ui.template;
 
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.xxl.hello.service.im.MessageEntity;
+import com.xxl.hello.im.data.model.entity.MessageEntity;
 
 /**
  * 消息模板提供类

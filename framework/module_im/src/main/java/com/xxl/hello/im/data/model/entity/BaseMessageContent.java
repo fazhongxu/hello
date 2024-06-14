@@ -1,4 +1,4 @@
-package com.xxl.hello.service.im;
+package com.xxl.hello.im.data.model.entity;
 
 /**
  * @author xxl.
