@@ -1,10 +1,10 @@
-package com.xxl.hello.im.ui.widget;
+package com.xxl.hello.im.ui.message.list;
 
 /**
  * @author xxl.
- * @date 2023/7/19.
+ * @date 2024/6/14.
  */
-public class MessageTemplate {
+public class MessageFragment {
 
     //region: 成员变量
 
@@ -12,12 +12,12 @@ public class MessageTemplate {
 
     //region: 构造函数
 
-    private MessageTemplate() {
+    private MessageFragment() {
 
     }
 
-    public final static MessageTemplate obtain() {
-        return new MessageTemplate();
+    public final static MessageFragment obtain() {
+        return new MessageFragment();
     }
 
     //endregion
