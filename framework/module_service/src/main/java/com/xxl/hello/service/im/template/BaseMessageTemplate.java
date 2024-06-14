@@ -1,10 +1,10 @@
-package com.xxl.hello.im.ui.message.session;
+package com.xxl.hello.service.im.template;
 
 /**
  * @author xxl.
  * @date 2024/6/14.
  */
-public class BaseChatSessionFragment {
+public class BaseMessageTemplate {
 
     //region: 成员变量
 
@@ -12,12 +12,12 @@ public class BaseChatSessionFragment {
 
     //region: 构造函数
 
-    private BaseChatSessionFragment() {
+    private BaseMessageTemplate() {
 
     }
 
-    public final static BaseChatSessionFragment obtain() {
-        return new BaseChatSessionFragment();
+    public final static BaseMessageTemplate obtain() {
+        return new BaseMessageTemplate();
     }
 
     //endregion
