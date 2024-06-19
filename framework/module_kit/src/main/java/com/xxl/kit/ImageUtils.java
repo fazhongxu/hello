@@ -191,6 +191,60 @@ public final class ImageUtils {
     }
 
     /**
+     * 创建一个五角星
+     *
+     * @param width
+     * @param height
+     * @return
+     */
+    public static Bitmap createStarBitmap(int width, int height) {
+        if (width <= 0 || height <= 0) {
+            return null;
+        }
+        Bitmap output = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
+
+        final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paint.setColor(Color.WHITE);  // 设置五角星的颜色
+
+        Path path = new Path();
+
+        // 计算中心点
+        float centerX = width / 2f;
+        float centerY = height / 2f;
+
+        // 计算大圆半径和小圆半径
+        float radius = Math.min(width, height) / 2f;  // 使用更大的半径
+        float innerRadius = radius / 2.5f;  // 内圆半径仍然是外圆半径的一部分
+
+        // 从顶部中间开始绘制
+        double angle = -Math.PI / 2;
+        for (int i = 0; i < 10; i++) {
+            float r = (i % 2 == 0) ? radius : innerRadius;
+            float x = centerX + (float) Math.cos(angle) * r;
+            float y = centerY + (float) Math.sin(angle) * r;
+            if (i == 0) {
+                path.moveTo(x, y);
+            } else {
+                path.lineTo(x, y);
+            }
+            angle += Math.PI / 5;
+        }
+        path.close();
+
+        // 计算路径的边界并居中
+        RectF bounds = new RectF();
+        path.computeBounds(bounds, true);
+        float offsetX = centerX - (bounds.left + bounds.right) / 2;
+        float offsetY = centerY - (bounds.top + bounds.bottom) / 2;
+        path.offset(offsetX, offsetY);
+
+        // 绘制路径
+        canvas.drawPath(path, paint);
+        return output;
+    }
+
+    /**
      * View to bitmap.
      *
      * @param view The view.
