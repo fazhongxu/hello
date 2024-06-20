@@ -191,6 +191,41 @@ public final class ImageUtils {
     }
 
     /**
+     * 创建椭圆图形
+     */
+    public static Bitmap createOvalBitmap(int width, int height) {
+        Bitmap output = null;
+        try {
+            output = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+
+            final Rect rect = new Rect(0, 0, width, height);
+            Canvas canvas = new Canvas(output);
+
+            final Paint paint = new Paint();
+            paint.setAntiAlias(true);
+            paint.setFilterBitmap(true);
+
+            Path path = new Path();
+
+            int centerX = width / 2;
+            int centerY = height / 2;
+            int radiusX = width / 2;
+            int radiusY = (int) (height / 2 * 0.8f);
+            path.addOval(centerX - radiusX, centerY - radiusY, centerX + radiusX, centerY + radiusY, Path.Direction.CW);
+
+            paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_OUT));
+            canvas.clipPath(path);
+            canvas.drawColor(Color.WHITE);
+            paint.setXfermode(null);
+
+            canvas.drawBitmap(output, null, rect, paint);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return output;
+    }
+
+    /**
      * 创建一个五角星
      *
      * @param width

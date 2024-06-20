@@ -3,6 +3,16 @@ package com.xxl.hello.main.ui.main;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
+import android.graphics.Region;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -14,7 +24,9 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
+import com.bumptech.glide.Glide;
 import com.tbruyelle.rxpermissions3.RxPermissions;
+import com.xxl.core.aop.annotation.Async;
 import com.xxl.core.aop.annotation.Safe;
 import com.xxl.core.media.audio.AudioCapture;
 import com.xxl.core.media.audio.AudioCapture.OnAudioFrameCapturedListener;
@@ -50,11 +62,13 @@ import com.xxl.hello.widget.ui.window.CommonMessagePopupWindow;
 import com.xxl.kit.AppUtils;
 import com.xxl.kit.ClipboardUtils;
 import com.xxl.kit.FFmpegUtils;
+import com.xxl.kit.ImageUtils;
 import com.xxl.kit.ListUtils;
 import com.xxl.kit.LogUtils;
 import com.xxl.kit.MediaUtils;
 import com.xxl.kit.OnAppStatusChangedListener;
 import com.xxl.kit.OnRequestCallBack;
+import com.xxl.kit.PathUtils;
 import com.xxl.kit.ResourceUtils;
 import com.xxl.kit.StringUtils;
 import com.xxl.kit.ThreadUtils;
@@ -232,9 +246,435 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
     //region: MainNavigator
 
+    @Async
     @Override
     public void onTestClick() {
-        UserRouterApi.Login.newBuilder().navigation(getActivity());
+        //UserRouterApi.Login.newBuilder().navigation(getActivity());
+//
+        String videoPath = PathUtils.getAppIntCachePath() + File.separator + "11.mp4";
+        String videoPath2 = PathUtils.getAppIntCachePath() + File.separator + "2.mp4";
+        String videoPath7 = PathUtils.getAppIntCachePath() + File.separator + "7.mov";
+        String gifPath = PathUtils.getAppIntCachePath() + File.separator + "output.gif";
+        String palettegenPath = PathUtils.getAppIntCachePath() + File.separator + "palettegen.png";
+        String maskPath = PathUtils.getAppIntCachePath() + File.separator + "mask.png";
+        String frame_dir = PathUtils.getAppIntCachePath() + File.separator+"frame";
+
+        int interval = 10; // 每秒提取10帧
+        int scaleWidth = 320; // 缩放宽度
+        int scaleHeight = 320; // 缩放高度
+
+        float speed = 1.0f; // GIF播放速度
+
+        boolean b = ResourceUtils.copyFileFromAssets("11.mp4", videoPath);
+
+        if (b) {
+//            FFmpegUtils.replaceVideoBackgroundColor(videoPath6,videoPath7,null,null);
+//            MediaInformation mediaInformation = FFmpegUtils.getMediaInformation(videoPath);
+
+//            Bitmap starBitmap = ImageUtils.createStarBitmap(720, 720);
+            Bitmap starBitmap = ImageUtils.createStarBitmap(720, 720);
+            boolean save = ImageUtils.save(starBitmap, maskPath, Bitmap.CompressFormat.PNG);
+
+            // 先拆分再合并也可以
+//            FFmpegUtils.videoFrameExtraction(videoPath,maskPath,frame_dir);
+//            FFmpegUtils.frame2Gif(frame_dir,gifPath,10,320,null);
+            // 一个命令拆分+合并也可以
+            FFmpegUtils.frame2Gif2(videoPath,maskPath,gifPath);
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Glide.with(getActivity())
+                            .asGif()
+                            .load(gifPath)
+                            .into(mViewDataBinding.ivImage);
+                }
+            });
+
+           /* FFmpegUtils.executeConvertVideoPalettegen(videoPath2, palettegenPath, interval, scaleWidth, scaleHeight, new OnRequestCallBack<Boolean>() {
+                @Override
+                public void onSuccess(@Nullable Boolean aBoolean) {
+                    FFmpegUtils.executeConvertVideoToGif(videoPath2,palettegenPath,gifPath,interval,scaleWidth,scaleHeight,speed,null);
+                    Log.e("aaa", "onTestClick: "+gifPath + FileUtils.isFileExists(gifPath));
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Glide.with(getActivity())
+                                    .asGif()
+                                    .load(gifPath)
+                                    .into(mViewDataBinding.ivImage);
+                        }
+                    });
+                }
+            });*/
+
+
+        }
+    }
+
+
+
+    public static Bitmap createStarBitmap(int width, int height) {
+        if (width <= 0 || height <= 0) {
+            return null;
+        }
+        Bitmap output = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
+
+        final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paint.setColor(Color.WHITE);  // 设置五角星的颜色
+
+        Path path = new Path();
+
+        // 计算中心点
+        float centerX = width / 2f;
+        float centerY = height / 2f;
+
+        // 计算大圆半径和小圆半径
+        float radius = Math.min(width, height) / 2.5f;
+        float innerRadius = radius / 2.5f;
+
+        // 从顶部中间开始绘制
+        path.moveTo(centerX, centerY - radius);
+        double angle = Math.PI / 2d;
+
+        for (int i = 1; i < 10; i++) {
+            angle += Math.PI * 2 / 10;
+            float r = (i % 2 == 0) ? radius : innerRadius;
+            float x = centerX + (float) Math.cos(angle) * r;
+            float y = centerY - (float) Math.sin(angle) * r;
+            path.lineTo(x, y);
+        }
+        path.close();
+
+        canvas.drawPath(path, paint);
+
+        return output;
+    }
+
+
+    public static Bitmap createStarBitmap2(int width, int height) {
+        if (width <= 0 || height <= 0) {
+            return null;
+        }
+        Bitmap output = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
+
+        final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paint.setColor(Color.WHITE);  // 设置五角星的颜色
+
+        Path path = new Path();
+
+        // 计算中心点
+        float centerX = width / 2f;
+        float centerY = height / 2f;
+
+        // 计算大圆半径和小圆半径
+        float radius = Math.min(width, height) / 2f;  // 使用更大的半径
+        float innerRadius = radius / 2.5f;  // 内圆半径仍然是外圆半径的一部分
+
+        // 从顶部中间开始绘制
+        path.moveTo(centerX, centerY - radius);
+        double angle = Math.PI / 2d;
+
+        for (int i = 1; i < 10; i++) {
+            angle += Math.PI * 2 / 10;
+            float r = (i % 2 == 0) ? radius : innerRadius;
+            float x = centerX + (float) Math.cos(angle) * r;
+            float y = centerY - (float) Math.sin(angle) * r;
+            path.lineTo(x, y);
+        }
+        path.close();
+
+        canvas.drawPath(path, paint);
+
+        return output;
+    }
+
+    /**
+     * 创建五角星图形
+     */
+    public static Bitmap createStarBitmap3(int width, int height) {
+        if (width <= 0 || height <= 0) {
+            return null;
+        }
+        Bitmap output = null;
+        try {
+
+            output = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(output);
+
+            Rect rect = new Rect(0, 0, width, height);
+
+            final Paint paint = new Paint();
+            paint.setAntiAlias(true);
+            paint.setFilterBitmap(true);
+
+            Path path = new Path();
+
+            float halfWidth = width / 2;
+            float halfHeight = width / 2;
+
+            float mid = Math.min(halfWidth, halfHeight);
+            float bigRadius = mid;
+            float smallRadius = mid / 2.5f;
+
+            path.moveTo(mid, 0);
+            for (int i = 0; i < 5; i++) {
+                float x = (float) (mid + bigRadius * Math.sin(i * 2 * Math.PI / 5));
+                float y = (float) (mid - bigRadius * Math.cos(i * 2 * Math.PI / 5));
+                path.lineTo(x, y);
+                x = (float) (mid + smallRadius * Math.sin((i * 2 + 1) * Math.PI / 5));
+                y = (float) (mid - smallRadius * Math.cos((i * 2 + 1) * Math.PI / 5));
+                path.lineTo(x, y);
+            }
+
+            paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_OUT));
+            canvas.clipPath(path);
+            canvas.drawColor(Color.WHITE);
+            paint.setXfermode(null);
+            canvas.clipPath(path);
+
+            canvas.drawBitmap(output, rect, rect, paint);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return output;
+    }
+
+    public static Bitmap createStarBitmap4(int width, int height, float translateY) {
+        if (width <= 0 || height <= 0) {
+            return null;
+        }
+        Bitmap output = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
+
+        final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paint.setColor(Color.WHITE);  // 设置五角星的颜色
+
+        // 平移画布
+        canvas.translate(0, translateY);  // 在Y轴方向上平移
+
+        Path path = new Path();
+
+        // 计算中心点
+        float centerX = width / 2f;
+        float centerY = height / 2f;
+
+        // 计算大圆半径和小圆半径
+        float radius = Math.min(width, height) / 2f;  // 使用更大的半径
+        float innerRadius = radius / 2.5f;  // 内圆半径仍然是外圆半径的一部分
+
+        // 从顶部中间开始绘制
+        path.moveTo(centerX, centerY - radius);
+        double angle = Math.PI / 2d;
+
+        for (int i = 1; i < 10; i++) {
+            angle += Math.PI * 2 / 10;
+            float r = (i % 2 == 0) ? radius : innerRadius;
+            float x = centerX + (float) Math.cos(angle) * r;
+            float y = centerY - (float) Math.sin(angle) * r;
+            path.lineTo(x, y);
+        }
+        path.close();
+
+        canvas.drawPath(path, paint);
+
+        return output;
+    }
+
+    public static Bitmap createStarBitmap8(int width, int height) {
+        Bitmap output = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
+
+        final Paint paint = new Paint();
+        paint.setAntiAlias(true);
+        paint.setFilterBitmap(true);
+        paint.setColor(Color.WHITE);  // 设置五角星的颜色
+
+        Path path = new Path();
+
+        // 计算中心点
+        float centerX = width / 2f;
+        float centerY = height / 2f;
+
+        // 计算大圆半径和小圆半径
+        float radius = Math.min(width, height) / 2.5f;  // 使用更大的半径以充分利用空间
+        float innerRadius = radius / 2.5f;
+
+        // 从画布中心顶部开始绘制五角星
+        double angle = -Math.PI / 2;
+        for (int i = 0; i < 10; i++) {
+            float r = (i % 2 == 0) ? radius : innerRadius;
+            float x = centerX + (float) Math.cos(angle) * r;
+            float y = centerY + (float) Math.sin(angle) * r;
+            if (i == 0) {
+                path.moveTo(x, y);
+            } else {
+                path.lineTo(x, y);
+            }
+            angle += Math.PI / 5;
+        }
+        path.close();
+
+        // 使用 PorterDuff 模式清除路径外的区域
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_OUT));
+        canvas.clipPath(path);
+        canvas.drawColor(Color.WHITE);
+        paint.setXfermode(null);
+        canvas.clipPath(path, Region.Op.REPLACE);
+
+        // 绘制路径
+        canvas.drawPath(path, paint);
+
+        return output;
+    }
+
+
+    public static Bitmap createStarBitmap7(int width, int height) {
+        Bitmap output = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
+
+        final Paint paint = new Paint();
+        paint.setAntiAlias(true);
+        paint.setColor(Color.WHITE);  // 设置五角星的颜色
+
+        Path path = new Path();
+
+        // 计算中心点
+        float centerX = width / 2f;
+        float centerY = height / 2f;
+
+        // 计算大圆半径和小圆半径
+        float radius = Math.min(width, height) / 2.5f;
+        float innerRadius = radius / 2.5f;
+
+        // 使用原始的角度和半径计算方法
+        float mid = Math.min(centerX, centerY);
+        for (int i = 0; i < 5; i++) {
+            float x = (float) (mid + radius * Math.sin(i * 2 * Math.PI / 5));
+            float y = (float) (mid - radius * Math.cos(i * 2 * Math.PI / 5));
+            if (i == 0) {
+                path.moveTo(x, y);
+            } else {
+                path.lineTo(x, y);
+            }
+            x = (float) (mid + innerRadius * Math.sin((i * 2 + 1) * Math.PI / 5));
+            y = (float) (mid - innerRadius * Math.cos((i * 2 + 1) * Math.PI / 5));
+            path.lineTo(x, y);
+        }
+        path.close();
+
+        // 计算路径的边界并居中
+        RectF bounds = new RectF();
+        path.computeBounds(bounds, true);
+        float offsetX = centerX - (bounds.left + bounds.right) / 2;
+        float offsetY = centerY - (bounds.top + bounds.bottom) / 2;
+        path.offset(offsetX, offsetY);
+
+        // 绘制路径
+        canvas.drawPath(path, paint);
+
+        return output;
+    }
+    public static Bitmap createStarBitmap6(int width, int height) {
+        if (width <= 0 || height <= 0) {
+            return null;
+        }
+        Bitmap output = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
+
+        final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paint.setColor(Color.WHITE);  // 设置五角星的颜色
+
+        Path path = new Path();
+
+        // 计算中心点
+        float centerX = width / 2f;
+        float centerY = height / 2f;
+
+        // 计算大圆半径和小圆半径
+        float radius = Math.min(width, height) / 2f;  // 使用更大的半径
+        float innerRadius = radius / 2.5f;  // 内圆半径仍然是外圆半径的一部分
+
+        // 从顶部中间开始绘制
+        double angle = -Math.PI / 2;
+        for (int i = 0; i < 10; i++) {
+            float r = (i % 2 == 0) ? radius : innerRadius;
+            float x = centerX + (float) Math.cos(angle) * r;
+            float y = centerY + (float) Math.sin(angle) * r;
+            if (i == 0) {
+                path.moveTo(x, y);
+            } else {
+                path.lineTo(x, y);
+            }
+            angle += Math.PI / 5;
+        }
+        path.close();
+
+        // 计算路径的边界并居中
+        RectF bounds = new RectF();
+        path.computeBounds(bounds, true);
+        float offsetX = centerX - (bounds.left + bounds.right) / 2;
+        float offsetY = centerY - (bounds.top + bounds.bottom) / 2;
+        path.offset(offsetX, offsetY);
+
+        // 绘制路径
+        canvas.drawPath(path, paint);
+        return output;
+    }
+
+
+    public static Bitmap createStarBitmap5(int width, int height) {
+        if (width <= 0 || height <= 0) {
+            return null;
+        }
+        Bitmap output = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
+
+        final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paint.setColor(Color.WHITE);  // 设置五角星的颜色
+
+        Path path = new Path();
+
+        // 计算中心点
+        float centerX = width / 2f;
+        float centerY = height / 2f;
+
+        // 计算大圆半径和小圆半径
+        float radius = Math.min(width, height) / 2.5f;
+        float innerRadius = radius / 2.5f;
+
+        // 计算五角星的顶点，以确定最高点和最低点
+        float minY = Float.MAX_VALUE;
+        float maxY = Float.MIN_VALUE;
+        double angle = -Math.PI / 2;
+        for (int i = 0; i < 10; i++) {
+            float r = (i % 2 == 0) ? radius : innerRadius;
+            float y = centerY + (float) Math.sin(angle) * r;
+            minY = Math.min(minY, y);
+            maxY = Math.max(maxY, y);
+            angle += Math.PI / 5;
+        }
+
+        // 计算五角星的垂直偏移，以使其居中
+        float verticalOffset = (minY + maxY) / 2 - centerY;
+
+        // 从顶部中间开始绘制
+        path.moveTo(centerX, centerY - radius - verticalOffset);
+        angle = -Math.PI / 2;
+        for (int i = 0; i < 10; i++) {
+            float r = (i % 2 == 0) ? radius : innerRadius;
+            float x = centerX + (float) Math.cos(angle) * r;
+            float y = centerY + (float) Math.sin(angle) * r - verticalOffset;
+            path.lineTo(x, y);
+            angle += Math.PI / 5;
+        }
+        path.close();
+
+        canvas.drawPath(path, paint);
+
+        return output;
     }
 
     /**

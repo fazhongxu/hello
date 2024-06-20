@@ -264,7 +264,7 @@ deps.fat_aar = "com.github.kezong:fat-aar:$versions.fat_aar"
 deps.bugly = "com.tencent.bugly:crashreport:$versions.bugly"
 
 // ffmpeg_kit [https://github.com/tanersener/ffmpeg-kit]
-versions.ffmpeg_kit_remote = false
+versions.ffmpeg_kit_remote = true
 
 if (versions.ffmpeg_kit_remote) {
     deps.ffmpeg_kit = "com.arthenica:ffmpeg-kit-full-gpl:$versions.ffmpeg_kit"
