@@ -1,6 +1,7 @@
 package com.xxl.kit;
 
 import android.os.Looper;
+import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -540,14 +541,21 @@ public class FFmpegUtils {
         List<String> commands = new ArrayList<>();
         commands.add("-i");
         commands.add(inputVideoPath);
-        commands.add("-i");
-        commands.add(maskImagePath);
-        commands.add("-filter_complex");
 
-        String filterComplex = String.format(
-                "[0:v][1:v]alphamerge,format=rgba,setpts=%s*PTS,crop=in_w:in_h:0:0,fps=10,scale=%d:%d:flags=lanczos,split[v1][v2];[v1]palettegen[p];[v2][p]paletteuse=new=1",
-                1.0 / speed, gifWidth, gifHeight
-        );
+        boolean hasMask = !TextUtils.isEmpty(maskImagePath);
+
+        if (hasMask) {
+            commands.add("-i");
+            commands.add(maskImagePath);
+        }
+
+        commands.add("-filter_complex");
+        String filterComplex;
+        if (hasMask) {
+            filterComplex = String.format(Locale.getDefault(), "[0:v][1:v]alphamerge,format=rgba,setpts=%s*PTS,crop=in_w:in_h:0:0,fps=10,scale=%d:%d:flags=lanczos,split[v1][v2];[v1]palettegen[p];[v2][p]paletteuse=new=1", 1.0 / speed, gifWidth, gifHeight);
+        } else {
+            filterComplex = String.format(Locale.getDefault(), "setpts=%s*PTS,crop=in_w:in_h:0:0,fps=10,scale=%d:%d:flags=lanczos,split[v1][v2];[v1]palettegen[p];[v2][p]paletteuse=new=1", 1.0 / speed, gifWidth, gifHeight);
+        }
 
         commands.add(filterComplex);
         commands.add("-y");

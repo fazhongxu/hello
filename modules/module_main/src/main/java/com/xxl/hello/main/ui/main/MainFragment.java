@@ -251,6 +251,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
             boolean save = ImageUtils.save(starBitmap, maskPath, Bitmap.CompressFormat.PNG);
             //FFmpegUtils.video2Gif(videoPath,maskPath,gifPath);
             FFmpegUtils.video2Gif(videoPath,maskPath,gifPath,1,720,720);
+//            FFmpegUtils.video2Gif(videoPath,null,gifPath,1,720,720);
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
