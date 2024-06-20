@@ -552,9 +552,9 @@ public class FFmpegUtils {
         commands.add("-filter_complex");
         String filterComplex;
         if (hasMask) {
-            filterComplex = String.format(Locale.getDefault(), "[0:v][1:v]alphamerge,format=rgba,setpts=%s*PTS,crop=in_w:in_h:0:0,fps=10,scale=%d:%d:flags=lanczos,split[v1][v2];[v1]palettegen[p];[v2][p]paletteuse=new=1", 1.0 / speed, gifWidth, gifHeight);
+            filterComplex = String.format(Locale.getDefault(), "[0:v][1:v]alphamerge,format=rgba,setpts=%s*PTS,crop=in_w:in_h:0:0,fps=10,scale=%d:%d:flags=lanczos,split[v1][v2];[v1]palettegen[p];[v2][p]paletteuse", 1.0 / speed, gifWidth, gifHeight);
         } else {
-            filterComplex = String.format(Locale.getDefault(), "setpts=%s*PTS,crop=in_w:in_h:0:0,fps=10,scale=%d:%d:flags=lanczos,split[v1][v2];[v1]palettegen[p];[v2][p]paletteuse=new=1", 1.0 / speed, gifWidth, gifHeight);
+            filterComplex = String.format(Locale.getDefault(), "setpts=%s*PTS,crop=in_w:in_h:0:0,fps=10,scale=%d:%d:flags=lanczos,split[v1][v2];[v1]palettegen[p];[v2][p]paletteuse", 1.0 / speed, gifWidth, gifHeight);
         }
 
         commands.add(filterComplex);
