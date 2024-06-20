@@ -566,6 +566,48 @@ public class FFmpegUtils {
 
     }
 
+    /**
+     * 将视频合成为GIF图片
+     *
+     * @param inputVideoPath 输入视频文件路径
+     * @param maskImagePath  遮罩图片路径，不透明部分有内容
+     * @param outGifPath     输出GIF文件路径
+     * @param speed          播放速度参数，例如速度为2倍（0.5 表示快进一倍，2 表示慢放一倍）
+     * @param videoWidth     视频宽度
+     * @param videoHeight    视频高度
+     * @param gifWidth       GIF宽度
+     * @param gifHeight      GIF高度
+     * @return 返回FFmpeg会话
+     */
+    public static FFmpegSession video2Gif(String inputVideoPath, String maskImagePath, String outGifPath, double speed, int videoWidth, int videoHeight, int gifWidth, int gifHeight) {
+        List<String> commands = new ArrayList<>();
+        commands.add("-i");
+        commands.add(inputVideoPath);
+
+        boolean hasMask = maskImagePath != null && !maskImagePath.isEmpty();
+        if (hasMask) {
+            commands.add("-i");
+            commands.add(maskImagePath);
+        }
+
+        commands.add("-filter_complex");
+        String filterComplex;
+        if (hasMask) {
+            filterComplex = String.format(Locale.getDefault(),
+                    "[1:v]scale=%d:%d[mask];[0:v][mask]alphamerge,format=rgba,setpts=%s*PTS,crop=in_w:in_h:0:0,fps=10,scale=%d:%d:flags=lanczos,split[v1][v2];[v1]palettegen[p];[v2][p]paletteuse",
+                    videoWidth, videoHeight, 1.0 / speed, gifWidth, gifHeight);
+        } else {
+            filterComplex = String.format(Locale.getDefault(),
+                    "setpts=%s*PTS,crop=in_w:in_h:0:0,fps=10,scale=%d:%d:flags=lanczos,split[v1][v2];[v1]palettegen[p];[v2][p]paletteuse",
+                    1.0 / speed, gifWidth, gifHeight);
+        }
+        commands.add(filterComplex);
+        commands.add("-y");
+        commands.add(outGifPath);
+
+        String[] cmd = commands.toArray(new String[0]);
+        return FFmpegKit.execute(argumentsToString(cmd));
+    }
 
     public static String argumentsToString(final String[] arguments) {
         if (arguments == null) {
