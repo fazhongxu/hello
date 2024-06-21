@@ -2,6 +2,7 @@ package com.xxl.kit;
 
 import android.os.Looper;
 import android.text.TextUtils;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -10,10 +11,13 @@ import com.arthenica.ffmpegkit.FFmpegKit;
 import com.arthenica.ffmpegkit.FFmpegSession;
 import com.arthenica.ffmpegkit.FFmpegSessionCompleteCallback;
 import com.arthenica.ffmpegkit.FFprobeKit;
+import com.arthenica.ffmpegkit.LogCallback;
 import com.arthenica.ffmpegkit.MediaInformation;
 import com.arthenica.ffmpegkit.MediaInformationSession;
 import com.arthenica.ffmpegkit.MediaInformationSessionCompleteCallback;
 import com.arthenica.ffmpegkit.ReturnCode;
+import com.arthenica.ffmpegkit.Statistics;
+import com.arthenica.ffmpegkit.StatisticsCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -606,7 +610,79 @@ public class FFmpegUtils {
         commands.add(outGifPath);
 
         String[] cmd = commands.toArray(new String[0]);
-        return FFmpegKit.execute(argumentsToString(cmd));
+
+        return executeAsync(argumentsToString(cmd), new OnRequestCallBack<Boolean>() {
+            @Override
+            public void onSuccess(@Nullable Boolean aBoolean) {
+                Log.e("aaa", "onSuccess: " + aBoolean);
+            }
+        });
+    }
+
+    /**
+     * 将视频合成为GIF图片
+     *
+     * @param inputVideoPath 输入视频文件路径
+     * @param maskImagePath  遮罩图片路径，不透明部分有内容
+     * @param outGifPath     输出GIF文件路径
+     * @param speed          播放速度参数，例如速度为2倍（0.5 表示快进一倍，2 表示慢放一倍）
+     * @param videoWidth     视频宽度
+     * @param videoHeight    视频高度
+     * @param videoDuration  视频时长（毫秒）
+     * @param gifWidth       GIF宽度
+     * @param gifHeight      GIF高度
+     * @param callBack       回调
+     * @return 返回FFmpeg会话
+     */
+    public static FFmpegSession video2Gif(String inputVideoPath, String maskImagePath, String outGifPath, double speed, int videoWidth, int videoDuration, int videoHeight, int gifWidth, int gifHeight, OnSimpleRequestCallBack<Boolean> callBack) {
+        List<String> commands = new ArrayList<>();
+        commands.add("-i");
+        commands.add(inputVideoPath);
+
+        boolean hasMask = maskImagePath != null && !maskImagePath.isEmpty();
+        if (hasMask) {
+            commands.add("-i");
+            commands.add(maskImagePath);
+        }
+
+        commands.add("-filter_complex");
+        String filterComplex;
+        if (hasMask) {
+            filterComplex = String.format(Locale.getDefault(),
+                    "[1:v]scale=%d:%d[mask];[0:v][mask]alphamerge,format=rgba,setpts=%s*PTS,crop=in_w:in_h:0:0,fps=10,scale=%d:%d:flags=lanczos,split[v1][v2];[v1]palettegen[p];[v2][p]paletteuse",
+                    videoWidth, videoHeight, 1.0 / speed, gifWidth, gifHeight);
+        } else {
+            filterComplex = String.format(Locale.getDefault(),
+                    "setpts=%s*PTS,crop=in_w:in_h:0:0,fps=10,scale=%d:%d:flags=lanczos,split[v1][v2];[v1]palettegen[p];[v2][p]paletteuse",
+                    1.0 / speed, gifWidth, gifHeight);
+        }
+        commands.add(filterComplex);
+        commands.add("-y");
+        commands.add(outGifPath);
+
+        String[] cmd = commands.toArray(new String[0]);
+
+        return executeAsync(argumentsToString(cmd), null, new StatisticsCallback() {
+            @Override
+            public void apply(Statistics statistics) {
+                int time = statistics.getTime();
+                if (videoDuration <= 0) {
+                    return;
+                }
+                float progress = (time * 1.0F / videoDuration * 1.0F) * 100F;
+                if (callBack != null) {
+                    callBack.onProgress((int) progress);
+                }
+
+            }
+        }, new OnRequestCallBack<Boolean>() {
+            @Override
+            public void onSuccess(@Nullable Boolean aBoolean) {
+                if (callBack != null) {
+                    callBack.onSuccess(aBoolean);
+                }
+            }
+        });
     }
 
     public static String argumentsToString(final String[] arguments) {
@@ -635,6 +711,21 @@ public class FFmpegUtils {
      */
     public static FFmpegSession executeAsync(@NonNull final String command,
                                              @Nullable final OnRequestCallBack<Boolean> callBack) {
+        return executeAsync(command, null, null, callBack);
+    }
+
+    /**
+     * 异步执行
+     *
+     * @param command
+     * @param logCallback
+     * @param statisticsCallback
+     * @return
+     */
+    public static FFmpegSession executeAsync(@NonNull final String command,
+                                             @Nullable final LogCallback logCallback,
+                                             @Nullable final StatisticsCallback statisticsCallback,
+                                             @Nullable final OnRequestCallBack<Boolean> callBack) {
         return FFmpegKit.executeAsync(command, new FFmpegSessionCompleteCallback() {
             @Override
             public void apply(FFmpegSession session) {
@@ -655,7 +746,7 @@ public class FFmpegUtils {
                     callBack.onSuccess(false);
                 }
             }
-        });
+        }, logCallback, statisticsCallback);
     }
 
 

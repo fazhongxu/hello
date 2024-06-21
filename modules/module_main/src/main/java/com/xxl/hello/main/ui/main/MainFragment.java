@@ -60,6 +60,7 @@ import com.xxl.kit.LogUtils;
 import com.xxl.kit.MediaUtils;
 import com.xxl.kit.OnAppStatusChangedListener;
 import com.xxl.kit.OnRequestCallBack;
+import com.xxl.kit.OnSimpleRequestCallBack;
 import com.xxl.kit.PathUtils;
 import com.xxl.kit.ResourceUtils;
 import com.xxl.kit.StringUtils;
@@ -247,34 +248,30 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
         String maskPath = PathUtils.getAppIntCachePath() + File.separator + "mask.png";
         boolean b = ResourceUtils.copyFileFromAssets("11.mp4", videoPath);
 
-        boolean b1 = ResourceUtils.copyFileFromAssets("5.gif", gifPath);
-        if (b1) {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Glide.with(getActivity())
-                            .load(gifPath)
-                            .skipMemoryCache(true)
-                            .diskCacheStrategy(DiskCacheStrategy.NONE)
-                            .into(mViewDataBinding.ivImage);
-                }
-            });
-        }
-
         if (b) {
             Bitmap starBitmap = ImageUtils.createStarBitmap(720, 720);
             boolean save = ImageUtils.save(starBitmap, maskPath, Bitmap.CompressFormat.PNG);
-            FFmpegUtils.video2Gif(videoPath,maskPath,gifPath,1,720,720,720,720);
-            getActivity().runOnUiThread(new Runnable() {
+            FFmpegUtils.video2Gif(videoPath, maskPath, gifPath, 1, 720, 6910, 720, 720, 720, new OnSimpleRequestCallBack<Boolean>() {
                 @Override
-                public void run() {
-                    Glide.with(getActivity())
-                            .load(gifPath)
-                            .skipMemoryCache(true)
-                            .diskCacheStrategy(DiskCacheStrategy.NONE)
-                            .into(mViewDataBinding.ivImage);
+                public void onProgress(int progress) {
+                    LogUtils.d("video2Gif progress" + progress);
+                }
+
+                @Override
+                public void onSuccess(@Nullable Boolean aBoolean) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Glide.with(getActivity())
+                                    .load(gifPath)
+                                    .skipMemoryCache(true)
+                                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                    .into(mViewDataBinding.ivImage);
+                        }
+                    });
                 }
             });
+            /*FFmpegUtils.video2Gif(videoPath,maskPath,gifPath,1,720,720,720,720);*/
         }
     }
 
