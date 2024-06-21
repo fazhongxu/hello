@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.tbruyelle.rxpermissions3.RxPermissions;
 import com.xxl.core.aop.annotation.Async;
 import com.xxl.core.aop.annotation.Safe;
@@ -246,16 +247,31 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
         String maskPath = PathUtils.getAppIntCachePath() + File.separator + "mask.png";
         boolean b = ResourceUtils.copyFileFromAssets("11.mp4", videoPath);
 
+        boolean b1 = ResourceUtils.copyFileFromAssets("5.gif", gifPath);
+        if (b1) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Glide.with(getActivity())
+                            .load(gifPath)
+                            .skipMemoryCache(true)
+                            .diskCacheStrategy(DiskCacheStrategy.NONE)
+                            .into(mViewDataBinding.ivImage);
+                }
+            });
+        }
+
         if (b) {
-            Bitmap starBitmap = ImageUtils.createStarBitmap(540, 540);
+            Bitmap starBitmap = ImageUtils.createStarBitmap(720, 720);
             boolean save = ImageUtils.save(starBitmap, maskPath, Bitmap.CompressFormat.PNG);
             FFmpegUtils.video2Gif(videoPath,maskPath,gifPath,1,720,720,720,720);
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     Glide.with(getActivity())
-                            .asGif()
                             .load(gifPath)
+                            .skipMemoryCache(true)
+                            .diskCacheStrategy(DiskCacheStrategy.NONE)
                             .into(mViewDataBinding.ivImage);
                 }
             });
