@@ -3,7 +3,6 @@ package com.xxl.hello.main.ui.main;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -15,10 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.tbruyelle.rxpermissions3.RxPermissions;
-import com.xxl.core.aop.annotation.Async;
 import com.xxl.core.aop.annotation.Safe;
 import com.xxl.core.media.audio.AudioCapture;
 import com.xxl.core.media.audio.AudioCapture.OnAudioFrameCapturedListener;
@@ -54,14 +50,11 @@ import com.xxl.hello.widget.ui.window.CommonMessagePopupWindow;
 import com.xxl.kit.AppUtils;
 import com.xxl.kit.ClipboardUtils;
 import com.xxl.kit.FFmpegUtils;
-import com.xxl.kit.ImageUtils;
 import com.xxl.kit.ListUtils;
 import com.xxl.kit.LogUtils;
 import com.xxl.kit.MediaUtils;
 import com.xxl.kit.OnAppStatusChangedListener;
 import com.xxl.kit.OnRequestCallBack;
-import com.xxl.kit.OnSimpleRequestCallBack;
-import com.xxl.kit.PathUtils;
 import com.xxl.kit.ResourceUtils;
 import com.xxl.kit.StringUtils;
 import com.xxl.kit.ThreadUtils;
@@ -239,40 +232,9 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
     //region: MainNavigator
 
-    @Async
     @Override
     public void onTestClick() {
-        //UserRouterApi.Login.newBuilder().navigation(getActivity());
-        String videoPath = PathUtils.getAppIntCachePath() + File.separator + "11.mp4";
-        String gifPath = PathUtils.getAppIntCachePath() + File.separator + "output.gif";
-        String maskPath = PathUtils.getAppIntCachePath() + File.separator + "mask.png";
-        boolean b = ResourceUtils.copyFileFromAssets("11.mp4", videoPath);
-
-        if (b) {
-            Bitmap starBitmap = ImageUtils.createStarBitmap(720, 720);
-            boolean save = ImageUtils.save(starBitmap, maskPath, Bitmap.CompressFormat.PNG);
-            FFmpegUtils.video2Gif(videoPath, maskPath, gifPath, 1, 720, 6910, 720, 720, 720, new OnSimpleRequestCallBack<Boolean>() {
-                @Override
-                public void onProgress(int progress) {
-                    LogUtils.d("video2Gif progress" + progress);
-                }
-
-                @Override
-                public void onSuccess(@Nullable Boolean aBoolean) {
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Glide.with(getActivity())
-                                    .load(gifPath)
-                                    .skipMemoryCache(true)
-                                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                                    .into(mViewDataBinding.ivImage);
-                        }
-                    });
-                }
-            });
-            /*FFmpegUtils.video2Gif(videoPath,maskPath,gifPath,1,720,720,720,720);*/
-        }
+        UserRouterApi.Login.newBuilder().navigation(getActivity());
     }
 
     /**
