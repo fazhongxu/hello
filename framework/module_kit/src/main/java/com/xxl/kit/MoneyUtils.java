@@ -288,4 +288,27 @@ public final class MoneyUtils {
         return value;
     }
 
+    /**
+     * 转换金额（元）
+     *
+     * @param amount （分）
+     * @return 如果后面是两个0，则只取小数点前面的整数，如果最后一个是0，则去掉最后一个0
+     */
+    public static String fen2YuanTrim(final int amount) {
+        String amountString = MoneyUtils.fen2Yuan(amount);
+        try {
+            if (!TextUtils.isEmpty(amountString) && amountString.indexOf(".") > 0) {
+                if (amountString.indexOf(".00") > 0) {
+                    amountString = amountString.substring(0, amountString.indexOf(".00"));
+                } else if (amountString.endsWith("0")) {
+                    amountString = amountString.substring(0, amountString.length() - 1);
+                }
+                return amountString;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return amountString;
+    }
+
 }
