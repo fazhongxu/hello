@@ -234,8 +234,6 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
     @Override
     public void onTestClick() {
-        int time = 24 * 60 * 60 * 1000;
-        mViewDataBinding.countdownTime.setCountDownTime(time);
         UserRouterApi.Login.newBuilder().navigation(getActivity());
     }
 
