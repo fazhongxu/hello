@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:background="@android:color/black">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="14dp"
+            android:text="剩余"
+            android:textColor="#BDBDBD"
+            android:textSize="13sp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_day"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:background="@drawable/widget_ic_down_time"
+            android:gravity="center"
+            android:textColor="@color/resources_text_sub_title_color"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            tools:text="23" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/tv_day_split"
+            android:layout_width="2.5dp"
+            android:layout_height="8.5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:src="@drawable/widget_ic_count_down_time_dot"
+            android:visibility="gone" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_hour"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:background="@drawable/widget_ic_down_time"
+            android:gravity="center"
+            android:textColor="@color/resources_text_sub_title_color"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            tools:text="23" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/tv_hour_split"
+            android:layout_width="2.5dp"
+            android:layout_height="8.5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:src="@drawable/widget_ic_count_down_time_dot" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_minute"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:background="@drawable/widget_ic_down_time"
+            android:gravity="center"
+            android:textColor="@color/resources_text_sub_title_color"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            tools:text="18" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/tv_minuet_split"
+            android:layout_width="2.5dp"
+            android:layout_height="8.5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:src="@drawable/widget_ic_count_down_time_dot" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_second"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:background="@drawable/widget_ic_down_time"
+            android:gravity="center"
+            android:textColor="@color/resources_text_sub_title_color"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            tools:text="14" />
+
+    </LinearLayout>
+
+</LinearLayout>
