@@ -4,9 +4,10 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 
-import com.xxl.core.ui.BaseViewModel;
 import com.xxl.core.ui.fragment.BaseViewModelFragment;
 import com.xxl.hello.im.BR;
+import com.xxl.hello.im.R;
+import com.xxl.hello.im.databinding.ImFragmentChatSessionBinding;
 
 /**
  * 会话基础类
@@ -14,7 +15,7 @@ import com.xxl.hello.im.BR;
  * @author xxl.
  * @date 2024/6/14.
  */
-public class BaseChatSessionFragment extends BaseViewModelFragment {
+public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel<N>, N extends BaseChatSessionNavigator> extends BaseViewModelFragment<V, ImFragmentChatSessionBinding> {
 
     //region: 成员变量
 
@@ -24,12 +25,7 @@ public class BaseChatSessionFragment extends BaseViewModelFragment {
 
     @Override
     protected int getLayoutRes() {
-        return 0;
-    }
-
-    @Override
-    protected BaseViewModel createViewModel() {
-        return null;
+        return R.layout.im_fragment_chat_session;
     }
 
     @Override
@@ -39,7 +35,7 @@ public class BaseChatSessionFragment extends BaseViewModelFragment {
 
     @Override
     public int getViewNavigatorVariable() {
-        return BR.listener;
+        return BR.navigator;
     }
 
     @Override
