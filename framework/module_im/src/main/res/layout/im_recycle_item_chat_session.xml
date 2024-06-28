@@ -72,7 +72,7 @@
 
             </RelativeLayout>
 
-            <com.xxl.hello.widget.im.MessageTemplateProviderLayout
+            <com.xxl.hello.im.ui.template.MessageTemplateProviderLayout
                 android:id="@+id/fl_message_provider_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

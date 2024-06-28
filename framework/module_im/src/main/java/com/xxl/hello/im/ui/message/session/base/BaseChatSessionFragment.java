@@ -1,25 +1,55 @@
 package com.xxl.hello.im.ui.message.session.base;
 
+import android.view.View;
+
+import androidx.annotation.NonNull;
+
+import com.xxl.core.ui.BaseViewModel;
+import com.xxl.core.ui.fragment.BaseViewModelFragment;
+import com.xxl.hello.im.BR;
+
 /**
  * 会话基础类
  *
  * @author xxl.
  * @date 2024/6/14.
  */
-public class BaseChatSessionFragment {
+public class BaseChatSessionFragment extends BaseViewModelFragment {
 
     //region: 成员变量
 
     //endregion
 
-    //region: 构造函数
+    //region: 页面生命周期
 
-    private BaseChatSessionFragment() {
+    @Override
+    protected int getLayoutRes() {
+        return 0;
+    }
+
+    @Override
+    protected BaseViewModel createViewModel() {
+        return null;
+    }
+
+    @Override
+    public int getViewModelVariable() {
+        return BR.viewModel;
+    }
+
+    @Override
+    public int getViewNavigatorVariable() {
+        return BR.listener;
+    }
+
+    @Override
+    protected void setupData() {
 
     }
 
-    public final static BaseChatSessionFragment obtain() {
-        return new BaseChatSessionFragment();
+    @Override
+    protected void setupLayout(@NonNull View rootView) {
+
     }
 
     //endregion

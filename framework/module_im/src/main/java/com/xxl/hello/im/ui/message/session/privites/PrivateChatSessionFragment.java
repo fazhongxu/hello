@@ -1,12 +1,14 @@
 package com.xxl.hello.im.ui.message.session.privites;
 
+import com.xxl.hello.im.ui.message.session.base.BaseChatSessionFragment;
+
 /**
  * 单聊会话
  *
  * @author xxl.
  * @date 2024/6/14.
  */
-public class PriviteChatSessionFragment {
+public class PrivateChatSessionFragment extends BaseChatSessionFragment {
 
     //region: 成员变量
 
@@ -14,12 +16,8 @@ public class PriviteChatSessionFragment {
 
     //region: 构造函数
 
-    private PriviteChatSessionFragment() {
-
-    }
-
-    public final static PriviteChatSessionFragment obtain() {
-        return new PriviteChatSessionFragment();
+    public final static PrivateChatSessionFragment newInstance() {
+        return new PrivateChatSessionFragment();
     }
 
     //endregion

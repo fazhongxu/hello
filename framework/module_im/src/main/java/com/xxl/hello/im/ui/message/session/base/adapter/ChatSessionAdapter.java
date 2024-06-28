@@ -6,9 +6,9 @@ import androidx.annotation.NonNull;
 
 import com.xxl.core.widget.recyclerview.adapter.BaseBindingAdapter;
 import com.xxl.hello.im.R;
-import com.xxl.hello.im.databinding.ImRecycleItemChatSessionBinding;
 import com.xxl.hello.im.data.model.entity.MessageEntity;
-import com.xxl.hello.widget.im.MessageTemplateWrapper;
+import com.xxl.hello.im.databinding.ImRecycleItemChatSessionBinding;
+import com.xxl.hello.im.ui.template.MessageTemplateWrapper;
 
 /**
  * 会话列表适配器

@@ -5,10 +5,10 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.xxl.hello.im.R;
 import com.xxl.hello.im.data.model.entity.MessageEntity;
 import com.xxl.hello.im.data.model.entity.MessageTemplate;
 import com.xxl.hello.im.data.model.entity.MessageTemplateType;
-import com.xxl.hello.widget.R;
 
 /**
  * 文本消息模板提供类

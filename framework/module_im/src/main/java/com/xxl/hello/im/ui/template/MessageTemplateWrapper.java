@@ -5,8 +5,8 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.xxl.hello.service.im.MessageEntity;
-import com.xxl.hello.service.im.MessageTemplate;
+import com.xxl.hello.im.data.model.entity.MessageEntity;
+import com.xxl.hello.im.data.model.entity.MessageTemplate;
 
 import java.util.LinkedHashMap;
 
