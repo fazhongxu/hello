@@ -115,6 +115,9 @@ public class UISmartRefreshLayout extends SmartRefreshLayout implements IRefresh
 
     public UISmartRefreshLayout(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        if (isInEditMode()) {
+            return;
+        }
         setRefreshLayout();
     }
 
