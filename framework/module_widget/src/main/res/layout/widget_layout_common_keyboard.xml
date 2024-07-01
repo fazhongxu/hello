@@ -83,7 +83,7 @@
         android:gravity="center"
         android:minHeight="260dp"
         android:orientation="vertical"
-        android:visibility="visible"/>
+        android:visibility="gone"/>
 
     <FrameLayout
         android:id="@+id/fl_bottom_container"

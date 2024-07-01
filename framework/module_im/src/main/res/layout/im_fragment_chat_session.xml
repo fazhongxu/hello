@@ -14,20 +14,35 @@
             type="com.xxl.hello.im.ui.message.session.base.BaseChatSessionNavigator" />
     </data>
 
-    <com.xxl.core.widget.recyclerview.UISmartRefreshLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_list"
+        <com.xxl.core.widget.recyclerview.UISmartRefreshLayout
+            android:id="@+id/refresh_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:listitem="@layout/im_recycle_item_chat_session" />
+            android:layout_height="0dp"
+            android:layout_weight="1">
 
-    </com.xxl.core.widget.recyclerview.UISmartRefreshLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:listitem="@layout/im_recycle_item_chat_session" />
+
+        </com.xxl.core.widget.recyclerview.UISmartRefreshLayout>
+
+        <com.xxl.hello.widget.ui.view.keyboard.CommentKeyboardLayout
+            android:id="@+id/common_keyboard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible" />
+
+    </LinearLayout>
 
 </layout>

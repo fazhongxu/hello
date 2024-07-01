@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.xxl.core.ui.ViewModelProviderFactory;
+import com.xxl.hello.im.ui.message.session.base.adapter.ChatSessionAdapter;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.hello.service.qunlifier.ForApplication;
 
@@ -30,6 +31,11 @@ public class PrivateChatFragmentModule {
     @Provides
     ViewModelProvider.Factory providePrivateChatSessionModelFactory(@NonNull final PrivateChatSessionViewModel viewModel) {
         return new ViewModelProviderFactory<>(viewModel);
+    }
+
+    @Provides
+    ChatSessionAdapter provideChatSessionAdapter() {
+        return new ChatSessionAdapter();
     }
 
 }

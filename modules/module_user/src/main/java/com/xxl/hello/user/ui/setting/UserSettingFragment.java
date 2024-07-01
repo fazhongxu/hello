@@ -27,6 +27,7 @@ import com.xxl.core.ui.fragment.BaseViewModelFragment;
 import com.xxl.hello.common.config.AppConfig;
 import com.xxl.hello.common.config.CacheDirConfig;
 import com.xxl.hello.common.config.NetworkConfig;
+import com.xxl.hello.im.data.router.ChatRouterApi;
 import com.xxl.hello.service.data.local.db.entity.ResourcesUploadQueueDBEntity;
 import com.xxl.hello.service.data.model.entity.media.MediaPreviewItemEntity;
 import com.xxl.hello.service.data.model.entity.share.ImageShareResourceEntity;
@@ -463,7 +464,8 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
      */
     @Override
     public boolean onAboutMeLongClick() {
-        getViewDataBinding().commonKeyboard.show("");
+        ChatRouterApi.PrivateChat.newBuilder()
+                .navigation();
         return true;
     }
 
