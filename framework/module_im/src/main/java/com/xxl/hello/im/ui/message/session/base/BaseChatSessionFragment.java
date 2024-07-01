@@ -12,6 +12,7 @@ import com.xxl.hello.im.R;
 import com.xxl.hello.im.databinding.ImFragmentChatSessionBinding;
 import com.xxl.hello.im.ui.message.session.base.adapter.ChatSessionAdapter;
 import com.xxl.hello.widget.ui.view.keyboard.CommentKeyboardLayout;
+import com.xxl.hello.widget.ui.view.keyboard.OnCommentKeyboardListener;
 
 import javax.inject.Inject;
 
@@ -21,7 +22,7 @@ import javax.inject.Inject;
  * @author xxl.
  * @date 2024/6/14.
  */
-public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel<N>, N extends BaseChatSessionNavigator> extends BaseViewModelFragment<V, ImFragmentChatSessionBinding> {
+public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel<N>, N extends BaseChatSessionNavigator> extends BaseViewModelFragment<V, ImFragmentChatSessionBinding> implements OnCommentKeyboardListener {
 
     //region: 成员变量
 
@@ -74,6 +75,7 @@ public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel
         RecyclerView recyclerView = mChatSessionBinding.rvList;
         refreshLayout.bindRecyclerView(recyclerView,mChatSessionAdapter);
         CommentKeyboardLayout commonKeyboard = mChatSessionBinding.commonKeyboard;
+        commonKeyboard.setOnCommentKeyboardListener(this);
         commonKeyboard.init(getActivity(),refreshLayout);
         commonKeyboard.show(null);
     }

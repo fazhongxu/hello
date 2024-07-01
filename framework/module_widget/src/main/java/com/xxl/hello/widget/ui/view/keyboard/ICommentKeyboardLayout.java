@@ -42,4 +42,11 @@ public interface ICommentKeyboardLayout {
      */
     void hide();
 
+    /**
+     * 设置评论键盘监听
+     *
+     * @param listener
+     */
+    void setOnCommentKeyboardListener(@Nullable OnCommentKeyboardListener listener);
+
 }

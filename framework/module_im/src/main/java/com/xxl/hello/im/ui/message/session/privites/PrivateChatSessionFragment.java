@@ -1,5 +1,7 @@
 package com.xxl.hello.im.ui.message.session.privites;
 
+import androidx.annotation.Nullable;
+
 import com.xxl.hello.im.ui.message.session.base.BaseChatSessionFragment;
 
 import javax.inject.Inject;
@@ -39,6 +41,20 @@ public class PrivateChatSessionFragment extends BaseChatSessionFragment<PrivateC
     //endregion
 
     //region: 页面生命周期
+
+    //endregion
+
+    //region: OnCommentKeyboardListener
+
+    /**
+     * 发送点击
+     *
+     * @param content
+     */
+    @Override
+    public void onSendClick(@Nullable CharSequence content) {
+        // TODO: 2024/7/1
+    }
 
     //endregion
 

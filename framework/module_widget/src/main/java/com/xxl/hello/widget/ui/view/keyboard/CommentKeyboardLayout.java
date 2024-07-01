@@ -62,6 +62,11 @@ public class CommentKeyboardLayout extends LinearLayout implements ICommentKeybo
      */
     private RecentEmojiManager mRecentEmojiManager;
 
+    /**
+     * 评论键盘监听事件
+     */
+    private OnCommentKeyboardListener mOnCommentKeyboardListener;
+
     //endregion
 
     //region: 构造函数
@@ -107,6 +112,14 @@ public class CommentKeyboardLayout extends LinearLayout implements ICommentKeybo
         mTvSend = findViewById(R.id.tv_send);
         mLLExpressionContainer = findViewById(R.id.ll_expression_container);
         mEtContent.addTextChangedListener(this);
+        mTvSend.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mOnCommentKeyboardListener != null) {
+                    mOnCommentKeyboardListener.onSendClick(getInputContent());
+                }
+            }
+        });
     }
 
     //endregion
@@ -189,6 +202,15 @@ public class CommentKeyboardLayout extends LinearLayout implements ICommentKeybo
         setVisibility(GONE);
     }
 
+    /**
+     * 设置评论键盘监听
+     *
+     * @param listener
+     */
+    @Override
+    public void setOnCommentKeyboardListener(@Nullable OnCommentKeyboardListener listener) {
+        mOnCommentKeyboardListener = listener;
+    }
 
     //endregion
 
@@ -226,6 +248,24 @@ public class CommentKeyboardLayout extends LinearLayout implements ICommentKeybo
     //endregion
 
     //region: 提供方法
+
+    //endregion
+
+    //region:  内部辅助方法
+
+    /**
+     * 获取输入的内容
+     *
+     * @return
+     */
+    private CharSequence getInputContent() {
+        try {
+            return mEtContent.getText().toString();
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
 
     //endregion
 
