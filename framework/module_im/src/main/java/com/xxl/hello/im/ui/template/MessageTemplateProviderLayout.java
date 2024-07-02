@@ -25,10 +25,9 @@ public class MessageTemplateProviderLayout extends FrameLayout {
 
     public <T extends MessageTemplateProvider> View inflate(T provider) {
         if (mTargetView != null) {
-            return mTargetView;
+            removeView(mTargetView);
         }
         mTargetView = provider.inflate(getContext(), this);
-
         if (mTargetView != null) {
             addView(mTargetView);
         }
