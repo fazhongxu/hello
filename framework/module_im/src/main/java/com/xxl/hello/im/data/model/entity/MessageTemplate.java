@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
  * @author xxl.
  * @date 2024/6/14.
  */
-@Retention(RetentionPolicy.SOURCE)
+@Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface MessageTemplate {
 

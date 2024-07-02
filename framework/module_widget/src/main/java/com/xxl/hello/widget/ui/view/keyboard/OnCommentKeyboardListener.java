@@ -15,5 +15,5 @@ public interface OnCommentKeyboardListener {
      *
      * @param content
      */
-    void onSendClick(@Nullable CharSequence content);
+    void onSendClick(@Nullable String content);
 }

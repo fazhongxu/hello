@@ -1,6 +1,9 @@
 package com.xxl.hello.im.ui.template;
 
+import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,6 +19,18 @@ import com.xxl.hello.im.data.model.entity.MessageEntity;
 public abstract class MessageTemplateProvider {
 
     //region: 页面生命周期
+
+    /**
+     * 填充视图
+     *
+     * @param context
+     * @param viewGroup
+     * @return
+     */
+    public View inflate(@NonNull Context context,
+                        @NonNull ViewGroup viewGroup) {
+        return LayoutInflater.from(context).inflate(getLayoutRes(), viewGroup, false);
+    }
 
     /**
      * 获取视图

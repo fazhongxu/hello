@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 
 import com.xxl.core.widget.recyclerview.adapter.BaseBindingAdapter;
 import com.xxl.hello.im.R;
+import com.xxl.hello.im.data.model.entity.MessageDirection;
 import com.xxl.hello.im.data.model.entity.MessageEntity;
 import com.xxl.hello.im.databinding.ImRecycleItemChatSessionBinding;
 import com.xxl.hello.im.ui.template.MessageTemplateWrapper;
@@ -41,6 +42,7 @@ public class ChatSessionAdapter extends BaseBindingAdapter<MessageEntity, ChatSe
             itemBinding.setViewModel(viewModel);
         }
         itemBinding.setListener(mListener);
+        setUserLayout(itemBinding, itemEntity);
         setSessionLayout(itemBinding, itemEntity);
         itemBinding.executePendingBindings();
     }
@@ -50,6 +52,28 @@ public class ChatSessionAdapter extends BaseBindingAdapter<MessageEntity, ChatSe
     //region: 页面视图渲染
 
     /**
+     * 设置用户信息视图
+     *
+     * @param itemBinding
+     * @param itemEntity
+     */
+    private void setUserLayout(@NonNull ImRecycleItemChatSessionBinding itemBinding,
+                               @NonNull MessageEntity itemEntity) {
+        int direction = itemEntity.getMessageDirection();
+        if (direction == MessageDirection.LEFT) {
+            itemBinding.ivLeftAvatar.setVisibility(View.VISIBLE);
+            itemBinding.ivRightAvatar.setVisibility(View.INVISIBLE);
+            itemBinding.tvLeftNickname.setVisibility(View.VISIBLE);
+            itemBinding.tvRightNickname.setVisibility(View.INVISIBLE);
+        } else {
+            itemBinding.ivLeftAvatar.setVisibility(View.INVISIBLE);
+            itemBinding.ivRightAvatar.setVisibility(View.VISIBLE);
+            itemBinding.tvLeftNickname.setVisibility(View.INVISIBLE);
+            itemBinding.tvRightNickname.setVisibility(View.VISIBLE);
+        }
+    }
+
+    /**
      * 设置会话视图
      *
      * @param itemBinding
@@ -57,7 +81,7 @@ public class ChatSessionAdapter extends BaseBindingAdapter<MessageEntity, ChatSe
      */
     private void setSessionLayout(@NonNull ImRecycleItemChatSessionBinding itemBinding,
                                   @NonNull MessageEntity itemEntity) {
-        View view = MessageTemplateWrapper.bindView(itemBinding.flMessageProviderLayout, itemEntity,getItemPosition(itemEntity),null);
+        View view = MessageTemplateWrapper.bindView(itemBinding.flMessageProviderLayout, itemEntity, getItemPosition(itemEntity), null);
 
     }
 

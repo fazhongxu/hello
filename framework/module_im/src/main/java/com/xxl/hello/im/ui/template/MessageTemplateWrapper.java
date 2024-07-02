@@ -21,8 +21,8 @@ public class MessageTemplateWrapper {
     private static final LinkedHashMap<String, MessageTemplateProvider> sMessageTemplateProviderMap = new LinkedHashMap<>();
 
     static {
-        registerMessageTemplate(new TextMessageTemplateProvider());
-        registerMessageTemplate(new ImageMessageTemplateProvider());
+        registerMessageTemplate(TextMessageTemplateProvider.obtain());
+        registerMessageTemplate(ImageMessageTemplateProvider.obtain());
     }
 
     /**
@@ -50,6 +50,7 @@ public class MessageTemplateWrapper {
 
     /**
      * 绑定视图
+     *
      * @param layout
      * @param messageEntity
      * @param position
@@ -64,7 +65,7 @@ public class MessageTemplateWrapper {
         if (provider != null) {
             View targetView = layout.inflate(provider);
             if (targetView != null) {
-                provider.bindView(targetView,messageEntity,position,listener);
+                provider.bindView(targetView, messageEntity, position, listener);
             }
             return targetView;
         }

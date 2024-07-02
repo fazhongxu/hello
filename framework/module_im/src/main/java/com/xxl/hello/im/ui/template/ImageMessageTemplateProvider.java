@@ -1,14 +1,17 @@
 package com.xxl.hello.im.ui.template;
 
+import android.view.LayoutInflater;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
 
 import com.xxl.hello.im.R;
 import com.xxl.hello.im.data.model.entity.MessageEntity;
 import com.xxl.hello.im.data.model.entity.MessageTemplate;
 import com.xxl.hello.im.data.model.entity.MessageTemplateType;
+import com.xxl.hello.im.databinding.ImRecycleItemMessageImageBinding;
 
 /**
  * 图片消息模板提供类
@@ -25,13 +28,17 @@ public class ImageMessageTemplateProvider extends MessageTemplateProvider {
 
     //region: 构造函数
 
+    public static ImageMessageTemplateProvider obtain() {
+        return new ImageMessageTemplateProvider();
+    }
+
     //endregion
 
     //region: 页面生命周期
 
     @Override
     public int getLayoutRes() {
-        return R.layout.im_recycle_item_message_text;
+        return R.layout.im_recycle_item_message_image;
     }
 
     @Override
@@ -39,7 +46,8 @@ public class ImageMessageTemplateProvider extends MessageTemplateProvider {
                          @NonNull MessageEntity messageEntity,
                          int position,
                          @Nullable OnMessageTemplateListener listener) {
-
+        ImRecycleItemMessageImageBinding imageBinding = DataBindingUtil.bind(rootView);
+        imageBinding.executePendingBindings();
     }
 
     //endregion

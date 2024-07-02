@@ -4,11 +4,13 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
 
 import com.xxl.hello.im.R;
 import com.xxl.hello.im.data.model.entity.MessageEntity;
 import com.xxl.hello.im.data.model.entity.MessageTemplate;
 import com.xxl.hello.im.data.model.entity.MessageTemplateType;
+import com.xxl.hello.im.databinding.ImRecycleItemMessageTextBinding;
 
 /**
  * 文本消息模板提供类
@@ -25,6 +27,9 @@ public class TextMessageTemplateProvider extends MessageTemplateProvider {
 
     //region: 构造函数
 
+    public static TextMessageTemplateProvider obtain() {
+        return new TextMessageTemplateProvider();
+    }
 
     //endregion
 
@@ -40,7 +45,9 @@ public class TextMessageTemplateProvider extends MessageTemplateProvider {
                          @NonNull MessageEntity messageEntity,
                          int position,
                          @Nullable OnMessageTemplateListener listener) {
-
+        ImRecycleItemMessageTextBinding textBinding = DataBindingUtil.bind(rootView);
+        textBinding.tvContent.setText(messageEntity.getMessageText());
+        textBinding.executePendingBindings();
     }
 
     //endregion

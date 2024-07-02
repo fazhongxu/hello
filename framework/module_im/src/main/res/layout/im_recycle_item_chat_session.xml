@@ -29,7 +29,7 @@
             android:layout_height="45dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="5dp"
-            tools:src="@tools:sample/avatars" />
+            android:src="@drawable/resources_ic_avatar2" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_right_avatar"
@@ -38,7 +38,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="10dp"
-            tools:src="@tools:sample/avatars" />
+            android:src="@drawable/resources_ic_avatar3" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -57,9 +57,9 @@
                     android:id="@+id/tv_left_nickname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="handsome"
                     android:textColor="@color/resources_text_sub_title_color"
-                    android:textSize="14sp"
-                    tools:text="昵称1" />
+                    android:textSize="14sp" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_right_nickname"
@@ -68,7 +68,7 @@
                     android:layout_alignParentRight="true"
                     android:textColor="@color/resources_text_sub_title_color"
                     android:textSize="14sp"
-                    tools:text="昵称2" />
+                    tools:text="lemon" />
 
             </RelativeLayout>
 

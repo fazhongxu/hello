@@ -117,6 +117,7 @@ public class CommentKeyboardLayout extends LinearLayout implements ICommentKeybo
             public void onClick(View v) {
                 if (mOnCommentKeyboardListener != null) {
                     mOnCommentKeyboardListener.onSendClick(getInputContent());
+                    mEtContent.setText("");
                 }
             }
         });
@@ -258,7 +259,7 @@ public class CommentKeyboardLayout extends LinearLayout implements ICommentKeybo
      *
      * @return
      */
-    private CharSequence getInputContent() {
+    private String getInputContent() {
         try {
             return mEtContent.getText().toString();
         }catch (Exception e) {

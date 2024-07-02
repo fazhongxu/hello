@@ -3,16 +3,21 @@ package com.xxl.hello.im.ui.message.session.base;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.xxl.core.ui.fragment.BaseViewModelFragment;
 import com.xxl.core.widget.recyclerview.UISmartRefreshLayout;
 import com.xxl.hello.im.BR;
 import com.xxl.hello.im.R;
+import com.xxl.hello.im.data.model.entity.MessageDirection;
+import com.xxl.hello.im.data.model.entity.MessageEntity;
 import com.xxl.hello.im.databinding.ImFragmentChatSessionBinding;
 import com.xxl.hello.im.ui.message.session.base.adapter.ChatSessionAdapter;
 import com.xxl.hello.widget.ui.view.keyboard.CommentKeyboardLayout;
 import com.xxl.hello.widget.ui.view.keyboard.OnCommentKeyboardListener;
+
+import java.util.Random;
 
 import javax.inject.Inject;
 
@@ -73,16 +78,31 @@ public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel
     protected void setupChatRecyclerView() {
         UISmartRefreshLayout refreshLayout = mChatSessionBinding.refreshLayout;
         RecyclerView recyclerView = mChatSessionBinding.rvList;
-        refreshLayout.bindRecyclerView(recyclerView,mChatSessionAdapter);
+        refreshLayout.bindRecyclerView(recyclerView, mChatSessionAdapter);
         CommentKeyboardLayout commonKeyboard = mChatSessionBinding.commonKeyboard;
         commonKeyboard.setOnCommentKeyboardListener(this);
-        commonKeyboard.init(getActivity(),refreshLayout);
+        commonKeyboard.init(getActivity(), refreshLayout);
         commonKeyboard.show(null);
     }
 
     //endregion
 
-    //region: 提供方法
+    //region: OnCommentKeyboardListener
+
+    /**
+     * 发送点击
+     *
+     * @param content
+     */
+    @Override
+    public void onSendClick(@Nullable String content) {
+        MessageEntity messageEntity = new MessageEntity();
+        Random random = new Random();
+        messageEntity.setMessageType(random.nextInt(2) == 1 ? 2 : 1);
+        messageEntity.setMessageDirection(random.nextInt(2) == 1 ? MessageDirection.LEFT : MessageDirection.RIGHT);
+        messageEntity.setMessageText(content);
+        mChatSessionAdapter.addData(messageEntity);
+    }
 
     //endregion
 
