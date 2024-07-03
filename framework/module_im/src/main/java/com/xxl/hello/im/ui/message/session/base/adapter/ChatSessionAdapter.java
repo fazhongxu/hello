@@ -81,8 +81,13 @@ public class ChatSessionAdapter extends BaseBindingAdapter<MessageEntity, ChatSe
      */
     private void setSessionLayout(@NonNull ImRecycleItemChatSessionBinding itemBinding,
                                   @NonNull MessageEntity itemEntity) {
+        int direction = itemEntity.getMessageDirection();
         View view = MessageTemplateWrapper.bindView(itemBinding.flMessageProviderLayout, itemEntity, getItemPosition(itemEntity), null);
-
+        if (direction == MessageDirection.LEFT) {
+            itemBinding.flMessageProviderLayout.setChildGravityLeft();
+        } else {
+            itemBinding.flMessageProviderLayout.setChildGravityRight();
+        }
     }
 
     //endregion

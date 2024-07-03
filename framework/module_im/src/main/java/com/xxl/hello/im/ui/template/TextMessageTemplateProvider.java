@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 
 import com.xxl.hello.im.R;
+import com.xxl.hello.im.data.model.entity.MessageDirection;
 import com.xxl.hello.im.data.model.entity.MessageEntity;
 import com.xxl.hello.im.data.model.entity.MessageTemplate;
 import com.xxl.hello.im.data.model.entity.MessageTemplateType;
@@ -46,6 +47,12 @@ public class TextMessageTemplateProvider extends MessageTemplateProvider {
                          int position,
                          @Nullable OnMessageTemplateListener listener) {
         ImRecycleItemMessageTextBinding textBinding = DataBindingUtil.bind(rootView);
+        int direction = messageEntity.getMessageDirection();
+        if (direction == MessageDirection.LEFT) {
+            textBinding.llItemContainer.setBackgroundResource(R.drawable.resources_bg_chat_text_left);
+        }else {
+            textBinding.llItemContainer.setBackgroundResource(R.drawable.resources_bg_chat_text_right);
+        }
         textBinding.tvContent.setText(messageEntity.getMessageText());
         textBinding.executePendingBindings();
     }

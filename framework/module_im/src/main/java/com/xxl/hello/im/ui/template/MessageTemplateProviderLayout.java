@@ -2,6 +2,7 @@ package com.xxl.hello.im.ui.template;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
 
@@ -34,4 +35,36 @@ public class MessageTemplateProviderLayout extends FrameLayout {
 
         return mTargetView;
     }
+
+    /**
+     * 设置子视图左对齐
+     */
+    public void setChildGravityLeft() {
+        setChildViewGravity(Gravity.LEFT);
+    }
+
+    /**
+     * 设置子视图右对齐
+     */
+    public void setChildGravityRight() {
+        setChildViewGravity(Gravity.RIGHT);
+    }
+
+    /**
+     * 设置子视图居中
+     */
+    public void setChildGravityCenter() {
+        setChildViewGravity(Gravity.CENTER);
+    }
+
+    /**
+     * 设置子视图对齐方式
+     */
+    public void setChildViewGravity(int gravity) {
+        if (mTargetView != null) {
+            FrameLayout.LayoutParams layoutParams = (LayoutParams) mTargetView.getLayoutParams();
+            layoutParams.gravity = gravity;
+        }
+    }
+
 }

@@ -98,7 +98,7 @@ public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel
     public void onSendClick(@Nullable String content) {
         MessageEntity messageEntity = new MessageEntity();
         Random random = new Random();
-        messageEntity.setMessageType(random.nextInt(2) == 1 ? 2 : 1);
+        messageEntity.setMessageType(random.nextInt(6) == 1 ? 2 : 1);
         messageEntity.setMessageDirection(random.nextInt(2) == 1 ? MessageDirection.LEFT : MessageDirection.RIGHT);
         messageEntity.setMessageText(content);
         mChatSessionAdapter.addData(messageEntity);
