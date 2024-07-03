@@ -22,4 +22,18 @@ public @interface MessageTemplate {
      */
     @MessageTemplateType
     String templateType();
+
+    /**
+     * 是否展示头像
+     *
+     * @return
+     */
+    boolean isShowAvatar() default false;
+
+    /**
+     * 是否水平居中
+     *
+     * @return
+     */
+    boolean isCenterHorizontal() default false;
 }

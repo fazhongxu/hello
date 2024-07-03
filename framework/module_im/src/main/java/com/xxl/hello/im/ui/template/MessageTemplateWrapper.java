@@ -20,6 +20,8 @@ public class MessageTemplateWrapper {
 
     private static final LinkedHashMap<String, MessageTemplateProvider> sMessageTemplateProviderMap = new LinkedHashMap<>();
 
+    private static final LinkedHashMap<String, MessageTemplate> sMessageTemplaterMap = new LinkedHashMap<>();
+
     static {
         registerMessageTemplate(TextMessageTemplateProvider.obtain());
         registerMessageTemplate(ImageMessageTemplateProvider.obtain());
@@ -36,6 +38,7 @@ public class MessageTemplateWrapper {
             throw new RuntimeException("MessageTemplate missing '@MessageTemplate' annotation !");
         }
         sMessageTemplateProviderMap.put(template.templateType(), provider);
+        sMessageTemplaterMap.put(template.templateType(), template);
     }
 
     /**
@@ -44,8 +47,28 @@ public class MessageTemplateWrapper {
      * @param templateType
      * @param
      */
-    public static MessageTemplateProvider getMessageTemplate(@NonNull String templateType) {
+    public static MessageTemplateProvider getMessageTemplateProvider(@NonNull String templateType) {
         return sMessageTemplateProviderMap.get(templateType);
+    }
+
+    /**
+     * 获取消息模板注解
+     *
+     * @param templateType
+     * @return
+     */
+    public static MessageTemplate getMessageTemplateAnotation(@NonNull String templateType) {
+        return sMessageTemplaterMap.get(templateType);
+    }
+
+    /**
+     * 获取消息模板注解
+     *
+     * @param messageEntity
+     * @return
+     */
+    public static MessageTemplate getMessageTemplateAnotation(@NonNull MessageEntity messageEntity) {
+        return sMessageTemplaterMap.get(messageEntity.getMessageTemplateType());
     }
 
     /**
@@ -61,7 +84,7 @@ public class MessageTemplateWrapper {
                                 @NonNull MessageEntity messageEntity,
                                 int position,
                                 @Nullable OnMessageTemplateListener listener) {
-        MessageTemplateProvider provider = getMessageTemplate(messageEntity.getMessageTemplateType());
+        MessageTemplateProvider provider = getMessageTemplateProvider(messageEntity.getMessageTemplateType());
         if (provider != null) {
             View targetView = layout.inflate(provider);
             if (targetView != null) {
