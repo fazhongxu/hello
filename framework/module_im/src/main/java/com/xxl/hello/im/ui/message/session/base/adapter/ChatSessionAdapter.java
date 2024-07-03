@@ -72,7 +72,7 @@ public class ChatSessionAdapter extends BaseBindingAdapter<MessageEntity, ChatSe
      */
     private void setMessageGravity(@NonNull ImRecycleItemChatSessionBinding itemBinding,
                                    @NonNull MessageEntity itemEntity) {
-        MessageTemplate messageTemplate = MessageTemplateWrapper.getMessageTemplateAnotation(itemEntity);
+        MessageTemplate messageTemplate = MessageTemplateWrapper.getMessageTemplateAnnotation(itemEntity.getMessageTemplateType());
         if (messageTemplate.isCenterHorizontal()) {
             itemBinding.flMessageProviderLayout.setChildGravityCenter();
         } else {

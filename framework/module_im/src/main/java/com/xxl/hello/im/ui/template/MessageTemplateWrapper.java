@@ -57,18 +57,8 @@ public class MessageTemplateWrapper {
      * @param templateType
      * @return
      */
-    public static MessageTemplate getMessageTemplateAnotation(@NonNull String templateType) {
+    public static MessageTemplate getMessageTemplateAnnotation(@NonNull String templateType) {
         return sMessageTemplaterMap.get(templateType);
-    }
-
-    /**
-     * 获取消息模板注解
-     *
-     * @param messageEntity
-     * @return
-     */
-    public static MessageTemplate getMessageTemplateAnotation(@NonNull MessageEntity messageEntity) {
-        return sMessageTemplaterMap.get(messageEntity.getMessageTemplateType());
     }
 
     /**
