@@ -1,5 +1,6 @@
 package com.xxl.hello.im.ui.message.session.base;
 
+import android.text.TextUtils;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -97,9 +98,8 @@ public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel
     @Override
     public void onSendClick(@Nullable String content) {
         MessageEntity messageEntity = new MessageEntity();
-        Random random = new Random();
-        messageEntity.setMessageType(random.nextInt(6) == 1 ? 2 : 1);
-        messageEntity.setMessageDirection(random.nextInt(2) == 1 ? MessageDirection.LEFT : MessageDirection.RIGHT);
+        messageEntity.setMessageType(TextUtils.isEmpty(content) ? 2 : 1);
+        messageEntity.setMessageDirection(new Random().nextInt(10) % 3 == 0 ? MessageDirection.LEFT : MessageDirection.RIGHT);
         messageEntity.setMessageText(content);
         mChatSessionAdapter.addData(messageEntity);
     }

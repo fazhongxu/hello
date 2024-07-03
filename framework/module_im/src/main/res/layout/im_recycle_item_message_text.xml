@@ -18,7 +18,8 @@
             android:id="@+id/tv_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="hello" />
+            android:textSize="16sp"
+            tools:text="北京是个好地方" />
 
     </LinearLayout>
 
