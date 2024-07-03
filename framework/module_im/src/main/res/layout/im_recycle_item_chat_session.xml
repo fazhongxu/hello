@@ -29,7 +29,7 @@
             android:layout_height="45dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="5dp"
-            android:src="@drawable/resources_ic_avatar2" />
+            android:src="@drawable/resources_ic_avatar1" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_right_avatar"
@@ -57,7 +57,7 @@
                     android:id="@+id/tv_left_nickname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="handsome"
+                    android:text="lisa"
                     android:textColor="@color/resources_text_sub_title_color"
                     android:textSize="14sp" />
 
@@ -66,9 +66,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
+                    android:text="alpha"
                     android:textColor="@color/resources_text_sub_title_color"
-                    android:textSize="14sp"
-                    tools:text="lemon" />
+                    android:textSize="14sp" />
 
             </RelativeLayout>
 
