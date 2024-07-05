@@ -158,6 +158,11 @@ public class CommentKeyboardLayout extends LinearLayout implements ICommentKeybo
                 .bindToContent(contentView)
                 .bindToEditText(mEtContent)
                 .bindToEmotionButton(mIvFace)
+                .setOnEmotionKeyboardListener(() -> {
+                    if (mOnCommentKeyboardListener != null) {
+                        mOnCommentKeyboardListener.onCommentLayoutExpand();
+                    }
+                })
                 .build();
 
         mRecentEmojiManager = new RecentEmojiManager(activity);

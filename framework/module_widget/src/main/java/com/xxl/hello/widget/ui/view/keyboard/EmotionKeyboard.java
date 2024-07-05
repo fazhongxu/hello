@@ -33,6 +33,7 @@ public class EmotionKeyboard {
     private EditText mEditText;
     private View mContentView;
     private int mSoftSoftInputHeight;
+    private OnEmotionKeyboardListener mOnEmotionKeyboardListener;
 
     private EmotionKeyboard() {
     }
@@ -70,6 +71,9 @@ public class EmotionKeyboard {
                             @Override
                             public void run() {
                                 unlockContentHeightDelayed();
+                                if (mOnEmotionKeyboardListener != null) {
+                                    mOnEmotionKeyboardListener.onEmotionKeyboardExpand();
+                                }
                             }
                         }, 200L);
                     } else if (mExtendLayout != null && mExtendLayout.isShown()) {
@@ -79,6 +83,9 @@ public class EmotionKeyboard {
                             @Override
                             public void run() {
                                 unlockContentHeightDelayed();
+                                if (mOnEmotionKeyboardListener != null) {
+                                    mOnEmotionKeyboardListener.onEmotionKeyboardExpand();
+                                }
                             }
                         }, 200L);
                     }
@@ -108,6 +115,9 @@ public class EmotionKeyboard {
                             hideLayout(mExtendLayout, false);
                         }
                         showLayout(mEmotionLayout);
+                    }
+                    if (mOnEmotionKeyboardListener != null) {
+                        mOnEmotionKeyboardListener.onEmotionKeyboardExpand();
                     }
                 }
             }
@@ -154,6 +164,17 @@ public class EmotionKeyboard {
         return this;
     }
 
+    /**
+     * 设置监听事件
+     *
+     * @param listener
+     * @return
+     */
+    public EmotionKeyboard setOnEmotionKeyboardListener(OnEmotionKeyboardListener listener) {
+        mOnEmotionKeyboardListener = listener;
+        return this;
+    }
+
     public EmotionKeyboard build() {
         mActivity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN |
                 WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
@@ -163,6 +184,10 @@ public class EmotionKeyboard {
             if (height > 0) {
                 mSoftSoftInputHeight = height;
                 sp.edit().putInt(SHARE_PREFERENCE_TAG, height).apply();
+
+                if (mOnEmotionKeyboardListener != null) {
+                    mOnEmotionKeyboardListener.onEmotionKeyboardExpand();
+                }
             }
         });
         return this;
@@ -274,5 +299,12 @@ public class EmotionKeyboard {
      */
     public int getKeyBoardHeight() {
         return sp.getInt(SHARE_PREFERENCE_TAG, 787);
+    }
+
+    public interface OnEmotionKeyboardListener {
+        /**
+         * 表情键盘展开（包括 表情/软键盘）
+         */
+        void onEmotionKeyboardExpand();
     }
 }

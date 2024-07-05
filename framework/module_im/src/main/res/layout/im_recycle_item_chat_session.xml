@@ -24,16 +24,16 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_left_avatar"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="5dp"
             android:src="@drawable/resources_ic_avatar1" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_right_avatar"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
             android:layout_alignParentRight="true"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="10dp"

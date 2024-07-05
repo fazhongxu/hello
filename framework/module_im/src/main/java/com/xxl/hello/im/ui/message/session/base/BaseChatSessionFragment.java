@@ -91,6 +91,14 @@ public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel
     //region: OnCommentKeyboardListener
 
     /**
+     * 评论键盘视图展开
+     */
+    @Override
+    public void onCommentLayoutExpand() {
+        scrollToLastPosition();
+    }
+
+    /**
      * 发送点击
      *
      * @param content
@@ -102,11 +110,22 @@ public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel
         messageEntity.setMessageDirection(new Random().nextInt(10) % 3 == 0 ? MessageDirection.LEFT : MessageDirection.RIGHT);
         messageEntity.setMessageText(content);
         mChatSessionAdapter.addData(messageEntity);
+
+        scrollToLastPosition();
     }
 
     //endregion
 
-    //region: 内部辅助方法
+    //region: Fragment 方法
+
+    /**
+     * 滚动到最后一个位置
+     */
+    protected void scrollToLastPosition() {
+        if (mChatSessionAdapter.getItemCount() - 1 >= 0) {
+            mChatSessionBinding.rvList.getLayoutManager().scrollToPosition(mChatSessionAdapter.getItemCount() - 1);
+        }
+    }
 
     //endregion
 

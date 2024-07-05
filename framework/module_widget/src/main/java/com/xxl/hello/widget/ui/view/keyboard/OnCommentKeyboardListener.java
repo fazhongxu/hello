@@ -11,6 +11,13 @@ import androidx.annotation.Nullable;
 public interface OnCommentKeyboardListener {
 
     /**
+     * 评论键盘视图展开
+     */
+    default void onCommentLayoutExpand() {
+
+    }
+
+    /**
      * 发送点击
      *
      * @param content
