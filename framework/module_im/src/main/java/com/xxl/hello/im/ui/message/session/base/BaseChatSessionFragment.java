@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.xxl.core.ui.fragment.BaseViewModelFragment;
+import com.xxl.core.widget.recyclerview.OnRefreshDataListener;
 import com.xxl.core.widget.recyclerview.UISmartRefreshLayout;
 import com.xxl.hello.im.BR;
 import com.xxl.hello.im.R;
@@ -28,7 +29,7 @@ import javax.inject.Inject;
  * @author xxl.
  * @date 2024/6/14.
  */
-public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel<N>, N extends BaseChatSessionNavigator> extends BaseViewModelFragment<V, ImFragmentChatSessionBinding> implements OnCommentKeyboardListener {
+public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel<N>, N extends BaseChatSessionNavigator> extends BaseViewModelFragment<V, ImFragmentChatSessionBinding> implements OnRefreshDataListener, OnCommentKeyboardListener {
 
     //region: 成员变量
 
@@ -79,11 +80,28 @@ public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel
     protected void setupChatRecyclerView() {
         UISmartRefreshLayout refreshLayout = mChatSessionBinding.refreshLayout;
         RecyclerView recyclerView = mChatSessionBinding.rvList;
+        refreshLayout.setRefreshDataListener(this);
         refreshLayout.bindRecyclerView(recyclerView, mChatSessionAdapter);
         CommentKeyboardLayout commonKeyboard = mChatSessionBinding.commonKeyboard;
         commonKeyboard.setOnCommentKeyboardListener(this);
         commonKeyboard.init(getActivity(), refreshLayout);
         commonKeyboard.show(null);
+    }
+
+    //endregion
+
+    //region: OnRefreshDataListener
+
+    /**
+     * 请求数据
+     *
+     * @param page     页码
+     * @param pageSize 每页记录条数
+     */
+    @Override
+    public void onRequestData(int page,
+                              int pageSize) {
+        mChatSessionBinding.refreshLayout.finishRefresh();
     }
 
     //endregion
