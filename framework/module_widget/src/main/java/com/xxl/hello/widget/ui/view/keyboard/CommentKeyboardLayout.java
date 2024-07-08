@@ -3,6 +3,7 @@ package com.xxl.hello.widget.ui.view.keyboard;
 import android.app.Activity;
 import android.content.Context;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +26,6 @@ import com.xxl.core.listener.OnTextChangeListener;
 import com.xxl.hello.widget.R;
 import com.xxl.hello.widget.ui.view.emoji.EmojiEditText;
 import com.xxl.kit.DisplayUtils;
-import com.xxl.kit.LogUtils;
 import com.xxl.kit.StringUtils;
 
 /**
@@ -132,12 +132,11 @@ public class CommentKeyboardLayout extends LinearLayout implements ICommentKeybo
                               int start,
                               int before,
                               int count) {
-        LogUtils.d("s");
     }
 
     @Override
     public void afterTextChanged(Editable s) {
-//        refreshTextInputLayout();
+        //refreshSendVisibility(s.toString());
     }
 
     //endregion
@@ -267,10 +266,27 @@ public class CommentKeyboardLayout extends LinearLayout implements ICommentKeybo
     private String getInputContent() {
         try {
             return mEtContent.getText().toString();
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return "";
+    }
+
+    /**
+     * 刷新发送按钮可见状态
+     *
+     * @param s
+     */
+    private void refreshSendVisibility(String s) {
+        if (TextUtils.isEmpty(s)) {
+            if (mTvSend.getVisibility() != View.GONE) {
+                mTvSend.setVisibility(View.GONE);
+            }
+        } else {
+            if (mTvSend.getVisibility() != View.VISIBLE) {
+                mTvSend.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     //endregion
