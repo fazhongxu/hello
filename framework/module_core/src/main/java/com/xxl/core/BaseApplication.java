@@ -87,7 +87,7 @@ public abstract class BaseApplication extends DaggerApplication {
     }
 
     /**
-     * 在用户统一"隐私政策"后初始化插件
+     * 在用户同意"隐私政策"后初始化插件
      */
     public void initPluginsAfterAgreePrivacyPolicy() {
         setupShare();
