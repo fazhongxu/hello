@@ -1182,8 +1182,8 @@ public class TimeUtils {
      * @return {@code true}: yes<br>{@code false}: no
      */
     public static boolean isToday(final long millis) {
-        long wee = getWeeOfToday();
-        return millis >= wee && millis < wee + TimeConstants.DAY;
+        long day = getWeeOfToday();
+        return millis >= day && millis < day + TimeConstants.DAY;
     }
 
     /**
@@ -1193,8 +1193,8 @@ public class TimeUtils {
      * @return {@code true}: yes<br>{@code false}: no
      */
     public static boolean isYesterday(final long millis) {
-        long wee = getWeeOfToday();
-        return millis >= wee && millis < wee - TimeConstants.DAY;
+        long day = getWeeOfToday();
+        return millis >= day && millis < day - TimeConstants.DAY;
     }
 
     /**

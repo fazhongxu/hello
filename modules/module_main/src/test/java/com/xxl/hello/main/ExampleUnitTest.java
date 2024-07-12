@@ -1,8 +1,11 @@
 package com.xxl.hello.main;
 
+import com.xxl.kit.TimeUtils;
+
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -14,4 +17,11 @@ public class ExampleUnitTest {
     public void addition_isCorrect() {
         assertEquals(4, 2 + 2);
     }
+
+    @Test
+    public void test() {
+        boolean today = TimeUtils.isToday(1720798417000L);
+        assertTrue(today);
+    }
+
 }
