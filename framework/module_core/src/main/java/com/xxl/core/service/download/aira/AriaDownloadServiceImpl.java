@@ -2,6 +2,7 @@ package com.xxl.core.service.download.aira;
 
 import android.Manifest;
 import android.app.Application;
+import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -13,6 +14,7 @@ import com.arialyy.annotations.Download;
 import com.arialyy.aria.core.Aria;
 import com.arialyy.aria.core.AriaManager;
 import com.arialyy.aria.core.task.DownloadTask;
+import com.arialyy.aria.orm.DelegateWrapper;
 import com.tbruyelle.rxpermissions3.RxPermissions;
 import com.xxl.core.R;
 import com.xxl.core.service.download.DownloadListener;
@@ -26,6 +28,7 @@ import com.xxl.kit.LogUtils;
 import com.xxl.kit.OnRequestCallBack;
 import com.xxl.kit.StringUtils;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,7 +79,20 @@ public class AriaDownloadServiceImpl implements DownloadService {
             LogUtils.d(TAG + "download register");
         }
         if (AriaManager.getInstance() == null) {
-            Aria.init(application);
+            //Aria.init(application);
+        }
+
+        try {
+            Class<AriaManager> clazz = AriaManager.class;
+            Field mDbWrapper = clazz.getDeclaredField("mDbWrapper");
+            mDbWrapper.setAccessible(true);
+            Object ariaManager = clazz.getDeclaredConstructor(Context.class).newInstance(application);
+            DelegateWrapper wrapper  = (DelegateWrapper) mDbWrapper.get(ariaManager);
+            if (wrapper == null) {
+                Aria.init(application);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         Aria.download(this).register();
         if (downloadListener != null) {

@@ -25,7 +25,7 @@ public class DownloadServiceUtils {
     public static void init(Application application,
                      final boolean isDebug) {
         sIsDebug = isDebug;
-        Aria.init(application);
+        //Aria.init(application);
     }
 
     /**
