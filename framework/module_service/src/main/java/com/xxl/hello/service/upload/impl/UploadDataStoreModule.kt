@@ -3,6 +3,7 @@ package com.xxl.hello.service.upload.impl
 import android.app.Application
 import com.xxl.hello.service.data.repository.DataRepositoryKit
 import com.xxl.hello.service.qunlifier.ForApplication
+import com.xxl.hello.service.qunlifier.ForHelloUpload
 import com.xxl.hello.service.qunlifier.ForQiNiuUpload
 import com.xxl.hello.service.qunlifier.ForTencentUpload
 import com.xxl.hello.service.upload.api.UploadService
@@ -47,6 +48,21 @@ class UploadDataStoreModule {
     fun provideTencentUploadService(@ForApplication application: Application?,
                                     dataRepositoryKit: DataRepositoryKit): UploadService {
         return TencentUploadServiceImpl(application!!, dataRepositoryKit)
+    }
+
+    /**
+     * 构建腾讯云上传服务
+     *
+     * @param application
+     * @param dataRepositoryKit
+     * @return
+     */
+    @ForHelloUpload
+    @Singleton
+    @Provides
+    fun provideHelloUploadService(@ForApplication application: Application?,
+                                  dataRepositoryKit: DataRepositoryKit): UploadService {
+        return HelloUploadServiceImpl(application!!, dataRepositoryKit)
     }
 
 }

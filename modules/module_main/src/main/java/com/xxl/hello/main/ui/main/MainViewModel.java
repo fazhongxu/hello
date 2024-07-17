@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.databinding.ObservableField;
 
 import com.xxl.core.exception.ResponseListener;
+import com.xxl.core.service.upload.UploadListener;
 import com.xxl.core.ui.BaseViewModel;
 import com.xxl.hello.common.config.AppConfig;
 import com.xxl.hello.main.ui.main.adapter.TestListEntity;
@@ -20,6 +21,7 @@ import com.xxl.hello.service.upload.api.UploadService;
 import com.xxl.kit.OnRequestCallBack;
 import com.xxl.kit.TimeUtils;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -104,6 +106,34 @@ public class MainViewModel extends BaseViewModel<MainNavigator> {
                 callBack.onSuccess(list);
             }
         }, page == 1 ? 3000 : 1000);
+    }
+
+    //endregion
+
+    //region: 资源上传相关
+
+    /**
+     * 测试上传
+     *
+     * @param file
+     */
+    void testUpload(File file) {
+        mUploadService.upload(file, new UploadListener() {
+            @Override
+            public void onUploadStart(String filePath) {
+
+            }
+
+            @Override
+            public void onUploadComplete(String filePath, String url) {
+
+            }
+
+            @Override
+            public void onUploadFailure(String filePath, Throwable e) {
+
+            }
+        });
     }
 
     //endregion

@@ -2,8 +2,10 @@ package com.xxl.hello.service.upload.impl
 
 import android.app.Application
 import android.util.Log
+import com.xxl.core.service.upload.UploadListener
 import com.xxl.hello.service.data.repository.DataRepositoryKit
 import com.xxl.hello.service.upload.api.UploadService
+import java.io.File
 
 /**
  * 七牛上传服务实现类
@@ -15,22 +17,16 @@ class QiNiuUploadServiceImpl(application: Application,
                              dataRepositoryKit: DataRepositoryKit) : UploadService {
 
     //region: 页面生命周期
-    /**
-     * 开始上传
-     *
-     * @param key
-     */
-    override fun onStart(key: String) {
-        Log.e("aaa", "onStart: 我是七牛云上传$key")
-    }
 
     /**
-     * 上传完成
-     *
-     * @param domain
-     * @param key
+     * 上传
+     * @param file
+     * @param listener
      */
-    override fun onComplete(domain: String, key: String) {}
+    override fun upload(file: File,
+                        listener: UploadListener) {
+        Log.e("aaa", "upload: 我是七牛云上传${file.absolutePath}")
+    }
 
     //endregion
 }

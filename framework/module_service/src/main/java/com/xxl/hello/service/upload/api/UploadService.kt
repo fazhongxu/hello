@@ -1,5 +1,8 @@
 package com.xxl.hello.service.upload.api
 
+import com.xxl.core.service.upload.UploadListener
+import java.io.File
+
 /**
  *
  * @author xxl.
@@ -8,18 +11,10 @@ package com.xxl.hello.service.upload.api
 interface UploadService {
 
     /**
-     * 开始上传
-     *
-     * @param key
+     * 上传
+     * @param file
+     * @param listener
      */
-    fun onStart(key: String)
-
-    /**
-     * 上传完成
-     *
-     * @param domain
-     * @param key
-     */
-    fun onComplete(domain: String,
-                   key: String)
+    fun upload(file: File,
+               listener: UploadListener)
 }
