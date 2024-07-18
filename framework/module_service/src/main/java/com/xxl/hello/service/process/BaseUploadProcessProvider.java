@@ -141,7 +141,7 @@ public abstract class BaseUploadProcessProvider extends BaseProcessProvider {
             public void onComplete(String filePath,
                                    long width,
                                    long height) {
-                upload(waitUploadPath, isForever, uploadChannel, callback);
+                upload(filePath, isForever, uploadChannel, callback);
             }
 
             @Override
