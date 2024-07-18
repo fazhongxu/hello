@@ -16,6 +16,7 @@ import com.xxl.hello.common.config.CacheDirConfig;
 import com.xxl.hello.service.data.local.db.entity.ResourcesUploadQueueDBEntity;
 import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi;
+import com.xxl.hello.service.data.model.enums.SystemEnumsApi.ResourcesUploadChannel;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.hello.service.data.repository.api.ResourceRepositoryApi;
 import com.xxl.hello.user.R;
@@ -102,8 +103,9 @@ public class UserSettingModel extends BaseResourceQueueViewModel<UserSettingNavi
         for (LocalMedia localMedia : targetMedias) {
             final ResourcesUploadQueueDBEntity resourcesUploadQueueDBEntity = new ResourcesUploadQueueDBEntity();
             resourcesUploadQueueDBEntity.setSubmitTaskId(getTaskId())
+                    .setWaitUploadUrl(PathUtils.getFilePathByUri(Uri.parse(localMedia.isCut() ? localMedia.getCutPath() : localMedia.getPath())))
                     .setMediaType(MediaSelector.isVideo(localMedia.getMimeType()) ? SystemEnumsApi.MediaType.VIDEO : SystemEnumsApi.MediaType.IMAGE)
-                    .setWaitUploadUrl(PathUtils.getFilePathByUri(Uri.parse(localMedia.getPath())));
+                    .setUploadChannel(ResourcesUploadChannel.QI_NIU);
             targetResourcesUploadQueueDBEntities.add(resourcesUploadQueueDBEntity);
         }
         requestPutResourcesUploadQueueDBEntities(targetResourcesUploadQueueDBEntities);

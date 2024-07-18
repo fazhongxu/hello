@@ -4,14 +4,14 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 
-import com.xxl.kit.FileUtils;
-import com.xxl.kit.TimeUtils;
 import com.xxl.core.utils.VideoUtils;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi.MediaType;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.hello.service.process.BaseUploadProcessProvider;
 import com.xxl.hello.service.process.OnResourcesCompressCallback;
 import com.xxl.hello.service.upload.api.UploadService;
+import com.xxl.kit.FileUtils;
+import com.xxl.kit.TimeUtils;
 
 /**
  * @author xxl.
@@ -23,14 +23,16 @@ public class VideoUploadProcessProvider extends BaseUploadProcessProvider {
 
     public VideoUploadProcessProvider(@NonNull final Application application,
                                       @NonNull final DataRepositoryKit dataRepositoryKit,
-                                      @NonNull final UploadService uploadService) {
-        super(application, dataRepositoryKit, uploadService);
+                                      @NonNull final UploadService uploadService,
+                                      @NonNull final UploadService qiNiuUploadService) {
+        super(application, dataRepositoryKit, uploadService, qiNiuUploadService);
     }
 
     public static VideoUploadProcessProvider create(@NonNull final Application application,
                                                     @NonNull final DataRepositoryKit dataRepositoryKit,
-                                                    @NonNull final UploadService uploadService) {
-        return new VideoUploadProcessProvider(application, dataRepositoryKit, uploadService);
+                                                    @NonNull final UploadService uploadService,
+                                                    @NonNull final UploadService qiNiuUploadService) {
+        return new VideoUploadProcessProvider(application, dataRepositoryKit, uploadService, qiNiuUploadService);
     }
 
     //endregion

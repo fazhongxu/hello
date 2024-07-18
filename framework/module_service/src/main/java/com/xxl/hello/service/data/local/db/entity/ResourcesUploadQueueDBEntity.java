@@ -114,17 +114,6 @@ public class ResourcesUploadQueueDBEntity extends BaseDBEntity<ResourcesUploadQu
     }
 
     /**
-     * 设置资源类型
-     *
-     * @param mediaType
-     * @return
-     */
-    public ResourcesUploadQueueDBEntity setMediaType(@MediaType final String mediaType) {
-        this.mediaType = mediaType;
-        return this;
-    }
-
-    /**
      * 设置上传的资源路径
      *
      * @param uploadUrl
@@ -143,6 +132,28 @@ public class ResourcesUploadQueueDBEntity extends BaseDBEntity<ResourcesUploadQu
      */
     public ResourcesUploadQueueDBEntity setWaitUploadUrl(@NonNull final String waitUploadPath) {
         this.waitUploadPath = waitUploadPath;
+        return this;
+    }
+
+    /**
+     * 设置资源类型
+     *
+     * @param mediaType
+     * @return
+     */
+    public ResourcesUploadQueueDBEntity setMediaType(@MediaType final String mediaType) {
+        this.mediaType = mediaType;
+        return this;
+    }
+
+    /**
+     * 设置资源上传渠道
+     *
+     * @param uploadChannel
+     * @return
+     */
+    public ResourcesUploadQueueDBEntity setUploadChannel(@ResourcesUploadChannel final int uploadChannel) {
+        this.uploadChannel = uploadChannel;
         return this;
     }
 

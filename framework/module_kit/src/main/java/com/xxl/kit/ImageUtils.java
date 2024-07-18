@@ -55,6 +55,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
 
+import io.reactivex.rxjava3.core.Observable;
 import top.zibin.luban.CompressionPredicate;
 import top.zibin.luban.Luban;
 import top.zibin.luban.OnCompressListener;
@@ -2562,6 +2563,31 @@ public final class ImageUtils {
         public String getValue() {
             return value;
         }
+    }
+
+    /**
+     * 图片压缩
+     *
+     * @param imagePath
+     * @param targetDir
+     * @return
+     */
+    public static Observable<File> compress(@NonNull final String imagePath,
+                                            @NonNull final String targetDir) {
+        return Observable.create(emitter -> {
+            compress(imagePath, targetDir, new OnSimpleCompressListener() {
+                @Override
+                public void onSuccess(File file) {
+                    emitter.onNext(file);
+                    emitter.onComplete();
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    emitter.onError(e);
+                }
+            });
+        });
     }
 
     /**

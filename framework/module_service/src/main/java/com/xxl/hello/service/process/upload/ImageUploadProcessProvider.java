@@ -23,14 +23,16 @@ public class ImageUploadProcessProvider extends BaseUploadProcessProvider {
 
     public ImageUploadProcessProvider(@NonNull final Application application,
                                       @NonNull final DataRepositoryKit dataRepositoryKit,
-                                      @NonNull final UploadService uploadService) {
-        super(application, dataRepositoryKit, uploadService);
+                                      @NonNull final UploadService uploadService,
+                                      @NonNull final UploadService qiNiuUploadService) {
+        super(application, dataRepositoryKit, uploadService, qiNiuUploadService);
     }
 
     public static ImageUploadProcessProvider create(@NonNull final Application application,
                                                     @NonNull final DataRepositoryKit dataRepositoryKit,
-                                                    @NonNull final UploadService uploadService) {
-        return new ImageUploadProcessProvider(application, dataRepositoryKit, uploadService);
+                                                    @NonNull final UploadService uploadService,
+                                                    @NonNull final UploadService qiNiuUploadService) {
+        return new ImageUploadProcessProvider(application, dataRepositoryKit, uploadService, qiNiuUploadService);
     }
 
     //endregion

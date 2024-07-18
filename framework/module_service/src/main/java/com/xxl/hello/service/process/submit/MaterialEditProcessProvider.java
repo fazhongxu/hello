@@ -4,13 +4,13 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 
-import com.xxl.kit.OnRequestCallBack;
 import com.xxl.hello.service.data.local.db.entity.ResourcesUploadQueueDBEntity;
 import com.xxl.hello.service.data.model.api.material.MaterialEditRequest;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi.ResourcesSubmitType;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.hello.service.process.BaseSubmitProcessProvider;
 import com.xxl.hello.service.upload.api.UploadService;
+import com.xxl.kit.OnRequestCallBack;
 
 /**
  * 素材编辑
@@ -24,8 +24,9 @@ public class MaterialEditProcessProvider extends BaseSubmitProcessProvider<Mater
 
     public MaterialEditProcessProvider(@NonNull final Application application,
                                        @NonNull final DataRepositoryKit dataRepositoryKit,
-                                       @NonNull final UploadService uploadService) {
-        super(application, dataRepositoryKit, uploadService);
+                                       @NonNull final UploadService uploadService,
+                                       @NonNull final UploadService qiNiuUploadService) {
+        super(application, dataRepositoryKit, uploadService,qiNiuUploadService);
     }
 
     //endregion

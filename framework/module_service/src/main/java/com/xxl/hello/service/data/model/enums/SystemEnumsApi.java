@@ -211,21 +211,27 @@ public class SystemEnumsApi {
 
     //region: 资源上传渠道
 
-    @IntDef({ResourcesUploadChannel.QI_NIU,
+    @IntDef({ResourcesUploadChannel.HELLO,
+            ResourcesUploadChannel.QI_NIU,
             ResourcesUploadChannel.TENCENT,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface ResourcesUploadChannel {
 
         /**
+         * hello
+         */
+        int HELLO = 0;
+
+        /**
          * 七牛云
          */
-        int QI_NIU = 0;
+        int QI_NIU = 1;
 
         /**
          * 腾讯云
          */
-        int TENCENT = 1;
+        int TENCENT = 2;
     }
 
     //endregion

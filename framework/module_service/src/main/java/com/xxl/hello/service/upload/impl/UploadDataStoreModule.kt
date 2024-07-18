@@ -51,7 +51,7 @@ class UploadDataStoreModule {
     }
 
     /**
-     * 构建腾讯云上传服务
+     * 构建Hello上传服务
      *
      * @param application
      * @param dataRepositoryKit

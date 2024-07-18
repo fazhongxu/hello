@@ -5,8 +5,7 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 
 import com.xxl.core.exception.ResponseCode;
-import com.xxl.kit.FileUtils;
-import com.xxl.kit.StringUtils;
+import com.xxl.core.service.upload.UploadListener;
 import com.xxl.hello.common.config.CacheDirConfig;
 import com.xxl.hello.service.R;
 import com.xxl.hello.service.data.local.db.entity.ResourcesUploadQueueDBEntity;
@@ -14,6 +13,10 @@ import com.xxl.hello.service.data.model.enums.SystemEnumsApi.MediaType;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi.ResourcesUploadChannel;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.hello.service.upload.api.UploadService;
+import com.xxl.kit.FileUtils;
+import com.xxl.kit.StringUtils;
+
+import java.io.File;
 
 /**
  * 资源上传处理
@@ -27,8 +30,9 @@ public abstract class BaseUploadProcessProvider extends BaseProcessProvider {
 
     public BaseUploadProcessProvider(@NonNull final Application application,
                                      @NonNull final DataRepositoryKit dataRepositoryKit,
-                                     @NonNull final UploadService uploadService) {
-        super(application, dataRepositoryKit, uploadService);
+                                     @NonNull final UploadService uploadService,
+                                     @NonNull final UploadService qiNiuUploadService) {
+        super(application, dataRepositoryKit, uploadService, qiNiuUploadService);
     }
 
     //endregion
@@ -160,14 +164,29 @@ public abstract class BaseUploadProcessProvider extends BaseProcessProvider {
                           final boolean isForever,
                           @ResourcesUploadChannel final int uploadChannel,
                           @NonNull final OnResourcesUploadCallback callback) {
-        getHandler().postDelayed(new Runnable() {
+        UploadService uploadService;
+        if (uploadChannel == ResourcesUploadChannel.QI_NIU) {
+            uploadService = getQiNiuUploadService();
+        } else {
+            uploadService = getUploadService();
+        }
+        final UploadListener uploadListener = new UploadListener() {
             @Override
-            public void run() {
-                callback.onComplete("https://"+waitUploadPath);
+            public void onUploadStart(String key) {
+                callback.onStart();
             }
-        }, 2000);
 
-        // TODO: 2022/5/28 upload  模拟资源上传
+            @Override
+            public void onUploadComplete(String key, String url) {
+                callback.onComplete(url);
+            }
+
+            @Override
+            public void onUploadFailure(String key, Throwable e) {
+                callback.onFailure(e);
+            }
+        };
+        uploadService.upload(new File(waitUploadPath), uploadListener);
     }
 
     //endregion

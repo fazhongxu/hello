@@ -166,7 +166,7 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
             if (MediaSelector.isMediaRequestCode(requestCode)) {
                 final List<LocalMedia> mediaList = MediaSelector.obtainMultipleResult(data);
                 final LocalMedia media = mediaList.get(0);
-                final Uri uri = Uri.parse(media.getPath());
+                final Uri uri = Uri.parse(media.isCut() ? media.getCutPath() : media.getPath());
                 final Uri targetUri = PathUtils.getUriByFilePath(PathUtils.getFilePathByUri(uri));
                 mUserSettingModel.requestPutResourcesUploadQueueDBEntities(new ArrayList<>(mediaList));
             }
@@ -204,7 +204,7 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
      */
     private void setupCommentLayout() {
         ICommentKeyboardLayout commonKeyboard = mViewDataBinding.commonKeyboard;
-        commonKeyboard.init(getActivity(),mViewDataBinding.ctlContentContainer);
+        commonKeyboard.init(getActivity(), mViewDataBinding.ctlContentContainer);
     }
 
     /**

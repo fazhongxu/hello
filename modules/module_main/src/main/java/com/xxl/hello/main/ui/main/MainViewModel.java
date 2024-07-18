@@ -120,17 +120,17 @@ public class MainViewModel extends BaseViewModel<MainNavigator> {
     void testUpload(File file) {
         mUploadService.upload(file, new UploadListener() {
             @Override
-            public void onUploadStart(String filePath) {
+            public void onUploadStart(String key) {
 
             }
 
             @Override
-            public void onUploadComplete(String filePath, String url) {
+            public void onUploadComplete(String key, String url) {
 
             }
 
             @Override
-            public void onUploadFailure(String filePath, Throwable e) {
+            public void onUploadFailure(String key, Throwable e) {
 
             }
         });

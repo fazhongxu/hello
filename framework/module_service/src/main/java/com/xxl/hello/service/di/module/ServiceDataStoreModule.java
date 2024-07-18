@@ -17,6 +17,7 @@ import com.xxl.hello.service.handle.impl.AppSchemeServiceImpl;
 import com.xxl.hello.service.queue.api.ResourcesUploadServiceQueue;
 import com.xxl.hello.service.queue.impl.ServiceQueueDataStoreModule;
 import com.xxl.hello.service.qunlifier.ForApplication;
+import com.xxl.hello.service.qunlifier.ForHelloUpload;
 import com.xxl.hello.service.qunlifier.ForQiNiuUpload;
 import com.xxl.hello.service.qunlifier.ForTencentUpload;
 import com.xxl.hello.service.upload.api.UploadService;
@@ -52,7 +53,7 @@ public class ServiceDataStoreModule {
                                          @NonNull final DBClientKit dbClientKit,
                                          @NonNull final ResourcesProcessService resourcesProcessService) {
         // TODO: 2021/7/23  构造入 DBClientKit,UploadService 等
-        return new ServiceWrapper(application, dataRepositoryKit, dbClientKit,resourcesProcessService);
+        return new ServiceWrapper(application, dataRepositoryKit, dbClientKit, resourcesProcessService);
     }
 
     /**
@@ -61,7 +62,7 @@ public class ServiceDataStoreModule {
      * @param application
      * @param dataRepositoryKit
      * @param uploadService
-     * @param tencentUploadService
+     * @param qiNiuUploadService
      * @param resourcesUploadServiceQueue
      * @return
      */
@@ -69,10 +70,10 @@ public class ServiceDataStoreModule {
     @Provides
     ResourcesProcessService provideResourcesProcessService(@ForApplication final Application application,
                                                            @NonNull final DataRepositoryKit dataRepositoryKit,
-                                                           @ForQiNiuUpload final UploadService uploadService,
-                                                           @ForTencentUpload final UploadService tencentUploadService,
+                                                           @ForHelloUpload final UploadService uploadService,
+                                                           @ForQiNiuUpload final UploadService qiNiuUploadService,
                                                            @NonNull final ResourcesUploadServiceQueue resourcesUploadServiceQueue) {
-        return new ResourcesProcessService(application, dataRepositoryKit, uploadService, tencentUploadService, resourcesUploadServiceQueue);
+        return new ResourcesProcessService(application, dataRepositoryKit, uploadService, qiNiuUploadService, resourcesUploadServiceQueue);
     }
 
     /**
@@ -81,16 +82,16 @@ public class ServiceDataStoreModule {
      * @param application
      * @param dataRepositoryKit
      * @param uploadService
-     * @param tencentUploadService
+     * @param qiNiuUploadService
      * @return
      */
     @Singleton
     @Provides
     ResourceProcessWrapper provideResourceProcessWrapper(@ForApplication final Application application,
                                                          @NonNull final DataRepositoryKit dataRepositoryKit,
-                                                         @ForQiNiuUpload final UploadService uploadService,
-                                                         @ForTencentUpload final UploadService tencentUploadService) {
-        return new ResourceProcessWrapper(application, dataRepositoryKit, uploadService, tencentUploadService);
+                                                         @ForHelloUpload final UploadService uploadService,
+                                                         @ForQiNiuUpload final UploadService qiNiuUploadService) {
+        return new ResourceProcessWrapper(application, dataRepositoryKit, uploadService, qiNiuUploadService);
     }
 
     /**

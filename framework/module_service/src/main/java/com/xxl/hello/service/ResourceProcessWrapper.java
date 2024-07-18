@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 
 import com.xxl.core.exception.ResponseCode;
 import com.xxl.core.exception.ResponseException;
-import com.xxl.kit.StringUtils;
 import com.xxl.hello.service.data.local.db.entity.ResourcesUploadQueueDBEntity;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi.MediaType;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
@@ -16,9 +15,9 @@ import com.xxl.hello.service.process.OnResourcesUploadCallback;
 import com.xxl.hello.service.process.upload.ImageUploadProcessProvider;
 import com.xxl.hello.service.process.upload.VideoUploadProcessProvider;
 import com.xxl.hello.service.upload.api.UploadService;
+import com.xxl.kit.StringUtils;
 
 import java.util.LinkedHashMap;
-
 
 
 /**
@@ -47,6 +46,11 @@ public class ResourceProcessWrapper {
     private final UploadService mUploadService;
 
     /**
+     * 七牛上传服务
+     */
+    private final UploadService mQiNiuUploadService;
+
+    /**
      * 资源上传处理模板集合
      */
     private LinkedHashMap<String, BaseUploadProcessProvider> mUploadProcessProviderMap = new LinkedHashMap<>();
@@ -58,10 +62,11 @@ public class ResourceProcessWrapper {
     public ResourceProcessWrapper(@NonNull final Application application,
                                   @NonNull final DataRepositoryKit dataRepositoryKit,
                                   @NonNull final UploadService uploadService,
-                                  @NonNull final UploadService tencentUploadService) {
+                                  @NonNull final UploadService qiNiuUploadService) {
         mApplication = application;
         mDataRepositoryKit = dataRepositoryKit;
         mUploadService = uploadService;
+        mQiNiuUploadService = qiNiuUploadService;
         registerUploadProcessProvider();
     }
 
@@ -79,6 +84,10 @@ public class ResourceProcessWrapper {
 
     public UploadService getUploadService() {
         return mUploadService;
+    }
+
+    public UploadService getQiNiuUploadService() {
+        return mQiNiuUploadService;
     }
 
     /**
@@ -100,8 +109,8 @@ public class ResourceProcessWrapper {
      * 注册资源上传处理模板
      */
     private void registerUploadProcessProvider() {
-        registerUploadProcessProvider(ImageUploadProcessProvider.create(getApplication(), getDataRepositoryKit(), getUploadService()));
-        registerUploadProcessProvider(VideoUploadProcessProvider.create(getApplication(), getDataRepositoryKit(), getUploadService()));
+        registerUploadProcessProvider(ImageUploadProcessProvider.create(getApplication(), getDataRepositoryKit(), getUploadService(),getQiNiuUploadService()));
+        registerUploadProcessProvider(VideoUploadProcessProvider.create(getApplication(), getDataRepositoryKit(), getUploadService(),getQiNiuUploadService()));
     }
 
     /**

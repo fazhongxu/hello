@@ -1,6 +1,7 @@
 package com.xxl.hello.service.upload.impl
 
 import android.app.Application
+import android.os.Handler
 import android.util.Log
 import com.xxl.core.service.upload.UploadListener
 import com.xxl.hello.service.data.repository.DataRepositoryKit
@@ -26,6 +27,12 @@ class QiNiuUploadServiceImpl(application: Application,
     override fun upload(file: File,
                         listener: UploadListener) {
         Log.e("aaa", "upload: 我是七牛云上传${file.absolutePath}")
+        Handler().postDelayed(object : Runnable {
+            override fun run() {
+                listener.onUploadComplete(file.absolutePath, "https://qiniu${file.absolutePath}")
+            }
+        }, 2000)
+        // TODO: 2024/7/18 模拟上传 
     }
 
     //endregion

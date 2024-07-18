@@ -38,6 +38,11 @@ public abstract class BaseProcessProvider {
     private final UploadService mUploadService;
 
     /**
+     * 七牛上传服务
+     */
+    private final UploadService mQiNiuUploadService;
+
+    /**
      * A disposable container
      */
     private CompositeDisposable mCompositeDisposable = new CompositeDisposable();
@@ -53,10 +58,12 @@ public abstract class BaseProcessProvider {
 
     public BaseProcessProvider(@NonNull final Application application,
                                @NonNull final DataRepositoryKit dataRepositoryKit,
-                               @NonNull final UploadService uploadService) {
+                               @NonNull final UploadService uploadService,
+                               @NonNull final UploadService qiNiuUploadService) {
         mApplication = application;
         mDataRepositoryKit = dataRepositoryKit;
         mUploadService = uploadService;
+        mQiNiuUploadService = qiNiuUploadService;
     }
 
     //endregion
@@ -79,6 +86,10 @@ public abstract class BaseProcessProvider {
 
     public UploadService getUploadService() {
         return mUploadService;
+    }
+
+    public UploadService getQiNiuUploadService() {
+        return mQiNiuUploadService;
     }
 
     /**
