@@ -84,6 +84,14 @@ public abstract class ResponseListener {
     public abstract boolean onNetworkParseException(@NonNull final ResponseException exception);
 
     /**
+     * 开通VIP弹窗
+     *
+     * @param exception
+     * @return
+     */
+    public abstract boolean onOpenVipAlert(@NonNull final ResponseException exception);
+
+    /**
      * 异常处理
      *
      * @param exception

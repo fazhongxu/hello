@@ -110,6 +110,17 @@ public class ResponseCallback extends ResponseListener {
         return false;
     }
 
+    /**
+     * 开通VIP弹窗
+     *
+     * @param exception
+     * @return
+     */
+    @Override
+    public boolean onOpenVipAlert(@NonNull ResponseException exception) {
+        return false;
+    }
+
     //endregion
 
     //region: 提供方法

@@ -144,6 +144,18 @@ public class ResponseWrapper extends ResponseListener {
         return false;
     }
 
+    /**
+     * 开通VIP弹窗
+     *
+     * @param exception
+     * @return
+     */
+    @Override
+    public boolean onOpenVipAlert(@NonNull ResponseException exception) {
+        // TODO: 2024/7/19 默认弹窗，如果抽取到私服，需要改弹窗样式则 ApUtils 获取application 写个Provider接口实现，先处理provider的，返回false则处理原来的
+        return false;
+    }
+
     //endregion
 
 
