@@ -164,13 +164,8 @@ public abstract class BaseUploadProcessProvider extends BaseProcessProvider {
                           final boolean isForever,
                           @ResourcesUploadChannel final int uploadChannel,
                           @NonNull final OnResourcesUploadCallback callback) {
-        UploadService uploadService;
-        if (uploadChannel == ResourcesUploadChannel.QI_NIU) {
-            uploadService = getQiNiuUploadService();
-        } else {
-            uploadService = getUploadService();
-        }
-        final UploadListener uploadListener = new UploadListener() {
+        UploadService uploadService = getUploadService(uploadChannel);
+        UploadListener uploadListener = new UploadListener() {
             @Override
             public void onUploadStart(String key) {
                 callback.onStart();
@@ -187,6 +182,20 @@ public abstract class BaseUploadProcessProvider extends BaseProcessProvider {
             }
         };
         uploadService.upload(new File(waitUploadPath), uploadListener);
+    }
+
+    /**
+     * 获取上传服务
+     *
+     * @param uploadChannel
+     * @return
+     */
+    protected UploadService getUploadService(@ResourcesUploadChannel final int uploadChannel) {
+        if (uploadChannel == ResourcesUploadChannel.QI_NIU) {
+            return getQiNiuUploadService();
+        } else {
+            return getUploadService();
+        }
     }
 
     //endregion
