@@ -53,12 +53,12 @@ public class UploadOptions {
     }
 
     /**
-     * 是否永久有效
+     * 获取上传标识
      *
      * @return
      */
-    public boolean isForever() {
-        return mIsForever;
+    public String getKey() {
+        return mKey;
     }
 
     /**
@@ -70,6 +70,15 @@ public class UploadOptions {
     public UploadOptions setKey(String key) {
         this.mKey = key;
         return this;
+    }
+
+    /**
+     * 是否永久有效
+     *
+     * @return
+     */
+    public boolean isForever() {
+        return mIsForever;
     }
 
     /**

@@ -50,10 +50,8 @@ public class ProgressRequestBody extends RequestBody {
                     bytesWritten += byteCount;
                     mCallBack.onProgress(bytesWritten, contentLength);
                 } catch (IOException e) {
+                    e.printStackTrace();
                     mCallBack.onError(e);
-                    return;
-                } finally {
-                    mCallBack.onFinish();
                 }
             }
         });
@@ -66,8 +64,6 @@ public class ProgressRequestBody extends RequestBody {
         void onProgress(long currentSize, long totalSize);
 
         void onError(Throwable e);
-
-        void onFinish();
     }
 
 }

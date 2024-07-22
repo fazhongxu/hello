@@ -3,12 +3,15 @@ package com.xxl.hello.service.upload.impl
 import android.app.Application
 import android.os.Handler
 import android.util.Log
+import com.xxl.core.service.ProgressRequestBody
 import com.xxl.core.service.upload.UploadListener
 import com.xxl.core.service.upload.UploadOptions
 import com.xxl.hello.service.data.repository.DataRepositoryKit
 import com.xxl.hello.service.upload.api.UploadService
-import okhttp3.OkHttpClient
+import com.xxl.kit.LogUtils
+import okhttp3.*
 import java.io.File
+import java.io.IOException
 
 /**
  * hello上传服务实现类
@@ -54,30 +57,43 @@ class HelloUploadServiceImpl(application: Application,
         }, 2000)
 
         // TODO: 2024/7/18 模拟上传
-//        Handler().postDelayed(Runnable { callback.onComplete("https://$waitUploadPath") }, 2000)
 
+        /*val requestBody: RequestBody = MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("file", file.getName(), RequestBody.create(MediaType.parse("application/octet-stream"), file))
+                .build()
 
-//        val requestBody: RequestBody = MultipartBody.Builder()
-//                .setType(MultipartBody.FORM)
-//                .addFormDataPart("file", file.getName(), RequestBody.create(MediaType.parse("application/octet-stream"), file))
-//                .build()
-//
-//        val request: Request = Request.Builder()
-//                .url("upload server url ")
-//                .post(requestBody)
-//                .build()
-//
-//        mOkHttpClient.newCall(request)
-//                .enqueue(object : Callback {
-//
-//                    override fun onFailure(call: Call, e: IOException) {
-//                        Log.e("aaa", "upload onFailure: " + e)
-//                    }
-//
-//                    override fun onResponse(call: Call, response: Response) {
-//                        Log.e("aaa", "upload onResponse: ")
-//                    }
-//                })
+        val progressRequestBody = ProgressRequestBody(requestBody, object : ProgressRequestBody.OnRequstCallBack {
+            override fun onProgress(currentSize: Long, totalSize: Long) {
+                // progress
+            }
+
+            override fun onError(e: Throwable?) {
+                LogUtils.e("upload onError " + e?.message)
+                listener.onUploadFailure(options.key, e)
+            }
+
+        })
+        val request: Request = Request.Builder()
+                .url("upload server url ")
+                .post(progressRequestBody)
+                .build()
+
+        mOkHttpClient.newCall(request)
+                .enqueue(object : Callback {
+
+                    override fun onFailure(call: Call, e: IOException) {
+                        LogUtils.e("upload failure " + e.message)
+                        listener.onUploadFailure(options.key, e)
+                    }
+
+                    override fun onResponse(call: Call, response: Response) {
+                        LogUtils.e("upload onResponse")
+                        val string = response.body()?.string()
+                        // TODO: 2024/7/22
+                        //listener.onUploadComplete()
+                    }
+                })*/
     }
 
     //endregion
