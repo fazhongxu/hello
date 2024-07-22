@@ -4,9 +4,10 @@ import android.app.Application
 import android.os.Handler
 import android.util.Log
 import com.xxl.core.service.upload.UploadListener
+import com.xxl.core.service.upload.UploadOptions
 import com.xxl.hello.service.data.repository.DataRepositoryKit
 import com.xxl.hello.service.upload.api.UploadService
-import okhttp3.*
+import okhttp3.OkHttpClient
 import java.io.File
 
 /**
@@ -34,6 +35,17 @@ class HelloUploadServiceImpl(application: Application,
      */
     override fun upload(file: File,
                         listener: UploadListener) {
+        upload(UploadOptions.create(file), listener)
+    }
+
+    /**
+     * 上传
+     * @param options
+     * @param listener
+     */
+    override fun upload(options: UploadOptions,
+                        listener: UploadListener) {
+        val file = options.targetFile
         Log.e("aaa", "upload: 我是hello上传${file.absolutePath}")
         Handler().postDelayed(object : Runnable {
             override fun run() {
@@ -41,7 +53,7 @@ class HelloUploadServiceImpl(application: Application,
             }
         }, 2000)
 
-        // TODO: 2024/7/18 模拟上传 
+        // TODO: 2024/7/18 模拟上传
 //        Handler().postDelayed(Runnable { callback.onComplete("https://$waitUploadPath") }, 2000)
 
 

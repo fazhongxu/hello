@@ -1,6 +1,7 @@
 package com.xxl.hello.service.upload.api
 
 import com.xxl.core.service.upload.UploadListener
+import com.xxl.core.service.upload.UploadOptions
 import java.io.File
 
 /**
@@ -16,5 +17,13 @@ interface UploadService {
      * @param listener
      */
     fun upload(file: File,
+               listener: UploadListener)
+
+    /**
+     * 上传
+     * @param options
+     * @param listener
+     */
+    fun upload(options: UploadOptions,
                listener: UploadListener)
 }

@@ -3,6 +3,7 @@ package com.xxl.hello.service.upload.impl
 import android.app.Application
 import android.util.Log
 import com.xxl.core.service.upload.UploadListener
+import com.xxl.core.service.upload.UploadOptions
 import com.xxl.hello.service.data.repository.DataRepositoryKit
 import com.xxl.hello.service.upload.api.UploadService
 import java.io.File
@@ -24,8 +25,21 @@ class TencentUploadServiceImpl(application: Application, dataRepositoryKit: Data
      */
     override fun upload(file: File,
                         listener: UploadListener) {
+        upload(UploadOptions.create(file), listener)
+    }
+
+
+    /**
+     * 上传
+     * @param options
+     * @param listener
+     */
+    override fun upload(options: UploadOptions,
+                        listener: UploadListener) {
+        val file = options.targetFile
         Log.e("aaa", "upload: 我是腾讯云上传${file.absolutePath}")
     }
+
 
     //endregion
 }
