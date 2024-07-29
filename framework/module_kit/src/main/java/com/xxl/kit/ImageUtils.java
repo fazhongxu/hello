@@ -2566,6 +2566,32 @@ public final class ImageUtils {
     }
 
     /**
+     * 获取图片方向
+     *
+     * @param imagePath
+     * @return
+     */
+    public static int getImageOrientation(String imagePath) {
+        try {
+            ExifInterface exifInterface = new ExifInterface(imagePath);
+            int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+            switch (orientation) {
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    return 90;
+                case ExifInterface.ORIENTATION_ROTATE_180:
+                    return 180;
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    return 270;
+                default:
+                    return 0;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    /**
      * 图片压缩
      *
      * @param imagePath
