@@ -37,6 +37,16 @@ public class VipInterceptAspect {
 
     }
 
+    /**
+     * java.lang.NoSuchMethodError: No static method aspectOf()
+     * https://blog.csdn.net/jammychan/article/details/6859710
+     *
+     * @return
+     */
+    public static VipInterceptAspect aspectOf() {
+        return new VipInterceptAspect();
+    }
+
     @Around("onVipInterceptMethod() && @annotation(vipIntercept)")
     public void doVipInterceptMethod(@NonNull final ProceedingJoinPoint joinPoint,
                                      @NonNull final VipIntercept vipIntercept) throws Throwable {
