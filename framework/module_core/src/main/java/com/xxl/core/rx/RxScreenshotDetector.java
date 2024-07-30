@@ -9,6 +9,7 @@ import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 
 import androidx.fragment.app.FragmentActivity;
@@ -22,17 +23,19 @@ import io.reactivex.rxjava3.core.Observable;
  */
 public final class RxScreenshotDetector {
 
-    private static final String[] KEYWORDS = new String[]{"screenshot","截屏","截图"};
+    private static final String[] KEYWORDS = new String[]{"screenshot", "截屏", "截图"};
 
     private static final String TAG = "RxScreenshotDetector";
     private static final String EXTERNAL_CONTENT_URI_MATCHER =
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI.toString();
-    private static final String[] PROJECTION = new String[] {
+    private static final String[] PROJECTION = new String[]{
             MediaStore.Images.Media.DISPLAY_NAME, MediaStore.Images.Media.DATA,
             MediaStore.Images.Media.DATE_ADDED
     };
     private static final String SORT_ORDER = MediaStore.Images.Media.DATE_ADDED + " DESC";
     private static final long DEFAULT_DETECT_WINDOW_SECONDS = 10;
+
+    private Uri mLastUri;
 
     private final Activity mActivity;
     private final RxPermissions mRxPermissions;
@@ -90,7 +93,12 @@ public final class RxScreenshotDetector {
             final ContentObserver contentObserver = new ContentObserver(null) {
                 @Override
                 public void onChange(boolean selfChange, Uri uri) {
-                    Log.d(TAG, "onChange: " + selfChange + ", " + uri.toString());
+                    Log.d(TAG, "onChange: " + selfChange + ", " + uri.toString() + " " + (mLastUri != null ? mLastUri.toString() : ""));
+                    if (mLastUri != null && TextUtils.equals(mLastUri.toString(), uri.toString())) {
+                        Log.d(TAG, "onChange: repeat" + mLastUri.toString());
+                        return;
+                    }
+                    mLastUri = uri;
                     if (uri.toString().startsWith(EXTERNAL_CONTENT_URI_MATCHER)) {
                         Cursor cursor = null;
                         try {
@@ -103,7 +111,7 @@ public final class RxScreenshotDetector {
                                         MediaStore.Images.Media.DATE_ADDED));
                                 long currentTime = System.currentTimeMillis() / 1000;
                                 Log.d(TAG, "path: " + path + ", dateAdded: " + dateAdded +
-                                           ", currentTime: " + currentTime);
+                                        ", currentTime: " + currentTime);
                                 if (matchPath(path) && matchTime(currentTime, dateAdded)) {
                                     emitter.onNext(path);
                                 }
