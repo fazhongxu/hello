@@ -181,6 +181,7 @@ public class CommonWebFragment extends BaseWebFragment<CommonWebViewModel, Widge
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
             mCommonWebBinding.swipeRefreshLayout.setRefreshing(false);
+            quickCallJs("showMessage", "我是Java调用js传过来的数据");
         }
 
         @Override

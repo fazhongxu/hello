@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.tbruyelle.rxpermissions3.RxPermissions;
 import com.xxl.core.aop.annotation.Safe;
+import com.xxl.core.data.router.SystemRouterApi;
 import com.xxl.core.media.audio.AudioCapture;
 import com.xxl.core.media.audio.AudioCapture.OnAudioFrameCapturedListener;
 import com.xxl.core.media.audio.AudioRecordFormat;
@@ -47,6 +48,7 @@ import com.xxl.hello.widget.data.router.WidgetRouterApi;
 import com.xxl.hello.widget.ui.view.record.OnRecordListener;
 import com.xxl.hello.widget.ui.view.record.RecordButton;
 import com.xxl.hello.widget.ui.window.CommonMessagePopupWindow;
+import com.xxl.kit.AppRouterApi;
 import com.xxl.kit.AppUtils;
 import com.xxl.kit.ClipboardUtils;
 import com.xxl.kit.FFmpegUtils;
@@ -234,7 +236,11 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
     @Override
     public void onTestClick() {
-        UserRouterApi.Login.newBuilder().navigation(getActivity());
+//        UserRouterApi.Login.newBuilder().navigation(getActivity());
+        // 加载 assets 文件夹下的 HTML 文件
+        String url = "file:///android_asset/test_js_java.html";
+        SystemRouterApi.WebView.newBuilder(url)
+                .navigation();
     }
 
     /**

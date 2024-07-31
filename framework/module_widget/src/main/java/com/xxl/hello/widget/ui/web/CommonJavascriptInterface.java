@@ -2,6 +2,8 @@ package com.xxl.hello.widget.ui.web;
 
 import android.webkit.JavascriptInterface;
 
+import com.xxl.kit.ToastUtils;
+
 /**
  * @author xxl.
  * @date 2023/7/12.
@@ -30,6 +32,7 @@ public class CommonJavascriptInterface {
     @JavascriptInterface
     public void test(String content) {
         //do something 通常用继承基础web页面，EventBus把事件发送出去，对应页面接收处理事件就OK
+        ToastUtils.success(content).show();
     }
 
     //endregion

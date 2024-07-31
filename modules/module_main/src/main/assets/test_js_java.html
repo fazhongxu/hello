@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>js调用Java和Java调用js示例</title>
+    <script>
+        function callAndroidFunction() {
+            // 在这里调用 Android 的方法
+            // 这里使用事先注册的名字 "Android"，具体的方法名根据你的 Android 代码来决定
+            Android.test("Hello from HTML5!");
+        }
+
+        function showMessage(message) {
+            alert(message);
+        }
+
+    </script>
+</head>
+<body>
+<h1>调用 Android 示例</h1>
+<button onclick="callAndroidFunction()">点击调用 Android 方法</button>
+
+<h1>js 自己调用的方法，或者Java也可以调用此方法</h1>
+<button onclick="showMessage('Hello from JavaScript!')">点击弹出消息框</button>
+
+</body>
+</html>
