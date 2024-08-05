@@ -17,7 +17,7 @@ buildscript {
         // in the individual module build.gradle files
     }
 
-//   统一版本号，待验证是否加上后编译和打包会变快
+//   统一版本号，待验证是否加上后编译和打包会变快（编译试了下，有时候不统一2分39秒编译，加上统一后2分21秒，去掉统一后，1分57，说不好编译会被快）
 //    subprojects {
 //        project.configurations.all {
 //            resolutionStrategy.eachDependency { details ->
