@@ -1,6 +1,8 @@
 package com.xxl.hello.im;
 
 /**
+ * im 工具 负责初始化SDK，监听各种状态等
+ *
  * @author xxl.
  * @date 2024/6/14.
  */
