@@ -184,7 +184,7 @@ public class RouterUtils {
         if (!ListUtils.isEmpty(activities)) {
             for (int i = activities.size() - 1; i >= 0; i--) {
                 Activity activity = activities.get(i);
-                if (destination != null && activity.hashCode() == destination.hashCode()) {
+                if (destination != null && TextUtils.equals(destination.getCanonicalName(), activity.getClass().getCanonicalName())) {
                     continue;
                 }
                 waitClearActivities.add(activity);
