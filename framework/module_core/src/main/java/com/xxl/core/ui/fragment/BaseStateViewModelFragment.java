@@ -20,7 +20,6 @@ import com.xxl.core.exception.ResponseException;
 import com.xxl.core.exception.ResponseListener;
 import com.xxl.core.exception.ResponseStateCallback;
 import com.xxl.core.ui.BaseViewModel;
-import com.xxl.core.ui.state.EmptyState;
 import com.xxl.core.ui.state.ExceptionState;
 import com.xxl.core.ui.state.LoadingState;
 import com.xxl.core.ui.state.RequestErrorState;
@@ -80,8 +79,8 @@ public abstract class BaseStateViewModelFragment<V extends BaseViewModel, T exte
     public ResponseListener getStateResponseListener() {
         return new ResponseStateCallback(mStateManager) {
             @Override
-            public EmptyState.EmptyStateProperty getEmptyStateProperty() {
-                final EmptyState.EmptyStateProperty targetEmptyStateProperty = getCustomEmptyStateProperty();
+            public StateProperty getEmptyStateProperty() {
+                final StateProperty targetEmptyStateProperty = getCustomEmptyStateProperty();
                 if (targetEmptyStateProperty != null) {
                     return targetEmptyStateProperty;
                 }
@@ -100,7 +99,7 @@ public abstract class BaseStateViewModelFragment<V extends BaseViewModel, T exte
      *
      * @return
      */
-    public EmptyState.EmptyStateProperty getCustomEmptyStateProperty() {
+    public StateProperty getCustomEmptyStateProperty() {
         return null;
     }
 

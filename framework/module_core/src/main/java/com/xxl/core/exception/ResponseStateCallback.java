@@ -3,6 +3,7 @@ package com.xxl.core.exception;
 import androidx.annotation.NonNull;
 
 import com.alipictures.statemanager.manager.StateManager;
+import com.alipictures.statemanager.state.StateProperty;
 import com.xxl.core.ui.state.EmptyState;
 import com.xxl.core.ui.state.RequestErrorState;
 
@@ -92,7 +93,7 @@ public class ResponseStateCallback extends ResponseCallback {
         return true;
     }
 
-    public EmptyState.EmptyStateProperty getEmptyStateProperty() {
+    public StateProperty getEmptyStateProperty() {
         return EmptyState.obtain();
     }
 
