@@ -16,14 +16,14 @@ import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.text.style.BackgroundColorSpan;
 import android.util.AttributeSet;
-import android.util.Log;
+import android.util.TypedValue;
 
-import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
 
 import com.xxl.hello.widget.R;
+import com.xxl.kit.DisplayUtils;
 import com.xxl.kit.ImageUtils;
 
 /**
@@ -44,59 +44,25 @@ public class TestPathImageView extends AppCompatImageView {
         super(context, attrs, defStyleAttr);
     }
 
-    private TextPaint mPaint = new TextPaint();
-
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        mPaint.setColor(Color.RED);
+        //drawText(canvas);
+    }
 
-//        SpannableString spannableString = new SpannableString("测试文本");
-//
-//        mPaint.setTextSize(26);
-//        spannableString.setSpan(new BackgroundColorSpan(Color.BLUE), 0, spannableString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-//        canvas.drawText(spannableString, 0, spannableString.length(), 50, 50, mPaint);
+    private void drawText(Canvas canvas) {
+        TextPaint textPaint = new TextPaint();
+        textPaint.setColor(Color.RED);
 
         SpannableString spannableString = new SpannableString("测试文本");
         spannableString.setSpan(new BackgroundColorSpan(Color.BLUE), 0, spannableString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-        mPaint.setTextSize(26);
-        StaticLayout staticLayout = new StaticLayout(spannableString, mPaint, canvas.getWidth(), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+        float textSizePx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 26, getResources().getDisplayMetrics());
+        textPaint.setTextSize(textSizePx);
 
-        // 绘制 StaticLayout
+        StaticLayout staticLayout = new StaticLayout(spannableString, textPaint,getWidth(), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
         staticLayout.draw(canvas);
-
-        Log.e("aaa", "onDraw: "+int2ArgbString(Color.TRANSPARENT) );
     }
-
-    /**
-     * Color-int to color-string.
-     *
-     * @param colorInt The color-int.
-     * @return color-string
-     */
-    public static String int2ArgbString(@ColorInt final int colorInt) {
-        String color = Integer.toHexString(colorInt);
-        while (color.length() < 6) {
-            color = "0" + color;
-        }
-        while (color.length() < 8) {
-            color = "f" + color;
-        }
-        String targetColorString = "#" + color;
-
-        try {
-            final int alpha = Color.alpha(colorInt);
-            if (alpha <= 15) {
-                targetColorString = String.format("#0%s%s", Integer.toHexString(alpha), targetColorString.substring(3));
-            }
-        } catch (Exception e) {
-            Log.e("aaa", "int2ArgbString: "+e.getMessage() );
-        }
-
-        return targetColorString;
-    }
-
 
     /**
      * 画图片
