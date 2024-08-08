@@ -312,7 +312,7 @@ public class RouterUtils {
         try {
             Class<?> destination = getDestination(routerPath);
             for (Activity activity : AppUtils.getActivityList()) {
-                if (destination != null && destination.hashCode() == activity.getClass().hashCode()) {
+                if (destination != null && TextUtils.equals(destination.getCanonicalName(), activity.getClass().getCanonicalName())) {
                     return true;
                 }
             }
