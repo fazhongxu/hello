@@ -9,8 +9,16 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.text.Layout;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.StaticLayout;
+import android.text.TextPaint;
+import android.text.style.BackgroundColorSpan;
 import android.util.AttributeSet;
+import android.util.Log;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
@@ -36,11 +44,59 @@ public class TestPathImageView extends AppCompatImageView {
         super(context, attrs, defStyleAttr);
     }
 
+    private TextPaint mPaint = new TextPaint();
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        //drawBitmap(canvas);
+        mPaint.setColor(Color.RED);
+
+//        SpannableString spannableString = new SpannableString("测试文本");
+//
+//        mPaint.setTextSize(26);
+//        spannableString.setSpan(new BackgroundColorSpan(Color.BLUE), 0, spannableString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//        canvas.drawText(spannableString, 0, spannableString.length(), 50, 50, mPaint);
+
+        SpannableString spannableString = new SpannableString("测试文本");
+        spannableString.setSpan(new BackgroundColorSpan(Color.BLUE), 0, spannableString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        mPaint.setTextSize(26);
+        StaticLayout staticLayout = new StaticLayout(spannableString, mPaint, canvas.getWidth(), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+
+        // 绘制 StaticLayout
+        staticLayout.draw(canvas);
+
+        Log.e("aaa", "onDraw: "+int2ArgbString(Color.TRANSPARENT) );
     }
+
+    /**
+     * Color-int to color-string.
+     *
+     * @param colorInt The color-int.
+     * @return color-string
+     */
+    public static String int2ArgbString(@ColorInt final int colorInt) {
+        String color = Integer.toHexString(colorInt);
+        while (color.length() < 6) {
+            color = "0" + color;
+        }
+        while (color.length() < 8) {
+            color = "f" + color;
+        }
+        String targetColorString = "#" + color;
+
+        try {
+            final int alpha = Color.alpha(colorInt);
+            if (alpha <= 15) {
+                targetColorString = String.format("#0%s%s", Integer.toHexString(alpha), targetColorString.substring(3));
+            }
+        } catch (Exception e) {
+            Log.e("aaa", "int2ArgbString: "+e.getMessage() );
+        }
+
+        return targetColorString;
+    }
+
 
     /**
      * 画图片
@@ -65,11 +121,11 @@ public class TestPathImageView extends AppCompatImageView {
 
         // 重新指定bitmap宽高
         Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, getWidth() / 2, getHeight() / 2, false);
-        Rect rect = new Rect(0,0,getWidth()/2,getHeight()/2);
+        Rect rect = new Rect(0, 0, getWidth() / 2, getHeight() / 2);
         // 旋转45度 以bitmap中心坐标为原点
-        matrix.preRotate(45,rect.centerX(),rect.centerY());
+        matrix.preRotate(45, rect.centerX(), rect.centerY());
         // 缩小 以bitmap中心坐标为原点
-        matrix.preScale(0.6F,0.6F,rect.centerX(),rect.centerY());
+        matrix.preScale(0.6F, 0.6F, rect.centerX(), rect.centerY());
         canvas.drawBitmap(scaledBitmap, matrix, null);
 
         // src 要裁剪的bitmap的区域（需要裁剪原图的某个区域，比如左上角，宽高），null则表示需要绘制整个图片

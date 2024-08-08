@@ -3,8 +3,13 @@ package com.xxl.hello.main.ui.main;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.TextUtils;
+import android.text.style.BackgroundColorSpan;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
 
@@ -234,7 +239,12 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
     @Override
     public void onTestClick() {
-        UserRouterApi.Login.newBuilder().navigation(getActivity());
+//        UserRouterApi.Login.newBuilder().navigation(getActivity());
+
+//        SpannableString spannableString = new SpannableString("我是一段文本");
+//        spannableString.setSpan(new BackgroundColorSpan(Color.GREEN),0,spannableString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//        mViewDataBinding.tvTest.setText(spannableString);
+
     }
 
     /**
