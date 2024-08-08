@@ -381,8 +381,8 @@ public class HelloApplication extends BaseApplication implements IApplication, M
     private void registerShortcuts(@NonNull final Context context) {
         final Intent crmIntent = new Intent(context, UserSettingActivity.class);
         crmIntent.setAction(Intent.ACTION_VIEW);
-        final ShortcutInfo crmShortcutInfo = ShortcutConfig.Companion.buildShortcutInfo(context, crmIntent, ShortcutConfig.CRM_SHORTCUT_ID, StringUtils.getString(R.string.main_crm_shortcut_name), R.drawable.main_ic_crm, StringUtils.getString(R.string.main_crm_shortcut_disable));
-        ShortcutConfig.Companion.registerShortcut(context, crmShortcutInfo);
+        final ShortcutInfo crmShortcutInfo = ShortcutConfig.buildShortcutInfo(context, crmIntent, ShortcutConfig.CRM_SHORTCUT_ID, StringUtils.getString(R.string.main_crm_shortcut_name), R.drawable.main_ic_crm, StringUtils.getString(R.string.main_crm_shortcut_disable));
+        ShortcutConfig.registerShortcut(context, crmShortcutInfo);
     }
 
     //endregion
