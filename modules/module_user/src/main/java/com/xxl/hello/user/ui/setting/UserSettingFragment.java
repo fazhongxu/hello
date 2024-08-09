@@ -6,14 +6,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
@@ -26,7 +24,6 @@ import com.xxl.core.data.router.SystemRouterApi;
 import com.xxl.core.image.loader.ImageLoader;
 import com.xxl.core.image.selector.MediaSelector;
 import com.xxl.core.ui.fragment.BaseViewModelFragment;
-import com.xxl.core.utils.AppExpandUtils;
 import com.xxl.hello.common.config.AppConfig;
 import com.xxl.hello.common.config.CacheDirConfig;
 import com.xxl.hello.common.config.NetworkConfig;
@@ -47,7 +44,6 @@ import com.xxl.hello.widget.ui.view.keyboard.ICommentKeyboardLayout;
 import com.xxl.hello.widget.ui.view.share.OnShareItemOperate;
 import com.xxl.hello.widget.ui.view.share.ResourcesShareWindow;
 import com.xxl.hello.widget.ui.view.share.api.ResourcesSharePickerKit;
-import com.xxl.kit.AppRouterApi;
 import com.xxl.kit.AppUtils;
 import com.xxl.kit.FileUtils;
 import com.xxl.kit.ImageUtils;
@@ -55,7 +51,6 @@ import com.xxl.kit.KeyboardWrapper;
 import com.xxl.kit.MomentShareUtils;
 import com.xxl.kit.PathUtils;
 import com.xxl.kit.ResourceUtils;
-import com.xxl.kit.RouterUtils;
 import com.xxl.kit.ToastUtils;
 
 import java.io.File;
@@ -149,15 +144,6 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
     @Override
     public int getViewNavigatorVariable() {
         return BR.navigator;
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (!RouterUtils.hasActivity(AppRouterApi.Main.PATH)) {
-            AppRouterApi.Splash.newBuilder()
-                    .navigationAndClearTop();
-        }
     }
 
     @Override
