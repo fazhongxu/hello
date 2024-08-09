@@ -73,7 +73,7 @@
             android:launchMode="singleTask" />
 
         <activity
-            android:name=".main.ui.jump.SchemeJumpActivity"
+            android:name=".ui.jump.SchemeJumpActivity"
             android:exported="true"
             android:launchMode="singleTask"
             android:theme="@style/SplashTheme">
@@ -91,7 +91,7 @@
 
         <!--友盟分享相关 开始-->
         <activity
-            android:name=".wxapi.WXEntryActivity"
+            android:name="com.xxl.hello.wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
@@ -197,7 +197,7 @@
             android:name="com.xxl.core.image.loader.GlideImageModel"
             android:value="AppGlideModule" />
 
-        <receiver android:name=".main.ui.widget.HelloAppWidgetProvider">
+        <receiver android:name=".ui.widget.HelloAppWidgetProvider">
             <intent-filter>
                 <!--必须添加的action，否则不会出现在小部件的列表中-->
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
