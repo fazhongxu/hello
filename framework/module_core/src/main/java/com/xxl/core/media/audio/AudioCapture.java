@@ -12,7 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.arthenica.ffmpegkit.FFmpegSession;
+import com.xxl.core.media.audio.utils.LameUtils;
 import com.xxl.core.utils.ThreadExpandUtils;
+import com.xxl.kit.ByteUtils;
 import com.xxl.kit.FFmpegUtils;
 import com.xxl.kit.FileUtils;
 import com.xxl.kit.ListUtils;
@@ -42,7 +44,7 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
     private static final int DEFAULT_SOURCE = MediaRecorder.AudioSource.MIC;
     private static final int DEFAULT_SAMPLE_RATE = 44100;
 
-    private static final int DEFAULT_CHANNEL_CONFIG = AudioFormat.CHANNEL_IN_STEREO;
+    private static final int DEFAULT_CHANNEL_CONFIG = AudioFormat.CHANNEL_IN_MONO;
     private static final int DEFAULT_AUDIO_FORMAT = AudioFormat.ENCODING_PCM_16BIT;
 
     private AudioRecord mAudioRecord;
@@ -263,6 +265,14 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
                 DEFAULT_AUDIO_FORMAT);
     }
 
+
+    DataEncodeThread mMp3EncodeThread;
+
+    /**
+     * 自定义 每160帧作为一个周期，通知一下需要进行编码
+     */
+    private static final int FRAME_COUNT = 160;
+
     /**
      * 开始采集数据
      *
@@ -294,6 +304,7 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
             mRecordState = AudioRecordState.RECORDING;
             return false;
         }
+        LameUtils.init(sampleRateInHz, channelConfig == AudioFormat.CHANNEL_IN_STEREO ? 2 : 1, sampleRateInHz, 32);
 
         mMinBufferSize = AudioRecord.getMinBufferSize(sampleRateInHz, channelConfig, audioFormat);
         if (mMinBufferSize == AudioRecord.ERROR_BAD_VALUE) {
@@ -322,6 +333,15 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
 
         if (mMaxDuration > 0) {
             mCountDownTimer = new RecordCountDownTimer(mMaxDuration, 5);
+        }
+
+        try {
+            mMp3EncodeThread = new DataEncodeThread(mAudioMp3File, mMinBufferSize);
+            mMp3EncodeThread.start();
+            mAudioRecord.setRecordPositionUpdateListener(mMp3EncodeThread, mMp3EncodeThread.getHandler());
+            mAudioRecord.setPositionNotificationPeriod(FRAME_COUNT);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         mAudioRecord.startRecording();
@@ -372,6 +392,8 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
 
         mIsCaptureStarted = false;
         mRecordState = AudioRecordState.STOP;
+
+        mMp3EncodeThread.sendStopMessage();
 
         if (mIsCancel) {
             recordCanceled();
@@ -599,9 +621,11 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
                     LogUtils.d(TAG, "OK, Captured " + ret + " bytes !");
                     if (state == AudioRecord.RECORDSTATE_RECORDING) {
                         mRecordState = AudioRecordState.RECORDING;
-                        if (mPcmEncoderAac != null) {
-                            mPcmEncoderAac.encodeData(buffer);
-                        }
+//                        if (mPcmEncoderAac != null) {
+//                            mPcmEncoderAac.encodeData(buffer);
+//                        }
+                        mMp3EncodeThread.addTask(ByteUtils.bytesToShort(buffer), ret / 2);
+
                     }
                 }
                 SystemClock.sleep(10);
