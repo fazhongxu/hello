@@ -117,7 +117,23 @@ public class DataEncodeThread extends HandlerThread implements AudioRecord.OnRec
             Task task = mTasks.remove(0);
             short[] buffer = task.getData();
             int readSize = task.getReadSize();
-            int encodedSize = LameUtils.encode(buffer, buffer, readSize, mMp3Buffer);
+            // FIXME: 2024/8/14 单声道正常，双通道就不对，需要分离左右通道数据 https://www.jianshu.com/p/87095c155ea5
+            // 大概知道是咋回事了，还没调好，记录下有空调
+
+            // 确保 readSize 是偶数，因为立体声数据是交错存储的
+          /*  if (readSize % 2 != 0) {
+                readSize--;
+            }
+
+            // 分离左右声道数据
+            short[] pcmBufferLeft = new short[readSize / 2];
+            short[] pcmBufferRight = new short[readSize / 2];
+            for (int i = 0; i < readSize / 2; i++) {
+                pcmBufferLeft[i] = buffer[i * 2];
+                pcmBufferRight[i] = buffer[i * 2 + 1];
+            }*/
+
+            int encodedSize = LameUtils.encode(buffer, buffer, /*readSize/2*/ readSize, mMp3Buffer);
             if (encodedSize > 0) {
                 try {
                     mFileOutputStream.write(mMp3Buffer, 0, encodedSize);

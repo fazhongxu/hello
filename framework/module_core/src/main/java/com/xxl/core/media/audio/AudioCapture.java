@@ -44,7 +44,7 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
     private static final int DEFAULT_SOURCE = MediaRecorder.AudioSource.MIC;
     private static final int DEFAULT_SAMPLE_RATE = 44100;
 
-    private static final int DEFAULT_CHANNEL_CONFIG = AudioFormat.CHANNEL_IN_MONO;
+    private static final int DEFAULT_CHANNEL_CONFIG = AudioFormat.CHANNEL_IN_STEREO;
     private static final int DEFAULT_AUDIO_FORMAT = AudioFormat.ENCODING_PCM_16BIT;
 
     private AudioRecord mAudioRecord;
@@ -304,7 +304,7 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
             mRecordState = AudioRecordState.RECORDING;
             return false;
         }
-        LameUtils.init(sampleRateInHz, channelConfig == AudioFormat.CHANNEL_IN_STEREO ? 2 : 1, sampleRateInHz, 32);
+        LameUtils.init(sampleRateInHz,  1, sampleRateInHz, 32);
 
         mMinBufferSize = AudioRecord.getMinBufferSize(sampleRateInHz, channelConfig, audioFormat);
         if (mMinBufferSize == AudioRecord.ERROR_BAD_VALUE) {
