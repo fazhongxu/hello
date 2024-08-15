@@ -402,10 +402,31 @@ public class AppUtils {
      */
     public static boolean isNewAppVersion(@NonNull final String localVersionName,
                                           @NonNull final String onLineVersionName) {
-        if (TextUtils.isEmpty(localVersionName) || TextUtils.isEmpty(onLineVersionName)) {
-            return false;
+        try {
+            if (TextUtils.isEmpty(localVersionName) || TextUtils.isEmpty(onLineVersionName)) {
+                return false;
+            }
+            String[] onlineParts = onLineVersionName.split("\\.");
+            String[] localParts = localVersionName.split("\\.");
+
+            int length = Math.max(onlineParts.length, localParts.length);
+
+            for (int i = 0; i < length; i++) {
+                int onlinePart = i < onlineParts.length ? Integer.parseInt(onlineParts[i]) : 0;
+                int localPart = i < localParts.length ? Integer.parseInt(localParts[i]) : 0;
+
+                if (onlinePart > localPart) {
+                    return true;
+                } else if (onlinePart < localPart) {
+                    return false;
+                }
+            }
+
+            return localVersionName.compareTo(onLineVersionName) < 0;
+        }catch (Exception e) {
+            e.printStackTrace();
         }
-        return localVersionName.compareTo(onLineVersionName) < 0;
+        return false;
     }
 
     /**
