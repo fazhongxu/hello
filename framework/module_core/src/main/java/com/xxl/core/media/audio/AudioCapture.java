@@ -304,7 +304,7 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
             mRecordState = AudioRecordState.RECORDING;
             return false;
         }
-        LameUtils.init(sampleRateInHz,  1, sampleRateInHz, 32);
+        LameUtils.init(sampleRateInHz, 1, sampleRateInHz, 32);
 
         mMinBufferSize = AudioRecord.getMinBufferSize(sampleRateInHz, channelConfig, audioFormat);
         if (mMinBufferSize == AudioRecord.ERROR_BAD_VALUE) {
@@ -336,7 +336,7 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
         }
 
         try {
-            mMp3EncodeThread = new DataEncodeThread(mAudioMp3File, mMinBufferSize);
+            mMp3EncodeThread = new DataEncodeThread(mAudioMp3File, mMinBufferSize, channelConfig);
             mMp3EncodeThread.start();
             mAudioRecord.setRecordPositionUpdateListener(mMp3EncodeThread, mMp3EncodeThread.getHandler());
             mAudioRecord.setPositionNotificationPeriod(FRAME_COUNT);
@@ -398,12 +398,6 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
         if (mIsCancel) {
             recordCanceled();
             mRecordState = AudioRecordState.CANCEL;
-            return;
-        }
-
-        if (mAudioRecordFormat != AudioRecordFormat.AAC) {
-            Thread thread = new Thread(new AudioTranscodeRunnable());
-            thread.start();
             return;
         }
 
@@ -621,11 +615,14 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
                     LogUtils.d(TAG, "OK, Captured " + ret + " bytes !");
                     if (state == AudioRecord.RECORDSTATE_RECORDING) {
                         mRecordState = AudioRecordState.RECORDING;
-//                        if (mPcmEncoderAac != null) {
-//                            mPcmEncoderAac.encodeData(buffer);
-//                        }
-                        mMp3EncodeThread.addTask(ByteUtils.bytesToShort(buffer), ret / 2);
 
+                        if (mAudioRecordFormat == AudioRecordFormat.MP3) {
+                            mMp3EncodeThread.addTask(ByteUtils.bytesToShort(buffer), ret / 2);
+                        } else {
+                            if (mPcmEncoderAac != null) {
+                                mPcmEncoderAac.encodeData(buffer);
+                            }
+                        }
                     }
                 }
                 SystemClock.sleep(10);

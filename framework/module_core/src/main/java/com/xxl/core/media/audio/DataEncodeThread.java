@@ -1,5 +1,6 @@
 package com.xxl.core.media.audio;
 
+import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -7,6 +8,7 @@ import android.os.Looper;
 import android.os.Message;
 
 import com.xxl.core.media.audio.utils.LameUtils;
+import com.xxl.kit.FileUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -23,6 +25,7 @@ public class DataEncodeThread extends HandlerThread implements AudioRecord.OnRec
     private byte[] mMp3Buffer;
     private FileOutputStream mFileOutputStream;
     private String path;
+    private int mChannelConfig;
 
     private static class StopHandler extends Handler {
 
@@ -49,8 +52,7 @@ public class DataEncodeThread extends HandlerThread implements AudioRecord.OnRec
                 removeCallbacksAndMessages(null);
                 encodeThread.flushAndRelease();
                 getLooper().quit();
-                // TODO: 2022/1/14
-//                MP3Recorder.deleteFile(encodeThread.path);
+                FileUtils.deleteFile(encodeThread.path);
             }
         }
     }
@@ -67,6 +69,21 @@ public class DataEncodeThread extends HandlerThread implements AudioRecord.OnRec
         this.mFileOutputStream = new FileOutputStream(file);
         path = file.getAbsolutePath();
         mMp3Buffer = new byte[(int) (7200 + (bufferSize * 2 * 1.25))];
+    }
+
+    /**
+     * Constructor
+     *
+     * @param file       file
+     * @param bufferSize bufferSize
+     * @throws FileNotFoundException file not found
+     */
+    public DataEncodeThread(File file, int bufferSize, int channelConfig) throws FileNotFoundException {
+        super("DataEncodeThread");
+        this.mFileOutputStream = new FileOutputStream(file);
+        path = file.getAbsolutePath();
+        mMp3Buffer = new byte[(int) (7200 + (bufferSize * 2 * 1.25))];
+        mChannelConfig = channelConfig;
     }
 
     @Override
@@ -107,6 +124,15 @@ public class DataEncodeThread extends HandlerThread implements AudioRecord.OnRec
     }
 
     /**
+     * 是否是立体声（双通道）
+     *
+     * @return
+     */
+    private boolean isStereoChannel() {
+        return mChannelConfig == AudioFormat.CHANNEL_IN_STEREO;
+    }
+
+    /**
      * 从缓冲区中读取并处理数据，使用lame编码MP3
      *
      * @return 从缓冲区中读取的数据的长度
@@ -117,23 +143,24 @@ public class DataEncodeThread extends HandlerThread implements AudioRecord.OnRec
             Task task = mTasks.remove(0);
             short[] buffer = task.getData();
             int readSize = task.getReadSize();
-            // FIXME: 2024/8/14 单声道正常，双通道就不对，需要分离左右通道数据 https://www.jianshu.com/p/87095c155ea5
-            // 大概知道是咋回事了，还没调好，记录下有空调
+            short[] pcmBufferLeft = null;
+            short[] pcmBufferRight = null;
 
-            // 确保 readSize 是偶数，因为立体声数据是交错存储的
-          /*  if (readSize % 2 != 0) {
-                readSize--;
+            if (isStereoChannel()) {
+                // 分离左右声道数据
+                pcmBufferLeft = new short[readSize / 2];
+                pcmBufferRight = new short[readSize / 2];
+                for (int i = 0; i < readSize / 2; i++) {
+                    pcmBufferLeft[i] = buffer[i * 2];
+                    pcmBufferRight[i] = buffer[i * 2 + 1];
+                }
             }
-
-            // 分离左右声道数据
-            short[] pcmBufferLeft = new short[readSize / 2];
-            short[] pcmBufferRight = new short[readSize / 2];
-            for (int i = 0; i < readSize / 2; i++) {
-                pcmBufferLeft[i] = buffer[i * 2];
-                pcmBufferRight[i] = buffer[i * 2 + 1];
-            }*/
-
-            int encodedSize = LameUtils.encode(buffer, buffer, /*readSize/2*/ readSize, mMp3Buffer);
+            int encodedSize = 0;
+            if (isStereoChannel() && pcmBufferLeft != null && pcmBufferRight != null) {
+                encodedSize = LameUtils.encode(pcmBufferLeft, pcmBufferRight, readSize / 2, mMp3Buffer);
+            } else {
+                encodedSize = LameUtils.encode(buffer, buffer, readSize, mMp3Buffer);
+            }
             if (encodedSize > 0) {
                 try {
                     mFileOutputStream.write(mMp3Buffer, 0, encodedSize);
