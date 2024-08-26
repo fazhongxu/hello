@@ -5,6 +5,7 @@ apply plugin: 'com.alibaba.arouter'
 apply from: '../and_res_guard.gradle'
 apply plugin: 'android-aspectjx'
 apply from: '../aspectjx_excludes.gradle'
+apply plugin: 'walle'
 
 android {
 
@@ -187,6 +188,8 @@ dependencies {
     implementation deps.arouter.arouter
     kapt deps.arouter.arouter_processor
 
+    implementation deps.walle
+
     implementation deps.ffmpeg_kit
     implementation deps.ffmpeg_kit_exception
 
@@ -236,6 +239,15 @@ dependencies {
     implementation deps.tinypinyin
 
     implementation deps.emoji_ios
+}
+
+walle {
+    // 指定渠道包的输出路径
+    apkOutputFolder = new File("${project.buildDir}/outputs/channels");
+    // 定制渠道包的APK的文件名称
+    apkFileNameFormat = '${appName}-${packageName}-${channel}-${buildType}-v${versionName}-${versionCode}-${buildTime}.apk';
+    // 渠道配置文件
+    channelFile = new File("${project.getProjectDir()}/channel")
 }
 
 apply plugin: 'io.objectbox'

@@ -154,5 +154,7 @@ dependencies {
     implementation deps.watermark
     implementation deps.emoji_ios
 
+    implementation deps.walle
+
 }
 
