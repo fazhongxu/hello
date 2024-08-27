@@ -50,25 +50,25 @@ android {
     }
 
     // 多渠道
-  /*  flavorDimensions "channel"
+    /*  flavorDimensions "channel"
 
-    productFlavors {
-        origin {
-            manifestPlaceholders = [CHANNEL: "origin"]
-            dimension = "channel"
-            //清单文件配置mata-data channel,AppUtils#getChannelFromAndroidManifest 获取设置的渠道，或者 buildConfigField("String","CHANNEL","\"origin\"") 配置
-        }
+      productFlavors {
+          origin {
+              manifestPlaceholders = [CHANNEL: "origin"]
+              dimension = "channel"
+              //清单文件配置mata-data channel,AppUtils#getChannelFromAndroidManifest 获取设置的渠道，或者 buildConfigField("String","CHANNEL","\"origin\"") 配置
+          }
 
-        huawei {
-            manifestPlaceholders = [CHANNEL: "huawei"]
-            dimension = "channel"
-        }
+          huawei {
+              manifestPlaceholders = [CHANNEL: "huawei"]
+              dimension = "channel"
+          }
 
-        oppo {
-            manifestPlaceholders = [CHANNEL: "oppo"]
-            dimension = "channel"
-        }
-    }*/
+          oppo {
+              manifestPlaceholders = [CHANNEL: "oppo"]
+              dimension = "channel"
+          }
+      }*/
 
     buildTypes {
         debug {
@@ -248,6 +248,13 @@ walle {
     apkFileNameFormat = '${appName}-${packageName}-${channel}-${buildType}-v${versionName}-${versionCode}-${buildTime}.apk';
     // 渠道配置文件
     channelFile = new File("${project.getProjectDir()}/channel")
+}
+
+afterEvaluate {
+    // 先执行混淆再打多渠道
+    tasks.getByName('assembleReleaseChannels') {
+        dependsOn(resguardRelease)
+    }
 }
 
 apply plugin: 'io.objectbox'
