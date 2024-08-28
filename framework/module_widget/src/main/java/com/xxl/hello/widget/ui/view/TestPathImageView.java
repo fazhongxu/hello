@@ -48,11 +48,13 @@ public class TestPathImageView extends AppCompatImageView {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         //drawText(canvas);
+        //drawText(canvas);
     }
 
     private void drawText(Canvas canvas) {
         TextPaint textPaint = new TextPaint();
         textPaint.setColor(Color.RED);
+        textPaint.setTextAlign(Paint.Align.CENTER);
 
         SpannableString spannableString = new SpannableString("测试文本");
         spannableString.setSpan(new BackgroundColorSpan(Color.BLUE), 0, spannableString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -60,8 +62,12 @@ public class TestPathImageView extends AppCompatImageView {
         float textSizePx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 26, getResources().getDisplayMetrics());
         textPaint.setTextSize(textSizePx);
 
-        StaticLayout staticLayout = new StaticLayout(spannableString, textPaint,getWidth(), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
-        staticLayout.draw(canvas);
+        StaticLayout staticLayout = new StaticLayout(spannableString, textPaint,getWidth(), Layout.Alignment.ALIGN_OPPOSITE, 1.0f, 0.0f, false);
+        //staticLayout.draw(canvas);
+
+//        canvas.drawText(spannableString,0,spannableString.length(),10,10,textPaint);
+
+        canvas.drawText(spannableString.toString(), getWidth() - 10, 10, textPaint); // 调整坐标位置以适应文本对齐
     }
 
     /**
