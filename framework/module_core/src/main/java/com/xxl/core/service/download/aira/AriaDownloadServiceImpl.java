@@ -2,6 +2,7 @@ package com.xxl.core.service.download.aira;
 
 import android.Manifest;
 import android.app.Application;
+import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -13,6 +14,7 @@ import com.arialyy.annotations.Download;
 import com.arialyy.aria.core.Aria;
 import com.arialyy.aria.core.AriaManager;
 import com.arialyy.aria.core.task.DownloadTask;
+import com.arialyy.aria.orm.DelegateWrapper;
 import com.tbruyelle.rxpermissions3.RxPermissions;
 import com.xxl.core.R;
 import com.xxl.core.service.download.DownloadListener;
@@ -20,12 +22,15 @@ import com.xxl.core.service.download.DownloadOptions;
 import com.xxl.core.service.download.DownloadService;
 import com.xxl.core.service.download.DownloadServiceUtils;
 import com.xxl.core.service.download.DownloadTaskInfo;
+import com.xxl.kit.AppUtils;
 import com.xxl.kit.GsonUtils;
 import com.xxl.kit.ListUtils;
 import com.xxl.kit.LogUtils;
 import com.xxl.kit.OnRequestCallBack;
 import com.xxl.kit.StringUtils;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,6 +69,30 @@ public class AriaDownloadServiceImpl implements DownloadService {
     //region: DownloadService
 
     /**
+     * 检查下载库
+     * 处理下载时偶现报错 "请在Application中调用init进行数据库工具注册注册"
+     */
+    private void checkAria() {
+        try {
+            if (AriaManager.getInstance() == null) {
+                Aria.init(AppUtils.getApplication());
+                return;
+            }
+            AriaManager ariaManager = AriaManager.getInstance();
+            Field mDbWrapper = ariaManager.getClass().getDeclaredField("mDbWrapper");
+            mDbWrapper.setAccessible(true);
+            DelegateWrapper wrapper = (DelegateWrapper) mDbWrapper.get(ariaManager);
+            if (wrapper == null) {
+                Method initDataMethod = ariaManager.getClass().getDeclaredMethod("initData");
+                initDataMethod.setAccessible(true);
+                initDataMethod.invoke(ariaManager);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * 注册下载服务
      *
      * @param application      上下文
@@ -78,6 +107,7 @@ public class AriaDownloadServiceImpl implements DownloadService {
         if (AriaManager.getInstance() == null) {
             Aria.init(application);
         }
+        checkAria();
         Aria.download(this).register();
         if (downloadListener != null) {
             mDownloadListeners.add(downloadListener);
