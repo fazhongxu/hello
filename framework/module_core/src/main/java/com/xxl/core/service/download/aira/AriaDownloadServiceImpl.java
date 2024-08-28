@@ -104,9 +104,6 @@ public class AriaDownloadServiceImpl implements DownloadService {
         if (DownloadServiceUtils.isDebug()) {
             LogUtils.d(TAG + "download register");
         }
-        if (AriaManager.getInstance() == null) {
-            Aria.init(application);
-        }
         checkAria();
         Aria.download(this).register();
         if (downloadListener != null) {
