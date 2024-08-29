@@ -14,9 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
-import com.arthenica.ffmpegkit.MediaInformation;
 import com.tbruyelle.rxpermissions3.RxPermissions;
-import com.xxl.core.aop.annotation.Async;
 import com.xxl.core.aop.annotation.Safe;
 import com.xxl.core.media.audio.AudioCapture;
 import com.xxl.core.media.audio.AudioCapture.OnAudioFrameCapturedListener;
@@ -57,7 +55,6 @@ import com.xxl.kit.LogUtils;
 import com.xxl.kit.MediaUtils;
 import com.xxl.kit.OnAppStatusChangedListener;
 import com.xxl.kit.OnRequestCallBack;
-import com.xxl.kit.PathUtils;
 import com.xxl.kit.ResourceUtils;
 import com.xxl.kit.StringUtils;
 import com.xxl.kit.ThreadUtils;
@@ -235,25 +232,9 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
     //region: MainNavigator
 
-    @Async
     @Override
     public void onTestClick() {
-//        UserRouterApi.Login.newBuilder().navigation(getActivity());
-
-
-        String targetPath = PathUtils.EXT_DOWNLOADS_PATH + File.separator + "11.mp4";
-        String targetPath1 = PathUtils.EXT_DOWNLOADS_PATH + File.separator + "12.mp4";
-        boolean b = ResourceUtils.copyFileFromAssets("11.mp4", targetPath);
-        Log.e("aaa", "onTestClick: " + b);
-        if (b) {
-            // TODO: 2024/8/28
-            FFmpegUtils.deletePartVideo(targetPath, 2000, 4000, targetPath1, null);
-
-            MediaInformation mediaInformation = FFmpegUtils.getMediaInformation(targetPath1);
-            Log.e("aaa", "onTestClick: " + targetPath1 + mediaInformation.getDuration());
-        }
-
-
+        UserRouterApi.Login.newBuilder().navigation(getActivity());
     }
 
     /**
