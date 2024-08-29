@@ -358,6 +358,45 @@ public class FFmpegUtils {
         });
     }
 
+
+    /**
+     * 视频删除某个部分
+     *
+     * @param inputVideoPath  目标视频文件路径
+     * @param startTime       要删除的起始时间(毫秒）
+     * @param endTime         要删除的结束时间(毫秒）
+     * @param outputVideoPath 输出视频文件路径
+     * @param callBack
+     * @return
+     */
+    public static FFmpegSession deletePartVideo(@NonNull final String inputVideoPath,
+                                                final long startTime,
+                                                final long endTime,
+                                                @NonNull final String outputVideoPath,
+                                                @Nullable final OnRequestCallBack<Boolean> callBack) {
+        if (Thread.currentThread() == Looper.getMainLooper().getThread() || TextUtils.isEmpty(inputVideoPath)) {
+            return null;
+        }
+
+        List<String> commands = new ArrayList<>();
+        commands.add("-i");
+        commands.add(inputVideoPath);
+        commands.add("-vf");
+        commands.add("select='not(between(t\\," + (startTime / 1000.0) + "\\," + (endTime / 1000.0) + "))',setpts=N/FRAME_RATE/TB");
+        commands.add("-af");
+        commands.add("aselect='not(between(t\\," + (startTime / 1000.0) + "\\," + (endTime / 1000.0) + "))',asetpts=N/SR/TB");
+        commands.add(outputVideoPath);
+        String[] cmd = commands.toArray(new String[0]);
+        if (callBack == null) {
+            return FFmpegKit.execute(argumentsToString(cmd));
+        }
+        return executeAsync(argumentsToString(cmd), isSuccess -> {
+            if (callBack != null) {
+                callBack.onSuccess(isSuccess);
+            }
+        });
+    }
+
     /**
      * 添加背景音乐
      *
