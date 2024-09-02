@@ -49,8 +49,9 @@ public class TestPathImageView extends AppCompatImageView {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         //drawText(canvas);
-        //drawText(canvas);
+    }
 
+    public void drawShapeBitmap() {
         Bitmap bitmap = ImageUtils.getBitmap(R.drawable.resources_ic_app_white_logo);
 
         Bitmap customShapeBitmap = ImageUtils.clip(bitmap, getSamplePath());
