@@ -673,6 +673,36 @@ public final class ImageUtils {
     }
 
     /**
+     * 裁剪自定义椭圆bitmap
+     *
+     * @param bitmap
+     * @param rectF
+     * @return
+     */
+    public static Bitmap clipOvalBitmap(Bitmap bitmap, RectF rectF) {
+        // 创建一个空的Bitmap，大小与RectF相同
+        Bitmap output = Bitmap.createBitmap((int) rectF.width(), (int) rectF.height(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
+
+        // 设置抗锯齿
+        final Paint paint = new Paint();
+        paint.setAntiAlias(true);
+
+        // 定义一个椭圆形的路径
+        final RectF ovalRect = new RectF(0, 0, rectF.width(), rectF.height());
+        Path path = new Path();
+        path.addOval(ovalRect, Path.Direction.CCW);
+
+        // 裁剪画布
+        canvas.clipPath(path);
+
+        // 绘制Bitmap到画布上
+        canvas.drawBitmap(bitmap, -rectF.left, -rectF.top, paint);
+
+        return output;
+    }
+
+    /**
      * 计算以 dx，dy 为起始坐标原点的区域对应的坐标
      * 计算ui上面选框对应的原始图片中的区域
      *

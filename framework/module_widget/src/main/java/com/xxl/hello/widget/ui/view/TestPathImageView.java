@@ -24,7 +24,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
 
 import com.xxl.hello.widget.R;
-import com.xxl.kit.DisplayUtils;
 import com.xxl.kit.ImageUtils;
 
 /**
@@ -49,13 +48,21 @@ public class TestPathImageView extends AppCompatImageView {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         //drawText(canvas);
+        //drawShapeBitmap();
     }
 
     public void drawShapeBitmap() {
         Bitmap bitmap = ImageUtils.getBitmap(R.drawable.resources_ic_app_white_logo);
 
         Bitmap customShapeBitmap = ImageUtils.clip(bitmap, getSamplePath());
-        Log.e("aaa", "onDraw: "+customShapeBitmap );
+
+        RectF rectF = new RectF();
+        rectF.left = 0;
+        rectF.top = 0;
+        rectF.right = 100;
+        rectF.bottom = 100;
+        Bitmap bitmap1 = ImageUtils.clipOvalBitmap(bitmap, rectF);
+        Log.e("aaa", "onDraw: " + customShapeBitmap);
     }
 
     public static Path getSamplePath() {
@@ -79,7 +86,7 @@ public class TestPathImageView extends AppCompatImageView {
         float textSizePx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 26, getResources().getDisplayMetrics());
         textPaint.setTextSize(textSizePx);
 
-        StaticLayout staticLayout = new StaticLayout(spannableString, textPaint,getWidth(), Layout.Alignment.ALIGN_OPPOSITE, 1.0f, 0.0f, false);
+        StaticLayout staticLayout = new StaticLayout(spannableString, textPaint, getWidth(), Layout.Alignment.ALIGN_OPPOSITE, 1.0f, 0.0f, false);
         //staticLayout.draw(canvas);
 
 //        canvas.drawText(spannableString,0,spannableString.length(),10,10,textPaint);
