@@ -645,6 +645,34 @@ public final class ImageUtils {
     }
 
     /**
+     * 裁剪自定义形状bitmap
+     *
+     * @param bitmap 目标图片
+     * @param path   自定义图形路径
+     * @return
+     */
+    public static Bitmap clip(Bitmap bitmap, Path path) {
+        // 创建一个与输入 Bitmap 相同尺寸的透明 Bitmap
+        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
+
+        // 创建一个 Paint 对象
+        Paint paint = new Paint();
+        paint.setAntiAlias(true);
+        paint.setFilterBitmap(true);
+        paint.setDither(true);
+
+        // 先清除 Canvas 内容
+        canvas.drawColor(0, PorterDuff.Mode.CLEAR);
+
+        // 使用 Paint 的 Alpha 模式和 Path 进行裁剪
+        canvas.clipPath(path);
+        canvas.drawBitmap(bitmap, 0, 0, paint);
+
+        return output;
+    }
+
+    /**
      * 计算以 dx，dy 为起始坐标原点的区域对应的坐标
      * 计算ui上面选框对应的原始图片中的区域
      *

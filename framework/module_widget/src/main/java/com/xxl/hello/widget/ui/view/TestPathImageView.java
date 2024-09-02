@@ -16,6 +16,7 @@ import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.text.style.BackgroundColorSpan;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 
 import androidx.annotation.NonNull;
@@ -49,6 +50,21 @@ public class TestPathImageView extends AppCompatImageView {
         super.onDraw(canvas);
         //drawText(canvas);
         //drawText(canvas);
+
+        Bitmap bitmap = ImageUtils.getBitmap(R.drawable.resources_ic_app_white_logo);
+
+        Bitmap customShapeBitmap = ImageUtils.clip(bitmap, getSamplePath());
+        Log.e("aaa", "onDraw: "+customShapeBitmap );
+    }
+
+    public static Path getSamplePath() {
+        Path path = new Path();
+        // 添加不规则形状的路径
+        path.moveTo(100, 100);
+        path.lineTo(200, 100);
+        path.lineTo(150, 200);
+        path.close(); // 关闭路径形成一个三角形
+        return path;
     }
 
     private void drawText(Canvas canvas) {
