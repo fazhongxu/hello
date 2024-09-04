@@ -4,11 +4,6 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -21,7 +16,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.tbruyelle.rxpermissions3.RxPermissions;
-import com.watermark.androidwm.utils.BitmapUtils;
 import com.xxl.core.aop.annotation.Safe;
 import com.xxl.core.media.audio.AudioCapture;
 import com.xxl.core.media.audio.AudioCapture.OnAudioFrameCapturedListener;
@@ -55,8 +49,8 @@ import com.xxl.hello.widget.ui.view.record.OnRecordListener;
 import com.xxl.hello.widget.ui.view.record.RecordButton;
 import com.xxl.hello.widget.ui.window.CommonMessagePopupWindow;
 import com.xxl.kit.AppUtils;
+import com.xxl.kit.BitmapUtils;
 import com.xxl.kit.ClipboardUtils;
-import com.xxl.kit.DrawableUtils;
 import com.xxl.kit.FFmpegUtils;
 import com.xxl.kit.ImageUtils;
 import com.xxl.kit.ListUtils;
@@ -250,62 +244,14 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 //        Bitmap colorBitmap = createColorBitmap(100, 100, Color.RED);
 //        Bitmap colorBitmap1 = createColorBitmap(100, 100, Color.GREEN);
 
-        bitmap2 = ImageUtils.scale(bitmap2, bitmap1.getWidth(), bitmap1.getHeight());
-        Bitmap bitmap = blendBitmap(bitmap1, bitmap2, 80);
 
-        Log.e("aa", "onTestClick: " + bitmap);
+//        Bitmap bitmap = BitmapUtils.applyFeatherEffect(bitmap2, 0);
+
+//        Bitmap bitmap = cropBitmapByRect(bitmap2, new RectF(0, 0, 300, 300),90);
+
+        Bitmap bitmap = BitmapUtils.applyFeatherEffect(bitmap2, 10);
 
         mViewDataBinding.ivImage.setImageBitmap(bitmap);
-    }
-
-    public static Bitmap createColorBitmap(int width, int height, int color) {
-        // 创建一个指定宽度和高度的 Bitmap
-        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-
-        // 创建一个 Canvas 来绘制 Bitmap
-        Canvas canvas = new Canvas(bitmap);
-
-        // 创建一个 Paint 对象并设置填充颜色
-        Paint paint = new Paint();
-        paint.setColor(color);
-
-        // 绘制一个填充整个 Bitmap 的矩形
-        canvas.drawRect(0, 0, width, height, paint);
-
-        return bitmap;
-    }
-
-    public static Bitmap blendBitmap(Bitmap bitmap1, Bitmap bitmap2, float progress) {
-        // 确保两张图像大小相同
-        if (bitmap1.getWidth() != bitmap2.getWidth() || bitmap1.getHeight() != bitmap2.getHeight()) {
-            throw new IllegalArgumentException("两张bitmap 的宽高必须一致");
-        }
-
-        // 创建结果 Bitmap
-        Bitmap resultBitmap = Bitmap.createBitmap(bitmap1.getWidth(), bitmap1.getHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(resultBitmap);
-
-        // 计算融合比例
-        float alpha = Math.min(Math.max(progress / 100.0f, 0.0f), 1.0f); // 使 alpha 值在0到1之间
-        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-
-        // 绘制第一张图像
-        canvas.drawBitmap(bitmap1, 0, 0, null);
-
-        // 设置 Paint 的 Xfermode 为融合模式
-        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_OVER));
-
-        // 计算第二张图像的 Alpha 值
-        int alphaValue = (int) ((1.0f - alpha) * 255); // alpha 为0时 bitmap2 不透明，为1时 bitmap2 完全透明
-        paint.setAlpha(alphaValue);
-
-        // 绘制第二张图像
-        canvas.drawBitmap(bitmap2, 0, 0, paint);
-
-        // 清除 Xfermode
-        paint.setXfermode(null);
-
-        return resultBitmap;
     }
 
     /**

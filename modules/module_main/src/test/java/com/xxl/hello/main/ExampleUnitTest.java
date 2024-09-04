@@ -1,5 +1,7 @@
 package com.xxl.hello.main;
 
+import android.util.Log;
+
 import com.xxl.kit.TimeUtils;
 
 import org.junit.Test;
@@ -21,6 +23,11 @@ public class ExampleUnitTest {
     @Test
     public void test() {
         boolean today = TimeUtils.isToday(1720798417000L);
+
+        float a = 0.5F;
+
+        int angle = (int) (360 * a - 180);
+
         assertTrue(today);
     }
 
