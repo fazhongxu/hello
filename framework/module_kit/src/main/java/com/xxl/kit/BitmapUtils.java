@@ -82,8 +82,7 @@ public class BitmapUtils {
         Canvas canvas = new Canvas(output);
 
         // 设置羽化效果的半径，最大值为图片宽度或高度的一半
-        //float radius = Math.min(bitmap.getWidth(), bitmap.getHeight()) / 2 * progress;
-        float radius = Math.min(bitmap.getWidth(), bitmap.getHeight()) / 0.5F * (1 - (progress / 100));
+        float radius = Math.min(bitmap.getWidth(), bitmap.getHeight()) / 2 * progress;
 
         // 创建一个带有羽化效果的Paint
         Paint paint = new Paint();

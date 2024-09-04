@@ -3,13 +3,6 @@ package com.xxl.hello.main.ui.main;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.RadialGradient;
-import android.graphics.Shader;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -55,10 +48,8 @@ import com.xxl.hello.widget.ui.view.record.OnRecordListener;
 import com.xxl.hello.widget.ui.view.record.RecordButton;
 import com.xxl.hello.widget.ui.window.CommonMessagePopupWindow;
 import com.xxl.kit.AppUtils;
-import com.xxl.kit.BitmapUtils;
 import com.xxl.kit.ClipboardUtils;
 import com.xxl.kit.FFmpegUtils;
-import com.xxl.kit.ImageUtils;
 import com.xxl.kit.ListUtils;
 import com.xxl.kit.LogUtils;
 import com.xxl.kit.MediaUtils;
@@ -243,23 +234,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
     @Override
     public void onTestClick() {
-//        UserRouterApi.Login.newBuilder().navigation(getActivity());
-
-        Bitmap bitmap1 = ImageUtils.getBitmap(R.drawable.resources_ic_avatar1, 200, 200);
-        Bitmap bitmap2 = ImageUtils.getBitmap(R.drawable.resources_ic_avatar2, 200, 200);
-//        Bitmap colorBitmap = createColorBitmap(100, 100, Color.RED);
-//        Bitmap colorBitmap1 = createColorBitmap(100, 100, Color.GREEN);
-
-
-//        Bitmap bitmap = BitmapUtils.applyFeatherEffect(bitmap2, 0);
-
-//        Bitmap bitmap = cropBitmapByRect(bitmap2, new RectF(0, 0, 300, 300),90);
-
-//        Bitmap bitmap = BitmapUtils.applyFeatherEffect(bitmap2, 90);
-
-        Bitmap bitmap = BitmapUtils.featherBitmap(bitmap2, 20);
-
-        mViewDataBinding.ivImage.setImageBitmap(bitmap);
+        UserRouterApi.Login.newBuilder().navigation(getActivity());
     }
 
     /**
