@@ -4,6 +4,12 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.RadialGradient;
+import android.graphics.Shader;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -249,7 +255,9 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
 //        Bitmap bitmap = cropBitmapByRect(bitmap2, new RectF(0, 0, 300, 300),90);
 
-        Bitmap bitmap = BitmapUtils.applyFeatherEffect(bitmap2, 10);
+//        Bitmap bitmap = BitmapUtils.applyFeatherEffect(bitmap2, 90);
+
+        Bitmap bitmap = BitmapUtils.featherBitmap(bitmap2, 20);
 
         mViewDataBinding.ivImage.setImageBitmap(bitmap);
     }

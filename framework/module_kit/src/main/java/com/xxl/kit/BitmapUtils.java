@@ -1,15 +1,12 @@
 package com.xxl.kit;
 
 import android.graphics.Bitmap;
-import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.RadialGradient;
-import android.graphics.RectF;
 import android.graphics.Shader;
 
 /**
@@ -73,50 +70,47 @@ public class BitmapUtils {
     }
 
     /**
-     * bitmap羽化
+     * 羽化
      *
-     * @param sourceBitmap
-     * @param progress
+     * @param bitmap
+     * @param progress 0 - 100
      * @return
      */
-    public static Bitmap applyFeatherEffect(Bitmap sourceBitmap, int progress) {
-        if (sourceBitmap == null || progress < 0 || progress > 100) {
-            return sourceBitmap; // 返回原始 Bitmap
-        }
+    public static Bitmap featherBitmap(Bitmap bitmap, float progress) {
+        // 创建一个新的Bitmap，大小与原Bitmap相同
+        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
 
-        // 羽化程度，范围为 0 到 1
-        //float featherAmount = progress / 100f; // 正常的羽化程度
-        // 1 - 0 // 反转羽化程度
-        float featherAmount = 1 - (progress / 100f);
+        // 设置羽化效果的半径，最大值为图片宽度或高度的一半
+        //float radius = Math.min(bitmap.getWidth(), bitmap.getHeight()) / 2 * progress;
+        float radius = Math.min(bitmap.getWidth(), bitmap.getHeight()) / 0.5F * (1 - (progress / 100));
 
-        Bitmap outputBitmap = Bitmap.createBitmap(sourceBitmap.getWidth(), sourceBitmap.getHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(outputBitmap);
+        // 创建一个带有羽化效果的Paint
         Paint paint = new Paint();
+        paint.setAntiAlias(true);
+        paint.setDither(true);
+        paint.setFilterBitmap(true);
 
-        // 计算羽化半径，取决于羽化程度和最大半径
-        float maxRadius = Math.max(sourceBitmap.getWidth(), sourceBitmap.getHeight()) * 0.5f;
-        float featherRadius = featherAmount * maxRadius;
-
+        // 创建一个带有羽化效果的Shader
         RadialGradient gradient = new RadialGradient(
-                sourceBitmap.getWidth() / 2f,
-                sourceBitmap.getHeight() / 2f,
-                featherRadius,
-                0x00FFFFFF,
-                0xFFFFFFFF,
-                Shader.TileMode.CLAMP);
-
-        // 设置渐变作为画笔的遮罩
+                bitmap.getWidth() / 2,
+                bitmap.getHeight() / 2,
+                radius,
+                new int[]{0xFFFFFFFF, 0x00FFFFFF},
+                new float[]{0.0f, 1.0f},
+                Shader.TileMode.CLAMP
+        );
         paint.setShader(gradient);
 
-        // 绘制源 Bitmap
-        canvas.drawBitmap(sourceBitmap, 0, 0, null);
+        // 绘制羽化效果
+        canvas.drawRect(0, 0, bitmap.getWidth(), bitmap.getHeight(), paint);
 
-        // 在源 Bitmap 上绘制羽化效果
-        canvas.drawRect(0, 0, outputBitmap.getWidth(), outputBitmap.getHeight(), paint);
+        // 使用Xfermode将原Bitmap与羽化效果结合
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        canvas.drawBitmap(bitmap, 0, 0, paint);
 
-        return outputBitmap;
+        return output;
     }
-
 
     private BitmapUtils() {
 
