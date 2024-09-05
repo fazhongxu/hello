@@ -24,6 +24,8 @@ public class ExampleUnitTest {
     public void test() {
         boolean today = TimeUtils.isToday(1720798417000L);
 
+        int b = 2;
+
         float a = 0.5F;
 
         int angle = (int) (360 * a - 180);
