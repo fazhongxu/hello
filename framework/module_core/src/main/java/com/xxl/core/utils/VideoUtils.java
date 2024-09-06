@@ -58,20 +58,9 @@ public class VideoUtils {
     public static void doCompress(@NonNull final String inputVideoPath,
                                   @NonNull final String outputVideoPath,
                                   @Nullable final OnVideoProgressListener listener) throws Exception {
-        int bitrate = 0;
-        MediaMetadataRetriever retriever = null;
-        try {
-            retriever = new MediaMetadataRetriever();
-            retriever.setDataSource(inputVideoPath);
-            // 码率
-            bitrate = Integer.parseInt(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_BITRATE));
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (retriever != null) {
-                retriever.release();
-            }
-        }
+        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+        retriever.setDataSource(inputVideoPath);
+        int bitrate = Integer.parseInt(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_BITRATE));
 
         final VideoProcessor.Processor processor = VideoProcessor.processor(AppUtils.getApplication())
                 .input(inputVideoPath)
