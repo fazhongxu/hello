@@ -361,6 +361,15 @@ public class FFmpegUtils {
 
     /**
      * 视频删除某个部分
+     * <pre>
+     *      ref https://cloud.tencent.com.cn/developer/information/%E4%BD%BF%E7%94%A8ffmpeg%E5%88%A0%E9%99%A4%E8%A7%86%E9%A2%91%E4%B8%AD%E7%9A%84%E5%B8%A7-article
+     *      select过滤器删除特定帧
+     *      FFmpeg的select过滤器允许你选择要保留的帧。你可以通过编写表达式来选择帧，从而间接删除不需要的帧。
+     *      select='not(between(n\,10\,20))'：选择不在第10帧到第20帧之间的帧。
+     *      setpts=N/FRAME_RATE/TB：重新设置时间戳，以确保视频播放速度正常。
+     *      aselect='not(between(n\,10\,20))'：选择不在第10帧到第20帧之间的音频帧。
+     *      asetpts=N/SR/TB：重新设置音频时间戳。
+     * </pre>
      *
      * @param inputVideoPath  目标视频文件路径
      * @param startTime       要删除的起始时间(毫秒）
