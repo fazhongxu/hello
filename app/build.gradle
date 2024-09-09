@@ -5,7 +5,6 @@ apply plugin: 'com.alibaba.arouter'
 apply from: '../and_res_guard.gradle'
 apply plugin: 'android-aspectjx'
 apply from: '../aspectjx_excludes.gradle'
-apply plugin: 'channel'
 
 android {
 
@@ -50,23 +49,23 @@ android {
     }
 
     // 多渠道
-    /*  flavorDimensions "channel"
+    /*  flavorDimensions "channel.txt"
 
       productFlavors {
           origin {
               manifestPlaceholders = [CHANNEL: "origin"]
-              dimension = "channel"
-              //清单文件配置mata-data channel,AppUtils#getChannelFromAndroidManifest 获取设置的渠道，或者 buildConfigField("String","CHANNEL","\"origin\"") 配置
+              dimension = "channel.txt"
+              //清单文件配置mata-data channel.txt,AppUtils#getChannelFromAndroidManifest 获取设置的渠道，或者 buildConfigField("String","CHANNEL","\"origin\"") 配置
           }
 
           huawei {
               manifestPlaceholders = [CHANNEL: "huawei"]
-              dimension = "channel"
+              dimension = "channel.txt"
           }
 
           oppo {
               manifestPlaceholders = [CHANNEL: "oppo"]
-              dimension = "channel"
+              dimension = "channel.txt"
           }
       }*/
 
@@ -188,8 +187,6 @@ dependencies {
     implementation deps.arouter.arouter
     kapt deps.arouter.arouter_processor
 
-    implementation deps.vasdolly
-
     implementation deps.ffmpeg_kit
     implementation deps.ffmpeg_kit_exception
 
@@ -240,49 +237,6 @@ dependencies {
 
     implementation deps.emoji_ios
 }
-
-//walle {
-//    // 指定渠道包的输出路径
-//    apkOutputFolder = new File("${project.buildDir}/outputs/channels");
-//    // 定制渠道包的APK的文件名称
-//    apkFileNameFormat = '${appName}-${packageName}-${channel}-${buildType}-v${versionName}-${versionCode}-${buildTime}.apk';
-//    // 渠道配置文件
-//    channelFile = new File("${project.getProjectDir()}/channel")
-//}
-
-//rebuildChannel {
-//    //指定渠道文件
-//    channelFile = file("${project.getProjectDir()}/channel")
-//    // 已有APK文件地址（必填）,如new File (project.rootDir, "/baseApk/app_base.apk"),文件名中的base将被替换为渠道名
-//    //baseApk = new File (project.rootDir, "/baseApk/app_base.apk")
-//    baseApk = new File (project.projectDir, "/build/outputs/apk/release/app-release.apk")
-//    //默认为new File (project.buildDir, "rebuildChannel")
-//
-//    outputDir = new File (project.projectDir, "/build/outputs/apk/channel/release/")
-//    //快速模式：生成渠道包时不进行校验（速度可以提升10倍以上，默认为false）
-//    fastMode = false//低内存模式（仅针对V2签名，默认为false）：只把签名块、中央目录和EOCD读取到内存，不把最大头的内容块读取到内存，在手机上合成APK时，可以使用该模式
-//    lowMemory = false
-//}
-
-rebuildChannel {//https://www.jianshu.com/p/38ad00f73e94
-    //指定渠道文件
-    //channelFile = file("/Users/leon/Downloads/testReChannel.txt")
-        channelFile = file("${project.getProjectDir()}/channel")
-
-    baseReleaseApk = new File (project.projectDir, "/build/outputs/apk/release/app-release.apk")
-        releaseOutputDir = new File (project.projectDir, "/build/outputs/apk/channel/release/")
-
-            //快速模式：生成渠道包时不进行校验（速度可以提升10倍以上）
-            isFastMode = false
-}
-
-
-//afterEvaluate {
-//    // 先执行混淆再打多渠道
-//    tasks.getByName('assembleReleaseChannels') {
-//        dependsOn(resguardRelease)
-//    }
-//}
 
 apply plugin: 'io.objectbox'
 
