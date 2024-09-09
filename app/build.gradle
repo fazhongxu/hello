@@ -5,7 +5,6 @@ apply plugin: 'com.alibaba.arouter'
 apply from: '../and_res_guard.gradle'
 apply plugin: 'android-aspectjx'
 apply from: '../aspectjx_excludes.gradle'
-apply plugin: 'walle'
 
 android {
 
@@ -50,25 +49,25 @@ android {
     }
 
     // 多渠道
-  /*  flavorDimensions "channel"
+    /*  flavorDimensions "channel.txt"
 
-    productFlavors {
-        origin {
-            manifestPlaceholders = [CHANNEL: "origin"]
-            dimension = "channel"
-            //清单文件配置mata-data channel,AppUtils#getChannelFromAndroidManifest 获取设置的渠道，或者 buildConfigField("String","CHANNEL","\"origin\"") 配置
-        }
+      productFlavors {
+          origin {
+              manifestPlaceholders = [CHANNEL: "origin"]
+              dimension = "channel.txt"
+              //清单文件配置mata-data channel.txt,AppUtils#getChannelFromAndroidManifest 获取设置的渠道，或者 buildConfigField("String","CHANNEL","\"origin\"") 配置
+          }
 
-        huawei {
-            manifestPlaceholders = [CHANNEL: "huawei"]
-            dimension = "channel"
-        }
+          huawei {
+              manifestPlaceholders = [CHANNEL: "huawei"]
+              dimension = "channel.txt"
+          }
 
-        oppo {
-            manifestPlaceholders = [CHANNEL: "oppo"]
-            dimension = "channel"
-        }
-    }*/
+          oppo {
+              manifestPlaceholders = [CHANNEL: "oppo"]
+              dimension = "channel.txt"
+          }
+      }*/
 
     buildTypes {
         debug {
@@ -188,8 +187,6 @@ dependencies {
     implementation deps.arouter.arouter
     kapt deps.arouter.arouter_processor
 
-    implementation deps.walle
-
     implementation deps.ffmpeg_kit
     implementation deps.ffmpeg_kit_exception
 
@@ -239,15 +236,6 @@ dependencies {
     implementation deps.tinypinyin
 
     implementation deps.emoji_ios
-}
-
-walle {
-    // 指定渠道包的输出路径
-    apkOutputFolder = new File("${project.buildDir}/outputs/channels");
-    // 定制渠道包的APK的文件名称
-    apkFileNameFormat = '${appName}-${packageName}-${channel}-${buildType}-v${versionName}-${versionCode}-${buildTime}.apk';
-    // 渠道配置文件
-    channelFile = new File("${project.getProjectDir()}/channel")
 }
 
 apply plugin: 'io.objectbox'
