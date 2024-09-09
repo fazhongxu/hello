@@ -7,35 +7,3 @@
 #-----------------------------------------------------------------------------------------------------------
 
 ./gradlew resguardRelease
-
-## 先打渠道包后加固再签名会导致渠道包信息被擦除获取不到，应该先加固再签名最后再打渠道包 https://github.com/Tencent/VasDolly/issues/144 https://github.com/Tencent/VasDolly/issues/28
-## 检查 Gradle 任务是否成功 执行成功后继续接下来的任务
-#if [ $? -eq 0 ]; then
-#  echo "Gradle task completed successfully."
-#
-#  # 删除旧的渠道包
-#  rm -rf app/build/outputs/apk/release/channel
-#  if [  $? -eq 0 ]; then
-#    echo "remove channel successfully."
-#  else
-#    echo "remove channel error."
-#  fi
-#
-#  # 执行 Java JAR 文件
-#  java -jar VasDolly.jar put -c app/channel.txt app/build/outputs/apk/release/app-release.apk app/build/outputs/apk/release/channel
-#
-#  # 检查 Java 程序是否成功
-#  if [ $? -eq 0 ]; then
-#    echo "channel package successfully."
-#  else
-#    echo "channel package error."
-#  fi
-#else
-#  echo "Gradle task failed. Exiting."
-#fi
-
-# vasdolly 多渠道打包说明 执行完上面的命令后得到apk 再执行命令打渠道包
-
-# gradle 方式有版本限制 则用jar命令方式 最新3.0.6 https://github.com/Tencent/VasDolly/blob/master/command/README.md
-# java -jar VasDolly.jar help
-# java -jar VasDolly.jar put -c "oppo,honor,vivo,xiaomi" app/build/outputs/apk/release/app-release.apk app/build/outputs/apk/release/channel
