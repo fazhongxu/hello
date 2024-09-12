@@ -6,6 +6,11 @@
 #如果提示permission denied，使用命令 chmod u+x channel.sh先获取channel.sh文件访问权限，再执行./channel.sh 命令打包
 #-----------------------------------------------------------------------------------------------------------
 
+# des
+# gradle 方式有版本限制 则用jar命令方式 最新3.0.6 https://github.com/Tencent/VasDolly/blob/master/command/README.md
+# java -jar VasDolly.jar help
+# java -jar VasDolly.jar put -c "oppo,honor,vivo,xiaomi" app/build/outputs/apk/release/app-release.apk app/build/outputs/apk/release/channel
+
 # 删除旧的渠道包
 rm -rf app/build/outputs/apk/release/channel
 
@@ -37,9 +42,3 @@ if [ $? -eq 0 ]; then
 else
   echo "channel package error."
 fi
-
-# vasdolly 多渠道打包说明 执行完上面的命令后得到apk 再执行命令打渠道包
-
-# gradle 方式有版本限制 则用jar命令方式 最新3.0.6 https://github.com/Tencent/VasDolly/blob/master/command/README.md
-# java -jar VasDolly.jar help
-# java -jar VasDolly.jar put -c "oppo,honor,vivo,xiaomi" app/build/outputs/apk/release/app-release.apk app/build/outputs/apk/release/channel
