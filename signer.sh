@@ -11,8 +11,8 @@
 
 #build-tools/lib 下 apksigner.jar
 # 安装报错 待解决 https://blog.csdn.net/xys616/article/details/123892541
-
 #Failure [-124: Failed parse during installPackageLI: Targeting R+ (version 30 and above) requires the resources.arsc of installed APKs to be stored uncompressed and aligned on a 4-byte boundary]
+#cd /Users/xxl/Library/Android/sdk/build-tools/30.0.3/
+#./zipalign -p -f -v 4 /Users/xxl/AndroidStudioProjects/hello/app/build/outputs/apk/release/app-release_100_jiagu.apk /Users/xxl/AndroidStudioProjects/hello/app/build/outputs/apk/release/app-release_100_1jiagu.apk
 
-java -jar apksigner.jar sign --ks hello --ks-key-alias hello app/build/outputs/apk/release/app-release_100_jiagu.apk
-
+java -jar apksigner.jar sign --ks hello --ks-key-alias hello app/build/outputs/apk/release/app-release_100_1jiagu.apk
