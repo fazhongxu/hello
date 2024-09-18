@@ -15,28 +15,4 @@
 #cd /Users/xxl/Library/Android/sdk/build-tools/30.0.3/
 #./zipalign -p -f -v 4 /Users/xxl/AndroidStudioProjects/hello/app/build/outputs/apk/release/app-release_100_jiagu.apk /Users/xxl/AndroidStudioProjects/hello/app/build/outputs/apk/release/app-release_100_1jiagu.apk
 
-#java -jar apksigner.jar sign --ks hello --ks-key-alias hello app/build/outputs/apk/release/app-release_100_1jiagu.apk
-
-# 从 local.properties 文件中读取 SDK 路径
-SDK_PATH=$(grep "^sdk.dir=" local.properties | sed 's/^sdk.dir=//')
-echo "$SDK_PATH"
-
-# 定义 build.gradle 文件路径
-BUILD_GRADLE_PATH="app/build.gradle"
-
-# 检查文件是否存在
-if [ ! -f "$BUILD_GRADLE_PATH" ]; then
-    echo "文件 $BUILD_GRADLE_PATH 不存在"
-    exit 1
-fi
-
-# 提取 targetSdkVersion 值
-TARGET_SDK_VERSION=$(grep -A 10 "defaultConfig {" "$BUILD_GRADLE_PATH" | grep "targetSdkVersion" | awk '{print $2}' | tr -d ' \t')
-
-# 检查是否找到 targetSdkVersion
-if [ -z "$TARGET_SDK_VERSION" ]; then
-    echo "未找到 targetSdkVersion"
-else
-    echo "targetSdkVersion 的值是: $TARGET_SDK_VERSION"
-fi
-
+java -jar tools/apksigner.jar sign --ks hello --ks-key-alias hello app/build/outputs/apk/release/app-release_100_1jiagu.apk
