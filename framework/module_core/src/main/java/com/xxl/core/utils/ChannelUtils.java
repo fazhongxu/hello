@@ -14,7 +14,7 @@ import com.xxl.kit.AppUtils;
 public class ChannelUtils {
 
     /**
-     * 获取渠道
+     * 获取渠道名称
      *
      * @return
      */
@@ -23,7 +23,7 @@ public class ChannelUtils {
     }
 
     /**
-     * 获取渠道
+     * 获取渠道名称
      *
      * @param defaultChannel 默认渠道
      * @return
