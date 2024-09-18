@@ -236,6 +236,8 @@ dependencies {
     implementation deps.tinypinyin
 
     implementation deps.emoji_ios
+
+    implementation deps.vasdolly
 }
 
 apply plugin: 'io.objectbox'

@@ -16,7 +16,6 @@ import androidx.annotation.NonNull;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.tbruyelle.rxpermissions3.RxPermissions;
-import com.tencent.vasdolly.helper.ChannelReaderUtil;
 import com.watermark.androidwm.WatermarkBuilder;
 import com.watermark.androidwm.bean.WatermarkImage;
 import com.watermark.androidwm.bean.WatermarkLocation;
@@ -25,6 +24,7 @@ import com.xxl.core.data.router.SystemRouterApi;
 import com.xxl.core.image.loader.ImageLoader;
 import com.xxl.core.image.selector.MediaSelector;
 import com.xxl.core.ui.fragment.BaseViewModelFragment;
+import com.xxl.core.utils.ChannelUtils;
 import com.xxl.hello.common.config.AppConfig;
 import com.xxl.hello.common.config.CacheDirConfig;
 import com.xxl.hello.common.config.NetworkConfig;
@@ -488,7 +488,7 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
     private void setNetworkConfig() {
         final String networkConfigInfo = getString(R.string.resources_is_develop_environment_format, String.valueOf(NetworkConfig.Companion.isNetworkDebug()))
                 .concat("\n")
-                .concat(getString(R.string.resources_channel_format, ChannelReaderUtil.getChannel(AppUtils.getApplication())))
+                .concat(getString(R.string.resources_channel_format, ChannelUtils.getChannel()))
                 .concat("\n")
                 .concat(getString(R.string.resources_host_format, mBaseUrl));
         mUserSettingModel.setNetworkConfig(networkConfigInfo);

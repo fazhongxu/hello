@@ -178,4 +178,6 @@ dependencies {
     compileOnly deps.sina
 
     compileOnly deps.alipay
+
+    compileOnly deps.vasdolly
 }
