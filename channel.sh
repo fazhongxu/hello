@@ -34,7 +34,7 @@ if [ -z "$APK_FILE" ]; then
 fi
 
 # 执行 Java JAR 文件
-java -jar VasDolly.jar put -c app/channel.txt "$APK_FILE" "$TARGET_DIR"
+java -jar tools/VasDolly.jar put -c app/channel.txt "$APK_FILE" "$TARGET_DIR"
 
 # 检查 Java 程序是否成功
 if [ $? -eq 0 ]; then
