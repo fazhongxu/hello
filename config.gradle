@@ -394,7 +394,8 @@ deps.viewfinderview = "com.github.jenly1314:viewfinderview:$versions.viewfinderv
 
 // 水印添加 https://github.com/huangyz0918/AndroidWM
 //deps.watermark = "com.huangyz0918:androidwm-light:$versions.watermark"
-deps.watermark = project(':module_libs:lib_watermark')
+//deps.watermark = project(':module_libs:lib_watermark')
+//deps.watermark = project(':module_libs:lib_watermark')
 
 //拼音 TinyPinyin[https://github.com/promeG/TinyPinyin]
 deps.tinypinyin = "com.github.promeg:tinypinyin:$versions.tinypinyin"
@@ -476,6 +477,10 @@ def addRepos(RepositoryHandler handler) {
     handler.maven { url 'https://maven.aliyun.com/repository/jcenter' }
     handler.maven { url 'https://maven.aliyun.com/repository/public' }
     handler.maven { url 'https://jitpack.io' }
+
+    handler.flatDir {
+        dirs project.getRootDir().getAbsolutePath()+"/module_libs"
+    }
 
     //使用的时候添加仓库 私服仓库地址，连接不上打包会报错，暂时注释掉
     //handler.maven { url "http://127.0.0.1:8081/repository/origin/" }
