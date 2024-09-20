@@ -3,6 +3,12 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.alibaba.arouter'
 
+repositories {
+    flatDir {
+        dirs getRootDir().getAbsolutePath() + "/module_libs"
+    }
+}
+
 android {
     compileSdkVersion build_versions.compileSdkVersion
     buildToolsVersion build_versions.buildToolsVersion

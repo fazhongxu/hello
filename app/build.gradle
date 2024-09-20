@@ -6,6 +6,12 @@ apply from: '../and_res_guard.gradle'
 apply plugin: 'android-aspectjx'
 apply from: '../aspectjx_excludes.gradle'
 
+repositories {
+    flatDir {
+        dirs getRootDir().getAbsolutePath() + "/module_libs"
+    }
+}
+
 android {
 
     compileSdkVersion build_versions.compileSdkVersion
