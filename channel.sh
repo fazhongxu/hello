@@ -12,7 +12,7 @@
 # java -jar VasDolly.jar put -c "oppo,honor,vivo,xiaomi" app/build/outputs/apk/release/app-release.apk app/build/outputs/apk/release/channel
 
 # 删除旧的渠道包
-rm -rf app/build/outputs/apk/release/channel
+rm -rf app/build/channel
 
 if [  $? -eq 0 ]; then
   echo "remove channel successfully."
@@ -21,8 +21,8 @@ else
 fi
 
 # 定义搜索路径和目标目录
-SEARCH_DIR="app/build/outputs/apk/release/"
-TARGET_DIR="app/build/outputs/apk/release/channel"
+SEARCH_DIR="app/build/"
+TARGET_DIR="app/build/channel"
 
 # 查找包含 'jiagu' 字符串的 APK 文件
 APK_FILE=$(find "$SEARCH_DIR" -name "*jiagu*.apk")
