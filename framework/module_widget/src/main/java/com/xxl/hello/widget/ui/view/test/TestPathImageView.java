@@ -1,4 +1,4 @@
-package com.xxl.hello.widget.ui.view;
+package com.xxl.hello.widget.ui.view.test;
 
 import android.content.Context;
 import android.graphics.Bitmap;
