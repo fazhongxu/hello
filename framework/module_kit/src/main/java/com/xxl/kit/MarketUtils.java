@@ -68,9 +68,6 @@ public class MarketUtils {
             if (RomUtils.isOppo()) {
                 return startMarket(context, packageName, PACKAGE_NAME.OPPO_PACKAGE_NAME1);
             }
-            if (RomUtils.isVivo()) {
-                return startMarket(context, packageName, PACKAGE_NAME.VIVO_PACKAGE_NAME1);
-            }
             return false;
         } catch (ActivityNotFoundException anf) {
             Log.e("MarketUtils", "要跳转的应用市场不存在!");
@@ -250,7 +247,6 @@ public class MarketUtils {
         public static final String OPPO_PACKAGE_NAME = "com.oppo.market";                    //oppo
         public static final String OPPO_PACKAGE_NAME1 = "com.heytap.market";                 //oppo
         public static final String VIVO_PACKAGE_NAME = "com.bbk.appstore";                   //vivo
-        public static final String VIVO_PACKAGE_NAME1 = "com.bbk.appstore";                   //vivo1
         public static final String HUAWEI_PACKAGE_NAME = "com.huawei.appmarket";             //华为
         public static final String QH360_PACKAGE_NAME = "com.qihoo.appstore";                //360
         public static final String XIAOMI_PACKAGE_NAME = "com.xiaomi.market";                //小米
