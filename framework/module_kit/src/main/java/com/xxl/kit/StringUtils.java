@@ -6,6 +6,7 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
 
 import androidx.annotation.ArrayRes;
 import androidx.annotation.ColorInt;
@@ -249,6 +250,29 @@ public final class StringUtils {
 
     public static String trim(@NonNull final String text) {
         return isEmpty(text) ? null : text.trim();
+    }
+
+
+    /**
+     * 设置字体相对大小
+     *
+     * @param content    内容
+     * @param keyword    关键词
+     * @param proportion 相对控件字体的比例
+     * @return
+     */
+    public static Spannable setTextSizeSpan(final Spannable content,
+                                            final String keyword,
+                                            final float proportion) {
+        try {
+            RelativeSizeSpan relativeSizeSpan = new RelativeSizeSpan(proportion);
+            int start = content.toString().indexOf(keyword);
+            int end = start + keyword.length();
+            content.setSpan(relativeSizeSpan, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return content;
     }
 
     /**
