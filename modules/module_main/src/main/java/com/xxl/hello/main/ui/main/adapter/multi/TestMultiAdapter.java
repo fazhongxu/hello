@@ -38,7 +38,6 @@ public class TestMultiAdapter extends BaseMultiDraggableAdapter<TestListEntity, 
 
     //region: 构造函数
 
-    @Inject
     public TestMultiAdapter() {
         super();
     }

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.ShortcutInfo;
 import android.content.res.Configuration;
 import android.text.TextUtils;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
