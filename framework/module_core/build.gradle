@@ -87,11 +87,11 @@ dependencies {
     implementation deps.true_time.true_time
     implementation deps.true_time.true_time_extension
 
-    implementation deps.dagger.dagger
-    kapt deps.dagger.processor
-    implementation deps.dagger.android
-    implementation deps.dagger.android_support
-    kapt deps.dagger.android_processor
+//    implementation deps.dagger.dagger
+//    kapt deps.dagger.processor
+//    implementation deps.dagger.android
+//    implementation deps.dagger.android_support
+//    kapt deps.dagger.android_processor
 
     implementation deps.dagger.dagger_hilt
     kapt deps.dagger.dagger_hilt_compiler

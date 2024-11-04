@@ -59,10 +59,10 @@ dependencies {
     implementation deps.origin.kit
     implementation deps.androidx.appcompat
 
-    implementation deps.dagger.dagger
-    kapt deps.dagger.processor
-    implementation deps.dagger.android
-    kapt deps.dagger.android_processor
+//    implementation deps.dagger.dagger
+//    kapt deps.dagger.processor
+//    implementation deps.dagger.android
+//    kapt deps.dagger.android_processor
 
     implementation deps.okhttp.okhttp
     implementation deps.okhttp.logging

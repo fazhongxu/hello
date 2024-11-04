@@ -1,6 +1,5 @@
 package com.xxl.core.ui.fragment;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,11 +21,6 @@ import com.xxl.core.ui.ProgressBarWrapper;
 import com.xxl.core.ui.ResponseWrapper;
 import com.xxl.kit.AppUtils;
 import com.xxl.kit.OnAppStatusChangedListener;
-
-import javax.inject.Inject;
-
-import dagger.android.support.AndroidSupportInjection;
-import dagger.hilt.android.AndroidEntryPoint;
 
 /**
  * 带ViewModel的Fragment基础类
@@ -60,20 +54,9 @@ public abstract class BaseViewModelFragment<V extends BaseViewModel, T extends V
      */
     protected ProgressBarWrapper mProgressBarWrapper;
 
-  /*  @Inject
-    protected ViewModelProvider.Factory mViewModelProviderFactory;*/
-
     //endregion
 
     //region: 页面生命周期
-
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-       /* if (enableInjection()) {
-            AndroidSupportInjection.inject(this);
-        }*/
-    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -189,10 +172,6 @@ public abstract class BaseViewModelFragment<V extends BaseViewModel, T extends V
     public V getViewModel() {
         return mViewModel;
     }
-
-  /*  protected ViewModelProvider.Factory getViewModelProviderFactory() {
-        return mViewModelProviderFactory;
-    }*/
 
     /**
      * 设置数据

@@ -7,10 +7,11 @@ import com.xxl.hello.annotation.Template;
  *
  * @author xxl.
  * @date 2022/8/29.
+ * hilt 后需要改造下
  */
-@Template(author = "xxl",
-        description = "测试",
-        packageName = "com.xxl.hello", name = "Test")
-public class TemplateCode {
-
-}
+//@Template(author = "xxl",
+//        description = "测试",
+//        packageName = "com.xxl.hello", name = "Test")
+//public class TemplateCode {
+//
+//}

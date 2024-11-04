@@ -161,11 +161,11 @@ dependencies {
 
     implementation deps.aspectjrt
 
-    implementation deps.dagger.dagger
-    kapt deps.dagger.processor
-    implementation deps.dagger.android
-    implementation deps.dagger.android_support
-    kapt deps.dagger.android_processor
+//    implementation deps.dagger.dagger
+//    kapt deps.dagger.processor
+//    implementation deps.dagger.android
+//    implementation deps.dagger.android_support
+//    kapt deps.dagger.android_processor
 
     implementation deps.rxjava
     implementation deps.rxandroid
