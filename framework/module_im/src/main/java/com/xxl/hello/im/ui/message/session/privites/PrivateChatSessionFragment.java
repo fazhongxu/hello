@@ -4,12 +4,15 @@ import com.xxl.hello.im.ui.message.session.base.BaseChatSessionFragment;
 
 import javax.inject.Inject;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
 /**
  * 单聊会话
  *
  * @author xxl.
  * @date 2024/6/14.
  */
+@AndroidEntryPoint
 public class PrivateChatSessionFragment extends BaseChatSessionFragment<PrivateChatSessionViewModel,PrivateChatSessionNavigator>
         implements PrivateChatSessionNavigator {
 
@@ -18,8 +21,7 @@ public class PrivateChatSessionFragment extends BaseChatSessionFragment<PrivateC
     /**
      * 单聊
      */
-    @Inject
-    PrivateChatSessionViewModel mChatSessionViewModel;
+    private PrivateChatSessionViewModel mChatSessionViewModel;
 
     //endregion
 

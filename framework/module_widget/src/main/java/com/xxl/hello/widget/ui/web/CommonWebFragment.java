@@ -23,10 +23,13 @@ import com.xxl.hello.widget.databinding.WidgetFragmentCommonWebBinding;
 import com.xxl.hello.widget.ui.web.base.BaseWebFragment;
 import com.xxl.kit.ResourceUtils;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
 /**
  * @author xxl.
  * @date 2022/7/29.
  */
+@AndroidEntryPoint
 public class CommonWebFragment extends BaseWebFragment<CommonWebViewModel, WidgetFragmentCommonWebBinding>
         implements CommonWebNavigator, SwipeRefreshLayout.OnRefreshListener, AgentScrollWebView.OnScrollChangeListener {
 

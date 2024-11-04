@@ -6,6 +6,11 @@ import androidx.annotation.NonNull;
 
 import com.xxl.hello.im.ui.message.session.base.BaseChatSessionViewModel;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
+import com.xxl.hello.service.qunlifier.ForApplication;
+
+import javax.inject.Inject;
+
+import dagger.hilt.android.lifecycle.HiltViewModel;
 
 /**
  * 单聊会话
@@ -13,6 +18,7 @@ import com.xxl.hello.service.data.repository.DataRepositoryKit;
  * @author xxl.
  * @date 2024/6/28.
  */
+@HiltViewModel
 public class PrivateChatSessionViewModel extends BaseChatSessionViewModel<PrivateChatSessionNavigator> {
 
     //region: 成员变量
@@ -21,7 +27,8 @@ public class PrivateChatSessionViewModel extends BaseChatSessionViewModel<Privat
 
     //region: 构造函数
 
-    public PrivateChatSessionViewModel(@NonNull Application application,
+    @Inject
+    public PrivateChatSessionViewModel(@ForApplication Application application,
                                        @NonNull final DataRepositoryKit dataRepositoryKit) {
         super(application);
     }

@@ -5,6 +5,8 @@ import com.xxl.hello.router.api.UserRouterApi;
 import com.xxl.core.ui.activity.SingleFragmentBarActivity;
 import com.xxl.hello.user.R;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
 /**
  * @author xxl.
  * @date 2021/07/16.

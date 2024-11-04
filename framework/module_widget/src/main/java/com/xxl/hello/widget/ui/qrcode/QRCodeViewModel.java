@@ -6,9 +6,13 @@ import androidx.annotation.NonNull;
 
 import com.xxl.core.ui.BaseViewModel;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
+import com.xxl.hello.service.qunlifier.ForApplication;
 import com.xxl.kit.OnRequestCallBack;
 import com.xxl.kit.QRCodeUtils;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.lifecycle.HiltViewModel;
 import io.reactivex.rxjava3.disposables.Disposable;
 
 /**
@@ -17,6 +21,7 @@ import io.reactivex.rxjava3.disposables.Disposable;
  * @author xxl.
  * @date 2023/08/02.
  */
+@HiltViewModel
 public class QRCodeViewModel extends BaseViewModel<QRCodeNavigator> {
 
     //region: 成员变量
@@ -25,7 +30,8 @@ public class QRCodeViewModel extends BaseViewModel<QRCodeNavigator> {
 
     //region: 构造函数
 
-    public QRCodeViewModel(@NonNull final Application application,
+    @Inject
+    public QRCodeViewModel(@ForApplication final Application application,
                            @NonNull final DataRepositoryKit dataRepositoryKit) {
         super(application);
     }

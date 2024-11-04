@@ -25,7 +25,6 @@ import com.xxl.hello.common.config.NetworkConfig;
 import com.xxl.hello.common.config.ShareConfig;
 import com.xxl.hello.common.config.ShortcutConfig;
 import com.xxl.hello.common.utils.TbsUtils;
-import com.xxl.hello.main.di.component.DaggerAppComponent;
 import com.xxl.hello.router.api.UserRouterApi;
 import com.xxl.hello.service.handle.api.AppSchemeService;
 import com.xxl.hello.user.ui.setting.UserSettingActivity;
@@ -38,8 +37,6 @@ import com.xxl.kit.TimeUtils;
 
 import javax.inject.Inject;
 
-import dagger.android.AndroidInjector;
-import dagger.android.DaggerApplication;
 import dagger.hilt.android.HiltAndroidApp;
 import me.jessyan.autosize.AutoSizeConfig;
 import me.jessyan.autosize.onAdaptListener;

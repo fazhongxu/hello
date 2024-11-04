@@ -12,6 +12,7 @@ import com.xxl.kit.ToastUtils;
 import javax.inject.Inject;
 
 import dagger.android.AndroidInjection;
+import dagger.hilt.android.AndroidEntryPoint;
 
 /**
  * 系统桌面小组件
@@ -20,6 +21,7 @@ import dagger.android.AndroidInjection;
  * @author xxl.
  * @date 2022/3/7.
  */
+@AndroidEntryPoint
 public class HelloAppWidgetProvider extends AppWidgetProvider {
 
     public static final String ACTION_HELLO_APP_WIDGET_ON_CLICK = "com.xxl.hello.main.ui.widget.HelloAppWidgetProvider.onClick";
@@ -43,7 +45,7 @@ public class HelloAppWidgetProvider extends AppWidgetProvider {
      */
     @Override
     public void onReceive(Context context, Intent intent) {
-        AndroidInjection.inject(this, context);
+        //AndroidInjection.inject(this, context);
         super.onReceive(context, intent);
         LogUtils.d("HelloAppWidgetProvider.. onReceive"+System.currentTimeMillis());
         //这里判断是自己的action，做自己的事情，比如小工具被点击了要干啥

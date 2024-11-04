@@ -6,6 +6,11 @@ import androidx.annotation.NonNull;
 
 import com.xxl.core.ui.BaseViewModel;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
+import com.xxl.hello.service.qunlifier.ForApplication;
+
+import javax.inject.Inject;
+
+import dagger.hilt.android.lifecycle.HiltViewModel;
 
 /**
  * Web页视图模型
@@ -13,6 +18,7 @@ import com.xxl.hello.service.data.repository.DataRepositoryKit;
  * @author xxl.
  * @date 2022/7/30.
  */
+@HiltViewModel
 public class CommonWebViewModel extends BaseViewModel<CommonWebNavigator> {
 
     //region: 成员变量
@@ -21,7 +27,8 @@ public class CommonWebViewModel extends BaseViewModel<CommonWebNavigator> {
 
     //region: 构造函数
 
-    public CommonWebViewModel(@NonNull final Application application,
+    @Inject
+    public CommonWebViewModel(@ForApplication final Application application,
                               @NonNull final DataRepositoryKit dataRepositoryKit) {
         super(application);
     }

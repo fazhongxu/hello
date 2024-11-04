@@ -61,6 +61,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import dagger.hilt.android.AndroidEntryPoint;
 import io.reactivex.rxjava3.disposables.Disposable;
 
 /**
@@ -69,6 +70,7 @@ import io.reactivex.rxjava3.disposables.Disposable;
  * @author xxl.
  * @date 2022/7/29.
  */
+@AndroidEntryPoint
 public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel, UserFragmentSettingBinding> implements KeyboardWrapper.OnKeyboardStateChangeListener,
         UserSettingNavigator {
 

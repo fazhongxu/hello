@@ -26,6 +26,7 @@ import com.xxl.kit.OnAppStatusChangedListener;
 import javax.inject.Inject;
 
 import dagger.android.support.AndroidSupportInjection;
+import dagger.hilt.android.AndroidEntryPoint;
 
 /**
  * 带ViewModel的Fragment基础类

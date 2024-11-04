@@ -6,7 +6,12 @@ import androidx.annotation.NonNull;
 
 import com.xxl.core.ui.BaseViewModel;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
+import com.xxl.hello.service.qunlifier.ForApplication;
 import com.xxl.hello.widget.ui.web.CommonWebNavigator;
+
+import javax.inject.Inject;
+
+import dagger.hilt.android.lifecycle.HiltViewModel;
 
 /**
  * 多媒体预览页面视图模型
@@ -14,6 +19,7 @@ import com.xxl.hello.widget.ui.web.CommonWebNavigator;
  * @author xxl.
  * @date 2023/04/06.
  */
+@HiltViewModel
 public class MediaPreviewViewModel extends BaseViewModel<MediaPreviewNavigator> {
 
     //region: 成员变量
@@ -22,7 +28,8 @@ public class MediaPreviewViewModel extends BaseViewModel<MediaPreviewNavigator> 
 
     //region: 构造函数
 
-    public MediaPreviewViewModel(@NonNull final Application application,
+    @Inject
+    public MediaPreviewViewModel(@ForApplication final Application application,
                                  @NonNull final DataRepositoryKit dataRepositoryKit) {
         super(application);
     }

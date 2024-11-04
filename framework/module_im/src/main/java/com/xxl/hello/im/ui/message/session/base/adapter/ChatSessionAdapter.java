@@ -12,6 +12,10 @@ import com.xxl.hello.im.data.model.entity.MessageTemplate;
 import com.xxl.hello.im.databinding.ImRecycleItemChatSessionBinding;
 import com.xxl.hello.im.ui.template.MessageTemplateWrapper;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
+
 /**
  * 会话列表适配器
  *
@@ -26,6 +30,7 @@ public class ChatSessionAdapter extends BaseBindingAdapter<MessageEntity, ChatSe
 
     //region: 构造函数
 
+    @Inject
     public ChatSessionAdapter() {
         super(R.layout.im_recycle_item_chat_session);
     }

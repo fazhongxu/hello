@@ -23,6 +23,8 @@ import java.util.Random;
 
 import javax.inject.Inject;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
 /**
  * 会话基础类
  *

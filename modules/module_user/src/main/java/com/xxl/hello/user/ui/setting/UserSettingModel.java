@@ -19,6 +19,7 @@ import com.xxl.hello.service.data.model.enums.SystemEnumsApi;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi.ResourcesUploadChannel;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.hello.service.data.repository.api.ResourceRepositoryApi;
+import com.xxl.hello.service.qunlifier.ForApplication;
 import com.xxl.hello.user.R;
 import com.xxl.hello.user.data.repository.UserRepository;
 import com.xxl.hello.widget.ui.model.resource.BaseResourceQueueViewModel;
@@ -32,6 +33,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.lifecycle.HiltViewModel;
 import io.reactivex.rxjava3.disposables.Disposable;
 
 /**
@@ -40,6 +44,7 @@ import io.reactivex.rxjava3.disposables.Disposable;
  * @author xxl.
  * @date 2021/7/16.
  */
+@HiltViewModel
 public class UserSettingModel extends BaseResourceQueueViewModel<UserSettingNavigator> {
 
     //region: 成员变量
@@ -78,7 +83,8 @@ public class UserSettingModel extends BaseResourceQueueViewModel<UserSettingNavi
 
     //region: 构造函数
 
-    public UserSettingModel(@NonNull final Application application,
+    @Inject
+    public UserSettingModel(@ForApplication final Application application,
                             @NonNull final DataRepositoryKit dataRepositoryKit,
                             @NonNull final UserRepository userRepository) {
         super(application, dataRepositoryKit);

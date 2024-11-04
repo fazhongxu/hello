@@ -28,12 +28,15 @@ import com.xxl.kit.ToastUtils;
 
 import java.util.List;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
 /**
  * 二维码页面
  *
  * @author xxl.
  * @date 2023/08/02.
  */
+@AndroidEntryPoint
 public class QRCodeFragment extends BaseViewModelFragment<QRCodeViewModel, WidgetFragmentQrcodeBinding>
         implements QRCodeNavigator, CameraScan.OnScanResultCallback<List<String>> {
 

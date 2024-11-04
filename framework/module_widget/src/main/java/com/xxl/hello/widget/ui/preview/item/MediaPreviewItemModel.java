@@ -12,11 +12,15 @@ import com.watermark.androidwm.bean.WatermarkPosition;
 import com.xxl.core.image.loader.ImageLoader;
 import com.xxl.core.ui.BaseViewModel;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
+import com.xxl.hello.service.qunlifier.ForApplication;
 import com.xxl.kit.AppUtils;
 import com.xxl.kit.DisplayUtils;
 import com.xxl.kit.LogUtils;
 import com.xxl.kit.OnRequestCallBack;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.lifecycle.HiltViewModel;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.ObservableSource;
 import io.reactivex.rxjava3.disposables.Disposable;
@@ -28,6 +32,7 @@ import io.reactivex.rxjava3.functions.Function;
  * @author xxl.
  * @date 2023/04/06.
  */
+@HiltViewModel
 public class MediaPreviewItemModel extends BaseViewModel<MediaPreviewItemNavigator> {
 
     //region: 成员变量
@@ -36,7 +41,8 @@ public class MediaPreviewItemModel extends BaseViewModel<MediaPreviewItemNavigat
 
     //region: 构造函数
 
-    public MediaPreviewItemModel(@NonNull final Application application,
+    @Inject
+    public MediaPreviewItemModel(@ForApplication final Application application,
                                  @NonNull final DataRepositoryKit dataRepositoryKit) {
         super(application);
     }

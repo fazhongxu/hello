@@ -36,12 +36,15 @@ import java.io.File;
 
 import javax.inject.Inject;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
 /**
  * 登录页
  *
  * @author xxl.
  * @date 2022/7/29.
  */
+@AndroidEntryPoint
 public class LoginFragment extends BaseViewModelFragment<LoginViewModel, UserFragmentLoginBinding> implements LoginNavigator, OnVipInterceptListener {
 
     //region: 成员变量

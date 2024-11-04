@@ -28,12 +28,15 @@ import com.xxl.kit.ListUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
 /**
  * 多媒体预览页面
  *
  * @author xxl.
  * @date 2023/04/06.
  */
+@AndroidEntryPoint
 public class MediaPreviewFragment extends BaseViewModelFragment<MediaPreviewViewModel, WidgetFragmentMediaPreviewBinding>
         implements MediaPreviewNavigator {
 

@@ -16,12 +16,15 @@ import com.xxl.kit.LogUtils;
 
 import java.io.File;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
 /**
  * 文件浏览页面
  *
  * @author xxl.
  * @date 2023/07/21.
  */
+@AndroidEntryPoint
 public class FileBrowserFragment extends BaseViewModelFragment<FileBrowserViewModel, WidgetFragmentFileBrowserBinding>
         implements FileBrowserNavigator {
 

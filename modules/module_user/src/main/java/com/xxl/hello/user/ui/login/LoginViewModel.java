@@ -10,9 +10,13 @@ import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.core.ui.BaseViewModel;
 import com.xxl.hello.service.data.repository.api.UserRepositoryApi;
+import com.xxl.hello.service.qunlifier.ForApplication;
 import com.xxl.hello.user.data.model.api.UserLoginRequest;
 import com.xxl.hello.user.data.repository.UserRepository;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.lifecycle.HiltViewModel;
 import io.reactivex.rxjava3.disposables.Disposable;
 
 
@@ -20,6 +24,7 @@ import io.reactivex.rxjava3.disposables.Disposable;
  * @author xxl.
  * @date 2021/7/16.
  */
+@HiltViewModel
 public class LoginViewModel extends BaseViewModel<LoginNavigator> {
 
     //region: 成员变量
@@ -53,7 +58,8 @@ public class LoginViewModel extends BaseViewModel<LoginNavigator> {
 
     //region: 构造函数
 
-    public LoginViewModel(@NonNull final Application application,
+    @Inject
+    public LoginViewModel(@ForApplication final Application application,
                           @NonNull final DataRepositoryKit dataRepositoryKit,
                           @NonNull final UserRepository userRepository) {
         super(application);

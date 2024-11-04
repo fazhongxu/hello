@@ -26,12 +26,15 @@ import com.xxl.hello.widget.databinding.WidgetFragmentMediaPreviewItemBinding;
 import com.xxl.hello.widget.ui.preview.OnMediaPreViewListener;
 import com.xxl.hello.widget.ui.view.DragDismissLayout;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
 /**
  * 多媒体预览页面
  *
  * @author xxl.
  * @date 2023/04/06.
  */
+@AndroidEntryPoint
 public class MediaPreviewItemFragment extends BaseViewModelFragment<MediaPreviewItemModel, WidgetFragmentMediaPreviewItemBinding>
         implements MediaPreviewItemNavigator, DragDismissLayout.OnDragDismissLayoutListener {
 
