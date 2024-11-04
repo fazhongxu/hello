@@ -40,6 +40,7 @@ import javax.inject.Inject;
 
 import dagger.android.AndroidInjector;
 import dagger.android.DaggerApplication;
+import dagger.hilt.android.HiltAndroidApp;
 import me.jessyan.autosize.AutoSizeConfig;
 import me.jessyan.autosize.onAdaptListener;
 import me.jessyan.autosize.utils.ScreenUtils;
@@ -48,6 +49,7 @@ import me.jessyan.autosize.utils.ScreenUtils;
  * @author xxl.
  * @date 2020/8/20.
  */
+@HiltAndroidApp
 public class HelloApplication extends BaseApplication implements IApplication, MediaSelectorApp {
 
     //region: 成员变量
@@ -79,12 +81,12 @@ public class HelloApplication extends BaseApplication implements IApplication, M
         init();
     }
 
-    @Override
+ /*   @Override
     protected AndroidInjector<? extends DaggerApplication> applicationInjector() {
         return DaggerAppComponent.builder()
                 .application(this)
                 .build();
-    }
+    }*/
 
     /**
      * 用户是否已经同意"隐私协议"

@@ -2,6 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.alibaba.arouter'
+apply plugin: 'dagger.hilt.android.plugin'
 
 repositories {
     flatDir {
@@ -27,6 +28,7 @@ android {
         kapt {
             arguments {
                 arg("AROUTER_MODULE_NAME", project.getName())
+                arg("dagger.hilt.disableModulesHaveInstallInCheck", "true")
             }
         }
     }
@@ -105,6 +107,9 @@ dependencies {
     implementation deps.dagger.android
     implementation deps.dagger.android_support
     kapt deps.dagger.android_processor
+
+    implementation deps.dagger.dagger_hilt
+    kapt deps.dagger.dagger_hilt_compiler
 
     implementation deps.base_popup
 

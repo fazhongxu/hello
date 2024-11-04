@@ -39,6 +39,8 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import dagger.hilt.InstallIn;
+import dagger.hilt.components.SingletonComponent;
 import okhttp3.Headers;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -53,6 +55,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * @author xxl.
  * @date 2021/7/15.
  */
+@InstallIn(SingletonComponent.class)
 @Module(includes = {ServiceDataStoreModule.class,
         WidgetDataStoreModule.class,
         ObjectBoxDataStoreModel.class,

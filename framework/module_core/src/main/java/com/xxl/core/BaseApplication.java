@@ -1,5 +1,6 @@
 package com.xxl.core;
 
+import android.app.Application;
 import android.content.Context;
 
 import androidx.annotation.CallSuper;
@@ -31,7 +32,7 @@ import io.reactivex.rxjava3.plugins.RxJavaPlugins;
  * @author xxl.
  * @date 2021/7/20.
  */
-public abstract class BaseApplication extends DaggerApplication {
+public abstract class BaseApplication extends Application {
 
     //region: 页面生命周期
 

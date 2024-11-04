@@ -13,11 +13,14 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import dagger.hilt.InstallIn;
+import dagger.hilt.components.SingletonComponent;
 
 /**
  * @author xxl.
  * @date 2021/7/15.
  */
+@InstallIn(SingletonComponent.class)
 @Module
 public class AppModule {
 

@@ -2,6 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'maven'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'dagger.hilt.android.plugin'
 
 android {
     compileSdkVersion build_versions.compileSdkVersion
@@ -91,6 +92,9 @@ dependencies {
     implementation deps.dagger.android
     implementation deps.dagger.android_support
     kapt deps.dagger.android_processor
+
+    implementation deps.dagger.dagger_hilt
+    kapt deps.dagger.dagger_hilt_compiler
 
     implementation deps.aspectjrt
 

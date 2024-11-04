@@ -151,6 +151,11 @@ dagger.processor = "com.google.dagger:dagger-compiler:$versions.dagger"
 dagger.android = "com.google.dagger:dagger-android:$versions.dagger"
 dagger.android_support = "com.google.dagger:dagger-android-support:$versions.dagger"
 dagger.android_processor = "com.google.dagger:dagger-android-processor:$versions.dagger"
+
+dagger.dagger_hilt = "com.google.dagger:hilt-android:$versions.dagger"
+dagger.dagger_hilt_compiler = "com.google.dagger:hilt-compiler:$versions.dagger"
+dagger.dagger_hilt_plugin = "com.google.dagger:hilt-android-gradle-plugin:$versions.dagger"
+
 deps.dagger = dagger
 
 // true time https://github.com/instacart/truetime-android

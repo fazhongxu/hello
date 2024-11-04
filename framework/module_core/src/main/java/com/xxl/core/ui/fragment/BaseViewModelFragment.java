@@ -59,8 +59,8 @@ public abstract class BaseViewModelFragment<V extends BaseViewModel, T extends V
      */
     protected ProgressBarWrapper mProgressBarWrapper;
 
-    @Inject
-    protected ViewModelProvider.Factory mViewModelProviderFactory;
+  /*  @Inject
+    protected ViewModelProvider.Factory mViewModelProviderFactory;*/
 
     //endregion
 
@@ -69,9 +69,9 @@ public abstract class BaseViewModelFragment<V extends BaseViewModel, T extends V
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        if (enableInjection()) {
+       /* if (enableInjection()) {
             AndroidSupportInjection.inject(this);
-        }
+        }*/
     }
 
     @Override
@@ -167,7 +167,7 @@ public abstract class BaseViewModelFragment<V extends BaseViewModel, T extends V
     public abstract int getViewNavigatorVariable();
 
     protected ViewModelProvider getViewModelProvider() {
-        return new ViewModelProvider(this, getViewModelProviderFactory());
+        return new ViewModelProvider(this);
     }
 
     /**
@@ -189,9 +189,9 @@ public abstract class BaseViewModelFragment<V extends BaseViewModel, T extends V
         return mViewModel;
     }
 
-    protected ViewModelProvider.Factory getViewModelProviderFactory() {
+  /*  protected ViewModelProvider.Factory getViewModelProviderFactory() {
         return mViewModelProviderFactory;
-    }
+    }*/
 
     /**
      * 设置数据

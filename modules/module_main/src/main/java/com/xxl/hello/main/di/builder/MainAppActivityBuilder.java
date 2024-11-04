@@ -2,8 +2,8 @@ package com.xxl.hello.main.di.builder;
 
 import com.xxl.hello.main.ui.jump.SchemeJumpActivity;
 import com.xxl.hello.main.ui.jump.SchemeJumpFragmentProvider;
-import com.xxl.hello.main.ui.main.MainActivity;
-import com.xxl.hello.main.ui.main.MainFragmentProvider;
+//import com.xxl.hello.main.ui.main.MainActivity;
+//import com.xxl.hello.main.ui.main.MainFragmentProvider;
 import com.xxl.hello.main.ui.splash.SplashActivity;
 import com.xxl.hello.main.ui.splash.SplashFragmentProvider;
 
@@ -25,13 +25,13 @@ public abstract class MainAppActivityBuilder {
     @ContributesAndroidInjector(modules = SplashFragmentProvider.class)
     abstract SplashActivity bindSplashActivityBuilder();
 
-    /**
+   /* *//**
      * 绑定首页
      *
      * @return
-     */
+     *//*
     @ContributesAndroidInjector(modules = MainFragmentProvider.class)
-    abstract MainActivity bindMainActivityBuilder();
+    abstract MainActivity bindMainActivityBuilder();*/
 
     /**
      * 绑定scheme跳转处理页

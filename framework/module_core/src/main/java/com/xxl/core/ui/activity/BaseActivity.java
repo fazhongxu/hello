@@ -20,13 +20,15 @@ import dagger.android.AndroidInjection;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.HasAndroidInjector;
+import dagger.hilt.android.AndroidEntryPoint;
 
 /**
  * @author xxl.
  * @date 2021/7/19.
  */
+@AndroidEntryPoint
 public abstract class BaseActivity extends SwipeBackActivity
-        implements HasAndroidInjector {
+   /*     implements HasAndroidInjector*/ {
 
     //region: 成员变量
 
@@ -35,8 +37,8 @@ public abstract class BaseActivity extends SwipeBackActivity
      */
     private LinkedHashMap<String, OnActivityResultListener> mActivityResultListenerMap = new LinkedHashMap<>();
 
-    @Inject
-    DispatchingAndroidInjector<Object> mAndroidInjector;
+  /*  @Inject
+    DispatchingAndroidInjector<Object> mAndroidInjector;*/
 
     //endregion
 
@@ -44,9 +46,9 @@ public abstract class BaseActivity extends SwipeBackActivity
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        if (enableInjection()) {
+       /* if (enableInjection()) {
             AndroidInjection.inject(this);
-        }
+        }*/
         super.onCreate(savedInstanceState);
         beforeSetContentView();
         setContentView();
@@ -195,12 +197,12 @@ public abstract class BaseActivity extends SwipeBackActivity
 
     //endregion
 
-    //region: HasAndroidInjector
+  /*  //region: HasAndroidInjector
 
     @Override
     public AndroidInjector<Object> androidInjector() {
         return mAndroidInjector;
     }
 
-    //endregion
+    //endregion*/
 }

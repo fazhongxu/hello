@@ -69,12 +69,14 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import dagger.hilt.android.AndroidEntryPoint;
 import io.reactivex.rxjava3.disposables.Disposable;
 
 /**
  * @author xxl.
  * @date 2022/4/8.
  */
+@AndroidEntryPoint
 public class MainFragment extends BaseStateViewModelFragment<MainViewModel, MainFragmentBinding>
         implements MainNavigator, OnAppStatusChangedListener, OnAudioFrameCapturedListener,
         TestBindingRecycleItemListener, OnRefreshDataListener, OnTestRecycleItemListener {

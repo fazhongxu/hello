@@ -17,6 +17,8 @@ import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.hello.service.data.repository.api.UserRepositoryApi;
+import com.xxl.hello.service.qunlifier.ForApplication;
+import com.xxl.hello.service.qunlifier.ForHelloUpload;
 import com.xxl.hello.service.upload.api.UploadService;
 import com.xxl.kit.OnRequestCallBack;
 import com.xxl.kit.TimeUtils;
@@ -25,6 +27,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.lifecycle.HiltViewModel;
 import io.reactivex.rxjava3.disposables.Disposable;
 
 
@@ -34,6 +39,7 @@ import io.reactivex.rxjava3.disposables.Disposable;
  * @author xxl
  * @date 2021/07/16.
  */
+@HiltViewModel
 public class MainViewModel extends BaseViewModel<MainNavigator> {
 
     //region: 成员变量
@@ -64,9 +70,10 @@ public class MainViewModel extends BaseViewModel<MainNavigator> {
 
     //region: 构造函数
 
-    public MainViewModel(@NonNull final Application application,
+    @Inject
+    public MainViewModel(@ForApplication final Application application,
                          @NonNull final DataRepositoryKit dataRepositoryKit,
-                         @NonNull final UploadService uploadService) {
+                         @ForHelloUpload final UploadService uploadService) {
         super(application);
         mDataRepositoryKit = dataRepositoryKit;
         mUploadService = uploadService;
