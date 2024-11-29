@@ -3,10 +3,13 @@ package com.xxl.hello.main.ui.main;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
@@ -14,6 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
+import com.google.gson.annotations.SerializedName;
 import com.tbruyelle.rxpermissions3.RxPermissions;
 import com.xxl.core.aop.annotation.Safe;
 import com.xxl.core.media.audio.AudioCapture;
@@ -49,6 +53,7 @@ import com.xxl.hello.widget.ui.view.record.RecordButton;
 import com.xxl.hello.widget.ui.window.CommonMessagePopupWindow;
 import com.xxl.kit.AppUtils;
 import com.xxl.kit.ClipboardUtils;
+import com.xxl.kit.EncodeUtils;
 import com.xxl.kit.FFmpegUtils;
 import com.xxl.kit.ListUtils;
 import com.xxl.kit.LogUtils;
@@ -234,7 +239,73 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
     @Override
     public void onTestClick() {
-        UserRouterApi.Login.newBuilder().navigation(getActivity());
+        //        UserRouterApi.Login.newBuilder().navigation(getActivity());
+//
+//        Intent shareIntent = new Intent(Intent.ACTION_SEND); // 创建分享 Intent
+//        shareIntent.setType("text/plain");  // 设置分享的内容类型为文本
+//
+//        // 假设要分享多个链接，链接通过换行符分隔
+//        String sharedText = "http://example.com\nhttp://another-example.com\nhttp://yetanother.com";
+//
+//        // 将链接文本传递给 Intent
+//        shareIntent.putExtra(Intent.EXTRA_TEXT, sharedText);
+//
+//        // 调用系统的分享选择界面，选择要分享的应用
+//        Intent chooser = Intent.createChooser(shareIntent, "选择分享应用");
+//        startActivity(chooser);
+
+
+
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        //String sharedText = "{'name':'json'}";
+//        String sharedText = "{\"msgId\":\"37019521-24d8-4a0e-b201-c63a2192f7dc\",\"obj\":{\"senderUserInfo\":{\"faceIcon\":\"https:\\/\\/nim-nosdn.netease.im\\/MTExNTUxNzE=\\/bmltYV8xMzI4NzI5MzkwOF8xNzMyNjc4NTg4NzQ5X2JkNjQ3NDBiLWI4MjMtNDczOC05YzcxLWQyOWJlNzkxNjA5Mg==?twmid=a999902855123130\",\"nickname\":\"18600208196\",\"updateTime\":1732678612316,\"uid\":\"a999902855123130\"},\"canForward\":true,\"senderClientType\":2,\"msgType\":1000,\"twmid\":\"a999902855123130\",\"mentionedInfo\":{\"type\":4,\"uids\":[\"a622804323223139\"]},\"text\":\"美国9.11事件\",\"supportVersion\":0,\"isWhiteMessage\":false,\"scene\":\"FOREVER\",\"fileName\":\"E69A7E5C-1AB6-45A0-A78B-D408EB990FBE-3153-000001FA4BA9C86E.txt\",\"fileExtension\":\"txt\"},\"senderClientType\":2,\"msgType\":1000,\"localExt\":{\"isLocal\":false,\"session_id\":\"2847826670\",\"sendState\":2,\"session_type\":1,\"isNotSaveLocal\":false},\"sendTime\":1732699284258,\"session\":{\"sessionId\":\"2847826670\",\"sessionType\":1},\"sendUid\":\"a999902855123130\"}";
+//
+//        // 图片
+//        String sharedText = "{\n" +
+//                "\"origin\": \"WMSYSJ\",\n" +
+//                "\"data\": {\n" +
+//                "\"type\": 1,\n" +
+//                "\"text\": \"哈哈哈\",\n" +
+//                "\"urls\": [\n" +
+//                "\"https://pic-material-tencos.lingtuo.cn/group/team/product/pic/hot7kf/5375561/1730974555488.jpg\",\n" +
+//                "\"https://pic-material-tencos.lingtuo.cn/group/team/product/pic/hot7kf/5375561/1730974556227.jpg\"\n" +
+//                "]\n" +
+//                "}\n" +
+//                "}";
+
+        String sharedText = "{\n" +
+                "\"origin\": \"WMSYSJ\",\n" +
+                "\"data\": {\n" +
+                "\"type\": 2,\n" +
+                "\"text\": \"哈哈哈\",\n" +
+                "\"urls\": [\n" +
+                "\"https://video-material-tencos.lingtuo.cn/team/video/5313641/q3k3x/seq/1727486836.796506.mp4\"\n" +
+                "]\n" +
+                "}\n" +
+                "}";
+        shareIntent.putExtra(Intent.EXTRA_TEXT, sharedText);
+
+        // 设置要指定的包名，例如 Facebook 或 WhatsApp 等应用的包名
+        String packageName = "com.xx.xx";  // 例如 Facebook 的包名
+        shareIntent.setPackage(packageName);
+
+        // 检查应用是否安装
+        PackageManager pm = getActivity().getPackageManager();
+        List<ResolveInfo> resolveInfoList = pm.queryIntentActivities(shareIntent, 0);
+        if (resolveInfoList != null && !resolveInfoList.isEmpty()) {
+            startActivity(shareIntent);
+        } else {
+            // 提示用户该应用未安装
+            Toast.makeText(getActivity(), "未找到应用", Toast.LENGTH_SHORT).show();
+        }
+
+        String s = EncodeUtils.base64Encode2String(sharedText);
+        String s1 = new String(EncodeUtils.base64Decode(s));
+        String s2 = new String(EncodeUtils.base64Decode("123"));
+
+        Log.e("aa", "onTestClick: "+s );
+        Log.e("aa", "onTestClick:1 "+s1 );
     }
 
     /**

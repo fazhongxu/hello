@@ -2,6 +2,7 @@ package com.xxl.kit;
 
 import android.os.Build;
 import android.text.Html;
+import android.text.TextUtils;
 import android.util.Base64;
 
 import java.io.UnsupportedEncodingException;
@@ -92,6 +93,18 @@ public final class EncodeUtils {
     public static byte[] base64Encode(final byte[] input) {
         if (input == null || input.length == 0) return new byte[0];
         return Base64.encode(input, Base64.NO_WRAP);
+    }
+
+
+    /**
+     * Return Base64-encode string.
+     *
+     * @param input The input.
+     * @return Base64-encode string
+     */
+    public static String base64Encode2String(final String input) {
+        if (TextUtils.isEmpty(input)) return "";
+        return Base64.encodeToString(input.getBytes(), Base64.NO_WRAP);
     }
 
     /**
