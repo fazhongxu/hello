@@ -55,7 +55,6 @@ import com.xxl.kit.LogUtils;
 import com.xxl.kit.MediaUtils;
 import com.xxl.kit.OnAppStatusChangedListener;
 import com.xxl.kit.OnRequestCallBack;
-import com.xxl.kit.PinyinUtils;
 import com.xxl.kit.ResourceUtils;
 import com.xxl.kit.StringUtils;
 import com.xxl.kit.ThreadUtils;
@@ -236,9 +235,6 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     @Override
     public void onTestClick() {
         UserRouterApi.Login.newBuilder().navigation(getActivity());
-
-        String pinyin = PinyinUtils.toPinyin("我们是祖国的花朵", " ", PinyinUtils.PinyinFormat.WITH_TONE_MARK);
-        Log.e("aaa", "onTestClick: " + pinyin);
     }
 
     /**
