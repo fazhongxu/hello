@@ -240,7 +240,7 @@ dependencies {
 
 //    implementation deps.watermark
     implementation(name: 'lib_watermark', ext: 'aar')
-    implementation deps.tinypinyin
+    implementation deps.jpinyin
 
     implementation deps.emoji_ios
 

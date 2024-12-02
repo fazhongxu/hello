@@ -98,6 +98,6 @@ dependencies {
 
     compileOnly deps.rxjava
 
-    compileOnly deps.tinypinyin
+    compileOnly deps.jpinyin
 
 }
