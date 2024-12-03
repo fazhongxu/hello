@@ -12,6 +12,7 @@ include ':framework:module_compiler'
 
 include ':module_libs:lib_ffmpeg'
 include ':module_libs:lib_picture_selector'
+include ':module_libs:lib_pinyin'
 //include ':module_libs:lib_watermark'
 
 include ':app'

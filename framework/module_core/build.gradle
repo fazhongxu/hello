@@ -180,4 +180,6 @@ dependencies {
     compileOnly deps.alipay
 
     compileOnly deps.vasdolly
+
+    compileOnly deps.jpinyin
 }

@@ -400,9 +400,8 @@ deps.viewfinderview = "com.github.jenly1314:viewfinderview:$versions.viewfinderv
 //涂鸦库 https://github.com/1993hzw/Doodle
 //compile 'com.github.1993hzw:Doodle:5.5.3'
 
-//拼音 TinyPinyin[https://github.com/promeG/TinyPinyin]
 //https://github.com/qzw1210/jpinyin
-deps.jpinyin = "com.github.stuxuhai:jpinyin:$versions.jpinyin"
+deps.jpinyin = project(':module_libs:lib_pinyin')
 
 //https://github.com/vanniktech/Emoji
 deps.emoji_ios = "com.vanniktech:emoji-ios:$versions.emoji"

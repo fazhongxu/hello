@@ -1,7 +1,7 @@
 package com.xxl.hello.main.data.model.entity;
 
 import com.xxl.core.data.model.enums.UserSex;
-import com.xxl.kit.PinyinUtils;
+import com.xxl.core.utils.PinyinUtils;
 
 /**
  * @author xxl.

@@ -1,8 +1,8 @@
-package com.xxl.kit;
+package com.xxl.core.utils;
 
-import com.github.stuxuhai.jpinyin.PinyinException;
-import com.github.stuxuhai.jpinyin.PinyinFormat;
-import com.github.stuxuhai.jpinyin.PinyinHelper;
+import com.xxl.kit.ListUtils;
+import com.xxl.pinyin.PinyinFormat;
+import com.xxl.pinyin.PinyinHelper;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -39,14 +39,8 @@ public class PinyinUtils {
      */
     public static String toPinyin(String str, String separator, PinyinFormat pinyinFormat) {
         try {
-            com.github.stuxuhai.jpinyin.PinyinFormat targetPinyinFormat = com.github.stuxuhai.jpinyin.PinyinFormat.WITHOUT_TONE;
-            if (pinyinFormat == PinyinFormat.WITH_TONE_NUMBER) {
-                targetPinyinFormat = com.github.stuxuhai.jpinyin.PinyinFormat.WITH_TONE_NUMBER;
-            }else if (pinyinFormat == PinyinFormat.WITH_TONE_MARK) {
-                targetPinyinFormat = com.github.stuxuhai.jpinyin.PinyinFormat.WITH_TONE_MARK;
-            }
-            return PinyinHelper.convertToPinyinString(str, separator, targetPinyinFormat);
-        } catch (PinyinException e) {
+            return PinyinHelper.convertToPinyinString(str, separator, pinyinFormat);
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return "";
@@ -110,10 +104,6 @@ public class PinyinUtils {
          * @param pinyin
          */
         void setTargetPinyin(String pinyin);
-    }
-
-    public enum PinyinFormat {
-        WITH_TONE_MARK, WITHOUT_TONE, WITH_TONE_NUMBER;
     }
 
     private PinyinUtils() {
