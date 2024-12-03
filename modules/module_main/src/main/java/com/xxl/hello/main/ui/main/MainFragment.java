@@ -60,8 +60,6 @@ import com.xxl.kit.StringUtils;
 import com.xxl.kit.ThreadUtils;
 import com.xxl.kit.TimeUtils;
 import com.xxl.kit.ToastUtils;
-import com.xxl.pinyin.PinyinFormat;
-import com.xxl.core.utils.PinyinUtils;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -237,9 +235,6 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     @Override
     public void onTestClick() {
         UserRouterApi.Login.newBuilder().navigation(getActivity());
-
-        String pinyin = PinyinUtils.toPinyin("我再也见不到他了", "", PinyinFormat.WITH_TONE_MARK);
-        Log.e("aaa", "setupLayout: "+pinyin);
     }
 
     /**
