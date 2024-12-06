@@ -162,6 +162,8 @@ dependencies {
     implementation deps.wcqr_opencv_armv64
     implementation deps.viewfinderview
 
+    implementation deps.jpinyin
+
 //    implementation deps.watermark
     implementation(name: 'lib_watermark', ext: 'aar')
 

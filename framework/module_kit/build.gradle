@@ -97,7 +97,4 @@ dependencies {
     compileOnly deps.sina
 
     compileOnly deps.rxjava
-
-    compileOnly deps.tinypinyin
-
 }

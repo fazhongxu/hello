@@ -1,6 +1,8 @@
-package com.xxl.kit;
+package com.xxl.core.utils;
 
-import com.github.promeg.pinyinhelper.Pinyin;
+import com.xxl.kit.ListUtils;
+import com.xxl.pinyin.PinyinFormat;
+import com.xxl.pinyin.PinyinHelper;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -24,7 +26,24 @@ public class PinyinUtils {
      * @return
      */
     public static String toPinyin(String str, String separator) {
-        return Pinyin.toPinyin(str, separator);
+        return toPinyin(str, separator, PinyinFormat.WITH_TONE_MARK);
+    }
+
+    /**
+     * 将输入字符串转为拼音
+     *
+     * @param str
+     * @param separator    分隔符
+     * @param pinyinFormat 拼音格式：WITH_TONE_NUMBER--数字代表声调，WITHOUT_TONE--不带声调，WITH_TONE_MARK--带声调
+     * @return
+     */
+    public static String toPinyin(String str, String separator, PinyinFormat pinyinFormat) {
+        try {
+            return PinyinHelper.convertToPinyinString(str, separator, pinyinFormat);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
     /**

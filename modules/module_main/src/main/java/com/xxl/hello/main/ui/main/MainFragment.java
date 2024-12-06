@@ -436,7 +436,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
         mViewDataBinding.recordBtn.setOnClickListener(v -> {
             final RxPermissions rxPermissions = new RxPermissions(this);
             Disposable disposable = rxPermissions.request(Manifest.permission.RECORD_AUDIO,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     .subscribe(isSuccess -> {
                         if (isSuccess) {
                             if (recordButton.isRunning()) {
