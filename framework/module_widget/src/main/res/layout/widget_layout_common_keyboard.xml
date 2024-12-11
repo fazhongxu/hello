@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
@@ -31,47 +32,62 @@
             android:gravity="center_vertical"
             android:hint="@string/resources_please_input_content_hint"
             android:maxHeight="100dp"
-            android:minHeight="36dp"
+            android:minHeight="32dp"
             android:paddingLeft="10dp"
             android:paddingRight="30dp"
-            android:textSize="@dimen/resources_font_size_17"
+            android:textSize="@dimen/resources_font_size_15"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/tv_send"
+            app:layout_constraintRight_toLeftOf="@+id/ll_right_control"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_goneMarginRight="0dp"
             app:rv_backgroundColor="@color/resources_background_color"
             app:rv_cornerRadius="25dp" />
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/iv_face"
+        <LinearLayout
+            android:id="@+id/ll_right_control"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:src="@drawable/widget_ic_comment_face"
-            app:layout_constraintBottom_toBottomOf="@+id/et_content"
-            app:layout_constraintRight_toRightOf="@+id/et_content"
-            app:layout_constraintTop_toTopOf="@+id/et_content" />
-
-        <com.flyco.roundview.RoundTextView
-            android:id="@+id/tv_send"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:minHeight="28dp"
-            android:paddingLeft="13dp"
-            android:paddingRight="13dp"
-            android:text="@string/resources_send_text"
-            android:textColor="@color/white"
-            android:textSize="@dimen/resources_font_size_13"
-            android:visibility="visible"
+            android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:rv_backgroundColor="@color/resources_primary_color"
-            app:rv_isRadiusHalfHeight="true" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_face"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="6dp"
+                android:paddingRight="6dp"
+                android:src="@drawable/widget_ic_comment_face" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="6dp"
+                android:paddingRight="6dp"
+                android:src="@drawable/widget_ic_comment_add"
+                tools:visibility="visible" />
+
+            <com.flyco.roundview.RoundTextView
+                android:id="@+id/tv_send"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:minHeight="28dp"
+                android:paddingLeft="13dp"
+                android:paddingRight="13dp"
+                android:text="@string/resources_send_text"
+                android:textColor="@color/white"
+                android:textSize="@dimen/resources_font_size_13"
+                android:visibility="visible"
+                app:rv_backgroundColor="@color/resources_primary_color"
+                app:rv_isRadiusHalfHeight="true"
+                tools:visibility="gone" />
+
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -83,7 +99,7 @@
         android:gravity="center"
         android:minHeight="260dp"
         android:orientation="vertical"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <FrameLayout
         android:id="@+id/fl_bottom_container"
