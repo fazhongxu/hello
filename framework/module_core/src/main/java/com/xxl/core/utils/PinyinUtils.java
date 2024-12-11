@@ -26,7 +26,7 @@ public class PinyinUtils {
      * @return
      */
     public static String toPinyin(String str, String separator) {
-        return toPinyin(str, separator, PinyinFormat.WITH_TONE_MARK);
+        return toPinyin(str, separator, PinyinFormat.WITHOUT_TONE);
     }
 
     /**
