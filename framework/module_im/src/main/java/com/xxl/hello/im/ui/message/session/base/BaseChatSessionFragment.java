@@ -1,6 +1,5 @@
 package com.xxl.hello.im.ui.message.session.base;
 
-import android.text.TextUtils;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -18,6 +17,7 @@ import com.xxl.hello.im.databinding.ImFragmentChatSessionBinding;
 import com.xxl.hello.im.ui.message.session.base.adapter.ChatSessionAdapter;
 import com.xxl.hello.widget.ui.view.keyboard.CommentKeyboardLayout;
 import com.xxl.hello.widget.ui.view.keyboard.OnCommentKeyboardListener;
+import com.xxl.kit.StringUtils;
 
 import java.util.Random;
 
@@ -124,7 +124,7 @@ public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel
     @Override
     public void onSendClick(@Nullable String content) {
         MessageEntity messageEntity = new MessageEntity();
-        messageEntity.setMessageType(TextUtils.isEmpty(content) ? 2 : 1);
+        messageEntity.setMessageType(StringUtils.isTrimEmpty(content) ? 2 : 1);
         messageEntity.setMessageDirection(new Random().nextInt(10) % 3 == 0 ? MessageDirection.LEFT : MessageDirection.RIGHT);
         messageEntity.setMessageText(content);
         mChatSessionAdapter.addData(messageEntity);
