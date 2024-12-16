@@ -6,7 +6,7 @@ package com.xxl.hello.im;
  * @author xxl.
  * @date 2024/6/14.
  */
-public class IMClientKit {
+public class IMClientKit {// TODO: 2024/12/16 IM包和service包依赖关系应该重新考虑下，im很多东西还是应该放到service模块比较合适
 
     //region: 成员变量
 
