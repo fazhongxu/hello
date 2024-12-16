@@ -123,7 +123,7 @@ public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel
      */
     @Override
     public void onSendClick(@Nullable String content) {
-        MessageEntity messageEntity = new MessageEntity();
+        MessageEntity messageEntity = new MessageEntity(null);
         messageEntity.setMessageType(StringUtils.isTrimEmpty(content) ? 2 : 1);
         messageEntity.setMessageDirection(new Random().nextInt(10) % 3 == 0 ? MessageDirection.LEFT : MessageDirection.RIGHT);
         messageEntity.setMessageText(content);
