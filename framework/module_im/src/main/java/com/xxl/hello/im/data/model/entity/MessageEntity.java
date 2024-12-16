@@ -10,6 +10,8 @@ public class MessageEntity {
 
     //region: 成员变量
 
+    private SDKMessage mSdkMessage;
+
     /**
      * 消息类型
      */
@@ -25,6 +27,18 @@ public class MessageEntity {
      * 消息文本
      */
     private String mMessageText;
+
+    //endregion
+
+    //region: 构造函数
+
+    public MessageEntity(SDKMessage sdkMessage) {
+        mSdkMessage = sdkMessage;
+    }
+
+    public static MessageEntity obtain(SDKMessage sdkMessage) {
+        return new MessageEntity(sdkMessage);
+    }
 
     //endregion
 
