@@ -1,6 +1,7 @@
 package com.xxl.hello.widget.ui.view.plugin;
 
 import android.content.Context;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 
@@ -27,6 +28,13 @@ public abstract class Plugin {
      * @return
      */
     public abstract int obtainTitle(@NonNull final Context context);
+
+    /**
+     * 点击事件
+     *
+     * @param targetView
+     */
+    public abstract void onClick(@NonNull View targetView);
 
     //endregion
 }

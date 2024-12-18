@@ -204,21 +204,6 @@ public class CommonKeyboardLayout extends LinearLayout implements ICommonKeyboar
         List<Plugin> plugins = new ArrayList<>();
         plugins.add(new CapturePlugin());
         plugins.add(new AlbumPlugin());
-        plugins.add(new CapturePlugin());
-        plugins.add(new AlbumPlugin());
-
-        plugins.add(new CapturePlugin());
-        plugins.add(new AlbumPlugin());
-        plugins.add(new CapturePlugin());
-        plugins.add(new AlbumPlugin());
-
-        plugins.add(new CapturePlugin());
-        plugins.add(new AlbumPlugin());
-        plugins.add(new CapturePlugin());
-        plugins.add(new AlbumPlugin());
-
-        plugins.add(new AlbumPlugin());
-        plugins.add(new AlbumPlugin());
 
         pluginLayout.init(plugins);
     }

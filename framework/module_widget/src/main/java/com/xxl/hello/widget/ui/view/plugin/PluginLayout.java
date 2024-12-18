@@ -96,7 +96,7 @@ public class PluginLayout extends LinearLayout {
                 count = pageCount;
             }
 
-            gridView.setAdapter(new PluginItemPagerAdapter(getContext(), count, position));
+            gridView.setAdapter(new PluginItemPagerAdapter(getContext(), pageCount, count, position));
             container.addView(view);
             return view;
         }
@@ -115,11 +115,13 @@ public class PluginLayout extends LinearLayout {
 
     private class PluginItemPagerAdapter extends ArrayAdapter<Plugin> {
 
+        private int mMaxCount;
         private int mCount;
         private int mPageIndex;
 
-        public PluginItemPagerAdapter(@NonNull Context context, int count, int pageIndex) {
+        public PluginItemPagerAdapter(@NonNull Context context, int maxCount, int count, int pageIndex) {
             super(context, 0);
+            mMaxCount = maxCount;
             mCount = count;
             mPageIndex = pageIndex;
         }
@@ -138,11 +140,15 @@ public class PluginLayout extends LinearLayout {
             ImageView ivPluginIcon = convertView.findViewById(R.id.iv_plugin_icon);
             TextView tvPluginName = convertView.findViewById(R.id.tv_plugin_name);
 
-            // TODO: 2024/12/18 计算索引
+            int index = (mPageIndex * mMaxCount) + position;
 
-            Plugin plugin = mPlugins.get(0);
+            Plugin plugin = mPlugins.get(index);
             ivPluginIcon.setImageResource(plugin.obtainDrawable(getContext()));
             tvPluginName.setText(plugin.obtainTitle(getContext()));
+
+            convertView.setOnClickListener(v -> {
+                plugin.onClick(v);
+            });
 
             return convertView;
         }
