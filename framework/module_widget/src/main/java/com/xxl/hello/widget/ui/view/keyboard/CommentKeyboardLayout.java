@@ -51,6 +51,11 @@ public class CommentKeyboardLayout extends LinearLayout implements ICommentKeybo
     private ImageView mIvFace;
 
     /**
+     * 添加按钮
+     */
+    private ImageView mIvAdd;
+
+    /**
      * 发送按钮
      */
     private TextView mTvSend;
@@ -109,9 +114,16 @@ public class CommentKeyboardLayout extends LinearLayout implements ICommentKeybo
         inflate(context, R.layout.widget_layout_common_keyboard, this);
         mEtContent = findViewById(R.id.et_content);
         mIvFace = findViewById(R.id.iv_face);
+        mIvAdd = findViewById(R.id.iv_add);
         mTvSend = findViewById(R.id.tv_send);
         mLLExpressionContainer = findViewById(R.id.ll_expression_container);
         mEtContent.addTextChangedListener(this);
+        mIvAdd.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO: 2024/12/11 相机/相册
+            }
+        });
         mTvSend.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -136,7 +148,7 @@ public class CommentKeyboardLayout extends LinearLayout implements ICommentKeybo
 
     @Override
     public void afterTextChanged(Editable s) {
-        //refreshSendVisibility(s.toString());
+        refreshSendVisibility(s.toString());
     }
 
     //endregion
@@ -282,9 +294,15 @@ public class CommentKeyboardLayout extends LinearLayout implements ICommentKeybo
             if (mTvSend.getVisibility() != View.GONE) {
                 mTvSend.setVisibility(View.GONE);
             }
+            if (mIvAdd.getVisibility() != View.VISIBLE) {
+                mIvAdd.setVisibility(View.VISIBLE);
+            }
         } else {
             if (mTvSend.getVisibility() != View.VISIBLE) {
                 mTvSend.setVisibility(View.VISIBLE);
+            }
+            if (mIvAdd.getVisibility() != View.GONE) {
+                mIvAdd.setVisibility(View.GONE);
             }
         }
     }

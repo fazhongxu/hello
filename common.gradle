@@ -68,7 +68,6 @@ dependencies {
     implementation deps.hello.router
     implementation deps.hello.widget
     implementation deps.hello.resources
-    implementation deps.hello.im
 
     implementation deps.hello.annotation
     kapt deps.hello.compiler

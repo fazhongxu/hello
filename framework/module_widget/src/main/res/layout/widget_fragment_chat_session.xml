@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.xxl.hello.widget.ui.im.message.session.base.BaseChatSessionViewModel" />
+
+        <variable
+            name="navigator"
+            type="com.xxl.hello.widget.ui.im.message.session.base.BaseChatSessionNavigator" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:background="@color/resources_background_color"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.xxl.core.widget.recyclerview.UISmartRefreshLayout
+            android:id="@+id/refresh_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:listitem="@layout/widget_recycle_item_chat_session" />
+
+        </com.xxl.core.widget.recyclerview.UISmartRefreshLayout>
+
+        <com.xxl.hello.widget.ui.view.keyboard.CommentKeyboardLayout
+            android:id="@+id/common_keyboard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+</layout>
