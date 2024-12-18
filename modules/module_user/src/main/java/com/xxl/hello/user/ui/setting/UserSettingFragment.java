@@ -28,7 +28,7 @@ import com.xxl.core.utils.ChannelUtils;
 import com.xxl.hello.common.config.AppConfig;
 import com.xxl.hello.common.config.CacheDirConfig;
 import com.xxl.hello.common.config.NetworkConfig;
-import com.xxl.hello.im.data.router.ChatRouterApi;
+import com.xxl.hello.widget.data.router.ChatRouterApi;
 import com.xxl.hello.service.data.local.db.entity.ResourcesUploadQueueDBEntity;
 import com.xxl.hello.service.data.model.entity.media.MediaPreviewItemEntity;
 import com.xxl.hello.service.data.model.entity.share.ImageShareResourceEntity;

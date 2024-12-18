@@ -9,5 +9,7 @@
             android:theme="@style/TransparentTheme" />
         <activity android:name=".ui.browser.FileBrowserActivity" />
         <activity android:name=".ui.qrcode.QRCodeActivity" />
+
+        <activity android:name=".ui.im.message.session.privites.PrivateChatSessionActivity" />
     </application>
 </manifest>
