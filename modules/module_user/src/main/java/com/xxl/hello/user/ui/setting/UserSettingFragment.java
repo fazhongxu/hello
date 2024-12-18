@@ -41,7 +41,7 @@ import com.xxl.hello.user.BR;
 import com.xxl.hello.user.R;
 import com.xxl.hello.user.databinding.UserFragmentSettingBinding;
 import com.xxl.hello.widget.data.router.WidgetRouterApi;
-import com.xxl.hello.widget.ui.view.keyboard.ICommentKeyboardLayout;
+import com.xxl.hello.widget.ui.view.keyboard.ICommonKeyboardLayout;
 import com.xxl.hello.widget.ui.view.share.OnShareItemOperate;
 import com.xxl.hello.widget.ui.view.share.ResourcesShareWindow;
 import com.xxl.hello.widget.ui.view.share.api.ResourcesSharePickerKit;
@@ -204,7 +204,7 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
      * 设置评论视图
      */
     private void setupCommentLayout() {
-        ICommentKeyboardLayout commonKeyboard = mViewDataBinding.commonKeyboard;
+        ICommonKeyboardLayout commonKeyboard = mViewDataBinding.commonKeyboard;
         commonKeyboard.init(getActivity(), mViewDataBinding.ctlContentContainer);
     }
 

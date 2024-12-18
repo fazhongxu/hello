@@ -38,7 +38,7 @@
 
         </com.xxl.core.widget.recyclerview.UISmartRefreshLayout>
 
-        <com.xxl.hello.widget.ui.view.keyboard.CommentKeyboardLayout
+        <com.xxl.hello.widget.ui.view.keyboard.CommonKeyboardLayout
             android:id="@+id/common_keyboard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

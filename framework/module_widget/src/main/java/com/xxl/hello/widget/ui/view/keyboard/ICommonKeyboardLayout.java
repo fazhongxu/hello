@@ -10,7 +10,7 @@ import androidx.annotation.Nullable;
  * @author xxl.
  * @date 2022/8/31.
  */
-public interface ICommentKeyboardLayout {
+public interface ICommonKeyboardLayout {
 
     /**
      * 初始化
@@ -47,6 +47,6 @@ public interface ICommentKeyboardLayout {
      *
      * @param listener
      */
-    void setOnCommentKeyboardListener(@Nullable OnCommentKeyboardListener listener);
+    void setOnCommentKeyboardListener(@Nullable OnCommonKeyboardListener listener);
 
 }

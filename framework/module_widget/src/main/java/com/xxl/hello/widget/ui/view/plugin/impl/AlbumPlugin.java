@@ -4,6 +4,7 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 
+import com.xxl.hello.widget.R;
 import com.xxl.hello.widget.ui.view.plugin.Plugin;
 
 /**
@@ -28,7 +29,7 @@ public class AlbumPlugin extends Plugin {
      */
     @Override
     public int obtainDrawable(@NonNull Context context) {
-        return 0;
+        return R.drawable.resources_ext_plugin_album;
     }
 
     /**
@@ -39,7 +40,7 @@ public class AlbumPlugin extends Plugin {
      */
     @Override
     public int obtainTitle(@NonNull Context context) {
-        return 0;
+        return R.string.resources_ext_plugin_album;
     }
 
     //endregion

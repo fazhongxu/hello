@@ -3,12 +3,12 @@ package com.xxl.hello.widget.ui.view.keyboard;
 import androidx.annotation.Nullable;
 
 /**
- * 评论键盘监听事件
+ * 常用键盘监听事件
  *
  * @author xxl.
  * @date 2024/7/1.
  */
-public interface OnCommentKeyboardListener {
+public interface OnCommonKeyboardListener {
 
     /**
      * 评论键盘视图展开

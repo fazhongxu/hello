@@ -15,8 +15,8 @@ import com.xxl.hello.widget.BR;
 import com.xxl.hello.widget.R;
 import com.xxl.hello.widget.databinding.WidgetFragmentChatSessionBinding;
 import com.xxl.hello.widget.ui.im.message.session.base.adapter.ChatSessionAdapter;
-import com.xxl.hello.widget.ui.view.keyboard.CommentKeyboardLayout;
-import com.xxl.hello.widget.ui.view.keyboard.OnCommentKeyboardListener;
+import com.xxl.hello.widget.ui.view.keyboard.CommonKeyboardLayout;
+import com.xxl.hello.widget.ui.view.keyboard.OnCommonKeyboardListener;
 import com.xxl.kit.StringUtils;
 
 import java.util.Random;
@@ -29,7 +29,7 @@ import javax.inject.Inject;
  * @author xxl.
  * @date 2024/6/14.
  */
-public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel<N>, N extends BaseChatSessionNavigator> extends BaseViewModelFragment<V, WidgetFragmentChatSessionBinding> implements OnRefreshDataListener, OnCommentKeyboardListener {
+public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel<N>, N extends BaseChatSessionNavigator> extends BaseViewModelFragment<V, WidgetFragmentChatSessionBinding> implements OnRefreshDataListener, OnCommonKeyboardListener {
 
     //region: 成员变量
 
@@ -82,7 +82,7 @@ public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel
         RecyclerView recyclerView = mChatSessionBinding.rvList;
         refreshLayout.setRefreshDataListener(this);
         refreshLayout.bindRecyclerView(recyclerView, mChatSessionAdapter);
-        CommentKeyboardLayout commonKeyboard = mChatSessionBinding.commonKeyboard;
+        CommonKeyboardLayout commonKeyboard = mChatSessionBinding.commonKeyboard;
         commonKeyboard.setOnCommentKeyboardListener(this);
         commonKeyboard.init(getActivity(), refreshLayout);
         commonKeyboard.show(null);
@@ -106,7 +106,7 @@ public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel
 
     //endregion
 
-    //region: OnCommentKeyboardListener
+    //region: OnCommonKeyboardListener
 
     /**
      * 评论键盘视图展开

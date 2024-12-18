@@ -25,16 +25,23 @@ import com.vanniktech.emoji.listeners.OnEmojiLongClickListener;
 import com.xxl.core.listener.OnTextChangeListener;
 import com.xxl.hello.widget.R;
 import com.xxl.hello.widget.ui.view.emoji.EmojiEditText;
+import com.xxl.hello.widget.ui.view.plugin.Plugin;
+import com.xxl.hello.widget.ui.view.plugin.PluginLayout;
+import com.xxl.hello.widget.ui.view.plugin.impl.AlbumPlugin;
+import com.xxl.hello.widget.ui.view.plugin.impl.CapturePlugin;
 import com.xxl.kit.DisplayUtils;
 import com.xxl.kit.StringUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * 评论输入布局
+ * 常用输入布局
  *
  * @author xxl.
  * @date 2022/8/31.
  */
-public class CommentKeyboardLayout extends LinearLayout implements ICommentKeyboardLayout, OnTextChangeListener,
+public class CommonKeyboardLayout extends LinearLayout implements ICommonKeyboardLayout, OnTextChangeListener,
         OnEmojiClickListener, OnEmojiLongClickListener,
         OnEmojiBackspaceClickListener {
 
@@ -78,21 +85,21 @@ public class CommentKeyboardLayout extends LinearLayout implements ICommentKeybo
     /**
      * 评论键盘监听事件
      */
-    private OnCommentKeyboardListener mOnCommentKeyboardListener;
+    private OnCommonKeyboardListener mOnCommentKeyboardListener;
 
     //endregion
 
     //region: 构造函数
 
-    public CommentKeyboardLayout(Context context) {
+    public CommonKeyboardLayout(Context context) {
         this(context, null);
     }
 
-    public CommentKeyboardLayout(Context context, @Nullable AttributeSet attrs) {
+    public CommonKeyboardLayout(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public CommentKeyboardLayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public CommonKeyboardLayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         setupLayout(context);
     }
@@ -127,12 +134,6 @@ public class CommentKeyboardLayout extends LinearLayout implements ICommentKeybo
         mLLExpressionContainer = findViewById(R.id.ll_expression_container);
         mLLExtendContainer = findViewById(R.id.ll_extend_container);
         mEtContent.addTextChangedListener(this);
-        mIvAdd.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO: 2024/12/11 相机/相册
-            }
-        });
         mTvSend.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -162,7 +163,7 @@ public class CommentKeyboardLayout extends LinearLayout implements ICommentKeybo
 
     //endregion
 
-    //region: ICommentKeyboardLayout
+    //region: ICommonKeyboardLayout
 
     /**
      * 初始化
@@ -175,9 +176,11 @@ public class CommentKeyboardLayout extends LinearLayout implements ICommentKeybo
                      @NonNull View contentView) {
         EmotionKeyboard.with(activity)
                 .setEmotionView(mLLExpressionContainer)
+                .setExtendView(mLLExtendContainer)
                 .bindToContent(contentView)
                 .bindToEditText(mEtContent)
                 .bindToEmotionButton(mIvFace)
+                .bindToExtendButton(mIvAdd)
                 .setOnEmotionKeyboardListener(() -> {
                     if (mOnCommentKeyboardListener != null) {
                         mOnCommentKeyboardListener.onCommentLayoutExpand();
@@ -193,6 +196,31 @@ public class CommentKeyboardLayout extends LinearLayout implements ICommentKeybo
         emojiView.setOnEmojiBackspaceClickListener(this);
         mLLExpressionContainer.removeAllViews();
         mLLExpressionContainer.addView(emojiView, new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, DisplayUtils.dp2px(300)));
+
+        PluginLayout pluginLayout = new PluginLayout(activity);
+        mLLExtendContainer.removeAllViews();
+        mLLExtendContainer.addView(pluginLayout, new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, DisplayUtils.dp2px(300)));
+
+        List<Plugin> plugins = new ArrayList<>();
+        plugins.add(new CapturePlugin());
+        plugins.add(new AlbumPlugin());
+        plugins.add(new CapturePlugin());
+        plugins.add(new AlbumPlugin());
+
+        plugins.add(new CapturePlugin());
+        plugins.add(new AlbumPlugin());
+        plugins.add(new CapturePlugin());
+        plugins.add(new AlbumPlugin());
+
+        plugins.add(new CapturePlugin());
+        plugins.add(new AlbumPlugin());
+        plugins.add(new CapturePlugin());
+        plugins.add(new AlbumPlugin());
+
+        plugins.add(new AlbumPlugin());
+        plugins.add(new AlbumPlugin());
+
+        pluginLayout.init(plugins);
     }
 
     /**
@@ -234,7 +262,7 @@ public class CommentKeyboardLayout extends LinearLayout implements ICommentKeybo
      * @param listener
      */
     @Override
-    public void setOnCommentKeyboardListener(@Nullable OnCommentKeyboardListener listener) {
+    public void setOnCommentKeyboardListener(@Nullable OnCommonKeyboardListener listener) {
         mOnCommentKeyboardListener = listener;
     }
 
