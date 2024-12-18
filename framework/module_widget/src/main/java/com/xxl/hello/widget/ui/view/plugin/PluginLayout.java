@@ -138,9 +138,11 @@ public class PluginLayout extends LinearLayout {
             ImageView ivPluginIcon = convertView.findViewById(R.id.iv_plugin_icon);
             TextView tvPluginName = convertView.findViewById(R.id.tv_plugin_name);
 
-            // TODO: 2024/12/18
+            // TODO: 2024/12/18 计算索引
 
-//            mPlugins.get()
+            Plugin plugin = mPlugins.get(0);
+            ivPluginIcon.setImageResource(plugin.obtainDrawable(getContext()));
+            tvPluginName.setText(plugin.obtainTitle(getContext()));
 
             return convertView;
         }
