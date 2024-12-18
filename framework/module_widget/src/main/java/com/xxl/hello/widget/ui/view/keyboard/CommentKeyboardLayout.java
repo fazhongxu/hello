@@ -60,7 +60,15 @@ public class CommentKeyboardLayout extends LinearLayout implements ICommentKeybo
      */
     private TextView mTvSend;
 
+    /**
+     * 表情实图
+     */
     private LinearLayout mLLExpressionContainer;
+
+    /**
+     * 扩展视图
+     */
+    private LinearLayout mLLExtendContainer;
 
     /**
      * 最近表情管理
@@ -117,6 +125,7 @@ public class CommentKeyboardLayout extends LinearLayout implements ICommentKeybo
         mIvAdd = findViewById(R.id.iv_add);
         mTvSend = findViewById(R.id.tv_send);
         mLLExpressionContainer = findViewById(R.id.ll_expression_container);
+        mLLExtendContainer = findViewById(R.id.ll_extend_container);
         mEtContent.addTextChangedListener(this);
         mIvAdd.setOnClickListener(new OnClickListener() {
             @Override
