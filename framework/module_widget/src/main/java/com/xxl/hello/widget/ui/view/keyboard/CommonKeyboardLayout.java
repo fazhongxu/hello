@@ -26,6 +26,7 @@ import com.xxl.core.listener.OnTextChangeListener;
 import com.xxl.hello.widget.R;
 import com.xxl.hello.widget.ui.view.emoji.EmojiEditText;
 import com.xxl.hello.widget.ui.view.plugin.Plugin;
+import com.xxl.hello.widget.ui.view.plugin.PluginClickListener;
 import com.xxl.hello.widget.ui.view.plugin.PluginLayout;
 import com.xxl.hello.widget.ui.view.plugin.impl.AlbumPlugin;
 import com.xxl.hello.widget.ui.view.plugin.impl.CapturePlugin;
@@ -206,6 +207,13 @@ public class CommonKeyboardLayout extends LinearLayout implements ICommonKeyboar
         plugins.add(new AlbumPlugin());
 
         pluginLayout.init(plugins);
+        pluginLayout.setPluginClickLisner(new PluginClickListener() {
+            @Override
+            public void onPluginItemClick(@NonNull Plugin plugin,
+                                          int position) {
+                //plugin.onClick(plugin,CommonKeyboardLayout.this);
+            }
+        });
     }
 
     /**

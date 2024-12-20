@@ -4,6 +4,9 @@ import android.content.Context;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+
+import com.xxl.hello.widget.ui.view.keyboard.CommonKeyboardLayout;
 
 /**
  * @author xxl.
@@ -12,6 +15,13 @@ import androidx.annotation.NonNull;
 public abstract class Plugin {
 
     //region: 提供方法
+
+    /**
+     * 操作请求码
+     *
+     * @return
+     */
+    public abstract int getRequestCode();
 
     /**
      * 创建图标
@@ -32,9 +42,11 @@ public abstract class Plugin {
     /**
      * 点击事件
      *
-     * @param targetView
+     * @param targetFragment
+     * @param targetKeyboardLayout
      */
-    public abstract void onClick(@NonNull View targetView);
+    public abstract void onClick(@NonNull Fragment targetFragment,
+                                 @NonNull CommonKeyboardLayout targetKeyboardLayout);
 
     //endregion
 }

@@ -42,6 +42,11 @@ public class PluginLayout extends LinearLayout {
      */
     private List<Plugin> mPlugins = new ArrayList<>();
 
+    /**
+     * 插件点击监听
+     */
+    private PluginClickListener mPluginClickListener;
+
     //endregion
 
     //region: 构造函数
@@ -147,7 +152,9 @@ public class PluginLayout extends LinearLayout {
             tvPluginName.setText(plugin.obtainTitle(getContext()));
 
             convertView.setOnClickListener(v -> {
-                plugin.onClick(v);
+                if (mPluginClickListener != null) {
+                    mPluginClickListener.onPluginItemClick(plugin, index);
+                }
             });
 
             return convertView;
@@ -168,6 +175,15 @@ public class PluginLayout extends LinearLayout {
         mPlugins.clear();
         mPlugins.addAll(plugins);
         mPluginPagerAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     * 设置插件点击监听
+     *
+     * @param listener
+     */
+    public void setPluginClickLisner(@NonNull PluginClickListener listener) {
+        mPluginClickListener = listener;
     }
 
     //endregion
