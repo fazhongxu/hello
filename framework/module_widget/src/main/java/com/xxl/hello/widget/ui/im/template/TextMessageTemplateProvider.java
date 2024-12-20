@@ -37,14 +37,13 @@ public class TextMessageTemplateProvider extends MessageTemplateProvider {
     //region: 页面生命周期
 
     /**
-     * 获取只要内容
+     * 获取摘要内容
      *
      * @param messageEntity
      * @return
      */
     @Override
     public CharSequence getSummaryContent(@NonNull MessageEntity messageEntity) {
-        // TODO: 2024/12/20 使用的时候，主要是消息列表，会话信息获取最后一条消息，显示摘要内容 
         return messageEntity.getMessageText();
     }
 

@@ -37,7 +37,7 @@ public class ImageMessageTemplateProvider extends MessageTemplateProvider {
     //region: 页面生命周期
 
     /**
-     * 获取只要内容
+     * 获取摘要内容
      *
      * @param messageEntity
      * @return

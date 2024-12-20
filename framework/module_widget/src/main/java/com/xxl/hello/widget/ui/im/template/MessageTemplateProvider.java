@@ -33,14 +33,12 @@ public abstract class MessageTemplateProvider {
     }
 
     /**
-     * 获取只要内容
+     * 获取摘要内容
      *
      * @param messageEntity
      * @return
      */
-    public CharSequence getSummaryContent(@NonNull MessageEntity messageEntity) {
-        return null;
-    }
+    public abstract CharSequence getSummaryContent(@NonNull MessageEntity messageEntity);
 
     /**
      * 获取视图

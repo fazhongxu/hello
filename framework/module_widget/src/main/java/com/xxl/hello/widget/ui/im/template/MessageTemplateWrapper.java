@@ -5,6 +5,7 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.xxl.hello.service.data.model.entity.im.ConversationEntity;
 import com.xxl.hello.service.data.model.entity.im.MessageEntity;
 import com.xxl.hello.service.data.model.entity.im.MessageTemplate;
 
@@ -59,6 +60,24 @@ public class MessageTemplateWrapper {
      */
     public static MessageTemplate getMessageTemplateAnnotation(@NonNull String templateType) {
         return sMessageTemplaterMap.get(templateType);
+    }
+
+    /**
+     * 获取摘要内容
+     *
+     * @param conversationEntity
+     * @return
+     */
+    public CharSequence getSummaryContent(@NonNull ConversationEntity conversationEntity) {
+        // TODO: 2024/12/20 使用的时候，主要是消息列表，会话信息获取最后一条消息，显示摘要内容
+        final MessageEntity lastMessageEntity = conversationEntity.getLastMessageEntity();
+        if (lastMessageEntity != null) {
+            MessageTemplateProvider provider = getMessageTemplateProvider(lastMessageEntity.getMessageTemplateType());
+            if (provider != null) {
+                return provider.getSummaryContent(lastMessageEntity);
+            }
+        }
+        return "";
     }
 
     /**
