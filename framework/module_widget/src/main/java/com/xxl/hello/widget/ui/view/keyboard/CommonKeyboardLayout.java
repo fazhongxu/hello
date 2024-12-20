@@ -2,6 +2,7 @@ package com.xxl.hello.widget.ui.view.keyboard;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
 
 import com.vanniktech.emoji.EmojiImageView;
 import com.vanniktech.emoji.EmojiPopup;
@@ -82,6 +84,11 @@ public class CommonKeyboardLayout extends LinearLayout implements ICommonKeyboar
      * 最近表情管理
      */
     private RecentEmojiManager mRecentEmojiManager;
+
+    /**
+     * 插件视图
+     */
+    private PluginLayout mPluginLayout;
 
     /**
      * 评论键盘监听事件
@@ -173,7 +180,7 @@ public class CommonKeyboardLayout extends LinearLayout implements ICommonKeyboar
      * @param contentView
      */
     @Override
-    public void init(@NonNull Activity activity,
+    public void init(@NonNull FragmentActivity activity,
                      @NonNull View contentView) {
         EmotionKeyboard.with(activity)
                 .setEmotionView(mLLExpressionContainer)
@@ -198,20 +205,20 @@ public class CommonKeyboardLayout extends LinearLayout implements ICommonKeyboar
         mLLExpressionContainer.removeAllViews();
         mLLExpressionContainer.addView(emojiView, new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, DisplayUtils.dp2px(300)));
 
-        PluginLayout pluginLayout = new PluginLayout(activity);
+        mPluginLayout = new PluginLayout(activity);
         mLLExtendContainer.removeAllViews();
-        mLLExtendContainer.addView(pluginLayout, new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, DisplayUtils.dp2px(300)));
+        mLLExtendContainer.addView(mPluginLayout, new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, DisplayUtils.dp2px(300)));
 
         List<Plugin> plugins = new ArrayList<>();
-        plugins.add(new CapturePlugin());
         plugins.add(new AlbumPlugin());
+        plugins.add(new CapturePlugin());
 
-        pluginLayout.init(plugins);
-        pluginLayout.setPluginClickLisner(new PluginClickListener() {
+        mPluginLayout.init(plugins);
+        mPluginLayout.setPluginClickListener(new PluginClickListener() {
             @Override
             public void onPluginItemClick(@NonNull Plugin plugin,
                                           int position) {
-                //plugin.onClick(plugin,CommonKeyboardLayout.this);
+                plugin.onClick(activity, CommonKeyboardLayout.this);
             }
         });
     }
@@ -295,6 +302,27 @@ public class CommonKeyboardLayout extends LinearLayout implements ICommonKeyboar
     //endregion
 
     //region: 提供方法
+
+    /**
+     * 处理页面返回结果
+     *
+     * @param context
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    public void handleOnActivityResult(@NonNull Activity context,
+                                       int requestCode,
+                                       int resultCode,
+                                       @Nullable Intent data) {
+        if (resultCode != Activity.RESULT_OK) {
+            return;
+        }
+        final Plugin plugin = mPluginLayout.getPlugin(requestCode);
+        if (plugin != null) {
+            plugin.handleOnActivityResult(context, requestCode, data);
+        }
+    }
 
     //endregion
 

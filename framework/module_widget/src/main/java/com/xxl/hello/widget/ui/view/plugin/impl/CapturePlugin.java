@@ -1,14 +1,17 @@
 package com.xxl.hello.widget.ui.view.plugin.impl;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
 
+import com.xxl.core.image.selector.MediaSelector;
 import com.xxl.hello.widget.R;
 import com.xxl.hello.widget.ui.view.keyboard.CommonKeyboardLayout;
 import com.xxl.hello.widget.ui.view.plugin.Plugin;
-import com.xxl.kit.ToastUtils;
 
 /**
  * 拍照插件
@@ -61,13 +64,36 @@ public class CapturePlugin extends Plugin {
     /**
      * 点击事件
      *
-     * @param targetFragment
-     * @param targetKeyboardLayout
+     * @param context
+     * @param keyboardLayout
      */
     @Override
-    public void onClick(@NonNull Fragment targetFragment,
-                        @NonNull CommonKeyboardLayout targetKeyboardLayout) {
-        ToastUtils.success("拍照").show();
+    public void onClick(@NonNull FragmentActivity context,
+                        @NonNull CommonKeyboardLayout keyboardLayout) {
+        // TODO: 2024/12/20
+    }
+
+    /**
+     * 处理页面返回结果
+     *
+     * @param context
+     * @param requestCode
+     * @param data
+     */
+    @Override
+    public void handleOnActivityResult(@NonNull Activity context,
+                                       int requestCode,
+                                       @Nullable Intent data) {
+        // TODO: 2024/12/20
+    }
+
+
+    //endregion
+
+    //region: CapturePluginObservable
+
+    public interface CapturePluginObservable {
+
     }
 
     //endregion

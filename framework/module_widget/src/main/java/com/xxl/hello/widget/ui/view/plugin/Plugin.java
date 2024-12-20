@@ -1,10 +1,14 @@
 package com.xxl.hello.widget.ui.view.plugin;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 import com.xxl.hello.widget.ui.view.keyboard.CommonKeyboardLayout;
 
@@ -42,11 +46,24 @@ public abstract class Plugin {
     /**
      * 点击事件
      *
-     * @param targetFragment
-     * @param targetKeyboardLayout
+     * @param context
+     * @param keyboardLayout
      */
-    public abstract void onClick(@NonNull Fragment targetFragment,
-                                 @NonNull CommonKeyboardLayout targetKeyboardLayout);
+    public abstract void onClick(@NonNull FragmentActivity context,
+                                 @NonNull CommonKeyboardLayout keyboardLayout);
+
+    /**
+     * 处理页面返回结果
+     *
+     * @param context
+     * @param requestCode
+     * @param data
+     */
+    public void handleOnActivityResult(@NonNull Activity context,
+                                       int requestCode,
+                                       @Nullable Intent data) {
+
+    }
 
     //endregion
 }

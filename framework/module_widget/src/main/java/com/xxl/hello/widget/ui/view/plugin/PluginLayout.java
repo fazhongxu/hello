@@ -16,6 +16,7 @@ import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.xxl.hello.widget.R;
+import com.xxl.kit.ListUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -167,6 +168,23 @@ public class PluginLayout extends LinearLayout {
     //region: 提供方法
 
     /**
+     * 获取插件
+     *
+     * @param requestCode
+     * @return
+     */
+    public Plugin getPlugin(int requestCode) {
+        if (!ListUtils.isEmpty(mPlugins)) {
+            for (Plugin plugin : mPlugins) {
+                if (plugin.getRequestCode() == requestCode) {
+                    return plugin;
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
      * 初始化
      *
      * @param plugins
@@ -182,7 +200,7 @@ public class PluginLayout extends LinearLayout {
      *
      * @param listener
      */
-    public void setPluginClickLisner(@NonNull PluginClickListener listener) {
+    public void setPluginClickListener(@NonNull PluginClickListener listener) {
         mPluginClickListener = listener;
     }
 

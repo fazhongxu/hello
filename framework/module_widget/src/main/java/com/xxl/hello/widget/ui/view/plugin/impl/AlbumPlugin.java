@@ -1,14 +1,23 @@
 package com.xxl.hello.widget.ui.view.plugin.impl;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
 
+import com.luck.picture.lib.config.PictureMimeType;
+import com.luck.picture.lib.entity.LocalMedia;
+import com.xxl.core.image.selector.MediaSelector;
 import com.xxl.hello.widget.R;
 import com.xxl.hello.widget.ui.view.keyboard.CommonKeyboardLayout;
 import com.xxl.hello.widget.ui.view.plugin.Plugin;
+import com.xxl.kit.ListUtils;
 import com.xxl.kit.ToastUtils;
+
+import java.util.List;
 
 /**
  * 相册插件
@@ -61,13 +70,50 @@ public class AlbumPlugin extends Plugin {
     /**
      * 点击事件
      *
-     * @param targetFragment
-     * @param targetKeyboardLayout
+     * @param context
+     * @param keyboardLayout
      */
     @Override
-    public void onClick(@NonNull Fragment targetFragment,
-                        @NonNull CommonKeyboardLayout targetKeyboardLayout) {
-        ToastUtils.success("相册").show();
+    public void onClick(@NonNull FragmentActivity context,
+                        @NonNull CommonKeyboardLayout keyboardLayout) {
+        MediaSelector.create(context)
+                .openGallery(PictureMimeType.ofImage())
+                .forResult(getRequestCode());
+    }
+
+    /**
+     * 处理页面返回结果
+     *
+     * @param context
+     * @param requestCode
+     * @param data
+     */
+    @Override
+    public void handleOnActivityResult(@NonNull Activity context,
+                                       int requestCode,
+                                       @Nullable Intent data) {
+        if (context instanceof AlbumPluginObservable) {
+            List<LocalMedia> targetMedias = MediaSelector.obtainMultipleResult(data);
+            if (!ListUtils.isEmpty(targetMedias)) {
+                ((AlbumPluginObservable) context).handleAlbumPluginResult(targetMedias);
+            }
+            return;
+        }
+        ToastUtils.warning(String.format("插件功能请实现%s接口", AlbumPluginObservable.class.getSimpleName())).show();
+    }
+
+    //endregion
+
+    //region: AlbumPluginObservable
+
+    public interface AlbumPluginObservable {
+
+        /**
+         * 处理相册插件返回结果
+         *
+         * @param targetMedias
+         */
+        void handleAlbumPluginResult(List<LocalMedia> targetMedias);
     }
 
     //endregion

@@ -9,6 +9,16 @@ public class SDKMessage {
 
     //region: 成员变量
 
+    /**
+     * 消息文本
+     */
+    private String mTextContent;
+
+    /**
+     * 多媒体路径
+     */
+    private String mMediaPath;
+
     //endregion
 
     //region: 构造函数
@@ -24,6 +34,25 @@ public class SDKMessage {
     //endregion
 
     //region: 提供方法
+
+
+    public String getTextContent() {
+        return mTextContent;
+    }
+
+    public String getMediaPath() {
+        return mMediaPath;
+    }
+
+    public SDKMessage setTextContent(String content) {
+        mTextContent = content;
+        return this;
+    }
+
+    public SDKMessage setMediaPath(String mediaPath) {
+        mMediaPath = mediaPath;
+        return this;
+    }
 
     //endregion
 

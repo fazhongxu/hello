@@ -1,10 +1,10 @@
 package com.xxl.hello.widget.ui.view.keyboard;
 
-import android.app.Activity;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
 
 /**
  * @author xxl.
@@ -18,7 +18,7 @@ public interface ICommonKeyboardLayout {
      * @param activity
      * @param contentView
      */
-    void init(@NonNull final Activity activity,
+    void init(@NonNull final FragmentActivity activity,
               @NonNull final View contentView);
 
     /**
