@@ -6,15 +6,15 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
- * 评论键盘输入类型
+ * 常用键盘输入类型
  *
  * @author xxl.
  * @date 2022/9/2.
  */
-@IntDef({CommentKeyboardInputType.TEXT,
-        CommentKeyboardInputType.EXPRESSION})
+@IntDef({CommonKeyboardInputType.TEXT,
+        CommonKeyboardInputType.EXPRESSION})
 @Retention(RetentionPolicy.SOURCE)
-public @interface CommentKeyboardInputType {
+public @interface CommonKeyboardInputType {
 
     /**
      * 文本

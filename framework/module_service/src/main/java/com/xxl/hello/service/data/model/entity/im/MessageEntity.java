@@ -23,11 +23,6 @@ public class MessageEntity {
     @MessageDirection
     private int mMessageDirection;
 
-    /**
-     * 消息文本
-     */
-    private String mMessageText;
-
     //endregion
 
     //region: 构造函数
@@ -67,17 +62,6 @@ public class MessageEntity {
     }
 
     /**
-     * 设置消息文本
-     *
-     * @param messageText
-     * @return
-     */
-    public MessageEntity setMessageText(String messageText) {
-        mMessageText = messageText;
-        return this;
-    }
-
-    /**
      * 获取消息模板类型
      *
      * @return
@@ -107,7 +91,17 @@ public class MessageEntity {
      * @return
      */
     public String getMessageText() {
-        return mMessageText;
+        if (mSdkMessage != null) {
+            return mSdkMessage.getTextContent();
+        }
+        return null;
+    }
+
+    public String getMediaPath() {
+        if (mSdkMessage != null) {
+            return mSdkMessage.getMediaPath();
+        }
+        return null;
     }
 
     //endregion

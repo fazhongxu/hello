@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 
+import com.xxl.core.image.loader.ImageLoader;
 import com.xxl.hello.service.data.model.entity.im.MessageEntity;
 import com.xxl.hello.service.data.model.entity.im.MessageTemplate;
 import com.xxl.hello.service.data.model.entity.im.MessageTemplateType;
@@ -46,7 +47,10 @@ public class ImageMessageTemplateProvider extends MessageTemplateProvider {
                          int position,
                          @Nullable OnMessageTemplateListener listener) {
         WidgetRecycleItemMessageImageBinding imageBinding = DataBindingUtil.bind(rootView);
-        imageBinding.executePendingBindings();
+
+        ImageLoader.with(rootView.getContext())
+                .load(messageEntity.getMediaPath())
+                .into(imageBinding.ivImage);
     }
 
     //endregion

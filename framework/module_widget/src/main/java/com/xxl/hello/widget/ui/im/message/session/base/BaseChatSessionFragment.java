@@ -1,24 +1,32 @@
 package com.xxl.hello.widget.ui.im.message.session.base;
 
+import android.content.Intent;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.luck.picture.lib.entity.LocalMedia;
 import com.xxl.core.ui.fragment.BaseViewModelFragment;
 import com.xxl.core.widget.recyclerview.OnRefreshDataListener;
 import com.xxl.core.widget.recyclerview.UISmartRefreshLayout;
 import com.xxl.hello.service.data.model.entity.im.MessageDirection;
 import com.xxl.hello.service.data.model.entity.im.MessageEntity;
+import com.xxl.hello.service.data.model.entity.im.SDKMessage;
 import com.xxl.hello.widget.BR;
 import com.xxl.hello.widget.R;
 import com.xxl.hello.widget.databinding.WidgetFragmentChatSessionBinding;
 import com.xxl.hello.widget.ui.im.message.session.base.adapter.ChatSessionAdapter;
-import com.xxl.hello.widget.ui.view.keyboard.CommentKeyboardLayout;
-import com.xxl.hello.widget.ui.view.keyboard.OnCommentKeyboardListener;
+import com.xxl.hello.widget.ui.im.message.session.privites.PrivateChatSessionFragment;
+import com.xxl.hello.widget.ui.view.keyboard.CommonKeyboardLayout;
+import com.xxl.hello.widget.ui.view.keyboard.OnCommonKeyboardListener;
+import com.xxl.hello.widget.ui.view.plugin.impl.AlbumPlugin;
+import com.xxl.hello.widget.ui.view.plugin.impl.AlbumPlugin.AlbumPluginObservable;
+import com.xxl.kit.ListUtils;
 import com.xxl.kit.StringUtils;
 
+import java.util.List;
 import java.util.Random;
 
 import javax.inject.Inject;
@@ -31,7 +39,9 @@ import dagger.hilt.android.AndroidEntryPoint;
  * @author xxl.
  * @date 2024/6/14.
  */
-public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel<N>, N extends BaseChatSessionNavigator> extends BaseViewModelFragment<V, WidgetFragmentChatSessionBinding> implements OnRefreshDataListener, OnCommentKeyboardListener {
+public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel<N>, N extends BaseChatSessionNavigator> extends BaseViewModelFragment<V, WidgetFragmentChatSessionBinding>
+        implements OnRefreshDataListener, OnCommonKeyboardListener,
+        AlbumPluginObservable {
 
     //region: 成员变量
 
@@ -66,6 +76,15 @@ public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel
     }
 
     @Override
+    public void onActivityResult(int requestCode,
+                                 int resultCode,
+                                 @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        CommonKeyboardLayout commonKeyboard = mChatSessionBinding.commonKeyboard;
+        commonKeyboard.handleOnActivityResult(getActivity(), requestCode, resultCode, data);
+    }
+
+    @Override
     protected void setupData() {
 
     }
@@ -84,7 +103,7 @@ public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel
         RecyclerView recyclerView = mChatSessionBinding.rvList;
         refreshLayout.setRefreshDataListener(this);
         refreshLayout.bindRecyclerView(recyclerView, mChatSessionAdapter);
-        CommentKeyboardLayout commonKeyboard = mChatSessionBinding.commonKeyboard;
+        CommonKeyboardLayout commonKeyboard = mChatSessionBinding.commonKeyboard;
         commonKeyboard.setOnCommentKeyboardListener(this);
         commonKeyboard.init(getActivity(), refreshLayout);
         commonKeyboard.show(null);
@@ -108,7 +127,7 @@ public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel
 
     //endregion
 
-    //region: OnCommentKeyboardListener
+    //region: OnCommonKeyboardListener
 
     /**
      * 评论键盘视图展开
@@ -125,12 +144,28 @@ public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel
      */
     @Override
     public void onSendClick(@Nullable String content) {
-        MessageEntity messageEntity = new MessageEntity(null);
-        messageEntity.setMessageType(StringUtils.isTrimEmpty(content) ? 2 : 1);
+        SDKMessage sdkMessage = SDKMessage.obtain()
+                .setTextContent(content);
+        MessageEntity messageEntity = MessageEntity.obtain(sdkMessage);
+        messageEntity.setMessageType(1);
         messageEntity.setMessageDirection(new Random().nextInt(10) % 3 == 0 ? MessageDirection.LEFT : MessageDirection.RIGHT);
-        messageEntity.setMessageText(content);
         mChatSessionAdapter.addData(messageEntity);
 
+        scrollToLastPosition();
+    }
+
+    //endregion
+
+    //region: AlbumPluginObservable
+
+    @Override
+    public void handleAlbumPluginResult(final List<LocalMedia> targetMedias) {
+        SDKMessage sdkMessage = SDKMessage.obtain()
+                .setMediaPath(ListUtils.getFirst(targetMedias).getPath());
+        MessageEntity messageEntity = MessageEntity.obtain(sdkMessage);
+        messageEntity.setMessageType(2);
+        messageEntity.setMessageDirection(new Random().nextInt(10) % 3 == 0 ? MessageDirection.LEFT : MessageDirection.RIGHT);
+        mChatSessionAdapter.addData(messageEntity);
         scrollToLastPosition();
     }
 

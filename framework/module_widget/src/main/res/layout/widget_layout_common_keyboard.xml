@@ -102,6 +102,16 @@
         android:orientation="vertical"
         android:visibility="gone" />
 
+    <LinearLayout
+        android:id="@+id/ll_extend_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/h_common_background_color"
+        android:gravity="center"
+        android:minHeight="260dp"
+        android:orientation="vertical"
+        android:visibility="gone" />
+
     <FrameLayout
         android:id="@+id/fl_bottom_container"
         android:layout_width="match_parent"

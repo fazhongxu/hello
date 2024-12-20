@@ -1,16 +1,16 @@
 package com.xxl.hello.widget.ui.view.keyboard;
 
-import android.app.Activity;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
 
 /**
  * @author xxl.
  * @date 2022/8/31.
  */
-public interface ICommentKeyboardLayout {
+public interface ICommonKeyboardLayout {
 
     /**
      * 初始化
@@ -18,7 +18,7 @@ public interface ICommentKeyboardLayout {
      * @param activity
      * @param contentView
      */
-    void init(@NonNull final Activity activity,
+    void init(@NonNull final FragmentActivity activity,
               @NonNull final View contentView);
 
     /**
@@ -47,6 +47,6 @@ public interface ICommentKeyboardLayout {
      *
      * @param listener
      */
-    void setOnCommentKeyboardListener(@Nullable OnCommentKeyboardListener listener);
+    void setOnCommentKeyboardListener(@Nullable OnCommonKeyboardListener listener);
 
 }

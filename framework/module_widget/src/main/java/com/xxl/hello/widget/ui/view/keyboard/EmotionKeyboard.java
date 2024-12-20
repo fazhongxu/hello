@@ -101,6 +101,7 @@ public class EmotionKeyboard {
         emotionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hideLayout(mExtendLayout, false);
                 if (mEmotionLayout != null && mEmotionLayout.isShown()) {
                     lockContentHeight();
                     hideLayout(mEmotionLayout, true);
@@ -131,6 +132,7 @@ public class EmotionKeyboard {
 
             @Override
             public void onClick(View view) {
+                hideLayout(mEmotionLayout, false);
                 if (mExtendLayout != null && mExtendLayout.isShown()) {
                     lockContentHeight();
                     hideLayout(mExtendLayout, true);
@@ -218,6 +220,9 @@ public class EmotionKeyboard {
      * @param showSoftInput 是否显示软键盘
      */
     private void hideLayout(View layout, boolean showSoftInput) {
+        if (layout == null) {
+            return;
+        }
         if (layout.isShown()) {
             layout.setVisibility(View.GONE);
             if (showSoftInput) {
