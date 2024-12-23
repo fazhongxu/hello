@@ -36,6 +36,17 @@ public class TextMessageTemplateProvider extends MessageTemplateProvider {
 
     //region: 页面生命周期
 
+    /**
+     * 获取摘要内容
+     *
+     * @param messageEntity
+     * @return
+     */
+    @Override
+    public CharSequence getSummaryContent(@NonNull MessageEntity messageEntity) {
+        return messageEntity.getMessageText();
+    }
+
     @Override
     public int getLayoutRes() {
         return R.layout.widget_recycle_item_message_text;
@@ -50,7 +61,7 @@ public class TextMessageTemplateProvider extends MessageTemplateProvider {
         int direction = messageEntity.getMessageDirection();
         if (direction == MessageDirection.LEFT) {
             textBinding.llItemContainer.setBackgroundResource(R.drawable.resources_bg_chat_text_left);
-        }else {
+        } else {
             textBinding.llItemContainer.setBackgroundResource(R.drawable.resources_bg_chat_text_right);
         }
         textBinding.tvContent.setText(messageEntity.getMessageText());

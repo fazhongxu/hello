@@ -10,7 +10,9 @@ public class ConversationEntity {
 
     //region: 成员变量
 
-    public SDKConversation mSdkConversation;
+    private SDKConversation mSdkConversation;
+
+    private MessageEntity mLastMessageEntity;
 
     //endregion
 
@@ -27,6 +29,10 @@ public class ConversationEntity {
     //endregion
 
     //region: 提供方法
+
+    public MessageEntity getLastMessageEntity() {
+        return mLastMessageEntity;
+    }
 
     //endregion
 

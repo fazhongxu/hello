@@ -36,6 +36,17 @@ public class ImageMessageTemplateProvider extends MessageTemplateProvider {
 
     //region: 页面生命周期
 
+    /**
+     * 获取摘要内容
+     *
+     * @param messageEntity
+     * @return
+     */
+    @Override
+    public CharSequence getSummaryContent(@NonNull MessageEntity messageEntity) {
+        return "[图片]";
+    }
+
     @Override
     public int getLayoutRes() {
         return R.layout.widget_recycle_item_message_image;
