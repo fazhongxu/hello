@@ -3,6 +3,14 @@ package com.xxl.hello.main.ui.main;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.RectF;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -49,6 +57,7 @@ import com.xxl.hello.widget.ui.view.record.RecordButton;
 import com.xxl.hello.widget.ui.window.CommonMessagePopupWindow;
 import com.xxl.kit.AppUtils;
 import com.xxl.kit.ClipboardUtils;
+import com.xxl.kit.ColorUtils;
 import com.xxl.kit.FFmpegUtils;
 import com.xxl.kit.ListUtils;
 import com.xxl.kit.LogUtils;
@@ -211,6 +220,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
         mMainViewModel.setObservableUserId(String.valueOf(TimeUtils.currentServiceTimeMillis()));
         setupRecord();
         setupRecyclerView();
+        onTestClick();
     }
 
     private void setupRecyclerView() {
@@ -235,6 +245,74 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     @Override
     public void onTestClick() {
         UserRouterApi.Login.newBuilder().navigation(getActivity());
+
+        Bitmap bitmap = Bitmap.createBitmap(200, 200, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        canvas.drawColor(Color.YELLOW);
+
+        Bitmap bitmap2 = Bitmap.createBitmap(200, 200, Bitmap.Config.ARGB_8888);
+        Canvas canvas2 = new Canvas(bitmap2);
+        canvas2.drawColor(Color.BLUE);
+
+        int gap1 = 30;
+        int radius1 = 10;
+
+        int gap2 = gap1 + 40;
+        int radius2 = 20;
+        Bitmap resultBitmap = clipBitmapWithHole(bitmap, gap1, radius1, 255);
+
+        Bitmap resultBitmap2 = clipBitmapWithHole(bitmap2, gap2, radius2, 100);
+
+        Bitmap bitmap1 = mergeBorder(resultBitmap, resultBitmap2);
+
+        Log.e("aaa", "onTestClick: " + resultBitmap);
+        mViewDataBinding.ivImage.setImageBitmap(bitmap1);
+
+    }
+
+
+    /**
+     * 合并边框
+     *
+     * @param border
+     * @param insideBorder
+     * @return
+     */
+    public static Bitmap mergeBorder(Bitmap border,
+                                     Bitmap insideBorder) {
+        int width = border.getWidth();
+        int height = border.getHeight();
+        Bitmap resultBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(resultBitmap);
+        canvas.drawBitmap(insideBorder, 0, 0, null);
+        canvas.drawBitmap(border, 0, 0, null);
+
+        return resultBitmap;
+
+    }
+
+    public static Bitmap clipBitmapWithHole(Bitmap originBitmap,
+                                            int gap,
+                                            int radius,
+                                            int alpha) {
+        int width = originBitmap.getWidth();
+        int height = originBitmap.getHeight();
+
+        Bitmap resultBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(resultBitmap);
+
+        Paint paint = new Paint();
+        paint.setAlpha(alpha);
+
+        canvas.drawBitmap(originBitmap, 0, 0,paint);
+
+        Paint paint1 = new Paint();
+        paint1.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+
+        RectF rectF = new RectF(gap, gap, width - gap, height - gap);
+        canvas.drawRoundRect(rectF, radius, radius, paint1);
+
+        return resultBitmap;
     }
 
     /**

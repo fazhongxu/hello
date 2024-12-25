@@ -12,10 +12,13 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ViewDataBinding;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.xxl.hello.widget.R;
+import com.xxl.hello.widget.databinding.WidgetLayoutCommonPluginBinding;
 import com.xxl.kit.ListUtils;
 
 import java.util.ArrayList;
@@ -31,7 +34,7 @@ public class PluginLayout extends LinearLayout {
 
     private static final int PAGE_PLUGIN_MAX_COUNT = 8;
 
-    private ViewPager mViewPager;
+    private WidgetLayoutCommonPluginBinding mPluginBinding;
 
     /**
      * 插件适配器
@@ -67,10 +70,9 @@ public class PluginLayout extends LinearLayout {
      * @param context
      */
     private void initView(Context context) {
-        inflate(context, R.layout.widget_layout_common_plugin, this);
-        mViewPager = findViewById(R.id.viewpager);
+        mPluginBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.widget_layout_common_plugin, this, true);
         mPluginPagerAdapter = new PluginPagerAdapter();
-        mViewPager.setAdapter(mPluginPagerAdapter);
+        mPluginBinding.viewpager.setAdapter(mPluginPagerAdapter);
     }
 
     private class PluginPagerAdapter extends PagerAdapter {
