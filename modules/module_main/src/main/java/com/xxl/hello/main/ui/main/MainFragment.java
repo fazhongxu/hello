@@ -221,7 +221,6 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
         mMainViewModel.setObservableUserId(String.valueOf(TimeUtils.currentServiceTimeMillis()));
         setupRecord();
         setupRecyclerView();
-        onTestClick();
     }
 
     private void setupRecyclerView() {
@@ -246,31 +245,6 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     @Override
     public void onTestClick() {
         UserRouterApi.Login.newBuilder().navigation(getActivity());
-
-        Bitmap bitmap = Bitmap.createBitmap(200, 200, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        canvas.drawColor(Color.YELLOW);
-
-        Bitmap bitmap2 = Bitmap.createBitmap(200, 200, Bitmap.Config.ARGB_8888);
-        Canvas canvas2 = new Canvas(bitmap2);
-        canvas2.drawColor(Color.BLUE);
-
-        int gap1 = 30;
-        int radius1 = 10;
-
-        int gap2 = gap1 + 40;
-        int radius2 = 20;
-        int width = 200 / 4;
-
-        Bitmap resultBitmap = BitmapUtils.clipBitmapWithHole(bitmap, (int) (52 * 1F / 100 * width), radius1, 255);
-
-        Bitmap resultBitmap2 = BitmapUtils.clipBitmapWithHole(bitmap2, gap2, radius2, 100);
-
-        Bitmap bitmap1 = BitmapUtils.mergeBorder(resultBitmap, resultBitmap2);
-
-        Log.e("aaa", "onTestClick: " + resultBitmap);
-        mViewDataBinding.ivImage.setImageBitmap(bitmap1);
-
     }
 
     /**
