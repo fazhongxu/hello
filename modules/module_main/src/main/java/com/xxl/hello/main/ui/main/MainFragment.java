@@ -56,6 +56,7 @@ import com.xxl.hello.widget.ui.view.record.OnRecordListener;
 import com.xxl.hello.widget.ui.view.record.RecordButton;
 import com.xxl.hello.widget.ui.window.CommonMessagePopupWindow;
 import com.xxl.kit.AppUtils;
+import com.xxl.kit.BitmapUtils;
 import com.xxl.kit.ClipboardUtils;
 import com.xxl.kit.ColorUtils;
 import com.xxl.kit.FFmpegUtils;
@@ -259,60 +260,17 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
         int gap2 = gap1 + 40;
         int radius2 = 20;
-        Bitmap resultBitmap = clipBitmapWithHole(bitmap, gap1, radius1, 255);
+        int width = 200 / 4;
 
-        Bitmap resultBitmap2 = clipBitmapWithHole(bitmap2, gap2, radius2, 100);
+        Bitmap resultBitmap = BitmapUtils.clipBitmapWithHole(bitmap, (int) (52 * 1F / 100 * width), radius1, 255);
 
-        Bitmap bitmap1 = mergeBorder(resultBitmap, resultBitmap2);
+        Bitmap resultBitmap2 = BitmapUtils.clipBitmapWithHole(bitmap2, gap2, radius2, 100);
+
+        Bitmap bitmap1 = BitmapUtils.mergeBorder(resultBitmap, resultBitmap2);
 
         Log.e("aaa", "onTestClick: " + resultBitmap);
         mViewDataBinding.ivImage.setImageBitmap(bitmap1);
 
-    }
-
-
-    /**
-     * 合并边框
-     *
-     * @param border
-     * @param insideBorder
-     * @return
-     */
-    public static Bitmap mergeBorder(Bitmap border,
-                                     Bitmap insideBorder) {
-        int width = border.getWidth();
-        int height = border.getHeight();
-        Bitmap resultBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(resultBitmap);
-        canvas.drawBitmap(insideBorder, 0, 0, null);
-        canvas.drawBitmap(border, 0, 0, null);
-
-        return resultBitmap;
-
-    }
-
-    public static Bitmap clipBitmapWithHole(Bitmap originBitmap,
-                                            int gap,
-                                            int radius,
-                                            int alpha) {
-        int width = originBitmap.getWidth();
-        int height = originBitmap.getHeight();
-
-        Bitmap resultBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(resultBitmap);
-
-        Paint paint = new Paint();
-        paint.setAlpha(alpha);
-
-        canvas.drawBitmap(originBitmap, 0, 0,paint);
-
-        Paint paint1 = new Paint();
-        paint1.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-
-        RectF rectF = new RectF(gap, gap, width - gap, height - gap);
-        canvas.drawRoundRect(rectF, radius, radius, paint1);
-
-        return resultBitmap;
     }
 
     /**

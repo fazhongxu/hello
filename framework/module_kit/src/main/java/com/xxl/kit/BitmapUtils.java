@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.RadialGradient;
+import android.graphics.RectF;
 import android.graphics.Shader;
 
 /**
@@ -110,6 +111,61 @@ public class BitmapUtils {
 
         return output;
     }
+
+
+    /**
+     * 裁间图片把图片中间扣出一个透明的矩形
+     *
+     * @param originBitmap 原图
+     * @param gap          透明矩形和原图的边距
+     * @param radius       中间镂空矩形圆角
+     * @param alpha        剩余图形的透明度
+     * @return
+     */
+    public static Bitmap clipBitmapWithHole(Bitmap originBitmap,
+                                            int gap,
+                                            int radius,
+                                            int alpha) {
+        int width = originBitmap.getWidth();
+        int height = originBitmap.getHeight();
+
+        Bitmap resultBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(resultBitmap);
+
+        Paint paint = new Paint();
+        paint.setAlpha(alpha);
+
+        canvas.drawBitmap(originBitmap, 0, 0, paint);
+
+        Paint paint1 = new Paint();
+        paint1.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+
+        RectF rectF = new RectF(gap, gap, width - gap, height - gap);
+        canvas.drawRoundRect(rectF, radius, radius, paint1);
+
+        return resultBitmap;
+    }
+
+    /**
+     * 合并边框
+     *
+     * @param border       外边框
+     * @param insideBorder 内边框
+     * @return
+     */
+    public static Bitmap mergeBorder(Bitmap border,
+                                     Bitmap insideBorder) {
+        int width = border.getWidth();
+        int height = border.getHeight();
+        Bitmap resultBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(resultBitmap);
+        canvas.drawBitmap(insideBorder, 0, 0, null);
+        canvas.drawBitmap(border, 0, 0, null);
+
+        return resultBitmap;
+
+    }
+
 
     private BitmapUtils() {
 
