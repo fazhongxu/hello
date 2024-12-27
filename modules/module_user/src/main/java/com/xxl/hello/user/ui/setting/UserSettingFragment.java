@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -170,6 +171,10 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
                 final Uri uri = Uri.parse(media.isCut() ? media.getCutPath() : media.getPath());
                 final Uri targetUri = PathUtils.getUriByFilePath(PathUtils.getFilePathByUri(uri));
                 mUserSettingModel.requestPutResourcesUploadQueueDBEntities(new ArrayList<>(mediaList));
+
+                for (LocalMedia localMedia : mediaList) {
+                    Log.e("aaa", "onActivityResult: " + MediaSelector.getMediaPath(localMedia));
+                }
             }
         }
     }

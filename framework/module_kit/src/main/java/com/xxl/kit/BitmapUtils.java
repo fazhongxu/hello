@@ -7,8 +7,10 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.RadialGradient;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Shader;
+import android.util.Log;
 
 /**
  * @author xxl.
@@ -112,6 +114,42 @@ public class BitmapUtils {
         return output;
     }
 
+    /**
+     * 裁剪图片
+     *
+     * @param originBitmap
+     * @param targetWidth
+     * @param targetHeight
+     * @return
+     */
+    public static Bitmap cropBitmap(Bitmap originBitmap,
+                                    int targetWidth,
+                                    int targetHeight) {
+        if (originBitmap == null) {
+            return null;
+        }
+        int originWidth = originBitmap.getWidth();
+        int originHeight = originBitmap.getHeight();
+
+        int cropWidth = targetWidth;
+        int cropHeight = targetHeight;
+
+        int offsetX = (originWidth - cropWidth) / 2;
+        int offsetY = (originHeight - cropHeight) / 2;
+
+        cropWidth = Math.min(cropWidth, originWidth);
+        cropHeight = Math.min(cropHeight, originHeight);
+
+        Bitmap croppedBitmap = Bitmap.createBitmap(cropWidth, cropHeight, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(croppedBitmap);
+
+        Rect srcRect = new Rect(offsetX, offsetY, offsetX + cropWidth, offsetY + cropHeight);
+        RectF destRect = new RectF(0, 0, cropWidth, cropHeight);
+        canvas.drawBitmap(originBitmap, srcRect, destRect, null);
+
+        return croppedBitmap;
+    }
+
 
     /**
      * 裁间图片把图片中间扣出一个透明的矩形
@@ -122,7 +160,7 @@ public class BitmapUtils {
      * @param alpha        剩余图形的透明度
      * @return
      */
-    public static Bitmap clipBitmapWithHole(Bitmap originBitmap,
+    public static Bitmap cropBitmapWithHole(Bitmap originBitmap,
                                             int gap,
                                             int radius,
                                             int alpha) {
