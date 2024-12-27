@@ -10,9 +10,6 @@ import android.graphics.RadialGradient;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Shader;
-import android.util.Log;
-
-import com.bumptech.glide.Glide;
 
 /**
  * @author xxl.
@@ -206,33 +203,45 @@ public class BitmapUtils {
 
     }
 
-
     /**
-     * 裁剪CenterCrop样式的bitmap
-     * 给一个图片，任意给一个宽高，裁剪成任意宽高的图片
+     * bitmap CenterCrop方式裁剪
      *
      * @param originBitmap
      * @param targetWidth
      * @param targetHeight
      * @return
      */
-    public static Bitmap cropCenterCropBitmap(Bitmap originBitmap,
-                                              int targetWidth,
-                                              int targetHeight) {
-        try {
-            return Glide.with(AppUtils.getApplication())
-                    .asBitmap()
-                    .override(targetWidth, targetHeight)
-                    .load(originBitmap)
-                    .centerCrop()
-                    .submit()
-                    .get();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+    public static Bitmap centerCrop(Bitmap originBitmap,
+                                    int targetWidth,
+                                    int targetHeight) {
 
+        int originWidth = originBitmap.getWidth();
+        int originHeight = originBitmap.getHeight();
+
+        // ImageView ScaleType.CENTER_CROP
+        Matrix matrix = new Matrix();
+
+        float scale;
+        float dx = 0, dy = 0;
+
+
+        if (originWidth * targetHeight > targetWidth * originHeight) {
+            scale = (float) targetHeight / (float) originHeight;
+            dx = (targetWidth - originWidth * scale) * 0.5f;
+        } else {
+            scale = (float) targetWidth / (float) originWidth;
+            dy = (targetHeight - originHeight * scale) * 0.5f;
+        }
+
+        matrix.setScale(scale, scale);
+        matrix.postTranslate(Math.round(dx), Math.round(dy));
+
+        Bitmap targetBitmap = Bitmap.createBitmap(targetWidth, targetHeight, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(targetBitmap);
+        canvas.drawBitmap(originBitmap, matrix, null);
+
+        return targetBitmap;
+    }
 
     private BitmapUtils() {
 
