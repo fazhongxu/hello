@@ -13,7 +13,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
-import androidx.databinding.ViewDataBinding;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
@@ -73,6 +72,29 @@ public class PluginLayout extends LinearLayout {
         mPluginBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.widget_layout_common_plugin, this, true);
         mPluginPagerAdapter = new PluginPagerAdapter();
         mPluginBinding.viewpager.setAdapter(mPluginPagerAdapter);
+        mPluginBinding.viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (mPluginBinding.llDotContainer.getChildCount() > 0) {
+                    for (int i = 0; i < mPluginBinding.llDotContainer.getChildCount(); i++) {
+                        ImageView imageView = (ImageView) mPluginBinding.llDotContainer.getChildAt(i);
+                        imageView.setImageResource(R.drawable.resources_shape_gray_light_dot);
+                    }
+                    ImageView imageView = (ImageView) mPluginBinding.llDotContainer.getChildAt(position);
+                    imageView.setImageResource(R.drawable.resources_shape_gray_dot);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     private class PluginPagerAdapter extends PagerAdapter {
@@ -195,6 +217,25 @@ public class PluginLayout extends LinearLayout {
         mPlugins.clear();
         mPlugins.addAll(plugins);
         mPluginPagerAdapter.notifyDataSetChanged();
+
+        mPluginBinding.llDotContainer.removeAllViews();
+
+        int page = (int) Math.ceil(mPlugins.size() * 1.0F / PAGE_PLUGIN_MAX_COUNT);
+
+        if (page > 1) {
+            for (int i = 0; i < page; i++) {
+                ImageView imageView = new ImageView(getContext());
+                if (i == 0) {
+                    imageView.setImageResource(R.drawable.resources_shape_gray_dot);
+                }else {
+                    imageView.setImageResource(R.drawable.resources_shape_gray_light_dot);
+                }
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(20, 20);
+                layoutParams.rightMargin = 15;
+                imageView.setLayoutParams(layoutParams);
+                mPluginBinding.llDotContainer.addView(imageView);
+            }
+        }
     }
 
     /**
