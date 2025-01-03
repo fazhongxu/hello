@@ -2,6 +2,7 @@ package com.xxl.core.image.selector;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -113,6 +114,16 @@ public class MediaSelector {
             return result == null ? new ArrayList<>() : result;
         }
         return new ArrayList<>();
+    }
+
+    /**
+     * 获取媒体路径
+     *
+     * @param localMedia
+     * @return
+     */
+    public static String getMediaPath(LocalMedia localMedia) {
+        return !TextUtils.isEmpty(localMedia.getCutPath()) ? localMedia.getCutPath() : localMedia.getPath();
     }
 
     /**

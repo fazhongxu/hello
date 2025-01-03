@@ -7,6 +7,8 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.RadialGradient;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.Shader;
 
 /**
@@ -109,6 +111,136 @@ public class BitmapUtils {
         canvas.drawBitmap(bitmap, 0, 0, paint);
 
         return output;
+    }
+
+    /**
+     * 裁剪图片
+     *
+     * @param originBitmap
+     * @param targetWidth
+     * @param targetHeight
+     * @return
+     */
+    public static Bitmap cropBitmap(Bitmap originBitmap,
+                                    int targetWidth,
+                                    int targetHeight) {
+        if (originBitmap == null) {
+            return null;
+        }
+        int originWidth = originBitmap.getWidth();
+        int originHeight = originBitmap.getHeight();
+
+        int cropWidth = targetWidth;
+        int cropHeight = targetHeight;
+
+        int offsetX = (originWidth - cropWidth) / 2;
+        int offsetY = (originHeight - cropHeight) / 2;
+
+        cropWidth = Math.min(cropWidth, originWidth);
+        cropHeight = Math.min(cropHeight, originHeight);
+
+        Bitmap croppedBitmap = Bitmap.createBitmap(cropWidth, cropHeight, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(croppedBitmap);
+
+        Rect srcRect = new Rect(offsetX, offsetY, offsetX + cropWidth, offsetY + cropHeight);
+        RectF destRect = new RectF(0, 0, cropWidth, cropHeight);
+        canvas.drawBitmap(originBitmap, srcRect, destRect, null);
+
+        return croppedBitmap;
+    }
+
+
+    /**
+     * 裁间图片把图片中间扣出一个透明的矩形
+     *
+     * @param originBitmap 原图
+     * @param gap          透明矩形和原图的边距
+     * @param radius       中间镂空矩形圆角
+     * @param alpha        剩余图形的透明度
+     * @return
+     */
+    public static Bitmap cropBitmapWithHole(Bitmap originBitmap,
+                                            int gap,
+                                            int radius,
+                                            int alpha) {
+        int width = originBitmap.getWidth();
+        int height = originBitmap.getHeight();
+
+        Bitmap resultBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(resultBitmap);
+
+        Paint paint = new Paint();
+        paint.setAlpha(alpha);
+
+        canvas.drawBitmap(originBitmap, 0, 0, paint);
+
+        Paint paint1 = new Paint();
+        paint1.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+
+        RectF rectF = new RectF(gap, gap, width - gap, height - gap);
+        canvas.drawRoundRect(rectF, radius, radius, paint1);
+
+        return resultBitmap;
+    }
+
+    /**
+     * 合并边框
+     *
+     * @param border       外边框
+     * @param insideBorder 内边框
+     * @return
+     */
+    public static Bitmap mergeBorder(Bitmap border,
+                                     Bitmap insideBorder) {
+        int width = border.getWidth();
+        int height = border.getHeight();
+        Bitmap resultBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(resultBitmap);
+        canvas.drawBitmap(insideBorder, 0, 0, null);
+        canvas.drawBitmap(border, 0, 0, null);
+
+        return resultBitmap;
+
+    }
+
+    /**
+     * bitmap CenterCrop方式裁剪
+     *
+     * @param originBitmap
+     * @param targetWidth
+     * @param targetHeight
+     * @return
+     */
+    public static Bitmap centerCrop(Bitmap originBitmap,
+                                    int targetWidth,
+                                    int targetHeight) {
+
+        int originWidth = originBitmap.getWidth();
+        int originHeight = originBitmap.getHeight();
+
+        // ImageView ScaleType.CENTER_CROP
+        Matrix matrix = new Matrix();
+
+        float scale;
+        float dx = 0, dy = 0;
+
+
+        if (originWidth * targetHeight > targetWidth * originHeight) {
+            scale = (float) targetHeight / (float) originHeight;
+            dx = (targetWidth - originWidth * scale) * 0.5f;
+        } else {
+            scale = (float) targetWidth / (float) originWidth;
+            dy = (targetHeight - originHeight * scale) * 0.5f;
+        }
+
+        matrix.setScale(scale, scale);
+        matrix.postTranslate(Math.round(dx), Math.round(dy));
+
+        Bitmap targetBitmap = Bitmap.createBitmap(targetWidth, targetHeight, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(targetBitmap);
+        canvas.drawBitmap(originBitmap, matrix, null);
+
+        return targetBitmap;
     }
 
     private BitmapUtils() {

@@ -3,6 +3,8 @@
 
     <!-- Base application theme. -->
     <style name="BaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- 横屏后左边留黑边问题处理 layoutInDisplayCutoutMode-->
+        <item name="android:windowLayoutInDisplayCutoutMode" tools:ignore="NewApi">shortEdges</item>
         <!-- Customize your theme here. -->
         <item name="toolbarBackgroundColor">@color/resources_primary_color</item>
         <item name="toolbarLeftIcon">@drawable/core_ic_left_arrow_white</item>
