@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.tbruyelle.rxpermissions3.RxPermissions;
 import com.xxl.core.aop.annotation.Safe;
+import com.xxl.core.image.loader.ImageLoader;
 import com.xxl.core.media.audio.AudioCapture;
 import com.xxl.core.media.audio.AudioCapture.OnAudioFrameCapturedListener;
 import com.xxl.core.media.audio.AudioRecordFormat;
@@ -211,6 +212,20 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
         mMainViewModel.setObservableUserId(String.valueOf(TimeUtils.currentServiceTimeMillis()));
         setupRecord();
         setupRecyclerView();
+
+        // TODO: 2025/1/6
+
+        ///storage/emulated/0/Android/data/com.xxl.hello/files/Pictures/IMG_CROP_20250106_13571263.webp
+
+        ///storage/emulated/0/Android/data/com.xxl.hello/files/Pictures/IMG_CROP_20250106_13575184.jpeg
+
+        //String path = "storage/emulated/0/Android/data/com.xxl.hello/files/Pictures/IMG_CROP_20250106_13571263.webp";
+        //String path = "storage/emulated/0/Android/data/com.xxl.hello/files/Pictures/IMG_CROP_20250106_13575184.jpeg";
+        String path = "/storage/emulated/0/Android/data/com.xxl.hello/files/Pictures/IMG_CROP_20250106_14235137.jpeg";
+
+        ImageLoader.with(this)
+                .load(path)
+                .into(mViewDataBinding.ivImage);
     }
 
     private void setupRecyclerView() {
