@@ -1,6 +1,9 @@
 package com.xxl.core.image.selector;
 
 import android.Manifest;
+import android.graphics.Color;
+import android.view.Gravity;
+import android.view.animation.Animation;
 
 import com.luck.picture.lib.PictureSelectionModel;
 import com.luck.picture.lib.PictureSelector;
@@ -11,7 +14,19 @@ import com.xxl.core.R;
 import com.xxl.kit.PermissionUtils;
 import com.xxl.kit.ToastUtils;
 
+import io.reactivex.rxjava3.annotations.NonNull;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.ObservableSource;
+import io.reactivex.rxjava3.core.ObservableTransformer;
 import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.functions.Action;
+import io.reactivex.rxjava3.functions.Function;
+import razerdp.basepopup.QuickPopupBuilder;
+import razerdp.basepopup.QuickPopupConfig;
+import razerdp.util.animation.AnimationHelper;
+import razerdp.util.animation.ScaleConfig;
+import razerdp.util.animation.TranslationConfig;
+import razerdp.widget.QuickPopup;
 
 /**
  * @author xxl.
@@ -92,10 +107,29 @@ public class MediaSelectionModel extends PictureSelectionModel {
         } else {
             rxPermissions = new RxPermissions(mMediaSelector.getActivity());
         }
+
+        QuickPopup permissionUsageInstruction = buildPermissionUsageInstruction();
         final Disposable disposable = rxPermissions.request(Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.CAMERA)
-                .compose(PermissionUtils.applyPermissionSetting())
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.CAMERA)
+                //.compose(PermissionUtils.applyPermissionSetting())
+                .compose(new ObservableTransformer<Boolean, Boolean>() {
+                    @Override
+                    public @NonNull ObservableSource<Boolean> apply(@NonNull Observable<Boolean> upstream) {
+                        if (permissionUsageInstruction != null) {
+                            permissionUsageInstruction.showPopupWindow();
+                        }
+                        return upstream;
+                    }
+                })
+                .doFinally(new Action() {
+                    @Override
+                    public void run() throws Throwable {
+                        if (permissionUsageInstruction != null) {
+                            permissionUsageInstruction.dismiss();
+                        }
+                    }
+                })
                 .subscribe(isSuccess -> {
                     if (isSuccess) {
                         super.forResult(requestCode);
@@ -105,6 +139,32 @@ public class MediaSelectionModel extends PictureSelectionModel {
                 }, throwable -> {
                     ToastUtils.error(throwable.getMessage()).show();
                 });
+    }
+
+    /**
+     * 构建权限使用说明弹窗
+     *
+     * @return
+     */
+    private QuickPopup buildPermissionUsageInstruction() {
+        QuickPopupBuilder quickPopupBuilder;
+        if (mMediaSelector.getFragment() != null) {
+            quickPopupBuilder = QuickPopupBuilder.with(mMediaSelector.getFragment());
+        } else {
+            quickPopupBuilder = QuickPopupBuilder.with(mMediaSelector.getActivity());
+        }
+        Animation showAnimation = ((AnimationHelper.AnimationBuilder) AnimationHelper.asAnimation().withTranslation(TranslationConfig.FROM_TOP)).toShow();
+        showAnimation.setDuration(200);
+        Animation dismissAnimation = ((AnimationHelper.AnimationBuilder) AnimationHelper.asAnimation().withTranslation(TranslationConfig.TO_TOP)).toDismiss();
+        dismissAnimation.setDuration(200);
+        return quickPopupBuilder
+                .config(QuickPopupConfig.generateDefault()
+                        .withShowAnimation(showAnimation)
+                        .withDismissAnimation(dismissAnimation)
+                        .gravity(Gravity.TOP)
+                        .backgroundColor(Color.TRANSPARENT))
+                .contentView(R.layout.core_layout_permission_usage_instruction)
+                .build();
     }
 
     //endregion

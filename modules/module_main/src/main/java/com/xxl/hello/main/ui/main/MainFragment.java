@@ -3,9 +3,11 @@ package com.xxl.hello.main.ui.main;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 
 import androidx.annotation.Keep;
@@ -70,6 +72,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.reactivex.rxjava3.disposables.Disposable;
+import razerdp.basepopup.QuickPopupBuilder;
+import razerdp.basepopup.QuickPopupConfig;
 
 /**
  * @author xxl.
@@ -235,6 +239,12 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     @Override
     public void onTestClick() {
         UserRouterApi.Login.newBuilder().navigation(getActivity());
+//        QuickPopupBuilder.with(this)
+//                .config(QuickPopupConfig.generateDefault().gravity(Gravity.TOP).offsetY(50)
+//                        .alignBackground(true).backgroundColor(Color.TRANSPARENT))
+//                .contentView(com.xxl.core.R.layout.core_layout_permission_usage_instruction)
+//                .build()
+//                .showPopupWindow();
     }
 
     /**
