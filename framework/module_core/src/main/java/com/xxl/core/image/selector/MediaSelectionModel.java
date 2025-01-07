@@ -11,20 +11,17 @@ import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.UCropOptions;
 import com.tbruyelle.rxpermissions3.RxPermissions;
 import com.xxl.core.R;
+import com.xxl.core.rx.SchedulersProvider;
 import com.xxl.kit.PermissionUtils;
 import com.xxl.kit.ToastUtils;
 
-import io.reactivex.rxjava3.annotations.NonNull;
+import java.util.concurrent.TimeUnit;
+
 import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.core.ObservableSource;
-import io.reactivex.rxjava3.core.ObservableTransformer;
 import io.reactivex.rxjava3.disposables.Disposable;
-import io.reactivex.rxjava3.functions.Action;
-import io.reactivex.rxjava3.functions.Function;
 import razerdp.basepopup.QuickPopupBuilder;
 import razerdp.basepopup.QuickPopupConfig;
 import razerdp.util.animation.AnimationHelper;
-import razerdp.util.animation.ScaleConfig;
 import razerdp.util.animation.TranslationConfig;
 import razerdp.widget.QuickPopup;
 
@@ -112,24 +109,24 @@ public class MediaSelectionModel extends PictureSelectionModel {
         final Disposable disposable = rxPermissions.request(Manifest.permission.READ_EXTERNAL_STORAGE,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE,
                         Manifest.permission.CAMERA)
-                //.compose(PermissionUtils.applyPermissionSetting())
-                .compose(new ObservableTransformer<Boolean, Boolean>() {
-                    @Override
-                    public @NonNull ObservableSource<Boolean> apply(@NonNull Observable<Boolean> upstream) {
-                        if (permissionUsageInstruction != null) {
-                            permissionUsageInstruction.showPopupWindow();
-                        }
-                        return upstream;
+                .compose(PermissionUtils.applyPermissionSetting())
+                .compose(upstream -> {
+                    boolean isGranted = rxPermissions.isGranted(Manifest.permission.READ_EXTERNAL_STORAGE)
+                            && rxPermissions.isGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                            && rxPermissions.isGranted(Manifest.permission.CAMERA);
+                    if (permissionUsageInstruction != null && !isGranted) {
+                        permissionUsageInstruction.showPopupWindow();
                     }
+                    return upstream;
                 })
-                .doFinally(new Action() {
-                    @Override
-                    public void run() throws Throwable {
-                        if (permissionUsageInstruction != null) {
-                            permissionUsageInstruction.dismiss();
-                        }
-                    }
-                })
+                .doFinally(() -> Observable.just(true)
+                        .delay(1, TimeUnit.SECONDS)
+                        .compose(SchedulersProvider.applySchedulers())
+                        .subscribe(aBoolean -> {
+                            if (permissionUsageInstruction != null) {
+                                permissionUsageInstruction.dismiss();
+                            }
+                        }))
                 .subscribe(isSuccess -> {
                     if (isSuccess) {
                         super.forResult(requestCode);
