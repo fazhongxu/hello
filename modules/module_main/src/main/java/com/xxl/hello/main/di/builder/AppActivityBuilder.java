@@ -1,5 +1,6 @@
 package com.xxl.hello.main.di.builder;
 
+import com.xxl.hello.noinject.NoInjectActivityBuilder;
 import com.xxl.hello.user.di.builder.UserActivityBuilder;
 import com.xxl.hello.widget.di.builder.WidgetActivityBuilder;
 
@@ -11,7 +12,8 @@ import dagger.Module;
  */
 @Module(includes = {WidgetActivityBuilder.class,
         MainAppActivityBuilder.class,
-        UserActivityBuilder.class})
+        UserActivityBuilder.class,
+        NoInjectActivityBuilder.class})
 public abstract class AppActivityBuilder {
 
 }

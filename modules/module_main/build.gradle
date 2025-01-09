@@ -1,5 +1,6 @@
-apply from: project.getRootDir().getAbsolutePath()+"/common.gradle"
+apply from: project.getRootDir().getAbsolutePath() + "/common.gradle"
 dependencies {
     debugImplementation deps.dokit
     implementation deps.hello.user
+    implementation project(":modules:module_no_inject")
 }

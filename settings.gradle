@@ -18,10 +18,4 @@ include ':app'
 include ':modules:module_main'
 include ':modules:module_user'
 
-
-
-
-
-
-
-
+include ':modules:module_no_inject'
