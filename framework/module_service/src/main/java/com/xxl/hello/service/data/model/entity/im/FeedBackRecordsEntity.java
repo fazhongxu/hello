@@ -6,7 +6,7 @@ package com.xxl.hello.service.data.model.entity.im;
  * @author xxl.
  * @date 2024/6/14.
  */
-public class MessageEntity {
+public class FeedBackRecordsEntity {
 
     //region: 成员变量
 
@@ -27,12 +27,12 @@ public class MessageEntity {
 
     //region: 构造函数
 
-    public MessageEntity(SDKMessage sdkMessage) {
+    public FeedBackRecordsEntity(SDKMessage sdkMessage) {
         mSdkMessage = sdkMessage;
     }
 
-    public static MessageEntity obtain(SDKMessage sdkMessage) {
-        return new MessageEntity(sdkMessage);
+    public static FeedBackRecordsEntity obtain(SDKMessage sdkMessage) {
+        return new FeedBackRecordsEntity(sdkMessage);
     }
 
     //endregion
@@ -45,7 +45,7 @@ public class MessageEntity {
      * @param messageType
      * @return
      */
-    public MessageEntity setMessageType(int messageType) {
+    public FeedBackRecordsEntity setMessageType(int messageType) {
         mMessageType = messageType;
         return this;
     }
@@ -56,18 +56,9 @@ public class MessageEntity {
      * @param messageDirection
      * @return
      */
-    public MessageEntity setMessageDirection(@MessageDirection int messageDirection) {
+    public FeedBackRecordsEntity setMessageDirection(@MessageDirection int messageDirection) {
         mMessageDirection = messageDirection;
         return this;
-    }
-
-    /**
-     * 获取消息类型
-     *
-     * @return
-     */
-    public int getMessageType() {
-        return mMessageType;
     }
 
     /**

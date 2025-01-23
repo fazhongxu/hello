@@ -9,8 +9,11 @@ import com.xxl.hello.service.data.model.entity.im.MessageDirection;
 import com.xxl.hello.service.data.model.entity.im.MessageEntity;
 import com.xxl.hello.service.data.model.entity.im.MessageTemplate;
 import com.xxl.hello.widget.R;
+import com.xxl.hello.widget.data.router.WidgetRouterApi;
 import com.xxl.hello.widget.databinding.WidgetRecycleItemChatSessionBinding;
 import com.xxl.hello.widget.ui.im.template.MessageTemplateWrapper;
+import com.xxl.hello.widget.ui.im.template.OnMessageTemplateListener;
+import com.xxl.kit.ToastUtils;
 
 /**
  * 会话列表适配器
@@ -18,7 +21,8 @@ import com.xxl.hello.widget.ui.im.template.MessageTemplateWrapper;
  * @author xxl.
  * @date 2024/6/14.
  */
-public class ChatSessionAdapter extends BaseBindingAdapter<MessageEntity, ChatSessionRecycleItemListener, WidgetRecycleItemChatSessionBinding> {
+public class ChatSessionAdapter extends BaseBindingAdapter<MessageEntity, ChatSessionRecycleItemListener, WidgetRecycleItemChatSessionBinding>
+        implements OnMessageTemplateListener {
 
     //region: 成员变量
 
@@ -59,7 +63,7 @@ public class ChatSessionAdapter extends BaseBindingAdapter<MessageEntity, ChatSe
      */
     private void setMessageLayout(@NonNull WidgetRecycleItemChatSessionBinding itemBinding,
                                   @NonNull MessageEntity itemEntity) {
-        View view = MessageTemplateWrapper.bindView(itemBinding.flMessageProviderLayout, itemEntity, getItemPosition(itemEntity), null);
+        View view = MessageTemplateWrapper.bindView(itemBinding.flMessageProviderLayout, itemEntity, getItemPosition(itemEntity), this);
         setMessageGravity(itemBinding, itemEntity);
         setUserLayout(itemBinding, itemEntity);
     }
@@ -106,5 +110,25 @@ public class ChatSessionAdapter extends BaseBindingAdapter<MessageEntity, ChatSe
     }
 
     //endregion
+
+    //region: OnMessageTemplateListener
+
+    @Override
+    public boolean onMessageItemClick(MessageEntity messageEntity) {
+        if (messageEntity.getMessageType() == 2) {
+            WidgetRouterApi.MediaPreview.newBuilder()
+                    .setMediaPreviewItem(messageEntity.getMediaPath())
+                    .navigation();
+            return true;
+        }
+        if (messageEntity.getMessageType() == 1) {
+            ToastUtils.success(messageEntity.getMessageText()).show();
+            return true;
+        }
+        return false;
+    }
+
+    //endregion
+
 
 }

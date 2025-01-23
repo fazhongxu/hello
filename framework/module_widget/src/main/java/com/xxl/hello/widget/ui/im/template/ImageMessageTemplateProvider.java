@@ -62,6 +62,12 @@ public class ImageMessageTemplateProvider extends MessageTemplateProvider {
         ImageLoader.with(rootView.getContext())
                 .load(messageEntity.getMediaPath())
                 .into(imageBinding.ivImage);
+
+        imageBinding.ivImage.setOnClickListener(v -> {
+            if (listener != null && listener.onMessageItemClick(messageEntity)) {
+                return;
+            }
+        });
     }
 
     //endregion
