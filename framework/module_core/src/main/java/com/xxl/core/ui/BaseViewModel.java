@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.ObservableField;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.MutableLiveData;
 
 import com.xxl.core.exception.ResponseException;
 import com.xxl.core.exception.ResponseListener;
@@ -38,7 +39,7 @@ public class BaseViewModel<N> extends AndroidViewModel {
     /**
      * 进度加载属性
      */
-    private ObservableField<Attributes> mViewLoadingAttrs = new ObservableField<>();
+    private MutableLiveData<Attributes> mViewLoadingAttrs = new MutableLiveData<>();
 
     /**
      * A disposable container
@@ -84,7 +85,7 @@ public class BaseViewModel<N> extends AndroidViewModel {
         return mObservableResponseException;
     }
 
-    public ObservableField<Attributes> getViewLoadingAttrs() {
+    public MutableLiveData<Attributes> getViewLoadingAttrs() {
         return mViewLoadingAttrs;
     }
 
@@ -114,7 +115,7 @@ public class BaseViewModel<N> extends AndroidViewModel {
     public void setViewLoading(final boolean isLoading) {
         final ProgressBarWrapper.Builder builder = ProgressBarWrapper.Builder.create()
                 .setLoading(isLoading);
-        mViewLoadingAttrs.set(builder.build());
+        mViewLoadingAttrs.setValue(builder.build());
     }
 
     /**
@@ -126,7 +127,7 @@ public class BaseViewModel<N> extends AndroidViewModel {
         if (attributes == null) {
             return;
         }
-        mViewLoadingAttrs.set(attributes);
+        mViewLoadingAttrs.setValue(attributes);
     }
 
     /**
