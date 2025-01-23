@@ -57,6 +57,7 @@
     <string name="resources_can_not_parse_link_tips">无法解析该连接</string>
     <string name="resources_about_us"><Data><![CDATA[关于我们<font color="#fb5a5c">hello</font>]]></Data></string>
 
+    <string name="resources_message_title">消息</string>
     <string name="resources_private_chat_title">单聊</string>
     <string name="resources_group_chat_title">群聊</string>
 

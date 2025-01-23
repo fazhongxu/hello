@@ -2,6 +2,8 @@ package com.xxl.hello.widget.di.builder;
 
 import com.xxl.hello.widget.ui.browser.FileBrowserActivity;
 import com.xxl.hello.widget.ui.browser.FileBrowserFragmentProvider;
+import com.xxl.hello.widget.ui.im.message.list.MessageActivity;
+import com.xxl.hello.widget.ui.im.message.list.MessageFragmentProvider;
 import com.xxl.hello.widget.ui.im.message.session.privites.PrivateChatFragmentProvider;
 import com.xxl.hello.widget.ui.im.message.session.privites.PrivateChatSessionActivity;
 import com.xxl.hello.widget.ui.preview.MediaPreviewActivity;
@@ -53,6 +55,14 @@ public abstract class WidgetActivityBuilder {
      */
     @ContributesAndroidInjector(modules = {QRCodeFragmentProvider.class})
     abstract QRCodeActivity bindQRCodeActivityBuilder();
+
+    /**
+     * 绑定消息页面
+     *
+     * @return
+     */
+    @ContributesAndroidInjector(modules = MessageFragmentProvider.class)
+    abstract MessageActivity bindMessageActivityBuilder();
 
     /**
      * 绑定单聊页面

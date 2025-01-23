@@ -10,7 +10,7 @@ import dagger.android.ContributesAndroidInjector;
  * @date 2024/6/14.
  */
 @Module
-public abstract class MessageragmentProvider {
+public abstract class MessageFragmentProvider {
 
     /**
      * 绑定消息列表

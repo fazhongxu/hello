@@ -1,19 +1,19 @@
-package com.xxl.hello.widget.ui.im.message.session.privites;
+package com.xxl.hello.widget.ui.im.message.list;
 
 import android.app.Application;
 
 import androidx.annotation.NonNull;
 
-import com.xxl.hello.widget.ui.im.message.session.base.BaseChatSessionViewModel;
+import com.xxl.core.ui.BaseViewModel;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
 
 /**
- * 单聊会话
+ * 消息列表
  *
  * @author xxl.
- * @date 2024/6/28.
+ * @date 2024/6/14.
  */
-public class PrivateChatSessionViewModel extends BaseChatSessionViewModel<PrivateChatSessionNavigator> {
+public class MessageViewModel extends BaseViewModel<MessageNavigator> {
 
     //region: 成员变量
 
@@ -21,8 +21,8 @@ public class PrivateChatSessionViewModel extends BaseChatSessionViewModel<Privat
 
     //region: 构造函数
 
-    public PrivateChatSessionViewModel(@NonNull Application application,
-                                       @NonNull final DataRepositoryKit dataRepositoryKit) {
+    public MessageViewModel(@NonNull Application application,
+                            @NonNull final DataRepositoryKit dataRepositoryKit) {
         super(application);
     }
 
