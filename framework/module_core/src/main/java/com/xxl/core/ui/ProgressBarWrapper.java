@@ -33,8 +33,7 @@ public class ProgressBarWrapper {
         mKProgressHUD = KProgressHUD.create(context)
                 .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
                 .setCancellable(true)
-                .setAnimationSpeed(2)
-                .setDimAmount(0.5f);
+                .setAnimationSpeed(2);
 
         mHandler = new Handler(Looper.getMainLooper());
     }

@@ -1,5 +1,7 @@
 package com.xxl.hello.widget.ui.im.template;
 
+import com.xxl.hello.service.data.model.entity.im.MessageEntity;
+
 /**
  * 模板监听事件
  *
@@ -8,4 +10,7 @@ package com.xxl.hello.widget.ui.im.template;
  */
 public interface OnMessageTemplateListener {
 
+    default boolean onMessageItemClick(MessageEntity messageEntity) {
+       return false;
+    }
 }

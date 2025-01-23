@@ -11,5 +11,8 @@
         <activity android:name=".ui.qrcode.QRCodeActivity" />
 
         <activity android:name=".ui.im.message.session.privites.PrivateChatSessionActivity" />
+
+        <activity android:name=".ui.im.message.list.MessageActivity"/>
+
     </application>
 </manifest>

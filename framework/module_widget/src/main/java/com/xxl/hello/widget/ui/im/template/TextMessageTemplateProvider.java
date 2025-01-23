@@ -65,6 +65,11 @@ public class TextMessageTemplateProvider extends MessageTemplateProvider {
             textBinding.llItemContainer.setBackgroundResource(R.drawable.resources_bg_chat_text_right);
         }
         textBinding.tvContent.setText(messageEntity.getMessageText());
+        textBinding.tvContent.setOnClickListener(v -> {
+            if (listener != null && listener.onMessageItemClick(messageEntity)) {
+                return;
+            }
+        });
         textBinding.executePendingBindings();
     }
 

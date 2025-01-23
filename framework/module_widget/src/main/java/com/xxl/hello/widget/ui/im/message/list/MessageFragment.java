@@ -1,12 +1,14 @@
 package com.xxl.hello.widget.ui.im.message.list;
 
+import com.xxl.core.ui.fragment.BaseFragment;
+
 /**
  * 消息列表
  *
  * @author xxl.
  * @date 2024/6/14.
  */
-public class MessageFragment {
+public class MessageFragment extends BaseFragment {
 
     //region: 成员变量
 
@@ -14,11 +16,7 @@ public class MessageFragment {
 
     //region: 构造函数
 
-    private MessageFragment() {
-
-    }
-
-    public final static MessageFragment obtain() {
+    public static MessageFragment newInstance() {
         return new MessageFragment();
     }
 

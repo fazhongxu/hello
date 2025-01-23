@@ -86,6 +86,18 @@ public final class WidgetRouterApi {
 
             }
 
+            /**
+             * 设置多媒体预览条目数据
+             *
+             * @param mediaPath
+             * @return
+             */
+            public Builder setMediaPreviewItem(@Nullable final String mediaPath) {
+                final MediaPreviewItemEntity mediaPreviewItemEntity = MediaPreviewItemEntity.obtain()
+                        .setMediaUrl(mediaPath);
+                setMediaPreviewItemEntity(mediaPreviewItemEntity);
+                return this;
+            }
 
             /**
              * 设置多媒体预览条目数据
@@ -230,8 +242,8 @@ public final class WidgetRouterApi {
             public void navigation(@NonNull final Fragment fragment) {
                 final RxPermissions rxPermissions = new RxPermissions(fragment);
                 final Disposable disposable = rxPermissions.request(Manifest.permission.READ_EXTERNAL_STORAGE,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.CAMERA)
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                Manifest.permission.CAMERA)
                         .subscribe(isSuccess -> {
                             if (isSuccess) {
                                 RouterUtils.navigation(PATH, mParams);

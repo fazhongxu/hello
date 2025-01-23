@@ -23,6 +23,38 @@ public final class ChatRouterApi {
 
     }
 
+    //region: 消息相关
+
+    public static class MessageList {
+
+        /**
+         * 消息列表页面路径地址
+         */
+        public static final String PATH = IM_MODULE_NAME + "/message_list";
+
+        public static Builder newBuilder() {
+            return new Builder();
+        }
+
+        public static class Builder {
+
+            private Bundle mParams = new Bundle();
+
+            public Builder() {
+
+            }
+
+            /**
+             * 跳转到消息列表
+             */
+            public void navigation() {
+                RouterUtils.navigation(PATH, mParams);
+            }
+        }
+    }
+
+    //endregion
+
     //region: 聊天会话相关
 
     public static class PrivateChat {
@@ -61,7 +93,7 @@ public final class ChatRouterApi {
             }
 
             /**
-             * 跳转到多媒体预览
+             * 跳转到会话
              */
             public void navigation() {
                 RouterUtils.navigation(PATH, mParams);

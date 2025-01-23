@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.Observable;
 import androidx.databinding.ViewDataBinding;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.launcher.ARouter;
@@ -240,13 +241,10 @@ public abstract class BaseViewModelFragment<V extends BaseViewModel, T extends V
         }
 
         mProgressBarWrapper = ProgressBarWrapper.create(getContext());
-
-        mViewModel.getViewLoadingAttrs().addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+        mViewModel.getViewLoadingAttrs().observe(getViewLifecycleOwner(), new Observer<ProgressBarWrapper.Attributes>() {
             @Override
-            public void onPropertyChanged(Observable sender,
-                                          int propertyId) {
+            public void onChanged(ProgressBarWrapper.Attributes attributes) {
                 try {
-                    ProgressBarWrapper.Attributes attributes = (ProgressBarWrapper.Attributes) mViewModel.getViewLoadingAttrs().get();
                     mProgressBarWrapper.loading(attributes);
                 } catch (Exception e) {
                     e.printStackTrace();
