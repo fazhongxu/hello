@@ -1,7 +1,6 @@
 package com.xxl.hello.main.di.module;
 
 import android.app.Application;
-import android.os.Build;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
@@ -13,7 +12,6 @@ import com.xxl.core.service.download.aira.ForAriaDownload;
 import com.xxl.core.service.download.hello.ForHelloDownload;
 import com.xxl.core.service.download.hello.HelloDownloadServiceImpl;
 import com.xxl.hello.common.config.NetworkConfig;
-import com.xxl.hello.main.BuildConfig;
 import com.xxl.hello.service.data.local.db.impl.objectbox.ObjectBoxDataStoreModel;
 import com.xxl.hello.service.data.local.prefs.api.UserPreferences;
 import com.xxl.hello.service.di.module.ServiceDataStoreModule;
@@ -106,7 +104,7 @@ public class DataStoreModule {
     @Singleton
     @Provides
     String provideUserAgent() {
-        return BuildConfig.VERSION_NAME + "Android" + Build.BRAND;
+        return NetworkConfig.Companion.getUserAgent();
     }
 
     /**
