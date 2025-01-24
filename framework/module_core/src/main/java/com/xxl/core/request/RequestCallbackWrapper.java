@@ -1,7 +1,5 @@
 package com.xxl.core.request;
 
-import androidx.annotation.Nullable;
-
 import com.xxl.core.response.ResponseCode;
 import com.xxl.kit.OnRequestCallBack;
 
@@ -11,7 +9,7 @@ import com.xxl.kit.OnRequestCallBack;
  */
 public abstract class RequestCallbackWrapper<T> implements OnRequestCallBack<T> {
 
-    public abstract void onResult(int code, @Nullable T result, Throwable throwable);
+    public abstract void onResult(int code,T result, Throwable throwable);
 
     @Override
     public void onSuccess(T result) {
