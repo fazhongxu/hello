@@ -5,7 +5,6 @@ import androidx.annotation.NonNull;
 import com.xxl.hello.service.data.local.prefs.api.UserPreferences;
 import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
 import com.xxl.hello.service.manager.UserManager;
-import com.xxl.kit.TimeUtils;
 
 /**
  * 用户信息存储
@@ -84,7 +83,7 @@ public class UserPreferencesImpl implements UserPreferences<LoginUserEntity> {
     @Override
     public void logout() {
         synchronized (this) {
-            UserManager.getInstance().removeUserEntity();
+            UserManager.getInstance().clearUserEntity();
         }
     }
 

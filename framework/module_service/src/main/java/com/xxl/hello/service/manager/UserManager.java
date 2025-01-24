@@ -130,9 +130,9 @@ public class UserManager {
     }
 
     /**
-     * 移除用户信息
+     * 清除用户信息
      */
-    public void removeUserEntity() {
+    public void clearUserEntity() {
         mLoginUserEntity = null;
         mUserCache.removeValueForKey(KEY_LOGIN_USER_ENTITY);
     }
