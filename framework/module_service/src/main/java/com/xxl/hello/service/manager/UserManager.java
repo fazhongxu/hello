@@ -99,6 +99,19 @@ public class UserManager {
     }
 
     /**
+     * 获取用户头像
+     *
+     * @return
+     */
+    public String getUserAvatar() {
+        LoginUserEntity userEntity = getUserEntity();
+        if (userEntity != null) {
+            return userEntity.getAvatar();
+        }
+        return "";
+    }
+
+    /**
      * 获取当前登录用户的信息
      *
      * @return
