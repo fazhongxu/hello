@@ -16,7 +16,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.xxl.core.exception.ResponseException;
+import com.xxl.core.response.ResponseException;
 import com.xxl.core.ui.BaseEventBusWrapper;
 import com.xxl.core.ui.BaseViewModel;
 import com.xxl.core.ui.ProgressBarWrapper;

@@ -8,7 +8,7 @@ import com.alipictures.statemanager.StateLayout;
 import com.alipictures.statemanager.manager.StateEventListener;
 import com.alipictures.statemanager.state.StateProperty;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.xxl.core.exception.ResponseException;
+import com.xxl.core.response.ResponseException;
 import com.xxl.kit.ListUtils;
 
 import java.util.List;

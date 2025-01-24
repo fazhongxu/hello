@@ -1,4 +1,4 @@
-package com.xxl.core.exception;
+package com.xxl.core.response;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

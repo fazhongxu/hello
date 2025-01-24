@@ -4,7 +4,7 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 
-import com.xxl.core.exception.ResponseCode;
+import com.xxl.core.response.ResponseCode;
 import com.xxl.core.service.upload.UploadListener;
 import com.xxl.hello.common.config.CacheDirConfig;
 import com.xxl.hello.service.R;

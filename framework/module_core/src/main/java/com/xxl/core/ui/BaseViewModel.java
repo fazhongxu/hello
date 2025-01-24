@@ -9,8 +9,8 @@ import androidx.databinding.ObservableField;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
-import com.xxl.core.exception.ResponseException;
-import com.xxl.core.exception.ResponseListener;
+import com.xxl.core.response.ResponseException;
+import com.xxl.core.response.ResponseListener;
 import com.xxl.core.manager.ExceptionServiceManager;
 import com.xxl.core.rx.SchedulersProvider;
 import com.xxl.core.ui.ProgressBarWrapper.Attributes;

@@ -1,4 +1,4 @@
-package com.xxl.core.exception;
+package com.xxl.core.response;
 
 /**
  * 服务端响应code值
@@ -55,6 +55,10 @@ public class ResponseCode {
      */
     public static final int RESPONSE_CODE_HTTP_ERROR = 10002;
 
+    /**
+     * 操作出现异常
+     */
+    public static final short RESPONSE_CODE_EXCEPTION = 2000;
 
     //endregion
 
