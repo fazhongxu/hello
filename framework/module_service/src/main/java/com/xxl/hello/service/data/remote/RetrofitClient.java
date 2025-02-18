@@ -1,11 +1,13 @@
 package com.xxl.hello.service.data.remote;
 
+import android.text.TextUtils;
+
 import com.xxl.hello.common.config.NetworkConfig;
+import com.xxl.hello.service.manager.UserManager;
 import com.xxl.kit.LogUtils;
 
 import java.io.IOException;
 
-import okhttp3.Headers;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -52,7 +54,7 @@ public class RetrofitClient {
 
     private Retrofit getRetrofit() {
         if (mRetrofit == null) {
-            createRetrofit(NetworkConfig.Companion.getHostUrl());
+            mRetrofit = createRetrofit(NetworkConfig.Companion.getHostUrl());
         }
         return mRetrofit;
     }
@@ -74,8 +76,8 @@ public class RetrofitClient {
             });
             httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
             builder.addNetworkInterceptor(httpLoggingInterceptor);
-            builder.addInterceptor(new HeaderInterceptor());
         }
+        builder.addInterceptor(new HeaderInterceptor());
         OkHttpClient okHttpClient = builder.build();
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -92,10 +94,18 @@ public class RetrofitClient {
         @Override
         public Response intercept(Chain chain) throws IOException {
             Request request = chain.request();
-            Headers headers = request.headers();
             Request.Builder builder = request.newBuilder();
-            // TODO: 2025/1/24
             String userAgent = NetworkConfig.Companion.getUserAgent();
+            String userId = UserManager.getInstance().getUserId();
+            String userToken = UserManager.getInstance().getUserToken();
+
+            builder.addHeader("User-Agent", userAgent);
+            if (!TextUtils.isEmpty(userId)) {
+                builder.addHeader("user_id", userAgent);
+                if (!TextUtils.isEmpty(userToken)) {
+                    builder.addHeader("access_token", userToken);
+                }
+            }
 
             return chain.proceed(builder.build());
         }
