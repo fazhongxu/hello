@@ -2,6 +2,7 @@
 package com.xxl.kit;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
@@ -2006,6 +2007,20 @@ public final class FileUtils {
     public static AssetFileDescriptor openAssetFileDescriptorWithException(Uri uri,
                                                                            String mode) throws FileNotFoundException {
         return AppUtils.getApplication().getContentResolver().openAssetFileDescriptor(uri, mode);
+    }
+
+    /**
+     * 打开文件选择页面
+     *
+     * @param activity
+     * @param requestCode
+     */
+    public static void openFileChoose(Activity activity,
+                                      int requestCode) {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("*/*");
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        activity.startActivityForResult(Intent.createChooser(intent, "Select File"), requestCode);
     }
 
     public interface OnReplaceListener {
