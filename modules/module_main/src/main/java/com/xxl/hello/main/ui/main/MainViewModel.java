@@ -6,7 +6,7 @@ import android.os.Handler;
 import androidx.annotation.NonNull;
 import androidx.databinding.ObservableField;
 
-import com.xxl.core.exception.ResponseListener;
+import com.xxl.core.response.ResponseListener;
 import com.xxl.core.service.upload.UploadListener;
 import com.xxl.core.ui.BaseViewModel;
 import com.xxl.hello.common.config.AppConfig;

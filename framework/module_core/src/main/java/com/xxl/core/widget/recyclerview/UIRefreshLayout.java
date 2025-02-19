@@ -20,7 +20,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnLoadMoreListener;
 import com.chad.library.adapter.base.module.BaseLoadMoreModule;
 import com.xxl.core.R;
-import com.xxl.core.exception.ResponseException;
+import com.xxl.core.response.ResponseException;
 import com.xxl.core.ui.state.LoadingState;
 import com.xxl.core.widget.recyclerview.adapter.SimpleLoadMoreView;
 import com.xxl.kit.ColorUtils;

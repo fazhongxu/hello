@@ -1,8 +1,10 @@
 package com.xxl.hello.common.config
 
+import android.os.Build
 import com.xxl.core.utils.AppExpandUtils
 import com.xxl.core.utils.CacheUtils
 import com.xxl.kit.AppUtils
+import com.xxl.kit.BuildConfig
 
 /**
  * 网络配置相关
@@ -84,6 +86,33 @@ class NetworkConfig private constructor() {
         fun switchEnvironment() {
             CacheUtils.encode(PREF_DEVELOP_NAME, PREF_KEY_IS_NETWORK_DEBUG, !isNetworkDebug())
             AppUtils.restartApp()
+        }
+
+        /**
+         * 获取UserAgent
+         */
+        fun getUserAgent(): String {
+            return "Hello/v" + BuildConfig.VERSION_NAME + " (Android;" + Build.VERSION.RELEASE + Build.MODEL + ";" + Build.BRAND + ";" + ")";
+        }
+
+        /**
+         * 获取host
+         */
+        fun getHostUrl(): String {
+            if (isNetworkDebug()) {
+                return API_HOST_DEBUG
+            }
+            return API_HOST
+        }
+
+        /**
+         * 获取host
+         */
+        fun getUserHostUrl(): String {
+            if (isNetworkDebug()) {
+                return API_USER_HOST_DEBUG
+            }
+            return API_USER_HOST
         }
 
         //endregion

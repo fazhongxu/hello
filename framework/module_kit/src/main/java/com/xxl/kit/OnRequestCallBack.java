@@ -1,7 +1,5 @@
 package com.xxl.kit;
 
-import androidx.annotation.Nullable;
-
 /**
  * 通用接口回调
  *
@@ -15,14 +13,14 @@ public interface OnRequestCallBack<T> {
      *
      * @param t
      */
-    void onSuccess(@Nullable final T t);
+    void onSuccess(final T t);
 
     /**
      * 请求失败
      *
      * @param throwable
      */
-    default void onFailure(@Nullable final Throwable throwable) {
+    default void onFailure(final Throwable throwable) {
         LogUtils.e(throwable);
     }
 }

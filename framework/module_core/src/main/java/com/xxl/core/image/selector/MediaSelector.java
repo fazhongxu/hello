@@ -15,6 +15,8 @@ import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.style.PictureSelectorUIStyle;
+import com.xxl.kit.FileUtils;
+import com.xxl.kit.PathUtils;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -102,6 +104,53 @@ public class MediaSelector {
      */
     public static boolean isVideo(String mimeType) {
         return PictureMimeType.isHasVideo(mimeType);
+    }
+
+    /**
+     * @param data
+     * @return Selector Single LocalMedia
+     */
+    public static String obtainPathResult(Intent data) {
+        if (data != null) {
+            List<LocalMedia> result = data.getParcelableArrayListExtra(PictureConfig.EXTRA_RESULT_SELECTION);
+            if (result != null && !result.isEmpty()) {
+                for (LocalMedia localMedia : result) {
+                    return getMediaPath(localMedia);
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @param data
+     * @return Selector Multiple LocalMedia
+     */
+    public static List<String> obtainMultiplePathResult(Intent data) {
+        List<String> paths = new ArrayList<>();
+        if (data != null) {
+            List<LocalMedia> result = data.getParcelableArrayListExtra(PictureConfig.EXTRA_RESULT_SELECTION);
+            if (result != null && !result.isEmpty()) {
+                for (LocalMedia localMedia : result) {
+                    paths.add(getMediaPath(localMedia));
+                }
+            }
+        }
+        return paths;
+    }
+
+    /**
+     * @param data
+     * @return Selector Single LocalMedia
+     */
+    public static LocalMedia obtainResult(Intent data) {
+        if (data != null) {
+            List<LocalMedia> result = data.getParcelableArrayListExtra(PictureConfig.EXTRA_RESULT_SELECTION);
+            if (result != null && !result.isEmpty()) {
+                return result.get(0);
+            }
+        }
+        return null;
     }
 
     /**

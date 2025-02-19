@@ -5,8 +5,8 @@ import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
-import com.xxl.core.exception.ResponseCode;
-import com.xxl.core.exception.ResponseException;
+import com.xxl.core.response.ResponseCode;
+import com.xxl.core.response.ResponseException;
 import com.xxl.hello.service.data.local.db.entity.ResourcesUploadQueueDBEntity;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi.MediaType;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;

@@ -1,8 +1,8 @@
 package com.xxl.core.rx;
 
 import com.xxl.core.data.model.api.response.ResponseResult;
-import com.xxl.core.exception.ResponseCode;
-import com.xxl.core.exception.ResponseException;
+import com.xxl.core.response.ResponseCode;
+import com.xxl.core.response.ResponseException;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Observable;

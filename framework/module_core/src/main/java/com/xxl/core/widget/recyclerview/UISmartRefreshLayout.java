@@ -23,7 +23,7 @@ import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 import com.xxl.core.R;
-import com.xxl.core.exception.ResponseException;
+import com.xxl.core.response.ResponseException;
 import com.xxl.core.ui.state.LoadingState;
 import com.xxl.core.widget.recyclerview.adapter.SimpleLoadMoreView;
 import com.xxl.kit.ListUtils;

@@ -1,11 +1,10 @@
-package com.xxl.core.exception;
+package com.xxl.core.response;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.gson.JsonParseException;
 import com.google.gson.annotations.SerializedName;
-import com.xxl.core.ui.state.UnKnowExceptionState;
 
 import org.json.JSONException;
 

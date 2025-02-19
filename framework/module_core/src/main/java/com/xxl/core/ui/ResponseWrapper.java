@@ -3,8 +3,8 @@ package com.xxl.core.ui;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 
-import com.xxl.core.exception.ResponseException;
-import com.xxl.core.exception.ResponseListener;
+import com.xxl.core.response.ResponseException;
+import com.xxl.core.response.ResponseListener;
 import com.xxl.core.ui.fragment.BaseViewModelFragment;
 import com.xxl.kit.ToastUtils;
 
