@@ -193,6 +193,8 @@ dependencies {
     implementation deps.arouter.arouter
     kapt deps.arouter.arouter_processor
 
+    implementation deps.media_metadata_retriever
+
     implementation deps.ffmpeg_kit
     implementation deps.ffmpeg_kit_exception
 

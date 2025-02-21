@@ -66,6 +66,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -234,7 +235,10 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
     @Override
     public void onTestClick() {
-        UserRouterApi.Login.newBuilder().navigation(getActivity());
+//        UserRouterApi.Login.newBuilder().navigation(getActivity());
+        Map<String, String> mediaInfo = MediaUtils.getMediaInfo("/storage/emulated/0/Pictures/WeiXin/mmexport1739626537516.jpg");
+//        Map<String, String> mediaInfo = MediaUtils.getMediaInfo("/storage/emulated/0/DCIM/Camera/VID20241123191840.mp4");
+        Log.e("aa", "onTestClick: " + mediaInfo);
     }
 
     /**
