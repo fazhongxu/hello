@@ -23,7 +23,7 @@ import razerdp.basepopup.BasePopupWindow;
  * @author xxl.
  * @date 2024/04/25.
  */
-public class CommonMessagePopupWindow extends BasePopupWindow {
+public class MessagePopupWindow extends BasePopupWindow {
 
     //region: 成员变量
 
@@ -51,14 +51,14 @@ public class CommonMessagePopupWindow extends BasePopupWindow {
 
     //region: 构造函数
 
-    public CommonMessagePopupWindow(@NonNull final Activity activity) {
+    public MessagePopupWindow(@NonNull final Activity activity) {
         super(activity);
         setPopupGravity(Gravity.CENTER);
         setupLayout();
     }
 
-    public static CommonMessagePopupWindow from(@NonNull final Activity activity) {
-        return new CommonMessagePopupWindow(activity);
+    public static MessagePopupWindow from(@NonNull final Activity activity) {
+        return new MessagePopupWindow(activity);
     }
 
     //endregion
@@ -87,7 +87,7 @@ public class CommonMessagePopupWindow extends BasePopupWindow {
      * @param title
      * @return
      */
-    public CommonMessagePopupWindow setTitle(final CharSequence title) {
+    public MessagePopupWindow setTitle(final CharSequence title) {
         mTvTitle.setText(title);
         mTvTitle.setVisibility(TextUtils.isEmpty(title) ? View.GONE : View.VISIBLE);
         return this;
@@ -99,7 +99,7 @@ public class CommonMessagePopupWindow extends BasePopupWindow {
      * @param color
      * @return
      */
-    public CommonMessagePopupWindow setTitleColor(@IntegerRes final int color) {
+    public MessagePopupWindow setTitleColor(@IntegerRes final int color) {
         mTvTitle.setTextColor(color);
         return this;
     }
@@ -110,7 +110,7 @@ public class CommonMessagePopupWindow extends BasePopupWindow {
      * @param fakeBoldText
      * @return
      */
-    public CommonMessagePopupWindow setTitleFakeBoldText(final boolean fakeBoldText) {
+    public MessagePopupWindow setTitleFakeBoldText(final boolean fakeBoldText) {
         TextPaint paint = mTvTitle.getPaint();
         if (paint != null) {
             paint.setFakeBoldText(fakeBoldText);
@@ -124,7 +124,7 @@ public class CommonMessagePopupWindow extends BasePopupWindow {
      * @param isVisible
      * @return
      */
-    public CommonMessagePopupWindow setTitleVisibility(final boolean isVisible) {
+    public MessagePopupWindow setTitleVisibility(final boolean isVisible) {
         mTvTitle.setVisibility(isVisible ? View.VISIBLE : View.GONE);
         return this;
     }
@@ -135,7 +135,7 @@ public class CommonMessagePopupWindow extends BasePopupWindow {
      * @param message
      * @return
      */
-    public CommonMessagePopupWindow setMessage(final CharSequence message) {
+    public MessagePopupWindow setMessage(final CharSequence message) {
         mTvMessage.setText(message);
         return this;
     }
@@ -146,7 +146,7 @@ public class CommonMessagePopupWindow extends BasePopupWindow {
      * @param color
      * @return
      */
-    public CommonMessagePopupWindow setMesageColor(@IntegerRes final int color) {
+    public MessagePopupWindow setMesageColor(@IntegerRes final int color) {
         mTvMessage.setTextColor(color);
         return this;
     }
@@ -157,7 +157,7 @@ public class CommonMessagePopupWindow extends BasePopupWindow {
      * @param fakeBoldText
      * @return
      */
-    public CommonMessagePopupWindow setMessageFakeBoldText(final boolean fakeBoldText) {
+    public MessagePopupWindow setMessageFakeBoldText(final boolean fakeBoldText) {
         TextPaint paint = mTvMessage.getPaint();
         if (paint != null) {
             paint.setFakeBoldText(fakeBoldText);
@@ -171,7 +171,7 @@ public class CommonMessagePopupWindow extends BasePopupWindow {
      * @param isVisible
      * @return
      */
-    public CommonMessagePopupWindow setMessageVisibility(final boolean isVisible) {
+    public MessagePopupWindow setMessageVisibility(final boolean isVisible) {
         mTvMessage.setVisibility(isVisible ? View.VISIBLE : View.GONE);
         return this;
     }
@@ -183,7 +183,7 @@ public class CommonMessagePopupWindow extends BasePopupWindow {
      * @param listener
      * @return
      */
-    public CommonMessagePopupWindow setNegativeButton(CharSequence text, View.OnClickListener listener) {
+    public MessagePopupWindow setNegativeButton(CharSequence text, View.OnClickListener listener) {
         mTvCancel.setText(text);
         mTvCancel.setOnClickListener(v -> {
             if (listener != null) {
@@ -201,7 +201,7 @@ public class CommonMessagePopupWindow extends BasePopupWindow {
      * @param listener
      * @return
      */
-    public CommonMessagePopupWindow setPositiveButton(CharSequence text, View.OnClickListener listener) {
+    public MessagePopupWindow setPositiveButton(CharSequence text, View.OnClickListener listener) {
         mTvConfirm.setText(text);
         mTvConfirm.setOnClickListener(v -> {
             if (listener != null) {
@@ -219,7 +219,7 @@ public class CommonMessagePopupWindow extends BasePopupWindow {
      * @param listener
      * @return
      */
-    public CommonMessagePopupWindow setSingleNegativeButton(CharSequence text, View.OnClickListener listener) {
+    public MessagePopupWindow setSingleNegativeButton(CharSequence text, View.OnClickListener listener) {
         mTvCancel.setText(text);
         mTvCancel.setOnClickListener(v -> {
             if (listener != null) {
@@ -243,7 +243,7 @@ public class CommonMessagePopupWindow extends BasePopupWindow {
      * @param listener
      * @return
      */
-    public CommonMessagePopupWindow setSinglePositiveButton(CharSequence text, View.OnClickListener listener) {
+    public MessagePopupWindow setSinglePositiveButton(CharSequence text, View.OnClickListener listener) {
         mTvConfirm.setText(text);
         mTvConfirm.setOnClickListener(v -> {
             if (listener != null) {
@@ -266,7 +266,7 @@ public class CommonMessagePopupWindow extends BasePopupWindow {
      * @param color
      * @return
      */
-    public CommonMessagePopupWindow setNegativeButtonTextColor(final int color) {
+    public MessagePopupWindow setNegativeButtonTextColor(final int color) {
         mTvCancel.setTextColor(color);
         return this;
     }
@@ -277,7 +277,7 @@ public class CommonMessagePopupWindow extends BasePopupWindow {
      * @param color
      * @return
      */
-    public CommonMessagePopupWindow setPositiveButtonTextColor(final int color) {
+    public MessagePopupWindow setPositiveButtonTextColor(final int color) {
         mTvConfirm.setTextColor(color);
         return this;
     }
@@ -288,7 +288,7 @@ public class CommonMessagePopupWindow extends BasePopupWindow {
      * @param fakeBoldText
      * @return
      */
-    public CommonMessagePopupWindow setNegativeButtonFakeBoldText(final boolean fakeBoldText) {
+    public MessagePopupWindow setNegativeButtonFakeBoldText(final boolean fakeBoldText) {
         TextPaint paint = mTvCancel.getPaint();
         if (paint != null) {
             paint.setFakeBoldText(fakeBoldText);
@@ -302,7 +302,7 @@ public class CommonMessagePopupWindow extends BasePopupWindow {
      * @param fakeBoldText
      * @return
      */
-    public CommonMessagePopupWindow setPositiveButtonFakeBoldText(final boolean fakeBoldText) {
+    public MessagePopupWindow setPositiveButtonFakeBoldText(final boolean fakeBoldText) {
         TextPaint paint = mTvConfirm.getPaint();
         if (paint != null) {
             paint.setFakeBoldText(fakeBoldText);

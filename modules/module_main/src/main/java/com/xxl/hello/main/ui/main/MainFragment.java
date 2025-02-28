@@ -46,7 +46,7 @@ import com.xxl.hello.service.handle.api.AppSchemeService;
 import com.xxl.hello.widget.data.router.WidgetRouterApi;
 import com.xxl.hello.widget.ui.view.record.OnRecordListener;
 import com.xxl.hello.widget.ui.view.record.RecordButton;
-import com.xxl.hello.widget.ui.window.CommonMessagePopupWindow;
+import com.xxl.hello.widget.ui.window.MessagePopupWindow;
 import com.xxl.kit.AppUtils;
 import com.xxl.kit.ClipboardUtils;
 import com.xxl.kit.FFmpegUtils;
@@ -392,7 +392,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
         if (TextUtils.isEmpty(CrashHandler.getInstance().getAppLastCrashMessage())) {
             return;
         }
-        CommonMessagePopupWindow.from(getActivity())
+        MessagePopupWindow.from(getActivity())
                 .setTitle(getString(R.string.core_exception_info))
                 .setMessage(CrashHandler.getInstance().getAppLastCrashMessage())
                 .setNegativeButtonFakeBoldText(true)
