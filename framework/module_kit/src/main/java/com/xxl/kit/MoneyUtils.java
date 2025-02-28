@@ -8,10 +8,17 @@ import androidx.annotation.Nullable;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
+import java.util.Random;
+import java.util.Set;
 
 /**
- * 金额转换工具类
+ * 金额工具类
  *
  * @author xxl.
  * @date 2020/11/06.
@@ -309,6 +316,64 @@ public final class MoneyUtils {
             e.printStackTrace();
         }
         return amountString;
+    }
+
+    /**
+     * 获取随机红包金额
+     * refer https://www.jianshu.com/p/f14221fef78e
+     *
+     * @param amount
+     * @param person
+     * @return
+     */
+    public static List<Double> getRandomMoney(double amount, Integer person) {
+
+        List<Double> moneys = new ArrayList<>();
+        BigDecimal amount1 = new BigDecimal(Double.valueOf(amount));
+
+        //计算出随机数分布值
+        amount1 = amount1.multiply(BigDecimal.valueOf(100));
+
+        Set set = new HashSet();
+        ArrayList<Integer> list = new ArrayList();
+        list.add(0, 0);
+        Random r = new Random();
+        for (int i = 0; i < person - 1; i++) {
+            //防止重复点
+            while (true) {
+                Integer money = r.nextInt(amount1.intValue());
+                boolean isContain = set.contains(money);
+                if (!isContain) {
+                    set.add(money);
+                    list.add(money);
+                    break;
+                }
+            }
+        }
+        list.add(person, amount1.intValue());
+
+        //排序
+        Collections.sort(list, Collections.reverseOrder());
+
+        //根据比例计算金额
+        BigDecimal count = new BigDecimal(0);
+        for (int i = 0; i < list.size() - 1; i++) {
+            if (i == list.size() - 2) {
+                BigDecimal a = amount1.divide(BigDecimal.valueOf(100)).subtract(count);
+                moneys.add(a.doubleValue());
+                count = count.add(a);
+                return moneys;
+            }
+            double gap = list.get(i) - list.get(i + 1);
+            DecimalFormat df = new DecimalFormat("0.00");
+
+            String mon = df.format(new BigDecimal(gap / amount * (amount / 100)));
+
+            BigDecimal a = BigDecimal.valueOf(Double.parseDouble(mon));
+            count = count.add(a);
+            moneys.add(a.doubleValue());
+        }
+        return moneys;
     }
 
 }
