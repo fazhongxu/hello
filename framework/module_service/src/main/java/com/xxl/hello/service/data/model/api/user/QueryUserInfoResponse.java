@@ -3,7 +3,7 @@ package com.xxl.hello.service.data.model.api.user;
 import androidx.annotation.Keep;
 
 import com.google.gson.annotations.SerializedName;
-
+import com.xxl.core.data.model.api.response.DataResponseResult;
 
 
 /**
@@ -13,7 +13,7 @@ import com.google.gson.annotations.SerializedName;
  * @date 2021/7/27.
  */
 @Keep
-public class QueryUserInfoResponse {
+public class QueryUserInfoResponse extends DataResponseResult<QueryUserInfoResponse> {
 
     //region: 成员变量
 
@@ -62,16 +62,6 @@ public class QueryUserInfoResponse {
 
     public String getAvatarUrl() {
         return mAvatarUrl;
-    }
-
-    //endregion
-
-    //region: Inner Class Content
-
-    @Keep
-    public static class Content {
-
-
     }
 
     //endregion

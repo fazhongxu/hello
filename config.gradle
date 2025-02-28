@@ -77,6 +77,8 @@ versions.kprogresshud = "1.2.0"
 
 versions.easy_float = "2.0.4"
 
+versions.media_metadata_retriever = "1.2.0"
+
 versions.ffmpeg_kit = "4.5.1-1"
 versions.ffmpeg_kit_exception = "0.2.1"
 
@@ -272,6 +274,9 @@ deps.fat_aar = "com.github.kezong:fat-aar:$versions.fat_aar"
 
 // bugly https://bugly.qq.com/docs/user-guide/instruction-manual-android/?v=1.0.0#sdk
 deps.bugly = "com.tencent.bugly:crashreport:$versions.bugly"
+
+//https://github.com/xiandanin/MediaMetadataRetrieverCompat
+deps.media_metadata_retriever = "in.xiandan.mmrc:media-metadata-retriever-compat:$versions.media_metadata_retriever"
 
 // ffmpeg_kit [https://github.com/tanersener/ffmpeg-kit]
 versions.ffmpeg_kit_remote = true

@@ -70,6 +70,8 @@ dependencies {
     compileOnly deps.arouter.arouter
     kapt deps.arouter.arouter_processor
 
+    compileOnly deps.media_metadata_retriever
+
     compileOnly deps.ffmpeg_kit
     compileOnly deps.ffmpeg_kit_exception
 

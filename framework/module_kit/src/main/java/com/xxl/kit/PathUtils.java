@@ -19,7 +19,10 @@ import androidx.annotation.RequiresApi;
 import androidx.core.content.FileProvider;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 
@@ -668,15 +671,17 @@ public class PathUtils {
                 String[] split = docId.split(":");
                 String type = split[0];
                 Uri contentUri = null;
+                String selection = MediaStore.Images.Media._ID + "=?";
+                String[] selectionArgs = new String[]{split[1]};
                 if ("image".equals(type)) {
                     contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
                 } else if ("video".equals(type)) {
                     contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
                 } else if ("audio".equals(type)) {
                     contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+                } else {
+                    return getPathFromUri(context, uri);
                 }
-                String selection = MediaStore.Images.Media._ID + "=?";
-                String[] selectionArgs = new String[]{split[1]};
                 return getDataColumn(context, contentUri, selection, selectionArgs);
             }
         } else if (ContentResolver.SCHEME_CONTENT.equalsIgnoreCase(scheme)) {
@@ -698,6 +703,66 @@ public class PathUtils {
             return uri.getPath();
         }
         return uri.getPath();
+    }
+
+    private static String getPathFromUri(Context context, Uri uri) {
+        String filePath = null;
+
+        // 处理 "content://" 类型的 URI
+        if (ContentResolver.SCHEME_CONTENT.equals(uri.getScheme())) {
+            try {
+                Cursor cursor = context.getContentResolver().query(
+                        uri,
+                        new String[]{MediaStore.MediaColumns.DISPLAY_NAME},
+                        null,
+                        null,
+                        null
+                );
+
+                if (cursor != null && cursor.moveToFirst()) {
+                    String fileName = cursor.getString(0);
+                    // 创建临时文件
+                    File tempFile = new File(context.getCacheDir(), fileName);
+                    // 复制文件内容
+                    copyFileFromUri(context, uri, tempFile);
+                    filePath = tempFile.getAbsolutePath();
+                    cursor.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        // 处理 "file://" 类型的 URI
+        else if (ContentResolver.SCHEME_FILE.equals(uri.getScheme())) {
+            filePath = uri.getPath();
+        }
+
+        return filePath;
+    }
+
+    /**
+     * 复制文件内容的辅助
+     *
+     * @param context
+     * @param uri
+     * @param destFile
+     */
+    private static void copyFileFromUri(Context context, Uri uri, File destFile) {
+        try {
+            InputStream is = context.getContentResolver().openInputStream(uri);
+            OutputStream os = new FileOutputStream(destFile);
+
+            byte[] buffer = new byte[4096];
+            int bytesRead;
+            while ((bytesRead = is.read(buffer)) != -1) {
+                os.write(buffer, 0, bytesRead);
+            }
+
+            os.close();
+            is.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Nullable

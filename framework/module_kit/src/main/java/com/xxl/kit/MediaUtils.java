@@ -12,6 +12,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import in.xiandan.mmrc.MediaMetadataKey;
+import in.xiandan.mmrc.MediaMetadataRetrieverCompat;
+import in.xiandan.mmrc.datasource.FileSource;
+
 /**
  * @author xxl.
  * @date 2021/11/15.
@@ -55,13 +59,13 @@ public final class MediaUtils {
      *
      * @return
      */
-    public static List<Integer> getCommonMediaRetrieverKeys() {
-        List<Integer> retrieverKey = new ArrayList<>();
-        retrieverKey.add(MediaMetadataRetriever.METADATA_KEY_HAS_VIDEO);
-        retrieverKey.add(MediaMetadataRetriever.METADATA_KEY_HAS_AUDIO);
-        retrieverKey.add(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH);
-        retrieverKey.add(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT);
-        retrieverKey.add(MediaMetadataRetriever.METADATA_KEY_DURATION);
+    public static List<String> getCommonMediaRetrieverKeys() {
+        List<String> retrieverKey = new ArrayList<>();
+        retrieverKey.add(MediaMetadataKey.HAS_VIDEO);
+        retrieverKey.add(MediaMetadataKey.HAS_AUDIO);
+        retrieverKey.add(MediaMetadataKey.WIDTH);
+        retrieverKey.add(MediaMetadataKey.HEIGHT);
+        retrieverKey.add(MediaMetadataKey.DURATION);
         return retrieverKey;
     }
 
@@ -71,7 +75,7 @@ public final class MediaUtils {
      * @param targetPath
      * @return
      */
-    public static Map<Integer, String> getMediaInfo(@NonNull final String targetPath) {
+    public static Map<String, String> getMediaInfo(@NonNull final String targetPath) {
         return getMediaInfo(targetPath, getCommonMediaRetrieverKeys());
     }
 
@@ -82,17 +86,17 @@ public final class MediaUtils {
      * @param targetRetrieverKeys
      * @return
      */
-    public static Map<Integer, String> getMediaInfo(@NonNull final String targetPath,
-                                                    @Nullable final List<Integer> targetRetrieverKeys) {
-        Map<Integer, String> mediaInfoMap = new LinkedHashMap<>();
+    public static Map<String, String> getMediaInfo(@NonNull final String targetPath,
+                                                   @Nullable final List<String> targetRetrieverKeys) {
+        Map<String, String> mediaInfoMap = new LinkedHashMap<>();
         if (targetRetrieverKeys == null || targetRetrieverKeys.size() == 0) {
             return mediaInfoMap;
         }
-        MediaMetadataRetriever retriever = null;
+        MediaMetadataRetrieverCompat retriever = null;
         try {
-            retriever = new MediaMetadataRetriever();
-            retriever.setDataSource(targetPath);
-            for (Integer retrieverKey : targetRetrieverKeys) {
+            retriever = new MediaMetadataRetrieverCompat();
+            retriever.setDataSource(new FileSource(targetPath));
+            for (String retrieverKey : targetRetrieverKeys) {
                 mediaInfoMap.put(retrieverKey, retriever.extractMetadata(retrieverKey));
             }
         } catch (Exception e) {

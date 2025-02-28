@@ -26,6 +26,7 @@ import com.xxl.hello.widget.ui.model.resource.BaseResourceQueueViewModel;
 import com.xxl.kit.ImageUtils;
 import com.xxl.kit.ListUtils;
 import com.xxl.kit.LogUtils;
+import com.xxl.kit.OnRequestCallBack;
 import com.xxl.kit.PathUtils;
 import com.xxl.kit.ToastUtils;
 
@@ -58,6 +59,8 @@ public class UserSettingModel extends BaseResourceQueueViewModel<UserSettingNavi
      * 用户模块服务接口
      */
     private final UserRepository mUserRepository;
+
+    private final Handler mHandler = new Handler();
 
     /**
      * 用户昵称
@@ -133,6 +136,60 @@ public class UserSettingModel extends BaseResourceQueueViewModel<UserSettingNavi
                     setResponseException(throwable);
                 });
         addCompositeDisposable(disposable);
+    }
+
+    void requestUploadUserAvatars(@NonNull List<String> imagePaths) {
+        OnRequestCallBack<Boolean> onRequestCallBack = new OnRequestCallBack<Boolean>() {
+            @Override
+            public void onSuccess(Boolean isSuccess) {
+
+            }
+        };
+        handleUploadUserAvatars(imagePaths, 0,onRequestCallBack);
+    }
+
+    void handleUploadUserAvatars(@NonNull List<String> imagePaths,
+                                 int index,
+                                 @NonNull OnRequestCallBack<Boolean> callBack) {
+        if (ListUtils.isEmpty(imagePaths)) {
+            callBack.onSuccess(true);
+            return;
+        }
+        String imagePath = imagePaths.remove(0);
+        uploadImage(imagePath, new OnRequestCallBack<String>() {
+
+            @Override
+            public void onSuccess(String url) {
+                handleUploadUserAvatars(imagePaths, index + 1, callBack);
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                handleUploadUserAvatars(imagePaths, index + 1, callBack);
+            }
+        });
+    }
+
+    /**
+     * 上传图片
+     *
+     * @param imagePath
+     * @param callBack
+     */
+    void uploadImage(@NonNull String imagePath,
+                     @NonNull OnRequestCallBack<String> callBack) {
+        OnResourcesCompressListener compressListener = new OnResourcesCompressListener() {
+            @Override
+            public void onComplete(String filePath, long width, long height) {
+                mHandler.postDelayed(new Runnable() {// 模拟上传
+                    @Override
+                    public void run() {
+                        callBack.onSuccess("https://" + filePath);
+                    }
+                }, 500);
+            }
+        };
+        handleImageCompress(imagePath, compressListener);
     }
 
     /**
