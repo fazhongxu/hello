@@ -30,6 +30,8 @@ public final class MoneyUtils {
      *
      * @param amount 人民币 单位（分）
      * @return 返回 人民币 元 为单位的 String 字符数字
+     * BigDecimal(String.valueOf(amount)).divider
+     * BigDecimal(double).divide.divider 0.01精度问题(double 的0.01 很长，string的没问题）
      */
     public static String fen2Yuan(final int amount) {
         BigDecimal fenBigDecimal = new BigDecimal(String.valueOf(amount)).divide(new BigDecimal(100));
