@@ -15,6 +15,55 @@ andResGuard {
             // for your icon
             "R.drawable.icon",
             "R.drawable.emoji_ios_*",
+
+            "R.drawable.*",
+            "R.mipmap.*",
+            "R.raw.*",
+
+            //友盟
+            "R.anim.umeng*",
+            "R.string.umeng*",
+            "R.string.UM*",
+            "R.string.tb_*",
+            "R.layout.umeng*",
+            "R.layout.socialize_*",
+            "R.layout.*messager*",
+            "R.layout.tb_*",
+            "R.color.umeng*",
+            "R.color.tb_*",
+            "R.style.*UM*",
+            "R.style.umeng*",
+            "R.drawable.umeng*",
+            "R.drawable.tb_*",
+            "R.drawable.sina*",
+            "R.drawable.qq_*",
+            "R.drawable.tb_*",
+            "R.id.umeng*",
+            "R.id.*messager*",
+            "R.id.progress_bar_parent",
+            "R.id.socialize_*",
+            "R.id.webView",
+
+            // 个推
+            "R.drawable.push",
+            "R.drawable.push_small",
+
+            //Huawei Push
+            "R.string.hms_*",
+            "R.string.hms*",
+            "R.string.connect_server_fail_prompt_toast",
+            "R.string.getting_message_fail_prompt_toast",
+            "R.string.no_available_network_prompt_toast",
+            "R.string.third_app_*",
+            "R.string.upsdk_*",
+            "R.layout.hms*",
+            "R.layout.upsdk_*",
+            "R.drawable.upsdk*",
+            "R.color.upsdk*",
+            "R.dimen.upsdk*",
+            "R.style.upsdk*",
+            "R.string.agc*",
+
             // for fabric
             "R.string.com.crashlytics.*",
             // for google-services
