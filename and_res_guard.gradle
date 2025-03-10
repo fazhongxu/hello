@@ -14,6 +14,7 @@ andResGuard {
     whiteList = [
             // for your icon
             "R.drawable.icon",
+            "R.drawable.emoji_ios_*",
             // for fabric
             "R.string.com.crashlytics.*",
             // for google-services
