@@ -53,6 +53,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.rxjava3.core.Observable;
@@ -2593,6 +2594,49 @@ public final class ImageUtils {
             inSampleSize <<= 1;
         }
         return inSampleSize;
+    }
+
+    /**
+     * 将图片按指定的行数和列数切割
+     *
+     * @param bitmap 原始图片
+     * @param rows   切割的行数（不包括边框）
+     * @param cols   切割的列数（不包括边框）
+     * @return 切割后的图片列表
+     */
+    public static List<Bitmap> splitImage(Bitmap bitmap, int rows, int cols) {
+        List<Bitmap> pieces = new ArrayList<>();
+
+        // 如果行列都是0，返回原图
+        if (rows == 0 && cols == 0) {
+            pieces.add(bitmap);
+            return pieces;
+        }
+
+        // 计算实际需要切割的份数
+        int actualRows = (rows == 0) ? 1 : rows + 1;
+        int actualCols = (cols == 0) ? 1 : cols + 1;
+
+        // 计算每个切片的宽度和高度
+        int pieceWidth = bitmap.getWidth() / actualCols;
+        int pieceHeight = bitmap.getHeight() / actualRows;
+
+        // 进行切割
+        for (int i = 0; i < actualRows; i++) {
+            for (int j = 0; j < actualCols; j++) {
+                int x = j * pieceWidth;
+                int y = i * pieceHeight;
+
+                // 处理最后一行/列可能的边界情况
+                int width = (j == actualCols - 1) ? bitmap.getWidth() - x : pieceWidth;
+                int height = (i == actualRows - 1) ? bitmap.getHeight() - y : pieceHeight;
+
+                Bitmap piece = Bitmap.createBitmap(bitmap, x, y, width, height);
+                pieces.add(piece);
+            }
+        }
+
+        return pieces;
     }
 
     public enum ImageType {
