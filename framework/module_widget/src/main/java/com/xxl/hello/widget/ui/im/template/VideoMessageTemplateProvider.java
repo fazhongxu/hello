@@ -12,17 +12,18 @@ import com.xxl.hello.service.data.model.entity.im.MessageTemplate;
 import com.xxl.hello.service.data.model.entity.im.MessageTemplateType;
 import com.xxl.hello.widget.R;
 import com.xxl.hello.widget.databinding.WidgetRecycleItemMessageImageBinding;
+import com.xxl.hello.widget.databinding.WidgetRecycleItemMessageVideoBinding;
 import com.xxl.kit.ClipboardUtils;
 import com.xxl.kit.ToastUtils;
 
 /**
- * 图片消息模板提供类
+ * 视频消息模板提供类
  *
  * @author xxl.
  * @date 2024/6/14.
  */
-@MessageTemplate(templateType = MessageTemplateType.IMAGE)
-public class ImageMessageTemplateProvider extends MessageTemplateProvider {
+@MessageTemplate(templateType = MessageTemplateType.VIDEO)
+public class VideoMessageTemplateProvider extends MessageTemplateProvider {
 
     //region: 成员变量
 
@@ -30,8 +31,8 @@ public class ImageMessageTemplateProvider extends MessageTemplateProvider {
 
     //region: 构造函数
 
-    public static ImageMessageTemplateProvider obtain() {
-        return new ImageMessageTemplateProvider();
+    public static VideoMessageTemplateProvider obtain() {
+        return new VideoMessageTemplateProvider();
     }
 
     //endregion
@@ -46,12 +47,12 @@ public class ImageMessageTemplateProvider extends MessageTemplateProvider {
      */
     @Override
     public CharSequence getSummaryContent(@NonNull MessageEntity messageEntity) {
-        return "[图片]";
+        return "[视频]";
     }
 
     @Override
     public int getLayoutRes() {
-        return R.layout.widget_recycle_item_message_image;
+        return R.layout.widget_recycle_item_message_video;
     }
 
     @Override
@@ -59,19 +60,18 @@ public class ImageMessageTemplateProvider extends MessageTemplateProvider {
                          @NonNull MessageEntity messageEntity,
                          int position,
                          @Nullable OnMessageTemplateListener listener) {
-        WidgetRecycleItemMessageImageBinding imageBinding = DataBindingUtil.bind(rootView);
+        WidgetRecycleItemMessageVideoBinding imageBinding = DataBindingUtil.bind(rootView);
 
         ImageLoader.with(rootView.getContext())
                 .load(messageEntity.getMediaPath())
-                .into(imageBinding.ivImage);
+                .into(imageBinding.ivCover);
 
-        imageBinding.ivImage.setOnClickListener(v -> {
+        imageBinding.ivCover.setOnClickListener(v -> {
             if (listener != null && listener.onMessageItemClick(messageEntity)) {
                 return;
             }
         });
-        // TODO: 2025/3/13 长按事件
-        imageBinding.ivImage.setOnLongClickListener(new View.OnLongClickListener() {
+        imageBinding.ivCover.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 ClipboardUtils.copyText(messageEntity.getMediaPath());

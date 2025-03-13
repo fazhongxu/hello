@@ -733,6 +733,69 @@ public class FFmpegUtils {
         });
     }
 
+    /**
+     * 拼接两个视频（动态调整分辨率）
+     *
+     * @param inputVideo1 第一个视频路径
+     * @param inputVideo2 第二个视频路径
+     * @param outputVideo 输出视频路径
+     * @param callback    回调接口
+     */
+    public static void concatVideos(String inputVideo1, String inputVideo2, String outputVideo, OnSimpleRequestCallBack<Boolean> callback) {
+        MediaUtils.MediaEntity mediaEntity1 = MediaUtils.getMediaEntity(inputVideo1);
+        MediaUtils.MediaEntity mediaEntity2 = MediaUtils.getMediaEntity(inputVideo2);
+        // 获取视频1的分辨率
+        int width1 = mediaEntity1.getWidth();
+        int height1 = mediaEntity1.getHeight();
+        long duration1 = mediaEntity1.getDuration();
+
+        // 获取视频2的分辨率
+        int width2 = mediaEntity2.getWidth();
+        int height2 = mediaEntity2.getHeight();
+        long duration2 = mediaEntity2.getDuration();
+
+        // 计算最大宽高
+        int outputWidth = Math.max(width1, width2);
+        int outputHeight = Math.max(height1, height2);
+
+        long outDuration = duration1 + duration2;
+
+        String command = String.format(
+                "-y -i %s -i %s -filter_complex " +
+                        "\"[0:v]scale=%d:%d:force_original_aspect_ratio=decrease,pad=%d:%d:(ow-iw)/2:(oh-ih)/2,setsar=1[v0]; " +
+                        "[1:v]scale=%d:%d:force_original_aspect_ratio=decrease,pad=%d:%d:(ow-iw)/2:(oh-ih)/2,setsar=1[v1]; " +
+                        "[v0][0:a][v1][1:a]concat=n=2:v=1:a=1[outv][outa]\" " +
+                        "-map \"[outv]\" -map \"[outa]\" %s",
+                inputVideo1, inputVideo2,
+                outputWidth, outputHeight, outputWidth, outputHeight,
+                outputWidth, outputHeight, outputWidth, outputHeight,
+                outputVideo
+        );
+
+        // 执行FFmpeg命令
+        executeAsync(command, null, new StatisticsCallback() {
+            @Override
+            public void apply(Statistics statistics) {
+                int time = statistics.getTime();
+                if (outDuration <= 0) {
+                    return;
+                }
+                float progress = (time * 1.0F / outDuration * 1.0F) * 100F;
+                if (callback != null) {
+                    callback.onProgress((int) progress);
+                }
+            }
+        }, new OnRequestCallBack<Boolean>() {
+            @Override
+            public void onSuccess(Boolean isSuccess) {
+                if (callback != null) {
+                    callback.onSuccess(isSuccess);
+                }
+            }
+        });
+    }
+
+
     public static String argumentsToString(final String[] arguments) {
         if (arguments == null) {
             return "null";

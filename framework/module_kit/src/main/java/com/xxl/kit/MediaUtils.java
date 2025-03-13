@@ -117,8 +117,8 @@ public final class MediaUtils {
      */
     public static MediaEntity getMediaEntity(@NonNull final String targetPath) {
         MediaMetadataRetriever retriever = null;
-        long width = 0;
-        long height = 0;
+        int width = 0;
+        int height = 0;
         long duration = 0;
         String hasVideo = null;
         String hasAudio = null;
@@ -129,8 +129,8 @@ public final class MediaUtils {
             hasVideo = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_HAS_VIDEO);
             hasAudio = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_HAS_AUDIO);
             if (YES.equalsIgnoreCase(hasVideo)) {
-                width = Long.parseLong(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH));
-                height = Long.parseLong(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT));
+                width = Integer.parseInt(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH));
+                height = Integer.parseInt(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT));
                 isVideo = true;
             }
             duration = Long.parseLong(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION));
@@ -181,12 +181,12 @@ public final class MediaUtils {
         /**
          * 多媒体高度
          */
-        private long mWidth;
+        private int mWidth;
 
         /**
          * 多媒体高度
          */
-        private long mHeight;
+        private int mHeight;
 
         //endregion
 
@@ -204,11 +204,11 @@ public final class MediaUtils {
 
         //region: 提供方法
 
-        public long getWidth() {
+        public int getWidth() {
             return mWidth;
         }
 
-        public long getHeight() {
+        public int getHeight() {
             return mHeight;
         }
 
@@ -266,7 +266,7 @@ public final class MediaUtils {
          * @param width
          * @return
          */
-        public MediaEntity setWidth(final long width) {
+        public MediaEntity setWidth(final int width) {
             this.mWidth = width;
             return this;
         }
@@ -277,7 +277,7 @@ public final class MediaUtils {
          * @param height
          * @return
          */
-        public MediaEntity setHeight(final long height) {
+        public MediaEntity setHeight(final int height) {
             this.mHeight = height;
             return this;
         }

@@ -109,8 +109,8 @@ public class VideoUtils {
 
                 @Override
                 public void onComplete(String videoPath,
-                                       long videoWidth,
-                                       long videoHeight) {
+                                       int videoWidth,
+                                       int videoHeight) {
                     if (listener != null) {
                         listener.onComplete(videoPath, videoWidth, videoHeight);
                     }
@@ -146,8 +146,8 @@ public class VideoUtils {
          * @param videoHeight
          */
         default void onComplete(final String videoPath,
-                                final long videoWidth,
-                                final long videoHeight) {
+                                final int videoWidth,
+                                final int videoHeight) {
             onComplete(videoPath);
         }
 

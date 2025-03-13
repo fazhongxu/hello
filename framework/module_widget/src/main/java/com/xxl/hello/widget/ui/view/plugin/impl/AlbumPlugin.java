@@ -77,7 +77,7 @@ public class AlbumPlugin extends Plugin {
     public void onClick(@NonNull FragmentActivity context,
                         @NonNull CommonKeyboardLayout keyboardLayout) {
         MediaSelector.create(context)
-                .openGallery(PictureMimeType.ofImage())
+                .openGallery(PictureMimeType.ofAll())
                 .forResult(getRequestCode());
     }
 

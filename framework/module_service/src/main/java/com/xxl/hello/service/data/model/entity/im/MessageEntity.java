@@ -15,6 +15,7 @@ public class MessageEntity {
     /**
      * 消息类型
      */
+    @MessageType
     private int mMessageType;
 
     /**
@@ -45,7 +46,7 @@ public class MessageEntity {
      * @param messageType
      * @return
      */
-    public MessageEntity setMessageType(int messageType) {
+    public MessageEntity setMessageType(@MessageType int messageType) {
         mMessageType = messageType;
         return this;
     }
@@ -76,10 +77,12 @@ public class MessageEntity {
      * @return
      */
     public String getMessageTemplateType() {
-        if (mMessageType == 1) {
+        if (mMessageType == MessageType.TEXT) {
             return MessageTemplateType.TEXT;
-        } else if (mMessageType == 2) {
+        } else if (mMessageType == MessageType.IMAGE) {
             return MessageTemplateType.IMAGE;
+        }else if (mMessageType == MessageType.VIDEO) {
+            return MessageTemplateType.VIDEO;
         }
         return MessageTemplateType.UNKNOW;
     }
