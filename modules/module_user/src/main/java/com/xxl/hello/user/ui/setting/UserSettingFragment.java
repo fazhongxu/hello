@@ -20,7 +20,12 @@ import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.luck.picture.lib.config.PictureMimeType;
+import com.luck.picture.lib.config.PictureSelectionConfig;
 import com.luck.picture.lib.entity.LocalMedia;
+import com.luck.picture.lib.manager.UCropManager;
+import com.luck.picture.lib.tools.DateUtils;
+import com.luck.picture.lib.tools.PictureFileUtils;
+import com.luck.picture.lib.tools.StringUtils;
 import com.tbruyelle.rxpermissions3.RxPermissions;
 import com.watermark.androidwm.WatermarkBuilder;
 import com.watermark.androidwm.bean.WatermarkImage;
@@ -60,7 +65,9 @@ import com.xxl.kit.MomentShareUtils;
 import com.xxl.kit.OnSimpleRequestCallBack;
 import com.xxl.kit.PathUtils;
 import com.xxl.kit.ResourceUtils;
+import com.xxl.kit.TimeUtils;
 import com.xxl.kit.ToastUtils;
+import com.yalantis.ucrop.UCrop;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -182,6 +189,30 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
                 for (LocalMedia localMedia : mediaList) {
                     Log.e("aaa", "onActivityResult: " + MediaSelector.getMediaPath(localMedia));
                 }
+                UCrop.Options options = UCropManager.basicOptions(getActivity());
+                options.setCropGridRowCount(0);
+                options.setCropGridColumnCount(2);
+                File file = new File(PictureFileUtils.getDiskCacheDir(getActivity()), DateUtils.getCreateFileName("IMG_CROP_") + TimeUtils.currentTimeMillis() + ".jpg");
+                UCrop.of(targetUri, Uri.fromFile(file))
+                        .withOptions(options)
+                        .start(getActivity(), this);
+            } else if (requestCode == UCrop.REQUEST_CROP) {
+                Uri uri = UCrop.getOutput(data);
+                ImageLoader.with(this)
+                        .asBitmap()
+                        .load(PathUtils.getFilePathByUri(uri))
+                        .into(new SimpleTarget<Bitmap>() {
+                            @Override
+                            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                                List<Bitmap> bitmaps = ImageUtils.splitImage(resource, 0, 2);
+
+                                for (int i = 0; i < bitmaps.size(); i++) {
+                                    Bitmap bitmap = bitmaps.get(i);
+                                    String path = CacheDirConfig.SHARE_FILE_DIR + File.separator + (i + 1) + ".jpg";
+                                    ImageUtils.save(bitmap, path, Bitmap.CompressFormat.JPEG);
+                                }
+                            }
+                        });
             }
         }
     }
