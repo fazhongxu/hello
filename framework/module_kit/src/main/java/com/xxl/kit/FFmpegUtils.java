@@ -764,8 +764,8 @@ public class FFmpegUtils {
                 "-y -i %s -i %s -filter_complex " +
                         "\"[0:v]scale=%d:%d:force_original_aspect_ratio=decrease,pad=%d:%d:(ow-iw)/2:(oh-ih)/2,setsar=1[v0]; " +
                         "[1:v]scale=%d:%d:force_original_aspect_ratio=decrease,pad=%d:%d:(ow-iw)/2:(oh-ih)/2,setsar=1[v1]; " +
-                        "[v0][0:a][v1][1:a]concat=n=2:v=1:a=1[outv][outa]\" " +
-                        "-map \"[outv]\" -map \"[outa]\" %s",
+                        "[v0][v1]concat=n=2:v=1:a=0[outv]\" " +
+                        "-map \"[outv]\" -map 0:a %s",
                 inputVideo1, inputVideo2,
                 outputWidth, outputHeight, outputWidth, outputHeight,
                 outputWidth, outputHeight, outputWidth, outputHeight,
@@ -795,6 +795,52 @@ public class FFmpegUtils {
         });
     }
 
+    /**
+     * 图片生成视频（宽度为屏幕宽度，高度自适应）
+     *
+     * @param inputImage   输入图片路径
+     * @param outputVideo  输出视频路径
+     * @param screenWidth  屏幕宽度
+     * @param screenHeight 屏幕高度
+     * @param callback     回调接口
+     */
+    public static void imageToVideo(String inputImage, String outputVideo, int screenWidth, int screenHeight, OnSimpleRequestCallBack<Boolean> callback) {
+        // 视频时长（1秒）
+        long duration = 1000; // 1秒，单位毫秒
+        int frameRate = 30; // 帧率
+
+        // 构造FFmpeg命令
+        String command = String.format(
+                "-y -loop 1 -i %s -vf \"scale=%d:%d:force_original_aspect_ratio=decrease,pad=%d:%d:(ow-iw)/2:(oh-ih)/2,setsar=1\" -t %.3f -r %d -c:v libx264 -pix_fmt yuv420p %s",
+                inputImage,
+                screenWidth, screenHeight, screenWidth, screenHeight,
+                duration / 1000.0, // 转换为秒
+                frameRate,
+                outputVideo
+        );
+
+        // 执行FFmpeg命令
+        executeAsync(command, null, new StatisticsCallback() {
+            @Override
+            public void apply(Statistics statistics) {
+                int time = statistics.getTime();
+                if (duration <= 0) {
+                    return;
+                }
+                float progress = (time * 1.0F / duration) * 100F;
+                if (callback != null) {
+                    callback.onProgress((int) progress);
+                }
+            }
+        }, new OnRequestCallBack<Boolean>() {
+            @Override
+            public void onSuccess(Boolean isSuccess) {
+                if (callback != null) {
+                    callback.onSuccess(isSuccess);
+                }
+            }
+        });
+    }
 
     public static String argumentsToString(final String[] arguments) {
         if (arguments == null) {

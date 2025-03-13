@@ -50,6 +50,7 @@ import com.xxl.hello.widget.ui.view.record.RecordButton;
 import com.xxl.hello.widget.ui.window.MessagePopupWindow;
 import com.xxl.kit.AppUtils;
 import com.xxl.kit.ClipboardUtils;
+import com.xxl.kit.DisplayUtils;
 import com.xxl.kit.FFmpegUtils;
 import com.xxl.kit.ListUtils;
 import com.xxl.kit.LogUtils;
@@ -244,6 +245,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
         String inpic = CacheDirConfig.SHARE_FILE_DIR + File.separator + "1.jpg";
         String out = CacheDirConfig.SHARE_FILE_DIR + File.separator + "1.mp4";
         String out1 = CacheDirConfig.SHARE_FILE_DIR + File.separator + "2.mp4";
+        String out3 = CacheDirConfig.SHARE_FILE_DIR + File.separator + "3.mp4";
 //        FFmpegUtils.concatImageAndVideo(in, 0, inpic, out, new OnSimpleRequestCallBack<Boolean>() {
 //            @Override
 //            public void onProgress(int progress) {
@@ -256,17 +258,41 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 //            }
 //        });
 
-        FFmpegUtils.concatVideos(in, in1, out, new OnSimpleRequestCallBack<Boolean>() {
+        FFmpegUtils.imageToVideo(inpic, out1, DisplayUtils.getScreenWidth(), DisplayUtils.getScreenHeight(), new OnSimpleRequestCallBack<Boolean>() {
             @Override
             public void onProgress(int progress) {
-                Log.e("aaa", "onProgress: " + progress);
+                Log.e("aaab", "onProgress: " + progress);
             }
 
             @Override
             public void onSuccess(Boolean isSuccess) {
-                Log.e("aaa", "onSuccess: ");
+                Log.e("aaab", "onSuccess: " + isSuccess);
+
+                FFmpegUtils.concatVideos(in1, out1, out3, new OnSimpleRequestCallBack<Boolean>() {
+                    @Override
+                    public void onProgress(int progress) {
+                        Log.e("aaa", "onProgress: " + progress);
+                    }
+
+                    @Override
+                    public void onSuccess(Boolean isSuccess) {
+                        Log.e("aaa", "onSuccess: "+isSuccess);
+                    }
+                });
             }
         });
+
+//        FFmpegUtils.concatVideos(in, in1, out, new OnSimpleRequestCallBack<Boolean>() {
+//            @Override
+//            public void onProgress(int progress) {
+//                Log.e("aaa", "onProgress: " + progress);
+//            }
+//
+//            @Override
+//            public void onSuccess(Boolean isSuccess) {
+//                Log.e("aaa", "onSuccess: ");
+//            }
+//        });
     }
 
     /**
