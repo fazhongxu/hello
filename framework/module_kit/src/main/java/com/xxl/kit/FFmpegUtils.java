@@ -734,6 +734,27 @@ public class FFmpegUtils {
     }
 
     /**
+     * 调整视频分辨率
+     *
+     * @param inputVideo
+     * @param outputVideo
+     * @param width
+     * @param height
+     * @param callback
+     */
+    public static void adjustVideoResolution(String inputVideo, String outputVideo, int width, int height, OnRequestCallBack<Boolean> callback) {
+        String command = String.format("-y -i %s -vf scale=%d:%d -c:a copy %s", inputVideo, width, height, outputVideo);
+        executeAsync(command, new OnRequestCallBack<Boolean>() {
+            @Override
+            public void onSuccess(Boolean isSuccess) {
+                if (callback != null) {
+                    callback.onSuccess(isSuccess);
+                }
+            }
+        });
+    }
+
+    /**
      * 拼接两个视频（动态调整分辨率）
      *
      * @param inputVideo1 第一个视频路径

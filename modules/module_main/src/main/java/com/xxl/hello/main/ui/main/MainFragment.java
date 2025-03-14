@@ -241,11 +241,13 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
         String in = "/storage/emulated/0/DCIM/Camera/VID_20250311103459.mp4";
         String in1 = "/storage/emulated/0/Pictures/WeiXin/mmexport1741743107505.mp4";
+        String in2 = "/storage/emulated/0/DCIM/Camera/3.mp4";
 //        String inpic = "/storage/emulated/0/Android/data/com.xxl.hello/files/Pictures/IMG_CROP_20250312_18202510.jpeg";
         String inpic = CacheDirConfig.SHARE_FILE_DIR + File.separator + "1.jpg";
         String out = CacheDirConfig.SHARE_FILE_DIR + File.separator + "1.mp4";
         String out1 = CacheDirConfig.SHARE_FILE_DIR + File.separator + "2.mp4";
         String out3 = CacheDirConfig.SHARE_FILE_DIR + File.separator + "3.mp4";
+        String out4 = CacheDirConfig.SHARE_FILE_DIR + File.separator + "4.mp4";
 //        FFmpegUtils.concatImageAndVideo(in, 0, inpic, out, new OnSimpleRequestCallBack<Boolean>() {
 //            @Override
 //            public void onProgress(int progress) {
@@ -268,17 +270,37 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
             public void onSuccess(Boolean isSuccess) {
                 Log.e("aaab", "onSuccess: " + isSuccess);
 
-                FFmpegUtils.concatVideos(in1, out1, out3, new OnSimpleRequestCallBack<Boolean>() {
+                FFmpegUtils.adjustVideoResolution(in1, out4, 720, 1080, new OnRequestCallBack<Boolean>() {
                     @Override
-                    public void onProgress(int progress) {
-                        Log.e("aaa", "onProgress: " + progress);
-                    }
+                    public void onSuccess(Boolean aBoolean) {
 
-                    @Override
-                    public void onSuccess(Boolean isSuccess) {
-                        Log.e("aaa", "onSuccess: "+isSuccess);
+                        FFmpegUtils.concatVideos(out4,out1, out3, new OnSimpleRequestCallBack<Boolean>() {
+                            @Override
+                            public void onProgress(int progress) {
+                                Log.e("aaa", "onProgress: " + progress);
+                            }
+
+                            @Override
+                            public void onSuccess(Boolean isSuccess) {
+                                Log.e("aaa", "onSuccess: "+isSuccess);
+                            }
+                        });
                     }
                 });
+
+//                FFmpegUtils.concatVideos(in,out1, out3, new OnSimpleRequestCallBack<Boolean>() {
+//                    @Override
+//                    public void onProgress(int progress) {
+//                        Log.e("aaa", "onProgress: " + progress);
+//                    }
+//
+//                    @Override
+//                    public void onSuccess(Boolean isSuccess) {
+//                        Log.e("aaa", "onSuccess: "+isSuccess);
+//                    }
+//                });
+
+
             }
         });
 
