@@ -744,19 +744,12 @@ public class FFmpegUtils {
     public static void concatVideos(String inputVideo1, String inputVideo2, String outputVideo, OnSimpleRequestCallBack<Boolean> callback) {
         MediaUtils.MediaEntity mediaEntity1 = MediaUtils.getMediaEntity(inputVideo1);
         MediaUtils.MediaEntity mediaEntity2 = MediaUtils.getMediaEntity(inputVideo2);
-        // 获取视频1的分辨率
-        int width1 = mediaEntity1.getWidth();
-        int height1 = mediaEntity1.getHeight();
         long duration1 = mediaEntity1.getDuration();
 
-        // 获取视频2的分辨率
-        int width2 = mediaEntity2.getWidth();
-        int height2 = mediaEntity2.getHeight();
         long duration2 = mediaEntity2.getDuration();
 
-        // 计算最大宽高
-        int outputWidth = Math.max(width1, width2);
-        int outputHeight = Math.max(height1, height2);
+        int outputWidth = 720;
+        int outputHeight = 1080;
 
         long outDuration = duration1 + duration2;
 
@@ -796,30 +789,29 @@ public class FFmpegUtils {
     }
 
     /**
-     * 图片生成视频（宽度为屏幕宽度，高度自适应）
+     * 图片生成视频
      *
      * @param inputImage   输入图片路径
      * @param outputVideo  输出视频路径
-     * @param screenWidth  屏幕宽度
-     * @param screenHeight 屏幕高度
+     * @param outputWidth  视频宽度
+     * @param outputHeight 视频高度
      * @param callback     回调接口
      */
-    public static void imageToVideo(String inputImage, String outputVideo, int screenWidth, int screenHeight, OnSimpleRequestCallBack<Boolean> callback) {
+    public static void imageToVideo(String inputImage, String outputVideo, int outputWidth, int outputHeight, OnSimpleRequestCallBack<Boolean> callback) {
         // 视频时长（1秒）
         long duration = 1000; // 1秒，单位毫秒
         int frameRate = 30; // 帧率
 
-        // 构造FFmpeg命令
         String command = String.format(
-                "-y -loop 1 -i %s -vf \"scale=%d:%d:force_original_aspect_ratio=decrease,pad=%d:%d:(ow-iw)/2:(oh-ih)/2,setsar=1\" -t %.3f -r %d -c:v libx264 -pix_fmt yuv420p %s",
+                "-y -loop 1 -i %s -vf \"scale=%d:%d:force_original_aspect_ratio=decrease,pad=%d:%d:(ow-iw)/2:(oh-ih)/2:color=black,setsar=1\" -t %.3f -r %d -c:v libx264 -pix_fmt yuv420p %s",
                 inputImage,
-                screenWidth, screenHeight, screenWidth, screenHeight,
+                outputWidth, outputHeight, // 目标分辨率（16:9，例如 720x1280）
+                outputWidth, outputHeight, // 填充到目标分辨率
                 duration / 1000.0, // 转换为秒
                 frameRate,
                 outputVideo
         );
 
-        // 执行FFmpeg命令
         executeAsync(command, null, new StatisticsCallback() {
             @Override
             public void apply(Statistics statistics) {

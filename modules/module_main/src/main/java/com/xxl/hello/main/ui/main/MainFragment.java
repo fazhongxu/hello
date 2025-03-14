@@ -258,7 +258,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 //            }
 //        });
 
-        FFmpegUtils.imageToVideo(inpic, out1, DisplayUtils.getScreenWidth(), DisplayUtils.getScreenHeight(), new OnSimpleRequestCallBack<Boolean>() {
+        FFmpegUtils.imageToVideo(inpic, out1, 720, 1080, new OnSimpleRequestCallBack<Boolean>() {
             @Override
             public void onProgress(int progress) {
                 Log.e("aaab", "onProgress: " + progress);
@@ -282,17 +282,6 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
             }
         });
 
-//        FFmpegUtils.concatVideos(in, in1, out, new OnSimpleRequestCallBack<Boolean>() {
-//            @Override
-//            public void onProgress(int progress) {
-//                Log.e("aaa", "onProgress: " + progress);
-//            }
-//
-//            @Override
-//            public void onSuccess(Boolean isSuccess) {
-//                Log.e("aaa", "onSuccess: ");
-//            }
-//        });
     }
 
     /**

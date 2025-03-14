@@ -195,6 +195,7 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
                 File file = new File(PictureFileUtils.getDiskCacheDir(getActivity()), DateUtils.getCreateFileName("IMG_CROP_") + TimeUtils.currentTimeMillis() + ".jpg");
                 UCrop.of(targetUri, Uri.fromFile(file))
                         .withOptions(options)
+                        .withAspectRatio(9,4)
                         .start(getActivity(), this);
             } else if (requestCode == UCrop.REQUEST_CROP) {
                 Uri uri = UCrop.getOutput(data);
