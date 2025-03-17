@@ -27,6 +27,11 @@ public interface UserSettingNavigator {
     void onUpdateUserInfoComplete(@NonNull final LoginUserEntity targetUserEntity);
 
     /**
+     * 头像路径长按点击
+     */
+    void onAvatarPathLongClick();
+
+    /**
      * 用户头像点击
      */
     void onUserAvatarClick();

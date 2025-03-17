@@ -14,8 +14,6 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
-import com.arthenica.ffmpegkit.MediaInformation;
-import com.arthenica.ffmpegkit.MediaInformationSession;
 import com.tbruyelle.rxpermissions3.RxPermissions;
 import com.xxl.core.aop.annotation.Safe;
 import com.xxl.core.media.audio.AudioCapture;
@@ -27,7 +25,6 @@ import com.xxl.core.ui.state.EmptyState;
 import com.xxl.core.utils.AppExpandUtils;
 import com.xxl.core.utils.CrashHandler;
 import com.xxl.core.utils.DecorationUtils;
-import com.xxl.core.utils.ShareUtils;
 import com.xxl.core.widget.recyclerview.OnRefreshDataListener;
 import com.xxl.core.widget.text.LinkTouchMovementMethod;
 import com.xxl.hello.common.config.AppConfig;
@@ -52,14 +49,12 @@ import com.xxl.hello.widget.ui.view.record.RecordButton;
 import com.xxl.hello.widget.ui.window.MessagePopupWindow;
 import com.xxl.kit.AppUtils;
 import com.xxl.kit.ClipboardUtils;
-import com.xxl.kit.DisplayUtils;
 import com.xxl.kit.FFmpegUtils;
 import com.xxl.kit.ListUtils;
 import com.xxl.kit.LogUtils;
 import com.xxl.kit.MediaUtils;
 import com.xxl.kit.OnAppStatusChangedListener;
 import com.xxl.kit.OnRequestCallBack;
-import com.xxl.kit.OnSimpleRequestCallBack;
 import com.xxl.kit.ResourceUtils;
 import com.xxl.kit.StringUtils;
 import com.xxl.kit.ThreadUtils;
@@ -240,45 +235,6 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     @Override
     public void onTestClick() {
         UserRouterApi.Login.newBuilder().navigation(getActivity());
-
-        String in = "/storage/emulated/0/DCIM/Camera/VID_20250311103459.mp4";
-        String in1 = "/storage/emulated/0/Pictures/WeiXin/mmexport1741743107505.mp4";
-        String in2 = "/storage/emulated/0/DCIM/Camera/3.mp4";
-        String in3Ios = "/storage/emulated/0/Pictures/WeiXin/mmexport1741918708262.mp4";
-//        String inpic = "/storage/emulated/0/Android/data/com.xxl.hello/files/Pictures/IMG_CROP_20250312_18202510.jpeg";
-
-        String in4 = "/storage/emulated/0/DCIM/Camera/share_593cdabe9ffb27c29f26e9c59c9866891742182814631.mp4";
-
-        String inpic = CacheDirConfig.SHARE_FILE_DIR + File.separator + "1.jpg";
-        String out = CacheDirConfig.SHARE_FILE_DIR + File.separator + "1.mp4";
-        String out1 = CacheDirConfig.SHARE_FILE_DIR + File.separator + "2.mp4";
-        String out3 = CacheDirConfig.SHARE_FILE_DIR + File.separator + "3.mp4";
-        String out4 = CacheDirConfig.SHARE_FILE_DIR + File.separator + "4.mp4";
-
-        FFmpegUtils.imageToVideo(inpic, out1, 1080, 1920, new OnSimpleRequestCallBack<Boolean>() {
-            @Override
-            public void onProgress(int progress) {
-                Log.e("aaab", "onProgress: " + progress);
-            }
-
-            @Override
-            public void onSuccess(Boolean isSuccess) {
-                Log.e("aaab", "onSuccess: " + isSuccess);
-                FFmpegUtils.concatVideos(in4, out1, out3,1080,1920, new OnSimpleRequestCallBack<Boolean>() {
-                    @Override
-                    public void onProgress(int progress) {
-                        Log.e("aaa", "onProgress: "+progress );
-                    }
-
-                    @Override
-                    public void onSuccess(Boolean aBoolean) {
-                        Log.e("aa", "onSuccess: "+aBoolean );
-                    }
-                });
-
-            }
-        });
-
     }
 
     /**

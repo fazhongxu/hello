@@ -57,6 +57,7 @@ import com.xxl.hello.widget.ui.view.share.OnShareItemOperate;
 import com.xxl.hello.widget.ui.view.share.ResourcesShareWindow;
 import com.xxl.hello.widget.ui.view.share.api.ResourcesSharePickerKit;
 import com.xxl.kit.AppUtils;
+import com.xxl.kit.ClipboardUtils;
 import com.xxl.kit.FFmpegUtils;
 import com.xxl.kit.FileUtils;
 import com.xxl.kit.ImageUtils;
@@ -183,37 +184,14 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
                 final List<LocalMedia> mediaList = MediaSelector.obtainMultipleResult(data);
                 final LocalMedia media = mediaList.get(0);
                 final Uri uri = Uri.parse(media.isCut() ? media.getCutPath() : media.getPath());
-                final Uri targetUri = PathUtils.getUriByFilePath(PathUtils.getFilePathByUri(uri));
+                String filePath = PathUtils.getFilePathByUri(uri);
+                Log.e("aaa", "onActivityResult:2 " + filePath + " " + new File(filePath).exists());
+
                 mUserSettingModel.requestPutResourcesUploadQueueDBEntities(new ArrayList<>(mediaList));
 
                 for (LocalMedia localMedia : mediaList) {
                     Log.e("aaa", "onActivityResult: " + MediaSelector.getMediaPath(localMedia));
                 }
-                UCrop.Options options = UCropManager.basicOptions(getActivity());
-                options.setCropGridRowCount(0);
-                options.setCropGridColumnCount(2);
-                File file = new File(PictureFileUtils.getDiskCacheDir(getActivity()), DateUtils.getCreateFileName("IMG_CROP_") + TimeUtils.currentTimeMillis() + ".jpg");
-                UCrop.of(targetUri, Uri.fromFile(file))
-                        .withOptions(options)
-                        .withAspectRatio(9,4)
-                        .start(getActivity(), this);
-            } else if (requestCode == UCrop.REQUEST_CROP) {
-                Uri uri = UCrop.getOutput(data);
-                ImageLoader.with(this)
-                        .asBitmap()
-                        .load(PathUtils.getFilePathByUri(uri))
-                        .into(new SimpleTarget<Bitmap>() {
-                            @Override
-                            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                                List<Bitmap> bitmaps = ImageUtils.splitImage(resource, 0, 2);
-
-                                for (int i = 0; i < bitmaps.size(); i++) {
-                                    Bitmap bitmap = bitmaps.get(i);
-                                    String path = CacheDirConfig.SHARE_FILE_DIR + File.separator + (i + 1) + ".jpg";
-                                    ImageUtils.save(bitmap, path, Bitmap.CompressFormat.JPEG);
-                                }
-                            }
-                        });
             }
         }
     }
@@ -364,13 +342,22 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
     }
 
     /**
+     * 头像路径长按点击
+     */
+    @Override
+    public void onAvatarPathLongClick(){
+        ClipboardUtils.copyText(mViewDataBinding.tvTest.getText());
+        ToastUtils.success(R.string.resources_copied).show();
+    }
+
+    /**
      * 用户头像点击
      */
     @Override
     public void onUserAvatarClick() {
         MediaSelector.create(this)
                 .openGallery(PictureMimeType.ofAll())
-                .isEnableCrop(true)
+                .isEnableCrop(false)
                 .freeStyleCropEnabled(true)
                 .forResult();
     }
