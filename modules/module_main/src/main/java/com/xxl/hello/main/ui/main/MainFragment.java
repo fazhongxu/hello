@@ -261,27 +261,38 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
             @Override
             public void onSuccess(Boolean isSuccess) {
                 Log.e("aaab", "onSuccess: " + isSuccess);
+                FFmpegUtils.concatVideos(in1, out1, out3, new OnSimpleRequestCallBack<Boolean>() {
+                    @Override
+                    public void onProgress(int progress) {
 
+                    }
 
-                FFmpegUtils.adjustVideoResolution(in, out4, 720, 1280, new OnRequestCallBack<Boolean>() {
                     @Override
                     public void onSuccess(Boolean aBoolean) {
-                        MediaInformation mediaInformation = FFmpegUtils.getMediaInformation(out4);
-                        Log.e("aaa", "onSuccess: " + mediaInformation.getStreams());
-
-                        FFmpegUtils.concatVideos(out4, out1, out3, new OnSimpleRequestCallBack<Boolean>() {
-                            @Override
-                            public void onProgress(int progress) {
-                                Log.e("aaa", "onProgress: " + progress);
-                            }
-
-                            @Override
-                            public void onSuccess(Boolean isSuccess) {
-                                Log.e("aaa", "onSuccess: " + isSuccess);
-                            }
-                        });
+                        Log.e("aa", "onSuccess: "+aBoolean );
                     }
                 });
+
+
+//                FFmpegUtils.adjustVideoResolution(in, out4, 720, 1280, new OnRequestCallBack<Boolean>() {
+//                    @Override
+//                    public void onSuccess(Boolean aBoolean) {
+//                        MediaInformation mediaInformation = FFmpegUtils.getMediaInformation(out4);
+//                        Log.e("aaa", "onSuccess: " + mediaInformation.getStreams());
+//
+//                        FFmpegUtils.concatVideos(out4, out1, out3, new OnSimpleRequestCallBack<Boolean>() {
+//                            @Override
+//                            public void onProgress(int progress) {
+//                                Log.e("aaa", "onProgress: " + progress);
+//                            }
+//
+//                            @Override
+//                            public void onSuccess(Boolean isSuccess) {
+//                                Log.e("aaa", "onSuccess: " + isSuccess);
+//                            }
+//                        });
+//                    }
+//                });
 
             }
         });
