@@ -745,7 +745,7 @@ public class FFmpegUtils {
     public static void adjustVideoResolution(String inputVideo, String outputVideo, int targetWidth, int targetHeight, OnRequestCallBack<Boolean> callback) {
         String command = String.format(
                 "-y -i %s -vf \"scale=iw*min(%d/iw\\,%d/ih):ih*min(%d/iw\\,%d/ih), pad=%d:%d:(%d-iw*min(%d/iw\\,%d/ih))/2:(%d-ih*min(%d/iw\\,%d/ih))/2\" -c:a copy %s",
-                inputVideo,targetWidth, targetHeight, targetWidth, targetHeight, targetWidth, targetHeight, targetWidth, targetWidth, targetHeight, targetHeight, targetWidth, targetHeight,outputVideo
+                inputVideo, targetWidth, targetHeight, targetWidth, targetHeight, targetWidth, targetHeight, targetWidth, targetWidth, targetHeight, targetHeight, targetWidth, targetHeight, outputVideo
         );
         executeAsync(command, new OnRequestCallBack<Boolean>() {
             @Override
@@ -760,20 +760,19 @@ public class FFmpegUtils {
     /**
      * 拼接两个视频（动态调整分辨率）
      *
-     * @param inputVideo1 第一个视频路径
-     * @param inputVideo2 第二个视频路径
-     * @param outputVideo 输出视频路径
-     * @param callback    回调接口
+     * @param inputVideo1  第一个视频路径
+     * @param inputVideo2  第二个视频路径
+     * @param outputVideo  输出视频路径
+     * @param outputWidth  输出视频宽度
+     * @param outputHeight 输出视频高度
+     * @param callback     回调接口
      */
-    public static void concatVideos(String inputVideo1, String inputVideo2, String outputVideo, OnSimpleRequestCallBack<Boolean> callback) {
+    public static void concatVideos(String inputVideo1, String inputVideo2, String outputVideo, int outputWidth, int outputHeight, OnSimpleRequestCallBack<Boolean> callback) {
         MediaUtils.MediaEntity mediaEntity1 = MediaUtils.getMediaEntity(inputVideo1);
         MediaUtils.MediaEntity mediaEntity2 = MediaUtils.getMediaEntity(inputVideo2);
         long duration1 = mediaEntity1.getDuration();
 
         long duration2 = mediaEntity2.getDuration();
-
-        int outputWidth = 720;
-        int outputHeight = 1280;
 
         long outDuration = duration1 + duration2;
 
