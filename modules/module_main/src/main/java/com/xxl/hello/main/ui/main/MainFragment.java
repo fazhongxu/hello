@@ -246,6 +246,9 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
         String in2 = "/storage/emulated/0/DCIM/Camera/3.mp4";
         String in3Ios = "/storage/emulated/0/Pictures/WeiXin/mmexport1741918708262.mp4";
 //        String inpic = "/storage/emulated/0/Android/data/com.xxl.hello/files/Pictures/IMG_CROP_20250312_18202510.jpeg";
+
+        String in4 = "/storage/emulated/0/DCIM/Camera/share_593cdabe9ffb27c29f26e9c59c9866891742182814631.mp4";
+
         String inpic = CacheDirConfig.SHARE_FILE_DIR + File.separator + "1.jpg";
         String out = CacheDirConfig.SHARE_FILE_DIR + File.separator + "1.mp4";
         String out1 = CacheDirConfig.SHARE_FILE_DIR + File.separator + "2.mp4";
@@ -261,7 +264,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
             @Override
             public void onSuccess(Boolean isSuccess) {
                 Log.e("aaab", "onSuccess: " + isSuccess);
-                FFmpegUtils.concatVideos(in1, out1, out3, new OnSimpleRequestCallBack<Boolean>() {
+                FFmpegUtils.concatVideos(in4, out1, out3, new OnSimpleRequestCallBack<Boolean>() {
                     @Override
                     public void onProgress(int progress) {
 

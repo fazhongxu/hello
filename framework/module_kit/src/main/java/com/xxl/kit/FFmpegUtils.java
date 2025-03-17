@@ -782,7 +782,7 @@ public class FFmpegUtils {
                         "\"[0:v]scale=%d:%d:force_original_aspect_ratio=decrease,pad=%d:%d:(ow-iw)/2:(oh-ih)/2,setsar=1[v0]; " +
                         "[1:v]scale=%d:%d:force_original_aspect_ratio=decrease,pad=%d:%d:(ow-iw)/2:(oh-ih)/2,setsar=1[v1]; " +
                         "[v0][v1]concat=n=2:v=1:a=0[outv]\" " +
-                        "-map \"[outv]\" -map 0:a %s",
+                        "-map \"[outv]\" -map 0:a %s -vsync vfr",
                 inputVideo1, inputVideo2,
                 outputWidth, outputHeight, outputWidth, outputHeight,
                 outputWidth, outputHeight, outputWidth, outputHeight,
