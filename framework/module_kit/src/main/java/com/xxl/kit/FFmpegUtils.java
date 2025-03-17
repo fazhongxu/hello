@@ -22,6 +22,7 @@ import com.arthenica.ffmpegkit.StatisticsCallback;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * <pre>
@@ -738,12 +739,15 @@ public class FFmpegUtils {
      *
      * @param inputVideo
      * @param outputVideo
-     * @param width
-     * @param height
+     * @param targetHeight
+     * @param targetWidth
      * @param callback
      */
-    public static void adjustVideoResolution(String inputVideo, String outputVideo, int width, int height, OnRequestCallBack<Boolean> callback) {
-        String command = String.format("-y -i %s -vf scale=%d:%d -c:a copy %s", inputVideo, width, height, outputVideo);
+    public static void adjustVideoResolution(String inputVideo, String outputVideo, int targetWidth, int targetHeight, OnRequestCallBack<Boolean> callback) {
+        String command = String.format(
+                "-y -i %s -vf \"scale=iw*min(%d/iw\\,%d/ih):ih*min(%d/iw\\,%d/ih), pad=%d:%d:(%d-iw*min(%d/iw\\,%d/ih))/2:(%d-ih*min(%d/iw\\,%d/ih))/2\" -c:a copy %s",
+                inputVideo,targetWidth, targetHeight, targetWidth, targetHeight, targetWidth, targetHeight, targetWidth, targetWidth, targetHeight, targetHeight, targetWidth, targetHeight,outputVideo
+        );
         executeAsync(command, new OnRequestCallBack<Boolean>() {
             @Override
             public void onSuccess(Boolean isSuccess) {
@@ -764,6 +768,8 @@ public class FFmpegUtils {
      */
     public static void concatVideos(String inputVideo1, String inputVideo2, String outputVideo, OnSimpleRequestCallBack<Boolean> callback) {
         MediaUtils.MediaEntity mediaEntity1 = MediaUtils.getMediaEntity(inputVideo1);
+        int width1 = mediaEntity1.getWidth();
+        int height1 = mediaEntity1.getHeight();
         MediaUtils.MediaEntity mediaEntity2 = MediaUtils.getMediaEntity(inputVideo2);
         long duration1 = mediaEntity1.getDuration();
 
@@ -785,6 +791,56 @@ public class FFmpegUtils {
                 outputWidth, outputHeight, outputWidth, outputHeight,
                 outputVideo
         );
+
+
+//        String command;
+//        if (width1 > height1) {
+//            command = String.format(
+//                    "-y -i %s -i %s -filter_complex " +
+//                            "\"[0:v]scale=%d:-1:force_original_aspect_ratio=decrease,setsar=1[v0]; " +  // 视频1宽度固定，高度自适应
+//                            "[1:v]scale=%d:%d,setsar=1[v1]; " +  // 视频2宽度和高度固定
+//                            "[v0][0:a][v1][1:a]concat=n=2:v=1:a=1[v][a]\" " +
+//                            "-map \"[v]\" -map \"[a]\" %s",
+//                    inputVideo1,      // 第一个输入视频文件路径
+//                    inputVideo2,      // 第二个输入视频文件路径
+//                    outputWidth,      // 动态宽度（视频1）
+//                    outputWidth,      // 动态宽度（视频2）
+//                    outputHeight,     // 动态高度（视频2）
+//                    outputVideo       // 输出视频文件路径
+//            );
+//        } else {
+//            command = String.format(
+//                    "-y -i %s -i %s -filter_complex " +
+//                            "\"[0:v]scale=%d:%d,setsar=1[v0]; " +  // 动态设置第一个视频的宽高
+//                            "[1:v]scale=%d:%d,setsar=1[v1]; " +  // 动态设置第二个视频的宽高
+//                            "[v0][0:a][v1][1:a]concat=n=2:v=1:a=1[v][a]\" " +
+//                            "-map \"[v]\" -map \"[a]\" %s",
+//                    inputVideo1,      // 第一个输入视频文件路径
+//                    inputVideo2,      // 第二个输入视频文件路径
+//                    outputWidth,      // 动态宽度
+//                    outputHeight,     // 动态高度
+//                    outputWidth,      // 动态宽度
+//                    outputHeight,     // 动态高度
+//                    outputVideo       // 输出视频文件路径
+//            );
+//        }
+
+
+//        String command = String.format(
+//                "-y -i %s -i %s -filter_complex " +
+//                        "\"[0:v]scale=%d:%d,setsar=1[v0]; " +  // 缩放视频1
+//                        "[1:v]scale=%d:%d,setsar=1[v1]; " +    // 缩放视频2
+//                        "[v0][0:a][v1]concat=n=2:v=1:a=1[v][a]\" " +  // 视频2不映射音频流
+//                        "-map \"[v]\" -map \"[a]\" %s",        // 映射视频和音频流
+//                inputVideo1,      // 第一个输入视频文件路径
+//                inputVideo2,      // 第二个输入视频文件路径
+//                outputWidth,      // 动态宽度
+//                outputHeight,     // 动态高度
+//                outputWidth,      // 动态宽度
+//                outputHeight,     // 动态高度
+//                outputVideo       // 输出视频文件路径
+//        );
+
 
         // 执行FFmpeg命令
         executeAsync(command, null, new StatisticsCallback() {
@@ -823,14 +879,28 @@ public class FFmpegUtils {
         long duration = 1000; // 1秒，单位毫秒
         int frameRate = 30; // 帧率
 
+//        String command = String.format(
+//                "-y -loop 1 -i %s -vf \"scale=%d:%d:force_original_aspect_ratio=decrease,pad=%d:%d:(ow-iw)/2:(oh-ih)/2:color=black,setsar=1\" -t %.3f -r %d -c:v libx264 -pix_fmt yuv420p %s",
+//                inputImage,
+//                outputWidth, outputHeight, // 目标分辨率（16:9，例如 720x1280）
+//                outputWidth, outputHeight, // 填充到目标分辨率
+//                duration / 1000.0, // 转换为秒
+//                frameRate,
+//                outputVideo
+//        );
+
         String command = String.format(
-                "-y -loop 1 -i %s -vf \"scale=%d:%d:force_original_aspect_ratio=decrease,pad=%d:%d:(ow-iw)/2:(oh-ih)/2:color=black,setsar=1\" -t %.3f -r %d -c:v libx264 -pix_fmt yuv420p %s",
-                inputImage,
-                outputWidth, outputHeight, // 目标分辨率（16:9，例如 720x1280）
-                outputWidth, outputHeight, // 填充到目标分辨率
-                duration / 1000.0, // 转换为秒
-                frameRate,
-                outputVideo
+                "-y -loop 1 -i %s -f lavfi -i aevalsrc=0 -vf " +
+                        "\"scale=%d:%d:force_original_aspect_ratio=decrease,pad=%d:%d:(ow-iw)/2:(oh-ih)/2:color=black,setsar=1\" " +
+                        "-t %.3f -r %d -c:v libx264 -pix_fmt yuv420p -c:a aac -shortest %s",
+                inputImage,          // 输入图片路径
+                outputWidth,         // 目标宽度
+                outputHeight,        // 目标高度
+                outputWidth,         // 填充宽度
+                outputHeight,        // 填充高度
+                duration / 1000.0,   // 持续时间（秒）
+                frameRate,           // 帧率
+                outputVideo          // 输出视频路径
         );
 
         executeAsync(command, null, new StatisticsCallback() {
