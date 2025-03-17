@@ -63,9 +63,9 @@ public class FFmpegUtils {
      */
     public static MediaInformation getMediaInformationAsync(@NonNull final String path,
                                                             @NonNull final OnRequestCallBack<MediaInformationSession> callBack) {
-        if (Thread.currentThread() == Looper.getMainLooper().getThread()) {
-            return null;
-        }
+//        if (Thread.currentThread() == Looper.getMainLooper().getThread()) {
+//            return null;
+//        }
         final MediaInformationSessionCompleteCallback callback = new MediaInformationSessionCompleteCallback() {
 
             @Override
@@ -776,7 +776,7 @@ public class FFmpegUtils {
         long duration2 = mediaEntity2.getDuration();
 
         int outputWidth = 720;
-        int outputHeight = 1080;
+        int outputHeight = 1280;
 
         long outDuration = duration1 + duration2;
 
