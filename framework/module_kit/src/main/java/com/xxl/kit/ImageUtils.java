@@ -2599,44 +2599,42 @@ public final class ImageUtils {
     /**
      * 将图片按指定的行数和列数切割
      *
-     * @param bitmap 原始图片
-     * @param rows   切割的行数（不包括边框）
-     * @param cols   切割的列数（不包括边框）
+     * @param originBitmap 原始图片
+     * @param rows         切割的行数（不包括边框）
+     * @param cols         切割的列数（不包括边框）
      * @return 切割后的图片列表
      */
-    public static List<Bitmap> splitImage(Bitmap bitmap, int rows, int cols) {
-        List<Bitmap> pieces = new ArrayList<>();
-
-        // 如果行列都是0，返回原图
+    public static List<Bitmap> splitImage(Bitmap originBitmap, int rows, int cols) {
+        List<Bitmap> bitmaps = new ArrayList<>();
         if (rows == 0 && cols == 0) {
-            pieces.add(bitmap);
-            return pieces;
+            bitmaps.add(originBitmap);
+            return bitmaps;
         }
 
-        // 计算实际需要切割的份数
-        int actualRows = (rows == 0) ? 1 : rows + 1;
-        int actualCols = (cols == 0) ? 1 : cols + 1;
+        int originWidth = originBitmap.getWidth();
+        int originHeight = originBitmap.getHeight();
 
-        // 计算每个切片的宽度和高度
-        int pieceWidth = bitmap.getWidth() / actualCols;
-        int pieceHeight = bitmap.getHeight() / actualRows;
+        int targetRows = rows == 0 ? 1 : rows + 1;
+        int targetCols = cols == 0 ? 1 : cols + 1;
 
-        // 进行切割
-        for (int i = 0; i < actualRows; i++) {
-            for (int j = 0; j < actualCols; j++) {
+        int pieceWidth = originWidth / targetCols;
+        int pieceHeight = originHeight / targetRows;
+
+        for (int i = 0; i < targetRows; i++) {
+            for (int j = 0; j < targetCols; j++) {
                 int x = j * pieceWidth;
                 int y = i * pieceHeight;
+                //处理最后列/行
+//                int width = (j == targetCols - 1) ? originWidth - x : pieceWidth;
+//                int height = (i == targetRows - 1) ? originHeight - y : pieceHeight;
+                int width = pieceWidth;
+                int height =  pieceHeight;
 
-                // 处理最后一行/列可能的边界情况
-                int width = (j == actualCols - 1) ? bitmap.getWidth() - x : pieceWidth;
-                int height = (i == actualRows - 1) ? bitmap.getHeight() - y : pieceHeight;
-
-                Bitmap piece = Bitmap.createBitmap(bitmap, x, y, width, height);
-                pieces.add(piece);
+                Bitmap bitmap = Bitmap.createBitmap(originBitmap, x, y, width, height);
+                bitmaps.add(bitmap);
             }
         }
-
-        return pieces;
+        return bitmaps;
     }
 
     public enum ImageType {
