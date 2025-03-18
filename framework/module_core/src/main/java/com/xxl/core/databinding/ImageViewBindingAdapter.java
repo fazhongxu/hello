@@ -1,4 +1,4 @@
-package com.xxl.core.databinding.imageview;
+package com.xxl.core.databinding;
 
 import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
