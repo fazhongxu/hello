@@ -216,7 +216,7 @@ public class VideoUtils {
                 }
             }
         } else {
-            String targetPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath() + File.separator + fileName;
+            String targetPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM) + File.separator + fileName;
             boolean isSuccess = FileUtils.copyFile(videoPath, targetPath, null);
             if (isSuccess) {
                 FileUtils.notifySystemToScan(targetPath);
