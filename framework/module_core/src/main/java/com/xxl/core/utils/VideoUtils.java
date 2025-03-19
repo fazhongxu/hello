@@ -8,7 +8,6 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.TextUtils;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,7 +18,6 @@ import com.xxl.kit.AppUtils;
 import com.xxl.kit.FileUtils;
 import com.xxl.kit.LogUtils;
 import com.xxl.kit.MediaUtils;
-import com.xxl.kit.PathUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -203,8 +201,6 @@ public class VideoUtils {
                     os.write(buffer, 0, readSize);
                 }
                 os.flush();
-                String filePathByUri = PathUtils.getFilePathByUri(uri);
-                Log.e("aa", "save2Album: " + new File(filePathByUri).exists());
                 return uri;
             } catch (Exception e) {
                 resolver.delete(uri, null, null);
