@@ -2,13 +2,10 @@ package com.xxl.core.utils;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
-import android.content.Context;
-import android.graphics.Bitmap;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
-import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
@@ -17,21 +14,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.hw.videoprocessor.VideoProcessor;
-import com.hw.videoprocessor.VideoUtil;
 import com.xxl.core.rx.SchedulersProvider;
 import com.xxl.kit.AppUtils;
 import com.xxl.kit.FileUtils;
 import com.xxl.kit.LogUtils;
 import com.xxl.kit.MediaUtils;
 import com.xxl.kit.PathUtils;
-import com.xxl.kit.TimeUtils;
-import com.xxl.kit.UriUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 
 import io.reactivex.rxjava3.core.Observable;
@@ -151,43 +143,57 @@ public class VideoUtils {
      * @param videoPath
      * @return
      */
-    public static Uri savaVideo2Album(String videoPath) {
-        return savaVideo2Album(AppUtils.getApplication(), videoPath, "hello", TimeUtils.currentServiceTimeMillis() + ".mp4");
-    }
-
-    /**
-     * 保存视频到相册
-     *
-     * @param videoPath
-     * @param fileName
-     * @return
-     */
-    public static Uri savaVideo2Album(String videoPath, String fileName) {
-        return savaVideo2Album(AppUtils.getApplication(), videoPath, "hello", fileName);
+    @Nullable
+    public static Uri save2Album(final String videoPath) {
+        return save2Album(videoPath, "hello", "");
     }
 
     /**
      * 保存视频到相册
      * 存储位置：/storage/emulated/0/DICM/path1/path2/new_photo_file.png
+     *
+     * @param videoPath
+     * @param dirName
+     * @param fileName
+     * @return
      */
-    public static Uri savaVideo2Album(Context context, String videoPath, String dirName, String fileName) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            String safeDirName = TextUtils.isEmpty(dirName) ? AppUtils.getApplication().getPackageName() : dirName;
-            ContentValues values = new ContentValues();
-            values.put(MediaStore.MediaColumns.DISPLAY_NAME, fileName);
-            values.put(MediaStore.MediaColumns.MIME_TYPE, "video/*");
-            values.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DCIM + "/" + safeDirName);
-            Uri url = null;
-            InputStream is = null;
+    @Nullable
+    public static Uri save2Album(final String videoPath,
+                                 final String dirName,
+                                 final String fileName) {
+        String safeDirName = TextUtils.isEmpty(dirName) ? AppUtils.getApplication().getPackageName() : dirName;
+        String suffix = "mp4";
+        String desFileName = TextUtils.isEmpty(fileName) ? (System.currentTimeMillis() + "." + suffix) : fileName;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            File videoDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
+            File destFile = new File(videoDir, safeDirName + "/" + desFileName);
+            boolean isSuccess = FileUtils.copyFile(videoPath, destFile.getAbsolutePath(), null);
+            if (!isSuccess) {
+                return null;
+            }
+            FileUtils.notifySystemToScan(destFile);
+            return Uri.fromFile(destFile);
+        } else {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(MediaStore.Video.Media.DISPLAY_NAME, desFileName);
+            contentValues.put(MediaStore.Video.Media.MIME_TYPE, "video/*");
+            Uri contentUri;
+            if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+                contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+            } else {
+                contentUri = MediaStore.Video.Media.INTERNAL_CONTENT_URI;
+            }
+            contentValues.put(MediaStore.Video.Media.RELATIVE_PATH, Environment.DIRECTORY_DCIM + "/" + safeDirName);
+            ContentResolver resolver = AppUtils.getApplication().getContentResolver();
+            Uri uri = resolver.insert(contentUri, contentValues);
+            if (uri == null) {
+                return null;
+            }
+            FileInputStream is = null;
             OutputStream os = null;
-            ContentResolver resolver = context.getContentResolver();
             try {
-                url = resolver.insert(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, values);
-                if (url == null) {
-                    return null;
-                }
                 byte[] buffer = new byte[1024 * 8];
-                os = resolver.openOutputStream(url);
+                os = resolver.openOutputStream(uri);
                 is = new FileInputStream(videoPath);
                 while (true) {
                     int readSize = is.read(buffer);
@@ -197,12 +203,13 @@ public class VideoUtils {
                     os.write(buffer, 0, readSize);
                 }
                 os.flush();
-                return url;
+                String filePathByUri = PathUtils.getFilePathByUri(uri);
+                Log.e("aa", "save2Album: " + new File(filePathByUri).exists());
+                return uri;
             } catch (Exception e) {
+                resolver.delete(uri, null, null);
                 e.printStackTrace();
-                if (url != null) {
-                    resolver.delete(url, null, null);
-                }
+                return null;
             } finally {
                 try {
                     if (is != null) {
@@ -215,15 +222,7 @@ public class VideoUtils {
                     e.printStackTrace();
                 }
             }
-        } else {
-            String targetPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM) + File.separator + fileName;
-            boolean isSuccess = FileUtils.copyFile(videoPath, targetPath, null);
-            if (isSuccess) {
-                FileUtils.notifySystemToScan(targetPath);
-                return Uri.fromFile(new File(targetPath));
-            }
         }
-        return null;
     }
 
     /**

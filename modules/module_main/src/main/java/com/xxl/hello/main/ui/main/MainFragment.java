@@ -25,6 +25,7 @@ import com.xxl.core.ui.state.EmptyState;
 import com.xxl.core.utils.AppExpandUtils;
 import com.xxl.core.utils.CrashHandler;
 import com.xxl.core.utils.DecorationUtils;
+import com.xxl.core.utils.VideoUtils;
 import com.xxl.core.widget.recyclerview.OnRefreshDataListener;
 import com.xxl.core.widget.text.LinkTouchMovementMethod;
 import com.xxl.hello.common.config.AppConfig;
@@ -235,6 +236,13 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     @Override
     public void onTestClick() {
         UserRouterApi.Login.newBuilder().navigation(getActivity());
+
+        String inpic = CacheDirConfig.SHARE_FILE_DIR + File.separator + "1.jpg";
+        String ou = CacheDirConfig.SHARE_FILE_DIR + File.separator + "9.jpg";
+
+        String out3 = CacheDirConfig.SHARE_FILE_DIR + File.separator + "3.mp4";
+
+        VideoUtils.save2Album(out3);
     }
 
     /**
