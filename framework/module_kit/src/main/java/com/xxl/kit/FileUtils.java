@@ -740,57 +740,6 @@ public final class FileUtils {
     }
 
     /**
-     * Write file from input stream.
-     *
-     * @param is       The input stream.
-     * @param os       The output stream.
-     * @param listener The progress update listener.
-     * @return {@code true}: success<br>{@code false}: fail
-     */
-    public static boolean writeFileFromIS(final InputStream is,
-                                          final OutputStream os,
-                                          final OnProgressUpdateListener listener) {
-        BufferedOutputStream bos = null;
-        try {
-            bos = new BufferedOutputStream(os, BUFFER_SIZE);
-            if (listener == null) {
-                byte[] data = new byte[BUFFER_SIZE];
-                for (int len; (len = is.read(data)) != -1; ) {
-                    bos.write(data, 0, len);
-                }
-            } else {
-                double totalSize = is.available();
-                int curSize = 0;
-                listener.onProgressUpdate(0);
-                byte[] data = new byte[BUFFER_SIZE];
-                for (int len; (len = is.read(data)) != -1; ) {
-                    bos.write(data, 0, len);
-                    curSize += len;
-                    listener.onProgressUpdate(curSize / totalSize);
-                }
-            }
-            return true;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        } finally {
-            try {
-                is.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            try {
-                if (bos != null) {
-                    bos.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-
-    /**
      * Input stream to bytes.
      */
     public static byte[] inputStream2Bytes(final InputStream is) {

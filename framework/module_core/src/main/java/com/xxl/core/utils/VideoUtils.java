@@ -149,10 +149,20 @@ public class VideoUtils {
      * 保存视频到相册
      *
      * @param videoPath
+     * @return
+     */
+    public static Uri savaVideo2Album(String videoPath) {
+        return savaVideo2Album(AppUtils.getApplication(), videoPath, "hello", TimeUtils.currentServiceTimeMillis() + ".mp4");
+    }
+
+    /**
+     * 保存视频到相册
+     *
+     * @param videoPath
      * @param fileName
      * @return
      */
-    public static String savaVideo2Album(String videoPath, String fileName) {
+    public static Uri savaVideo2Album(String videoPath, String fileName) {
         return savaVideo2Album(AppUtils.getApplication(), videoPath, "hello", fileName);
     }
 
@@ -160,59 +170,60 @@ public class VideoUtils {
      * 保存视频到相册
      * 存储位置：/storage/emulated/0/DICM/path1/path2/new_photo_file.png
      */
-    public static String savaVideo2Album(Context context, String videoPath, String dirName, String fileName) {
-        String safeDirName = TextUtils.isEmpty(dirName) ? AppUtils.getApplication().getPackageName() : dirName;
-
-        ContentValues values = new ContentValues();
-        values.put(MediaStore.MediaColumns.DISPLAY_NAME, fileName);
-        values.put(MediaStore.MediaColumns.MIME_TYPE, "video/*");
-        if (Build.VERSION.SDK_INT >= 29) {
+    public static Uri savaVideo2Album(Context context, String videoPath, String dirName, String fileName) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            String safeDirName = TextUtils.isEmpty(dirName) ? AppUtils.getApplication().getPackageName() : dirName;
+            ContentValues values = new ContentValues();
+            values.put(MediaStore.MediaColumns.DISPLAY_NAME, fileName);
+            values.put(MediaStore.MediaColumns.MIME_TYPE, "video/*");
             values.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DCIM + "/" + safeDirName);
-        }
-        Uri url = null;
-        String stringUri = null;
-        InputStream is = null;
-        OutputStream os = null;
-        ContentResolver cr = context.getContentResolver();
-        try {
-            url = cr.insert(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, values);
-            if (url == null) {
-                return null;
-            }
-            byte[] buffer = new byte[1024 * 8];
-//            ParcelFileDescriptor descriptor = cr.openFileDescriptor(url, "w");
-//            os = new FileOutputStream(descriptor.getFileDescriptor());
-            os = cr.openOutputStream(url);
-            is = new FileInputStream(videoPath);
-            while (true) {
-                int readSize = is.read(buffer);
-                if (readSize == -1) {
-                    break;
-                }
-                os.write(buffer, 0, readSize);
-            }
-            os.flush();
-        } catch (Exception e) {
-            e.printStackTrace();
-            if (url != null) {
-                cr.delete(url, null, null);
-            }
-        } finally {
+            Uri url = null;
+            InputStream is = null;
+            OutputStream os = null;
+            ContentResolver resolver = context.getContentResolver();
             try {
-                if (is != null) {
-                    is.close();
+                url = resolver.insert(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, values);
+                if (url == null) {
+                    return null;
                 }
-                if (os != null) {
-                    os.close();
+                byte[] buffer = new byte[1024 * 8];
+                os = resolver.openOutputStream(url);
+                is = new FileInputStream(videoPath);
+                while (true) {
+                    int readSize = is.read(buffer);
+                    if (readSize == -1) {
+                        break;
+                    }
+                    os.write(buffer, 0, readSize);
                 }
-            } catch (IOException e) {
+                os.flush();
+                return url;
+            } catch (Exception e) {
                 e.printStackTrace();
+                if (url != null) {
+                    resolver.delete(url, null, null);
+                }
+            } finally {
+                try {
+                    if (is != null) {
+                        is.close();
+                    }
+                    if (os != null) {
+                        os.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        } else {
+            String targetPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath() + File.separator + fileName;
+            boolean isSuccess = FileUtils.copyFile(videoPath, targetPath, null);
+            if (isSuccess) {
+                FileUtils.notifySystemToScan(targetPath);
+                return Uri.fromFile(new File(targetPath));
             }
         }
-        if (url != null) {
-            stringUri = url.toString();
-        }
-        return stringUri;
+        return null;
     }
 
     /**
