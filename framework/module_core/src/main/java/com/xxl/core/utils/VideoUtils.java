@@ -1,15 +1,38 @@
 package com.xxl.core.utils;
 
+import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.content.Context;
+import android.graphics.Bitmap;
 import android.media.MediaMetadataRetriever;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Environment;
+import android.os.ParcelFileDescriptor;
+import android.provider.MediaStore;
+import android.text.TextUtils;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.hw.videoprocessor.VideoProcessor;
+import com.hw.videoprocessor.VideoUtil;
 import com.xxl.core.rx.SchedulersProvider;
 import com.xxl.kit.AppUtils;
+import com.xxl.kit.FileUtils;
 import com.xxl.kit.LogUtils;
 import com.xxl.kit.MediaUtils;
+import com.xxl.kit.PathUtils;
+import com.xxl.kit.TimeUtils;
+import com.xxl.kit.UriUtils;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 import io.reactivex.rxjava3.core.Observable;
 
@@ -122,6 +145,75 @@ public class VideoUtils {
         });
     }
 
+    /**
+     * 保存视频到相册
+     *
+     * @param videoPath
+     * @param fileName
+     * @return
+     */
+    public static String savaVideo2Album(String videoPath, String fileName) {
+        return savaVideo2Album(AppUtils.getApplication(), videoPath, "hello", fileName);
+    }
+
+    /**
+     * 保存视频到相册
+     * 存储位置：/storage/emulated/0/DICM/path1/path2/new_photo_file.png
+     */
+    public static String savaVideo2Album(Context context, String videoPath, String dirName, String fileName) {
+        String safeDirName = TextUtils.isEmpty(dirName) ? AppUtils.getApplication().getPackageName() : dirName;
+
+        ContentValues values = new ContentValues();
+        values.put(MediaStore.MediaColumns.DISPLAY_NAME, fileName);
+        values.put(MediaStore.MediaColumns.MIME_TYPE, "video/*");
+        if (Build.VERSION.SDK_INT >= 29) {
+            values.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DCIM + "/" + safeDirName);
+        }
+        Uri url = null;
+        String stringUri = null;
+        InputStream is = null;
+        OutputStream os = null;
+        ContentResolver cr = context.getContentResolver();
+        try {
+            url = cr.insert(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, values);
+            if (url == null) {
+                return null;
+            }
+            byte[] buffer = new byte[1024 * 8];
+//            ParcelFileDescriptor descriptor = cr.openFileDescriptor(url, "w");
+//            os = new FileOutputStream(descriptor.getFileDescriptor());
+            os = cr.openOutputStream(url);
+            is = new FileInputStream(videoPath);
+            while (true) {
+                int readSize = is.read(buffer);
+                if (readSize == -1) {
+                    break;
+                }
+                os.write(buffer, 0, readSize);
+            }
+            os.flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (url != null) {
+                cr.delete(url, null, null);
+            }
+        } finally {
+            try {
+                if (is != null) {
+                    is.close();
+                }
+                if (os != null) {
+                    os.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        if (url != null) {
+            stringUri = url.toString();
+        }
+        return stringUri;
+    }
 
     /**
      * 视频压缩进度监听
