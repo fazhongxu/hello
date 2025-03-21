@@ -19,7 +19,6 @@ import com.xxl.core.aop.annotation.Safe;
 import com.xxl.core.media.audio.AudioCapture;
 import com.xxl.core.media.audio.AudioCapture.OnAudioFrameCapturedListener;
 import com.xxl.core.media.audio.AudioRecordFormat;
-import com.xxl.core.rx.SchedulersProvider;
 import com.xxl.core.ui.BaseEventBusWrapper;
 import com.xxl.core.ui.fragment.BaseStateViewModelFragment;
 import com.xxl.core.ui.state.EmptyState;
@@ -39,13 +38,10 @@ import com.xxl.hello.main.ui.main.adapter.TestListEntity;
 import com.xxl.hello.main.ui.main.adapter.multi.TestMultiAdapter;
 import com.xxl.hello.router.api.MainRouterApi;
 import com.xxl.hello.router.api.UserRouterApi;
-import com.xxl.hello.service.data.model.api.config.QueryAppConfigResponse;
 import com.xxl.hello.service.data.model.api.user.QueryUserInfoResponse;
 import com.xxl.hello.service.data.model.entity.media.MediaPreviewItemEntity;
 import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi;
-import com.xxl.hello.service.data.remote.RetrofitClient;
-import com.xxl.hello.service.data.remote.net.ConfigRemoteDataService;
 import com.xxl.hello.service.handle.api.AppSchemeService;
 import com.xxl.hello.widget.data.router.WidgetRouterApi;
 import com.xxl.hello.widget.ui.view.record.OnRecordListener;
@@ -70,15 +66,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
-import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.core.ObservableSource;
 import io.reactivex.rxjava3.disposables.Disposable;
-import io.reactivex.rxjava3.functions.Consumer;
-import io.reactivex.rxjava3.functions.Function;
 
 /**
  * @author xxl.
@@ -243,45 +234,8 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
     @Override
     public void onTestClick() {
-//        UserRouterApi.Login.newBuilder().navigation(getActivity());
-        requestQueryConfig(1);
+        UserRouterApi.Login.newBuilder().navigation(getActivity());
     }
-
-    private void requestQueryConfig(final int index) {
-        if (index >= 12) {
-            Log.e("aaa", "超过次数");
-            return;
-        }
-
-        long currentServiceTimeMillis = TimeUtils.currentServiceTimeMillis();
-        String baseUrl = String.format("https://baidu%d.cx.cn", index);
-        Log.e("aaa", "requestQueryConfig: " + baseUrl + "  " + currentServiceTimeMillis);
-
-        Observable.just(index)
-                .delay(1, TimeUnit.SECONDS)
-                .flatMap(new Function<Integer, ObservableSource<QueryAppConfigResponse>>() {
-                    @Override
-                    public ObservableSource<QueryAppConfigResponse> apply(Integer integer) throws Throwable {
-                        return RetrofitClient.getInstance().createRetrofit(baseUrl)
-                                .create(ConfigRemoteDataService.class)
-                                .queryAppConfig(TimeUtils.currentServiceTimeMillis())
-                                .compose(SchedulersProvider.applySchedulers());
-                    }
-                })
-                .subscribe(new Consumer<QueryAppConfigResponse>() {
-                    @Override
-                    public void accept(QueryAppConfigResponse queryAppConfigResponse) throws Throwable {
-                        Log.e("aaa", "accept: " + queryAppConfigResponse.toString());
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Throwable {
-                        Log.e("aaa", "accept: " + (TimeUtils.currentServiceTimeMillis() - currentServiceTimeMillis));
-                        requestQueryConfig(index + 1);
-                    }
-                });
-    }
-
 
     /**
      * 测试按钮长按点击
