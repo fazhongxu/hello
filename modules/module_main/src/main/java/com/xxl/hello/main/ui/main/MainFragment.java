@@ -20,6 +20,7 @@ import com.xxl.core.aop.annotation.Safe;
 import com.xxl.core.media.audio.AudioCapture;
 import com.xxl.core.media.audio.AudioCapture.OnAudioFrameCapturedListener;
 import com.xxl.core.media.audio.AudioRecordFormat;
+import com.xxl.core.rx.SchedulersProvider;
 import com.xxl.core.ui.BaseEventBusWrapper;
 import com.xxl.core.ui.fragment.BaseStateViewModelFragment;
 import com.xxl.core.ui.state.EmptyState;
@@ -40,10 +41,13 @@ import com.xxl.hello.main.ui.main.adapter.TestListEntity;
 import com.xxl.hello.main.ui.main.adapter.multi.TestMultiAdapter;
 import com.xxl.hello.router.api.MainRouterApi;
 import com.xxl.hello.router.api.UserRouterApi;
+import com.xxl.hello.service.data.model.api.config.QueryAppConfigResponse;
 import com.xxl.hello.service.data.model.api.user.QueryUserInfoResponse;
 import com.xxl.hello.service.data.model.entity.media.MediaPreviewItemEntity;
 import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi;
+import com.xxl.hello.service.data.remote.RetrofitClient;
+import com.xxl.hello.service.data.remote.net.ConfigRemoteDataService;
 import com.xxl.hello.service.handle.api.AppSchemeService;
 import com.xxl.hello.widget.data.router.WidgetRouterApi;
 import com.xxl.hello.widget.ui.view.record.OnRecordListener;
@@ -69,10 +73,19 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.ObservableSource;
+import io.reactivex.rxjava3.core.Scheduler;
 import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.functions.Consumer;
+import io.reactivex.rxjava3.functions.Function;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 /**
  * @author xxl.
@@ -237,7 +250,50 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
     @Override
     public void onTestClick() {
-        UserRouterApi.Login.newBuilder().navigation(getActivity());
+//        UserRouterApi.Login.newBuilder().navigation(getActivity());
+//        requestQueryConfig(1);
+
+//        long currentServiceTimeMillis = TimeUtils.currentServiceTimeMillis();
+//        Observable.just("Hello")
+//                .delay(5, TimeUnit.SECONDS) // 延迟发射元素
+//                .subscribeOn(Schedulers.io())
+//                .subscribe(new Consumer<String>() {
+//                    @Override
+//                    public void accept(String s) throws Throwable {
+//                        Log.e("aa", "accept: " + (TimeUtils.currentServiceTimeMillis() -currentServiceTimeMillis));
+//                    }
+//                });
+//        String baseUrl = String.format("https://confssl%d.iweimai.cn", index);
+        requestQueryConfig(1);
+    }
+
+    private void requestQueryConfig(final int index) {
+        if (index >= 12) {
+            Log.e("aaa", "超过次数");
+            return;
+        }
+
+        long currentServiceTimeMillis = TimeUtils.currentServiceTimeMillis();
+        String baseUrl = String.format("https://baidu%d.cx.cn", index);
+        Log.e("aaa", "requestQueryConfig: " + baseUrl + "  " + currentServiceTimeMillis);
+        RetrofitClient.getInstance().createRetrofit(baseUrl)
+                .create(ConfigRemoteDataService.class)
+                .queryAppConfig(TimeUtils.currentServiceTimeMillis())
+                .compose(SchedulersProvider.applySchedulers())
+                .subscribe(new Consumer<QueryAppConfigResponse>() {
+                    @Override
+                    public void accept(QueryAppConfigResponse queryAppConfigResponse) throws Throwable {
+                        Log.e("aaa", "accept: " + queryAppConfigResponse.toString());
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Throwable {
+                        Log.e("aaa", "accept: " + (TimeUtils.currentServiceTimeMillis() - currentServiceTimeMillis));
+                        Observable.just(index + 1)
+                                .delay(2, TimeUnit.SECONDS)
+                                .subscribe(index1 -> requestQueryConfig(index1));
+                    }
+                });
     }
 
     /**
