@@ -58,7 +58,7 @@ public abstract class BaseAdapter<T, L extends BaseRecycleItemListener, V extend
      * @param targetItemEntity
      * @return
      */
-    public int findItemPositon(T targetItemEntity) {
+    public int findItemPosition(T targetItemEntity) {
         return getItemPosition(targetItemEntity);
     }
 
