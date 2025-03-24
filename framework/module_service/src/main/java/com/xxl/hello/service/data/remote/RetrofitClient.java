@@ -66,7 +66,7 @@ public class RetrofitClient {
         return mUserRetrofit;
     }
 
-    private Retrofit createRetrofit(String baseUrl) {
+    public Retrofit createRetrofit(String baseUrl) {
         final OkHttpClient.Builder builder = new OkHttpClient()
                 .newBuilder();
 

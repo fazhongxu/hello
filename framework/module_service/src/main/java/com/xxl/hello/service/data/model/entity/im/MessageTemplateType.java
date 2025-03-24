@@ -13,7 +13,9 @@ import java.lang.annotation.RetentionPolicy;
  */
 @StringDef({MessageTemplateType.UNKNOW,
         MessageTemplateType.TEXT,
-        MessageTemplateType.IMAGE})
+        MessageTemplateType.IMAGE,
+        MessageTemplateType.VIDEO,
+})
 @Retention(RetentionPolicy.SOURCE)
 public @interface MessageTemplateType {
 
@@ -31,5 +33,10 @@ public @interface MessageTemplateType {
      * 图片消息
      */
     String IMAGE = "image";
+
+    /**
+     * 视频消息
+     */
+    String VIDEO = "video";
 
 }

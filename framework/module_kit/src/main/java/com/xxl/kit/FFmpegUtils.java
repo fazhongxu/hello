@@ -62,9 +62,9 @@ public class FFmpegUtils {
      */
     public static MediaInformation getMediaInformationAsync(@NonNull final String path,
                                                             @NonNull final OnRequestCallBack<MediaInformationSession> callBack) {
-        if (Thread.currentThread() == Looper.getMainLooper().getThread()) {
-            return null;
-        }
+//        if (Thread.currentThread() == Looper.getMainLooper().getThread()) {
+//            return null;
+//        }
         final MediaInformationSessionCompleteCallback callback = new MediaInformationSessionCompleteCallback() {
 
             @Override
@@ -728,6 +728,133 @@ public class FFmpegUtils {
             public void onSuccess(@Nullable Boolean aBoolean) {
                 if (callBack != null) {
                     callBack.onSuccess(aBoolean);
+                }
+            }
+        });
+    }
+
+    /**
+     * 调整视频分辨率
+     *
+     * @param inputVideo
+     * @param outputVideo
+     * @param targetHeight
+     * @param targetWidth
+     * @param callback
+     */
+    public static void adjustVideoResolution(String inputVideo, String outputVideo, int targetWidth, int targetHeight, OnRequestCallBack<Boolean> callback) {
+        String command = String.format(
+                "-y -i %s -vf \"scale=iw*min(%d/iw\\,%d/ih):ih*min(%d/iw\\,%d/ih), pad=%d:%d:(%d-iw*min(%d/iw\\,%d/ih))/2:(%d-ih*min(%d/iw\\,%d/ih))/2\" -c:a copy %s",
+                inputVideo, targetWidth, targetHeight, targetWidth, targetHeight, targetWidth, targetHeight, targetWidth, targetWidth, targetHeight, targetHeight, targetWidth, targetHeight, outputVideo
+        );
+        executeAsync(command, new OnRequestCallBack<Boolean>() {
+            @Override
+            public void onSuccess(Boolean isSuccess) {
+                if (callback != null) {
+                    callback.onSuccess(isSuccess);
+                }
+            }
+        });
+    }
+
+    /**
+     * 拼接两个视频（动态调整分辨率）
+     *
+     * @param inputVideo1  第一个视频路径
+     * @param inputVideo2  第二个视频路径
+     * @param outputVideo  输出视频路径
+     * @param outputWidth  输出视频宽度
+     * @param outputHeight 输出视频高度
+     * @param callback     回调接口
+     */
+    public static void concatVideos(String inputVideo1, String inputVideo2, String outputVideo, int outputWidth, int outputHeight, OnSimpleRequestCallBack<Boolean> callback) {
+        MediaUtils.MediaEntity mediaEntity1 = MediaUtils.getMediaEntity(inputVideo1);
+        MediaUtils.MediaEntity mediaEntity2 = MediaUtils.getMediaEntity(inputVideo2);
+        long duration1 = mediaEntity1.getDuration();
+
+        long duration2 = mediaEntity2.getDuration();
+
+        long outDuration = duration1 + duration2;
+
+        String command = String.format(
+                "-y -i %s -i %s -filter_complex " +
+                        "\"[0:v]scale=%d:%d:force_original_aspect_ratio=decrease,pad=%d:%d:(ow-iw)/2:(oh-ih)/2,setsar=1[v0]; " +
+                        "[1:v]scale=%d:%d:force_original_aspect_ratio=decrease,pad=%d:%d:(ow-iw)/2:(oh-ih)/2,setsar=1[v1]; " +
+                        "[v0][v1]concat=n=2:v=1:a=0[outv]\" " +
+                        "-map \"[outv]\" -map 0:a %s -vsync vfr",
+                inputVideo1, inputVideo2,
+                outputWidth, outputHeight, outputWidth, outputHeight,
+                outputWidth, outputHeight, outputWidth, outputHeight,
+                outputVideo
+        );
+
+        executeAsync(command, null, new StatisticsCallback() {
+            @Override
+            public void apply(Statistics statistics) {
+                int time = statistics.getTime();
+                if (outDuration <= 0) {
+                    return;
+                }
+                float progress = (time * 1.0F / outDuration * 1.0F) * 100F;
+                if (callback != null) {
+                    callback.onProgress((int) progress);
+                }
+            }
+        }, new OnRequestCallBack<Boolean>() {
+            @Override
+            public void onSuccess(Boolean isSuccess) {
+                if (callback != null) {
+                    callback.onSuccess(isSuccess);
+                }
+            }
+        });
+    }
+
+    /**
+     * 图片生成视频
+     *
+     * @param inputImage   输入图片路径
+     * @param outputVideo  输出视频路径
+     * @param outputWidth  视频宽度
+     * @param outputHeight 视频高度
+     * @param callback     回调接口
+     */
+    public static void imageToVideo(String inputImage, String outputVideo, int outputWidth, int outputHeight, OnSimpleRequestCallBack<Boolean> callback) {
+        // 视频时长（1秒）
+        long duration = 1000; // 1秒，单位毫秒
+        int frameRate = 30; // 帧率
+
+        String command = String.format(
+                "-y -loop 1 -i %s -f lavfi -i aevalsrc=0 -vf " +
+                        "\"scale=%d:%d:force_original_aspect_ratio=decrease,pad=%d:%d:(ow-iw)/2:(oh-ih)/2:color=black,setsar=1\" " +
+                        "-t %.3f -r %d -c:v libx264 -pix_fmt yuv420p -c:a aac -shortest %s",
+                inputImage,          // 输入图片路径
+                outputWidth,         // 目标宽度
+                outputHeight,        // 目标高度
+                outputWidth,         // 填充宽度
+                outputHeight,        // 填充高度
+                duration / 1000.0,   // 持续时间（秒）
+                frameRate,           // 帧率
+                outputVideo          // 输出视频路径
+        );
+
+        executeAsync(command, null, new StatisticsCallback() {
+            @Override
+            public void apply(Statistics statistics) {
+                int time = statistics.getTime();
+                if (duration <= 0) {
+                    return;
+                }
+                float progress = (time * 1.0F / duration) * 100F;
+                if (callback != null) {
+                    callback.onProgress((int) progress);
+                }
+            }
+        }, new OnRequestCallBack<Boolean>() {
+            @Override
+            public void onSuccess(Boolean isSuccess) {
+                if (callback != null) {
+                    callback.onSuccess(isSuccess);
                 }
             }
         });

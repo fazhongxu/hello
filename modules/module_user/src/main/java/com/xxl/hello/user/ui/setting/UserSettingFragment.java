@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
@@ -13,9 +14,18 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.luck.picture.lib.config.PictureMimeType;
+import com.luck.picture.lib.config.PictureSelectionConfig;
 import com.luck.picture.lib.entity.LocalMedia;
+import com.luck.picture.lib.manager.UCropManager;
+import com.luck.picture.lib.tools.DateUtils;
+import com.luck.picture.lib.tools.PictureFileUtils;
+import com.luck.picture.lib.tools.StringUtils;
 import com.tbruyelle.rxpermissions3.RxPermissions;
 import com.watermark.androidwm.WatermarkBuilder;
 import com.watermark.androidwm.bean.WatermarkImage;
@@ -29,7 +39,6 @@ import com.xxl.core.utils.ChannelUtils;
 import com.xxl.hello.common.config.AppConfig;
 import com.xxl.hello.common.config.CacheDirConfig;
 import com.xxl.hello.common.config.NetworkConfig;
-import com.xxl.hello.widget.data.router.ChatRouterApi;
 import com.xxl.hello.service.data.local.db.entity.ResourcesUploadQueueDBEntity;
 import com.xxl.hello.service.data.model.entity.media.MediaPreviewItemEntity;
 import com.xxl.hello.service.data.model.entity.share.ImageShareResourceEntity;
@@ -41,19 +50,25 @@ import com.xxl.hello.service.qunlifier.ForUserHost;
 import com.xxl.hello.user.BR;
 import com.xxl.hello.user.R;
 import com.xxl.hello.user.databinding.UserFragmentSettingBinding;
+import com.xxl.hello.widget.data.router.ChatRouterApi;
 import com.xxl.hello.widget.data.router.WidgetRouterApi;
 import com.xxl.hello.widget.ui.view.keyboard.ICommonKeyboardLayout;
 import com.xxl.hello.widget.ui.view.share.OnShareItemOperate;
 import com.xxl.hello.widget.ui.view.share.ResourcesShareWindow;
 import com.xxl.hello.widget.ui.view.share.api.ResourcesSharePickerKit;
 import com.xxl.kit.AppUtils;
+import com.xxl.kit.ClipboardUtils;
+import com.xxl.kit.FFmpegUtils;
 import com.xxl.kit.FileUtils;
 import com.xxl.kit.ImageUtils;
 import com.xxl.kit.KeyboardWrapper;
 import com.xxl.kit.MomentShareUtils;
+import com.xxl.kit.OnSimpleRequestCallBack;
 import com.xxl.kit.PathUtils;
 import com.xxl.kit.ResourceUtils;
+import com.xxl.kit.TimeUtils;
 import com.xxl.kit.ToastUtils;
+import com.yalantis.ucrop.UCrop;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -171,7 +186,9 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
                 final List<LocalMedia> mediaList = MediaSelector.obtainMultipleResult(data);
                 final LocalMedia media = mediaList.get(0);
                 final Uri uri = Uri.parse(media.isCut() ? media.getCutPath() : media.getPath());
-                final Uri targetUri = PathUtils.getUriByFilePath(PathUtils.getFilePathByUri(uri));
+                String filePath = PathUtils.getFilePathByUri(uri);
+                Log.e("aaa", "onActivityResult:2 " + filePath + " " + new File(filePath).exists());
+
                 mUserSettingModel.requestPutResourcesUploadQueueDBEntities(new ArrayList<>(mediaList));
 
                 for (LocalMedia localMedia : mediaList) {
@@ -327,13 +344,22 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
     }
 
     /**
+     * 头像路径长按点击
+     */
+    @Override
+    public void onAvatarPathLongClick(){
+        ClipboardUtils.copyText(mViewDataBinding.tvTest.getText());
+        ToastUtils.success(R.string.resources_copied).show();
+    }
+
+    /**
      * 用户头像点击
      */
     @Override
     public void onUserAvatarClick() {
         MediaSelector.create(this)
                 .openGallery(PictureMimeType.ofAll())
-                .isEnableCrop(true)
+                .isEnableCrop(false)
                 .freeStyleCropEnabled(true)
                 .forResult();
     }

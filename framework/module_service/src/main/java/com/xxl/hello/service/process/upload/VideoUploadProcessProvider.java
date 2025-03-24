@@ -64,8 +64,8 @@ public class VideoUploadProcessProvider extends BaseUploadProcessProvider {
 
                 @Override
                 public void onComplete(String videoPath,
-                                       long videoWidth,
-                                       long videoHeight) {
+                                       int videoWidth,
+                                       int videoHeight) {
                     callback.onComplete(videoPath, videoWidth, videoHeight);
                 }
 

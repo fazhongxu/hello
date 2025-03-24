@@ -2,6 +2,7 @@ package com.xxl.core.image.selector;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
@@ -172,7 +173,7 @@ public class MediaSelector {
      * @return
      */
     public static String getMediaPath(LocalMedia localMedia) {
-        return !TextUtils.isEmpty(localMedia.getCutPath()) ? localMedia.getCutPath() : localMedia.getPath();
+        return !TextUtils.isEmpty(localMedia.getCutPath()) ? PathUtils.getFilePathByUri(Uri.parse(localMedia.getCutPath())) : PathUtils.getFilePathByUri(Uri.parse(localMedia.getPath()));
     }
 
     /**

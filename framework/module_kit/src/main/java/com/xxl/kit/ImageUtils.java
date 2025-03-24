@@ -1,5 +1,6 @@
 package com.xxl.kit;
 
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -53,6 +54,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.rxjava3.core.Observable;
@@ -2190,6 +2192,98 @@ public final class ImageUtils {
     }
 
     /**
+     * @param srcImagePath
+     * @param dirName      The name of directory.
+     * @param format       The format of the image.
+     * @return the file if save success, otherwise return null.
+     */
+    @Nullable
+    public static File save2Album(final String srcImagePath,
+                                  final String dirName,
+                                  final Bitmap.CompressFormat format) {
+        String safeDirName = TextUtils.isEmpty(dirName) ? AppUtils.getApplication().getPackageName() : dirName;
+        String suffix = Bitmap.CompressFormat.JPEG.equals(format) ? "JPG" : format.name();
+        String fileName = System.currentTimeMillis() + "." + suffix;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            File picDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
+            File destFile = new File(picDir, safeDirName + "/" + fileName);
+            boolean isSuccess = FileUtils.copyFile(srcImagePath, destFile.getAbsolutePath(), null);
+            if (!isSuccess) {
+                return null;
+            }
+            FileUtils.notifySystemToScan(destFile);
+            return destFile;
+        } else {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(MediaStore.Images.Media.DISPLAY_NAME, fileName);
+            contentValues.put(MediaStore.Images.Media.MIME_TYPE, "image/*");
+            Uri contentUri;
+            if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+                contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+            } else {
+                contentUri = MediaStore.Images.Media.INTERNAL_CONTENT_URI;
+            }
+            contentValues.put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_DCIM + "/" + safeDirName);
+            contentValues.put(MediaStore.MediaColumns.IS_PENDING, 1);
+            ContentResolver resolver = AppUtils.getApplication().getContentResolver();
+            Uri uri = resolver.insert(contentUri, contentValues);
+            if (uri == null) {
+                return null;
+            }
+            FileInputStream is = null;
+            OutputStream os = null;
+            try {
+                try {
+                    byte[] buffer = new byte[1024 * 8];
+                    os = resolver.openOutputStream(uri);
+                    is = new FileInputStream(srcImagePath);
+                    while (true) {
+                        int readSize = is.read(buffer);
+                        if (readSize == -1) {
+                            break;
+                        }
+                        os.write(buffer, 0, readSize);
+                    }
+                    os.flush();
+                    contentValues.put(MediaStore.MediaColumns.IS_PENDING, 0);
+                    resolver.update(uri, contentValues, null, null);
+                    return UriUtils.uri2File(uri);
+                } catch (Exception e) {
+                    resolver.delete(uri, null, null);
+                    e.printStackTrace();
+                    return null;
+                } finally {
+                    try {
+                        if (is != null) {
+                            is.close();
+                        }
+                        if (os != null) {
+                            os.close();
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } catch (Exception e) {
+                resolver.delete(uri, null, null);
+                e.printStackTrace();
+                return null;
+            } finally {
+                try {
+                    if (is != null) {
+                        is.close();
+                    }
+                    if (os != null) {
+                        os.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    /**
      * Return whether it is a image according to the file name.
      *
      * @param file The file.
@@ -2593,6 +2687,47 @@ public final class ImageUtils {
             inSampleSize <<= 1;
         }
         return inSampleSize;
+    }
+
+    /**
+     * 将图片按指定的行数和列数切割
+     *
+     * @param originBitmap 原始图片
+     * @param rows         切割的行数（不包括边框）
+     * @param cols         切割的列数（不包括边框）
+     * @return 切割后的图片列表
+     */
+    public static List<Bitmap> splitImage(Bitmap originBitmap, int rows, int cols) {
+        List<Bitmap> bitmaps = new ArrayList<>();
+        if (rows == 0 && cols == 0) {
+            bitmaps.add(originBitmap);
+            return bitmaps;
+        }
+
+        int originWidth = originBitmap.getWidth();
+        int originHeight = originBitmap.getHeight();
+
+        int targetRows = rows == 0 ? 1 : rows + 1;
+        int targetCols = cols == 0 ? 1 : cols + 1;
+
+        int pieceWidth = originWidth / targetCols;
+        int pieceHeight = originHeight / targetRows;
+
+        for (int i = 0; i < targetRows; i++) {
+            for (int j = 0; j < targetCols; j++) {
+                int x = j * pieceWidth;
+                int y = i * pieceHeight;
+                //处理最后列/行
+//                int width = (j == targetCols - 1) ? originWidth - x : pieceWidth;
+//                int height = (i == targetRows - 1) ? originHeight - y : pieceHeight;
+                int width = pieceWidth;
+                int height = pieceHeight;
+
+                Bitmap bitmap = Bitmap.createBitmap(originBitmap, x, y, width, height);
+                bitmaps.add(bitmap);
+            }
+        }
+        return bitmaps;
     }
 
     public enum ImageType {

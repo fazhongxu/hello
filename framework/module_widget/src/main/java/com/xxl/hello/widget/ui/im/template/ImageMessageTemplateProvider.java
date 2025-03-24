@@ -12,6 +12,8 @@ import com.xxl.hello.service.data.model.entity.im.MessageTemplate;
 import com.xxl.hello.service.data.model.entity.im.MessageTemplateType;
 import com.xxl.hello.widget.R;
 import com.xxl.hello.widget.databinding.WidgetRecycleItemMessageImageBinding;
+import com.xxl.kit.ClipboardUtils;
+import com.xxl.kit.ToastUtils;
 
 /**
  * 图片消息模板提供类
@@ -66,6 +68,15 @@ public class ImageMessageTemplateProvider extends MessageTemplateProvider {
         imageBinding.ivImage.setOnClickListener(v -> {
             if (listener != null && listener.onMessageItemClick(messageEntity)) {
                 return;
+            }
+        });
+        // TODO: 2025/3/13 长按事件
+        imageBinding.ivImage.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                ClipboardUtils.copyText(messageEntity.getMediaPath());
+                ToastUtils.success(R.string.resources_copied).show();
+                return true;
             }
         });
     }

@@ -26,6 +26,7 @@ public class MessageTemplateWrapper {
     static {
         registerMessageTemplate(TextMessageTemplateProvider.obtain());
         registerMessageTemplate(ImageMessageTemplateProvider.obtain());
+        registerMessageTemplate(VideoMessageTemplateProvider.obtain());
     }
 
     /**

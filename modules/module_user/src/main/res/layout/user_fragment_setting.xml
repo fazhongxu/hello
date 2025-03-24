@@ -47,6 +47,7 @@
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tv_test"
                         android:layout_width="match_parent"
+                        android:onClick="@{()->navigator.onAvatarPathLongClick()}"
                         android:layout_height="wrap_content"
                         android:padding="15dp"
                         android:textColor="@color/resources_primary_color"
