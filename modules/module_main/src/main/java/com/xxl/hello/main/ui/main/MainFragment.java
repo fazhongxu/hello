@@ -235,39 +235,6 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     @Override
     public void onTestClick() {
         UserRouterApi.Login.newBuilder().navigation(getActivity());
-
-        List<Operate> operates = new ArrayList<>();
-        List<CharSequence> operateItems = new ArrayList<>();
-
-        int a = 0;
-        if (a > 2) {
-            //operateItems.add();
-            operates.add(new CopyContent());
-            //operateItems.add();
-            operates.add(new Forward());
-        }
-        //show operateItems
-        //operates.get(position).onClick
-    }
-
-    private class CopyContent implements Operate {
-
-        @Override
-        public void onClick() {
-
-        }
-    }
-
-    private class Forward implements Operate {
-
-        @Override
-        public void onClick() {
-
-        }
-    }
-
-    public interface Operate {
-        void onClick();
     }
 
     /**
