@@ -12,6 +12,8 @@ import com.xxl.kit.LogUtils
 import okhttp3.*
 import java.io.File
 import java.io.IOException
+import java.net.FileNameMap
+import java.net.URLConnection
 
 /**
  * hello上传服务实现类
@@ -62,14 +64,14 @@ class HelloUploadServiceImpl(
             }
         }, 2000)
 
-        // TODO: 2024/7/18 模拟上传
+        /*// TODO: 2024/7/18 模拟上传
 
-        /* val requestBody: RequestBody = MultipartBody.Builder()
+         val requestBody: RequestBody = MultipartBody.Builder()
              .setType(MultipartBody.FORM)
              .addFormDataPart(
                  "file",
                  file.getName(),
-                 RequestBody.create(MediaType.parse("application/octet-stream"), file)
+                 RequestBody.create(MediaType.parse(guessMimeType(file.absolutePath)), file)
              )
              .build()
 
@@ -105,7 +107,18 @@ class HelloUploadServiceImpl(
                      // TODO: 2024/7/22
                      //listener.onUploadComplete()
                  }
-             })*/
+             })
+
+*/
+    }
+
+    private fun guessMimeType(filename: String): String? {
+        val fileNameMap: FileNameMap = URLConnection.getFileNameMap()
+        var contentTypeFor: String = fileNameMap.getContentTypeFor(filename)
+        if (contentTypeFor == null) {
+            contentTypeFor = "application/octet-stream"
+        }
+        return contentTypeFor
     }
 
     //endregion
