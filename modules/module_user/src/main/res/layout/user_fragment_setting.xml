@@ -23,8 +23,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/ctl_content_container"
@@ -47,8 +47,8 @@
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tv_test"
                         android:layout_width="match_parent"
-                        android:onClick="@{()->navigator.onAvatarPathLongClick()}"
                         android:layout_height="wrap_content"
+                        android:onClick="@{()->navigator.onAvatarPathLongClick()}"
                         android:padding="15dp"
                         android:textColor="@color/resources_primary_color"
                         tools:text="123" />
@@ -91,6 +91,7 @@
                     android:layout_margin="20dp"
                     android:alpha="0.6"
                     android:onClick="@{()->navigator.onSwitchEnvironmentClick()}"
+                    android:onLongClick="@{()->navigator.onSwitchEnvironmentLongClick()}"
                     android:padding="5dp"
                     android:text="@string/resources_switch_environment_text"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -106,7 +107,6 @@
                 android:visibility="gone" />
 
         </LinearLayout>
-
 
 
     </RelativeLayout>

@@ -9,12 +9,15 @@ import com.luck.picture.lib.PictureSelectionModel;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.UCropOptions;
+import com.luck.picture.lib.language.LanguageConfig;
 import com.tbruyelle.rxpermissions3.RxPermissions;
 import com.xxl.core.R;
 import com.xxl.core.rx.SchedulersProvider;
+import com.xxl.kit.LanguageUtils;
 import com.xxl.kit.PermissionUtils;
 import com.xxl.kit.ToastUtils;
 
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.rxjava3.core.Observable;
@@ -50,6 +53,12 @@ public class MediaSelectionModel extends PictureSelectionModel {
     public MediaSelectionModel(MediaSelector mediaSelector, PictureSelector pictureSelector, int chooseMode) {
         super(pictureSelector, chooseMode);
         mMediaSelector = mediaSelector;
+        Locale appliedLanguage = LanguageUtils.getAppliedLanguage();
+        if (appliedLanguage != null && "en".equals(appliedLanguage.getLanguage())) {
+            setLanguage(LanguageConfig.ENGLISH);
+        } else {
+            setLanguage(LanguageConfig.CHINESE);
+        }
     }
 
     @Override

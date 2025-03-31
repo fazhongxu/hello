@@ -1,5 +1,6 @@
 package com.xxl.core.ui.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -10,6 +11,7 @@ import androidx.annotation.Nullable;
 import com.xxl.core.ui.OnActivityResultListener;
 import com.xxl.core.widget.swipebacklayout.SwipeBackActivity;
 import com.xxl.kit.AppUtils;
+import com.xxl.kit.LanguageUtils;
 import com.xxl.kit.OnAppStatusChangedListener;
 
 import java.util.LinkedHashMap;
@@ -55,6 +57,12 @@ public abstract class BaseActivity extends SwipeBackActivity
         setupData();
         setupLayout();
         requestData();
+    }
+
+    @Override
+    protected void attachBaseContext(Context context) {
+        Context newBase = LanguageUtils.attachBaseContext(context);
+        super.attachBaseContext(newBase);
     }
 
     @Override
