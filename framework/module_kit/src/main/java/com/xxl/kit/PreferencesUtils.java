@@ -28,7 +28,16 @@ public final class PreferencesUtils {
      * @return the single {@link PreferencesUtils} instance
      */
     public static PreferencesUtils getInstance() {
-        return getInstance("", Context.MODE_PRIVATE);
+        return getInstance(AppUtils.getApplication(), "", Context.MODE_PRIVATE);
+    }
+
+    /**
+     * Return the single {@link PreferencesUtils} instance
+     *
+     * @return the single {@link PreferencesUtils} instance
+     */
+    public static PreferencesUtils getInstance(Context context) {
+        return getInstance(context, "", Context.MODE_PRIVATE);
     }
 
     /**
@@ -38,7 +47,7 @@ public final class PreferencesUtils {
      * @return the single {@link PreferencesUtils} instance
      */
     public static PreferencesUtils getInstance(final int mode) {
-        return getInstance("", mode);
+        return getInstance(AppUtils.getApplication(), "", mode);
     }
 
     /**
@@ -48,7 +57,7 @@ public final class PreferencesUtils {
      * @return the single {@link PreferencesUtils} instance
      */
     public static PreferencesUtils getInstance(String spName) {
-        return getInstance(spName, Context.MODE_PRIVATE);
+        return getInstance(AppUtils.getApplication(), spName, Context.MODE_PRIVATE);
     }
 
     /**
@@ -58,7 +67,7 @@ public final class PreferencesUtils {
      * @param mode   Operating mode.
      * @return the single {@link PreferencesUtils} instance
      */
-    public static PreferencesUtils getInstance(String spName, final int mode) {
+    public static PreferencesUtils getInstance(Context context, String spName, final int mode) {
         if (isSpace(spName)) {
             spName = "preferencesUtils";
         }
@@ -67,7 +76,7 @@ public final class PreferencesUtils {
             synchronized (PreferencesUtils.class) {
                 preferencesUtils = SP_UTILS_MAP.get(spName);
                 if (preferencesUtils == null) {
-                    preferencesUtils = new PreferencesUtils(spName, mode);
+                    preferencesUtils = new PreferencesUtils(context, spName, mode);
                     SP_UTILS_MAP.put(spName, preferencesUtils);
                 }
             }
@@ -79,8 +88,8 @@ public final class PreferencesUtils {
         sp = AppUtils.getApplication().getSharedPreferences(spName, Context.MODE_PRIVATE);
     }
 
-    private PreferencesUtils(final String spName, final int mode) {
-        sp = AppUtils.getApplication().getSharedPreferences(spName, mode);
+    private PreferencesUtils(final Context context, final String spName, final int mode) {
+        sp = context.getSharedPreferences(spName, mode);
     }
 
     /**
