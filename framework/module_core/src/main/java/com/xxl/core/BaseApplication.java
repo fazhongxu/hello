@@ -22,6 +22,7 @@ import com.xxl.core.utils.CacheUtils;
 import com.xxl.core.utils.ShareUtils;
 import com.xxl.core.widget.swipebacklayout.SwipeBackActivityManager;
 import com.xxl.kit.AppUtils;
+import com.xxl.kit.LanguageUtils;
 import com.xxl.kit.ProcessUtils;
 import com.xxl.kit.RouterUtils;
 
@@ -44,7 +45,7 @@ public abstract class BaseApplication extends Application {
 
     @Override
     protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
+        super.attachBaseContext(LanguageUtils.attachBaseContext(base));
         MultiDex.install(this);
         CacheUtils.init(this, isDebug());
     }

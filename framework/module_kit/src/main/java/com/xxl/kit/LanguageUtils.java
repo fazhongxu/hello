@@ -14,7 +14,6 @@ import androidx.annotation.Nullable;
 import java.util.Locale;
 
 /**
- *
  * @author xxl.
  * @date 2021/12/01.
  */
@@ -205,7 +204,7 @@ public final class LanguageUtils {
      * @return the context with language
      */
     public static Context attachBaseContext(Context context) {
-        String spLocaleStr = PreferencesUtils.getInstance().getString(KEY_LOCALE);
+        String spLocaleStr = PreferencesUtils.getInstance(context).getString(KEY_LOCALE);
         if (TextUtils.isEmpty(spLocaleStr) || VALUE_FOLLOW_SYSTEM.equals(spLocaleStr)) {
             return context;
         }
