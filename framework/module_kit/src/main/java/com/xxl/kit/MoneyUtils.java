@@ -321,6 +321,7 @@ public final class MoneyUtils {
     /**
      * 获取随机红包金额
      * refer https://www.jianshu.com/p/f14221fef78e
+     * 类似一整条金条，随机生成了一些点，随机区间，切分这一长条金条，第一个点到第二个点的距离就是金条长度，总长度加起来就是这根金条总长度
      *
      * @param amount
      * @param person

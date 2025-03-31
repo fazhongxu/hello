@@ -48,7 +48,7 @@ public abstract class BaseEventBusWrapper<T extends BaseViewModelFragment> {
     }
 
     /**
-     * 获取当前Activity
+     * 获取当前页面
      *
      * @return
      */

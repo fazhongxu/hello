@@ -4,6 +4,8 @@ import com.chad.library.adapter.base.entity.SectionEntity;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi.CircleMediaType;
 import com.xxl.kit.Bool;
 
+import java.util.UUID;
+
 /**
  * 测条目实体信息
  *
@@ -13,6 +15,8 @@ import com.xxl.kit.Bool;
 public class TestListEntity implements SectionEntity {
 
     //region: 成员变量
+
+    private String mId;
 
     /**
      * 条目类型
@@ -50,7 +54,7 @@ public class TestListEntity implements SectionEntity {
     //region: 构造函数
 
     private TestListEntity() {
-
+        mId = UUID.randomUUID().toString();
     }
 
     public final static TestListEntity obtain() {
@@ -60,6 +64,10 @@ public class TestListEntity implements SectionEntity {
     //endregion
 
     //region: get or set
+
+    public String getId() {
+        return mId;
+    }
 
     public int getMediaType() {
         return mMediaType;
@@ -79,6 +87,11 @@ public class TestListEntity implements SectionEntity {
 
     public boolean isTop() {
         return Bool.convert(mTop);
+    }
+
+    public TestListEntity setId(String id) {
+        this.mId = id;
+        return this;
     }
 
     /**

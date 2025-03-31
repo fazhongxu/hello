@@ -9,6 +9,8 @@ import com.xxl.hello.main.databinding.MainRecyclerItemTestBindingBinding;
 import com.xxl.kit.VibrateUtils;
 import com.xxl.kit.ViewUtils;
 
+import java.util.LinkedHashMap;
+
 import javax.inject.Inject;
 
 /**
@@ -17,6 +19,8 @@ import javax.inject.Inject;
  */
 public class TestBindingAdapter extends BaseItemDraggableBindingAdapter<TestListEntity, TestBindingRecycleItemListener, MainRecyclerItemTestBindingBinding>
         implements OnItemDragListener {
+
+    private LinkedHashMap<String, TestListEntity> mSelectedMap = new LinkedHashMap<>();
 
     @Inject
     public TestBindingAdapter() {
@@ -68,4 +72,51 @@ public class TestBindingAdapter extends BaseItemDraggableBindingAdapter<TestList
     }
 
     //endregion
+
+    /**
+     * 选择/取消选择条目（多选）
+     *
+     * @param entity
+     */
+    public void toggleSelection(TestListEntity entity) {
+        if (isSelected(entity)) {
+            mSelectedMap.remove(entity.getId());
+        } else {
+            mSelectedMap.put(entity.getId(), entity);
+        }
+        int position = findItemPosition(entity);
+        if (position >= 0) {
+            notifyDataChanged(position);
+        }
+    }
+
+    private TestListEntity mSelectedItem;
+
+    /**
+     * 选择条目（单选）
+     *
+     * @param entity
+     */
+    public void selectItem(TestListEntity entity) {
+        TestListEntity preSelectedItem = mSelectedItem;
+        mSelectedItem = entity;
+        int position = findItemPosition(preSelectedItem);
+        if (position >= 0) {
+            notifyDataChanged(position);
+        }
+        int position1 = findItemPosition(entity);
+        if (position1 >= 0) {
+            notifyDataChanged(position1);
+        }
+    }
+
+    /**
+     * 是否选中
+     *
+     * @param entity
+     * @return
+     */
+    public boolean isSelected(TestListEntity entity) {
+        return mSelectedMap.get(entity.getId()) != null || mSelectedItem == entity;
+    }
 }

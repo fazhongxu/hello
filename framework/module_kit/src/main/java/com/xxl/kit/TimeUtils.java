@@ -745,6 +745,37 @@ public class TimeUtils {
     }
 
     /**
+     * 格式化时长
+     *
+     * @param timeMs
+     * @return
+     */
+    public static final String duration2String(long timeMs) {
+        return duration2String(timeMs, false);
+    }
+
+    /**
+     * 格式化时长
+     *
+     * @param timeMs
+     * @param alwaysHour 是否总是显示小时
+     * @return
+     */
+    public static final String duration2String(long timeMs, boolean alwaysHour) {
+        long totalSeconds = timeMs / 1000;
+
+        long hours = totalSeconds / 3600;
+        long minutes = (totalSeconds / 60) % 60;
+        long seconds = totalSeconds % 60;
+
+        if (hours > 0 || alwaysHour) {
+            return String.format(Locale.getDefault(), "%02d:%02d:%02d", hours, minutes, seconds);
+        } else {
+            return String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
+        }
+    }
+
+    /**
      * 获取当天零点时刻时间戳
      *
      * @return
