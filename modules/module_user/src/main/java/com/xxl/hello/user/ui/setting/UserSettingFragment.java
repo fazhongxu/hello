@@ -16,8 +16,6 @@ import androidx.annotation.NonNull;
 
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
-import com.luck.picture.lib.language.LanguageConfig;
-import com.luck.picture.lib.language.PictureLanguageUtils;
 import com.tbruyelle.rxpermissions3.RxPermissions;
 import com.watermark.androidwm.WatermarkBuilder;
 import com.watermark.androidwm.bean.WatermarkImage;
@@ -509,10 +507,8 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
         Locale appliedLanguage = LanguageUtils.getAppliedLanguage();
         if (appliedLanguage != null && "en".equals(appliedLanguage.getLanguage())) {
             LanguageUtils.applyLanguage(Locale.CHINESE);
-            PictureLanguageUtils.setAppLanguage(AppUtils.getApplication(), LanguageConfig.CHINESE);
         } else {
             LanguageUtils.applyLanguage(Locale.ENGLISH);
-            PictureLanguageUtils.setAppLanguage(AppUtils.getApplication(), LanguageConfig.ENGLISH);
         }
         return true;
     }
