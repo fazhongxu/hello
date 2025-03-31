@@ -59,5 +59,10 @@ public interface UserSettingNavigator {
      */
     void onSwitchEnvironmentClick();
 
+    /**
+     * 切换网络环境长按
+     */
+    boolean onSwitchEnvironmentLongClick();
+
 
 }

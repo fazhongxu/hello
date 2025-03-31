@@ -5,7 +5,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
@@ -14,18 +13,11 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
-import com.bumptech.glide.request.target.CustomTarget;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
 import com.luck.picture.lib.config.PictureMimeType;
-import com.luck.picture.lib.config.PictureSelectionConfig;
 import com.luck.picture.lib.entity.LocalMedia;
-import com.luck.picture.lib.manager.UCropManager;
-import com.luck.picture.lib.tools.DateUtils;
-import com.luck.picture.lib.tools.PictureFileUtils;
-import com.luck.picture.lib.tools.StringUtils;
+import com.luck.picture.lib.language.LanguageConfig;
+import com.luck.picture.lib.language.PictureLanguageUtils;
 import com.tbruyelle.rxpermissions3.RxPermissions;
 import com.watermark.androidwm.WatermarkBuilder;
 import com.watermark.androidwm.bean.WatermarkImage;
@@ -58,22 +50,20 @@ import com.xxl.hello.widget.ui.view.share.ResourcesShareWindow;
 import com.xxl.hello.widget.ui.view.share.api.ResourcesSharePickerKit;
 import com.xxl.kit.AppUtils;
 import com.xxl.kit.ClipboardUtils;
-import com.xxl.kit.FFmpegUtils;
 import com.xxl.kit.FileUtils;
 import com.xxl.kit.ImageUtils;
 import com.xxl.kit.KeyboardWrapper;
+import com.xxl.kit.LanguageUtils;
 import com.xxl.kit.MomentShareUtils;
-import com.xxl.kit.OnSimpleRequestCallBack;
 import com.xxl.kit.PathUtils;
 import com.xxl.kit.ResourceUtils;
-import com.xxl.kit.TimeUtils;
 import com.xxl.kit.ToastUtils;
-import com.yalantis.ucrop.UCrop;
 
 import java.io.File;
 import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -347,7 +337,7 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
      * 头像路径长按点击
      */
     @Override
-    public void onAvatarPathLongClick(){
+    public void onAvatarPathLongClick() {
         ClipboardUtils.copyText(mViewDataBinding.tvTest.getText());
         ToastUtils.success(R.string.resources_copied).show();
     }
@@ -509,6 +499,22 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
     @Override
     public void onSwitchEnvironmentClick() {
         NetworkConfig.Companion.switchEnvironment();
+    }
+
+    /**
+     * 切换网络环境长按
+     */
+    @Override
+    public boolean onSwitchEnvironmentLongClick() {
+        Locale appliedLanguage = LanguageUtils.getAppliedLanguage();
+        if (appliedLanguage != null && "en".equals(appliedLanguage.getLanguage())) {
+            LanguageUtils.applyLanguage(Locale.CHINESE);
+            PictureLanguageUtils.setAppLanguage(AppUtils.getApplication(), LanguageConfig.CHINESE);
+        } else {
+            LanguageUtils.applyLanguage(Locale.ENGLISH);
+            PictureLanguageUtils.setAppLanguage(AppUtils.getApplication(), LanguageConfig.ENGLISH);
+        }
+        return true;
     }
 
     //endregion
