@@ -74,9 +74,9 @@
             <FrameLayout
                 android:layout_width="300dp"
                 android:layout_height="400dp"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
-                android:visibility="gone"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -87,6 +87,26 @@
                     android:visibility="visible" />
 
             </FrameLayout>
+
+
+            <com.xxl.hello.widget.ui.view.CirclePercentBar
+                android:id="@+id/circle_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="20dp"
+                app:arcColor="@color/resources_primary_color"
+                app:arcEndColor="#FFB199"
+                app:arcStartColor="#FA6287"
+                app:arcWidth="30dp"
+                app:centerTextColor="@color/resources_text_sub_title_color"
+                app:centerTextSize="30sp"
+                app:circleRadius="100dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:percentDesTextColor="@color/resources_text_content_color"
+                app:percentDesTextSize="18sp" />
 
             <LinearLayout
                 android:id="@+id/ll_record_container"

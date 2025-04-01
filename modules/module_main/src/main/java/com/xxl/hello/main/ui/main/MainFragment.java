@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.LinearInterpolator;
 
 import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
@@ -234,7 +235,8 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
     @Override
     public void onTestClick() {
-        UserRouterApi.Login.newBuilder().navigation(getActivity());
+        //UserRouterApi.Login.newBuilder().navigation(getActivity());
+        mViewDataBinding.circleBar.setPercentData(60,"已用");
     }
 
     /**
