@@ -6,6 +6,7 @@ import android.text.SpannableString
 import android.text.Spanned
 import android.text.TextUtils
 import android.view.View
+import android.widget.EditText
 import androidx.annotation.ColorInt
 import com.xxl.core.widget.text.TouchableSpan
 import com.xxl.hello.common.R
@@ -156,6 +157,50 @@ class StringExpandUtils private constructor() {
                 e.printStackTrace()
             }
             return map
+        }
+
+        /**
+         * 获取输入的int值
+         *
+         * @param editText
+         * @return
+         */
+        fun getDoubleEditTextValue(editText: EditText): Double {
+            try {
+                return getEditTextTrimValue(editText)!!.toDouble()
+            } catch (e: java.lang.Exception) {
+                e.printStackTrace()
+            }
+            return 0.0
+        }
+
+        /**
+         * 获取输入的int值
+         *
+         * @param editText
+         * @return
+         */
+        fun getIntEditTextValue(editText: EditText): Int {
+            try {
+                return getEditTextTrimValue(editText)!!.toInt()
+            } catch (e: java.lang.Exception) {
+                e.printStackTrace()
+            }
+            return 0
+        }
+
+        /**
+         * 获取输入框内容
+         *
+         * @param editText
+         * @return
+         */
+        fun getEditTextTrimValue(editText: EditText): String? {
+            return try {
+                if (editText != null) editText.text.toString().trim { it <= ' ' } else null
+            } catch (e: java.lang.Exception) {
+                null
+            }
         }
 
     }
