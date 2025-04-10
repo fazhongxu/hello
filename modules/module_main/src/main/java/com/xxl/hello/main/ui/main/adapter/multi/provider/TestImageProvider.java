@@ -1,21 +1,15 @@
 package com.xxl.hello.main.ui.main.adapter.multi.provider;
 
-import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.chad.library.adapter.base.provider.BaseItemProvider;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
-import com.xxl.core.image.loader.ImageLoader;
 import com.xxl.hello.main.R;
 import com.xxl.hello.main.databinding.MainRecyclerItemTestImageProviderBinding;
 import com.xxl.hello.main.ui.main.adapter.TestListEntity;
 import com.xxl.hello.main.ui.main.adapter.multi.TestRecycleItemViewModel;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi.CircleMediaType;
-import com.xxl.kit.DisplayUtils;
 
 /**
  * 测试图片数据类型条目
@@ -61,12 +55,6 @@ public class TestImageProvider extends BaseItemProvider<TestListEntity> {
         MainRecyclerItemTestImageProviderBinding binding = DataBindingUtil.bind(baseViewHolder.itemView);
         if (mListener != null) {
             binding.setListener(mListener.getMultiRecycleItemListener());
-        }
-        StaggeredGridLayoutManager.LayoutParams layoutParams = (StaggeredGridLayoutManager.LayoutParams) binding.llRootContainer.getLayoutParams();
-        if (testListEntity.mPosition %5== 0) {
-            layoutParams.setFullSpan(true);
-        }else {
-            layoutParams.setFullSpan(false);
         }
 
         TestRecycleItemViewModel viewModel = binding.getViewModel();

@@ -24,8 +24,6 @@ public class TestListEntity implements SectionEntity {
     @CircleMediaType
     private int mMediaType;
 
-    public int mPosition;
-
     /**
      * 内容
      */
@@ -50,6 +48,8 @@ public class TestListEntity implements SectionEntity {
      * 是否是头部
      */
     private boolean mHeader;
+
+    public int mPosition;
 
     //endregion
 
