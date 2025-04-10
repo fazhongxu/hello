@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.module.BaseDraggableModule;
+import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.xxl.core.widget.recyclerview.adapter.BaseMultiDraggableAdapter;
 import com.xxl.hello.main.ui.main.adapter.OnTestRecycleItemListener;
 import com.xxl.hello.main.ui.main.adapter.TestListEntity;
@@ -58,6 +59,7 @@ public class TestMultiAdapter extends BaseMultiDraggableAdapter<TestListEntity, 
     protected int getItemType(@NonNull List<? extends TestListEntity> list,
                               int position) {
         TestListEntity testListEntity = list.get(position);
+        testListEntity.mPosition = position;
         return testListEntity.getMediaType();
     }
 

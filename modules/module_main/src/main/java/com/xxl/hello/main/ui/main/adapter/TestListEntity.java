@@ -24,6 +24,8 @@ public class TestListEntity implements SectionEntity {
     @CircleMediaType
     private int mMediaType;
 
+    public int mPosition;
+
     /**
      * 内容
      */
