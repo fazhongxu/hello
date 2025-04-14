@@ -215,11 +215,13 @@ public class FlowersLayout extends ViewGroup {
             mFlowersCount = 2;
         } else if (score > 0) {
             mFlowersCount = 1;
+        } else {
+            mFlowersCount = 0;
         }
 
         removeAllViews();
 
-        if (mFlowersCount  >0) {
+        if (mFlowersCount > 0) {
             for (int i = 0; i < mFlowersCount; i++) {
                 ImageView imageView = new ImageView(getContext());
                 imageView.setImageResource(R.drawable.resources_ic_flower);
