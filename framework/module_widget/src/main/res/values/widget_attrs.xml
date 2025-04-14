@@ -73,15 +73,22 @@
     </declare-styleable>
 
     <declare-styleable name="CirclePercentBar">
-        <attr name="arcColor" format="color"/>
-        <attr name="arcWidth" format="dimension"/>
-        <attr name="centerTextColor" format="color"/>
-        <attr name="centerTextSize" format="dimension"/>
-        <attr name="percentDesTextColor" format="color"/>
-        <attr name="percentDesTextSize" format="dimension"/>
-        <attr name="circleRadius" format="dimension"/>
-        <attr name="arcStartColor" format="color"/>
-        <attr name="arcEndColor" format="color"/>
+        <attr name="arcColor" format="color" />
+        <attr name="arcWidth" format="dimension" />
+        <attr name="centerTextColor" format="color" />
+        <attr name="centerTextSize" format="dimension" />
+        <attr name="percentDesTextColor" format="color" />
+        <attr name="percentDesTextSize" format="dimension" />
+        <attr name="circleRadius" format="dimension" />
+        <attr name="arcStartColor" format="color" />
+        <attr name="arcEndColor" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="PileLayout">
+        <!-- 两个子控件之间的垂直间隙-->
+        <attr name="verticalSpace" format="dimension" />
+        <!-- 重叠宽度-->
+        <attr name="pileWidth" format="dimension" />
     </declare-styleable>
 
 </resources>
