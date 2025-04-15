@@ -91,4 +91,8 @@
         <attr name="pileWidth" format="dimension" />
     </declare-styleable>
 
+    <declare-styleable name="FlowerView">
+        <attr name="flower_count" format="integer" />
+    </declare-styleable>
+
 </resources>
