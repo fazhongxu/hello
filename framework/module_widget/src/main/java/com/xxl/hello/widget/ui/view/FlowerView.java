@@ -54,16 +54,45 @@ public class FlowerView extends View {
 
     public FlowerView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context,attrs);
+        init(context, attrs);
     }
 
     private void init(Context context, AttributeSet attrs) {
-        TypedArray a = context.obtainStyledAttributes(attrs,R.styleable.FlowerView);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.FlowerView);
         mFlowerCount = a.getInteger(R.styleable.FlowerView_flower_count, 0);
         a.recycle();
         mFlowerDrawable = ContextCompat.getDrawable(context, R.drawable.resources_ic_flower);
         mFlowerWidth = mFlowerDrawable.getIntrinsicWidth();
         mFlowerSpacing = 10;
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        // 计算总宽度：每个花朵的宽度乘以花朵数量，再加上花朵之间的间距
+        int totalFlowerWidth = mFlowerWidth * mFlowerCount + mFlowerSpacing * (mFlowerCount - 1);
+
+        // 获取宽度测量模式和大小
+        int widthMode = MeasureSpec.getMode(widthMeasureSpec);
+        int widthSize = MeasureSpec.getSize(widthMeasureSpec);
+
+        // 如果宽度是wrap_content，设置为所需的宽度
+        int width = (widthMode == MeasureSpec.AT_MOST) ? totalFlowerWidth : widthSize;
+
+        // 获取高度测量模式和大小
+        int heightMode = MeasureSpec.getMode(heightMeasureSpec);
+        int heightSize = MeasureSpec.getSize(heightMeasureSpec);
+
+        // 计算高度：只有一行，且只有花朵的高度和间距
+        int height = mFlowerWidth;  // 花朵的高度
+        if (heightMode == MeasureSpec.AT_MOST) {
+            height += mFlowerSpacing;  // 如果是wrap_content，添加花朵间距
+        } else {
+            // 否则，直接使用给定的高度
+            height = heightSize;
+        }
+
+        // 设置测量结果
+        setMeasuredDimension(width, height);
     }
 
     @Override
@@ -119,6 +148,7 @@ public class FlowerView extends View {
         } else {
             mFlowerCount = 0;
         }
+        requestLayout();
         invalidate();
     }
 }
