@@ -93,6 +93,7 @@
 
     <declare-styleable name="FlowerView">
         <attr name="flower_count" format="integer" />
+        <attr name="flower_normal_count" format="integer" />
     </declare-styleable>
 
 </resources>

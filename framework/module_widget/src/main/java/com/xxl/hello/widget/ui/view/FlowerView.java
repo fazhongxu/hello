@@ -29,9 +29,19 @@ public class FlowerView extends View {
     private int mFlowerCount;
 
     /**
+     * 花朵数量
+     */
+    private int mFlowerNormalCount;
+
+    /**
      * 花朵图标
      */
-    private Drawable mFlowerDrawable;  // 花朵图标
+    private Drawable mFlowerDrawable;
+
+    /**
+     * 花朵图标
+     */
+    private Drawable mFlowerNormalDrawable;
 
     /**
      * 花朵的宽度
@@ -60,16 +70,19 @@ public class FlowerView extends View {
     private void init(Context context, AttributeSet attrs) {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.FlowerView);
         mFlowerCount = a.getInteger(R.styleable.FlowerView_flower_count, 0);
+        mFlowerNormalCount = a.getInteger(R.styleable.FlowerView_flower_normal_count, 0);
         a.recycle();
         mFlowerDrawable = ContextCompat.getDrawable(context, R.drawable.resources_ic_flower);
+        mFlowerNormalDrawable = ContextCompat.getDrawable(context, R.drawable.resources_ic_flower_normal);
         mFlowerWidth = mFlowerDrawable.getIntrinsicWidth();
         mFlowerSpacing = 10;
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        int flowerCount = mFlowerNormalCount > 0 ? mFlowerNormalCount : mFlowerCount;
         // 计算总宽度：每个花朵的宽度乘以花朵数量，再加上花朵之间的间距
-        int totalFlowerWidth = mFlowerWidth * mFlowerCount + mFlowerSpacing * (mFlowerCount - 1);
+        int totalFlowerWidth = mFlowerWidth * flowerCount + mFlowerSpacing * (flowerCount - 1);
 
         // 获取宽度测量模式和大小
         int widthMode = MeasureSpec.getMode(widthMeasureSpec);
@@ -99,19 +112,16 @@ public class FlowerView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        int totalWidth = getWidth();
         int flowerCount = mFlowerCount;
-
-        // 计算总共能容纳的花朵数量
-        int totalFlowerWidth = mFlowerWidth * flowerCount + mFlowerSpacing * (flowerCount - 1);
-
-        // 如果花朵数量过多，需要缩放
-        if (totalFlowerWidth > totalWidth) {
-            int scaleFactor = totalWidth / (flowerCount + (flowerCount - 1) * mFlowerSpacing / mFlowerWidth);
-            mFlowerWidth = mFlowerWidth * scaleFactor;
-        }
+        int flowerNormalCount = mFlowerNormalCount;
 
         // 绘制花朵
+        for (int i = 0; i < flowerNormalCount; i++) {
+            int left = i * (mFlowerWidth + mFlowerSpacing);
+            mFlowerNormalDrawable.setBounds(left, 0, left + mFlowerWidth, mFlowerWidth);
+            mFlowerNormalDrawable.draw(canvas);
+        }
+
         for (int i = 0; i < flowerCount; i++) {
             int left = i * (mFlowerWidth + mFlowerSpacing);
             mFlowerDrawable.setBounds(left, 0, left + mFlowerWidth, mFlowerWidth);
