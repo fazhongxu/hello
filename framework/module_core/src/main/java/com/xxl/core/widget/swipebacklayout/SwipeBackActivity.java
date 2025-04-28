@@ -1,6 +1,7 @@
 package com.xxl.core.widget.swipebacklayout;
 
 import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,7 +18,7 @@ import com.xxl.kit.StatusBarUtil;
  * @author xxl
  * @date 2021./10/08
  */
-public class SwipeBackActivity extends InnerBaseActivity  implements SwipeBackLayout.SwipeListener{
+public class SwipeBackActivity extends InnerBaseActivity implements SwipeBackLayout.SwipeListener {
     private static final String TAG = "SwipeBackActivity";
     private SwipeBackLayout.ListenerRemover mListenerRemover;
     private SwipeBackgroundView mSwipeBackgroundView;
@@ -28,6 +29,9 @@ public class SwipeBackActivity extends InnerBaseActivity  implements SwipeBackLa
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (isPortraitOrientation()) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
         StatusBarUtil.setTranslucent(this);
         StatusBarUtil.setLightMode(this);
     }
@@ -97,6 +101,15 @@ public class SwipeBackActivity extends InnerBaseActivity  implements SwipeBackLa
     }
 
     /**
+     * portrait orientation
+     *
+     * @return
+     */
+    protected boolean isPortraitOrientation() {
+        return true;
+    }
+
+    /**
      * disable or enable drag back
      *
      * @return
@@ -111,7 +124,7 @@ public class SwipeBackActivity extends InnerBaseActivity  implements SwipeBackLa
      * @return
      */
     protected int backViewInitOffset() {
-        return DisplayUtils.dp2px(this,100);
+        return DisplayUtils.dp2px(this, 100);
     }
 
     /**
