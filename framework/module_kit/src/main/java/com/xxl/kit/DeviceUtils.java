@@ -14,6 +14,7 @@ import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Base64;
+import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 import androidx.annotation.RequiresPermission;
@@ -29,6 +30,10 @@ import java.util.UUID;
 import static android.Manifest.permission.ACCESS_WIFI_STATE;
 import static android.Manifest.permission.CHANGE_WIFI_STATE;
 import static android.content.Context.WIFI_SERVICE;
+
+import com.lahm.library.EasyProtectorLib;
+import com.lahm.library.EmulatorCheckCallback;
+import com.lahm.library.EmulatorCheckUtil;
 
 /**
  * reference https://github.com/Blankj/AndroidUtilCode/blob/66a4c0488ca6da273098058d70dabb0fe9b9bd8d/lib/utilcode/src/main/java/com/blankj/utilcode/util/DeviceUtils.java
@@ -362,6 +367,24 @@ public final class DeviceUtils {
         return (Resources.getSystem().getConfiguration().screenLayout
                 & Configuration.SCREENLAYOUT_SIZE_MASK)
                 >= Configuration.SCREENLAYOUT_SIZE_LARGE;
+    }
+
+    /**
+     * 检查是否是模拟器
+     *
+     * @return
+     */
+    public static boolean checkIsRunningInEmulator() {
+        return EasyProtectorLib.checkIsRunningInEmulator(AppUtils.getApplication(), null);
+    }
+
+    /**
+     * 检查是否是模拟器
+     *
+     * @return
+     */
+    public static boolean checkIsRunningInEmulator(EmulatorCheckCallback callback) {
+        return EmulatorCheckUtil.getSingleInstance().readSysProperty(AppUtils.getApplication(), callback);
     }
 
     /**
