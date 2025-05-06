@@ -53,7 +53,7 @@ public class AppSchemeServiceImpl implements AppSchemeService {
         if (!TextUtils.isEmpty(payload)) {
             try {
                 JSONObject jsonObject = new JSONObject(payload);
-                String scheme = jsonObject.getString(AppConfig.APP_DEFAULT_SCHEME);
+                String scheme = jsonObject.getString(AppConfig.APP_SCHEME_KEY);
                 if (!TextUtils.isEmpty(scheme)) {
                     boolean isLogged = !TextUtils.isEmpty(AppExpandUtils.getCurrentUserId()) && RouterUtils.hasActivity(MainRouterApi.Main.PATH);
                     if (isLogged) {

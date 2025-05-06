@@ -99,7 +99,18 @@ public class SchemeJumpFragment extends BaseViewModelFragment<SchemeJumpViewMode
      */
     @Override
     protected void setupData() {
-
+        Intent intent = getActivity().getIntent();
+        if (intent != null && intent.getDataString() != null && intent.getDataString().contains(AppConfig.APP_SCHEME_TAG)) {
+            //hl://hello.com/user_setting
+            String payload = "";
+            if (!intent.getDataString().contains(AppConfig.APP_SCHEME_KEY)) {
+                JsonObject jsonObject = new JsonObject();
+                jsonObject.addProperty(AppConfig.APP_SCHEME_KEY, intent.getDataString());
+                payload = jsonObject.toString();
+            }
+            mAppSchemeService.navigationToScheme(getActivity(), payload, true);
+        }
+        getActivity().finish();
     }
 
     /**
@@ -114,18 +125,7 @@ public class SchemeJumpFragment extends BaseViewModelFragment<SchemeJumpViewMode
 
     @Override
     protected void requestData() {
-        Intent intent = getActivity().getIntent();
-        if (intent != null && intent.getDataString() != null && intent.getDataString().contains(AppConfig.APP_SCHEME_TAG)) {
-            //hl://hello.com/user_setting
-            String payload = "";
-            if (!intent.getDataString().contains(AppConfig.APP_DEFAULT_SCHEME)) {
-                JsonObject jsonObject = new JsonObject();
-                jsonObject.addProperty(AppConfig.APP_DEFAULT_SCHEME,intent.getDataString());
-                payload = jsonObject.toString();
-            }
-            mAppSchemeService.navigationToScheme(getActivity(),payload,true);
-        }
-        getActivity().finish();
+
     }
 
     //endregion
