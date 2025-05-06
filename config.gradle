@@ -128,6 +128,8 @@ versions.watermark = "0.1.2"
 versions.jpinyin = "1.1.8"
 versions.emoji = "0.8.0"
 
+versions.easy_protector = "1.1.2"
+
 ext.versions = versions
 
 deps.android_build_gradle = "com.android.tools.build:gradle:$build_versions.android_build_gradle"
@@ -416,6 +418,9 @@ deps.jpinyin = project(':module_libs:lib_pinyin')
 //https://github.com/vanniktech/Emoji
 deps.emoji_ios = "com.vanniktech:emoji-ios:$versions.emoji"
 deps.emoji_google_compat = "com.vanniktech:emoji-google-compat:$versions.emoji"
+
+//https://github.com/lamster2018/EasyProtector
+deps.easy_protector = "com.lahm.library:easy-protector-release:$versions.easy_protector"
 
 def origin = [:]
 // 是否使用远程依赖 true使用远程依赖（远程私服存储的aar依赖）

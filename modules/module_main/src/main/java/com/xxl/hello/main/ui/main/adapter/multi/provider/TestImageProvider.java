@@ -5,7 +5,6 @@ import androidx.databinding.DataBindingUtil;
 
 import com.chad.library.adapter.base.provider.BaseItemProvider;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
-import com.xxl.core.image.loader.ImageLoader;
 import com.xxl.hello.main.R;
 import com.xxl.hello.main.databinding.MainRecyclerItemTestImageProviderBinding;
 import com.xxl.hello.main.ui.main.adapter.TestListEntity;
@@ -57,6 +56,7 @@ public class TestImageProvider extends BaseItemProvider<TestListEntity> {
         if (mListener != null) {
             binding.setListener(mListener.getMultiRecycleItemListener());
         }
+
         TestRecycleItemViewModel viewModel = binding.getViewModel();
         if (viewModel == null) {
             viewModel = new TestRecycleItemViewModel();

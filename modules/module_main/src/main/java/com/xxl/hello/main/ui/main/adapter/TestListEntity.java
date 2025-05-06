@@ -49,6 +49,8 @@ public class TestListEntity implements SectionEntity {
      */
     private boolean mHeader;
 
+    public int mPosition;
+
     //endregion
 
     //region: 构造函数

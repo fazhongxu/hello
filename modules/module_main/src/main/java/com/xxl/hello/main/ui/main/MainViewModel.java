@@ -4,6 +4,7 @@ import android.app.Application;
 import android.os.Handler;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.ObservableBoolean;
 import androidx.databinding.ObservableField;
 
 import com.xxl.core.response.ResponseListener;
@@ -58,6 +59,14 @@ public class MainViewModel extends BaseViewModel<MainNavigator> {
      * 用户信息
      */
     private ObservableField<CharSequence> mObservableUserInfo = new ObservableField<>();
+
+    public ObservableBoolean getObservable1() {
+        return new ObservableBoolean(true);
+    }
+
+    public ObservableBoolean getObservable2() {
+        return new ObservableBoolean(false);
+    }
 
     private final UploadService mUploadService;
 

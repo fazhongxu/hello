@@ -247,6 +247,8 @@ dependencies {
     implementation deps.emoji_ios
 
     implementation deps.vasdolly
+
+    implementation deps.easy_protector
 }
 
 apply plugin: 'io.objectbox'

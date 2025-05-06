@@ -47,6 +47,15 @@ public class UserManager {
     }
 
     /**
+     * 判断是否登录
+     *
+     * @return
+     */
+    public boolean isLogged() {
+        return mLoginUserEntity != null;
+    }
+
+    /**
      * 是否是VIP
      *
      * @return

@@ -19,6 +19,8 @@ import com.xxl.hello.main.R;
  */
 public class BottomSheetDialog extends BottomSheetDialogFragment {
 
+    private Dialog mDialog;
+
     private BottomSheetDialog() {
 
     }
@@ -30,6 +32,9 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        if (mDialog != null) {
+            return mDialog;
+        }
         final Dialog dialog = super.onCreateDialog(savedInstanceState);
 
         final View rootView = getLayoutInflater().inflate(R.layout.main_layout_bottom_sheet_dialog, null, false);
@@ -38,7 +43,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
         parent.setBackgroundColor(Color.TRANSPARENT);
 
         dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-        return dialog;
+        return mDialog = dialog;
     }
 
 

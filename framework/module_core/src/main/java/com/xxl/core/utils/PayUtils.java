@@ -18,6 +18,7 @@ import com.xxl.core.data.model.entity.pay.AliPayResult;
 import com.xxl.core.data.model.entity.pay.WXPayEntity;
 import com.xxl.core.listener.OnPayListener;
 import com.xxl.kit.AppUtils;
+import com.xxl.kit.ThreadUtils;
 
 import java.util.Map;
 
@@ -26,6 +27,8 @@ import java.util.Map;
  * @date 2024/4/17.
  */
 public class PayUtils {
+
+    private static final Handler HANDLER = new Handler(Looper.getMainLooper());
 
     /**
      * 支付监听
@@ -97,17 +100,16 @@ public class PayUtils {
             PayTask payTask = new PayTask(activity);
             Map<String, String> result = payTask.payV2(orderInfo, true);
             AliPayResult payResult = new AliPayResult(result);
-            Handler handler = new Handler(Looper.getMainLooper());
             if (payResult.isSuccess()) {
-                handler.post(listener::onPayComplete);
+                HANDLER.post(listener::onPayComplete);
                 return;
             }
             if (payResult.isCancel()) {
-                handler.post(listener::onPayCancel);
+                HANDLER.post(listener::onPayCancel);
                 return;
             }
             if (payResult.isFailure()) {
-                handler.post(() -> listener.onPayFailure(null));
+                HANDLER.post(() -> listener.onPayFailure(null));
                 return;
             }
         };

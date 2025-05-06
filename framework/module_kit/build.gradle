@@ -99,4 +99,6 @@ dependencies {
     compileOnly deps.sina
 
     compileOnly deps.rxjava
+
+    compileOnly deps.easy_protector
 }

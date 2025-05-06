@@ -26,10 +26,11 @@ class AppConfig private constructor() {
         /**
          * scheme
          */
-        const val APP_DEFAULT_SCHEME = "scheme"
+        const val APP_SCHEME_KEY = "scheme"
 
         /**
          * scheme 标识
+         * <scheme>://<host>/<path>?<query> 和清单文件配置一致
          */
         const val APP_SCHEME_TAG = "hl://hello.com"
 
@@ -61,7 +62,8 @@ class AppConfig private constructor() {
 
             const val GITHUB_USER_NAME = "fazhongxu"
 
-            const val GITHUB_USER_AVATAR = "https://avatars.githubusercontent.com/u/24353536?s=400&u=43f37f2e73f15a1dfad58f0d63c35418715a5621&v=4"
+            const val GITHUB_USER_AVATAR =
+                "https://avatars.githubusercontent.com/u/24353536?s=400&u=43f37f2e73f15a1dfad58f0d63c35418715a5621&v=4"
         }
     }
 

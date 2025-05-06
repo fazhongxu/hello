@@ -102,9 +102,10 @@ public class RetrofitClient {
             builder.addHeader("User-Agent", userAgent);
             if (!TextUtils.isEmpty(userId)) {
                 builder.addHeader("user_id", userAgent);
-                if (!TextUtils.isEmpty(userToken)) {
-                    builder.addHeader("access_token", userToken);
-                }
+            }
+
+            if (!TextUtils.isEmpty(userToken)) {
+                builder.addHeader("access_token", userToken);
             }
 
             return chain.proceed(builder.build());
