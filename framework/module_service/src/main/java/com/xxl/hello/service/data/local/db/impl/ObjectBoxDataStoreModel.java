@@ -8,8 +8,10 @@ import com.xxl.hello.service.data.local.db.DBServiceKit;
 import com.xxl.hello.service.data.local.db.api.CacheDBDataService;
 import com.xxl.hello.service.data.local.db.api.DBClientKit;
 import com.xxl.hello.service.data.local.db.api.OrderDBDataService;
+import com.xxl.hello.service.data.local.db.api.UploadQueueResourceDBDataService;
 import com.xxl.hello.service.data.local.db.entity.CacheDBEntity;
 import com.xxl.hello.service.data.local.db.entity.OrderDBEntity;
+import com.xxl.hello.service.data.local.db.entity.UploadQueueResourceDBEntity;
 import com.xxl.hello.service.data.local.prefs.api.UserPreferences;
 import com.xxl.hello.service.qunlifier.ForApplication;
 import com.xxl.hello.service.qunlifier.ForUserPreference;
@@ -38,7 +40,7 @@ public class ObjectBoxDataStoreModel {
     @Provides
     public ObjectBoxDBClientKit provideObjectBoxDBClientKit(@ForApplication final Application application,
                                                             @ForUserPreference final UserPreferences userPreferences) {
-        return new ObjectBoxDBClientKit(application,userPreferences);
+        return new ObjectBoxDBClientKit(application, userPreferences);
     }
 
     /**
@@ -73,7 +75,18 @@ public class ObjectBoxDataStoreModel {
     @Provides
     @Singleton
     CacheDBDataService provideCacheDBDataService(@NonNull final ObjectBoxDBClientKit objectBoxClientKit) {
-        return new CacheObjectBoxDataSource(objectBoxClientKit);
+        return new CacheDataSource(objectBoxClientKit);
+    }
+
+    /**
+     * 构建对 {@link UploadQueueResourceDBEntity} 的数据操作服务
+     *
+     * @return 返回以 ObjectBox为基础的数据库操作的服务
+     */
+    @Provides
+    @Singleton
+    UploadQueueResourceDBDataService provideUploadQueueResourceDataSource(@NonNull final ObjectBoxDBClientKit objectBoxClientKit) {
+        return new UploadQueueResourceDataSource(objectBoxClientKit);
     }
 
     /**
@@ -84,6 +97,6 @@ public class ObjectBoxDataStoreModel {
     @Provides
     @Singleton
     OrderDBDataService provideOrderDBDataService(@NonNull final ObjectBoxDBClientKit objectBoxClientKit) {
-        return new OrderObjectBoxDataSource(objectBoxClientKit);
+        return new OrderDataSource(objectBoxClientKit);
     }
 }

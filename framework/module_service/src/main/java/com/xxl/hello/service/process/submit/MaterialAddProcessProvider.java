@@ -4,7 +4,7 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 
-import com.xxl.hello.service.data.local.db.entity.UploadQueueResourcesDBEntity;
+import com.xxl.hello.service.data.local.db.entity.UploadQueueResourceDBEntity;
 import com.xxl.kit.OnRequestCallBack;
 import com.xxl.hello.service.data.model.api.material.MaterialAddRequest;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi.ResourcesSubmitType;
@@ -46,12 +46,12 @@ public class MaterialAddProcessProvider extends BaseSubmitProcessProvider<Materi
     /**
      * 处理资源提交
      *
-     * @param targetUploadQueueResourcesDBEntity 资源上传队列数据
+     * @param targetUploadQueueResourceDBEntity 资源上传队列数据
      * @param targetRequest                      请求参数
      * @param callback                           回调
      */
     @Override
-    public void handleSubmit(@NonNull final UploadQueueResourcesDBEntity targetUploadQueueResourcesDBEntity,
+    public void handleSubmit(@NonNull final UploadQueueResourceDBEntity targetUploadQueueResourceDBEntity,
                              @NonNull final MaterialAddRequest targetRequest,
                              @NonNull final OnRequestCallBack<Boolean> callback) {
         // TODO: 2022/5/28

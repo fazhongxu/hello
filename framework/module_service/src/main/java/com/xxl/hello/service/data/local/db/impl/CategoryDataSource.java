@@ -9,6 +9,6 @@ import com.xxl.hello.service.data.local.db.entity.CategoryDBEntity;
  * @Author: xxl
  * @Date: 2021/11/20 11:38 PM
  **/
-public class CategoryObjectBoxDataSource implements CategoryDBDataService {
+public class CategoryDataSource implements CategoryDBDataService {
 
 }

@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 
 import com.xxl.core.response.ResponseCode;
 import com.xxl.core.response.ResponseException;
-import com.xxl.hello.service.data.local.db.entity.UploadQueueResourcesDBEntity;
+import com.xxl.hello.service.data.local.db.entity.UploadQueueResourceDBEntity;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi.MediaType;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.hello.service.process.BaseUploadProcessProvider;
@@ -148,27 +148,27 @@ public class ResourceProcessWrapper {
     /**
      * 资源上传
      *
-     * @param targetUploadQueueResourcesDBEntity 资源信息
+     * @param targetUploadQueueResourceDBEntity 资源信息
      * @param callBack                           回调
      */
-    public void onUpload(@NonNull final UploadQueueResourcesDBEntity targetUploadQueueResourcesDBEntity,
+    public void onUpload(@NonNull final UploadQueueResourceDBEntity targetUploadQueueResourceDBEntity,
                          @NonNull final OnResourcesUploadCallback callBack) {
-        onUpload(targetUploadQueueResourcesDBEntity, true, callBack);
+        onUpload(targetUploadQueueResourceDBEntity, true, callBack);
     }
 
     /**
      * 资源上传
      *
-     * @param targetUploadQueueResourcesDBEntity 资源信息
+     * @param targetUploadQueueResourceDBEntity 资源信息
      * @param isForever                          资源是否永久有效
      * @param callBack                           回调
      */
-    public void onUpload(@NonNull final UploadQueueResourcesDBEntity targetUploadQueueResourcesDBEntity,
+    public void onUpload(@NonNull final UploadQueueResourceDBEntity targetUploadQueueResourceDBEntity,
                          final boolean isForever,
                          @NonNull final OnResourcesUploadCallback callBack) {
-        final BaseUploadProcessProvider uploadProcessProvider = getUploadProcessProvider(targetUploadQueueResourcesDBEntity.getMediaType());
+        final BaseUploadProcessProvider uploadProcessProvider = getUploadProcessProvider(targetUploadQueueResourceDBEntity.getMediaType());
         if (uploadProcessProvider != null) {
-            uploadProcessProvider.onUpload(targetUploadQueueResourcesDBEntity, isForever, callBack);
+            uploadProcessProvider.onUpload(targetUploadQueueResourceDBEntity, isForever, callBack);
         } else {
             callBack.onFailure(ResponseException.create(ResponseCode.RESPONSE_CODE_UN_KNOW, StringUtils.getString(R.string.resources_file_upload_failure_can_not_found_res)));
         }

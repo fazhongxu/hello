@@ -3,6 +3,7 @@ package com.xxl.hello.service.data.repository.impl;
 import androidx.annotation.NonNull;
 
 import com.xxl.hello.service.data.local.source.api.ConfigLocalDataSource;
+import com.xxl.hello.service.data.local.source.api.UploadQueueResourceLocalDataSource;
 import com.xxl.hello.service.data.remote.api.ConfigRemoteDataSource;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.hello.service.data.repository.api.ConfigRepositoryApi;
@@ -35,7 +36,7 @@ public class ServiceRepositoryDataStoreModule {
 
     @Singleton
     @Provides
-    ResourceRepositoryApi provideResourceRepositoryImpl() {
-        return new ResourcesRepositoryImpl();
+    ResourceRepositoryApi provideResourceRepositoryImpl(@NonNull final UploadQueueResourceLocalDataSource localDataSource) {
+        return new ResourcesRepositoryImpl(localDataSource);
     }
 }

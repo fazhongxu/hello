@@ -8,7 +8,7 @@ import com.xxl.core.response.ResponseCode;
 import com.xxl.core.service.upload.UploadListener;
 import com.xxl.hello.common.config.CacheDirConfig;
 import com.xxl.hello.service.R;
-import com.xxl.hello.service.data.local.db.entity.UploadQueueResourcesDBEntity;
+import com.xxl.hello.service.data.local.db.entity.UploadQueueResourceDBEntity;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi.MediaType;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi.ResourcesUploadChannel;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
@@ -81,25 +81,25 @@ public abstract class BaseUploadProcessProvider extends BaseProcessProvider {
     /**
      * 资源上传
      *
-     * @param targetUploadQueueResourcesDBEntity
+     * @param targetUploadQueueResourceDBEntity
      * @param callBack
      */
-    public void onUpload(@NonNull final UploadQueueResourcesDBEntity targetUploadQueueResourcesDBEntity,
+    public void onUpload(@NonNull final UploadQueueResourceDBEntity targetUploadQueueResourceDBEntity,
                          @NonNull final OnResourcesUploadCallback callBack) {
-        onUpload(targetUploadQueueResourcesDBEntity, isForever(), callBack);
+        onUpload(targetUploadQueueResourceDBEntity, isForever(), callBack);
     }
 
     /**
      * 资源上传
      *
-     * @param targetUploadQueueResourcesDBEntity 资源信息
+     * @param targetUploadQueueResourceDBEntity 资源信息
      * @param isForever                          资源是否永久有效
      * @param callBack                           回调
      */
-    public void onUpload(@NonNull final UploadQueueResourcesDBEntity targetUploadQueueResourcesDBEntity,
+    public void onUpload(@NonNull final UploadQueueResourceDBEntity targetUploadQueueResourceDBEntity,
                          final boolean isForever,
                          @NonNull final OnResourcesUploadCallback callBack) {
-        onUpload(targetUploadQueueResourcesDBEntity.getWaitUploadPath(), isForever, targetUploadQueueResourcesDBEntity.getUploadChannel(), callBack);
+        onUpload(targetUploadQueueResourceDBEntity.getWaitUploadPath(), isForever, targetUploadQueueResourceDBEntity.getUploadChannel(), callBack);
     }
 
     /**

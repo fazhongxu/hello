@@ -17,7 +17,7 @@ import io.objectbox.query.QueryBuilder;
  * @Author: xxl
  * @Date: 2021/11/20 11:38 PM
  **/
-public abstract class BaseObjectBoxDataSource<E extends BaseDBEntity> {
+public abstract class BaseDataSource<E extends BaseDBEntity> {
 
     //region: 成员变量
 
@@ -30,7 +30,7 @@ public abstract class BaseObjectBoxDataSource<E extends BaseDBEntity> {
 
     //region: 构造函数
 
-    public BaseObjectBoxDataSource(@NonNull final ObjectBoxDBClientKit objectBoxDBClientKit) {
+    public BaseDataSource(@NonNull final ObjectBoxDBClientKit objectBoxDBClientKit) {
         mObjectBoxDBClientKit = objectBoxDBClientKit;
     }
 

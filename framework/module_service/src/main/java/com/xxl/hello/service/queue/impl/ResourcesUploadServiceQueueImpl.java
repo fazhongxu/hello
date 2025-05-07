@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.xxl.hello.service.ResourceProcessWrapper;
-import com.xxl.hello.service.data.local.db.entity.UploadQueueResourcesDBEntity;
+import com.xxl.hello.service.data.local.db.entity.UploadQueueResourceDBEntity;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi.ServiceQueueStatus;
 import com.xxl.hello.service.data.model.event.SystemEventApi;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
@@ -47,7 +47,7 @@ public class ResourcesUploadServiceQueueImpl extends BaseServiceQueueImpl implem
     /**
      * 正在队列任务中的资源数据集合
      */
-    private ConcurrentMap<String, UploadQueueResourcesDBEntity> mExecutingResourceMap = new ConcurrentHashMap();
+    private ConcurrentMap<String, UploadQueueResourceDBEntity> mExecutingResourceMap = new ConcurrentHashMap();
 
     //endregion
 
@@ -77,7 +77,7 @@ public class ResourcesUploadServiceQueueImpl extends BaseServiceQueueImpl implem
     @Override
     public void doWork() {
         synchronized (this) {
-            List<UploadQueueResourcesDBEntity> uploadResourcesDBEntities = getUploadResourcesDBEntities(MAX_COUNT);
+            List<UploadQueueResourceDBEntity> uploadResourcesDBEntities = getUploadResourcesDBEntities(MAX_COUNT);
             if (!ListUtils.isEmpty(uploadResourcesDBEntities)) {
                 submitResources2UploadQueue(uploadResourcesDBEntities);
             }
@@ -94,8 +94,8 @@ public class ResourcesUploadServiceQueueImpl extends BaseServiceQueueImpl implem
      *
      * @param targetUploadQueueDBEntities
      */
-    private void submitResources2UploadQueue(@NonNull final List<UploadQueueResourcesDBEntity> targetUploadQueueDBEntities) {
-        for (UploadQueueResourcesDBEntity uploadQueueDBEntity : targetUploadQueueDBEntities) {
+    private void submitResources2UploadQueue(@NonNull final List<UploadQueueResourceDBEntity> targetUploadQueueDBEntities) {
+        for (UploadQueueResourceDBEntity uploadQueueDBEntity : targetUploadQueueDBEntities) {
             mExecutingResourceMap.put(uploadQueueDBEntity.getSubmitTaskId(), uploadQueueDBEntity);
             handleUploadTask(uploadQueueDBEntity);
         }
@@ -106,7 +106,7 @@ public class ResourcesUploadServiceQueueImpl extends BaseServiceQueueImpl implem
      *
      * @param targetUploadQueueDBEntity
      */
-    private void handleUploadTask(@NonNull final UploadQueueResourcesDBEntity targetUploadQueueDBEntity) {
+    private void handleUploadTask(@NonNull final UploadQueueResourceDBEntity targetUploadQueueDBEntity) {
         synchronized (this) {
             execute(() -> mResourceProcessWrapper.onUpload(targetUploadQueueDBEntity, new OnResourcesUploadCallback() {
                 @Override
@@ -118,7 +118,7 @@ public class ResourcesUploadServiceQueueImpl extends BaseServiceQueueImpl implem
 
                     // TODO: 2022/5/31 后续组合成素材提交到服务端，这里不做提交了， 模拟通知给用户
 
-                    List<UploadQueueResourcesDBEntity> test = new ArrayList<>();
+                    List<UploadQueueResourceDBEntity> test = new ArrayList<>();
                     targetUploadQueueDBEntity.setUploadUrl(targetUrl);
                     test.add(targetUploadQueueDBEntity);
                     postEventBus(SystemEventApi.OnMaterialSubmitToServiceEvent.obtain(test));
@@ -140,7 +140,7 @@ public class ResourcesUploadServiceQueueImpl extends BaseServiceQueueImpl implem
      *
      * @param targetUploadQueueDBEntity
      */
-    private void handlerUploadSuccess(@NonNull final UploadQueueResourcesDBEntity targetUploadQueueDBEntity) {
+    private void handlerUploadSuccess(@NonNull final UploadQueueResourceDBEntity targetUploadQueueDBEntity) {
         synchronized (this) {
             // TODO:2022/6/23 设置标致为等待提交，存入数据库 ，发送事件通知提交队列处理，开始下一条
         }
@@ -151,13 +151,13 @@ public class ResourcesUploadServiceQueueImpl extends BaseServiceQueueImpl implem
      *
      * @param targetUploadQueueDBEntity
      */
-    private void handlerUploadFailure(@NonNull final UploadQueueResourcesDBEntity targetUploadQueueDBEntity) {
+    private void handlerUploadFailure(@NonNull final UploadQueueResourceDBEntity targetUploadQueueDBEntity) {
         synchronized (this) {
             // TODO: 2022/6/23 设置标致为上传失败，存入数据库，存入失败原因，开始下一条
         }
     }
 
-    private void pollingUploadTask(@NonNull final UploadQueueResourcesDBEntity targetUploadQueueDBEntity) {
+    private void pollingUploadTask(@NonNull final UploadQueueResourceDBEntity targetUploadQueueDBEntity) {
         synchronized (this) {
             mExecutingResourceMap.remove(targetUploadQueueDBEntity.getSubmitTaskId());
         }
@@ -172,7 +172,7 @@ public class ResourcesUploadServiceQueueImpl extends BaseServiceQueueImpl implem
     /**
      * 在主线程监听资源添加到队列的通知事件
      * <p>
-     * 监听资源添加到队列{@link UploadQueueResourcesDBEntity} 通知事件
+     * 监听资源添加到队列{@link UploadQueueResourceDBEntity} 通知事件
      *
      * @param event
      */
@@ -181,7 +181,7 @@ public class ResourcesUploadServiceQueueImpl extends BaseServiceQueueImpl implem
         if (event == null || ListUtils.isEmpty(event.getTargetResourcesUploadQueueDBEntities())) {
             return;
         }
-        final List<UploadQueueResourcesDBEntity> targetResourcesUploadQueueDBEntities = event.getTargetResourcesUploadQueueDBEntities();
+        final List<UploadQueueResourceDBEntity> targetResourcesUploadQueueDBEntities = event.getTargetResourcesUploadQueueDBEntities();
         // TODO: 2022/5/30 存入数据库，在运行服务的时候到数据库获取 这里先随便放在本地模拟
         putUploadQueueDBEntities(targetResourcesUploadQueueDBEntities);
         Log.e("aa", "onEventMainThread: " + ListUtils.getSize(targetResourcesUploadQueueDBEntities));
@@ -191,14 +191,14 @@ public class ResourcesUploadServiceQueueImpl extends BaseServiceQueueImpl implem
     }
 
     // TODO: 2022/5/30 模拟数据库存和取数据
-    private static List<UploadQueueResourcesDBEntity> sResourcesUploadQueueDBEntities = new ArrayList<>();
+    private static List<UploadQueueResourceDBEntity> sResourcesUploadQueueDBEntities = new ArrayList<>();
 
     /**
      * 入库
      *
      * @param uploadQueueDBEntities
      */
-    private static final void putUploadQueueDBEntities(List<UploadQueueResourcesDBEntity> uploadQueueDBEntities) {
+    private static final void putUploadQueueDBEntities(List<UploadQueueResourceDBEntity> uploadQueueDBEntities) {
         sResourcesUploadQueueDBEntities.addAll(uploadQueueDBEntities);
     }
 
@@ -209,8 +209,8 @@ public class ResourcesUploadServiceQueueImpl extends BaseServiceQueueImpl implem
      * @param count
      * @return
      */
-    private static final List<UploadQueueResourcesDBEntity> getUploadResourcesDBEntities(final int count) {
-        List<UploadQueueResourcesDBEntity> resourcesUploadQueueDBEntities = new ArrayList<>();
+    private static final List<UploadQueueResourceDBEntity> getUploadResourcesDBEntities(final int count) {
+        List<UploadQueueResourceDBEntity> resourcesUploadQueueDBEntities = new ArrayList<>();
         if (!ListUtils.isEmpty(sResourcesUploadQueueDBEntities)) {
             Collections.reverse(sResourcesUploadQueueDBEntities);
             int i = count;
@@ -219,9 +219,9 @@ public class ResourcesUploadServiceQueueImpl extends BaseServiceQueueImpl implem
                     break;
                 }
                 i -= 1;
-                UploadQueueResourcesDBEntity uploadQueueResourcesDBEntity = sResourcesUploadQueueDBEntities.iterator().next();
-                resourcesUploadQueueDBEntities.add(uploadQueueResourcesDBEntity);
-                sResourcesUploadQueueDBEntities.remove(uploadQueueResourcesDBEntity);
+                UploadQueueResourceDBEntity uploadQueueResourceDBEntity = sResourcesUploadQueueDBEntities.iterator().next();
+                resourcesUploadQueueDBEntities.add(uploadQueueResourceDBEntity);
+                sResourcesUploadQueueDBEntities.remove(uploadQueueResourceDBEntity);
             }
         }
         Collections.reverse(sResourcesUploadQueueDBEntities);

@@ -2,6 +2,7 @@ package com.xxl.hello.service.data.local.db;
 
 import com.xxl.hello.service.data.local.db.api.CacheDBDataService;
 import com.xxl.hello.service.data.local.db.api.OrderDBDataService;
+import com.xxl.hello.service.data.local.db.api.UploadQueueResourceDBDataService;
 
 /**
  * 数据库服务集合
@@ -17,6 +18,13 @@ public interface DBServiceKit {
      * @return
      */
     CacheDBDataService getCacheDBDataService();
+
+    /**
+     * 获取上传队列资源数据库服务
+     *
+     * @return
+     */
+    UploadQueueResourceDBDataService getUploadQueueResourceDBDataService();
 
     /**
      * 获取订单数据库服务

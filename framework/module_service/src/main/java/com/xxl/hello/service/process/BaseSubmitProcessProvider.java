@@ -4,7 +4,7 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 
-import com.xxl.hello.service.data.local.db.entity.UploadQueueResourcesDBEntity;
+import com.xxl.hello.service.data.local.db.entity.UploadQueueResourceDBEntity;
 import com.xxl.kit.OnRequestCallBack;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi.ResourcesSubmitType;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
@@ -44,11 +44,11 @@ public abstract class BaseSubmitProcessProvider<T> extends BaseProcessProvider {
     /**
      * 处理资源提交
      *
-     * @param targetUploadQueueResourcesDBEntity 资源上传队列数据
+     * @param targetUploadQueueResourceDBEntity 资源上传队列数据
      * @param targetRequest                      请求参数
      * @param callback                           回调
      */
-    public abstract void handleSubmit(@NonNull final UploadQueueResourcesDBEntity targetUploadQueueResourcesDBEntity,
+    public abstract void handleSubmit(@NonNull final UploadQueueResourceDBEntity targetUploadQueueResourceDBEntity,
                                       @NonNull final T targetRequest,
                                       @NonNull final OnRequestCallBack<Boolean> callback);
 

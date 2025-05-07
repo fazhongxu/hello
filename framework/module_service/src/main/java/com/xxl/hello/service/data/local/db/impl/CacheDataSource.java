@@ -15,11 +15,11 @@ import io.objectbox.Property;
  * @Author: xxl
  * @Date: 2021/11/20 11:38 PM
  **/
-public class CacheObjectBoxDataSource extends BaseObjectBoxDataSource<CacheDBEntity> implements CacheDBDataService {
+public class CacheDataSource extends BaseDataSource<CacheDBEntity> implements CacheDBDataService {
 
     //region: 构造函数
 
-    public CacheObjectBoxDataSource(@NonNull final ObjectBoxDBClientKit objectBoxDBClientKit) {
+    public CacheDataSource(@NonNull final ObjectBoxDBClientKit objectBoxDBClientKit) {
         super(objectBoxDBClientKit);
     }
 
