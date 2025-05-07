@@ -15,6 +15,7 @@ import com.xxl.hello.service.data.repository.impl.ServiceRepositoryDataStoreModu
 import com.xxl.hello.service.handle.api.AppSchemeService;
 import com.xxl.hello.service.handle.impl.AppSchemeServiceImpl;
 import com.xxl.hello.service.queue.api.ResourcesUploadServiceQueue;
+import com.xxl.hello.service.queue.api.ResourcesUploadServiceQueue2;
 import com.xxl.hello.service.queue.impl.ServiceQueueDataStoreModule;
 import com.xxl.hello.service.qunlifier.ForApplication;
 import com.xxl.hello.service.qunlifier.ForHelloUpload;
@@ -72,7 +73,7 @@ public class ServiceDataStoreModule {
                                                            @NonNull final DataRepositoryKit dataRepositoryKit,
                                                            @ForHelloUpload final UploadService uploadService,
                                                            @ForQiNiuUpload final UploadService qiNiuUploadService,
-                                                           @NonNull final ResourcesUploadServiceQueue resourcesUploadServiceQueue) {
+                                                           @NonNull final ResourcesUploadServiceQueue2 resourcesUploadServiceQueue) {
         return new ResourcesProcessService(application, dataRepositoryKit, uploadService, qiNiuUploadService, resourcesUploadServiceQueue);
     }
 

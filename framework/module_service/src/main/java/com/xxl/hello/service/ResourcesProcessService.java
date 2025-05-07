@@ -5,7 +5,7 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
-import com.xxl.hello.service.queue.api.ResourcesUploadServiceQueue;
+import com.xxl.hello.service.queue.api.ResourcesUploadServiceQueue2;
 import com.xxl.hello.service.upload.api.UploadService;
 
 /**
@@ -26,7 +26,7 @@ public class ResourcesProcessService extends BaseService {
                                    @NonNull final DataRepositoryKit dataRepositoryKit,
                                    @NonNull final UploadService uploadService,
                                    @NonNull final UploadService tencentUploadService,
-                                   @NonNull final ResourcesUploadServiceQueue resourcesUploadServiceQueue) {
+                                   @NonNull final ResourcesUploadServiceQueue2 resourcesUploadServiceQueue) {
         super(application, dataRepositoryKit);
     }
 
