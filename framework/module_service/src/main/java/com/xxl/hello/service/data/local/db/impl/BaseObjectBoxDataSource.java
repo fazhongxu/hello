@@ -1,4 +1,4 @@
-package com.xxl.hello.service.data.local.db.impl.objectbox;
+package com.xxl.hello.service.data.local.db.impl;
 
 import androidx.annotation.NonNull;
 
