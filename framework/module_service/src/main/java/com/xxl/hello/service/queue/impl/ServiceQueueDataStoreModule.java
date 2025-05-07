@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 
 import com.xxl.hello.service.ResourceProcessWrapper;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
-import com.xxl.hello.service.queue.api.ResourcesUploadServiceQueue2;
+import com.xxl.hello.service.queue.api.ResourcesUploadServiceQueue;
 import com.xxl.hello.service.qunlifier.ForApplication;
 
 import javax.inject.Singleton;
@@ -33,10 +33,10 @@ public class ServiceQueueDataStoreModule {
      */
     @Singleton
     @Provides
-    ResourcesUploadServiceQueue2 provideResourcesUploadServiceQueue2(@ForApplication final Application application,
-                                                                     @NonNull final DataRepositoryKit dataRepositoryKit,
-                                                                     @NonNull final ResourceProcessWrapper resourceProcessWrapper) {
-        return new ResourcesUploadServiceQueueImpl2(application, dataRepositoryKit, resourceProcessWrapper);
+    ResourcesUploadServiceQueue provideResourcesUploadServiceQueue(@ForApplication final Application application,
+                                                                   @NonNull final DataRepositoryKit dataRepositoryKit,
+                                                                   @NonNull final ResourceProcessWrapper resourceProcessWrapper) {
+        return new ResourcesUploadServiceQueueImpl(application, dataRepositoryKit, resourceProcessWrapper);
     }
 
 }

@@ -2,40 +2,30 @@ package com.xxl.hello.service.queue.api;
 
 /**
  * @author xxl.
- * @date 2022/5/27.
+ * @date 2025/5/7.
  */
 public interface ServiceQueue {
 
     /**
-     * 释放资源
+     * 开始
      */
-    void onCleared();
+    void start();
 
     /**
-     * 获取队列运行状态
+     * 执行
+     */
+    void run();
+
+    /**
+     * 获取队列状态
      *
      * @return
      */
-    int getQueueRunningStatus();
+    int getQueueStatus();
 
     /**
-     * 运行服务
+     * 资源清理
      */
-    void runService();
-
-    /**
-     * 开启服务
-     */
-    void startService();
-
-    /**
-     * 退出服务
-     */
-    void exitService();
-
-    /**
-     * 检查服务
-     */
-    void checkService();
+    void onCleared();
 
 }

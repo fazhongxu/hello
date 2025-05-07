@@ -11,14 +11,14 @@ import io.objectbox.annotation.NameInDb;
 import io.objectbox.annotation.Unique;
 
 /**
- * 资源上传队列数据信息
+ * 上传队列数据信息
  *
  * @author xxl.
  * @date 2022/5/27.
  */
 @Entity
-@NameInDb("h_t_resources_upload_queue")
-public class ResourcesUploadQueueDBEntity extends BaseDBEntity<ResourcesUploadQueueDBEntity> {
+@NameInDb("h_t_upload_queue_resources")
+public class UploadQueueResourcesDBEntity extends BaseDBEntity<UploadQueueResourcesDBEntity> {
 
     //region: 成员变量
 
@@ -65,19 +65,19 @@ public class ResourcesUploadQueueDBEntity extends BaseDBEntity<ResourcesUploadQu
 
     //region: 构造函数
 
-    public ResourcesUploadQueueDBEntity() {
+    public UploadQueueResourcesDBEntity() {
 
     }
 
-    public ResourcesUploadQueueDBEntity obtain() {
-        return new ResourcesUploadQueueDBEntity();
+    public UploadQueueResourcesDBEntity obtain() {
+        return new UploadQueueResourcesDBEntity();
     }
 
     //endregion
 
     //region: 提供方法
 
-    public String getResourcesUploadId(){
+    public String getResourcesUploadId() {
         return resourcesUploadId;
     }
 
@@ -108,7 +108,7 @@ public class ResourcesUploadQueueDBEntity extends BaseDBEntity<ResourcesUploadQu
      * @param submitTaskId
      * @return
      */
-    public ResourcesUploadQueueDBEntity setSubmitTaskId(@NonNull final String submitTaskId) {
+    public UploadQueueResourcesDBEntity setSubmitTaskId(@NonNull final String submitTaskId) {
         this.submitTaskId = submitTaskId;
         return this;
     }
@@ -119,7 +119,7 @@ public class ResourcesUploadQueueDBEntity extends BaseDBEntity<ResourcesUploadQu
      * @param uploadUrl
      * @return
      */
-    public ResourcesUploadQueueDBEntity setUploadUrl(@NonNull final String uploadUrl) {
+    public UploadQueueResourcesDBEntity setUploadUrl(@NonNull final String uploadUrl) {
         this.uploadUrl = uploadUrl;
         return this;
     }
@@ -130,7 +130,7 @@ public class ResourcesUploadQueueDBEntity extends BaseDBEntity<ResourcesUploadQu
      * @param waitUploadPath
      * @return
      */
-    public ResourcesUploadQueueDBEntity setWaitUploadUrl(@NonNull final String waitUploadPath) {
+    public UploadQueueResourcesDBEntity setWaitUploadUrl(@NonNull final String waitUploadPath) {
         this.waitUploadPath = waitUploadPath;
         return this;
     }
@@ -141,7 +141,7 @@ public class ResourcesUploadQueueDBEntity extends BaseDBEntity<ResourcesUploadQu
      * @param mediaType
      * @return
      */
-    public ResourcesUploadQueueDBEntity setMediaType(@MediaType final String mediaType) {
+    public UploadQueueResourcesDBEntity setMediaType(@MediaType final String mediaType) {
         this.mediaType = mediaType;
         return this;
     }
@@ -152,7 +152,7 @@ public class ResourcesUploadQueueDBEntity extends BaseDBEntity<ResourcesUploadQu
      * @param uploadChannel
      * @return
      */
-    public ResourcesUploadQueueDBEntity setUploadChannel(@ResourcesUploadChannel final int uploadChannel) {
+    public UploadQueueResourcesDBEntity setUploadChannel(@ResourcesUploadChannel final int uploadChannel) {
         this.uploadChannel = uploadChannel;
         return this;
     }

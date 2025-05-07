@@ -2,7 +2,7 @@ package com.xxl.hello.service.data.model.event;
 
 import androidx.annotation.NonNull;
 
-import com.xxl.hello.service.data.local.db.entity.ResourcesUploadQueueDBEntity;
+import com.xxl.hello.service.data.local.db.entity.UploadQueueResourcesDBEntity;
 
 import java.util.List;
 
@@ -32,17 +32,17 @@ public class SystemEventApi {
         /**
          * 资源上传队列数据
          */
-        private final List<ResourcesUploadQueueDBEntity> mTargetResourcesUploadQueueDBEntities;
+        private final List<UploadQueueResourcesDBEntity> mTargetResourcesUploadQueueDBEntities;
 
-        public List<ResourcesUploadQueueDBEntity> getTargetResourcesUploadQueueDBEntities() {
+        public List<UploadQueueResourcesDBEntity> getTargetResourcesUploadQueueDBEntities() {
             return mTargetResourcesUploadQueueDBEntities;
         }
 
-        private OnPutResources2UploadQueueEvent(@NonNull final List<ResourcesUploadQueueDBEntity> targetResourcesUploadQueueDBEntities) {
+        private OnPutResources2UploadQueueEvent(@NonNull final List<UploadQueueResourcesDBEntity> targetResourcesUploadQueueDBEntities) {
             mTargetResourcesUploadQueueDBEntities = targetResourcesUploadQueueDBEntities;
         }
 
-        public static final OnPutResources2UploadQueueEvent obtain(@NonNull final List<ResourcesUploadQueueDBEntity> targetResourcesUploadQueueDBEntities) {
+        public static final OnPutResources2UploadQueueEvent obtain(@NonNull final List<UploadQueueResourcesDBEntity> targetResourcesUploadQueueDBEntities) {
             return new OnPutResources2UploadQueueEvent(targetResourcesUploadQueueDBEntities);
         }
     }
@@ -59,17 +59,17 @@ public class SystemEventApi {
         /**
          * 资源上传队列数据
          */
-        private final List<ResourcesUploadQueueDBEntity> mTargetResourcesUploadQueueDBEntities;
+        private final List<UploadQueueResourcesDBEntity> mTargetResourcesUploadQueueDBEntities;
 
-        public List<ResourcesUploadQueueDBEntity> getTargetResourcesUploadQueueDBEntities() {
+        public List<UploadQueueResourcesDBEntity> getTargetResourcesUploadQueueDBEntities() {
             return mTargetResourcesUploadQueueDBEntities;
         }
 
-        private OnMaterialSubmitToServiceEvent(@NonNull final List<ResourcesUploadQueueDBEntity> targetResourcesUploadQueueDBEntities) {
+        private OnMaterialSubmitToServiceEvent(@NonNull final List<UploadQueueResourcesDBEntity> targetResourcesUploadQueueDBEntities) {
             mTargetResourcesUploadQueueDBEntities = targetResourcesUploadQueueDBEntities;
         }
 
-        public static final OnMaterialSubmitToServiceEvent obtain(@NonNull final List<ResourcesUploadQueueDBEntity> targetResourcesUploadQueueDBEntities) {
+        public static final OnMaterialSubmitToServiceEvent obtain(@NonNull final List<UploadQueueResourcesDBEntity> targetResourcesUploadQueueDBEntities) {
             return new OnMaterialSubmitToServiceEvent(targetResourcesUploadQueueDBEntities);
         }
     }
