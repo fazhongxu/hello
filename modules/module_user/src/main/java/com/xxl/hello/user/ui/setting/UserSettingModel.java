@@ -13,6 +13,7 @@ import com.luck.picture.lib.entity.LocalMedia;
 import com.xxl.core.image.selector.MediaSelector;
 import com.xxl.core.listener.OnResourcesCompressListener;
 import com.xxl.hello.common.config.CacheDirConfig;
+import com.xxl.hello.service.data.local.db.entity.SubmitQueueResourceDBEntity;
 import com.xxl.hello.service.data.local.db.entity.UploadQueueResourceDBEntity;
 import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi;
@@ -134,6 +135,17 @@ public class UserSettingModel extends BaseResourceQueueViewModel<UserSettingNavi
         addCompositeDisposable(disposable);
     }
 
+    /**
+     * 请求添加资源到提交队列
+     *
+     * @param submitQueueResourceDBEntity
+     * @param resourceUploadIds
+     */
+    public void requestPutResource2SubmitQueue(@NonNull SubmitQueueResourceDBEntity submitQueueResourceDBEntity,
+                                               @NonNull List<String> resourceUploadIds) {
+        // TODO: 2025/5/7
+    }
+
     void requestUploadUserAvatars(@NonNull List<String> imagePaths) {
         OnRequestCallBack<Boolean> onRequestCallBack = new OnRequestCallBack<Boolean>() {
             @Override
@@ -141,7 +153,7 @@ public class UserSettingModel extends BaseResourceQueueViewModel<UserSettingNavi
 
             }
         };
-        handleUploadUserAvatars(imagePaths, 0,onRequestCallBack);
+        handleUploadUserAvatars(imagePaths, 0, onRequestCallBack);
     }
 
     void handleUploadUserAvatars(@NonNull List<String> imagePaths,
