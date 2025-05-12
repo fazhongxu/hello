@@ -35,6 +35,7 @@
             android:minHeight="32dp"
             android:paddingLeft="10dp"
             android:paddingRight="30dp"
+            app:rv_isRippleEnable="false"
             android:textSize="@dimen/resources_font_size_15"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
