@@ -22,12 +22,43 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <!-- CameraView 用于显示相机预览 -->
+            <com.otaliastudios.cameraview.CameraView
+                android:id="@+id/camera_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:cameraFacing="front"
+                app:cameraPreview="glSurface" />
+
+            <!-- 按钮用来开始录制 -->
+            <Button
+                android:id="@+id/start_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentBottom="true"
+                android:text="Start Recording" />
+
+            <!-- 按钮用来停止录制 -->
+            <Button
+                android:id="@+id/stop_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:text="Stop Recording" />
+        </RelativeLayout>
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/ctl_content_container"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_user_info"

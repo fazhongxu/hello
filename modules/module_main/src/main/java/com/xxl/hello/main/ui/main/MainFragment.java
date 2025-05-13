@@ -14,6 +14,8 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
+import com.otaliastudios.cameraview.CameraListener;
+import com.otaliastudios.cameraview.CameraView;
 import com.tbruyelle.rxpermissions3.RxPermissions;
 import com.xxl.core.aop.annotation.Safe;
 import com.xxl.core.media.audio.AudioCapture;
@@ -211,6 +213,27 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
         mMainViewModel.setObservableUserId(String.valueOf(TimeUtils.currentServiceTimeMillis()));
         setupRecord();
         setupRecyclerView();
+
+        CameraView cameraView = mViewDataBinding.cameraView;
+        cameraView.setLifecycleOwner(this);
+        cameraView.addCameraListener(new CameraListener() {
+            @Override
+            public void onVideoRecordingStart() {
+                ToastUtils.success("开始").show();
+            }
+
+            @Override
+            public void onVideoRecordingEnd() {
+                ToastUtils.success("结束").show();
+            }
+        });
+        mViewDataBinding.startButton.setOnClickListener(v -> {
+            File file = new File(CacheDirConfig.SHARE_FILE_DIR, TimeUtils.currentServiceTimeMillis() + ".mp4");
+            cameraView.takeVideoSnapshot(file);
+        });
+        mViewDataBinding.stopButton.setOnClickListener(v -> {
+            cameraView.stopVideo();
+        });
     }
 
     private void setupRecyclerView() {

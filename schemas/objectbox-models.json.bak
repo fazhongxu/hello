@@ -81,62 +81,6 @@
       "relations": []
     },
     {
-      "id": "3:2609695920169403388",
-      "lastPropertyId": "9:3299768727028829769",
-      "name": "h_t_resources_upload_queue",
-      "properties": [
-        {
-          "id": "1:3882501420063929168",
-          "name": "id",
-          "type": 6,
-          "flags": 1
-        },
-        {
-          "id": "2:8609389426574520186",
-          "name": "create_time",
-          "type": 6
-        },
-        {
-          "id": "3:6123259185768945694",
-          "name": "update_time",
-          "type": 6
-        },
-        {
-          "id": "4:4537170438148575064",
-          "name": "resources_upload_id",
-          "indexId": "3:5191770911680992787",
-          "type": 9,
-          "flags": 2080
-        },
-        {
-          "id": "5:4740238713085358069",
-          "name": "submit_task_id",
-          "type": 9
-        },
-        {
-          "id": "6:8600177718137614680",
-          "name": "upload_url",
-          "type": 9
-        },
-        {
-          "id": "7:7866498176452698642",
-          "name": "wait_upload_path",
-          "type": 9
-        },
-        {
-          "id": "8:2897970353246857915",
-          "name": "media_type",
-          "type": 9
-        },
-        {
-          "id": "9:3299768727028829769",
-          "name": "uploadChannel",
-          "type": 5
-        }
-      ],
-      "relations": []
-    },
-    {
       "id": "4:7376154998138602146",
       "lastPropertyId": "6:6080900002515470426",
       "name": "h_t_customer",
@@ -251,20 +195,88 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "7:2295720323493687375",
+      "lastPropertyId": "9:6311604545863558767",
+      "name": "h_t_upload_queue_resources",
+      "properties": [
+        {
+          "id": "1:305853155257141829",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:6588507385400918805",
+          "name": "create_time",
+          "type": 6
+        },
+        {
+          "id": "3:6883253844188477071",
+          "name": "update_time",
+          "type": 6
+        },
+        {
+          "id": "4:7781980364924255850",
+          "name": "resources_upload_id",
+          "indexId": "9:3999672552690350148",
+          "type": 9,
+          "flags": 2080
+        },
+        {
+          "id": "5:110010120910579765",
+          "name": "submit_task_id",
+          "type": 9
+        },
+        {
+          "id": "6:5183322610856674819",
+          "name": "upload_url",
+          "type": 9
+        },
+        {
+          "id": "7:4947675277838835510",
+          "name": "wait_upload_path",
+          "type": 9
+        },
+        {
+          "id": "8:129224577812958480",
+          "name": "media_type",
+          "type": 9
+        },
+        {
+          "id": "9:6311604545863558767",
+          "name": "uploadChannel",
+          "type": 5
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "6:341021886639798867",
-  "lastIndexId": "8:6788774560344070187",
+  "lastEntityId": "7:2295720323493687375",
+  "lastIndexId": "9:3999672552690350148",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
   "modelVersion": 5,
   "modelVersionParserMinimum": 5,
-  "retiredEntityUids": [],
+  "retiredEntityUids": [
+    2609695920169403388
+  ],
   "retiredIndexUids": [
-    1410533711739487784
+    1410533711739487784,
+    5191770911680992787
   ],
   "retiredPropertyUids": [
-    3958911020968646947
+    3958911020968646947,
+    3882501420063929168,
+    8609389426574520186,
+    6123259185768945694,
+    4537170438148575064,
+    4740238713085358069,
+    8600177718137614680,
+    7866498176452698642,
+    2897970353246857915,
+    3299768727028829769
   ],
   "retiredRelationUids": [],
   "version": 1

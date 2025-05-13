@@ -162,5 +162,6 @@ dependencies {
     implementation(name: 'lib_watermark', ext: 'aar')
 
     implementation deps.emoji_ios
+    implementation deps.cameraview
 }
 
