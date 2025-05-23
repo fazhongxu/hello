@@ -35,7 +35,6 @@
             android:minHeight="32dp"
             android:paddingLeft="10dp"
             android:paddingRight="30dp"
-            app:rv_isRippleEnable="false"
             android:textSize="@dimen/resources_font_size_15"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -87,6 +86,7 @@
                 android:visibility="visible"
                 app:rv_backgroundColor="@color/resources_primary_color"
                 app:rv_isRadiusHalfHeight="true"
+                app:rv_isRippleEnable="true"
                 tools:visibility="gone" />
 
         </LinearLayout>
