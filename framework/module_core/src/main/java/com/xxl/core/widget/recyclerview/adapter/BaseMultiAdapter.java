@@ -72,16 +72,6 @@ public abstract class BaseMultiAdapter<T, L extends BaseRecycleItemListener> ext
     }
 
     /**
-     * 获取条目位置
-     *
-     * @param targetItemEntity
-     * @return
-     */
-    public int findItemPositon(T targetItemEntity) {
-        return getItemPosition(targetItemEntity);
-    }
-
-    /**
      * 移除条目
      *
      * @param targetItemEntity

@@ -70,6 +70,8 @@ public abstract class BaseItemDraggableBindingAdapter<T, L extends BaseRecycleIt
                                  @NonNull final T item);
 
 
+
+
     //endregion
 
 }

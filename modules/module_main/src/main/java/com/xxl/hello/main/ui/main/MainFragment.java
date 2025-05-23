@@ -12,10 +12,9 @@ import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
-import com.otaliastudios.cameraview.CameraListener;
-import com.otaliastudios.cameraview.CameraView;
 import com.tbruyelle.rxpermissions3.RxPermissions;
 import com.xxl.core.aop.annotation.Safe;
 import com.xxl.core.media.audio.AudioCapture;
@@ -35,6 +34,7 @@ import com.xxl.hello.main.BR;
 import com.xxl.hello.main.R;
 import com.xxl.hello.main.databinding.MainFragmentBinding;
 import com.xxl.hello.main.ui.main.adapter.OnTestRecycleItemListener;
+import com.xxl.hello.main.ui.main.adapter.TestBindingAdapter;
 import com.xxl.hello.main.ui.main.adapter.TestBindingRecycleItemListener;
 import com.xxl.hello.main.ui.main.adapter.TestListEntity;
 import com.xxl.hello.main.ui.main.adapter.multi.TestMultiAdapter;
@@ -218,7 +218,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     private void setupRecyclerView() {
         mViewDataBinding.rvList.addItemDecoration(DecorationUtils.createHorizontalDividerItemDecoration(ResourceUtils.getAttrColor(AppUtils.getTopActivity(), R.attr.h_common_divider_color), 10, 0));
         mViewDataBinding.refreshLayout.setRefreshDataListener(this);
-        mViewDataBinding.refreshLayout.bindRecyclerView(mViewDataBinding.rvList, mTestBindingAdapter, new GridLayoutManager(getActivity(), 3));
+        mViewDataBinding.refreshLayout.bindRecyclerView(mViewDataBinding.rvList, mTestBindingAdapter, new LinearLayoutManager(getActivity()));
         mViewDataBinding.refreshLayout.setPageSize(20);
         mTestBindingAdapter.setListener(this);
         mTestBindingAdapter.setDragItemEnable(true, R.id.tv_content, mViewDataBinding.rvList);
@@ -546,7 +546,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
         List<TestListEntity> entities = mTestBindingAdapter.getData();
         if (!ListUtils.isEmpty(entities)) {
             for (TestListEntity entity : entities) {
-                int position = mTestBindingAdapter.findItemPositon(entity);
+                int position = mTestBindingAdapter.getItemPosition(entity);
                 if (entity.getMediaType() == SystemEnumsApi.CircleMediaType.IMAGE) {
                     MediaPreviewItemEntity mediaPreviewItemEntity = MediaPreviewItemEntity.obtain()
                             .setMediaUrl(entity.getUrl());
@@ -560,7 +560,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
         WidgetRouterApi.MediaPreview.newBuilder()
                 .setMediaPreviewItemEntities(mediaPreviewItemEntities)
-                .setCurrentPosition(mTestBindingAdapter.findItemPositon(testListEntity))
+                .setCurrentPosition(mTestBindingAdapter.getItemPosition(testListEntity))
                 .navigation();
     }
 

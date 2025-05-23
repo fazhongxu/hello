@@ -174,4 +174,20 @@ public abstract class BaseItemDraggableAdapter<T, L extends BaseRecycleItemListe
 
     //endregion
 
+    //region: 提供方法
+
+    /**
+     * 通知数据更新
+     *
+     * @param position 数据更新
+     */
+    public void notifyDataChanged(int position) {
+        if (position >= 0) {
+            position = getHeaderLayoutCount() + position;
+            notifyItemChanged(position);
+        }
+    }
+
+    //endregion
+
 }
