@@ -12,6 +12,14 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 
 /**
+ * <pre>
+ *      如果出现有AndroiAspectJ aspectOf() NoSuchMethodException异常
+ *      添加这个方法
+ *      public static SafeAspect aspectOf(){
+ *          return new SafeAspect();
+ *      }
+ *      https://blog.csdn.net/jammychan/article/details/6859710
+ * </pre>
  *
  * @author xxl.
  * @date 2021/12/1.
