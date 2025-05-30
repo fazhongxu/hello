@@ -238,13 +238,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
     @Override
     public void onTestClick() {
-//        UserRouterApi.Login.newBuilder().navigation(getActivity());
-
-        String id = Settings.Secure.getString(
-                AppUtils.getApplication().getContentResolver(),
-                Settings.Secure.ANDROID_ID
-        );
-        Log.e("aaa", "onTestClick: " + DeviceUtils.getAndroidID());
+        UserRouterApi.Login.newBuilder().navigation(getActivity());
     }
 
     /**
