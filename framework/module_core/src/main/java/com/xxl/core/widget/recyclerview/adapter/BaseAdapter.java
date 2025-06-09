@@ -64,6 +64,18 @@ public abstract class BaseAdapter<T, L extends BaseRecycleItemListener, V extend
         }
     }
 
+    /**
+     * 通知数据更新
+     *
+     * @param item 数据
+     */
+    public void notifyDataChanged(T item) {
+        int position = getItemPosition(item);
+        if (position >= 0) {
+            notifyDataChanged(position);
+        }
+    }
+
     public void setListener(L listener) {
         mListener = listener;
     }

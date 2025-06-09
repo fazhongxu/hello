@@ -100,14 +100,10 @@ public class TestBindingAdapter extends BaseItemDraggableBindingAdapter<TestList
     public void selectItem(TestListEntity entity) {
         TestListEntity preSelectedItem = mSelectedItem;
         mSelectedItem = entity;
-        int position = getItemPosition(preSelectedItem);
-        if (position >= 0) {
-            notifyDataChanged(position);
+        if (preSelectedItem != null) {
+            notifyDataChanged(preSelectedItem);
         }
-        int position1 = getItemPosition(entity);
-        if (position1 >= 0) {
-            notifyDataChanged(position1);
-        }
+        notifyDataChanged(mSelectedItem);
     }
 
     /**
