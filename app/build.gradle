@@ -249,6 +249,7 @@ dependencies {
     implementation deps.vasdolly
 
     implementation deps.easy_protector
+    implementation deps.pickerview
 }
 
 apply plugin: 'io.objectbox'

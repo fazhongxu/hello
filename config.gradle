@@ -130,6 +130,7 @@ versions.emoji = "0.8.0"
 
 versions.easy_protector = "1.1.2"
 versions.cameraview = "2.7.2"
+versions.pickerview = "4.1.9"
 
 ext.versions = versions
 
@@ -420,6 +421,10 @@ deps.easy_protector = "com.lahm.library:easy-protector-release:$versions.easy_pr
 
 //https://github.com/natario1/CameraView
 deps.cameraview = "com.otaliastudios:cameraview:$versions.cameraview"
+
+//https://github.com/Bigkoo/Android-PickerView
+deps.pickerview = "com.contrarywind:Android-PickerView:$versions.pickerview"
+
 
 def origin = [:]
 // 是否使用远程依赖 true使用远程依赖（远程私服存储的aar依赖）
