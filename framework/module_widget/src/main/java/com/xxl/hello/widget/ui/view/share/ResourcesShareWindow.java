@@ -2,9 +2,6 @@ package com.xxl.hello.widget.ui.view.share;
 
 import android.view.Gravity;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.Transformation;
-import android.view.animation.TranslateAnimation;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,9 +19,6 @@ import com.xxl.kit.ViewUtils;
 import java.util.List;
 
 import razerdp.basepopup.BasePopupWindow;
-import razerdp.util.animation.AlphaConfig;
-import razerdp.util.animation.AnimationHelper;
-import razerdp.util.animation.TranslationConfig;
 
 /**
  * 资源分享弹窗
@@ -67,26 +61,6 @@ public class ResourcesShareWindow extends BasePopupWindow {
         return new ResourcesShareWindow(fragment);
     }
 
-    @Override
-    protected Animation onCreateShowAnimation() {
-        final Animation animation = AnimationHelper.asAnimation()
-                .withAlpha(AlphaConfig.IN)
-                .withTranslation(TranslationConfig.FROM_BOTTOM)
-                .toShow();
-        animation.setDuration(200);
-        return animation;
-    }
-
-
-    @Override
-    protected Animation onCreateDismissAnimation() {
-        final Animation animation = AnimationHelper.asAnimation()
-                .withAlpha(AlphaConfig.OUT)
-                .withTranslation(TranslationConfig.TO_BOTTOM)
-                .toShow();
-        animation.setDuration(200);
-        return animation;
-    }
     //endregion
 
     //region: 页面视图渲染

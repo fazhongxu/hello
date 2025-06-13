@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.GestureDetector;
-import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -67,8 +66,6 @@ import java.util.Locale;
 import javax.inject.Inject;
 
 import io.reactivex.rxjava3.disposables.Disposable;
-import razerdp.basepopup.BasePopupWindow;
-import razerdp.util.animation.TranslationConfig;
 
 /**
  * 用户设置页面
@@ -346,26 +343,11 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
      */
     @Override
     public void onUserAvatarClick() {
-//        MediaSelector.create(this)
-//                .openGallery(PictureMimeType.ofAll())
-//                .isEnableCrop(false)
-//                .freeStyleCropEnabled(true)
-//                .forResult();
-
-        ShareOperateItem shareOperateItem = ResourcesShareWindow.buildDownloadAction(new ShareOperateItem.OnItemHandle<Object>() {
-            @Override
-            public void onClick(Object targetItem) {
-
-            }
-        });
-        List<ShareOperateItem> list = new ArrayList<>();
-        list.add(shareOperateItem);
-        ResourcesShareWindow.from(this)
-                .addItems(list)
-                .setPopupGravity(Gravity.TOP)
-                .setAlignBackground(true)
-                .setAlignBackgroundGravity(Gravity.BOTTOM)
-                .showPopupWindow(mViewDataBinding.ivV);
+        MediaSelector.create(this)
+                .openGallery(PictureMimeType.ofAll())
+                .isEnableCrop(false)
+                .freeStyleCropEnabled(true)
+                .forResult();
     }
 
     /**
