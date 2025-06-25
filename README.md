@@ -82,6 +82,13 @@ uploadArchives {
 
  ./gradlew :app:dependencies | grep modules >app/modules_deps.txt
 
+ 编译太久gradle卡死，不需要重启电脑
+
+ 执行 ps aux |grep gradle 命令
+
+ 看到结果 xxl   11965 (进程ID，pid) 34.4 12.1 10377208 1012920   ??  Rs    5
+
+ 再运行 kill -9 11965 杀死 11965 进程 (-9 是强制杀死)
 
  命令签名
  方式一：
