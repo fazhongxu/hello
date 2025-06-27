@@ -1,4 +1,4 @@
-package com.xxl.core.image.thumbnail;
+package com.xxl.core.image.thumb;
 
 import android.text.TextUtils;
 
@@ -8,9 +8,9 @@ import androidx.annotation.NonNull;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import static com.xxl.core.image.thumbnail.ImageThumbnail.OriginalType.QINIU;
-import static com.xxl.core.image.thumbnail.ImageThumbnail.OriginalType.TENCENT;
-import static com.xxl.core.image.thumbnail.ImageThumbnail.OriginalType.UNKNOW;
+import static com.xxl.core.image.thumb.ImageThumb.OriginalType.QINIU;
+import static com.xxl.core.image.thumb.ImageThumb.OriginalType.TENCENT;
+import static com.xxl.core.image.thumb.ImageThumb.OriginalType.UNKNOW;
 
 /**
  * 缩略图
@@ -18,7 +18,7 @@ import static com.xxl.core.image.thumbnail.ImageThumbnail.OriginalType.UNKNOW;
  * @author xxl.
  * @date 2023/7/24.
  */
-public class ImageThumbnail {
+public class ImageThumb {
 
     /**
      * 默认缩略图宽度
@@ -40,13 +40,13 @@ public class ImageThumbnail {
      */
     private int mWidth = DEFAULT_THUMBNAIL_WIDTH;
 
-    private ImageThumbnail(@NonNull final String originalUrl) {
+    private ImageThumb(@NonNull final String originalUrl) {
         mOriginalUrl = originalUrl;
         mOriginalType = getOriginalType(originalUrl);
     }
 
-    public final static ImageThumbnail obtain(@NonNull final String originalUrl) {
-        return new ImageThumbnail(originalUrl);
+    public final static ImageThumb obtain(@NonNull final String originalUrl) {
+        return new ImageThumb(originalUrl);
     }
 
     /**
@@ -55,7 +55,7 @@ public class ImageThumbnail {
      * @param width
      * @return
      */
-    public ImageThumbnail setWidth(int width) {
+    public ImageThumb setWidth(int width) {
         mWidth = width;
         return this;
     }
