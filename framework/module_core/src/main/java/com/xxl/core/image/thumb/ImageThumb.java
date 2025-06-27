@@ -1,5 +1,9 @@
 package com.xxl.core.image.thumb;
 
+import static com.xxl.core.image.thumb.ImageThumb.OriginalType.QINIU;
+import static com.xxl.core.image.thumb.ImageThumb.OriginalType.TENCENT;
+import static com.xxl.core.image.thumb.ImageThumb.OriginalType.UNKNOW;
+
 import android.text.TextUtils;
 
 import androidx.annotation.IntDef;
@@ -7,10 +11,6 @@ import androidx.annotation.NonNull;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-
-import static com.xxl.core.image.thumb.ImageThumb.OriginalType.QINIU;
-import static com.xxl.core.image.thumb.ImageThumb.OriginalType.TENCENT;
-import static com.xxl.core.image.thumb.ImageThumb.OriginalType.UNKNOW;
 
 /**
  * 缩略图
@@ -83,7 +83,14 @@ public class ImageThumb {
      * @return
      */
     private String buildQiNiuUrl() {
-        return "";
+        if (TextUtils.isEmpty(mOriginalUrl)) {
+            return "";
+        }
+        if (!mOriginalUrl.contains("?")) {
+            mOriginalUrl.concat("?");
+        }
+        return mOriginalUrl.concat("&from=qiniu")
+                .concat("&width=" + mWidth);
     }
 
     /**
@@ -92,7 +99,14 @@ public class ImageThumb {
      * @return
      */
     private String buildTencentUrl() {
-        return "";
+        if (TextUtils.isEmpty(mOriginalUrl)) {
+            return "";
+        }
+        if (!mOriginalUrl.contains("?")) {
+            mOriginalUrl.concat("?");
+        }
+        return mOriginalUrl.concat("&from=tencent")
+                .concat("&width=" + mWidth);
     }
 
     /**
