@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.github.florent37.viewanimator.ViewAnimator;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.xxl.core.image.selector.MediaSelector;
 import com.xxl.core.ui.fragment.BaseViewModelFragment;
@@ -20,11 +21,14 @@ import com.xxl.hello.widget.BR;
 import com.xxl.hello.widget.R;
 import com.xxl.hello.widget.databinding.WidgetFragmentChatSessionBinding;
 import com.xxl.hello.widget.ui.im.message.session.base.adapter.ChatSessionAdapter;
+import com.xxl.hello.widget.ui.im.message.session.base.adapter.ChatSessionRecycleItemListener;
 import com.xxl.hello.widget.ui.view.keyboard.CommonKeyboardLayout;
 import com.xxl.hello.widget.ui.view.keyboard.OnCommonKeyboardListener;
 import com.xxl.hello.widget.ui.view.plugin.impl.AlbumPlugin.AlbumPluginObservable;
 import com.xxl.kit.ListUtils;
+import com.xxl.kit.LogUtils;
 import com.xxl.kit.MimeType;
+import com.xxl.kit.VibrateUtils;
 
 import java.util.List;
 import java.util.Random;
@@ -38,8 +42,7 @@ import javax.inject.Inject;
  * @date 2024/6/14.
  */
 public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel<N>, N extends BaseChatSessionNavigator> extends BaseViewModelFragment<V, WidgetFragmentChatSessionBinding>
-        implements OnRefreshDataListener, OnCommonKeyboardListener,
-        AlbumPluginObservable {
+        implements OnRefreshDataListener, OnCommonKeyboardListener, ChatSessionRecycleItemListener, AlbumPluginObservable {
 
     //region: 成员变量
 
@@ -99,6 +102,7 @@ public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel
     protected void setupChatRecyclerView() {
         UISmartRefreshLayout refreshLayout = mChatSessionBinding.refreshLayout;
         RecyclerView recyclerView = mChatSessionBinding.rvList;
+        mChatSessionAdapter.setListener(this);
         refreshLayout.setRefreshDataListener(this);
         refreshLayout.bindRecyclerView(recyclerView, mChatSessionAdapter);
         CommonKeyboardLayout commonKeyboard = mChatSessionBinding.commonKeyboard;
@@ -145,11 +149,64 @@ public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel
         SDKMessage sdkMessage = SDKMessage.obtain()
                 .setTextContent(content);
         MessageEntity messageEntity = MessageEntity.obtain(sdkMessage);
-        messageEntity.setMessageType(1);
+        messageEntity.setMessageType(MessageType.TEXT);
         messageEntity.setMessageDirection(new Random().nextInt(10) % 3 == 0 ? MessageDirection.LEFT : MessageDirection.RIGHT);
         mChatSessionAdapter.addData(messageEntity);
 
         scrollToLastPosition();
+    }
+
+    //endregion
+
+    //region: ChatSessionRecycleItemListener
+
+    /**
+     * 头像点击
+     *
+     * @param targetView
+     * @param targetUserId
+     * @param targetNickname
+     */
+    @Override
+    public void onAvatarClick(@NonNull View targetView,
+                              @NonNull String targetUserId,
+                              @NonNull String targetNickname) {
+
+    }
+
+    /**
+     * 头像双击
+     *
+     * @param targetView
+     * @param targetUserId
+     * @param targetNickname
+     */
+    @Override
+    public void onAvatarDoubleClick(@NonNull View targetView,
+                                    @NonNull String targetUserId,
+                                    @NonNull String targetNickname) {
+        LogUtils.d("双击头像 " + targetNickname);
+        VibrateUtils.vibrate();
+        ViewAnimator.animate(targetView)
+                .rotation(0, 6, -6, 4, -4, 2, -2, 0)
+                .duration(800)
+                .pivotX(targetView.getWidth() / 2F)
+                .pivotY(targetView.getHeight() / 2F + 40)
+                .start();
+    }
+
+    /**
+     * 头像长按
+     *
+     * @param targetView
+     * @param targetUserId
+     * @param targetNickname
+     */
+    @Override
+    public boolean onAvatarLongClick(@NonNull View targetView,
+                                     @NonNull String targetUserId,
+                                     @NonNull String targetNickname) {
+        return false;
     }
 
     //endregion

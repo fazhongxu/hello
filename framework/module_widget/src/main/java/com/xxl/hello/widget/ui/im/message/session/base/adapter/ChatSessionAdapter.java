@@ -1,5 +1,8 @@
 package com.xxl.hello.widget.ui.im.message.session.base.adapter;
 
+import android.annotation.SuppressLint;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -107,6 +110,51 @@ public class ChatSessionAdapter extends BaseBindingAdapter<MessageEntity, ChatSe
             itemBinding.tvLeftNickname.setVisibility(View.INVISIBLE);
             itemBinding.tvRightNickname.setVisibility(View.VISIBLE);
         }
+        setUserAvatarListener(itemBinding.ivLeftAvatar,itemEntity);
+        setUserAvatarListener(itemBinding.ivRightAvatar,itemEntity);
+    }
+
+    /**
+     * 设置头像事件监听
+     *
+     * @param targetView
+     * @param itemEntity
+     */
+    @SuppressLint("ClickableViewAccessibility")
+    private void setUserAvatarListener(@NonNull View targetView,
+                                       @NonNull MessageEntity itemEntity) {
+        GestureDetector gestureDetector = new GestureDetector(getContext(), new GestureDetector.SimpleOnGestureListener() {
+
+            @Override
+            public boolean onSingleTapConfirmed(MotionEvent e) {
+                if (mListener != null) {
+                    mListener.onAvatarClick(targetView,itemEntity.getSenderId(),itemEntity.getSenderNickname());
+                }
+                return true;
+            }
+
+            @Override
+            public boolean onDoubleTap(MotionEvent e) {
+                if (mListener != null) {
+                    mListener.onAvatarDoubleClick(targetView,itemEntity.getSenderId(),itemEntity.getSenderNickname());
+                }
+                return true;
+            }
+
+            @Override
+            public void onLongPress(MotionEvent e) {
+                if (mListener != null) {
+                    mListener.onAvatarLongClick(targetView,itemEntity.getSenderId(),itemEntity.getSenderNickname());
+                }
+            }
+        });
+        targetView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                gestureDetector.onTouchEvent(event);
+                return true;
+            }
+        });
     }
 
     //endregion
