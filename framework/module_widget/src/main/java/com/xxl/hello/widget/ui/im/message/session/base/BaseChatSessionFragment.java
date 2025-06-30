@@ -1,5 +1,6 @@
 package com.xxl.hello.widget.ui.im.message.session.base;
 
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.view.View;
 
@@ -7,7 +8,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.github.florent37.viewanimator.ViewAnimator;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.xxl.core.image.selector.MediaSelector;
 import com.xxl.core.ui.fragment.BaseViewModelFragment;
@@ -187,12 +187,11 @@ public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel
                                     @NonNull String targetNickname) {
         LogUtils.d("双击头像 " + targetNickname);
         VibrateUtils.vibrate();
-        ViewAnimator.animate(targetView)
-                .rotation(0, 6, -6, 4, -4, 2, -2, 0)
-                .duration(800)
-                .pivotX(targetView.getWidth() / 2F)
-                .pivotY(targetView.getHeight() / 2F + 40)
-                .start();
+        ObjectAnimator animator = ObjectAnimator.ofFloat(targetView, "rotation", 0, 6, -6, 4, -4, 2, -2, 0);
+        targetView.setPivotX(targetView.getWidth() / 2F);
+        targetView.setPivotY(targetView.getHeight() / 2F + 40);
+        animator.setDuration(800);
+        animator.start();
     }
 
     /**
