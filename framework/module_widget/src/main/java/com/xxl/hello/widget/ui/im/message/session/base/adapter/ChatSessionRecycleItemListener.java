@@ -5,6 +5,8 @@ import android.view.View;
 import androidx.annotation.NonNull;
 
 import com.xxl.core.widget.recyclerview.adapter.BaseRecycleItemListener;
+import com.xxl.hello.service.data.model.entity.im.MessageEntity;
+import com.xxl.hello.service.data.model.enums.ChatEnumsApi.MenuOperateType;
 
 /**
  * 会话条目监听
@@ -46,5 +48,15 @@ public interface ChatSessionRecycleItemListener extends BaseRecycleItemListener 
     boolean onAvatarLongClick(@NonNull View targetView,
                               @NonNull String targetUserId,
                               @NonNull String targetNickname);
+
+
+    /**
+     * 消息菜单条目
+     *
+     * @param operateType
+     * @param messageEntity
+     */
+    void onMessageMenuItemClick(@MenuOperateType String operateType,
+                                @NonNull MessageEntity messageEntity);
 
 }

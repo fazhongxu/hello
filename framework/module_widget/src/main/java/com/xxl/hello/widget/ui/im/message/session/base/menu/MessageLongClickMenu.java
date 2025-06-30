@@ -8,6 +8,9 @@ import androidx.databinding.DataBindingUtil;
 
 import com.cpiz.android.bubbleview.BubblePopupWindow;
 import com.cpiz.android.bubbleview.BubbleStyle;
+import com.xxl.core.widget.recyclerview.adapter.BaseRecycleItemListener;
+import com.xxl.hello.service.data.model.entity.im.MessageEntity;
+import com.xxl.hello.service.data.model.enums.ChatEnumsApi;
 import com.xxl.hello.widget.R;
 import com.xxl.hello.widget.databinding.WidgetWindowLayoutMessageLongClickMenuBinding;
 import com.xxl.hello.widget.ui.im.message.session.base.actions.MessageLongClickAction;
@@ -38,6 +41,8 @@ public class MessageLongClickMenu {
      * 菜单弹窗
      */
     private BubblePopupWindow mBubblePopupWindow;
+
+    private OnMenuItemClickListener mMenuItemClickListener;
 
     //endregion
 
@@ -88,12 +93,35 @@ public class MessageLongClickMenu {
     }
 
     /**
+     * 设置菜单条目点击
+     */
+    public MessageLongClickMenu setOnMenuItemClickListener(@NonNull OnMenuItemClickListener listener) {
+        mMenuItemClickListener = listener;
+        return this;
+    }
+
+    /**
      * 显示
      */
     public void show() {
         if (mBubblePopupWindow != null) {
             mBubblePopupWindow.showArrowTo(mAnchorView, BubbleStyle.ArrowDirection.Up);
         }
+    }
+
+    //endregion
+
+    //region: OnMenuItemClickListener
+
+    public interface OnMenuItemClickListener extends BaseRecycleItemListener {
+
+        /**
+         * 菜单操作条目点击
+         *
+         * @param operateType
+         * @param messageEntity
+         */
+        void onMessageMenuItemClick(@ChatEnumsApi.MenuOperateType String operateType, MessageEntity messageEntity);
     }
 
     //endregion

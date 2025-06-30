@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 
 import com.xxl.hello.service.data.model.entity.im.MessageEntity;
 import com.xxl.hello.service.data.model.entity.im.MessageType;
+import com.xxl.hello.service.data.model.enums.ChatEnumsApi.MenuOperateType;
 import com.xxl.hello.service.data.model.enums.ChatEnumsApi.SceneType;
 import com.xxl.hello.widget.R;
 import com.xxl.kit.StringUtils;
@@ -66,7 +67,7 @@ public class MessageLongClickActionManager {
      * @return
      */
     private MessageLongClickAction buildCopyAction() {
-        return MessageLongClickAction.obtain(StringUtils.getString(R.string.resources_menu_copy), R.drawable.resources_ic_menu_copy)
+        return MessageLongClickAction.obtain(StringUtils.getString(R.string.resources_menu_copy), R.drawable.resources_ic_menu_copy, MenuOperateType.COPY)
                 .setFilter(new MessageLongClickAction.Filter() {
                     @Override
                     public boolean filter(@SceneType int sceneType, MessageEntity messageEntity) {
@@ -81,7 +82,7 @@ public class MessageLongClickActionManager {
      * @return
      */
     private MessageLongClickAction buildEmojAction() {
-        return MessageLongClickAction.obtain(StringUtils.getString(R.string.resources_menu_emoj), R.drawable.resources_ic_menu_emoji)
+        return MessageLongClickAction.obtain(StringUtils.getString(R.string.resources_menu_emoj), R.drawable.resources_ic_menu_emoji,MenuOperateType.ADD_EMOTION)
                 .setFilter(new MessageLongClickAction.Filter() {
                     @Override
                     public boolean filter(@SceneType int sceneType, MessageEntity messageEntity) {
@@ -96,7 +97,7 @@ public class MessageLongClickActionManager {
      * @return
      */
     private MessageLongClickAction buildShareAction() {
-        return MessageLongClickAction.obtain(StringUtils.getString(R.string.resources_menu_share), R.drawable.resources_ic_menu_share)
+        return MessageLongClickAction.obtain(StringUtils.getString(R.string.resources_menu_share), R.drawable.resources_ic_menu_share,MenuOperateType.SHARE)
                 .setFilter(new MessageLongClickAction.Filter() {
                     @Override
                     public boolean filter(@SceneType int sceneType, MessageEntity messageEntity) {
@@ -106,12 +107,12 @@ public class MessageLongClickActionManager {
     }
 
     /**
-     * 分享
+     * 删除
      *
      * @return
      */
     private MessageLongClickAction buildDeleteAction() {
-        return MessageLongClickAction.obtain(StringUtils.getString(R.string.resources_menu_delete), R.drawable.resources_ic_menu_delete)
+        return MessageLongClickAction.obtain(StringUtils.getString(R.string.resources_menu_delete), R.drawable.resources_ic_menu_delete,MenuOperateType.DELETE)
                 .setFilter(new MessageLongClickAction.Filter() {
                     @Override
                     public boolean filter(@SceneType int sceneType, MessageEntity messageEntity) {
@@ -126,7 +127,7 @@ public class MessageLongClickActionManager {
      * @return
      */
     private MessageLongClickAction buildFavoriteAction() {
-        return MessageLongClickAction.obtain(StringUtils.getString(R.string.resources_menu_favorite), R.drawable.resources_ic_menu_favorite)
+        return MessageLongClickAction.obtain(StringUtils.getString(R.string.resources_menu_favorite), R.drawable.resources_ic_menu_favorite,MenuOperateType.FAVORITE)
                 .setFilter(new MessageLongClickAction.Filter() {
                     @Override
                     public boolean filter(@SceneType int sceneType, MessageEntity messageEntity) {
@@ -142,15 +143,15 @@ public class MessageLongClickActionManager {
     /**
      * 获取操作集合
      *
-     * @param scenceType
+     * @param sceneType
      * @param messageEntity
      * @return
      */
-    public List<MessageLongClickAction> getActions(@SceneType int scenceType,
+    public List<MessageLongClickAction> getActions(@SceneType int sceneType,
                                                    @NonNull MessageEntity messageEntity) {
         List<MessageLongClickAction> actions = new ArrayList<>();
         for (MessageLongClickAction action : mActions) {
-            if (action.filter(scenceType,messageEntity)) {
+            if (action.filter(sceneType,messageEntity)) {
                 actions.add(action);
             }
         }

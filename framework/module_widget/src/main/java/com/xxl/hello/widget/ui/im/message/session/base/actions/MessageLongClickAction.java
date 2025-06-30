@@ -27,6 +27,11 @@ public class MessageLongClickAction {
     private int mIconRes;
 
     /**
+     * 标识
+     */
+    private String mTag;
+
+    /**
      * 过滤器
      */
     private Filter mFilter;
@@ -36,14 +41,17 @@ public class MessageLongClickAction {
     //region: 构造函数
 
     private MessageLongClickAction(@NonNull CharSequence title,
-                                   @DrawableRes int iconRes) {
+                                   @DrawableRes int iconRes,
+                                   @NonNull String tag) {
         mTitle = title;
         mIconRes = iconRes;
+        mTag = tag;
     }
 
     public final static MessageLongClickAction obtain(@NonNull CharSequence title,
-                                                      @DrawableRes int iconRes) {
-        return new MessageLongClickAction(title, iconRes);
+                                                      @DrawableRes int iconRes,
+                                                      @NonNull String tag) {
+        return new MessageLongClickAction(title, iconRes,tag);
     }
 
     //endregion
@@ -66,6 +74,15 @@ public class MessageLongClickAction {
      */
     public int getIconRes() {
         return mIconRes;
+    }
+
+    /**
+     * 获取标识
+     *
+     * @return
+     */
+    public String getTag() {
+        return mTag;
     }
 
     /**

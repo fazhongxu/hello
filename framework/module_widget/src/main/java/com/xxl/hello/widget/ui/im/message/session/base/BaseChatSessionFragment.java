@@ -17,11 +17,16 @@ import com.xxl.hello.service.data.model.entity.im.MessageDirection;
 import com.xxl.hello.service.data.model.entity.im.MessageEntity;
 import com.xxl.hello.service.data.model.entity.im.MessageType;
 import com.xxl.hello.service.data.model.entity.im.SDKMessage;
+import com.xxl.hello.service.data.model.enums.ChatEnumsApi.MenuOperateType;
 import com.xxl.hello.widget.BR;
 import com.xxl.hello.widget.R;
 import com.xxl.hello.widget.databinding.WidgetFragmentChatSessionBinding;
 import com.xxl.hello.widget.ui.im.message.session.base.adapter.ChatSessionAdapter;
 import com.xxl.hello.widget.ui.im.message.session.base.adapter.ChatSessionRecycleItemListener;
+import com.xxl.hello.widget.ui.im.message.session.base.menu.OnCopyOperate;
+import com.xxl.hello.widget.ui.im.message.session.base.menu.OnDeleteOperate;
+import com.xxl.hello.widget.ui.im.message.session.base.menu.OnMenuItemOperate;
+import com.xxl.hello.widget.ui.im.message.session.base.menu.OnShareOperate;
 import com.xxl.hello.widget.ui.view.keyboard.CommonKeyboardLayout;
 import com.xxl.hello.widget.ui.view.keyboard.OnCommonKeyboardListener;
 import com.xxl.hello.widget.ui.view.plugin.impl.AlbumPlugin.AlbumPluginObservable;
@@ -30,6 +35,7 @@ import com.xxl.kit.LogUtils;
 import com.xxl.kit.MimeType;
 import com.xxl.kit.VibrateUtils;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -94,6 +100,7 @@ public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel
     protected void setupLayout(@NonNull View rootView) {
         mChatSessionBinding = getViewDataBinding();
         setupChatRecyclerView();
+        setupMenu();
     }
 
     /**
@@ -109,6 +116,17 @@ public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel
         commonKeyboard.setOnCommentKeyboardListener(this);
         commonKeyboard.init(getActivity(), refreshLayout);
         commonKeyboard.show(null);
+    }
+
+    private LinkedHashMap<String, OnMenuItemOperate> mMenuOperates = new LinkedHashMap<>();
+
+    /**
+     * 设置菜单
+     */
+    protected void setupMenu() {
+        mMenuOperates.put(MenuOperateType.COPY, new OnCopyOperate());
+        mMenuOperates.put(MenuOperateType.SHARE, new OnShareOperate());
+        mMenuOperates.put(MenuOperateType.DELETE, new OnDeleteOperate());
     }
 
     //endregion
@@ -206,6 +224,22 @@ public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel
                                      @NonNull String targetUserId,
                                      @NonNull String targetNickname) {
         return false;
+    }
+
+    /**
+     * 消息菜单条目
+     *
+     * @param operateType
+     * @param messageEntity
+     */
+    @Override
+    public void onMessageMenuItemClick(@MenuOperateType String operateType,
+                                       @NonNull MessageEntity messageEntity) {
+
+        OnMenuItemOperate onMenuItemOperate = mMenuOperates.get(operateType);
+        if (onMenuItemOperate != null) {
+            onMenuItemOperate.handle(this, messageEntity);
+        }
     }
 
     //endregion

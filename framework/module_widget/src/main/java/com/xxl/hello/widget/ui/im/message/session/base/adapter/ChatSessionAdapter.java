@@ -189,9 +189,14 @@ public class ChatSessionAdapter extends BaseBindingAdapter<MessageEntity, ChatSe
     public boolean onMessageItemLongClick(View targetView,
                                           MessageEntity messageEntity) {
         List<MessageLongClickAction> actions = MessageLongClickActionManager.getInstance().getActions(SceneType.CHAT, messageEntity);
-        if (!ListUtils.isEmpty(actions)){
+        if (!ListUtils.isEmpty(actions)) {
             mMessageLongClickMenu = MessageLongClickMenu.from(targetView)
-                    .setItems(actions);
+                    .setItems(actions)
+                    .setOnMenuItemClickListener((operateType, messageEntity1) -> {
+                        if (mListener != null) {
+                            mListener.onMessageMenuItemClick(operateType, messageEntity1);
+                        }
+                    });
             mMessageLongClickMenu.show();
         }
         return false;

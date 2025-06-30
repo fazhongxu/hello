@@ -2,8 +2,6 @@ package com.xxl.hello.widget.ui.im.template;
 
 import android.view.View;
 
-import androidx.annotation.NonNull;
-
 import com.xxl.hello.service.data.model.entity.im.MessageEntity;
 
 /**
