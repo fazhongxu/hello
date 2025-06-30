@@ -74,11 +74,15 @@ public class ImageMessageTemplateProvider extends MessageTemplateProvider {
         imageBinding.ivImage.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
+                if (listener != null && listener.onMessageItemLongClick(imageBinding.llItemContainer,messageEntity)) {
+                    return true;
+                }
                 ClipboardUtils.copyText(messageEntity.getMediaPath());
                 ToastUtils.success(R.string.resources_copied).show();
                 return true;
             }
         });
+
     }
 
     //endregion

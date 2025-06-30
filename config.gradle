@@ -90,6 +90,7 @@ versions.pinned_decoration = "1.3.2-androidx"
 versions.refresh_layout = "2.0.5"
 
 versions.base_popup = "3.2.0"
+versions.bubble_view = "1.0.2"
 
 versions.jsbridge = "1.0.4"
 versions.agentweb = "v5.0.0-alpha.1-androidx"
@@ -309,6 +310,9 @@ deps.refresh_header_material = "io.github.scwang90:refresh-header-material:$vers
 
 // BasePopup https://github.com/razerdp/BasePopup
 deps.base_popup = "io.github.razerdp:BasePopup:$versions.base_popup"
+
+// BubbleView https://github.com/cpiz/BubbleView
+deps.bubble_view = "com.cpiz.bubbleview:bubbleview:$versions.bubble_view"
 
 //jsbridge https://github.com/lzyzsd/JsBridge
 deps.jsbridge = "com.github.lzyzsd:jsbridge:$versions.jsbridge"

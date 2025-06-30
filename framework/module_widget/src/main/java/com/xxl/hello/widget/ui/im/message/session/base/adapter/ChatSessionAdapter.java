@@ -11,12 +11,19 @@ import com.xxl.core.widget.recyclerview.adapter.BaseBindingAdapter;
 import com.xxl.hello.service.data.model.entity.im.MessageDirection;
 import com.xxl.hello.service.data.model.entity.im.MessageEntity;
 import com.xxl.hello.service.data.model.entity.im.MessageTemplate;
+import com.xxl.hello.service.data.model.enums.ChatEnumsApi.SceneType;
 import com.xxl.hello.widget.R;
 import com.xxl.hello.widget.data.router.WidgetRouterApi;
 import com.xxl.hello.widget.databinding.WidgetRecycleItemChatSessionBinding;
+import com.xxl.hello.widget.ui.im.message.session.base.actions.MessageLongClickAction;
+import com.xxl.hello.widget.ui.im.message.session.base.actions.MessageLongClickActionManager;
+import com.xxl.hello.widget.ui.im.message.session.base.menu.MessageLongClickMenu;
 import com.xxl.hello.widget.ui.im.template.MessageTemplateWrapper;
 import com.xxl.hello.widget.ui.im.template.OnMessageTemplateListener;
+import com.xxl.kit.ListUtils;
 import com.xxl.kit.ToastUtils;
+
+import java.util.List;
 
 /**
  * 会话列表适配器
@@ -110,8 +117,8 @@ public class ChatSessionAdapter extends BaseBindingAdapter<MessageEntity, ChatSe
             itemBinding.tvLeftNickname.setVisibility(View.INVISIBLE);
             itemBinding.tvRightNickname.setVisibility(View.VISIBLE);
         }
-        setUserAvatarListener(itemBinding.ivLeftAvatar,itemEntity);
-        setUserAvatarListener(itemBinding.ivRightAvatar,itemEntity);
+        setUserAvatarListener(itemBinding.ivLeftAvatar, itemEntity);
+        setUserAvatarListener(itemBinding.ivRightAvatar, itemEntity);
     }
 
     /**
@@ -128,7 +135,7 @@ public class ChatSessionAdapter extends BaseBindingAdapter<MessageEntity, ChatSe
             @Override
             public boolean onSingleTapConfirmed(MotionEvent e) {
                 if (mListener != null) {
-                    mListener.onAvatarClick(targetView,itemEntity.getSenderId(),itemEntity.getSenderNickname());
+                    mListener.onAvatarClick(targetView, itemEntity.getSenderId(), itemEntity.getSenderNickname());
                 }
                 return true;
             }
@@ -136,7 +143,7 @@ public class ChatSessionAdapter extends BaseBindingAdapter<MessageEntity, ChatSe
             @Override
             public boolean onDoubleTap(MotionEvent e) {
                 if (mListener != null) {
-                    mListener.onAvatarDoubleClick(targetView,itemEntity.getSenderId(),itemEntity.getSenderNickname());
+                    mListener.onAvatarDoubleClick(targetView, itemEntity.getSenderId(), itemEntity.getSenderNickname());
                 }
                 return true;
             }
@@ -144,7 +151,7 @@ public class ChatSessionAdapter extends BaseBindingAdapter<MessageEntity, ChatSe
             @Override
             public void onLongPress(MotionEvent e) {
                 if (mListener != null) {
-                    mListener.onAvatarLongClick(targetView,itemEntity.getSenderId(),itemEntity.getSenderNickname());
+                    mListener.onAvatarLongClick(targetView, itemEntity.getSenderId(), itemEntity.getSenderNickname());
                 }
             }
         });
@@ -172,6 +179,20 @@ public class ChatSessionAdapter extends BaseBindingAdapter<MessageEntity, ChatSe
         if (messageEntity.getMessageType() == 1) {
             ToastUtils.success(messageEntity.getMessageText()).show();
             return true;
+        }
+        return false;
+    }
+
+    private MessageLongClickMenu mMessageLongClickMenu;
+
+    @Override
+    public boolean onMessageItemLongClick(View targetView,
+                                          MessageEntity messageEntity) {
+        List<MessageLongClickAction> actions = MessageLongClickActionManager.getInstance().getActions(SceneType.CHAT, messageEntity);
+        if (!ListUtils.isEmpty(actions)){
+            mMessageLongClickMenu = MessageLongClickMenu.from(targetView)
+                    .setItems(actions);
+            mMessageLongClickMenu.show();
         }
         return false;
     }

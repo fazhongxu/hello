@@ -123,6 +123,7 @@ dependencies {
     kapt deps.aria.aira_processor
 
     implementation deps.base_popup
+    implementation deps.bubble_view
 
     implementation deps.agentweb
     implementation deps.jsoup

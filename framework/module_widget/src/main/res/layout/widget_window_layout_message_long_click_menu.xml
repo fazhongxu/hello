@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <com.cpiz.android.bubbleview.BubbleLinearLayout
+        android:id="@+id/ll_bubble_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:paddingLeft="6dp"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
+        android:paddingRight="6dp"
+        android:textColor="@android:color/white"
+        app:bb_cornerRadius="4dp">
+
+        <TextView
+            android:id="@+id/tv_items"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:textSize="15sp"
+            tools:text="删除 长按" />
+
+    </com.cpiz.android.bubbleview.BubbleLinearLayout>
+</layout>
