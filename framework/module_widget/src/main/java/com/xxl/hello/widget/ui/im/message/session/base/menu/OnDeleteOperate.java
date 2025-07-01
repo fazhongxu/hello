@@ -1,9 +1,9 @@
 package com.xxl.hello.widget.ui.im.message.session.base.menu;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 
 import com.xxl.hello.service.data.model.entity.im.MessageEntity;
+import com.xxl.hello.widget.ui.im.message.session.base.BaseChatSessionFragment;
 
 /**
  * 删除
@@ -11,7 +11,7 @@ import com.xxl.hello.service.data.model.entity.im.MessageEntity;
  * @author xxl.
  * @date 2025/6/30.
  */
-public class OnDeleteOperate implements OnMenuItemOperate{
+public class OnDeleteOperate implements OnMenuItemOperate<BaseChatSessionFragment>{
 
     /**
      * 点击操作
@@ -20,8 +20,8 @@ public class OnDeleteOperate implements OnMenuItemOperate{
      * @param messageEntity
      */
     @Override
-    public void handle(@NonNull Fragment fragment,
+    public void handle(@NonNull BaseChatSessionFragment fragment,
                        @NonNull MessageEntity messageEntity) {
-        // TODO: 2025/6/30
+        fragment.onMessageDeleteClick(messageEntity);
     }
 }

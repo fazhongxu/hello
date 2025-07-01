@@ -270,6 +270,15 @@ public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel
         }
     }
 
+    /**
+     * 消息删除
+     *
+     * @param messageEntity
+     */
+    public void onMessageDeleteClick(MessageEntity messageEntity) {
+        mChatSessionAdapter.remove(messageEntity);
+    }
+
     //endregion
 
 }

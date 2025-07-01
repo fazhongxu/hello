@@ -70,7 +70,6 @@ public class ImageMessageTemplateProvider extends MessageTemplateProvider {
                 return;
             }
         });
-        // TODO: 2025/3/13 长按事件
         imageBinding.ivImage.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {

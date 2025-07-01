@@ -1,9 +1,13 @@
 package com.xxl.hello.widget.ui.im.message.session.base.menu;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 
 import com.xxl.hello.service.data.model.entity.im.MessageEntity;
+import com.xxl.hello.service.data.model.entity.im.MessageType;
+import com.xxl.hello.widget.R;
+import com.xxl.hello.widget.ui.im.message.session.base.BaseChatSessionFragment;
+import com.xxl.kit.ClipboardUtils;
+import com.xxl.kit.ToastUtils;
 
 /**
  * 分享
@@ -11,7 +15,7 @@ import com.xxl.hello.service.data.model.entity.im.MessageEntity;
  * @author xxl.
  * @date 2025/6/30.
  */
-public class OnShareOperate implements OnMenuItemOperate{
+public class OnShareOperate implements OnMenuItemOperate<BaseChatSessionFragment> {
 
     /**
      * 点击操作
@@ -20,8 +24,16 @@ public class OnShareOperate implements OnMenuItemOperate{
      * @param messageEntity
      */
     @Override
-    public void handle(@NonNull Fragment fragment,
+    public void handle(@NonNull BaseChatSessionFragment fragment,
                        @NonNull MessageEntity messageEntity) {
-        // TODO: 2025/6/30
+        if (messageEntity.getMessageType() == MessageType.IMAGE
+                || messageEntity.getMessageType() == MessageType.VIDEO) {
+            ClipboardUtils.copyText(messageEntity.getMediaPath());
+            ToastUtils.success(R.string.resources_path_copied).show();
+        }else if (messageEntity.getMessageType() == MessageType.TEXT) {
+            ClipboardUtils.copyText(messageEntity.getMessageText());
+            ToastUtils.success(R.string.resources_copied).show();
+        }
+
     }
 }

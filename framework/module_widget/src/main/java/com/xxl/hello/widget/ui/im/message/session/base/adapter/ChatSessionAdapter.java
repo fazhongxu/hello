@@ -192,12 +192,13 @@ public class ChatSessionAdapter extends BaseBindingAdapter<MessageEntity, ChatSe
         if (!ListUtils.isEmpty(actions)) {
             mMessageLongClickMenu = MessageLongClickMenu.from(targetView)
                     .setItems(actions)
-                    .setOnMenuItemClickListener((operateType, messageEntity1) -> {
+                    .setOnMenuItemClickListener(action -> {
                         if (mListener != null) {
-                            mListener.onMessageMenuItemClick(operateType, messageEntity1);
+                            mListener.onMessageMenuItemClick(action.getTag(), messageEntity);
                         }
                     });
             mMessageLongClickMenu.show();
+            return true;
         }
         return false;
     }

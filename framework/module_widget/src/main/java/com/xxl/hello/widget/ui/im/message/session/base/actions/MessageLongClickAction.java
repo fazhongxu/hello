@@ -4,6 +4,7 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 
 import com.xxl.hello.service.data.model.entity.im.MessageEntity;
+import com.xxl.hello.service.data.model.enums.ChatEnumsApi.MenuOperateType;
 import com.xxl.hello.service.data.model.enums.ChatEnumsApi.SceneType;
 
 /**
@@ -81,6 +82,7 @@ public class MessageLongClickAction {
      *
      * @return
      */
+    @MenuOperateType
     public String getTag() {
         return mTag;
     }

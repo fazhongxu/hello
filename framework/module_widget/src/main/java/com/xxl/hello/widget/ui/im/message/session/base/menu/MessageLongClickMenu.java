@@ -5,16 +5,18 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.cpiz.android.bubbleview.BubblePopupWindow;
 import com.cpiz.android.bubbleview.BubbleStyle;
+import com.xxl.core.widget.recyclerview.adapter.BaseBindingAdapter;
 import com.xxl.core.widget.recyclerview.adapter.BaseRecycleItemListener;
-import com.xxl.hello.service.data.model.entity.im.MessageEntity;
-import com.xxl.hello.service.data.model.enums.ChatEnumsApi;
 import com.xxl.hello.widget.R;
+import com.xxl.hello.widget.databinding.WidgetRecycleItemMessageLongClickMenuBinding;
 import com.xxl.hello.widget.databinding.WidgetWindowLayoutMessageLongClickMenuBinding;
 import com.xxl.hello.widget.ui.im.message.session.base.actions.MessageLongClickAction;
 import com.xxl.kit.DisplayUtils;
+import com.xxl.kit.ListUtils;
 
 import java.util.List;
 
@@ -37,6 +39,13 @@ public class MessageLongClickMenu {
      * 菜单视图
      */
     private WidgetWindowLayoutMessageLongClickMenuBinding mMenuBinding;
+
+    /**
+     * 菜单适配器
+     */
+    private MenuAdapter mMenuAdapter;
+
+    private GridLayoutManager mGridLayoutManager;
 
     /**
      * 菜单弹窗
@@ -68,8 +77,37 @@ public class MessageLongClickMenu {
     private void setupLayout() {
         View contentView = LayoutInflater.from(mAnchorView.getContext()).inflate(R.layout.widget_window_layout_message_long_click_menu, null);
         mMenuBinding = DataBindingUtil.bind(contentView);
+        mMenuAdapter = new MenuAdapter();
+        mMenuAdapter.setListener(action -> {
+            if (mMenuItemClickListener != null) {
+                mMenuItemClickListener.onMessageMenuItemClick(action);
+            }
+            if (mBubblePopupWindow != null) {
+                mBubblePopupWindow.dismiss();
+            }
+        });
+        mMenuBinding.rvList.setAdapter(mMenuAdapter);
         mBubblePopupWindow = new BubblePopupWindow(contentView, mMenuBinding.llBubbleLayout);
         mBubblePopupWindow.setOutsideTouchable(true);
+    }
+
+    private class MenuAdapter extends BaseBindingAdapter<MessageLongClickAction, OnMenuItemClickListener, WidgetRecycleItemMessageLongClickMenuBinding> {
+
+        public MenuAdapter() {
+            super(R.layout.widget_recycle_item_message_long_click_menu);
+        }
+
+        @Override
+        public void convert(@NonNull WidgetRecycleItemMessageLongClickMenuBinding binding,
+                            @NonNull MessageLongClickAction item) {
+            binding.tvItem.setText(item.getTitle());
+            binding.tvItem.setOnClickListener(v -> {
+                if (mListener != null) {
+                    mListener.onMessageMenuItemClick(item);
+                }
+            });
+            binding.executePendingBindings();
+        }
     }
 
     //endregion
@@ -83,13 +121,9 @@ public class MessageLongClickMenu {
      * @return
      */
     public MessageLongClickMenu setItems(@NonNull List<MessageLongClickAction> actions) {
-        // TODO: 2025/6/30  后面换成真正的rv显示和操作
-        StringBuilder items = new StringBuilder();
-        for (MessageLongClickAction action : actions) {
-            items.append(action.getTitle())
-                    .append(" ");
-        }
-        mMenuBinding.tvItems.setText(items);
+        mGridLayoutManager = new GridLayoutManager(mAnchorView.getContext(), Math.min(ListUtils.getSize(actions),5));
+        mMenuBinding.rvList.setLayoutManager(mGridLayoutManager);
+        mMenuAdapter.setNewInstance(actions);
         return this;
     }
 
@@ -119,10 +153,9 @@ public class MessageLongClickMenu {
         /**
          * 菜单操作条目点击
          *
-         * @param operateType
-         * @param messageEntity
+         * @param action
          */
-        void onMessageMenuItemClick(@ChatEnumsApi.MenuOperateType String operateType, MessageEntity messageEntity);
+        void onMessageMenuItemClick(@NonNull MessageLongClickAction action);
     }
 
     //endregion

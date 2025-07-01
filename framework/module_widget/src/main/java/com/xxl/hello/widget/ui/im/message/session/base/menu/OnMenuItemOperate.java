@@ -1,9 +1,9 @@
 package com.xxl.hello.widget.ui.im.message.session.base.menu;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 
 import com.xxl.hello.service.data.model.entity.im.MessageEntity;
+import com.xxl.hello.widget.ui.im.message.session.base.BaseChatSessionFragment;
 
 /**
  * 菜单item点击操作
@@ -11,7 +11,7 @@ import com.xxl.hello.service.data.model.entity.im.MessageEntity;
  * @author xxl.
  * @date 2025/6/30.
  */
-public interface OnMenuItemOperate {
+public interface OnMenuItemOperate<F extends BaseChatSessionFragment> {
 
     /**
      * 点击操作
@@ -19,7 +19,7 @@ public interface OnMenuItemOperate {
      * @param fragment
      * @param messageEntity
      */
-    void handle(@NonNull Fragment fragment,
+    void handle(@NonNull F fragment,
                 @NonNull MessageEntity messageEntity);
 
 }
