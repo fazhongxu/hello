@@ -14,6 +14,7 @@ import com.xxl.hello.service.data.model.enums.ChatEnumsApi;
 import com.xxl.hello.widget.R;
 import com.xxl.hello.widget.databinding.WidgetWindowLayoutMessageLongClickMenuBinding;
 import com.xxl.hello.widget.ui.im.message.session.base.actions.MessageLongClickAction;
+import com.xxl.kit.DisplayUtils;
 
 import java.util.List;
 
@@ -105,7 +106,7 @@ public class MessageLongClickMenu {
      */
     public void show() {
         if (mBubblePopupWindow != null) {
-            mBubblePopupWindow.showArrowTo(mAnchorView, BubbleStyle.ArrowDirection.Up);
+            mBubblePopupWindow.showArrowTo(mAnchorView, BubbleStyle.ArrowDirection.Down, DisplayUtils.dp2px(4));
         }
     }
 
