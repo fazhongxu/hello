@@ -30,11 +30,11 @@ import com.xxl.hello.widget.ui.im.message.session.base.menu.OnShareOperate;
 import com.xxl.hello.widget.ui.view.keyboard.CommonKeyboardLayout;
 import com.xxl.hello.widget.ui.view.keyboard.OnCommonKeyboardListener;
 import com.xxl.hello.widget.ui.view.plugin.impl.AlbumPlugin.AlbumPluginObservable;
-import com.xxl.kit.ListUtils;
 import com.xxl.kit.LogUtils;
 import com.xxl.kit.MimeType;
 import com.xxl.kit.VibrateUtils;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Random;
@@ -248,12 +248,18 @@ public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel
 
     @Override
     public void handleAlbumPluginResult(final List<LocalMedia> targetMedias) {
-        SDKMessage sdkMessage = SDKMessage.obtain()
-                .setMediaPath(MediaSelector.getMediaPath(ListUtils.getFirst(targetMedias)));
-        MessageEntity messageEntity = MessageEntity.obtain(sdkMessage);
-        messageEntity.setMessageType(MimeType.isVideo(ListUtils.getFirst(targetMedias).getMimeType()) ? MessageType.VIDEO : MessageType.IMAGE);
-        messageEntity.setMessageDirection(new Random().nextInt(10) % 3 == 0 ? MessageDirection.LEFT : MessageDirection.RIGHT);
-        mChatSessionAdapter.addData(messageEntity);
+        List<MessageEntity> messageEntities = new ArrayList<>();
+        int randomDirection = new Random().nextInt(10) % 3 == 0 ? MessageDirection.LEFT : MessageDirection.RIGHT;
+        for (LocalMedia targetMedia : targetMedias) {
+            SDKMessage sdkMessage = SDKMessage.obtain()
+                    .setMediaPath(MediaSelector.getMediaPath(targetMedia));
+            MessageEntity messageEntity = MessageEntity.obtain(sdkMessage);
+            messageEntity.setMessageType(MimeType.isVideo(targetMedia.getMimeType()) ? MessageType.VIDEO : MessageType.IMAGE);
+            messageEntity.setMessageDirection(randomDirection);
+            messageEntities.add(messageEntity);
+        }
+        mChatSessionAdapter.addData(messageEntities);
+        mChatSessionBinding.commonKeyboard.hideExtendLayout();
         scrollToLastPosition();
     }
 

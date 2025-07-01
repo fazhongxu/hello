@@ -203,6 +203,15 @@ public class EmotionKeyboard {
         return false;
     }
 
+    public void hideExtendLayout() {
+        if (mExtendLayout == null) {
+            return;
+        }
+        if (mExtendLayout.getVisibility() == View.VISIBLE) {
+            mExtendLayout.setVisibility(View.GONE);
+        }
+    }
+
     /**
      * 显示指定布局
      *
