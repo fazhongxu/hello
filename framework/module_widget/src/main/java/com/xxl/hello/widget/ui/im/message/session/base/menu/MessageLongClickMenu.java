@@ -11,6 +11,7 @@ import com.cpiz.android.bubbleview.BubblePopupWindow;
 import com.cpiz.android.bubbleview.BubbleStyle;
 import com.xxl.core.widget.recyclerview.adapter.BaseBindingAdapter;
 import com.xxl.core.widget.recyclerview.adapter.BaseRecycleItemListener;
+import com.xxl.core.widget.recyclerview.decoration.SpaceItemDecoration;
 import com.xxl.hello.widget.R;
 import com.xxl.hello.widget.databinding.WidgetRecycleItemMessageLongClickMenuBinding;
 import com.xxl.hello.widget.databinding.WidgetWindowLayoutMessageLongClickMenuBinding;
@@ -53,6 +54,7 @@ public class MessageLongClickMenu {
     private BubblePopupWindow mBubblePopupWindow;
 
     private OnMenuItemClickListener mMenuItemClickListener;
+    private SpaceItemDecoration mSpaceItemDecoration;
 
     //endregion
 
@@ -121,8 +123,12 @@ public class MessageLongClickMenu {
      * @return
      */
     public MessageLongClickMenu setItems(@NonNull List<MessageLongClickAction> actions) {
-        mGridLayoutManager = new GridLayoutManager(mAnchorView.getContext(), Math.min(ListUtils.getSize(actions),5));
+        int spanCount = Math.min(ListUtils.getSize(actions), 5);
+        mGridLayoutManager = new GridLayoutManager(mAnchorView.getContext(), spanCount);
         mMenuBinding.rvList.setLayoutManager(mGridLayoutManager);
+        mMenuBinding.rvList.removeItemDecoration(mSpaceItemDecoration);
+        mSpaceItemDecoration = new SpaceItemDecoration(DisplayUtils.dp2px(5), DisplayUtils.dp2px(5), spanCount, true);
+        mMenuBinding.rvList.addItemDecoration(mSpaceItemDecoration);
         mMenuAdapter.setNewInstance(actions);
         return this;
     }

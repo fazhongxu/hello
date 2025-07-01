@@ -55,7 +55,7 @@ public class MessageLongClickActionManager {
     private void initActions() {
         mActions = new ArrayList<>();
         mActions.add(buildCopyAction());
-        mActions.add(buildEmojAction());
+        mActions.add(buildEditAction());
         mActions.add(buildShareAction());
         mActions.add(buildDeleteAction());
         mActions.add(buildFavoriteAction());
@@ -77,12 +77,12 @@ public class MessageLongClickActionManager {
     }
 
     /**
-     * 添加表情
+     * 编辑
      *
      * @return
      */
-    private MessageLongClickAction buildEmojAction() {
-        return MessageLongClickAction.obtain(StringUtils.getString(R.string.resources_menu_emoj), R.drawable.resources_ic_menu_emoji,MenuOperateType.ADD_EMOTION)
+    private MessageLongClickAction buildEditAction() {
+        return MessageLongClickAction.obtain(StringUtils.getString(R.string.resources_menu_edit), R.drawable.resources_ic_menu_edit,MenuOperateType.EDIT)
                 .setFilter(new MessageLongClickAction.Filter() {
                     @Override
                     public boolean filter(@SceneType int sceneType, MessageEntity messageEntity) {

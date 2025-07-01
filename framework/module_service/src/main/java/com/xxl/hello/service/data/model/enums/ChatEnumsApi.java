@@ -42,7 +42,7 @@ public class ChatEnumsApi {
     //region: 消息菜单操作类型
 
     @StringDef({MenuOperateType.COPY,
-            MenuOperateType.ADD_EMOTION,
+            MenuOperateType.EDIT,
             MenuOperateType.SHARE,
             MenuOperateType.DELETE,
             MenuOperateType.FAVORITE,
@@ -56,9 +56,9 @@ public class ChatEnumsApi {
         String COPY = "copy";
 
         /**
-         * 添加表情
+         * 编辑
          */
-        String ADD_EMOTION = "add_emotion";
+        String EDIT = "edit";
 
         /**
          * 分享
