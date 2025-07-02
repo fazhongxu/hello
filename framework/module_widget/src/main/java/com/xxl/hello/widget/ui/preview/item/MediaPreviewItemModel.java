@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 
 import androidx.annotation.NonNull;
 
+import com.bumptech.glide.request.target.Target;
 import com.watermark.androidwm.WatermarkBuilder;
 import com.watermark.androidwm.bean.WatermarkImage;
 import com.watermark.androidwm.bean.WatermarkLocation;
@@ -85,6 +86,7 @@ public class MediaPreviewItemModel extends BaseViewModel<MediaPreviewItemNavigat
             final Bitmap backgroundBitmap = ImageLoader.with(AppUtils.getApplication())
                     .asBitmap()
                     .load(originImagePath)
+                    .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
                     .submit()
                     .get();
 
@@ -102,7 +104,7 @@ public class MediaPreviewItemModel extends BaseViewModel<MediaPreviewItemNavigat
 
             watermarkImage.setPosition(watermarkPosition);
 
-            targetBitmap = WatermarkBuilder.create(AppUtils.getApplication(), backgroundBitmap)
+            targetBitmap = WatermarkBuilder.create(AppUtils.getApplication(), backgroundBitmap,false)
                     .loadWatermarkImage(watermarkImage)
                     .setTileMode(false)
                     .setSpacing(DisplayUtils.dp2px(AppUtils.getApplication(),10))
