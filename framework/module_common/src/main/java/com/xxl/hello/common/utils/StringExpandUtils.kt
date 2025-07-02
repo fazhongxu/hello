@@ -13,6 +13,7 @@ import com.xxl.hello.common.R
 import com.xxl.kit.AppUtils
 import com.xxl.kit.ResourceUtils
 import com.xxl.kit.StringUtils
+import java.net.URL
 
 /**
  * 字符串处理扩展工具类
@@ -30,10 +31,13 @@ class StringExpandUtils private constructor() {
          * @param content 内容
          * @param keyword 关键字
          */
-        fun buildHighlightPrimaryColor(content: String,
-                                       keyword: String): Spannable {
+        fun buildHighlightPrimaryColor(
+            content: String,
+            keyword: String
+        ): Spannable {
             val spannable: Spannable = SpannableString(content)
-            val highlightColor = ResourceUtils.getAttrColor(AppUtils.getTopActivity(), R.attr.h_common_primary_color)
+            val highlightColor =
+                ResourceUtils.getAttrColor(AppUtils.getTopActivity(), R.attr.h_common_primary_color)
             StringUtils.setHighlightColor(spannable, keyword, highlightColor)
             return spannable
         }
@@ -44,10 +48,13 @@ class StringExpandUtils private constructor() {
          * @param content 内容
          * @param keyword 关键字
          */
-        fun buildHighlightPrimaryColor(content: Spannable?,
-                                       keyword: String?): Spannable? {
+        fun buildHighlightPrimaryColor(
+            content: Spannable?,
+            keyword: String?
+        ): Spannable? {
             val spannable: Spannable = SpannableString(content)
-            val highlightColor = ResourceUtils.getAttrColor(AppUtils.getTopActivity(), R.attr.h_common_primary_color)
+            val highlightColor =
+                ResourceUtils.getAttrColor(AppUtils.getTopActivity(), R.attr.h_common_primary_color)
             StringUtils.setHighlightColorId(spannable, keyword, highlightColor)
             return spannable
         }
@@ -60,15 +67,18 @@ class StringExpandUtils private constructor() {
          * @param listener
          * @return
          */
-        fun buildTouchableSpan(content: String,
-                               keyword: String,
-                               @ColorInt normalTextColor: Int,
-                               @ColorInt pressedTextColor: Int,
-                               listener: View.OnClickListener): Spannable? {
+        fun buildTouchableSpan(
+            content: String,
+            keyword: String,
+            @ColorInt normalTextColor: Int,
+            @ColorInt pressedTextColor: Int,
+            listener: View.OnClickListener
+        ): Spannable? {
             val start: Int = content.indexOf(keyword)
             val end = start + keyword.length
             val spannableString = SpannableString(content)
-            val touchableSpan = buildTouchableSpan(normalTextColor, pressedTextColor, Color.TRANSPARENT, listener)
+            val touchableSpan =
+                buildTouchableSpan(normalTextColor, pressedTextColor, Color.TRANSPARENT, listener)
             spannableString.setSpan(touchableSpan, start, end, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
             return spannableString
         }
@@ -81,10 +91,17 @@ class StringExpandUtils private constructor() {
          * @param listener
          * @return
          */
-        fun buildTouchableSpan(@ColorInt normalTextColor: Int,
-                               @ColorInt pressedTextColor: Int,
-                               listener: View.OnClickListener): TouchableSpan? {
-            return buildTouchableSpan(normalTextColor, pressedTextColor, Color.TRANSPARENT, listener)
+        fun buildTouchableSpan(
+            @ColorInt normalTextColor: Int,
+            @ColorInt pressedTextColor: Int,
+            listener: View.OnClickListener
+        ): TouchableSpan? {
+            return buildTouchableSpan(
+                normalTextColor,
+                pressedTextColor,
+                Color.TRANSPARENT,
+                listener
+            )
         }
 
         /**
@@ -96,11 +113,19 @@ class StringExpandUtils private constructor() {
          * @param listener
          * @return
          */
-        fun buildTouchableSpan(@ColorInt normalTextColor: Int,
-                               @ColorInt pressedTextColor: Int,
-                               @ColorInt pressedBackgroundColor: Int,
-                               listener: View.OnClickListener): TouchableSpan {
-            return buildTouchableSpan(normalTextColor, pressedTextColor, Color.TRANSPARENT, pressedBackgroundColor, listener)
+        fun buildTouchableSpan(
+            @ColorInt normalTextColor: Int,
+            @ColorInt pressedTextColor: Int,
+            @ColorInt pressedBackgroundColor: Int,
+            listener: View.OnClickListener
+        ): TouchableSpan {
+            return buildTouchableSpan(
+                normalTextColor,
+                pressedTextColor,
+                Color.TRANSPARENT,
+                pressedBackgroundColor,
+                listener
+            )
         }
 
         /**
@@ -113,16 +138,38 @@ class StringExpandUtils private constructor() {
          * @param listener
          * @return
          */
-        fun buildTouchableSpan(@ColorInt normalTextColor: Int,
-                               @ColorInt pressedTextColor: Int,
-                               @ColorInt normalBackgroundColor: Int,
-                               @ColorInt pressedBackgroundColor: Int,
-                               listener: View.OnClickListener): TouchableSpan {
-            return object : TouchableSpan(normalTextColor, pressedTextColor, normalBackgroundColor, pressedBackgroundColor) {
+        fun buildTouchableSpan(
+            @ColorInt normalTextColor: Int,
+            @ColorInt pressedTextColor: Int,
+            @ColorInt normalBackgroundColor: Int,
+            @ColorInt pressedBackgroundColor: Int,
+            listener: View.OnClickListener
+        ): TouchableSpan {
+            return object : TouchableSpan(
+                normalTextColor,
+                pressedTextColor,
+                normalBackgroundColor,
+                pressedBackgroundColor
+            ) {
                 override fun onSpanClick(view: View) {
                     listener.onClick(view)
                 }
             }
+        }
+
+        /**
+         * 获取链接里的domain
+         * https://www.baidu.com/s?uid=1212&type=3&audio_id=1200
+         * 返回 https://www.baidu.com/
+         */
+        fun getUrlDomain(targetUrl: String?): String? {
+            try {
+                val url = URL(targetUrl)
+                return url.protocol + "://" + url.host
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+            return null
         }
 
         /**
