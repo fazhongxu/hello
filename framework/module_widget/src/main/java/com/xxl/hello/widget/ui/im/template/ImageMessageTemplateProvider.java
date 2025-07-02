@@ -136,7 +136,7 @@ public class ImageMessageTemplateProvider extends MessageTemplateProvider {
                                 targetHeight = PREVIEW_MAX_HEIGHT;
                                 targetWidth = width * targetHeight / height;
                             }
-                            if (targetWidth < PREVIEW_DEFAULT_WIDTH) {// 缩放后如果宽度过小，需要调宽，高度裁剪掉
+                            if (targetWidth < PREVIEW_DEFAULT_WIDTH) {// 缩放后如果宽度过小，需要调宽，高度裁剪掉 不加这个就类似adjustViewBounds
                                 targetWidth = PREVIEW_DEFAULT_WIDTH;
                                 targetHeight = targetWidth * height / width;//按比例缩放后的高
                                 targetHeight = Math.min(targetHeight, PREVIEW_MAX_HEIGHT);
