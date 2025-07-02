@@ -82,7 +82,7 @@ public class ImageMessageTemplateProvider extends MessageTemplateProvider {
                          @Nullable OnMessageTemplateListener listener) {
         WidgetRecycleItemMessageImageBinding imageBinding = DataBindingUtil.bind(rootView);
 
-        setupImageLayout(imageBinding, messageEntity);
+        setupImageView(imageBinding, messageEntity);
 
         imageBinding.ivImage.setOnClickListener(v -> {
             if (listener != null && listener.onMessageItemClick(messageEntity)) {
@@ -113,7 +113,7 @@ public class ImageMessageTemplateProvider extends MessageTemplateProvider {
      * @param imageBinding
      * @param messageEntity
      */
-    private void setupImageLayout(WidgetRecycleItemMessageImageBinding imageBinding,
+    protected void setupImageView(WidgetRecycleItemMessageImageBinding imageBinding,
                                   MessageEntity messageEntity) {
         ImageLoader.with(imageBinding.ivImage)
                 .asBitmap()
@@ -121,32 +121,8 @@ public class ImageMessageTemplateProvider extends MessageTemplateProvider {
                 .into(new CustomTarget<Bitmap>() {
                     @Override
                     public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                        int width = resource.getWidth();
-                        int height = resource.getHeight();
-                        int targetWidth;
-                        int targetHeight;
-                        if (width == 0 || height == 0) {
-                            targetWidth = PREVIEW_DEFAULT_WIDTH;
-                            targetHeight = PREVIEW_DEFAULT_WIDTH;
-                        } else {
-                            if (width > height) {// 按比例缩放
-                                targetWidth = PREVIEW_MAX_WIDTH;
-                                targetHeight = targetWidth * height / width;
-                            } else {
-                                targetHeight = PREVIEW_MAX_HEIGHT;
-                                targetWidth = width * targetHeight / height;
-                            }
-                            if (targetWidth < PREVIEW_DEFAULT_WIDTH) {// 缩放后如果宽度过小，需要调宽，高度裁剪掉 不加这个就类似adjustViewBounds
-                                targetWidth = PREVIEW_DEFAULT_WIDTH;
-                                targetHeight = targetWidth * height / width;//按比例缩放后的高
-                                targetHeight = Math.min(targetHeight, PREVIEW_MAX_HEIGHT);
-                            }
-                        }
-                        ViewGroup.LayoutParams layoutParams = imageBinding.ivImage.getLayoutParams();
-                        layoutParams.width = targetWidth;
-                        layoutParams.height = targetHeight;
-                        imageBinding.ivImage.setLayoutParams(layoutParams);
                         imageBinding.ivImage.setImageBitmap(resource);
+                        adjustViewBounds(imageBinding.ivImage, resource.getWidth(), resource.getHeight());
                     }
 
                     @Override
@@ -154,6 +130,39 @@ public class ImageMessageTemplateProvider extends MessageTemplateProvider {
 
                     }
                 });
+    }
+
+    /**
+     * 动态调整view的大小
+     *
+     * @param targetView
+     * @param width
+     * @param height
+     */
+    protected void adjustViewBounds(View targetView, int width, int height) {
+        int targetWidth;
+        int targetHeight;
+        if (width == 0 || height == 0) {
+            targetWidth = PREVIEW_DEFAULT_WIDTH;
+            targetHeight = PREVIEW_DEFAULT_WIDTH;
+        } else {
+            if (width > height) {// 按比例缩放
+                targetWidth = PREVIEW_MAX_WIDTH;
+                targetHeight = targetWidth * height / width;
+            } else {
+                targetHeight = PREVIEW_MAX_HEIGHT;
+                targetWidth = width * targetHeight / height;
+            }
+            if (targetWidth < PREVIEW_DEFAULT_WIDTH) {// 缩放后如果宽度过小，需要调宽，高度裁剪掉 不加这个就类似adjustViewBounds
+                targetWidth = PREVIEW_DEFAULT_WIDTH;
+                targetHeight = targetWidth * height / width;//按比例缩放后的高
+                targetHeight = Math.min(targetHeight, PREVIEW_MAX_HEIGHT);
+            }
+        }
+        ViewGroup.LayoutParams layoutParams = targetView.getLayoutParams();
+        layoutParams.width = targetWidth;
+        layoutParams.height = targetHeight;
+        targetView.setLayoutParams(layoutParams);
     }
 
     //endregion
