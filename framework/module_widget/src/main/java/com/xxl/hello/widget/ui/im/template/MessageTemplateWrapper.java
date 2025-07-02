@@ -21,7 +21,7 @@ public class MessageTemplateWrapper {
 
     private static final LinkedHashMap<String, MessageTemplateProvider> sMessageTemplateProviderMap = new LinkedHashMap<>();
 
-    private static final LinkedHashMap<String, MessageTemplate> sMessageTemplaterMap = new LinkedHashMap<>();
+    private static final LinkedHashMap<String, MessageTemplate> sMessageTemplateMap = new LinkedHashMap<>();
 
     static {
         registerMessageTemplate(TextMessageTemplateProvider.obtain());
@@ -40,7 +40,7 @@ public class MessageTemplateWrapper {
             throw new RuntimeException("MessageTemplate missing '@MessageTemplate' annotation !");
         }
         sMessageTemplateProviderMap.put(template.templateType(), provider);
-        sMessageTemplaterMap.put(template.templateType(), template);
+        sMessageTemplateMap.put(template.templateType(), template);
     }
 
     /**
@@ -60,7 +60,7 @@ public class MessageTemplateWrapper {
      * @return
      */
     public static MessageTemplate getMessageTemplateAnnotation(@NonNull String templateType) {
-        return sMessageTemplaterMap.get(templateType);
+        return sMessageTemplateMap.get(templateType);
     }
 
     /**
