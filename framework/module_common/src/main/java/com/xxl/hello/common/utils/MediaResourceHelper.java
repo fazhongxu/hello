@@ -1,68 +1,46 @@
-//package com.xxl.hello.common.utils;
-//
-//import android.app.Activity;
-//import android.content.Intent;
-//import android.net.Uri;
-//import android.os.Bundle;
-//import android.text.TextUtils;
-//
-//import androidx.annotation.NonNull;
-//
-//import com.edujia.aop.annotation.Safe;
-//import com.edujia.services.base.data.enums.MediaShareEnums;
-//import com.edujia.services.base.data.model.entity.media_share.MediaShareResourceEntity;
-//import com.edujia.utils.FileUtils;
-//import com.edujia.utils.ListUtils;
-//import com.edujia.utils.PathUtils;
-//import com.edujia.utils.StringUtils;
-//import com.edujia.utils.ToastUtils;
-//import com.edujia.wm.main.R;
-//import com.xxl.kit.StringUtils;
-//
-//import java.util.ArrayList;
-//import java.util.List;
-//
-///**
-// * 媒体资源辅助类
-// *
-// * @author xxl.
-// * @date 2019/08/20.
-// */
-//public class MediaResourceHelper {
-//    //region : 成员变量
-//
-//    /**
-//     * 最大选择数量
-//     */
-//    private static final int MAX_DATA = 9;
-//
-//    //endregion
-//
-//    //region : 构造方法
-//
-//    private MediaResourceHelper() {
-//
-//    }
-//
-//    //endregion
-//
-//    //region : 构建单例
-//
-//    private static class Holder {
-//        private static final MediaResourceHelper INSTANCE = new MediaResourceHelper();
-//    }
-//
-//    /**
-//     * 获取单例对象
-//     *
-//     * @return
-//     */
-//    public static MediaResourceHelper getInstance() {
-//        return Holder.INSTANCE;
-//    }
-//
-//    //endregion
-//
+package com.xxl.hello.common.utils;
+
+/**
+ * 媒体资源辅助类
+ *
+ * @author xxl.
+ * @date 2019/08/20.
+ */
+public class MediaResourceHelper {
+    //region : 成员变量
+
+    /**
+     * 最大选择数量
+     */
+    private static final int MAX_DATA = 9;
+
+    //endregion
+
+    //region : 构造方法
+
+    private MediaResourceHelper() {
+
+    }
+
+    //endregion
+
+    //region : 构建单例
+
+    private static class Holder {
+        private static final MediaResourceHelper INSTANCE = new MediaResourceHelper();
+    }
+
+    /**
+     * 获取单例对象
+     *
+     * @return
+     */
+    public static MediaResourceHelper getInstance() {
+        return Holder.INSTANCE;
+    }
+
+    //endregion
+
 //    //region : 获取外部应用分享进入的多媒体数据
 //
 //    /**
@@ -229,5 +207,5 @@
 //            return MediaShareEnums.Type.APPLICATION;
 //        }
 //    }
-//    //endregion
-//}
+    //endregion
+}
