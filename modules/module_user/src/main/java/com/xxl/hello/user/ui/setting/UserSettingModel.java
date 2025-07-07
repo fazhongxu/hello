@@ -13,7 +13,8 @@ import com.luck.picture.lib.entity.LocalMedia;
 import com.xxl.core.image.selector.MediaSelector;
 import com.xxl.core.listener.OnResourcesCompressListener;
 import com.xxl.hello.common.config.CacheDirConfig;
-import com.xxl.hello.service.data.local.db.entity.ResourcesUploadQueueDBEntity;
+import com.xxl.hello.service.data.local.db.entity.SubmitQueueResourceDBEntity;
+import com.xxl.hello.service.data.local.db.entity.UploadQueueResourceDBEntity;
 import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi.ResourcesUploadChannel;
@@ -108,14 +109,16 @@ public class UserSettingModel extends BaseResourceQueueViewModel<UserSettingNavi
         if (ListUtils.isEmpty(targetMedias)) {
             return;
         }
-        final List<ResourcesUploadQueueDBEntity> targetResourcesUploadQueueDBEntities = new ArrayList<>();
+        final List<UploadQueueResourceDBEntity> targetResourcesUploadQueueDBEntities = new ArrayList<>();
         for (LocalMedia localMedia : targetMedias) {
-            final ResourcesUploadQueueDBEntity resourcesUploadQueueDBEntity = new ResourcesUploadQueueDBEntity();
-            resourcesUploadQueueDBEntity.setSubmitTaskId(getTaskId())
+            final UploadQueueResourceDBEntity uploadQueueResourceDBEntity = new UploadQueueResourceDBEntity();
+            uploadQueueResourceDBEntity
+                    .setResourcesUploadId(String.valueOf(localMedia.getId()))
+                    .setSubmitTaskId(getTaskId())
                     .setWaitUploadUrl(PathUtils.getFilePathByUri(Uri.parse(localMedia.isCut() ? localMedia.getCutPath() : localMedia.getPath())))
                     .setMediaType(MediaSelector.isVideo(localMedia.getMimeType()) ? SystemEnumsApi.MediaType.VIDEO : SystemEnumsApi.MediaType.IMAGE)
                     .setUploadChannel(ResourcesUploadChannel.QI_NIU);
-            targetResourcesUploadQueueDBEntities.add(resourcesUploadQueueDBEntity);
+            targetResourcesUploadQueueDBEntities.add(uploadQueueResourceDBEntity);
         }
         requestPutResourcesUploadQueueDBEntities(targetResourcesUploadQueueDBEntities);
     }
@@ -125,7 +128,7 @@ public class UserSettingModel extends BaseResourceQueueViewModel<UserSettingNavi
      *
      * @param resourcesUploadQueueDBEntities
      */
-    public void requestPutResourcesUploadQueueDBEntities(@NonNull final List<ResourcesUploadQueueDBEntity> resourcesUploadQueueDBEntities) {
+    public void requestPutResourcesUploadQueueDBEntities(@NonNull final List<UploadQueueResourceDBEntity> resourcesUploadQueueDBEntities) {
         final ResourceRepositoryApi resourceRepositoryApi = getDataRepositoryKit().getResourceRepositoryApi();
         final Disposable disposable = resourceRepositoryApi.putResourcesUploadQueueDBEntities(resourcesUploadQueueDBEntities)
                 .compose(applySchedulers())
@@ -138,6 +141,17 @@ public class UserSettingModel extends BaseResourceQueueViewModel<UserSettingNavi
         addCompositeDisposable(disposable);
     }
 
+    /**
+     * 请求添加资源到提交队列
+     *
+     * @param submitQueueResourceDBEntity
+     * @param resourceUploadIds
+     */
+    public void requestPutResource2SubmitQueue(@NonNull SubmitQueueResourceDBEntity submitQueueResourceDBEntity,
+                                               @NonNull List<String> resourceUploadIds) {
+        // TODO: 2025/5/7
+    }
+
     void requestUploadUserAvatars(@NonNull List<String> imagePaths) {
         OnRequestCallBack<Boolean> onRequestCallBack = new OnRequestCallBack<Boolean>() {
             @Override
@@ -145,7 +159,7 @@ public class UserSettingModel extends BaseResourceQueueViewModel<UserSettingNavi
 
             }
         };
-        handleUploadUserAvatars(imagePaths, 0,onRequestCallBack);
+        handleUploadUserAvatars(imagePaths, 0, onRequestCallBack);
     }
 
     void handleUploadUserAvatars(@NonNull List<String> imagePaths,

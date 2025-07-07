@@ -81,7 +81,7 @@ public class MessageEntity {
             return MessageTemplateType.TEXT;
         } else if (mMessageType == MessageType.IMAGE) {
             return MessageTemplateType.IMAGE;
-        }else if (mMessageType == MessageType.VIDEO) {
+        } else if (mMessageType == MessageType.VIDEO) {
             return MessageTemplateType.VIDEO;
         }
         return MessageTemplateType.UNKNOW;
@@ -95,6 +95,24 @@ public class MessageEntity {
     @MessageDirection
     public int getMessageDirection() {
         return mMessageDirection;
+    }
+
+    /**
+     * 获取消息发送人ID
+     *
+     * @return
+     */
+    public String getSenderId() {
+        return "";
+    }
+
+    /**
+     * 获取消息发送人昵称
+     *
+     * @return
+     */
+    public String getSenderNickname() {
+        return "";
     }
 
     /**

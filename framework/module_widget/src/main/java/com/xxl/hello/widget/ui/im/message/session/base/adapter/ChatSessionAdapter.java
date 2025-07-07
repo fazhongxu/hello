@@ -1,5 +1,8 @@
 package com.xxl.hello.widget.ui.im.message.session.base.adapter;
 
+import android.annotation.SuppressLint;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -8,16 +11,23 @@ import com.xxl.core.widget.recyclerview.adapter.BaseBindingAdapter;
 import com.xxl.hello.service.data.model.entity.im.MessageDirection;
 import com.xxl.hello.service.data.model.entity.im.MessageEntity;
 import com.xxl.hello.service.data.model.entity.im.MessageTemplate;
+import com.xxl.hello.service.data.model.enums.ChatEnumsApi.SceneType;
 import com.xxl.hello.widget.R;
 import com.xxl.hello.widget.data.router.WidgetRouterApi;
 import com.xxl.hello.widget.databinding.WidgetRecycleItemChatSessionBinding;
+import com.xxl.hello.widget.ui.im.message.session.base.actions.MessageLongClickAction;
+import com.xxl.hello.widget.ui.im.message.session.base.actions.MessageLongClickActionManager;
+import com.xxl.hello.widget.ui.im.message.session.base.menu.MessageLongClickMenu;
 import com.xxl.hello.widget.ui.im.template.MessageTemplateWrapper;
 import com.xxl.hello.widget.ui.im.template.OnMessageTemplateListener;
+import com.xxl.kit.ListUtils;
 import com.xxl.kit.ToastUtils;
 
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
+
+import java.util.List;
 
 /**
  * 会话列表适配器
@@ -112,6 +122,51 @@ public class ChatSessionAdapter extends BaseBindingAdapter<MessageEntity, ChatSe
             itemBinding.tvLeftNickname.setVisibility(View.INVISIBLE);
             itemBinding.tvRightNickname.setVisibility(View.VISIBLE);
         }
+        setUserAvatarListener(itemBinding.ivLeftAvatar, itemEntity);
+        setUserAvatarListener(itemBinding.ivRightAvatar, itemEntity);
+    }
+
+    /**
+     * 设置头像事件监听
+     *
+     * @param targetView
+     * @param itemEntity
+     */
+    @SuppressLint("ClickableViewAccessibility")
+    private void setUserAvatarListener(@NonNull View targetView,
+                                       @NonNull MessageEntity itemEntity) {
+        GestureDetector gestureDetector = new GestureDetector(getContext(), new GestureDetector.SimpleOnGestureListener() {
+
+            @Override
+            public boolean onSingleTapConfirmed(MotionEvent e) {
+                if (mListener != null) {
+                    mListener.onAvatarClick(targetView, itemEntity.getSenderId(), itemEntity.getSenderNickname());
+                }
+                return true;
+            }
+
+            @Override
+            public boolean onDoubleTap(MotionEvent e) {
+                if (mListener != null) {
+                    mListener.onAvatarDoubleClick(targetView, itemEntity.getSenderId(), itemEntity.getSenderNickname());
+                }
+                return true;
+            }
+
+            @Override
+            public void onLongPress(MotionEvent e) {
+                if (mListener != null) {
+                    mListener.onAvatarLongClick(targetView, itemEntity.getSenderId(), itemEntity.getSenderNickname());
+                }
+            }
+        });
+        targetView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                gestureDetector.onTouchEvent(event);
+                return true;
+            }
+        });
     }
 
     //endregion
@@ -128,6 +183,26 @@ public class ChatSessionAdapter extends BaseBindingAdapter<MessageEntity, ChatSe
         }
         if (messageEntity.getMessageType() == 1) {
             ToastUtils.success(messageEntity.getMessageText()).show();
+            return true;
+        }
+        return false;
+    }
+
+    private MessageLongClickMenu mMessageLongClickMenu;
+
+    @Override
+    public boolean onMessageItemLongClick(View targetView,
+                                          MessageEntity messageEntity) {
+        List<MessageLongClickAction> actions = MessageLongClickActionManager.getInstance().getActions(SceneType.CHAT, messageEntity);
+        if (!ListUtils.isEmpty(actions)) {
+            mMessageLongClickMenu = MessageLongClickMenu.from(targetView)
+                    .setItems(actions)
+                    .setOnMenuItemClickListener(action -> {
+                        if (mListener != null) {
+                            mListener.onMessageMenuItemClick(action.getTag(), messageEntity);
+                        }
+                    });
+            mMessageLongClickMenu.show();
             return true;
         }
         return false;

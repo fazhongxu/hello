@@ -1,5 +1,6 @@
 package com.xxl.hello.widget.ui.im.message.session.base;
 
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.view.View;
 
@@ -16,16 +17,25 @@ import com.xxl.hello.service.data.model.entity.im.MessageDirection;
 import com.xxl.hello.service.data.model.entity.im.MessageEntity;
 import com.xxl.hello.service.data.model.entity.im.MessageType;
 import com.xxl.hello.service.data.model.entity.im.SDKMessage;
+import com.xxl.hello.service.data.model.enums.ChatEnumsApi.MenuOperateType;
 import com.xxl.hello.widget.BR;
 import com.xxl.hello.widget.R;
 import com.xxl.hello.widget.databinding.WidgetFragmentChatSessionBinding;
 import com.xxl.hello.widget.ui.im.message.session.base.adapter.ChatSessionAdapter;
+import com.xxl.hello.widget.ui.im.message.session.base.adapter.ChatSessionRecycleItemListener;
+import com.xxl.hello.widget.ui.im.message.session.base.menu.OnCopyOperate;
+import com.xxl.hello.widget.ui.im.message.session.base.menu.OnDeleteOperate;
+import com.xxl.hello.widget.ui.im.message.session.base.menu.OnMenuItemOperate;
+import com.xxl.hello.widget.ui.im.message.session.base.menu.OnShareOperate;
 import com.xxl.hello.widget.ui.view.keyboard.CommonKeyboardLayout;
 import com.xxl.hello.widget.ui.view.keyboard.OnCommonKeyboardListener;
 import com.xxl.hello.widget.ui.view.plugin.impl.AlbumPlugin.AlbumPluginObservable;
-import com.xxl.kit.ListUtils;
+import com.xxl.kit.LogUtils;
 import com.xxl.kit.MimeType;
+import com.xxl.kit.VibrateUtils;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -40,8 +50,7 @@ import dagger.hilt.android.AndroidEntryPoint;
  * @date 2024/6/14.
  */
 public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel<N>, N extends BaseChatSessionNavigator> extends BaseViewModelFragment<V, WidgetFragmentChatSessionBinding>
-        implements OnRefreshDataListener, OnCommonKeyboardListener,
-        AlbumPluginObservable {
+        implements OnRefreshDataListener, OnCommonKeyboardListener, ChatSessionRecycleItemListener, AlbumPluginObservable {
 
     //region: 成员变量
 
@@ -93,6 +102,7 @@ public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel
     protected void setupLayout(@NonNull View rootView) {
         mChatSessionBinding = getViewDataBinding();
         setupChatRecyclerView();
+        setupMenu();
     }
 
     /**
@@ -101,12 +111,24 @@ public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel
     protected void setupChatRecyclerView() {
         UISmartRefreshLayout refreshLayout = mChatSessionBinding.refreshLayout;
         RecyclerView recyclerView = mChatSessionBinding.rvList;
+        mChatSessionAdapter.setListener(this);
         refreshLayout.setRefreshDataListener(this);
         refreshLayout.bindRecyclerView(recyclerView, mChatSessionAdapter);
         CommonKeyboardLayout commonKeyboard = mChatSessionBinding.commonKeyboard;
         commonKeyboard.setOnCommentKeyboardListener(this);
         commonKeyboard.init(getActivity(), refreshLayout);
         commonKeyboard.show(null);
+    }
+
+    private LinkedHashMap<String, OnMenuItemOperate> mMenuOperates = new LinkedHashMap<>();
+
+    /**
+     * 设置菜单
+     */
+    protected void setupMenu() {
+        mMenuOperates.put(MenuOperateType.COPY, new OnCopyOperate());
+        mMenuOperates.put(MenuOperateType.SHARE, new OnShareOperate());
+        mMenuOperates.put(MenuOperateType.DELETE, new OnDeleteOperate());
     }
 
     //endregion
@@ -147,7 +169,7 @@ public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel
         SDKMessage sdkMessage = SDKMessage.obtain()
                 .setTextContent(content);
         MessageEntity messageEntity = MessageEntity.obtain(sdkMessage);
-        messageEntity.setMessageType(1);
+        messageEntity.setMessageType(MessageType.TEXT);
         messageEntity.setMessageDirection(new Random().nextInt(10) % 3 == 0 ? MessageDirection.LEFT : MessageDirection.RIGHT);
         mChatSessionAdapter.addData(messageEntity);
 
@@ -156,16 +178,90 @@ public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel
 
     //endregion
 
+    //region: ChatSessionRecycleItemListener
+
+    /**
+     * 头像点击
+     *
+     * @param targetView
+     * @param targetUserId
+     * @param targetNickname
+     */
+    @Override
+    public void onAvatarClick(@NonNull View targetView,
+                              @NonNull String targetUserId,
+                              @NonNull String targetNickname) {
+
+    }
+
+    /**
+     * 头像双击
+     *
+     * @param targetView
+     * @param targetUserId
+     * @param targetNickname
+     */
+    @Override
+    public void onAvatarDoubleClick(@NonNull View targetView,
+                                    @NonNull String targetUserId,
+                                    @NonNull String targetNickname) {
+        LogUtils.d("双击头像 " + targetNickname);
+        VibrateUtils.vibrate();
+        ObjectAnimator animator = ObjectAnimator.ofFloat(targetView, "rotation", 0, 6, -6, 4, -4, 2, -2, 0);
+        targetView.setPivotX(targetView.getWidth() / 2F);
+        targetView.setPivotY(targetView.getHeight() / 2F + 40);
+        animator.setDuration(800);
+        animator.start();
+    }
+
+    /**
+     * 头像长按
+     *
+     * @param targetView
+     * @param targetUserId
+     * @param targetNickname
+     */
+    @Override
+    public boolean onAvatarLongClick(@NonNull View targetView,
+                                     @NonNull String targetUserId,
+                                     @NonNull String targetNickname) {
+        return false;
+    }
+
+    /**
+     * 消息菜单条目
+     *
+     * @param operateType
+     * @param messageEntity
+     */
+    @Override
+    public void onMessageMenuItemClick(@MenuOperateType String operateType,
+                                       @NonNull MessageEntity messageEntity) {
+
+        OnMenuItemOperate onMenuItemOperate = mMenuOperates.get(operateType);
+        if (onMenuItemOperate != null) {
+            onMenuItemOperate.handle(this, messageEntity);
+        }
+    }
+
+    //endregion
+
     //region: AlbumPluginObservable
 
     @Override
     public void handleAlbumPluginResult(final List<LocalMedia> targetMedias) {
-        SDKMessage sdkMessage = SDKMessage.obtain()
-                .setMediaPath(MediaSelector.getMediaPath(ListUtils.getFirst(targetMedias)));
-        MessageEntity messageEntity = MessageEntity.obtain(sdkMessage);
-        messageEntity.setMessageType(MimeType.isVideo(ListUtils.getFirst(targetMedias).getMimeType()) ? MessageType.VIDEO : MessageType.IMAGE);
-        messageEntity.setMessageDirection(new Random().nextInt(10) % 3 == 0 ? MessageDirection.LEFT : MessageDirection.RIGHT);
-        mChatSessionAdapter.addData(messageEntity);
+        List<MessageEntity> messageEntities = new ArrayList<>();
+        int randomDirection = new Random().nextInt(10) % 3 == 0 ? MessageDirection.LEFT : MessageDirection.RIGHT;
+        for (LocalMedia targetMedia : targetMedias) {
+            SDKMessage sdkMessage = SDKMessage.obtain()
+                    .setMediaPath(MediaSelector.getMediaPath(targetMedia));
+            MessageEntity messageEntity = MessageEntity.obtain(sdkMessage);
+            messageEntity.setMessageType(MimeType.isVideo(targetMedia.getMimeType()) ? MessageType.VIDEO : MessageType.IMAGE);
+            messageEntity.setMessageDirection(randomDirection);
+            messageEntities.add(messageEntity);
+        }
+        mChatSessionAdapter.addData(messageEntities);
+        mChatSessionBinding.commonKeyboard.hideExtendLayout();
         scrollToLastPosition();
     }
 
@@ -180,6 +276,15 @@ public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel
         if (mChatSessionAdapter.getItemCount() - 1 >= 0) {
             mChatSessionBinding.rvList.getLayoutManager().scrollToPosition(mChatSessionAdapter.getItemCount() - 1);
         }
+    }
+
+    /**
+     * 消息删除
+     *
+     * @param messageEntity
+     */
+    public void onMessageDeleteClick(MessageEntity messageEntity) {
+        mChatSessionAdapter.remove(messageEntity);
     }
 
     //endregion

@@ -86,6 +86,7 @@
                 android:visibility="visible"
                 app:rv_backgroundColor="@color/resources_primary_color"
                 app:rv_isRadiusHalfHeight="true"
+                app:rv_isRippleEnable="true"
                 tools:visibility="gone" />
 
         </LinearLayout>

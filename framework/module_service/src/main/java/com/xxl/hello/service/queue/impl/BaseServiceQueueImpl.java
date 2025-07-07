@@ -6,14 +6,12 @@ import androidx.annotation.NonNull;
 
 import com.xxl.core.utils.ThreadExpandUtils;
 import com.xxl.hello.service.BaseService;
-import com.xxl.hello.service.data.model.enums.SystemEnumsApi.ServiceQueueRunningStatus;
+import com.xxl.hello.service.data.model.enums.SystemEnumsApi.ServiceQueueStatus;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.hello.service.queue.api.ServiceQueue;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author xxl.
@@ -31,8 +29,8 @@ public abstract class BaseServiceQueueImpl extends BaseService implements Servic
     /**
      * 队列运行状态
      */
-    @ServiceQueueRunningStatus
-    private int mQueueRunningStatus = ServiceQueueRunningStatus.NULL;
+    @ServiceQueueStatus
+    private int mQueueStatus = ServiceQueueStatus.NULL;
 
     //endregion
 
@@ -50,24 +48,40 @@ public abstract class BaseServiceQueueImpl extends BaseService implements Servic
     //region: 页面生命周期
 
     /**
-     * 获取核心线程数
-     *
-     * @return
+     * 开始
      */
-    public int getCorePoolSize() {
-        synchronized (this) {
-            return mThreadPoolExecutor.getCorePoolSize();
-        }
+    @Override
+    public void start() {
+        mThreadPoolExecutor.scheduleAtFixedRate(this::run, 1, 10, TimeUnit.SECONDS);
     }
 
     /**
-     * 设置队列运行状态
-     *
-     * @param queueRunningStatus
+     * 执行
      */
-    public void setQueueRunningStatus(@ServiceQueueRunningStatus int queueRunningStatus) {
+    @Override
+    public void run() {
+        execute(this::doWork);
+    }
+
+    /**
+     * 获取队列状态
+     *
+     * @return
+     */
+    @ServiceQueueStatus
+    @Override
+    public int getQueueStatus() {
+        return mQueueStatus;
+    }
+
+    /**
+     * 设置队列状态
+     *
+     * @param queueStatus
+     */
+    public void setQueueStatus(@ServiceQueueStatus int queueStatus) {
         synchronized (this) {
-            mQueueRunningStatus = queueRunningStatus;
+            mQueueStatus = queueStatus;
         }
     }
 
@@ -78,24 +92,10 @@ public abstract class BaseServiceQueueImpl extends BaseService implements Servic
      */
     public boolean isNullStatus() {
         synchronized (this) {
-            return mQueueRunningStatus == ServiceQueueRunningStatus.NULL;
+            return getQueueStatus() == ServiceQueueStatus.NULL;
         }
     }
 
-    /**
-     * 队列是否空闲
-     *
-     * @return
-     */
-    public boolean isIdleStatus() {
-        synchronized (this) {
-            return mQueueRunningStatus == ServiceQueueRunningStatus.IDLE;
-        }
-    }
-
-    /**
-     * 释放资源
-     */
     @Override
     public void onCleared() {
         super.onCleared();
@@ -106,50 +106,6 @@ public abstract class BaseServiceQueueImpl extends BaseService implements Servic
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * 获取队列运行状态
-     *
-     * @return
-     */
-    @Override
-    public int getQueueRunningStatus() {
-        synchronized (this) {
-            return mQueueRunningStatus;
-        }
-    }
-
-    /**
-     * 运行服务
-     */
-    @Override
-    public void runService() {
-        execute(this::handleRunService);
-    }
-
-    /**
-     * 开启服务
-     */
-    @Override
-    public void startService(){
-        execute(this::handleStartService);
-    }
-
-    /**
-     * 退出服务
-     */
-    @Override
-    public void exitService() {
-        execute(this::handleExitService);
-    }
-
-    /**
-     * 检查服务
-     */
-    @Override
-    public void checkService() {
-        execute(this::handleCheckService);
     }
 
     /**
@@ -169,24 +125,9 @@ public abstract class BaseServiceQueueImpl extends BaseService implements Servic
     //region: 抽象方法
 
     /**
-     * 处理运行服务
+     * 执行
      */
-    public abstract void handleRunService();
-
-    /**
-     * 开始运行服务
-     */
-    public abstract void handleStartService();
-
-    /**
-     * 处理退出服务
-     */
-    public abstract void handleExitService();
-
-    /**
-     * 处理检查服务运行状态
-     */
-    public abstract void handleCheckService();
+    public abstract void doWork();
 
     //endregion
 

@@ -1,4 +1,8 @@
-package com.xxl.core.image.thumbnail;
+package com.xxl.core.image.thumb;
+
+import static com.xxl.core.image.thumb.ImageThumb.OriginalType.QINIU;
+import static com.xxl.core.image.thumb.ImageThumb.OriginalType.TENCENT;
+import static com.xxl.core.image.thumb.ImageThumb.OriginalType.UNKNOW;
 
 import android.text.TextUtils;
 
@@ -8,17 +12,13 @@ import androidx.annotation.NonNull;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import static com.xxl.core.image.thumbnail.ImageThumbnail.OriginalType.QINIU;
-import static com.xxl.core.image.thumbnail.ImageThumbnail.OriginalType.TENCENT;
-import static com.xxl.core.image.thumbnail.ImageThumbnail.OriginalType.UNKNOW;
-
 /**
  * 缩略图
  *
  * @author xxl.
  * @date 2023/7/24.
  */
-public class ImageThumbnail {
+public class ImageThumb {
 
     /**
      * 默认缩略图宽度
@@ -40,13 +40,13 @@ public class ImageThumbnail {
      */
     private int mWidth = DEFAULT_THUMBNAIL_WIDTH;
 
-    private ImageThumbnail(@NonNull final String originalUrl) {
+    private ImageThumb(@NonNull final String originalUrl) {
         mOriginalUrl = originalUrl;
         mOriginalType = getOriginalType(originalUrl);
     }
 
-    public final static ImageThumbnail obtain(@NonNull final String originalUrl) {
-        return new ImageThumbnail(originalUrl);
+    public final static ImageThumb obtain(@NonNull final String originalUrl) {
+        return new ImageThumb(originalUrl);
     }
 
     /**
@@ -55,7 +55,7 @@ public class ImageThumbnail {
      * @param width
      * @return
      */
-    public ImageThumbnail setWidth(int width) {
+    public ImageThumb setWidth(int width) {
         mWidth = width;
         return this;
     }
@@ -83,7 +83,14 @@ public class ImageThumbnail {
      * @return
      */
     private String buildQiNiuUrl() {
-        return "";
+        if (TextUtils.isEmpty(mOriginalUrl)) {
+            return "";
+        }
+        if (!mOriginalUrl.contains("?")) {
+            mOriginalUrl.concat("?");
+        }
+        return mOriginalUrl.concat("&from=qiniu")
+                .concat("&width=" + mWidth);
     }
 
     /**
@@ -92,7 +99,14 @@ public class ImageThumbnail {
      * @return
      */
     private String buildTencentUrl() {
-        return "";
+        if (TextUtils.isEmpty(mOriginalUrl)) {
+            return "";
+        }
+        if (!mOriginalUrl.contains("?")) {
+            mOriginalUrl.concat("?");
+        }
+        return mOriginalUrl.concat("&from=tencent")
+                .concat("&width=" + mWidth);
     }
 
     /**

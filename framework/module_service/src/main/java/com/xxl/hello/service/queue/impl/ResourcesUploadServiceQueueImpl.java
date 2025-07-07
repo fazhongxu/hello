@@ -1,18 +1,18 @@
 package com.xxl.hello.service.queue.impl;
 
+import static com.xxl.hello.service.data.model.event.SystemEventApi.OnPutResources2UploadQueueEvent;
+
 import android.app.Application;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.xxl.kit.ObjectUtils;
 import com.xxl.hello.service.ResourceProcessWrapper;
-import com.xxl.hello.service.data.local.db.entity.ResourcesUploadQueueDBEntity;
-import com.xxl.hello.service.data.model.enums.SystemEnumsApi.ServiceQueueRunningStatus;
+import com.xxl.hello.service.data.local.db.entity.UploadQueueResourceDBEntity;
+import com.xxl.hello.service.data.model.enums.SystemEnumsApi.ServiceQueueStatus;
 import com.xxl.hello.service.data.model.event.SystemEventApi;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
-import com.xxl.hello.service.data.repository.api.ResourceRepositoryApi;
 import com.xxl.hello.service.process.OnResourcesUploadCallback;
 import com.xxl.hello.service.queue.api.ResourcesUploadServiceQueue;
 import com.xxl.kit.ListUtils;
@@ -26,9 +26,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.TimeUnit;
-
-import static com.xxl.hello.service.data.model.event.SystemEventApi.OnPutResources2UploadQueueEvent;
 
 /**
  * 资源上传队列
@@ -40,6 +37,8 @@ public class ResourcesUploadServiceQueueImpl extends BaseServiceQueueImpl implem
 
     //region: 成员变量
 
+    private static final int MAX_COUNT = 10;
+
     /**
      * 资源处理包装类
      */
@@ -48,7 +47,7 @@ public class ResourcesUploadServiceQueueImpl extends BaseServiceQueueImpl implem
     /**
      * 正在队列任务中的资源数据集合
      */
-    private ConcurrentMap<String, ResourcesUploadQueueDBEntity> mExecutingResourceMap = new ConcurrentHashMap();
+    private ConcurrentMap<String, UploadQueueResourceDBEntity> mExecutingResourceMap = new ConcurrentHashMap();
 
     //endregion
 
@@ -73,94 +72,41 @@ public class ResourcesUploadServiceQueueImpl extends BaseServiceQueueImpl implem
     }
 
     /**
-     * 处理运行服务
+     * 执行
      */
     @Override
-    public void handleRunService() {
+    public void doWork() {
         synchronized (this) {
-            int count = getCorePoolSize() - mExecutingResourceMap.size();
-            if (count > 0) {
-                // TODO: 2022/5/30 数据库里获取一定count数量的数据出来，上传，轮询下一个 handleRunService
-                // 这里模拟数据库操作
-                final List<ResourcesUploadQueueDBEntity> targetUploadQueueDBEntities = getUploadQueueDBEntities(count);
-                if (!ListUtils.isEmpty(targetUploadQueueDBEntities)) {
-                    submitResources2UploadQueue(targetUploadQueueDBEntities);
-                }
+            List<UploadQueueResourceDBEntity> uploadResourcesDBEntities = getUploadResourcesDBEntities(MAX_COUNT);
+            if (!ListUtils.isEmpty(uploadResourcesDBEntities)) {
+                submitResources2UploadQueue(uploadResourcesDBEntities);
             }
-            if (mExecutingResourceMap.size() >= getCorePoolSize()) {
-                setQueueRunningStatus(ServiceQueueRunningStatus.RUNNING);
+            if (mExecutingResourceMap.size() > 0) {
+                setQueueStatus(ServiceQueueStatus.RUNNING);
             } else {
-                setQueueRunningStatus(ServiceQueueRunningStatus.IDLE);
+                setQueueStatus(ServiceQueueStatus.IDLE);
             }
         }
     }
-
-    /**
-     * 执行开启服务
-     */
-    @Override
-    public void handleStartService() {
-        synchronized (this) {
-            mThreadPoolExecutor.scheduleAtFixedRate(this::handleCheckService, 1, 10, TimeUnit.SECONDS);
-        }
-    }
-
-    /**
-     * 处理退出服务
-     */
-    @Override
-    public void handleExitService() {
-        synchronized (this) {
-            // TODO: 2022/5/30
-        }
-    }
-
-    /**
-     * 处理检查服务运行状态
-     */
-    @Override
-    public void handleCheckService() {
-        synchronized (this) {
-            // TODO: 2022/5/30
-            final List<String> ignoreResourceUploadIds = new ArrayList<>();
-            if (!ObjectUtils.isEmpty(mExecutingResourceMap)) {
-                for (final String resourceUploadId : mExecutingResourceMap.keySet()) {
-                    ignoreResourceUploadIds.add(resourceUploadId);
-                }
-            }
-            final ResourceRepositoryApi resourceRepositoryApi = getDataRepositoryKit().getResourceRepositoryApi();
-//            resourceRepositoryApi.resetExecuteResourceUploadWithSync(ignoreResourceUploadIds);
-            if (getQueueRunningStatus() != ServiceQueueRunningStatus.RUNNING) {
-                runService();
-            }
-        }
-    }
-
 
     /**
      * 提交资源到上传队列
      *
      * @param targetUploadQueueDBEntities
      */
-    private void submitResources2UploadQueue(@NonNull final List<ResourcesUploadQueueDBEntity> targetUploadQueueDBEntities) {
-        if (!ListUtils.isEmpty(targetUploadQueueDBEntities)) {
-            for (ResourcesUploadQueueDBEntity uploadQueueDBEntity : targetUploadQueueDBEntities) {
-                mExecutingResourceMap.put(uploadQueueDBEntity.getSubmitTaskId(), uploadQueueDBEntity);
-                handleUploadTask(uploadQueueDBEntity);
-            }
-        }
-        if (mExecutingResourceMap.size() >= getCorePoolSize()) {
-            setQueueRunningStatus(ServiceQueueRunningStatus.RUNNING);
+    private void submitResources2UploadQueue(@NonNull final List<UploadQueueResourceDBEntity> targetUploadQueueDBEntities) {
+        for (UploadQueueResourceDBEntity uploadQueueDBEntity : targetUploadQueueDBEntities) {
+            mExecutingResourceMap.put(uploadQueueDBEntity.getSubmitTaskId(), uploadQueueDBEntity);
+            handleUploadTask(uploadQueueDBEntity);
         }
     }
-
 
     /**
      * 提交资源到上传队列
      *
      * @param targetUploadQueueDBEntity
      */
-    private void handleUploadTask(@NonNull final ResourcesUploadQueueDBEntity targetUploadQueueDBEntity) {
+    private void handleUploadTask(@NonNull final UploadQueueResourceDBEntity targetUploadQueueDBEntity) {
         synchronized (this) {
             execute(() -> mResourceProcessWrapper.onUpload(targetUploadQueueDBEntity, new OnResourcesUploadCallback() {
                 @Override
@@ -172,7 +118,7 @@ public class ResourcesUploadServiceQueueImpl extends BaseServiceQueueImpl implem
 
                     // TODO: 2022/5/31 后续组合成素材提交到服务端，这里不做提交了， 模拟通知给用户
 
-                    List<ResourcesUploadQueueDBEntity> test = new ArrayList<>();
+                    List<UploadQueueResourceDBEntity> test = new ArrayList<>();
                     targetUploadQueueDBEntity.setUploadUrl(targetUrl);
                     test.add(targetUploadQueueDBEntity);
                     postEventBus(SystemEventApi.OnMaterialSubmitToServiceEvent.obtain(test));
@@ -194,7 +140,7 @@ public class ResourcesUploadServiceQueueImpl extends BaseServiceQueueImpl implem
      *
      * @param targetUploadQueueDBEntity
      */
-    private void handlerUploadSuccess(@NonNull final ResourcesUploadQueueDBEntity targetUploadQueueDBEntity) {
+    private void handlerUploadSuccess(@NonNull final UploadQueueResourceDBEntity targetUploadQueueDBEntity) {
         synchronized (this) {
             // TODO:2022/6/23 设置标致为等待提交，存入数据库 ，发送事件通知提交队列处理，开始下一条
         }
@@ -205,17 +151,15 @@ public class ResourcesUploadServiceQueueImpl extends BaseServiceQueueImpl implem
      *
      * @param targetUploadQueueDBEntity
      */
-    private void handlerUploadFailure(@NonNull final ResourcesUploadQueueDBEntity targetUploadQueueDBEntity) {
+    private void handlerUploadFailure(@NonNull final UploadQueueResourceDBEntity targetUploadQueueDBEntity) {
         synchronized (this) {
             // TODO: 2022/6/23 设置标致为上传失败，存入数据库，存入失败原因，开始下一条
         }
     }
 
-
-    private void pollingUploadTask(@NonNull final ResourcesUploadQueueDBEntity targetUploadQueueDBEntity) {
+    private void pollingUploadTask(@NonNull final UploadQueueResourceDBEntity targetUploadQueueDBEntity) {
         synchronized (this) {
-            mExecutingResourceMap.remove(targetUploadQueueDBEntity);
-            runService();
+            mExecutingResourceMap.remove(targetUploadQueueDBEntity.getSubmitTaskId());
         }
     }
 
@@ -223,12 +167,12 @@ public class ResourcesUploadServiceQueueImpl extends BaseServiceQueueImpl implem
 
     //region: EventBus 操作
 
-    //region: 用户信息更新通知事件
+    //region: 资源信息更新通知事件
 
     /**
      * 在主线程监听资源添加到队列的通知事件
      * <p>
-     * 监听资源添加到队列{@link ResourcesUploadQueueDBEntity} 通知事件
+     * 监听资源添加到队列{@link UploadQueueResourceDBEntity} 通知事件
      *
      * @param event
      */
@@ -237,38 +181,36 @@ public class ResourcesUploadServiceQueueImpl extends BaseServiceQueueImpl implem
         if (event == null || ListUtils.isEmpty(event.getTargetResourcesUploadQueueDBEntities())) {
             return;
         }
-        final List<ResourcesUploadQueueDBEntity> targetResourcesUploadQueueDBEntities = event.getTargetResourcesUploadQueueDBEntities();
+        final List<UploadQueueResourceDBEntity> targetResourcesUploadQueueDBEntities = event.getTargetResourcesUploadQueueDBEntities();
         // TODO: 2022/5/30 存入数据库，在运行服务的时候到数据库获取 这里先随便放在本地模拟
         putUploadQueueDBEntities(targetResourcesUploadQueueDBEntities);
         Log.e("aa", "onEventMainThread: " + ListUtils.getSize(targetResourcesUploadQueueDBEntities));
-        if (isIdleStatus()) {
-            checkService();
-        } else {
-            startService();
+        if (isNullStatus()) {
+            start();
         }
     }
 
-
     // TODO: 2022/5/30 模拟数据库存和取数据
-    private static List<ResourcesUploadQueueDBEntity> sResourcesUploadQueueDBEntities = new ArrayList<>();
+    private static List<UploadQueueResourceDBEntity> sResourcesUploadQueueDBEntities = new ArrayList<>();
 
     /**
      * 入库
      *
      * @param uploadQueueDBEntities
      */
-    private static final void putUploadQueueDBEntities(List<ResourcesUploadQueueDBEntity> uploadQueueDBEntities) {
+    private static final void putUploadQueueDBEntities(List<UploadQueueResourceDBEntity> uploadQueueDBEntities) {
         sResourcesUploadQueueDBEntities.addAll(uploadQueueDBEntities);
     }
 
     /**
      * 出库
+     * // TODO: 2025/5/7 同步从数据库取count 个数据
      *
      * @param count
      * @return
      */
-    private static final List<ResourcesUploadQueueDBEntity> getUploadQueueDBEntities(final int count) {
-        List<ResourcesUploadQueueDBEntity> resourcesUploadQueueDBEntities = new ArrayList<>();
+    private static final List<UploadQueueResourceDBEntity> getUploadResourcesDBEntities(final int count) {
+        List<UploadQueueResourceDBEntity> resourcesUploadQueueDBEntities = new ArrayList<>();
         if (!ListUtils.isEmpty(sResourcesUploadQueueDBEntities)) {
             Collections.reverse(sResourcesUploadQueueDBEntities);
             int i = count;
@@ -277,9 +219,9 @@ public class ResourcesUploadServiceQueueImpl extends BaseServiceQueueImpl implem
                     break;
                 }
                 i -= 1;
-                ResourcesUploadQueueDBEntity resourcesUploadQueueDBEntity = sResourcesUploadQueueDBEntities.iterator().next();
-                resourcesUploadQueueDBEntities.add(resourcesUploadQueueDBEntity);
-                sResourcesUploadQueueDBEntities.remove(resourcesUploadQueueDBEntity);
+                UploadQueueResourceDBEntity uploadQueueResourceDBEntity = sResourcesUploadQueueDBEntities.iterator().next();
+                resourcesUploadQueueDBEntities.add(uploadQueueResourceDBEntity);
+                sResourcesUploadQueueDBEntities.remove(uploadQueueResourceDBEntity);
             }
         }
         Collections.reverse(sResourcesUploadQueueDBEntities);

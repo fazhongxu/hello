@@ -8,8 +8,7 @@
     android:maxHeight="500dp"
     android:minHeight="156dp"
     app:rv_backgroundColor="@android:color/white"
-    app:rv_cornerRadius="8dp"
-    app:rv_isRippleEnable="false">
+    app:rv_cornerRadius="8dp">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_title"

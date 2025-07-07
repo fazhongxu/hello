@@ -2,7 +2,7 @@ package com.xxl.hello.service.data.repository.api;
 
 import androidx.annotation.NonNull;
 
-import com.xxl.hello.service.data.local.db.entity.ResourcesUploadQueueDBEntity;
+import com.xxl.hello.service.data.local.db.entity.UploadQueueResourceDBEntity;
 import com.xxl.hello.service.data.model.event.SystemEventApi.OnPutResources2UploadQueueEvent;
 
 import java.util.List;
@@ -26,7 +26,7 @@ public interface ResourceRepositoryApi {
      * @param targetResourcesUploadQueueDBEntities
      * @return
      */
-    Observable<Boolean> putResourcesUploadQueueDBEntities(@NonNull final List<ResourcesUploadQueueDBEntity> targetResourcesUploadQueueDBEntities);
+    Observable<Boolean> putResourcesUploadQueueDBEntities(@NonNull final List<UploadQueueResourceDBEntity> targetResourcesUploadQueueDBEntities);
 
     //endregion
 }

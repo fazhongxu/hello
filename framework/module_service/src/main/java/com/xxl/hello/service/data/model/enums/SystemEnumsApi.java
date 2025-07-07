@@ -295,12 +295,12 @@ public class SystemEnumsApi {
 
     //region: 队列运行状态
 
-    @IntDef({ServiceQueueRunningStatus.NULL,
-            ServiceQueueRunningStatus.IDLE,
-            ServiceQueueRunningStatus.RUNNING,
+    @IntDef({ServiceQueueStatus.NULL,
+            ServiceQueueStatus.IDLE,
+            ServiceQueueStatus.RUNNING,
     })
     @Retention(RetentionPolicy.SOURCE)
-    public @interface ServiceQueueRunningStatus {
+    public @interface ServiceQueueStatus {
 
         /**
          * 空状态(队列未运行），需要重新检查设置队列状态
@@ -308,7 +308,7 @@ public class SystemEnumsApi {
         int NULL = -1;
 
         /**
-         * 空闲，可直接使用
+         * 空闲
          */
         int IDLE = 0;
 

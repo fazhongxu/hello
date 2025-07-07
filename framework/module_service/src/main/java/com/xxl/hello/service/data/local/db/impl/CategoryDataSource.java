@@ -1,4 +1,4 @@
-package com.xxl.hello.service.data.local.db.impl.objectbox;
+package com.xxl.hello.service.data.local.db.impl;
 
 import com.xxl.hello.service.data.local.db.api.CategoryDBDataService;
 import com.xxl.hello.service.data.local.db.entity.CategoryDBEntity;
@@ -9,6 +9,6 @@ import com.xxl.hello.service.data.local.db.entity.CategoryDBEntity;
  * @Author: xxl
  * @Date: 2021/11/20 11:38 PM
  **/
-public class CategoryObjectBoxDataSource implements CategoryDBDataService {
+public class CategoryDataSource implements CategoryDBDataService {
 
 }

@@ -70,6 +70,18 @@ public class TextMessageTemplateProvider extends MessageTemplateProvider {
                 return;
             }
         });
+        textBinding.llItemContainer.setOnLongClickListener(v -> {
+            if (listener != null && listener.onMessageItemLongClick(textBinding.llItemContainer,messageEntity)){
+                return true;
+            }
+            return false;
+        });
+        textBinding.tvContent.setOnLongClickListener(v -> {
+            if (listener != null && listener.onMessageItemLongClick(textBinding.llItemContainer,messageEntity)){
+                return true;
+            }
+            return false;
+        });
         textBinding.executePendingBindings();
     }
 

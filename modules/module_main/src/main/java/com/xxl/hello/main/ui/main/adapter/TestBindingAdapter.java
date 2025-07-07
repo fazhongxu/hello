@@ -84,7 +84,7 @@ public class TestBindingAdapter extends BaseItemDraggableBindingAdapter<TestList
         } else {
             mSelectedMap.put(entity.getId(), entity);
         }
-        int position = findItemPosition(entity);
+        int position = getItemPosition(entity);
         if (position >= 0) {
             notifyDataChanged(position);
         }
@@ -100,14 +100,10 @@ public class TestBindingAdapter extends BaseItemDraggableBindingAdapter<TestList
     public void selectItem(TestListEntity entity) {
         TestListEntity preSelectedItem = mSelectedItem;
         mSelectedItem = entity;
-        int position = findItemPosition(preSelectedItem);
-        if (position >= 0) {
-            notifyDataChanged(position);
+        if (preSelectedItem != null) {
+            notifyDataChanged(preSelectedItem);
         }
-        int position1 = findItemPosition(entity);
-        if (position1 >= 0) {
-            notifyDataChanged(position1);
-        }
+        notifyDataChanged(mSelectedItem);
     }
 
     /**

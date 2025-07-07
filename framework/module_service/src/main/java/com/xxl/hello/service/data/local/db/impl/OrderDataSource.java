@@ -1,4 +1,4 @@
-package com.xxl.hello.service.data.local.db.impl.objectbox;
+package com.xxl.hello.service.data.local.db.impl;
 
 import androidx.annotation.NonNull;
 
@@ -17,11 +17,11 @@ import io.objectbox.Property;
  * @Author: xxl
  * @Date: 2023/07/12 11:36 PM
  **/
-public class OrderObjectBoxDataSource extends BaseObjectBoxDataSource<OrderDBEntity> implements OrderDBDataService {
+public class OrderDataSource extends BaseDataSource<OrderDBEntity> implements OrderDBDataService {
 
     //region: 构造函数
 
-    public OrderObjectBoxDataSource(@NonNull final ObjectBoxDBClientKit objectBoxDBClientKit) {
+    public OrderDataSource(@NonNull final ObjectBoxDBClientKit objectBoxDBClientKit) {
         super(objectBoxDBClientKit);
     }
 

@@ -218,7 +218,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     private void setupRecyclerView() {
         mViewDataBinding.rvList.addItemDecoration(DecorationUtils.createHorizontalDividerItemDecoration(ResourceUtils.getAttrColor(AppUtils.getTopActivity(), R.attr.h_common_divider_color), 10, 0));
         mViewDataBinding.refreshLayout.setRefreshDataListener(this);
-        mViewDataBinding.refreshLayout.bindRecyclerView(mViewDataBinding.rvList, mTestBindingAdapter, new GridLayoutManager(getActivity(), 3));
+        mViewDataBinding.refreshLayout.bindRecyclerView(mViewDataBinding.rvList, mTestBindingAdapter, new GridLayoutManager(getActivity(),3));
         mViewDataBinding.refreshLayout.setPageSize(20);
         mTestBindingAdapter.setListener(this);
         mTestBindingAdapter.setDragItemEnable(true, R.id.tv_content, mViewDataBinding.rvList);
@@ -546,7 +546,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
         List<TestListEntity> entities = mTestBindingAdapter.getData();
         if (!ListUtils.isEmpty(entities)) {
             for (TestListEntity entity : entities) {
-                int position = mTestBindingAdapter.findItemPositon(entity);
+                int position = mTestBindingAdapter.getItemPosition(entity);
                 if (entity.getMediaType() == SystemEnumsApi.CircleMediaType.IMAGE) {
                     MediaPreviewItemEntity mediaPreviewItemEntity = MediaPreviewItemEntity.obtain()
                             .setMediaUrl(entity.getUrl());
@@ -560,7 +560,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
         WidgetRouterApi.MediaPreview.newBuilder()
                 .setMediaPreviewItemEntities(mediaPreviewItemEntities)
-                .setCurrentPosition(mTestBindingAdapter.findItemPositon(testListEntity))
+                .setCurrentPosition(mTestBindingAdapter.getItemPosition(testListEntity))
                 .navigation();
     }
 

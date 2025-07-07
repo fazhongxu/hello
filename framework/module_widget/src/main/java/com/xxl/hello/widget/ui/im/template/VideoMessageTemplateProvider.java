@@ -11,7 +11,6 @@ import com.xxl.hello.service.data.model.entity.im.MessageEntity;
 import com.xxl.hello.service.data.model.entity.im.MessageTemplate;
 import com.xxl.hello.service.data.model.entity.im.MessageTemplateType;
 import com.xxl.hello.widget.R;
-import com.xxl.hello.widget.databinding.WidgetRecycleItemMessageImageBinding;
 import com.xxl.hello.widget.databinding.WidgetRecycleItemMessageVideoBinding;
 import com.xxl.kit.ClipboardUtils;
 import com.xxl.kit.ToastUtils;
@@ -71,9 +70,13 @@ public class VideoMessageTemplateProvider extends MessageTemplateProvider {
                 return;
             }
         });
+
         imageBinding.ivCover.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
+                if (listener != null && listener.onMessageItemLongClick(imageBinding.llItemContainer,messageEntity)) {
+                    return true;
+                }
                 ClipboardUtils.copyText(messageEntity.getMediaPath());
                 ToastUtils.success(R.string.resources_copied).show();
                 return true;

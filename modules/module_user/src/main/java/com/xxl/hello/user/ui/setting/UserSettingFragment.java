@@ -29,7 +29,7 @@ import com.xxl.core.utils.ChannelUtils;
 import com.xxl.hello.common.config.AppConfig;
 import com.xxl.hello.common.config.CacheDirConfig;
 import com.xxl.hello.common.config.NetworkConfig;
-import com.xxl.hello.service.data.local.db.entity.ResourcesUploadQueueDBEntity;
+import com.xxl.hello.service.data.local.db.entity.UploadQueueResourceDBEntity;
 import com.xxl.hello.service.data.model.entity.media.MediaPreviewItemEntity;
 import com.xxl.hello.service.data.model.entity.share.ImageShareResourceEntity;
 import com.xxl.hello.service.data.model.entity.share.ShareOperateItem;
@@ -545,11 +545,11 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
         CharSequence text = mViewDataBinding.tvTest.getText();
         StringBuilder sb = new StringBuilder(text);
         String avatar = "";
-        for (ResourcesUploadQueueDBEntity resourcesUploadQueueDBEntity : event.getTargetResourcesUploadQueueDBEntities()) {
-            sb.append(resourcesUploadQueueDBEntity.getUploadUrl())
+        for (UploadQueueResourceDBEntity uploadQueueResourceDBEntity : event.getTargetResourcesUploadQueueDBEntities()) {
+            sb.append(uploadQueueResourceDBEntity.getUploadUrl())
                     .append("\n");
             if (TextUtils.isEmpty(avatar)) {
-                avatar = resourcesUploadQueueDBEntity.getWaitUploadPath();
+                avatar = uploadQueueResourceDBEntity.getWaitUploadPath();
             }
         }
         setupUserAvatar(avatar);

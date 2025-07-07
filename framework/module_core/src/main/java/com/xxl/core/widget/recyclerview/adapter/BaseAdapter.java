@@ -53,25 +53,6 @@ public abstract class BaseAdapter<T, L extends BaseRecycleItemListener, V extend
     }
 
     /**
-     * 获取条目位置
-     *
-     * @param targetItemEntity
-     * @return
-     */
-    public int findItemPosition(T targetItemEntity) {
-        return getItemPosition(targetItemEntity);
-    }
-
-    /**
-     * 移除条目
-     *
-     * @param targetItemEntity
-     */
-    public void removeItem(T targetItemEntity) {
-        remove(targetItemEntity);
-    }
-
-    /**
      * 通知数据更新
      *
      * @param position 数据更新
@@ -80,6 +61,18 @@ public abstract class BaseAdapter<T, L extends BaseRecycleItemListener, V extend
         if (position >= 0) {
             position = getHeaderLayoutCount() + position;
             notifyItemChanged(position);
+        }
+    }
+
+    /**
+     * 通知数据更新
+     *
+     * @param item 数据
+     */
+    public void notifyDataChanged(T item) {
+        int position = getItemPosition(item);
+        if (position >= 0) {
+            notifyDataChanged(position);
         }
     }
 

@@ -91,6 +91,11 @@ public class CommonKeyboardLayout extends LinearLayout implements ICommonKeyboar
     private PluginLayout mPluginLayout;
 
     /**
+     * 表情键盘处理
+     */
+    private EmotionKeyboard mEmotionKeyboard;
+
+    /**
      * 评论键盘监听事件
      */
     private OnCommonKeyboardListener mOnCommentKeyboardListener;
@@ -182,7 +187,7 @@ public class CommonKeyboardLayout extends LinearLayout implements ICommonKeyboar
     @Override
     public void init(@NonNull FragmentActivity activity,
                      @NonNull View contentView) {
-        EmotionKeyboard.with(activity)
+        mEmotionKeyboard = EmotionKeyboard.with(activity)
                 .setEmotionView(mLLExpressionContainer)
                 .setExtendView(mLLExtendContainer)
                 .bindToContent(contentView)
@@ -254,6 +259,12 @@ public class CommonKeyboardLayout extends LinearLayout implements ICommonKeyboar
     @Override
     public void hide() {
         setVisibility(GONE);
+    }
+
+    public void hideExtendLayout() {
+        if (mEmotionKeyboard != null) {
+            mEmotionKeyboard.hideExtendLayout();
+        }
     }
 
     /**

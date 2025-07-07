@@ -1,5 +1,7 @@
 package com.xxl.hello.widget.ui.im.template;
 
+import android.view.View;
+
 import com.xxl.hello.service.data.model.entity.im.MessageEntity;
 
 /**
@@ -10,7 +12,25 @@ import com.xxl.hello.service.data.model.entity.im.MessageEntity;
  */
 public interface OnMessageTemplateListener {
 
+    /**
+     * 消息点击
+     *
+     * @param messageEntity
+     * @return
+     */
     default boolean onMessageItemClick(MessageEntity messageEntity) {
-       return false;
+        return false;
+    }
+
+    /**
+     * 消息长按点击
+     *
+     * @param targetView
+     * @param messageEntity
+     * @return
+     */
+    default boolean onMessageItemLongClick(View targetView,
+                                           MessageEntity messageEntity) {
+        return false;
     }
 }

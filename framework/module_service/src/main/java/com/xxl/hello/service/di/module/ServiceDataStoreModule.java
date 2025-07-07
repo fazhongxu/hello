@@ -19,7 +19,6 @@ import com.xxl.hello.service.queue.impl.ServiceQueueDataStoreModule;
 import com.xxl.hello.service.qunlifier.ForApplication;
 import com.xxl.hello.service.qunlifier.ForHelloUpload;
 import com.xxl.hello.service.qunlifier.ForQiNiuUpload;
-import com.xxl.hello.service.qunlifier.ForTencentUpload;
 import com.xxl.hello.service.upload.api.UploadService;
 import com.xxl.hello.service.upload.impl.UploadDataStoreModule;
 

@@ -12,9 +12,11 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
 import com.tbruyelle.rxpermissions3.RxPermissions;
+import com.xxl.kit.ObjectUtils;
 
 import io.reactivex.rxjava3.core.Observable;
 
@@ -37,12 +39,22 @@ public final class RxScreenshotDetector {
 
     private Uri mLastUri;
 
+    /**
+     * 最后通知的路径，防止重复提醒
+     */
+    private static String mLastScreenshotPath;
+
     private final Activity mActivity;
     private final RxPermissions mRxPermissions;
 
     private RxScreenshotDetector(final FragmentActivity activity) {
         mActivity = activity;
         mRxPermissions = new RxPermissions(activity);
+    }
+
+    private RxScreenshotDetector(final Fragment fragment) {
+        mActivity = fragment.getActivity();
+        mRxPermissions = new RxPermissions(fragment);
     }
 
     /**
@@ -61,9 +73,31 @@ public final class RxScreenshotDetector {
                 .start();
     }
 
+    /**
+     * start screenshot detect, if permission not granted, the observable will terminated with
+     * an onError event.
+     *
+     * <p>
+     * <em>Warning:</em> The created observable keeps a strong reference to {@code context}.
+     * Unsubscribe to free this reference.
+     * <p>
+     *
+     * @return {@link Observable} that emits screenshot file path.
+     */
+    public static Observable<String> start(final Fragment fragment) {
+        return new RxScreenshotDetector(fragment)
+                .start();
+    }
+
     private static boolean matchPath(String path) {
-        for (String keyword : KEYWORDS) {
-            if (path.toLowerCase().contains(keyword)) {
+        if (TextUtils.isEmpty(path) || ObjectUtils.equals(mLastScreenshotPath, path)) {
+            return false;
+        }
+
+        String pathLowerCase = path.toLowerCase();
+        for (String keyWork : KEYWORDS) {
+            if (pathLowerCase.contains(keyWork)) {
+                mLastScreenshotPath = path;
                 return true;
             }
         }

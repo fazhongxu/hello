@@ -1,5 +1,9 @@
 package com.xxl.kit;
 
+import static android.Manifest.permission.ACCESS_WIFI_STATE;
+import static android.Manifest.permission.CHANGE_WIFI_STATE;
+import static android.content.Context.WIFI_SERVICE;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -14,10 +18,13 @@ import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Base64;
-import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 import androidx.annotation.RequiresPermission;
+
+import com.lahm.library.EasyProtectorLib;
+import com.lahm.library.EmulatorCheckCallback;
+import com.lahm.library.EmulatorCheckUtil;
 
 import java.io.File;
 import java.net.InetAddress;
@@ -26,14 +33,6 @@ import java.net.SocketException;
 import java.security.MessageDigest;
 import java.util.Enumeration;
 import java.util.UUID;
-
-import static android.Manifest.permission.ACCESS_WIFI_STATE;
-import static android.Manifest.permission.CHANGE_WIFI_STATE;
-import static android.content.Context.WIFI_SERVICE;
-
-import com.lahm.library.EasyProtectorLib;
-import com.lahm.library.EmulatorCheckCallback;
-import com.lahm.library.EmulatorCheckUtil;
 
 /**
  * reference https://github.com/Blankj/AndroidUtilCode/blob/66a4c0488ca6da273098058d70dabb0fe9b9bd8d/lib/utilcode/src/main/java/com/blankj/utilcode/util/DeviceUtils.java
@@ -46,6 +45,11 @@ public final class DeviceUtils {
     private DeviceUtils() {
         throw new UnsupportedOperationException("u can't instantiate me...");
     }
+
+    /**
+     * AndroidId
+     */
+    private static String sAndroidId = "";
 
     /**
      * Return whether device is rooted.
@@ -103,12 +107,18 @@ public final class DeviceUtils {
      */
     @SuppressLint("HardwareIds")
     public static String getAndroidID() {
+        if (!TextUtils.isEmpty(sAndroidId)) {
+            return sAndroidId;
+        }
         String id = Settings.Secure.getString(
                 AppUtils.getApplication().getContentResolver(),
                 Settings.Secure.ANDROID_ID
         );
         if ("9774d56d682e549c".equals(id)) {
             return "";
+        }
+        if (id != null) {
+            sAndroidId = id;
         }
         return id == null ? "" : id;
     }

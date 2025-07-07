@@ -2,7 +2,8 @@ package com.xxl.hello.service.data.repository.impl;
 
 import androidx.annotation.NonNull;
 
-import com.xxl.hello.service.data.local.db.entity.ResourcesUploadQueueDBEntity;
+import com.xxl.hello.service.data.local.db.entity.UploadQueueResourceDBEntity;
+import com.xxl.hello.service.data.local.source.api.UploadQueueResourceLocalDataSource;
 import com.xxl.hello.service.data.model.event.SystemEventApi.OnPutResources2UploadQueueEvent;
 import com.xxl.hello.service.data.repository.api.ResourceRepositoryApi;
 
@@ -22,12 +23,14 @@ public class ResourcesRepositoryImpl implements ResourceRepositoryApi {
 
     //region: 成员变量
 
+    private UploadQueueResourceLocalDataSource mLocalDataSource;
+
     //endregion
 
     //region: 构造函数
 
-    public ResourcesRepositoryImpl() {
-        // local
+    public ResourcesRepositoryImpl(@NonNull UploadQueueResourceLocalDataSource localDataSource) {
+        mLocalDataSource = localDataSource;
         // remote
     }
 
@@ -44,7 +47,7 @@ public class ResourcesRepositoryImpl implements ResourceRepositoryApi {
      * @return
      */
     @Override
-    public Observable<Boolean> putResourcesUploadQueueDBEntities(@NonNull final List<ResourcesUploadQueueDBEntity> targetResourcesUploadQueueDBEntities) {
+    public Observable<Boolean> putResourcesUploadQueueDBEntities(@NonNull final List<UploadQueueResourceDBEntity> targetResourcesUploadQueueDBEntities) {
         return Observable.just(true)
                 .doOnNext(aBoolean -> {
                     EventBus.getDefault().post(OnPutResources2UploadQueueEvent.obtain(targetResourcesUploadQueueDBEntities));

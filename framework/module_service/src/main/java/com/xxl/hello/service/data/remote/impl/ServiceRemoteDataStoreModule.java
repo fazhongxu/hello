@@ -7,7 +7,9 @@ import com.xxl.hello.common.config.NetworkConfig;
 import com.xxl.hello.service.data.local.db.DBServiceKit;
 import com.xxl.hello.service.data.local.prefs.PreferencesKit;
 import com.xxl.hello.service.data.local.source.api.ConfigLocalDataSource;
+import com.xxl.hello.service.data.local.source.api.UploadQueueResourceLocalDataSource;
 import com.xxl.hello.service.data.local.source.impl.ConfigLocalDataSourceImpl;
+import com.xxl.hello.service.data.local.source.impl.UploadQueueResourceLocalDataSourceImpl;
 import com.xxl.hello.service.data.remote.api.ConfigRemoteDataSource;
 import com.xxl.hello.service.qunlifier.ForConfigHost;
 import com.xxl.hello.service.qunlifier.ForConfigRetrofit;
@@ -89,5 +91,20 @@ public class ServiceRemoteDataStoreModule {
                                                          @ForConfigRetrofit Retrofit retrofit) {
         return new ConfigRemoteDataSourceImpl(apiHeader, retrofit);
     }
+
+    /**
+     * 构建上传队列资源地数据服务
+     *
+     * @param preferencesKit
+     * @param dbServiceKit
+     * @return
+     */
+    @Singleton
+    @Provides
+    UploadQueueResourceLocalDataSource provideUploadQueueResourceLocalDataSource(@NonNull final PreferencesKit preferencesKit,
+                                                                                 @NonNull final DBServiceKit dbServiceKit) {
+        return new UploadQueueResourceLocalDataSourceImpl(preferencesKit, dbServiceKit);
+    }
+
 
 }

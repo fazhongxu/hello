@@ -90,6 +90,7 @@ versions.pinned_decoration = "1.3.2-androidx"
 versions.refresh_layout = "2.0.5"
 
 versions.base_popup = "3.2.0"
+versions.bubble_view = "1.0.2"
 
 versions.jsbridge = "1.0.4"
 versions.agentweb = "v5.0.0-alpha.1-androidx"
@@ -99,7 +100,7 @@ versions.jsoup = "1.15.3"
 versions.dkplayer = "3.3.5"
 versions.exoplayer = "2.15.0"
 
-versions.flyco_round_view = "1.10.12"
+versions.flyco_round_view = "1.10.13"
 
 versions.tbs = "44181"
 versions.pdf_viewer = "3.2.0-beta.1"
@@ -129,6 +130,8 @@ versions.jpinyin = "1.1.8"
 versions.emoji = "0.8.0"
 
 versions.easy_protector = "1.1.2"
+versions.cameraview = "2.7.2"
+versions.pickerview = "4.1.9"
 
 ext.versions = versions
 
@@ -313,6 +316,9 @@ deps.refresh_header_material = "io.github.scwang90:refresh-header-material:$vers
 // BasePopup https://github.com/razerdp/BasePopup
 deps.base_popup = "io.github.razerdp:BasePopup:$versions.base_popup"
 
+// BubbleView https://github.com/cpiz/BubbleView
+deps.bubble_view = "com.cpiz.bubbleview:bubbleview:$versions.bubble_view"
+
 //jsbridge https://github.com/lzyzsd/JsBridge
 deps.jsbridge = "com.github.lzyzsd:jsbridge:$versions.jsbridge"
 
@@ -421,6 +427,13 @@ deps.emoji_google_compat = "com.vanniktech:emoji-google-compat:$versions.emoji"
 
 //https://github.com/lamster2018/EasyProtector
 deps.easy_protector = "com.lahm.library:easy-protector-release:$versions.easy_protector"
+
+//https://github.com/natario1/CameraView
+deps.cameraview = "com.otaliastudios:cameraview:$versions.cameraview"
+
+//https://github.com/Bigkoo/Android-PickerView
+deps.pickerview = "com.contrarywind:Android-PickerView:$versions.pickerview"
+
 
 def origin = [:]
 // 是否使用远程依赖 true使用远程依赖（远程私服存储的aar依赖）

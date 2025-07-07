@@ -12,7 +12,7 @@ import com.xxl.core.service.download.aira.ForAriaDownload;
 import com.xxl.core.service.download.hello.ForHelloDownload;
 import com.xxl.core.service.download.hello.HelloDownloadServiceImpl;
 import com.xxl.hello.common.config.NetworkConfig;
-import com.xxl.hello.service.data.local.db.impl.objectbox.ObjectBoxDataStoreModel;
+import com.xxl.hello.service.data.local.db.impl.ObjectBoxDataStoreModel;
 import com.xxl.hello.service.data.local.prefs.api.UserPreferences;
 import com.xxl.hello.service.di.module.ServiceDataStoreModule;
 import com.xxl.hello.service.qunlifier.ForApplication;

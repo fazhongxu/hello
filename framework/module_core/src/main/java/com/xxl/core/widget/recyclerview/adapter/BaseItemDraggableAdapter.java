@@ -174,4 +174,9 @@ public abstract class BaseItemDraggableAdapter<T, L extends BaseRecycleItemListe
 
     //endregion
 
+    //region: 提供方法
+
+
+    //endregion
+
 }
