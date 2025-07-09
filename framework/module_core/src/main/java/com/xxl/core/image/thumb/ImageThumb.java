@@ -1,9 +1,5 @@
 package com.xxl.core.image.thumb;
 
-import static com.xxl.core.image.thumb.ImageThumb.OriginalType.QINIU;
-import static com.xxl.core.image.thumb.ImageThumb.OriginalType.TENCENT;
-import static com.xxl.core.image.thumb.ImageThumb.OriginalType.UNKNOW;
-
 import android.text.TextUtils;
 
 import androidx.annotation.IntDef;
@@ -11,6 +7,7 @@ import androidx.annotation.NonNull;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+
 
 /**
  * 缩略图
@@ -66,11 +63,11 @@ public class ImageThumb {
      * @return
      */
     public String getUrl() {
-        if (mOriginalType == QINIU) {
+        if (mOriginalType == OriginalType.QINIU) {
             return buildQiNiuUrl();
         }
 
-        if (mOriginalType == TENCENT) {
+        if (mOriginalType == OriginalType.TENCENT) {
             return buildTencentUrl();
         }
 
@@ -119,19 +116,22 @@ public class ImageThumb {
     private int getOriginalType(@NonNull final String originalUrl) {
         if (!TextUtils.isEmpty(originalUrl)) {
             if (originalUrl.contains("aaa.com")) {
-                return QINIU;
+                return OriginalType.QINIU;
             }
             if (originalUrl.contains("bbb.com")) {
-                return TENCENT;
+                return OriginalType.TENCENT;
             }
         }
-        return UNKNOW;
+        return OriginalType.UNKNOW;
     }
 
     /**
      * 资源来源类型
      */
-    @IntDef()
+    @IntDef({OriginalType.UNKNOW,
+            OriginalType.QINIU,
+            OriginalType.TENCENT,
+    })
     @Retention(RetentionPolicy.SOURCE)
     public @interface OriginalType {
 
