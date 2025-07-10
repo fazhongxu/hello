@@ -33,6 +33,7 @@ import com.xxl.hello.main.BR;
 import com.xxl.hello.main.R;
 import com.xxl.hello.main.databinding.MainFragmentBinding;
 import com.xxl.hello.main.ui.main.adapter.OnTestRecycleItemListener;
+import com.xxl.hello.main.ui.main.adapter.TestBindingAdapter;
 import com.xxl.hello.main.ui.main.adapter.TestBindingRecycleItemListener;
 import com.xxl.hello.main.ui.main.adapter.TestListEntity;
 import com.xxl.hello.main.ui.main.adapter.multi.TestMultiAdapter;
@@ -569,7 +570,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
      */
     @Override
     public void onRemoveItemClick(@NonNull TestListEntity value) {
-        mTestBindingAdapter.removeItem(value);
+        mTestBindingAdapter.remove(value);
     }
 
     /**
@@ -580,7 +581,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     @Override
     public void onTopItemClick(@NonNull TestListEntity entity) {
         ToastUtils.success(entity + " " + StringUtils.getString(R.string.resources_set_top_text)).show();
-        mTestBindingAdapter.removeItem(entity);
+        mTestBindingAdapter.remove(entity);
         entity.setTop(true);
         mTestBindingAdapter.addData(0, entity);
         mViewDataBinding.rvList.scrollToPosition(0);

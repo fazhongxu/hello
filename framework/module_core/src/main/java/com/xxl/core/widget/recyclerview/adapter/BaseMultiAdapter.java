@@ -72,15 +72,6 @@ public abstract class BaseMultiAdapter<T, L extends BaseRecycleItemListener> ext
     }
 
     /**
-     * 移除条目
-     *
-     * @param targetItemEntity
-     */
-    public void removeItem(T targetItemEntity) {
-        remove(targetItemEntity);
-    }
-
-    /**
      * 通知数据更新
      *
      * @param position 数据更新
