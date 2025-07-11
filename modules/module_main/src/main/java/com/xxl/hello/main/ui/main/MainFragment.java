@@ -33,7 +33,6 @@ import com.xxl.hello.main.BR;
 import com.xxl.hello.main.R;
 import com.xxl.hello.main.databinding.MainFragmentBinding;
 import com.xxl.hello.main.ui.main.adapter.OnTestRecycleItemListener;
-import com.xxl.hello.main.ui.main.adapter.TestBindingAdapter;
 import com.xxl.hello.main.ui.main.adapter.TestBindingRecycleItemListener;
 import com.xxl.hello.main.ui.main.adapter.TestListEntity;
 import com.xxl.hello.main.ui.main.adapter.multi.TestMultiAdapter;

@@ -24,7 +24,9 @@ import com.xxl.kit.TimeUtils;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 import io.reactivex.rxjava3.disposables.Disposable;
 
@@ -97,12 +99,18 @@ public class MainViewModel extends BaseViewModel<MainNavigator> {
             @Override
             public void run() {
                 final List<TestListEntity> list = new ArrayList<>();
+
+                List<String> urls = Arrays.asList("https://wx3.sinaimg.cn/mw1024/005PbyNrgy1hu221wp83rj30uv0u07n4.jpg", "https://pic.rmb.bdstatic.com/bjh/240824/b886bc30e7322702af5fb0e83c3bbc727002.png",
+                        "https://t15.baidu.com/it/u=2677963247,2964041049&fm=225&app=113&f=JPEG?w=2163&h=1620&s=FB0FB044CC02C0D624A230800300E098", "https://i0.hdslb.com/bfs/archive/1dce32b0b77620f9f956b365fe23e6500cd031da.jpg",
+                        "https://img0.baidu.com/it/u=3591172426,37535292&fm=253&fmt=auto&app=120&f=JPEG?w=500&h=750","https://i0.hdslb.com/bfs/archive/115d82e813da27df8c1d68e7dd15508f147e62eb.jpg",
+                        "https://pics7.baidu.com/feed/5366d0160924ab1870d8fdc7bc85a0c279890b86.jpeg@f_auto?token=668d13f5d2d9af9d1a189555574901ec");
+                Random random = new Random();
                 for (int i = 0; i < pageSize; i++) {
                     TestListEntity testListEntity = TestListEntity.obtain()
                             .setContent(String.format("测试数据 page %d index %d", page, i))
 //                            .setMediaType(i % 2 == 0 ? SystemEnumsApi.CircleMediaType.IMAGE : SystemEnumsApi.CircleMediaType.TEXT)
                             .setMediaType(SystemEnumsApi.CircleMediaType.IMAGE)
-                            .setUrl(i % 2 == 0 ? "https://img2.baidu.com/it/u=1571003126,2883312596&fm=253&fmt=auto&app=138&f=JPEG?w=667&h=500" : "https://ns-strategy.cdn.bcebos.com/ns-strategy/upload/fc_big_pic/part-00581-3070.jpg")
+                            .setUrl(urls.get(random.nextInt(urls.size())))
                             .setSortTime(mCurrentTimeMillis + 1)
                             .setHeader(i == 5);
                     list.add(testListEntity);
