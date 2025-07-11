@@ -65,8 +65,8 @@ public class MessageLongClickMenu {
         setupLayout();
     }
 
-    public final static MessageLongClickMenu from(View contentView) {
-        return new MessageLongClickMenu(contentView);
+    public final static MessageLongClickMenu from(View anchorView) {
+        return new MessageLongClickMenu(anchorView);
     }
 
     //endregion
