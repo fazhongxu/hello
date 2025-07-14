@@ -62,6 +62,7 @@ import com.xxl.kit.TimeUtils;
 import com.xxl.kit.ToastUtils;
 
 import java.io.File;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -70,6 +71,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.reactivex.rxjava3.disposables.Disposable;
+import okhttp3.HttpUrl;
 
 /**
  * @author xxl.
@@ -216,7 +218,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     private void setupRecyclerView() {
         mViewDataBinding.rvList.addItemDecoration(DecorationUtils.createHorizontalDividerItemDecoration(ResourceUtils.getAttrColor(AppUtils.getTopActivity(), R.attr.h_common_divider_color), 10, 0));
         mViewDataBinding.refreshLayout.setRefreshDataListener(this);
-        mViewDataBinding.refreshLayout.bindRecyclerView(mViewDataBinding.rvList, mTestBindingAdapter, new GridLayoutManager(getActivity(),3));
+        mViewDataBinding.refreshLayout.bindRecyclerView(mViewDataBinding.rvList, mTestBindingAdapter, new GridLayoutManager(getActivity(), 3));
         mViewDataBinding.refreshLayout.setPageSize(20);
         mTestBindingAdapter.setListener(this);
         mTestBindingAdapter.setDragItemEnable(true, R.id.tv_content, mViewDataBinding.rvList);
@@ -235,6 +237,10 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     @Override
     public void onTestClick() {
         UserRouterApi.Login.newBuilder().navigation(getActivity());
+        String url = "https:/baidu.comfdsalfjdskl/?a=123&b-456";
+        //String url = "https://///baidu.comfdsalfjdskl/?a=123&b-456";
+        String s = HttpUrl.get(url).toString();
+        Log.e("aaa", "onTestClick: " + s);
     }
 
     /**
