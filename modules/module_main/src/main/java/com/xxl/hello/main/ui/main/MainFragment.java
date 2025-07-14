@@ -62,7 +62,6 @@ import com.xxl.kit.TimeUtils;
 import com.xxl.kit.ToastUtils;
 
 import java.io.File;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -71,7 +70,6 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.reactivex.rxjava3.disposables.Disposable;
-import okhttp3.HttpUrl;
 
 /**
  * @author xxl.
@@ -237,10 +235,6 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     @Override
     public void onTestClick() {
         UserRouterApi.Login.newBuilder().navigation(getActivity());
-        String url = "https:/baidu.comfdsalfjdskl/?a=123&b-456";
-        //String url = "https://///baidu.comfdsalfjdskl/?a=123&b-456";
-        String s = HttpUrl.get(url).toString();
-        Log.e("aaa", "onTestClick: " + s);
     }
 
     /**
