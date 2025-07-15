@@ -1,8 +1,12 @@
 package com.xxl.hello.main.ui.main.adapter;
 
+import android.text.TextUtils;
+import android.text.TextWatcher;
+
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.listener.OnItemDragListener;
+import com.xxl.core.listener.OnTextChangeListener;
 import com.xxl.core.widget.recyclerview.adapter.BaseItemDraggableBindingAdapter;
 import com.xxl.hello.main.R;
 import com.xxl.hello.main.databinding.MainRecyclerItemTestBindingBinding;
@@ -52,6 +56,23 @@ public class TestBindingAdapter extends BaseItemDraggableBindingAdapter<TestList
         });
         binding.executePendingBindings();
         setOnItemDragListener(this);
+    }
+
+    private void setupEditText(MainRecyclerItemTestBindingBinding binding,
+                               TestListEntity item) {
+        // 实际上是EditText 这里假设为Text
+        if (binding.tvContent.getTag() instanceof TextWatcher) {
+            binding.tvContent.removeTextChangedListener((TextWatcher) binding.tvContent.getTag());
+        }
+        binding.tvContent.setText(TextUtils.isEmpty(item.getContent()) ? "" : item.getContent());
+        TextWatcher textWatcher = new OnTextChangeListener() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                item.setContent(s != null ? s.toString() : "");
+            }
+        };
+        binding.tvContent.addTextChangedListener(textWatcher);
+        binding.tvContent.setTag(textWatcher);
     }
 
     //region: OnItemDragListener
