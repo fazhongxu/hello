@@ -62,9 +62,10 @@
                 android:layout_height="match_parent"
                 android:background="?attr/h_common_yellow_color"
                 android:gravity="center"
+                android:onClick="@{()->listener.onTopItemClick(viewModel.targetItemEntity)}"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
-                android:text="@string/resources_set_top_text"
+                android:text="@{viewModel.observableTop?@string/resources_cancel_top_text:@string/resources_set_top_text}"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/resources_font_size_14" />
 
@@ -74,6 +75,7 @@
                 android:layout_height="match_parent"
                 android:background="?attr/h_common_primary_color"
                 android:gravity="center"
+                android:onClick="@{()->listener.onRefreshTopItemClick(viewModel.targetItemEntity)}"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
                 android:text="@string/resources_refresh_to_top_text"

@@ -33,6 +33,7 @@ import com.xxl.hello.main.BR;
 import com.xxl.hello.main.R;
 import com.xxl.hello.main.databinding.MainFragmentBinding;
 import com.xxl.hello.main.ui.main.adapter.OnTestRecycleItemListener;
+import com.xxl.hello.main.ui.main.adapter.TestBindingAdapter;
 import com.xxl.hello.main.ui.main.adapter.TestBindingRecycleItemListener;
 import com.xxl.hello.main.ui.main.adapter.TestListEntity;
 import com.xxl.hello.main.ui.main.adapter.multi.TestMultiAdapter;
@@ -579,11 +580,25 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
      */
     @Override
     public void onTopItemClick(@NonNull TestListEntity entity) {
-        ToastUtils.success(entity + " " + StringUtils.getString(R.string.resources_set_top_text)).show();
-        mTestBindingAdapter.remove(entity);
-        entity.setTop(true);
-        mTestBindingAdapter.addData(0, entity);
-        mViewDataBinding.rvList.scrollToPosition(0);
+        ToastUtils.success(entity + " " + (entity.isTop() ? StringUtils.getString(R.string.resources_cancel_top_text) : StringUtils.getString(R.string.resources_set_top_text))).show();
+        if (entity.isTop()) {
+            entity.setTop(false);
+            final List<TestListEntity> entities = mTestBindingAdapter.getData();
+            if (!ListUtils.isEmpty(entities)) {
+                Collections.sort(entities, (o1, o2) -> {
+                    if (Boolean.compare(o2.isTop(), o1.isTop()) == 0) {
+                        return (int) (o1.getSortTime() - o2.getSortTime());
+                    }
+                    return Boolean.compare(o2.isTop(), o1.isTop());
+                });
+                mTestBindingAdapter.notifyDataSetChanged();
+            }
+        } else {
+            mTestBindingAdapter.remove(entity);
+            entity.setTop(true);
+            mTestBindingAdapter.addData(0, entity);
+            mViewDataBinding.rvList.scrollToPosition(0);
+        }
     }
 
     /**
@@ -598,7 +613,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
         if (!ListUtils.isEmpty(entities)) {
             Collections.sort(entities, (o1, o2) -> {
                 if (Boolean.compare(o2.isTop(), o1.isTop()) == 0) {
-                    return (int) (o2.getSortTime() - o1.getSortTime());
+                    return (int) (o1.getSortTime() - o2.getSortTime());
                 }
                 return Boolean.compare(o2.isTop(), o1.isTop());
             });

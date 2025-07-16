@@ -11,7 +11,6 @@ import com.xxl.core.widget.recyclerview.adapter.BaseItemDraggableBindingAdapter;
 import com.xxl.hello.main.R;
 import com.xxl.hello.main.databinding.MainRecyclerItemTestBindingBinding;
 import com.xxl.kit.VibrateUtils;
-import com.xxl.kit.ViewUtils;
 
 import java.util.LinkedHashMap;
 
@@ -42,18 +41,6 @@ public class TestBindingAdapter extends BaseItemDraggableBindingAdapter<TestList
 
         viewModel.setItemEntity(item);
         binding.setListener(mListener);
-        ViewUtils.setOnClickListener(binding.tvSetTop, v -> {
-            binding.swipeMenuLayout.resetStatus();
-            if (mListener != null) {
-                mListener.onTopItemClick(item);
-            }
-        });
-        ViewUtils.setOnClickListener(binding.tvRefreshTop, v -> {
-            binding.swipeMenuLayout.resetStatus();
-            if (mListener != null) {
-                mListener.onRefreshTopItemClick(item);
-            }
-        });
         binding.executePendingBindings();
         setOnItemDragListener(this);
     }
