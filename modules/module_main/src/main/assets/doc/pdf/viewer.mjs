@@ -4489,7 +4489,7 @@ const defaultOptions = {
     kind: OptionKind.API
   },
   standardFontDataUrl: {
-    value: "file:///android_asset/pdf/standard_fonts/",
+    value: "file:///android_asset/doc/pdf/standard_fonts/",
     kind: OptionKind.API
   },
   verbosity: {
@@ -4501,7 +4501,7 @@ const defaultOptions = {
     kind: OptionKind.WORKER
   },
   workerSrc: {
-    value: "file:///android_asset/pdf/js/pdf.worker.mjs",
+    value: "file:///android_asset/doc/pdf/js/pdf.worker.mjs",
     kind: OptionKind.WORKER
   }
 };
@@ -4525,7 +4525,7 @@ const defaultOptions = {
     kind: OptionKind.VIEWER
   };
   defaultOptions.sandboxBundleSrc = {
-    value: "file:///android_asset/pdf/js/pdf.sandbox.mjs",
+    value: "file:///android_asset/doc/pdf/js/pdf.sandbox.mjs",
     kind: OptionKind.VIEWER
   };
 }
