@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.tbruyelle.rxpermissions3.RxPermissions;
 import com.xxl.core.aop.annotation.Safe;
-import com.xxl.core.data.router.SystemRouterApi;
 import com.xxl.core.media.audio.AudioCapture;
 import com.xxl.core.media.audio.AudioCapture.OnAudioFrameCapturedListener;
 import com.xxl.core.media.audio.AudioRecordFormat;
@@ -236,22 +235,6 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     @Override
     public void onTestClick() {
         UserRouterApi.Login.newBuilder().navigation(getActivity());
-
-        SystemRouterApi.WebView.newBuilder("file:///android_asset/doc/word/viewer.html?file=file:///android_asset/test.docx")
-                .setRefreshEnable(false)
-                .navigation();
-
-        SystemRouterApi.WebView.newBuilder("file:///android_asset/doc/pdf/viewer.html?file=file:///android_asset/test.pdf")
-                .setRefreshEnable(false)
-                .navigation();
-
-        SystemRouterApi.WebView.newBuilder("file:///android_asset/doc/excel/viewer.html?file=file:///android_asset/test.xls")
-                .setRefreshEnable(false)
-                .navigation();
-
-        SystemRouterApi.WebView.newBuilder("file:///android_asset/doc/ppt/viewer.html?file=file:///android_asset/test.pptx")
-                .setRefreshEnable(false)
-                .navigation();
     }
 
     /**
