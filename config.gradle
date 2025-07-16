@@ -104,6 +104,7 @@ versions.flyco_round_view = "1.10.13"
 
 versions.tbs = "44181"
 versions.pdf_viewer = "3.2.0-beta.1"
+versions.doc_viewer = "0.0.3"
 
 versions.aria = "3.8.16"
 
@@ -340,6 +341,9 @@ deps.tbs = "com.tencent.tbs:tbssdk:$versions.tbs"
 
 //https://github.com/barteksc/androidpdfviewer
 deps.pdf_viewer = "com.github.barteksc:android-pdf-viewer:$versions.pdf_viewer"
+
+//https://github.com/seapeak233/AndroidDocViewer
+deps.doc_viewer = "com.github.seapeak233:AndroidDocViewer:$versions.pdf_viewer"
 
 // aria https://github.com/AriaLyy/Aria
 def aria = [:]
