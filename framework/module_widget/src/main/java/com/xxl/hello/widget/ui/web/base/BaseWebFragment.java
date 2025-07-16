@@ -105,6 +105,10 @@ public abstract class BaseWebFragment<V extends BaseViewModel, T extends ViewDat
                     public IAgentWebSettings toSetting(WebView webView) {
                         IAgentWebSettings settings = super.toSetting(webView);
                         WebSettings webSettings = settings.getWebSettings();
+                        webSettings.setUseWideViewPort(true);
+                        webSettings.setLoadWithOverviewMode(true);
+                        webSettings.setDisplayZoomControls(false);
+                        webSettings.setBuiltInZoomControls(true);
                         webSettings.setAllowFileAccessFromFileURLs(true);
                         webSettings.setAllowUniversalAccessFromFileURLs(true);
                         return settings;
