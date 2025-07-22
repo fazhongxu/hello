@@ -116,6 +116,18 @@ public class MessageEntity {
     }
 
     /**
+     * 获取消息时间
+     *
+     * @return
+     */
+    public long getMessageTime() {
+        if (mSdkMessage != null) {
+            return mSdkMessage.getMessageTime();
+        }
+        return 0;
+    }
+
+    /**
      * 获取消息文本
      *
      * @return

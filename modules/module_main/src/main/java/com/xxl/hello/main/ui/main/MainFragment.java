@@ -235,6 +235,13 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     @Override
     public void onTestClick() {
         UserRouterApi.Login.newBuilder().navigation(getActivity());
+
+        String conversationTime = TimeUtils.getChatTimeSpanByNow(1753065685000L);
+        String conversationTime1 = TimeUtils.getChatTimeSpanByNow(TimeUtils.currentTimeMillis());
+        String conversationTime2 = TimeUtils.getChatTimeSpanByNow(1752892885000L);
+        String conversationTime3 = TimeUtils.getChatTimeSpanByNow(1752547285000L);
+        String conversationTime4 = TimeUtils.getChatTimeSpanByNow(1752633685000L);
+        Log.e("aa", "onTestClick: "+conversationTime   +" "+conversationTime1 +" "+conversationTime2 +"  "+conversationTime3 +" "+conversationTime4);
     }
 
     /**

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -13,6 +14,7 @@
 
     </data>
 
+
     <RelativeLayout
         android:id="@+id/rl_item_container"
         android:layout_width="wrap_content"
@@ -22,66 +24,87 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/iv_left_avatar"
-            android:layout_width="42dp"
-            android:layout_height="42dp"
-            android:layout_marginLeft="10dp"
-            android:scaleType="centerCrop"
-            android:layout_marginRight="5dp"
-            android:src="@drawable/resources_ic_avatar1" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_message_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:textColor="@color/resources_text_content_color"
+            android:textSize="13sp"
+            android:visibility="gone"
+            tools:text="10:50"
+            tools:visibility="visible" />
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/iv_right_avatar"
-            android:layout_width="42dp"
-            android:layout_height="42dp"
-            android:scaleType="centerCrop"
-            android:layout_alignParentRight="true"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/resources_ic_avatar3" />
-
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/iv_right_avatar"
-            android:layout_toRightOf="@+id/iv_left_avatar"
-            android:orientation="vertical">
+            android:layout_below="@+id/tv_message_time">
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="vertical">
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_left_avatar"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="5dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/resources_ic_avatar1" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_left_nickname"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="lisa"
-                    android:textColor="@color/resources_text_sub_title_color"
-                    android:textSize="14sp" />
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_right_avatar"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="10dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/resources_ic_avatar3" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_right_nickname"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:text="alpha"
-                    android:textColor="@color/resources_text_sub_title_color"
-                    android:textSize="14sp" />
-
-            </RelativeLayout>
-
-            <com.xxl.hello.widget.ui.im.template.MessageTemplateProviderLayout
-                android:id="@+id/fl_message_provider_layout"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="right"
-                android:layout_gravity="right"
-                android:layout_marginTop="5dp" />
+                android:layout_toLeftOf="@+id/iv_right_avatar"
+                android:layout_toRightOf="@+id/iv_left_avatar"
+                android:orientation="vertical">
 
-        </LinearLayout>
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_left_nickname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="lisa"
+                        android:textColor="@color/resources_text_sub_title_color"
+                        android:textSize="14sp" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_right_nickname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:text="alpha"
+                        android:textColor="@color/resources_text_sub_title_color"
+                        android:textSize="14sp" />
+
+                </RelativeLayout>
+
+                <com.xxl.hello.widget.ui.im.template.MessageTemplateProviderLayout
+                    android:id="@+id/fl_message_provider_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginTop="5dp"
+                    android:gravity="right" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
 
     </RelativeLayout>
 

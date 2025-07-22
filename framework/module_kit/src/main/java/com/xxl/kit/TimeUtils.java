@@ -745,6 +745,42 @@ public class TimeUtils {
     }
 
     /**
+     * Return the friendly time span by now.
+     *
+     * @param millis The milliseconds.
+     * @return the friendly time span by now
+     * <ul>
+     * <li>如果今天内，显示 15:32</li>
+     * <li>如果是昨天的，显示昨天15:32</li>
+     * <li>如果小于一周，显示周二15:32</li>
+     * <li>其余显示，2016-10-15</li>
+     * <li>时间不合法的情况全部日期和时间信息，如星期六 十月 27 14:21:20 CST 2007</li>
+     * </ul>
+     */
+    public static String getChatTimeSpanByNow(final long millis) {
+        long now = currentServiceTimeMillis();
+        long span = now - millis;
+        if (span < 0) {
+            // U can read http://www.apihome.cn/api/java/Formatter.html to understand it.
+            return String.format("%tc", millis);
+        }
+
+        long weekSpan = getTimeSpan(now, millis, TimeConstants.DAY);
+        if (weekSpan < 7) {
+            long wee = getWeeOfToday();
+            if (millis >= wee) {
+                return String.format("%tR", millis);
+            } else if (millis >= wee - TimeConstants.DAY) {
+                return String.format("昨天%tR", millis);
+            } else {
+                return String.format("%s%tR", getChineseWeek(millis), millis);
+            }
+        } else {
+            return String.format("%tF", millis);
+        }
+    }
+
+    /**
      * 格式化时长
      *
      * @param timeMs

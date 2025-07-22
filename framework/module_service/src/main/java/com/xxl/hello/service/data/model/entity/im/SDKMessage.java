@@ -1,5 +1,7 @@
 package com.xxl.hello.service.data.model.entity.im;
 
+import com.xxl.kit.TimeUtils;
+
 /**
  * 假设这个是IM SDK 消息实体
  * @author xxl.
@@ -8,6 +10,11 @@ package com.xxl.hello.service.data.model.entity.im;
 public class SDKMessage {
 
     //region: 成员变量
+
+    /**
+     * 消息时间
+     */
+    private long mMessageTime;
 
     /**
      * 消息文本
@@ -24,7 +31,7 @@ public class SDKMessage {
     //region: 构造函数
 
     private SDKMessage() {
-
+        mMessageTime = TimeUtils.currentServiceTimeMillis();
     }
 
     public final static SDKMessage obtain() {
@@ -36,12 +43,21 @@ public class SDKMessage {
     //region: 提供方法
 
 
+    public long getMessageTime() {
+        return mMessageTime;
+    }
+
     public String getTextContent() {
         return mTextContent;
     }
 
     public String getMediaPath() {
         return mMediaPath;
+    }
+
+    public SDKMessage setMessageTime(long messageTime) {
+        this.mMessageTime = messageTime;
+        return this;
     }
 
     public SDKMessage setTextContent(String content) {
