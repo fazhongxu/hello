@@ -49,6 +49,7 @@ import com.xxl.hello.widget.ui.view.record.RecordButton;
 import com.xxl.hello.widget.ui.window.MessagePopupWindow;
 import com.xxl.kit.AppUtils;
 import com.xxl.kit.ClipboardUtils;
+import com.xxl.kit.CountDownWrapper;
 import com.xxl.kit.FFmpegUtils;
 import com.xxl.kit.ListUtils;
 import com.xxl.kit.LogUtils;
@@ -77,7 +78,8 @@ import io.reactivex.rxjava3.disposables.Disposable;
  */
 public class MainFragment extends BaseStateViewModelFragment<MainViewModel, MainFragmentBinding>
         implements MainNavigator, OnAppStatusChangedListener, OnAudioFrameCapturedListener,
-        TestBindingRecycleItemListener, OnRefreshDataListener, OnTestRecycleItemListener {
+        TestBindingRecycleItemListener, OnRefreshDataListener, OnTestRecycleItemListener,
+        CountDownWrapper.OnCountDownCallback {
 
     //region: 成员变量
 
@@ -85,6 +87,11 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
      * 首页数据模型
      */
     private MainViewModel mMainViewModel;
+
+    /**
+     * 倒计时
+     */
+    private CountDownWrapper mCountDownWrapper;
 
     /**
      * 携带到首页跳转下个页面的路径
@@ -126,6 +133,14 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     //endregion
 
     //region: 页面生命周期
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mCountDownWrapper != null) {
+            mCountDownWrapper.dispose();
+        }
+    }
 
     /**
      * 获取视图资源ID
@@ -299,11 +314,47 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     @Override
     public void onForeground(Activity activity) {
         ToastUtils.success(R.string.resources_app_is_foreground_tips).show();
+        if (mCountDownWrapper != null) {
+            mCountDownWrapper.cancel();
+        }
+        LogUtils.d("倒计时结束 " + mIsCountDownFinish);
     }
 
     @Override
     public void onBackground(Activity activity) {
         ToastUtils.success(R.string.resources_app_is_background_tips).show();
+        mIsCountDownFinish = false;
+        if (mCountDownWrapper == null) {
+            mCountDownWrapper = CountDownWrapper.create(this);
+        }
+        mCountDownWrapper.start(TimeUtils.TimeConstants.MIN);
+    }
+
+    //endregion
+
+    //region: OnCountDownCallback
+
+    /**
+     * 倒计时结束
+     */
+    private boolean mIsCountDownFinish;
+
+    /**
+     * 定期触发回调
+     *
+     * @param millisUntilFinished 单位时间内完成倒计时后剩余的时间
+     */
+    @Override
+    public void onTick(long millisUntilFinished) {
+        Log.e("aaa", "onTick: "+millisUntilFinished );
+    }
+
+    /**
+     * 倒计时结束
+     */
+    @Override
+    public void onFinish() {
+        mIsCountDownFinish = true;
     }
 
     //endregion
@@ -619,6 +670,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
         }
         mTestBindingAdapter.notifyDataSetChanged();
     }
+
 
     //endregion
 
