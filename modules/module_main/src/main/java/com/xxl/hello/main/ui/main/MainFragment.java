@@ -14,6 +14,8 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.tbruyelle.rxpermissions3.RxPermissions;
 import com.xxl.core.aop.annotation.Safe;
 import com.xxl.core.media.audio.AudioCapture;
@@ -250,6 +252,28 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     @Override
     public void onTestClick() {
         UserRouterApi.Login.newBuilder().navigation(getActivity());
+
+        //        Glide 加载图片流程
+//        Glide.with(imageBinding.ivImage)
+//                .asBitmap()
+//                .load(messageEntity.getMediaPath())
+//                .into(new CustomTarget<Bitmap>() {
+//                    @Override
+//                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+//                        imageBinding.ivImage.setImageBitmap(resource);
+//                        adjustViewBounds(imageBinding.ivImage, resource.getWidth(), resource.getHeight());
+//                    }
+//
+//                    @Override
+//                    public void onLoadCleared(@Nullable Drawable placeholder) {
+//
+//                    }
+//                });
+//
+//        into  previous.begin();  requestManager.track(target, request);  SingleRequest#begin  target.getSize(this);(target CustomTarget#getSize)
+//        调到 SingleRequest 的 onSizeReady Engine load 加载图片 DecodeJob run runWrapped();
+//        decodeFromRetrievedData();  decodeFromData
+
     }
 
     /**
