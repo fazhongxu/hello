@@ -42,6 +42,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
         final ViewGroup parent = (ViewGroup) rootView.getParent();
         parent.setBackgroundColor(Color.TRANSPARENT);
 
+        // 软键盘弹出时，完全顶起视图，不加这个只能顶起看到输入框
         dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         return mDialog = dialog;
     }
