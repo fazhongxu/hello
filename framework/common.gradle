@@ -139,5 +139,7 @@ dependencies {
 
     compileOnly deps.umeng.umeng_share_core
 
+    implementation deps.dkplayer.dkplayer_videocache
+
 }
 

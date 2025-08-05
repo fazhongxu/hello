@@ -327,6 +327,7 @@ deps.jsoup = "org.jsoup:jsoup:$versions.jsoup"
 def dkplayer = [:]
 dkplayer.dkplayer = "xyz.doikki.android.dkplayer:dkplayer-java:$versions.dkplayer"
 dkplayer.dkplayer_ijk = "xyz.doikki.android.dkplayer:player-ijk:$versions.dkplayer"
+dkplayer.dkplayer_videocache ="xyz.doikki.android.dkplayer:videocache:$versions.dkplayer"
 deps.dkplayer = dkplayer
 
 //exoplayer
