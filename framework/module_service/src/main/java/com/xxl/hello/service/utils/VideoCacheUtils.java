@@ -10,6 +10,7 @@ import com.xxl.kit.FileUtils;
 import java.io.File;
 
 /**
+ * doc https://www.jianshu.com/p/4745de02dcdc
  * @author xxl.
  * @date 2025/8/5.
  */
