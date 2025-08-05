@@ -1,7 +1,6 @@
 package com.xxl.hello.service.utils;
 
 import android.content.Context;
-import android.text.TextUtils;
 
 import com.danikula.videocache.HttpProxyCacheServer;
 import com.xxl.kit.AppUtils;
@@ -11,6 +10,7 @@ import java.io.File;
 
 /**
  * doc https://www.jianshu.com/p/4745de02dcdc
+ *
  * @author xxl.
  * @date 2025/8/5.
  */
@@ -34,14 +34,8 @@ public class VideoCacheUtils {
      * @return
      */
     public static String getProxyUrl(String url) {
-        String proxyUrl = null;
-        try {
-            proxyUrl = getProxy(AppUtils.getApplication())
-                    .getProxyUrl(url);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return TextUtils.isEmpty(proxyUrl) ? url : proxyUrl;
+        return getProxy(AppUtils.getApplication())
+                .getProxyUrl(url);
     }
 
     /**
