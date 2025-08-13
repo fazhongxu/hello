@@ -1,8 +1,6 @@
 package com.xxl.kit;
 
 import android.os.CountDownTimer;
-import android.os.Handler;
-import android.os.Looper;
 
 /**
  * 倒计时包装类
@@ -14,30 +12,14 @@ public class CountDownWrapper {
 
     private CountDownTimer mCountDownTimer;
 
-    private PreciseCountdown mPreciseCountdown;
-
-    private Handler mHandler = new Handler(Looper.getMainLooper());
-
-    /**
-     * 是否是自定义精确的倒计时
-     */
-    private boolean mIsPrecise;
-
     private OnCountDownCallback mCallBack;
 
-    private CountDownWrapper(final boolean isPrecise,
-                             OnCountDownCallback callback) {
-        mIsPrecise = isPrecise;
+    private CountDownWrapper(OnCountDownCallback callback) {
         mCallBack = callback;
     }
 
     public static CountDownWrapper create(OnCountDownCallback callback) {
-        return new CountDownWrapper(false, callback);
-    }
-
-    public static CountDownWrapper create(boolean isPrecise,
-                                          OnCountDownCallback callback) {
-        return new CountDownWrapper(isPrecise, callback);
+        return new CountDownWrapper(callback);
     }
 
     public void start(long millisInFuture) {
@@ -46,25 +28,6 @@ public class CountDownWrapper {
 
     public void start(long millisInFuture, long countDownInterval) {
         cancel();
-        if (mIsPrecise) {
-            mPreciseCountdown = new PreciseCountdown(millisInFuture, countDownInterval) {
-                @Override
-                public void onTick(long millisUntilFinished) {
-                    if (mHandler != null) {
-                        mHandler.post(() -> mCallBack.onTick(millisUntilFinished));
-                    }
-                }
-
-                @Override
-                public void onFinished() {
-                    if (mHandler != null) {
-                        mHandler.post(() -> mCallBack.onFinish());
-                    }
-                }
-            };
-            mPreciseCountdown.start();
-            return;
-        }
         mCountDownTimer = new CountDownTimer(millisInFuture, countDownInterval) {
 
             @Override
@@ -88,20 +51,12 @@ public class CountDownWrapper {
         if (mCountDownTimer != null) {
             mCountDownTimer.cancel();
         }
-
-        if (mPreciseCountdown != null) {
-            mPreciseCountdown.stop();
-        }
     }
 
     public void dispose() {
 
         if (mCountDownTimer != null) {
             mCountDownTimer.cancel();
-        }
-
-        if (mPreciseCountdown != null) {
-            mPreciseCountdown.dispose();
         }
     }
 
