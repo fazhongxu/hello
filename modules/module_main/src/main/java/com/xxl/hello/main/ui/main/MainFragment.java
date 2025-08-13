@@ -89,11 +89,6 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     private MainViewModel mMainViewModel;
 
     /**
-     * 倒计时
-     */
-    private CountDownWrapper mCountDownWrapper;
-
-    /**
      * 携带到首页跳转下个页面的路径
      */
     @Autowired(name = MainRouterApi.Main.PARAMS_KEY_NEXT_PATH)
@@ -133,14 +128,6 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     //endregion
 
     //region: 页面生命周期
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (mCountDownWrapper != null) {
-            mCountDownWrapper.dispose();
-        }
-    }
 
     /**
      * 获取视图资源ID
@@ -314,20 +301,11 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     @Override
     public void onForeground(Activity activity) {
         ToastUtils.success(R.string.resources_app_is_foreground_tips).show();
-        if (mCountDownWrapper != null) {
-            mCountDownWrapper.cancel();
-        }
-        LogUtils.d("倒计时结束 " + mIsCountDownFinish);
     }
 
     @Override
     public void onBackground(Activity activity) {
         ToastUtils.success(R.string.resources_app_is_background_tips).show();
-        mIsCountDownFinish = false;
-        if (mCountDownWrapper == null) {
-            mCountDownWrapper = CountDownWrapper.create(this);
-        }
-        mCountDownWrapper.start(TimeUtils.TimeConstants.MIN);
     }
 
     //endregion
