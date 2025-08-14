@@ -1359,6 +1359,27 @@ public class TimeUtils {
     }
 
     /**
+     * 判断两个时间戳是否属于同一周
+     *
+     * @param millis1 时间戳1
+     * @param millis2 时间戳2
+     * @return 是否是同一周
+     */
+    public static boolean isSameWeek(final long millis1, final long millis2) {
+        Calendar calendar = Calendar.getInstance();
+
+        calendar.setTimeInMillis(millis1);
+        int year1 = calendar.get(Calendar.YEAR);
+        int week1 = calendar.get(Calendar.WEEK_OF_YEAR);
+
+        calendar.setTimeInMillis(millis2);
+        int year2 = calendar.get(Calendar.YEAR);
+        int week2 = calendar.get(Calendar.WEEK_OF_YEAR);
+
+        return year1 == year2 && week1 == week2;
+    }
+
+    /**
      * 去除时间戳中的分钟和毫秒
      *
      * @param timestamp
