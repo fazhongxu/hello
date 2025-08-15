@@ -12,6 +12,7 @@ import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.tbruyelle.rxpermissions3.RxPermissions;
@@ -33,6 +34,7 @@ import com.xxl.hello.main.BR;
 import com.xxl.hello.main.R;
 import com.xxl.hello.main.databinding.MainFragmentBinding;
 import com.xxl.hello.main.ui.main.adapter.OnTestRecycleItemListener;
+import com.xxl.hello.main.ui.main.adapter.TestBindingAdapter;
 import com.xxl.hello.main.ui.main.adapter.TestBindingRecycleItemListener;
 import com.xxl.hello.main.ui.main.adapter.TestListEntity;
 import com.xxl.hello.main.ui.main.adapter.multi.TestMultiAdapter;
@@ -615,7 +617,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
             if (!ListUtils.isEmpty(entities)) {
                 Collections.sort(entities, (o1, o2) -> {
                     if (Boolean.compare(o2.isTop(), o1.isTop()) == 0) {
-                        return (int) (o1.getSortTime() - o2.getSortTime());
+                        return (int) (o2.getSortTime() - o1.getSortTime());
                     }
                     return Boolean.compare(o2.isTop(), o1.isTop());
                 });
@@ -640,7 +642,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
         final List<TestListEntity> entities = mTestBindingAdapter.getData();
         if (!ListUtils.isEmpty(entities)) {
             Collections.sort(entities, (o1, o2) -> {
-                if ((o2.isTop() && o1.isTop()) || (!o2.isTop() && !o1.isTop())) {
+                if (Boolean.compare(o2.isTop(), o1.isTop()) == 0) {
                     return (int) (o2.getSortTime() - o1.getSortTime());
                 }
                 return Boolean.compare(o2.isTop(), o1.isTop());

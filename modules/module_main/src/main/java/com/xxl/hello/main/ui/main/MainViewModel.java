@@ -111,7 +111,7 @@ public class MainViewModel extends BaseViewModel<MainNavigator> {
 //                            .setMediaType(i % 2 == 0 ? SystemEnumsApi.CircleMediaType.IMAGE : SystemEnumsApi.CircleMediaType.TEXT)
                             .setMediaType(SystemEnumsApi.CircleMediaType.IMAGE)
                             .setUrl(urls.get(random.nextInt(urls.size())))
-                            .setSortTime(mCurrentTimeMillis += 1)
+                            .setSortTime(mCurrentTimeMillis -= 1)
                             .setHeader(i == 5);
                     list.add(testListEntity);
                 }
