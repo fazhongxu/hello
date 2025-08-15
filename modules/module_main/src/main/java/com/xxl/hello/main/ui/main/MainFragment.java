@@ -640,8 +640,8 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
         final List<TestListEntity> entities = mTestBindingAdapter.getData();
         if (!ListUtils.isEmpty(entities)) {
             Collections.sort(entities, (o1, o2) -> {
-                if (Boolean.compare(o2.isTop(), o1.isTop()) == 0) {
-                    return (int) (o1.getSortTime() - o2.getSortTime());
+                if ((o2.isTop() && o1.isTop()) || (!o2.isTop() && !o1.isTop())) {
+                    return (int) (o2.getSortTime() - o1.getSortTime());
                 }
                 return Boolean.compare(o2.isTop(), o1.isTop());
             });
