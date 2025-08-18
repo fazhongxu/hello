@@ -77,15 +77,6 @@ public class TimeUtils {
         return System.currentTimeMillis();
     }
 
-    /**
-     * 当前本地时间戳
-     *
-     * @return
-     */
-    public static long currentTimeMillis() {
-        return System.currentTimeMillis();
-    }
-
     private static final ThreadLocal<Map<String, SimpleDateFormat>> SDF_THREAD_LOCAL
             = new ThreadLocal<Map<String, SimpleDateFormat>>() {
         @Override
