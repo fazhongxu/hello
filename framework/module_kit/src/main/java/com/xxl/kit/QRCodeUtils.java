@@ -14,7 +14,10 @@ import org.opencv.OpenCV;
 
 import java.util.List;
 
+import io.reactivex.Scheduler;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 
 /**
@@ -47,6 +50,39 @@ public final class QRCodeUtils {
             String result;
             Bitmap bitmap = target.get();
             List<String> results = WeChatQRCodeDetector.detectAndDecode(bitmap);
+            result = ListUtils.getFirst(results);
+            if (TextUtils.isEmpty(result)) {
+                result = "";
+            }
+            emitter.onNext(result);
+            emitter.onComplete();
+        });
+    }
+
+
+    /**
+     * 请求解析二维码
+     *
+     * @param targetBitmap
+     */
+    public static String requestDecodeQRCode(@NonNull final Bitmap targetBitmap) {
+        List<String> results = WeChatQRCodeDetector.detectAndDecode(targetBitmap);
+        String result = ListUtils.getFirst(results);
+        if (TextUtils.isEmpty(result)) {
+            result = "";
+        }
+        return result;
+    }
+
+    /**
+     * 请求解析二维码
+     *
+     * @param targetBitmap
+     */
+    public static Observable<String> requestDecodeQRCodeObservable(@NonNull final Bitmap targetBitmap) {
+        return Observable.create(emitter -> {
+            String result;
+            List<String> results = WeChatQRCodeDetector.detectAndDecode(targetBitmap);
             result = ListUtils.getFirst(results);
             if (TextUtils.isEmpty(result)) {
                 result = "";
