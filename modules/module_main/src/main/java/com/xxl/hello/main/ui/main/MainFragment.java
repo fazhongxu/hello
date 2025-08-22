@@ -241,38 +241,12 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     public void onTestClick() {
         UserRouterApi.Login.newBuilder().navigation(getActivity());
 
-//        String path = "/storage/emulated/0/DCIM/Camera/TG-2025-05-10-174417956.mp4";
-        String path = "/storage/emulated/0/Download/111.mp4";
-//        VideoUtils.detectQrCodeInVideo(path, 1000, new VideoUtils.OnDetectQRCodeCallback() {
-//            @Override
-//            public void onQRCodeDetected(String result, long timeUs) {
-//                Log.e("aaa", "onQRCodeDetected: " + result + " time = " + timeUs);
-//            }
-//
-//            @Override
-//            public void onDetectedComplete(boolean isSuccess) {
-//                Log.e("aaa", "onDetectedComplete: " + isSuccess);
-//            }
-//        });
-
-        String outPath = CacheDirConfig.CACHE_DIR + File.separator + "frame";
-        FFmpegUtils.extractFrames(path, outPath, 1, new OnRequestCallBack<Boolean>() {
+        String path = "/storage/emulated/0/DCIM/Camera/TG-2025-05-10-174417956.mp4";
+        //String path = "/storage/emulated/0/Download/111.mp4";
+        VideoUtils.detectVideoQRCode(path, 1, new OnRequestCallBack<Boolean>() {
             @Override
-            public void onSuccess(Boolean isSuccess) {
-                Log.e("aaa", "onSuccess: " + isSuccess + Thread.currentThread().getName());
-                if (isSuccess) {
-                    requestDecodeQRCode(FileUtils.listFilesInDir(outPath), new VideoUtils.OnDetectQRCodeCallback() {
-                        @Override
-                        public void onQRCodeDetected(String result, long timeUs) {
-                            Log.e("aaa", "onQRCodeDetected: "+result );
-                        }
-
-                        @Override
-                        public void onDetectedComplete(boolean isSuccess) {
-                            Log.e("aaa", "onDetectedComplete: " );
-                        }
-                    });
-                }
+            public void onSuccess(Boolean aBoolean) {
+                Log.e("aaa", "onSuccess: " + aBoolean);
             }
         });
     }
