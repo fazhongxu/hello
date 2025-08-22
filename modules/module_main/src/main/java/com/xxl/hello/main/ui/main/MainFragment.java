@@ -60,6 +60,7 @@ import com.xxl.kit.LogUtils;
 import com.xxl.kit.MediaUtils;
 import com.xxl.kit.OnAppStatusChangedListener;
 import com.xxl.kit.OnRequestCallBack;
+import com.xxl.kit.QRCodeUtils;
 import com.xxl.kit.ResourceUtils;
 import com.xxl.kit.StringUtils;
 import com.xxl.kit.ThreadUtils;
@@ -240,9 +241,10 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
     @Override
     public void onTestClick() {
-//        UserRouterApi.Login.newBuilder().navigation(getActivity());
+        UserRouterApi.Login.newBuilder().navigation(getActivity());
 
         String path = "/storage/emulated/0/DCIM/Camera/TG-2025-05-10-174417956.mp4";
+//        String path = "/storage/emulated/0/Download/111.mp4";
 //        VideoUtils.detectQrCodeInVideo(path, 1000, new VideoUtils.OnDetectQRCodeCallback() {
 //            @Override
 //            public void onQRCodeDetected(String result, long timeUs) {
@@ -256,10 +258,21 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 //        });
 
         String outPath = CacheDirConfig.CACHE_DIR + File.separator + "frame";
-        FFmpegUtils.extractFrames(path,outPath, 1, new OnRequestCallBack<Boolean>() {
+        FFmpegUtils.extractFrames(path, outPath, 1, new OnRequestCallBack<Boolean>() {
             @Override
-            public void onSuccess(Boolean aBoolean) {
-                Log.e("aaa", "onSuccess: "+aBoolean);
+            public void onSuccess(Boolean isSuccess) {
+                Log.e("aaa", "onSuccess: " + isSuccess + Thread.currentThread().getName());
+                if (isSuccess) {
+                    List<File> files = FileUtils.listFilesInDir(outPath);
+                    for (File file : files) {
+                        QRCodeUtils.requestDecodeQRCode(file.getAbsolutePath(), new OnRequestCallBack<String>() {
+                            @Override
+                            public void onSuccess(String s) {
+                                Log.e("aaa", "onSuccess:  结果 "+s);
+                            }
+                        });
+                    }
+                }
             }
         });
     }

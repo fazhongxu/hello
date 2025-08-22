@@ -14,8 +14,7 @@ import org.opencv.OpenCV;
 
 import java.util.List;
 
-import io.reactivex.Scheduler;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
@@ -34,6 +33,24 @@ public final class QRCodeUtils {
     public static void initWeChatQRCodeDetector(Application application) {
         OpenCV.initAsync(application);
         WeChatQRCodeDetector.init(application);
+    }
+
+    /**
+     * 请求解析二维码
+     *
+     * @param targetUrl
+     * @param callBack
+     */
+    public static void requestDecodeQRCode(@NonNull final String targetUrl,
+                                           @NonNull final OnRequestCallBack<String> callBack) {
+        QRCodeUtils.requestDecodeQRCodeObservable(targetUrl)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(result -> {
+                    callBack.onSuccess(result);
+                }, throwable -> {
+                    callBack.onSuccess("");
+                });
     }
 
     /**
