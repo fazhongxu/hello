@@ -54,6 +54,7 @@ import com.xxl.kit.AppUtils;
 import com.xxl.kit.ClipboardUtils;
 import com.xxl.kit.CountDownWrapper;
 import com.xxl.kit.FFmpegUtils;
+import com.xxl.kit.FileUtils;
 import com.xxl.kit.ListUtils;
 import com.xxl.kit.LogUtils;
 import com.xxl.kit.MediaUtils;
@@ -242,15 +243,23 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 //        UserRouterApi.Login.newBuilder().navigation(getActivity());
 
         String path = "/storage/emulated/0/DCIM/Camera/TG-2025-05-10-174417956.mp4";
-        VideoUtils.detectQrCodeInVideo(path, 1000, new VideoUtils.OnDetectQRCodeCallback() {
-            @Override
-            public void onQRCodeDetected(String result, long timeUs) {
-                Log.e("aaa", "onQRCodeDetected: " + result + " time = " + timeUs);
-            }
+//        VideoUtils.detectQrCodeInVideo(path, 1000, new VideoUtils.OnDetectQRCodeCallback() {
+//            @Override
+//            public void onQRCodeDetected(String result, long timeUs) {
+//                Log.e("aaa", "onQRCodeDetected: " + result + " time = " + timeUs);
+//            }
+//
+//            @Override
+//            public void onDetectedComplete(boolean isSuccess) {
+//                Log.e("aaa", "onDetectedComplete: " + isSuccess);
+//            }
+//        });
 
+        String outPath = CacheDirConfig.CACHE_DIR + File.separator + "frame";
+        FFmpegUtils.extractFrames(path,outPath, 1, new OnRequestCallBack<Boolean>() {
             @Override
-            public void onDetectedComplete(boolean isSuccess) {
-                Log.e("aaa", "onDetectedComplete: " + isSuccess);
+            public void onSuccess(Boolean aBoolean) {
+                Log.e("aaa", "onSuccess: "+aBoolean);
             }
         });
     }

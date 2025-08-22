@@ -860,6 +860,29 @@ public class FFmpegUtils {
         });
     }
 
+    /**
+     * 视频抽帧
+     *
+     * @param videoPath 视频路径
+     * @param interval  间隔时间（秒）
+     */
+    public static void extractFrames(String videoPath,
+                                     String outFrameDir,
+                                     int interval,
+                                     OnRequestCallBack<Boolean> callBack) {
+        if (FileUtils.isFileExists(outFrameDir)) {
+            FileUtils.deleteDir(outFrameDir);
+        }
+        FileUtils.createOrExistsDir(outFrameDir);
+        String command = String.format(Locale.getDefault(),"-y -i %s -vf fps=%d -vcodec png %s/frame_%%04d.png", videoPath, interval, outFrameDir);
+        executeAsync(command, new OnRequestCallBack<Boolean>() {
+            @Override
+            public void onSuccess(Boolean aBoolean) {
+                callBack.onSuccess(aBoolean);
+            }
+        });
+    }
+
     public static String argumentsToString(final String[] arguments) {
         if (arguments == null) {
             return "null";
