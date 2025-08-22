@@ -12,7 +12,6 @@ import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.tbruyelle.rxpermissions3.RxPermissions;
@@ -35,7 +34,6 @@ import com.xxl.hello.main.BR;
 import com.xxl.hello.main.R;
 import com.xxl.hello.main.databinding.MainFragmentBinding;
 import com.xxl.hello.main.ui.main.adapter.OnTestRecycleItemListener;
-import com.xxl.hello.main.ui.main.adapter.TestBindingAdapter;
 import com.xxl.hello.main.ui.main.adapter.TestBindingRecycleItemListener;
 import com.xxl.hello.main.ui.main.adapter.TestListEntity;
 import com.xxl.hello.main.ui.main.adapter.multi.TestMultiAdapter;
@@ -243,8 +241,8 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     public void onTestClick() {
         UserRouterApi.Login.newBuilder().navigation(getActivity());
 
-        String path = "/storage/emulated/0/DCIM/Camera/TG-2025-05-10-174417956.mp4";
-//        String path = "/storage/emulated/0/Download/111.mp4";
+//        String path = "/storage/emulated/0/DCIM/Camera/TG-2025-05-10-174417956.mp4";
+        String path = "/storage/emulated/0/Download/111.mp4";
 //        VideoUtils.detectQrCodeInVideo(path, 1000, new VideoUtils.OnDetectQRCodeCallback() {
 //            @Override
 //            public void onQRCodeDetected(String result, long timeUs) {
@@ -263,16 +261,37 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
             public void onSuccess(Boolean isSuccess) {
                 Log.e("aaa", "onSuccess: " + isSuccess + Thread.currentThread().getName());
                 if (isSuccess) {
-                    List<File> files = FileUtils.listFilesInDir(outPath);
-                    for (File file : files) {
-                        QRCodeUtils.requestDecodeQRCode(file.getAbsolutePath(), new OnRequestCallBack<String>() {
-                            @Override
-                            public void onSuccess(String s) {
-                                Log.e("aaa", "onSuccess:  结果 "+s);
-                            }
-                        });
-                    }
+                    requestDecodeQRCode(FileUtils.listFilesInDir(outPath), new VideoUtils.OnDetectQRCodeCallback() {
+                        @Override
+                        public void onQRCodeDetected(String result, long timeUs) {
+                            Log.e("aaa", "onQRCodeDetected: "+result );
+                        }
+
+                        @Override
+                        public void onDetectedComplete(boolean isSuccess) {
+                            Log.e("aaa", "onDetectedComplete: " );
+                        }
+                    });
                 }
+            }
+        });
+    }
+
+    private void requestDecodeQRCode(@NonNull final List<File> targetFiles,
+                                     @NonNull final VideoUtils.OnDetectQRCodeCallback callBack) {
+        if (ListUtils.isEmpty(targetFiles)) {
+            callBack.onDetectedComplete(true);
+            return;
+        }
+        String targetUrl = targetFiles.remove(0).getAbsolutePath();
+        QRCodeUtils.requestDecodeQRCode(targetUrl, new OnRequestCallBack<String>() {
+            @Override
+            public void onSuccess(String s) {
+                if (!TextUtils.isEmpty(s)) {
+                    callBack.onQRCodeDetected(s, 0);
+                    return;
+                }
+                requestDecodeQRCode(targetFiles, callBack);
             }
         });
     }
