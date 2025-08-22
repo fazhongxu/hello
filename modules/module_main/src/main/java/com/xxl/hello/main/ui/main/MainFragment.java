@@ -25,7 +25,6 @@ import com.xxl.core.ui.state.EmptyState;
 import com.xxl.core.utils.AppExpandUtils;
 import com.xxl.core.utils.CrashHandler;
 import com.xxl.core.utils.DecorationUtils;
-import com.xxl.core.utils.VideoUtils;
 import com.xxl.core.widget.recyclerview.OnRefreshDataListener;
 import com.xxl.core.widget.text.LinkTouchMovementMethod;
 import com.xxl.hello.common.config.AppConfig;
@@ -52,13 +51,11 @@ import com.xxl.kit.AppUtils;
 import com.xxl.kit.ClipboardUtils;
 import com.xxl.kit.CountDownWrapper;
 import com.xxl.kit.FFmpegUtils;
-import com.xxl.kit.FileUtils;
 import com.xxl.kit.ListUtils;
 import com.xxl.kit.LogUtils;
 import com.xxl.kit.MediaUtils;
 import com.xxl.kit.OnAppStatusChangedListener;
 import com.xxl.kit.OnRequestCallBack;
-import com.xxl.kit.QRCodeUtils;
 import com.xxl.kit.ResourceUtils;
 import com.xxl.kit.StringUtils;
 import com.xxl.kit.ThreadUtils;
@@ -240,34 +237,6 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     @Override
     public void onTestClick() {
         UserRouterApi.Login.newBuilder().navigation(getActivity());
-
-        String path = "/storage/emulated/0/DCIM/Camera/TG-2025-05-10-174417956.mp4";
-        //String path = "/storage/emulated/0/Download/111.mp4";
-        VideoUtils.detectVideoQRCode(path, 1, new OnRequestCallBack<Boolean>() {
-            @Override
-            public void onSuccess(Boolean aBoolean) {
-                Log.e("aaa", "onSuccess: " + aBoolean);
-            }
-        });
-    }
-
-    private void requestDecodeQRCode(@NonNull final List<File> targetFiles,
-                                     @NonNull final VideoUtils.OnDetectQRCodeCallback callBack) {
-        if (ListUtils.isEmpty(targetFiles)) {
-            callBack.onDetectedComplete(true);
-            return;
-        }
-        String targetUrl = targetFiles.remove(0).getAbsolutePath();
-        QRCodeUtils.requestDecodeQRCode(targetUrl, new OnRequestCallBack<String>() {
-            @Override
-            public void onSuccess(String s) {
-                if (!TextUtils.isEmpty(s)) {
-                    callBack.onQRCodeDetected(s, 0);
-                    return;
-                }
-                requestDecodeQRCode(targetFiles, callBack);
-            }
-        });
     }
 
     /**
