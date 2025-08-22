@@ -1,7 +1,5 @@
 package com.xxl.hello.widget.ui.im.template;
 
-import android.graphics.Bitmap;
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -9,7 +7,6 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 
 import com.xxl.core.image.loader.ImageLoader;
-import com.xxl.core.utils.VideoUtils;
 import com.xxl.hello.service.data.model.entity.im.MessageEntity;
 import com.xxl.hello.service.data.model.entity.im.MessageTemplate;
 import com.xxl.hello.service.data.model.entity.im.MessageTemplateType;
@@ -67,35 +64,6 @@ public class VideoMessageTemplateProvider extends MessageTemplateProvider {
         ImageLoader.with(rootView.getContext())
                 .load(messageEntity.getMediaPath())
                 .into(imageBinding.ivCover);
-
-        VideoUtils.detectQrCodeInVideo(messageEntity.getMediaPath(), 1000, new VideoUtils.OnDetectQRCodeCallback() {
-            @Override
-            public void onQRCodeDetected(String result, long timeUs) {
-                Log.e("aaa", "onQRCodeDetected: " + result + " time = " + timeUs);
-            }
-
-            @Override
-            public void onDetectedComplete(boolean isSuccess) {
-                Log.e("aaa", "onDetectedComplete: " + isSuccess);
-            }
-        });
-
-//        VideoUtils.extractFrames(messageEntity.getMediaPath(), 1000, new VideoUtils.OnExtractFramesCallback() {
-//            @Override
-//            public void onFrameExtracted(Bitmap frame, long timeUs) {
-//                Log.e("aaa", "onFrameExtracted: "+ frame +"  "+timeUs );
-//            }
-//
-//            @Override
-//            public void onExtractedComplete() {
-//                Log.e("aaa", "onExtractedComplete: " );
-//            }
-//
-//            @Override
-//            public void onError(Throwable t) {
-//                Log.e("aaa", "onError: " +t);
-//            }
-//        });
 
         imageBinding.ivCover.setOnClickListener(v -> {
             if (listener != null && listener.onMessageItemClick(messageEntity)) {

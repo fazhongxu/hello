@@ -26,6 +26,7 @@ import com.xxl.core.ui.state.EmptyState;
 import com.xxl.core.utils.AppExpandUtils;
 import com.xxl.core.utils.CrashHandler;
 import com.xxl.core.utils.DecorationUtils;
+import com.xxl.core.utils.VideoUtils;
 import com.xxl.core.widget.recyclerview.OnRefreshDataListener;
 import com.xxl.core.widget.text.LinkTouchMovementMethod;
 import com.xxl.hello.common.config.AppConfig;
@@ -238,7 +239,20 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
     @Override
     public void onTestClick() {
-        UserRouterApi.Login.newBuilder().navigation(getActivity());
+//        UserRouterApi.Login.newBuilder().navigation(getActivity());
+
+        String path = "/storage/emulated/0/DCIM/Camera/TG-2025-05-10-174417956.mp4";
+        VideoUtils.detectQrCodeInVideo(path, 1000, new VideoUtils.OnDetectQRCodeCallback() {
+            @Override
+            public void onQRCodeDetected(String result, long timeUs) {
+                Log.e("aaa", "onQRCodeDetected: " + result + " time = " + timeUs);
+            }
+
+            @Override
+            public void onDetectedComplete(boolean isSuccess) {
+                Log.e("aaa", "onDetectedComplete: " + isSuccess);
+            }
+        });
     }
 
     /**

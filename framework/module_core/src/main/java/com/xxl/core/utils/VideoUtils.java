@@ -194,7 +194,7 @@ public class VideoUtils {
 
             @Override
             public void onExtractedComplete() {
-                callback.onDetectedComplete(false);
+                callback.onDetectedComplete(true);
             }
 
             @Override
