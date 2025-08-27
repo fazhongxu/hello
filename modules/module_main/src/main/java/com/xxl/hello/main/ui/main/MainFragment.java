@@ -3,6 +3,7 @@ package com.xxl.hello.main.ui.main;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.media.MediaMetadataRetriever;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -11,9 +12,11 @@ import android.view.View;
 import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.exifinterface.media.ExifInterface;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
+import com.arthenica.ffmpegkit.MediaInformationSession;
 import com.tbruyelle.rxpermissions3.RxPermissions;
 import com.xxl.core.aop.annotation.Safe;
 import com.xxl.core.media.audio.AudioCapture;
@@ -51,6 +54,7 @@ import com.xxl.kit.AppUtils;
 import com.xxl.kit.ClipboardUtils;
 import com.xxl.kit.CountDownWrapper;
 import com.xxl.kit.FFmpegUtils;
+import com.xxl.kit.FileUtils;
 import com.xxl.kit.ListUtils;
 import com.xxl.kit.LogUtils;
 import com.xxl.kit.MediaUtils;
@@ -62,7 +66,10 @@ import com.xxl.kit.ThreadUtils;
 import com.xxl.kit.TimeUtils;
 import com.xxl.kit.ToastUtils;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -237,6 +244,60 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     @Override
     public void onTestClick() {
         UserRouterApi.Login.newBuilder().navigation(getActivity());
+
+
+        String path = "/storage/emulated/0/DCIM/Camera/VID_20250529152718.mp4";
+        String path1 = CacheDirConfig.CACHE_DIR + File.separator + "1.mp4";
+        String outPath = CacheDirConfig.CACHE_DIR + File.separator + "2.mp4";
+        FileUtils.copyFile(path, path1, null);
+
+        String json = "{\"name\":\"zzz\",\"age\":12}";
+        String command = String.format("-y -i %s -metadata artist=\"%s\" -codec copy %s", path1, json, outPath);
+
+        FFmpegUtils.executeAsync(command, new OnRequestCallBack<Boolean>() {
+            @Override
+            public void onSuccess(Boolean aBoolean) {
+                Log.e("aaa", "onSuccess: " + aBoolean);
+
+                FFmpegUtils.getMediaInformationAsync(outPath, new OnRequestCallBack<MediaInformationSession>() {
+                    @Override
+                    public void onSuccess(MediaInformationSession session) {
+                        Log.e("aaa", "onSuccess: " + session.toString());
+                    }
+                });
+            }
+        });
+    }
+
+    private static final int SIGNATURE_CHECK_SIZE = 5000;
+
+    // Checks the type of image file
+    private int getMimeType(BufferedInputStream in) throws IOException {
+        in.mark(SIGNATURE_CHECK_SIZE);
+        byte[] signatureCheckBytes = new byte[SIGNATURE_CHECK_SIZE];
+        in.read(signatureCheckBytes);
+        in.reset();
+        if (isPngFormat(signatureCheckBytes)) {
+            return 1;
+        }
+        // Certain file formats (PEF) are identified in readImageFileDirectory()
+        return 0;
+    }
+
+    private static final byte[] PNG_SIGNATURE = new byte[]{(byte) 0x89, (byte) 0x50, (byte) 0x4e,
+            (byte) 0x47, (byte) 0x0d, (byte) 0x0a, (byte) 0x1a, (byte) 0x0a};
+
+    /**
+     * PNG's file signature is first 8 bytes.
+     * See PNG (Portable Network Graphics) Specification, Version 1.2, 3.1. PNG file signature
+     */
+    private boolean isPngFormat(byte[] signatureCheckBytes) throws IOException {
+        for (int i = 0; i < PNG_SIGNATURE.length; i++) {
+            if (signatureCheckBytes[i] != PNG_SIGNATURE[i]) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
