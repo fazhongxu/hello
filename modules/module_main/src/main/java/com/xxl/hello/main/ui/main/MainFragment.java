@@ -62,9 +62,7 @@ import com.xxl.kit.ThreadUtils;
 import com.xxl.kit.TimeUtils;
 import com.xxl.kit.ToastUtils;
 
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -239,37 +237,6 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     @Override
     public void onTestClick() {
         UserRouterApi.Login.newBuilder().navigation(getActivity());
-    }
-
-    private static final int SIGNATURE_CHECK_SIZE = 5000;
-
-    // Checks the type of image file
-    private int getMimeType(BufferedInputStream in) throws IOException {
-        in.mark(SIGNATURE_CHECK_SIZE);
-        byte[] signatureCheckBytes = new byte[SIGNATURE_CHECK_SIZE];
-        in.read(signatureCheckBytes);
-        in.reset();
-        if (isPngFormat(signatureCheckBytes)) {
-            return 1;
-        }
-        // Certain file formats (PEF) are identified in readImageFileDirectory()
-        return 0;
-    }
-
-    private static final byte[] PNG_SIGNATURE = new byte[]{(byte) 0x89, (byte) 0x50, (byte) 0x4e,
-            (byte) 0x47, (byte) 0x0d, (byte) 0x0a, (byte) 0x1a, (byte) 0x0a};
-
-    /**
-     * PNG's file signature is first 8 bytes.
-     * See PNG (Portable Network Graphics) Specification, Version 1.2, 3.1. PNG file signature
-     */
-    private boolean isPngFormat(byte[] signatureCheckBytes) throws IOException {
-        for (int i = 0; i < PNG_SIGNATURE.length; i++) {
-            if (signatureCheckBytes[i] != PNG_SIGNATURE[i]) {
-                return false;
-            }
-        }
-        return true;
     }
 
     /**
