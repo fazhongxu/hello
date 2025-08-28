@@ -245,33 +245,17 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
         String outPath1 = CacheDirConfig.CACHE_DIR + File.separator + "lantingjixu.mp3";
 
         String inputPath = PathUtils.getExtDownloadsPath() + File.separator + "lantingjixu.mp3";
-        FileUtils.copyFile(inputPath,outPath1,null);
-
-        //lavfi lavfilter 动态生成音频
-        //sine=frequency=800:duration=0.4：生成800Hz正弦波，持续0.4秒
-        //aevalsrc=0:d=0.4：生成静音，持续0.4秒
-
-        String command = String.format("-y " +
-                "-f lavfi -i \"aevalsrc=0:d=1.0\" " +
-                "-f lavfi -i \"sine=frequency=800:duration=0.4\" " +
-                "-f lavfi -i \"aevalsrc=0:d=0.4\" " +
-                "-f lavfi -i \"sine=frequency=800:duration=1.2\" " +
-                "-f lavfi -i \"aevalsrc=0:d=1.0\" " +
-                "-f lavfi -i \"sine=frequency=800:duration=0.4\" " +
-                "-f lavfi -i \"aevalsrc=0:d=0.4\" " +
-                "-f lavfi -i \"sine=frequency=800:duration=0.4\" " +
-                "-filter_complex \"[0:a][1:a][2:a][3:a][4:a][5:a][6:a][7:a]concat=n=8:v=0:a=1\" " +
-                "-t 5.6 -acodec libmp3lame -ar 44100 %s", outPath);
+        FileUtils.copyFile(inputPath, outPath1, null);
 
         List<String> inputPaths = new ArrayList<>();
         inputPaths.add(outPath1);
         inputPaths.add(outPath);
 
-        FFmpegUtils.executeAsync(command, new OnRequestCallBack<Boolean>() {
+        FFmpegUtils.generateAIMorseCodeAudio(outPath, new OnRequestCallBack<Boolean>() {
             @Override
             public void onSuccess(Boolean aBoolean) {
-                Log.e("aa", "onSuccess: "+aBoolean );
-                FFmpegUtils.concatAudio(inputPaths,result);
+                Log.e("aa", "onSuccess: " + aBoolean);
+                FFmpegUtils.concatAudio(inputPaths, result);
             }
         });
     }

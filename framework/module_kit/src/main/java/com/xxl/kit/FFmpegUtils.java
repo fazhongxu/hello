@@ -227,6 +227,28 @@ public class FFmpegUtils {
     }
 
     /**
+     * 生成"AI"摩斯密码的音频
+     *
+     * @param outputPath 音频输出路径
+     * @param callBack   回调
+     */
+    public static void generateAIMorseCodeAudio(String outputPath,
+                                                OnRequestCallBack<Boolean> callBack) {
+        String command = String.format("-y " +
+                "-f lavfi -i \"aevalsrc=0:d=1.0\" " +
+                "-f lavfi -i \"sine=frequency=800:duration=0.4\" " +
+                "-f lavfi -i \"aevalsrc=0:d=0.4\" " +
+                "-f lavfi -i \"sine=frequency=800:duration=1.2\" " +
+                "-f lavfi -i \"aevalsrc=0:d=1.0\" " +
+                "-f lavfi -i \"sine=frequency=800:duration=0.4\" " +
+                "-f lavfi -i \"aevalsrc=0:d=0.4\" " +
+                "-f lavfi -i \"sine=frequency=800:duration=0.4\" " +
+                "-filter_complex \"[0:a][1:a][2:a][3:a][4:a][5:a][6:a][7:a]concat=n=8:v=0:a=1\" " +
+                "-t 5.6 -acodec libmp3lame -ar 44100 %s", outputPath);
+        FFmpegUtils.executeAsync(command, callBack);
+    }
+
+    /**
      * 音频拼接
      *
      * @param inputAudioPaths 目标音频文件路径
