@@ -239,7 +239,7 @@ public class FFmpegUtils {
                 "-f lavfi -i \"sine=frequency=800:duration=0.4\" " +
                 "-f lavfi -i \"aevalsrc=0:d=0.4\" " +
                 "-f lavfi -i \"sine=frequency=800:duration=1.2\" " +
-                "-f lavfi -i \"aevalsrc=0:d=1.0\" " +
+                "-f lavfi -i \"aevalsrc=0:d=1.2\" " +
                 "-f lavfi -i \"sine=frequency=800:duration=0.4\" " +
                 "-f lavfi -i \"aevalsrc=0:d=0.4\" " +
                 "-f lavfi -i \"sine=frequency=800:duration=0.4\" " +
