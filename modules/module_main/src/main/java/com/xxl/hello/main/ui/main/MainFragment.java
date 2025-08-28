@@ -237,6 +237,30 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     @Override
     public void onTestClick() {
         UserRouterApi.Login.newBuilder().navigation(getActivity());
+
+        String outPath = CacheDirConfig.CACHE_DIR + File.separator + "ms.mp3";
+
+        //lavfi lavfilter 动态生成音频
+        //sine=frequency=800:duration=0.4：生成800Hz正弦波，持续0.4秒
+        //aevalsrc=0:d=0.4：生成静音，持续0.4秒
+        String command = String.format("-y " +
+                "-f lavfi -i \"aevalsrc=0:d=1.0\" " +
+                "-f lavfi -i \"sine=frequency=800:duration=0.4\" " +
+                "-f lavfi -i \"aevalsrc=0:d=0.4\" " +
+                "-f lavfi -i \"sine=frequency=800:duration=1.2\" " +
+                "-f lavfi -i \"aevalsrc=0:d=1.0\" " +
+                "-f lavfi -i \"sine=frequency=800:duration=0.4\" " +
+                "-f lavfi -i \"aevalsrc=0:d=0.4\" " +
+                "-f lavfi -i \"sine=frequency=800:duration=0.4\" " +
+                "-filter_complex \"[0:a][1:a][2:a][3:a][4:a][5:a][6:a][7:a]concat=n=8:v=0:a=1\" " +
+                "-t 5.6 -acodec libmp3lame -ar 44100 %s", outPath);
+
+        FFmpegUtils.executeAsync(command, new OnRequestCallBack<Boolean>() {
+            @Override
+            public void onSuccess(Boolean aBoolean) {
+                Log.e("aa", "onSuccess: "+aBoolean );
+            }
+        });
     }
 
     /**
