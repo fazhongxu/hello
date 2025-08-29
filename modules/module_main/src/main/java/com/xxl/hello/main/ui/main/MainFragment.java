@@ -51,13 +51,11 @@ import com.xxl.kit.AppUtils;
 import com.xxl.kit.ClipboardUtils;
 import com.xxl.kit.CountDownWrapper;
 import com.xxl.kit.FFmpegUtils;
-import com.xxl.kit.FileUtils;
 import com.xxl.kit.ListUtils;
 import com.xxl.kit.LogUtils;
 import com.xxl.kit.MediaUtils;
 import com.xxl.kit.OnAppStatusChangedListener;
 import com.xxl.kit.OnRequestCallBack;
-import com.xxl.kit.PathUtils;
 import com.xxl.kit.ResourceUtils;
 import com.xxl.kit.StringUtils;
 import com.xxl.kit.ThreadUtils;
@@ -239,25 +237,6 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     @Override
     public void onTestClick() {
         UserRouterApi.Login.newBuilder().navigation(getActivity());
-
-        String outPath = CacheDirConfig.CACHE_DIR + File.separator + "ms.mp3";
-        String result = CacheDirConfig.CACHE_DIR + File.separator + "result.mp3";
-        String outPath1 = CacheDirConfig.CACHE_DIR + File.separator + "lantingjixu.mp3";
-
-        String inputPath = PathUtils.getExtDownloadsPath() + File.separator + "lantingjixu.mp3";
-        FileUtils.copyFile(inputPath, outPath1, null);
-
-        List<String> inputPaths = new ArrayList<>();
-        inputPaths.add(outPath1);
-        inputPaths.add(outPath);
-
-        FFmpegUtils.generateAIMorseCodeAudio(outPath, new OnRequestCallBack<Boolean>() {
-            @Override
-            public void onSuccess(Boolean aBoolean) {
-                Log.e("aa", "onSuccess: " + aBoolean);
-                FFmpegUtils.concatAudio(inputPaths, result);
-            }
-        });
     }
 
     /**
