@@ -25,22 +25,10 @@ public class TestMultiAdapter extends BaseMultiDraggableAdapter<TestListEntity, 
 
     //region: 成员变量
 
-    private boolean mIsExpand;
-
     /**
      * 搜索关键词
      */
     private String mSearchKeywords;
-
-    public boolean isExpand() {
-        return mIsExpand;
-    }
-
-    public void setIsExpand(boolean isExpand) {
-        this.mIsExpand = isExpand;
-        registerItemProvider();
-        notifyDataSetChanged();
-    }
 
     //endregion
 
@@ -58,13 +46,8 @@ public class TestMultiAdapter extends BaseMultiDraggableAdapter<TestListEntity, 
     @Override
     public void registerItemProvider() {
         registerItemProvider(TestTextProvider.obtain(this));
-        registerItemProvider(TestImageProvider.obtain(this,mIsExpand));
+        registerItemProvider(TestImageProvider.obtain(this));
         registerItemProvider(TestVideoProvider.obtain(this));
-    }
-
-    @Override
-    protected int getDefItemCount() {
-        return mIsExpand ? super.getDefItemCount() : Math.min(super.getDefItemCount(), 9);
     }
 
     @Override

@@ -1,7 +1,5 @@
 package com.xxl.hello.main.ui.main.adapter.multi.provider;
 
-import android.view.View;
-
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 
@@ -25,19 +23,16 @@ public class TestImageProvider extends BaseItemProvider<TestListEntity> {
 
     private OnTestItemProviderListener mListener;
 
-    private boolean mIsExpand;
-
     //endregion
 
     //region: 构造函数
 
-    private TestImageProvider(@NonNull final OnTestItemProviderListener providerListener,boolean isExpand) {
+    private TestImageProvider(@NonNull final OnTestItemProviderListener providerListener) {
         mListener = providerListener;
-        mIsExpand = isExpand;
     }
 
-    public final static TestImageProvider obtain(@NonNull final OnTestItemProviderListener providerListener,boolean isExpand) {
-        return new TestImageProvider(providerListener,isExpand);
+    public final static TestImageProvider obtain(@NonNull final OnTestItemProviderListener providerListener) {
+        return new TestImageProvider(providerListener);
     }
 
     //endregion
@@ -60,12 +55,6 @@ public class TestImageProvider extends BaseItemProvider<TestListEntity> {
         MainRecyclerItemTestImageProviderBinding binding = DataBindingUtil.bind(baseViewHolder.itemView);
         if (mListener != null) {
             binding.setListener(mListener.getMultiRecycleItemListener());
-        }
-
-        if (testListEntity.mPosition > 8 && !mIsExpand){
-            binding.llItemContainer.setVisibility(View.GONE);
-        }else {
-            binding.llItemContainer.setVisibility(View.VISIBLE);
         }
 
         TestRecycleItemViewModel viewModel = binding.getViewModel();
