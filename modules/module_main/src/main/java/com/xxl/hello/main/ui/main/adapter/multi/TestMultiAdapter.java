@@ -2,9 +2,6 @@ package com.xxl.hello.main.ui.main.adapter.multi;
 
 import androidx.annotation.NonNull;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.module.BaseDraggableModule;
-import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.xxl.core.widget.recyclerview.adapter.BaseMultiDraggableAdapter;
 import com.xxl.hello.main.ui.main.adapter.OnTestRecycleItemListener;
 import com.xxl.hello.main.ui.main.adapter.TestListEntity;
@@ -12,8 +9,6 @@ import com.xxl.hello.main.ui.main.adapter.multi.provider.OnTestItemProviderListe
 import com.xxl.hello.main.ui.main.adapter.multi.provider.TestImageProvider;
 import com.xxl.hello.main.ui.main.adapter.multi.provider.TestTextProvider;
 import com.xxl.hello.main.ui.main.adapter.multi.provider.TestVideoProvider;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -30,10 +25,22 @@ public class TestMultiAdapter extends BaseMultiDraggableAdapter<TestListEntity, 
 
     //region: 成员变量
 
+    private boolean mIsExpand;
+
     /**
      * 搜索关键词
      */
     private String mSearchKeywords;
+
+    public boolean isExpand() {
+        return mIsExpand;
+    }
+
+    public void setIsExpand(boolean isExpand) {
+        this.mIsExpand = isExpand;
+        registerItemProvider();
+        notifyDataSetChanged();
+    }
 
     //endregion
 
@@ -51,8 +58,13 @@ public class TestMultiAdapter extends BaseMultiDraggableAdapter<TestListEntity, 
     @Override
     public void registerItemProvider() {
         registerItemProvider(TestTextProvider.obtain(this));
-        registerItemProvider(TestImageProvider.obtain(this));
+        registerItemProvider(TestImageProvider.obtain(this,mIsExpand));
         registerItemProvider(TestVideoProvider.obtain(this));
+    }
+
+    @Override
+    protected int getDefItemCount() {
+        return mIsExpand ? super.getDefItemCount() : Math.min(super.getDefItemCount(), 9);
     }
 
     @Override

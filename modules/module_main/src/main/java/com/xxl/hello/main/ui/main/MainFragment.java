@@ -216,7 +216,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     }
 
     private void setupRecyclerView() {
-        mViewDataBinding.rvList.addItemDecoration(DecorationUtils.createHorizontalDividerItemDecoration(ResourceUtils.getAttrColor(AppUtils.getTopActivity(), R.attr.h_common_divider_color), 10, 0));
+        //mViewDataBinding.rvList.addItemDecoration(DecorationUtils.createHorizontalDividerItemDecoration(ResourceUtils.getAttrColor(AppUtils.getTopActivity(), R.attr.h_common_divider_color), 10, 0));
         mViewDataBinding.refreshLayout.setRefreshDataListener(this);
         mViewDataBinding.refreshLayout.bindRecyclerView(mViewDataBinding.rvList, mTestBindingAdapter, new GridLayoutManager(getActivity(), 3));
         mViewDataBinding.refreshLayout.setPageSize(20);
@@ -555,6 +555,9 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     @Override
     public void onItemClick(@NonNull TestListEntity value) {
         ToastUtils.success(value.getContent()).show();
+        if (mTestBindingAdapter.getItemPosition(value) == 8) {
+            mTestBindingAdapter.setIsExpand(!mTestBindingAdapter.isExpand());
+        }
     }
 
     /**
@@ -567,6 +570,10 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     public void onMediaItemClick(@NonNull TestListEntity testListEntity,
                                  @NonNull View targetView) {
         if (isActivityFinishing()) {
+            return;
+        }
+        if (mTestBindingAdapter.getItemPosition(testListEntity) == 8) {
+            mTestBindingAdapter.setIsExpand(!mTestBindingAdapter.isExpand());
             return;
         }
         List<MediaPreviewItemEntity> mediaPreviewItemEntities = new ArrayList<>();
