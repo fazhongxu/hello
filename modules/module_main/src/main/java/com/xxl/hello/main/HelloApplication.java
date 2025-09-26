@@ -24,7 +24,6 @@ import com.xxl.hello.common.config.AppConfig;
 import com.xxl.hello.common.config.NetworkConfig;
 import com.xxl.hello.common.config.ShareConfig;
 import com.xxl.hello.common.config.ShortcutConfig;
-import com.xxl.hello.common.utils.TbsUtils;
 import com.xxl.hello.main.di.component.DaggerAppComponent;
 import com.xxl.hello.router.api.UserRouterApi;
 import com.xxl.hello.service.handle.api.AppSchemeService;
@@ -174,7 +173,6 @@ public class HelloApplication extends BaseApplication implements IApplication, M
             initWeChatQRCodeDetector();
             TimeUtils.initialize();
             DownloadServiceUtils.init(this, isDebug());
-            TbsUtils.initX5Environment(this);
             DoKitHelper.init(this);
         } catch (Exception e) {
             e.printStackTrace();
