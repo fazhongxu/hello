@@ -3,10 +3,17 @@ package com.xxl.hello.main.ui.main;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
@@ -66,7 +73,10 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 
@@ -224,10 +234,49 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
         mTestBindingAdapter.setDragItemEnable(true, R.id.tv_content, mViewDataBinding.rvList);
     }
 
+    private LinkedHashMap<String,String>categoryMap = new LinkedHashMap<>();
     @Override
     protected void requestData() {
         showLoadingState();
         mMainViewModel.requestQueryUserInfo(getStateResponseListener());
+
+        // 初始化分类映射
+
+        categoryMap.put("#123", "1");
+        categoryMap.put("#456", "2");
+        categoryMap.put("#aaa", "3");
+        categoryMap.put("#分类名称分类名称", "4");
+        categoryMap.put("#哈哈哈哈哈哈", "5");
+
+        String text = "#123 #456 #aaa #分类名称分类名称 #哈哈哈哈哈哈";
+        SpannableString spannableString = new SpannableString(text);
+
+        Pattern pattern = Pattern.compile("#\\w+");
+        Matcher matcher = pattern.matcher(text);
+
+        while (matcher.find()) {
+            String clickedText = matcher.group();
+            int start = matcher.start();
+            int end = matcher.end();
+
+            String categoryId = categoryMap.get(clickedText);
+
+            if (categoryId != null) {
+                spannableString.setSpan(new ClickableSpan() {
+                    @Override
+                    public void onClick(View widget) {
+                        ToastUtils.success("text"+clickedText + "id = "+categoryId).show();
+                    }
+                }, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                spannableString.setSpan(new ForegroundColorSpan(Color.RED), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+        }
+
+        // 设置可点击文本
+        mViewDataBinding.tvTest.setText(spannableString);
+        mViewDataBinding.tvTest.setMovementMethod(LinkMovementMethod.getInstance());
+        mViewDataBinding.tvTest.setHighlightColor(Color.TRANSPARENT);
+        mViewDataBinding.tvTest.setTextColor(Color.RED);
     }
 
     //endregion
@@ -236,7 +285,8 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
     @Override
     public void onTestClick() {
-        UserRouterApi.Login.newBuilder().navigation(getActivity());
+//        UserRouterApi.Login.newBuilder().navigation(getActivity());
+
     }
 
     /**
