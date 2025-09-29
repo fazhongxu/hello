@@ -112,6 +112,7 @@ dependencies {
     implementation deps.refresh_layout
 
     implementation deps.flyco_round_view
+    implementation deps.flyco_tab_layout
 
     implementation deps.tbs
     implementation deps.pdf_viewer
