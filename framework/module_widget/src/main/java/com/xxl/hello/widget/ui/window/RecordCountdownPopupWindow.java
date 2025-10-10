@@ -9,8 +9,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 
+import com.google.android.exoplayer2.MediaItem;
+import com.xxl.core.media.audio.AudioPlayerWrapper;
 import com.xxl.hello.widget.R;
 import com.xxl.hello.widget.databinding.WidgetWindowLayoutRecordCountdownBinding;
+import com.xxl.kit.AppUtils;
 import com.xxl.kit.CountdownWrapper;
 
 import razerdp.basepopup.BasePopupWindow;
@@ -42,6 +45,11 @@ public class RecordCountdownPopupWindow extends BasePopupWindow implements Count
      * 倒计时包装类
      */
     private CountdownWrapper mCountdownWrapper;
+
+    /**
+     * 音频播放
+     */
+    private AudioPlayerWrapper mAudioPlayerWrapper;
 
     //endregion
 
@@ -76,6 +84,10 @@ public class RecordCountdownPopupWindow extends BasePopupWindow implements Count
         super.showPopupWindow();
         mCountdownWrapper = CountdownWrapper.create(this);
         mCountdownWrapper.start((mDuration + 1) * 1000L);
+
+        mAudioPlayerWrapper = AudioPlayerWrapper.create(getContext())
+                .setDataSource("android.resource://" + AppUtils.getApplication().getPackageName() + "/" + R.raw.count_down_3_s);
+        mAudioPlayerWrapper.setPlayWhenReady(true);
     }
 
     @Override
@@ -83,6 +95,9 @@ public class RecordCountdownPopupWindow extends BasePopupWindow implements Count
         super.onDestroy();
         if (mCountdownWrapper != null) {
             mCountdownWrapper.dispose();
+        }
+        if (mAudioPlayerWrapper != null) {
+            mAudioPlayerWrapper.release();
         }
     }
 

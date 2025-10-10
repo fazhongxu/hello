@@ -12,6 +12,7 @@ dependencies {
     api deps.dkplayer.dkplayer
     api deps.dkplayer.dkplayer_ijk
     api deps.dkplayer.dkplayer_videocache
+    api deps.exoplayer
 
     api deps.emoji_ios
 }

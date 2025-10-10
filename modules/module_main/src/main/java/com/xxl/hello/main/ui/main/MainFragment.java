@@ -4,7 +4,6 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -235,34 +234,9 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
     //region: MainNavigator
 
-    private static final int TIME = 5;
-
-    private Handler mHandler = new Handler();
-
-    private int mSecond;
-
-    private final Runnable mTimerRunnable = new Runnable() {
-
-        @Override
-        public void run() {
-            if (mSecond >= TIME) {
-                return;
-            }
-            mSecond++;
-            updateTime();
-            mHandler.postDelayed(mTimerRunnable, 1000);
-        }
-    };
-
-    private void updateTime() {
-        Log.e("aaa", "updateTime: " + mSecond);
-    }
-
     @Override
     public void onTestClick() {
-        mSecond = 0;
-        mHandler.removeCallbacks(mTimerRunnable);
-        mHandler.post(mTimerRunnable);
+        UserRouterApi.Login.newBuilder().navigation(getActivity());
     }
 
     /**
