@@ -49,7 +49,7 @@ import com.xxl.hello.widget.ui.view.record.RecordButton;
 import com.xxl.hello.widget.ui.window.MessagePopupWindow;
 import com.xxl.kit.AppUtils;
 import com.xxl.kit.ClipboardUtils;
-import com.xxl.kit.CountDownWrapper;
+import com.xxl.kit.CountdownWrapper;
 import com.xxl.kit.FFmpegUtils;
 import com.xxl.kit.ListUtils;
 import com.xxl.kit.LogUtils;
@@ -79,7 +79,7 @@ import io.reactivex.rxjava3.disposables.Disposable;
 public class MainFragment extends BaseStateViewModelFragment<MainViewModel, MainFragmentBinding>
         implements MainNavigator, OnAppStatusChangedListener, OnAudioFrameCapturedListener,
         TestBindingRecycleItemListener, OnRefreshDataListener, OnTestRecycleItemListener,
-        CountDownWrapper.OnCountDownCallback {
+        CountdownWrapper.OnCountDownCallback {
 
     //region: 成员变量
 

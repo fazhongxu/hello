@@ -8,18 +8,18 @@ import android.os.CountDownTimer;
  * @author xxl.
  * @date 2022/6/24.
  */
-public class CountDownWrapper {
+public class CountdownWrapper {
 
     private CountDownTimer mCountDownTimer;
 
     private OnCountDownCallback mCallBack;
 
-    private CountDownWrapper(OnCountDownCallback callback) {
+    private CountdownWrapper(OnCountDownCallback callback) {
         mCallBack = callback;
     }
 
-    public static CountDownWrapper create(OnCountDownCallback callback) {
-        return new CountDownWrapper(callback);
+    public static CountdownWrapper create(OnCountDownCallback callback) {
+        return new CountdownWrapper(callback);
     }
 
     public void start(long millisInFuture) {
