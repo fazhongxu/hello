@@ -2,7 +2,6 @@ package com.xxl.hello.main.ui.main;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -12,12 +11,9 @@ import android.view.View;
 import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.NotificationCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
-import com.didichuxing.doraemonkit.util.NotificationUtils;
-import com.didichuxing.doraemonkit.util.Utils;
 import com.tbruyelle.rxpermissions3.RxPermissions;
 import com.xxl.core.aop.annotation.Safe;
 import com.xxl.core.media.audio.AudioCapture;
@@ -47,7 +43,6 @@ import com.xxl.hello.service.data.model.entity.media.MediaPreviewItemEntity;
 import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi;
 import com.xxl.hello.service.handle.api.AppSchemeService;
-import com.xxl.hello.user.ui.setting.UserSettingActivity;
 import com.xxl.hello.widget.data.router.WidgetRouterApi;
 import com.xxl.hello.widget.ui.view.record.OnRecordListener;
 import com.xxl.hello.widget.ui.view.record.RecordButton;
@@ -238,25 +233,10 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     //endregion
 
     //region: MainNavigator
-    int id = 0;
 
     @Override
     public void onTestClick() {
         UserRouterApi.Login.newBuilder().navigation(getActivity());
-        NotificationUtils.notify(++id, new Utils.Consumer<NotificationCompat.Builder>() {
-            @Override
-            public void accept(NotificationCompat.Builder builder) {
-                final Intent intent = new Intent(getActivity(), UserSettingActivity.class);
-                intent.setAction(Intent.ACTION_VIEW);
-                Intent[] intents = new Intent[1];
-                intents[0] = intent;
-                builder.setSmallIcon(R.drawable.resources_ic_hello)
-                        .setContentTitle("title")
-                        .setContentText("content text")
-                        .setContentIntent(PendingIntent.getActivities(getActivity(),0,intents,PendingIntent.FLAG_UPDATE_CURRENT))
-                        .setAutoCancel(true);
-            }
-        });
     }
 
     /**
