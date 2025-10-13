@@ -94,7 +94,7 @@ public class RecordCountdownPopupWindow extends BasePopupWindow implements Count
     public void onDestroy() {
         super.onDestroy();
         if (mCountdownWrapper != null) {
-            mCountdownWrapper.dispose();
+            mCountdownWrapper.cancel();
         }
         if (mAudioPlayerWrapper != null) {
             mAudioPlayerWrapper.release();

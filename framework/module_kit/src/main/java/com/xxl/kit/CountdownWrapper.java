@@ -53,13 +53,6 @@ public class CountdownWrapper {
         }
     }
 
-    public void dispose() {
-
-        if (mCountDownTimer != null) {
-            mCountDownTimer.cancel();
-        }
-    }
-
     public interface OnCountDownCallback {
 
         /**
