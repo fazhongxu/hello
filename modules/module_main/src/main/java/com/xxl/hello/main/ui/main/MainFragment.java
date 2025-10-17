@@ -3,7 +3,6 @@ package com.xxl.hello.main.ui.main;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -40,7 +39,6 @@ import com.xxl.hello.main.ui.main.adapter.TestListEntity;
 import com.xxl.hello.main.ui.main.adapter.multi.TestMultiAdapter;
 import com.xxl.hello.router.api.MainRouterApi;
 import com.xxl.hello.router.api.UserRouterApi;
-import com.xxl.hello.service.RecordingForegroundService;
 import com.xxl.hello.service.data.model.api.user.QueryUserInfoResponse;
 import com.xxl.hello.service.data.model.entity.media.MediaPreviewItemEntity;
 import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
@@ -241,28 +239,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
     @Override
     public void onTestClick() {
-//        UserRouterApi.Login.newBuilder().navigation(getActivity());
-        startRecordingService();
-    }
-
-    private void startRecordingService() {
-        Intent intent = new Intent(AppUtils.getApplication(), RecordingForegroundService.class);
-        intent.setAction(RecordingForegroundService.START_RECORDING);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            AppUtils.getApplication().startForegroundService(intent);
-        } else {
-            AppUtils.getApplication().startService(intent);
-        }
-    }
-
-    private void stopRecordingService() {
-        Intent intent = new Intent(AppUtils.getApplication(), RecordingForegroundService.class);
-        intent.setAction(RecordingForegroundService.STOP_RECORDING);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            AppUtils.getApplication().startForegroundService(intent);
-        } else {
-            AppUtils.getApplication().startService(intent);
-        }
+        UserRouterApi.Login.newBuilder().navigation(getActivity());
     }
 
     /**
@@ -697,7 +674,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
                         mHandler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                startRecordingService();
+                                //startRecordingService();
                             }
                         },2000);
                     }
