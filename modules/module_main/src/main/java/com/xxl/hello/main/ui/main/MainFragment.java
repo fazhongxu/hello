@@ -3,7 +3,9 @@ package com.xxl.hello.main.ui.main;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -38,6 +40,7 @@ import com.xxl.hello.main.ui.main.adapter.TestListEntity;
 import com.xxl.hello.main.ui.main.adapter.multi.TestMultiAdapter;
 import com.xxl.hello.router.api.MainRouterApi;
 import com.xxl.hello.router.api.UserRouterApi;
+import com.xxl.hello.service.RecordingForegroundService;
 import com.xxl.hello.service.data.model.api.user.QueryUserInfoResponse;
 import com.xxl.hello.service.data.model.entity.media.MediaPreviewItemEntity;
 import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
@@ -82,6 +85,8 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
         CountdownWrapper.OnCountDownCallback {
 
     //region: 成员变量
+
+    private Handler mHandler = new Handler();
 
     /**
      * 首页数据模型
@@ -236,7 +241,28 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
     @Override
     public void onTestClick() {
-        UserRouterApi.Login.newBuilder().navigation(getActivity());
+//        UserRouterApi.Login.newBuilder().navigation(getActivity());
+        startRecordingService();
+    }
+
+    private void startRecordingService() {
+        Intent intent = new Intent(AppUtils.getApplication(), RecordingForegroundService.class);
+        intent.setAction(RecordingForegroundService.START_RECORDING);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            AppUtils.getApplication().startForegroundService(intent);
+        } else {
+            AppUtils.getApplication().startService(intent);
+        }
+    }
+
+    private void stopRecordingService() {
+        Intent intent = new Intent(AppUtils.getApplication(), RecordingForegroundService.class);
+        intent.setAction(RecordingForegroundService.STOP_RECORDING);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            AppUtils.getApplication().startForegroundService(intent);
+        } else {
+            AppUtils.getApplication().startService(intent);
+        }
     }
 
     /**
@@ -292,6 +318,112 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
             mViewDataBinding.refreshLayout.setLoadData(list);
         };
         getViewModel().requestListData(page, pageSize, callBack);
+    }
+
+    //endregion
+
+    //region: TestBindingRecycleItemListener
+
+    /**
+     * 条目点击
+     *
+     * @param value
+     */
+    @Override
+    public void onItemClick(@NonNull TestListEntity value) {
+        ToastUtils.success(value.getContent()).show();
+    }
+
+    /**
+     * 媒体视图点击
+     *
+     * @param testListEntity
+     * @param targetView
+     */
+    @Override
+    public void onMediaItemClick(@NonNull TestListEntity testListEntity,
+                                 @NonNull View targetView) {
+        if (isActivityFinishing()) {
+            return;
+        }
+        List<MediaPreviewItemEntity> mediaPreviewItemEntities = new ArrayList<>();
+        List<TestListEntity> entities = mTestBindingAdapter.getData();
+        if (!ListUtils.isEmpty(entities)) {
+            for (TestListEntity entity : entities) {
+                int position = mTestBindingAdapter.getItemPosition(entity);
+                if (entity.getMediaType() == SystemEnumsApi.CircleMediaType.IMAGE) {
+                    MediaPreviewItemEntity mediaPreviewItemEntity = MediaPreviewItemEntity.obtain()
+                            .setMediaUrl(entity.getUrl());
+                    mediaPreviewItemEntities.add(mediaPreviewItemEntity);
+                    if (position >= 0) {
+                        mediaPreviewItemEntity.setTargetViewAttributes(mTestBindingAdapter.getViewByPosition(position, R.id.iv_photo));
+                    }
+                }
+            }
+        }
+
+        WidgetRouterApi.MediaPreview.newBuilder()
+                .setMediaPreviewItemEntities(mediaPreviewItemEntities)
+                .setCurrentPosition(mTestBindingAdapter.getItemPosition(testListEntity))
+                .navigation();
+    }
+
+    /**
+     * 移除条目
+     *
+     * @param value
+     */
+    @Override
+    public void onRemoveItemClick(@NonNull TestListEntity value) {
+        mTestBindingAdapter.remove(value);
+    }
+
+    /**
+     * 置顶
+     *
+     * @param entity
+     */
+    @Override
+    public void onTopItemClick(@NonNull TestListEntity entity) {
+        ToastUtils.success(entity + " " + (entity.isTop() ? StringUtils.getString(R.string.resources_cancel_top_text) : StringUtils.getString(R.string.resources_set_top_text))).show();
+        if (entity.isTop()) {
+            entity.setTop(false);
+            final List<TestListEntity> entities = mTestBindingAdapter.getData();
+            if (!ListUtils.isEmpty(entities)) {
+                Collections.sort(entities, (o1, o2) -> {
+                    if (Boolean.compare(o2.isTop(), o1.isTop()) == 0) {
+                        return (int) (o2.getSortTime() - o1.getSortTime());
+                    }
+                    return Boolean.compare(o2.isTop(), o1.isTop());
+                });
+                mTestBindingAdapter.notifyDataSetChanged();
+            }
+        } else {
+            mTestBindingAdapter.remove(entity);
+            entity.setTop(true);
+            mTestBindingAdapter.addData(0, entity);
+            mViewDataBinding.rvList.scrollToPosition(0);
+        }
+    }
+
+    /**
+     * 刷新到顶部
+     *
+     * @param targetEntity
+     */
+    @Override
+    public void onRefreshTopItemClick(@NonNull TestListEntity targetEntity) {
+        targetEntity.setSortTime(TimeUtils.currentServiceTimeMillis());
+        final List<TestListEntity> entities = mTestBindingAdapter.getData();
+        if (!ListUtils.isEmpty(entities)) {
+            Collections.sort(entities, (o1, o2) -> {
+                if (Boolean.compare(o2.isTop(), o1.isTop()) == 0) {
+                    return (int) (o2.getSortTime() - o1.getSortTime());
+                }
+                return Boolean.compare(o2.isTop(), o1.isTop());
+            });
+        }
+        mTestBindingAdapter.notifyDataSetChanged();
     }
 
     //endregion
@@ -545,112 +677,33 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
         }
     }
 
-    //region: TestBindingRecycleItemListener
-
     /**
-     * 条目点击
-     *
-     * @param value
+     * 开始录音
      */
-    @Override
-    public void onItemClick(@NonNull TestListEntity value) {
-        ToastUtils.success(value.getContent()).show();
-    }
+    public void startRecording() {
+        AudioCapture.getInstance()
+                .setAudioRecordFormat(AudioRecordFormat.AAC)
+                .setOutFilePath(CacheDirConfig.SHARE_MUSIC_FILE_DIR)
+                .setMaxDuration(20)
+                .setMultiRecord(true)
+                .setOnAudioFrameCapturedListener(new OnAudioFrameCapturedListener() {
+                    @Override
+                    public void onStartRecord() {
 
-    /**
-     * 媒体视图点击
-     *
-     * @param testListEntity
-     * @param targetView
-     */
-    @Override
-    public void onMediaItemClick(@NonNull TestListEntity testListEntity,
-                                 @NonNull View targetView) {
-        if (isActivityFinishing()) {
-            return;
-        }
-        List<MediaPreviewItemEntity> mediaPreviewItemEntities = new ArrayList<>();
-        List<TestListEntity> entities = mTestBindingAdapter.getData();
-        if (!ListUtils.isEmpty(entities)) {
-            for (TestListEntity entity : entities) {
-                int position = mTestBindingAdapter.getItemPosition(entity);
-                if (entity.getMediaType() == SystemEnumsApi.CircleMediaType.IMAGE) {
-                    MediaPreviewItemEntity mediaPreviewItemEntity = MediaPreviewItemEntity.obtain()
-                            .setMediaUrl(entity.getUrl());
-                    mediaPreviewItemEntities.add(mediaPreviewItemEntity);
-                    if (position >= 0) {
-                        mediaPreviewItemEntity.setTargetViewAttributes(mTestBindingAdapter.getViewByPosition(position, R.id.iv_photo));
                     }
-                }
-            }
-        }
 
-        WidgetRouterApi.MediaPreview.newBuilder()
-                .setMediaPreviewItemEntities(mediaPreviewItemEntities)
-                .setCurrentPosition(mTestBindingAdapter.getItemPosition(testListEntity))
-                .navigation();
-    }
-
-    /**
-     * 移除条目
-     *
-     * @param value
-     */
-    @Override
-    public void onRemoveItemClick(@NonNull TestListEntity value) {
-        mTestBindingAdapter.remove(value);
-    }
-
-    /**
-     * 置顶
-     *
-     * @param entity
-     */
-    @Override
-    public void onTopItemClick(@NonNull TestListEntity entity) {
-        ToastUtils.success(entity + " " + (entity.isTop() ? StringUtils.getString(R.string.resources_cancel_top_text) : StringUtils.getString(R.string.resources_set_top_text))).show();
-        if (entity.isTop()) {
-            entity.setTop(false);
-            final List<TestListEntity> entities = mTestBindingAdapter.getData();
-            if (!ListUtils.isEmpty(entities)) {
-                Collections.sort(entities, (o1, o2) -> {
-                    if (Boolean.compare(o2.isTop(), o1.isTop()) == 0) {
-                        return (int) (o2.getSortTime() - o1.getSortTime());
+                    @Override
+                    public void onCompleteRecord(@NonNull File audioFile) {
+                        mHandler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                startRecordingService();
+                            }
+                        },2000);
                     }
-                    return Boolean.compare(o2.isTop(), o1.isTop());
-                });
-                mTestBindingAdapter.notifyDataSetChanged();
-            }
-        } else {
-            mTestBindingAdapter.remove(entity);
-            entity.setTop(true);
-            mTestBindingAdapter.addData(0, entity);
-            mViewDataBinding.rvList.scrollToPosition(0);
-        }
+                })
+                .startCapture();
     }
-
-    /**
-     * 刷新到顶部
-     *
-     * @param targetEntity
-     */
-    @Override
-    public void onRefreshTopItemClick(@NonNull TestListEntity targetEntity) {
-        targetEntity.setSortTime(TimeUtils.currentServiceTimeMillis());
-        final List<TestListEntity> entities = mTestBindingAdapter.getData();
-        if (!ListUtils.isEmpty(entities)) {
-            Collections.sort(entities, (o1, o2) -> {
-                if (Boolean.compare(o2.isTop(), o1.isTop()) == 0) {
-                    return (int) (o2.getSortTime() - o1.getSortTime());
-                }
-                return Boolean.compare(o2.isTop(), o1.isTop());
-            });
-        }
-        mTestBindingAdapter.notifyDataSetChanged();
-    }
-
-
-    //endregion
 
     //endregion
 

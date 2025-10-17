@@ -145,7 +145,7 @@
         <service
             android:name="com.xxl.hello.service.RecordingForegroundService"
             android:enabled="true"
-            android:exported="true"
+            android:exported="false"
             android:foregroundServiceType="microphone" />
 
         <!--   <provider

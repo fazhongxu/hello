@@ -5,6 +5,7 @@ import android.media.AudioRecord;
 import android.media.MediaRecorder;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.SystemClock;
 import android.text.TextUtils;
 
@@ -37,7 +38,7 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
 
     //region: 成员变量
 
-    private static final String TAG = "AudioCapture";
+    private static final String TAG = "AudioCapture ";
 
     private static final int DEFAULT_SOURCE = MediaRecorder.AudioSource.MIC;
     private static final int DEFAULT_SAMPLE_RATE = 44100;
@@ -55,7 +56,7 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
 
     private OnAudioFrameCapturedListener mAudioFrameCapturedListener;
 
-    private Handler mHandler = new Handler();
+    private Handler mHandler = new Handler(Looper.getMainLooper());
 
     /**
      * 倒计时
@@ -110,7 +111,7 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
     private int mAudioRecordFormat = AudioRecordFormat.AAC;
 
     /**
-     * 录音最大时长，默认不限制
+     * 录音最大时长，默认不限制，秒
      */
     private long mMaxDuration = -1;
 
@@ -164,7 +165,7 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
     }
 
     /**
-     * 设置最大录制时长
+     * 设置最大录制时长，秒
      *
      * @param maxDuration
      * @return
@@ -321,7 +322,7 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
         }
 
         if (mMaxDuration > 0) {
-            mCountDownTimer = new RecordCountDownTimer(mMaxDuration, 5);
+            mCountDownTimer = new RecordCountDownTimer(mMaxDuration * 1000, 1000);
         }
 
         mAudioRecord.startRecording();
@@ -562,7 +563,7 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
 
         @Override
         public void onTick(long millisUntilFinished) {
-
+            LogUtils.d(TAG + "mills " + millisUntilFinished / 1000);
         }
 
         @Override
