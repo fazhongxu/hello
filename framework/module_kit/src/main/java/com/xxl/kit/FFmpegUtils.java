@@ -293,6 +293,40 @@ public class FFmpegUtils {
     }
 
     /**
+     * 音频拼接
+     *
+     * @param inputAudioPath  目标音频文件路径
+     * @param outputAudioPath 输出音频文件路径
+     * @param startTime       开始时间
+     * @param duration        时长
+     */
+    public static FFmpegSession cutAudio(@NonNull final String inputAudioPath,
+                                         @NonNull final String outputAudioPath,
+                                         final long startTime,
+                                         final long duration,
+                                         @Nullable final OnRequestCallBack<Boolean> callBack) {
+        final StringBuilder command = new StringBuilder("-hide_banner ")
+                .append("-y ")
+                .append("-i ")
+                .append(inputAudioPath)
+                .append(" ")
+                .append("-ss ")
+                .append(startTime)
+                .append(" ")
+                .append("-t ")
+                .append(duration)
+                .append(" ")
+                .append("-c copy ")
+                .append(outputAudioPath);
+
+        return executeAsync(command.toString(), isSuccess -> {
+            if (callBack != null) {
+                callBack.onSuccess(isSuccess);
+            }
+        });
+    }
+
+    /**
      * 转换视频格式为ts
      *
      * @param inputVideoPath  目标视频文件路径
@@ -896,7 +930,7 @@ public class FFmpegUtils {
             FileUtils.deleteDir(outFrameDir);
         }
         FileUtils.createOrExistsDir(outFrameDir);
-        String command = String.format(Locale.getDefault(),"-y -i %s -vf fps=%d -vcodec png %s/frame_%%04d.png", videoPath, interval, outFrameDir);
+        String command = String.format(Locale.getDefault(), "-y -i %s -vf fps=%d -vcodec png %s/frame_%%04d.png", videoPath, interval, outFrameDir);
         executeAsync(command, new OnRequestCallBack<Boolean>() {
             @Override
             public void onSuccess(Boolean aBoolean) {

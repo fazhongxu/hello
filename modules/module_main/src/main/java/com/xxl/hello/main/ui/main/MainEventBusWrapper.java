@@ -2,9 +2,10 @@ package com.xxl.hello.main.ui.main;
 
 import androidx.annotation.NonNull;
 
+import com.xxl.core.ui.BaseEventBusWrapper;
 import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
 import com.xxl.hello.service.data.model.event.OnUserEventApi;
-import com.xxl.core.ui.BaseEventBusWrapper;
+import com.xxl.hello.service.data.model.event.SystemEventApi;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -38,11 +39,20 @@ public class MainEventBusWrapper extends BaseEventBusWrapper<MainFragment> {
      * @param event
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEventMainThreed(@NonNull final OnUserEventApi.OnUpdateUserInfoEvent event) {
+    public void onEventMainThread(@NonNull final OnUserEventApi.OnUpdateUserInfoEvent event) {
         final MainFragment mainFragment = getFragment();
         if (mainFragment != null) {
             mainFragment.refreshUserInfo(event.getTargetUserEntity());
         }
+    }
+
+    //endregion
+
+    //region: 录音通知事件
+
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void onEventMainThread(@NonNull final SystemEventApi.OnStartRecordingEvent event) {
+
     }
 
     //endregion

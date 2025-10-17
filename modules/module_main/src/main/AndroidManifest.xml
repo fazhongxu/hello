@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <uses-permission android:name="android.permission.VIBRATE" />
 
@@ -140,6 +141,12 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_provider" />
         </provider>
+
+        <service
+            android:name="com.xxl.hello.service.RecordingForegroundService"
+            android:enabled="true"
+            android:exported="true"
+            android:foregroundServiceType="microphone" />
 
         <!--   <provider
                android:name="androidx.core.content.FileProvider"
