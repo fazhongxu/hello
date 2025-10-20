@@ -12,8 +12,6 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.arthenica.ffmpegkit.FFmpegSession;
-import com.xxl.core.utils.ThreadExpandUtils;
 import com.xxl.kit.FFmpegUtils;
 import com.xxl.kit.FileUtils;
 import com.xxl.kit.ListUtils;
@@ -215,31 +213,20 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
      * @return 返回合并后的音频文件路径
      */
     public void mergeAudioFiles(@NonNull final OnRequestCallBack<String> callBack) {
-        final Runnable runnable = new Runnable() {
+        if (ListUtils.isEmpty(mAudioPaths)) {
+            return;
+        }
+        File audioFile = mAudioRecordFormat == AudioRecordFormat.MP3 ? createAudioMp3File() : createAudioAACFile();
+        FFmpegUtils.concatAudio(mAudioPaths, audioFile.getAbsolutePath(), new OnRequestCallBack<Boolean>() {
             @Override
-            public void run() {
-                if (!ListUtils.isEmpty(mAudioPaths)) {
-                    if (mAudioRecordFormat == AudioRecordFormat.MP3) {
-                        File audioFile = createAudioMp3File();
-                        FFmpegSession ffmpegSession = FFmpegUtils.concatAudio(mAudioPaths, audioFile.getAbsolutePath());
-                        if (ffmpegSession.getReturnCode().isValueSuccess()) {
-                            callBack.onSuccess(audioFile.getAbsolutePath());
-                        } else {
-                            callBack.onFailure(new Throwable("音频文件合并失败"));
-                        }
-                    } else if (mAudioRecordFormat == AudioRecordFormat.AAC) {
-                        File audioFile = createAudioAACFile();
-                        FFmpegSession ffmpegSession = FFmpegUtils.concatAudio(mAudioPaths, audioFile.getAbsolutePath());
-                        if (ffmpegSession.getReturnCode().isValueSuccess()) {
-                            callBack.onSuccess(audioFile.getAbsolutePath());
-                        } else {
-                            callBack.onFailure(new Throwable("音频文件合并失败"));
-                        }
-                    }
+            public void onSuccess(Boolean isSuccess) {
+                if (isSuccess) {
+                    callBack.onSuccess(audioFile.getAbsolutePath());
+                } else {
+                    callBack.onFailure(new Throwable("音频文件合并失败"));
                 }
             }
-        };
-        ThreadExpandUtils.createDefaultThreadPoolExecutor().execute(runnable);
+        });
     }
 
     /**

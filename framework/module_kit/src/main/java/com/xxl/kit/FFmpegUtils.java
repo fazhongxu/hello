@@ -256,6 +256,9 @@ public class FFmpegUtils {
      */
     public static FFmpegSession concatAudio(@NonNull final List<String> inputAudioPaths,
                                             @NonNull final String outputAudioPath) {
+        if (Thread.currentThread() == Looper.getMainLooper().getThread() || ListUtils.isEmpty(inputAudioPaths)) {
+            return null;
+        }
         return concatAudio(inputAudioPaths, outputAudioPath, null);
     }
 
@@ -268,9 +271,6 @@ public class FFmpegUtils {
     public static FFmpegSession concatAudio(@NonNull final List<String> inputAudioPaths,
                                             @NonNull final String outputAudioPath,
                                             @Nullable final OnRequestCallBack<Boolean> callBack) {
-        if (Thread.currentThread() == Looper.getMainLooper().getThread() || ListUtils.isEmpty(inputAudioPaths)) {
-            return null;
-        }
         final StringBuilder command = new StringBuilder("-hide_banner ")
                 .append("-y ");
         for (String inputAudioPath : inputAudioPaths) {

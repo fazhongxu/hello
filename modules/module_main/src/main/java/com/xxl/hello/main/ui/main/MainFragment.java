@@ -558,12 +558,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
             AudioCapture.getInstance().mergeAudioFiles(new OnRequestCallBack<String>() {
                 @Override
                 public void onSuccess(@Nullable String path) {
-                    ThreadUtils.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            ToastUtils.success("完成录音 " + path + " " + ListUtils.getSize(audioFiles)).show();
-                        }
-                    });
+                    ToastUtils.success("完成录音 " + path + " " + ListUtils.getSize(audioFiles)).show();
                 }
             });
 
@@ -676,7 +671,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
                             public void run() {
                                 //startRecordingService();
                             }
-                        },2000);
+                        }, 2000);
                     }
                 })
                 .startCapture();
