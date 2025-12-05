@@ -4,6 +4,8 @@ import android.graphics.drawable.Drawable;
 
 import androidx.annotation.NonNull;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.xxl.hello.service.data.model.entity.im.MessageDirection;
 import com.xxl.hello.service.data.model.entity.im.MessageEntity;
 import com.xxl.hello.widget.R;
@@ -19,7 +21,7 @@ import com.xxl.hello.widget.ui.im.template.OnMessageTemplateListener;
  * @author xxl.
  * @date 2024/6/14.
  */
-public class CenterMessageProvider extends BaseMessageProvider<WidgetRecycleItemMessageCenterBinding,MessageEntity> {
+public class CenterMessageProvider extends BaseMessageProvider<BaseQuickAdapter, WidgetRecycleItemMessageCenterBinding, MessageEntity> {
 
     //region: 成员变量
 
@@ -27,12 +29,12 @@ public class CenterMessageProvider extends BaseMessageProvider<WidgetRecycleItem
 
     //region: 构造函数
 
-    public CenterMessageProvider(ChatSessionRenderAdapter adapter, OnMessageTemplateListener listener){
-        super(adapter,listener);
+    public CenterMessageProvider(BaseQuickAdapter adapter, OnMessageTemplateListener listener) {
+        super(adapter, listener);
     }
 
-    public static CenterMessageProvider obtain(ChatSessionRenderAdapter adapter,OnMessageTemplateListener listener) {
-        return new CenterMessageProvider(adapter,listener);
+    public static CenterMessageProvider obtain(BaseQuickAdapter adapter, OnMessageTemplateListener listener) {
+        return new CenterMessageProvider(adapter, listener);
     }
 
     //endregion
@@ -54,7 +56,7 @@ public class CenterMessageProvider extends BaseMessageProvider<WidgetRecycleItem
         MessageRender messageRender = MessageRenderWrapper.getMessageRender(itemEntity.getMessageType());
         Drawable background = messageRender.getBackground(itemEntity);
         itemBinding.flMessageContainer.setBackground(background);
-        messageRender.render(getContext(), itemBinding.flMessageContainer, itemEntity,mListener);
+        messageRender.render(getContext(), itemBinding.flMessageContainer, itemEntity, mListener);
     }
 
     //endregion

@@ -10,10 +10,10 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.provider.BaseItemProvider;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.xxl.hello.service.data.model.entity.im.MessageEntity;
-import com.xxl.hello.widget.ui.im.message.session.base.adapter.ChatSessionRenderAdapter;
 import com.xxl.hello.widget.ui.im.template.OnMessageTemplateListener;
 import com.xxl.kit.TimeUtils;
 
@@ -23,7 +23,7 @@ import com.xxl.kit.TimeUtils;
  * @author xxl.
  * @date 2024/6/14.
  */
-public abstract class BaseMessageProvider<Binding extends ViewDataBinding, T extends MessageEntity> extends BaseItemProvider<T> {
+public abstract class BaseMessageProvider<Adapter extends BaseQuickAdapter,Binding extends ViewDataBinding, T extends MessageEntity> extends BaseItemProvider<T> {
 
     //region: 成员变量
 
@@ -32,7 +32,7 @@ public abstract class BaseMessageProvider<Binding extends ViewDataBinding, T ext
      */
     private static final long TIME_SPAN = 3 * 60 * 1000L;
 
-    protected ChatSessionRenderAdapter mAdapter;
+    protected Adapter mAdapter;
 
     protected OnMessageTemplateListener mListener;
 
@@ -40,7 +40,7 @@ public abstract class BaseMessageProvider<Binding extends ViewDataBinding, T ext
 
     //region: 构造函数
 
-    public BaseMessageProvider(ChatSessionRenderAdapter adapter, OnMessageTemplateListener listener) {
+    public BaseMessageProvider(Adapter adapter, OnMessageTemplateListener listener) {
         mAdapter = adapter;
         mListener = listener;
     }
@@ -52,11 +52,11 @@ public abstract class BaseMessageProvider<Binding extends ViewDataBinding, T ext
     @Override
     public void convert(@NonNull BaseViewHolder viewHolder, MessageEntity messageEntity) {
         ViewDataBinding itemBinding = DataBindingUtil.bind(viewHolder.itemView);
-        convert((Binding) itemBinding, messageEntity);
+        convert((Binding) itemBinding, (T) messageEntity);
         itemBinding.executePendingBindings();
     }
 
-    public abstract void convert(@NonNull Binding itemBinding, MessageEntity itemEntity);
+    public abstract void convert(@NonNull Binding itemBinding, T itemEntity);
 
     /**
      * 获取前一条消息
@@ -69,7 +69,7 @@ public abstract class BaseMessageProvider<Binding extends ViewDataBinding, T ext
         if (position <= 0) {
             return null;
         }
-        return mAdapter.getItem(position - 1);
+        return (MessageEntity) mAdapter.getItem(position - 1);
     }
 
     //endregion
@@ -89,7 +89,7 @@ public abstract class BaseMessageProvider<Binding extends ViewDataBinding, T ext
         boolean isShowTime = false;
         if (preMessage != null) {
             isShowTime = messageTime - preMessage.getMessageTime() > TIME_SPAN;
-        }else {
+        } else {
             isShowTime = true;
         }
 

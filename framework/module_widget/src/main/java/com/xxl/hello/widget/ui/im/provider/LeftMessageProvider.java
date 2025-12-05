@@ -1,17 +1,19 @@
 package com.xxl.hello.widget.ui.im.provider;
 
 import android.graphics.drawable.Drawable;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.xxl.hello.service.data.model.entity.im.MessageDirection;
 import com.xxl.hello.service.data.model.entity.im.MessageEntity;
 import com.xxl.hello.widget.R;
 import com.xxl.hello.widget.databinding.WidgetRecycleItemMessageLeftBinding;
-import com.xxl.hello.widget.ui.im.message.session.base.adapter.ChatSessionRenderAdapter;
 import com.xxl.hello.widget.ui.im.render.MessageRender;
 import com.xxl.hello.widget.ui.im.render.MessageRenderWrapper;
 import com.xxl.hello.widget.ui.im.template.OnMessageTemplateListener;
+import com.xxl.kit.ViewUtils;
 
 /**
  * 左边模板提供类
@@ -19,7 +21,7 @@ import com.xxl.hello.widget.ui.im.template.OnMessageTemplateListener;
  * @author xxl.
  * @date 2024/6/14.
  */
-public class LeftMessageProvider extends BaseMessageProvider<WidgetRecycleItemMessageLeftBinding, MessageEntity> {
+public class LeftMessageProvider extends BaseMessageProvider<BaseQuickAdapter, WidgetRecycleItemMessageLeftBinding, MessageEntity> {
 
     //region: 成员变量
 
@@ -27,12 +29,12 @@ public class LeftMessageProvider extends BaseMessageProvider<WidgetRecycleItemMe
 
     //region: 构造函数
 
-    public LeftMessageProvider(ChatSessionRenderAdapter adapter, OnMessageTemplateListener listener) {
-        super(adapter,listener);
+    public LeftMessageProvider(BaseQuickAdapter adapter, OnMessageTemplateListener listener) {
+        super(adapter, listener);
     }
 
-    public static LeftMessageProvider obtain(ChatSessionRenderAdapter adapter,OnMessageTemplateListener listener) {
-        return new LeftMessageProvider(adapter,listener);
+    public static LeftMessageProvider obtain(BaseQuickAdapter adapter, OnMessageTemplateListener listener) {
+        return new LeftMessageProvider(adapter, listener);
     }
 
     //endregion
@@ -51,12 +53,13 @@ public class LeftMessageProvider extends BaseMessageProvider<WidgetRecycleItemMe
 
     @Override
     public void convert(@NonNull WidgetRecycleItemMessageLeftBinding itemBinding, MessageEntity itemEntity) {
+        TextView tvMessageTime = ViewUtils.findView(itemBinding.getRoot(), R.id.tv_message_time);
+        setupMessageTime(tvMessageTime, itemEntity);
+        setUserAvatarListener(itemBinding.ivAvatar, itemEntity);
         MessageRender messageRender = MessageRenderWrapper.getMessageRender(itemEntity.getMessageType());
         Drawable background = messageRender.getBackground(itemEntity);
         itemBinding.flMessageContainer.setBackground(background);
         messageRender.render(getContext(), itemBinding.flMessageContainer, itemEntity, mListener);
-        setupMessageTime(itemBinding.tvMessageTime,itemEntity);
-        setUserAvatarListener(itemBinding.ivAvatar, itemEntity);
     }
 
     //endregion
