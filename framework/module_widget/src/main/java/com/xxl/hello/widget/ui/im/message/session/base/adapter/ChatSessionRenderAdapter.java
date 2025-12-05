@@ -22,8 +22,7 @@ import java.util.List;
 
 /**
  * 会话列表适配器
- * 思路：多条目方式实现消息，多条目为2个 左边一个视图，右边一个视图，然后有个消息容器加载消息，也是通过类型绑定不同消息类型，
- * 这样的好处是减少消息里面的频繁设置背景这些，把设置背景抽取到外层调用
+ * 多条目（区分左右消息）+消息渲染（不同消息类型）
  *
  * @author xxl.
  * @date 2024/6/14.
@@ -47,9 +46,9 @@ public class ChatSessionRenderAdapter extends BaseMultiAdapter<MessageEntity, Ch
 
     @Override
     public void registerItemProvider() {
-        registerItemProvider(LeftMessageProvider.obtain(this));
-        registerItemProvider(RightMessageProvider.obtain(this));
-        registerItemProvider(CenterMessageProvider.obtain(this));
+        registerItemProvider(LeftMessageProvider.obtain(this, this));
+        registerItemProvider(RightMessageProvider.obtain(this, this));
+        registerItemProvider(CenterMessageProvider.obtain(this, this));
     }
 
     @Override

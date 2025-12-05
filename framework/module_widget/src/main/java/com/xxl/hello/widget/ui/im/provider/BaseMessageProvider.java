@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -12,7 +13,9 @@ import androidx.databinding.ViewDataBinding;
 import com.chad.library.adapter.base.provider.BaseItemProvider;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.xxl.hello.service.data.model.entity.im.MessageEntity;
+import com.xxl.hello.widget.ui.im.message.session.base.adapter.ChatSessionRenderAdapter;
 import com.xxl.hello.widget.ui.im.template.OnMessageTemplateListener;
+import com.xxl.kit.TimeUtils;
 
 /**
  * 模板提供基础类
@@ -24,13 +27,21 @@ public abstract class BaseMessageProvider<Binding extends ViewDataBinding, T ext
 
     //region: 成员变量
 
+    /**
+     * 时间间隔（分钟）
+     */
+    private static final long TIME_SPAN = 3 * 60 * 1000L;
+
+    protected ChatSessionRenderAdapter mAdapter;
+
     protected OnMessageTemplateListener mListener;
 
     //endregion
 
     //region: 构造函数
 
-    public BaseMessageProvider(OnMessageTemplateListener listener) {
+    public BaseMessageProvider(ChatSessionRenderAdapter adapter, OnMessageTemplateListener listener) {
+        mAdapter = adapter;
         mListener = listener;
     }
 
@@ -46,6 +57,50 @@ public abstract class BaseMessageProvider<Binding extends ViewDataBinding, T ext
     }
 
     public abstract void convert(@NonNull Binding itemBinding, MessageEntity itemEntity);
+
+    /**
+     * 获取前一条消息
+     *
+     * @param itemEntity
+     * @return
+     */
+    private MessageEntity getPreMessage(@NonNull MessageEntity itemEntity) {
+        int position = mAdapter.getItemPosition(itemEntity);
+        if (position <= 0) {
+            return null;
+        }
+        return mAdapter.getItem(position - 1);
+    }
+
+    //endregion
+
+    //region: 页面视图渲染
+
+    /**
+     * 设置消息时间
+     *
+     * @param tvMessageTime
+     * @param itemEntity
+     */
+    protected void setupMessageTime(@NonNull TextView tvMessageTime,
+                                    @NonNull MessageEntity itemEntity) {
+        long messageTime = itemEntity.getMessageTime();
+        MessageEntity preMessage = getPreMessage(itemEntity);
+        boolean isShowTime = false;
+        if (preMessage != null) {
+            isShowTime = messageTime - preMessage.getMessageTime() > TIME_SPAN;
+        }else {
+            isShowTime = true;
+        }
+
+        if (isShowTime) {
+            tvMessageTime.setText(TimeUtils.getChatTimeSpanByNow(messageTime));
+            tvMessageTime.setVisibility(View.VISIBLE);
+        } else {
+            tvMessageTime.setText("");
+            tvMessageTime.setVisibility(View.GONE);
+        }
+    }
 
     /**
      * 设置头像事件监听

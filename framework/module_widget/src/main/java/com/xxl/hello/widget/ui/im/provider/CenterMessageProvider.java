@@ -8,6 +8,7 @@ import com.xxl.hello.service.data.model.entity.im.MessageDirection;
 import com.xxl.hello.service.data.model.entity.im.MessageEntity;
 import com.xxl.hello.widget.R;
 import com.xxl.hello.widget.databinding.WidgetRecycleItemMessageCenterBinding;
+import com.xxl.hello.widget.ui.im.message.session.base.adapter.ChatSessionRenderAdapter;
 import com.xxl.hello.widget.ui.im.render.MessageRender;
 import com.xxl.hello.widget.ui.im.render.MessageRenderWrapper;
 import com.xxl.hello.widget.ui.im.template.OnMessageTemplateListener;
@@ -26,12 +27,12 @@ public class CenterMessageProvider extends BaseMessageProvider<WidgetRecycleItem
 
     //region: 构造函数
 
-    public CenterMessageProvider(OnMessageTemplateListener listener){
-        super(listener);
+    public CenterMessageProvider(ChatSessionRenderAdapter adapter, OnMessageTemplateListener listener){
+        super(adapter,listener);
     }
 
-    public static CenterMessageProvider obtain(OnMessageTemplateListener listener) {
-        return new CenterMessageProvider(listener);
+    public static CenterMessageProvider obtain(ChatSessionRenderAdapter adapter,OnMessageTemplateListener listener) {
+        return new CenterMessageProvider(adapter,listener);
     }
 
     //endregion

@@ -8,6 +8,7 @@ import com.xxl.hello.service.data.model.entity.im.MessageDirection;
 import com.xxl.hello.service.data.model.entity.im.MessageEntity;
 import com.xxl.hello.widget.R;
 import com.xxl.hello.widget.databinding.WidgetRecycleItemMessageLeftBinding;
+import com.xxl.hello.widget.ui.im.message.session.base.adapter.ChatSessionRenderAdapter;
 import com.xxl.hello.widget.ui.im.render.MessageRender;
 import com.xxl.hello.widget.ui.im.render.MessageRenderWrapper;
 import com.xxl.hello.widget.ui.im.template.OnMessageTemplateListener;
@@ -26,12 +27,12 @@ public class LeftMessageProvider extends BaseMessageProvider<WidgetRecycleItemMe
 
     //region: 构造函数
 
-    public LeftMessageProvider(OnMessageTemplateListener listener) {
-        super(listener);
+    public LeftMessageProvider(ChatSessionRenderAdapter adapter, OnMessageTemplateListener listener) {
+        super(adapter,listener);
     }
 
-    public static LeftMessageProvider obtain(OnMessageTemplateListener listener) {
-        return new LeftMessageProvider(listener);
+    public static LeftMessageProvider obtain(ChatSessionRenderAdapter adapter,OnMessageTemplateListener listener) {
+        return new LeftMessageProvider(adapter,listener);
     }
 
     //endregion
@@ -54,6 +55,7 @@ public class LeftMessageProvider extends BaseMessageProvider<WidgetRecycleItemMe
         Drawable background = messageRender.getBackground(itemEntity);
         itemBinding.flMessageContainer.setBackground(background);
         messageRender.render(getContext(), itemBinding.flMessageContainer, itemEntity, mListener);
+        setupMessageTime(itemBinding.tvMessageTime,itemEntity);
         setUserAvatarListener(itemBinding.ivAvatar, itemEntity);
     }
 
