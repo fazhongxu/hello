@@ -12,7 +12,9 @@ import java.lang.annotation.RetentionPolicy;
  * @date 2024/7/2.
  */
 @IntDef({MessageDirection.LEFT,
-        MessageDirection.RIGHT})
+        MessageDirection.RIGHT,
+        MessageDirection.CENTER,
+})
 @Retention(RetentionPolicy.SOURCE)
 public @interface MessageDirection {
 
@@ -25,4 +27,9 @@ public @interface MessageDirection {
      * 左边
      */
     int LEFT = 1;
+
+    /**
+     * 中间
+     */
+    int CENTER = 2;
 }

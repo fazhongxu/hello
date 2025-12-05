@@ -23,6 +23,7 @@ import com.xxl.hello.widget.R;
 import com.xxl.hello.widget.databinding.WidgetFragmentChatSessionBinding;
 import com.xxl.hello.widget.ui.im.message.session.base.adapter.ChatSessionAdapter;
 import com.xxl.hello.widget.ui.im.message.session.base.adapter.ChatSessionRecycleItemListener;
+import com.xxl.hello.widget.ui.im.message.session.base.adapter.ChatSessionRenderAdapter;
 import com.xxl.hello.widget.ui.im.message.session.base.menu.OnCopyOperate;
 import com.xxl.hello.widget.ui.im.message.session.base.menu.OnDeleteOperate;
 import com.xxl.hello.widget.ui.im.message.session.base.menu.OnMenuItemOperate;
@@ -60,8 +61,11 @@ public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel
     /**
      * 会话列表适配器
      */
+//    @Inject
+//    ChatSessionAdapter mChatSessionAdapter;
+
     @Inject
-    ChatSessionAdapter mChatSessionAdapter;
+    ChatSessionRenderAdapter mChatSessionAdapter;
 
     //endregion
 

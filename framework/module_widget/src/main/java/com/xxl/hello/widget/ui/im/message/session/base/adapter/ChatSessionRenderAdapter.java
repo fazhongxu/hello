@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 
 import com.xxl.core.widget.recyclerview.adapter.BaseMultiAdapter;
 import com.xxl.hello.service.data.model.entity.im.MessageEntity;
-import com.xxl.hello.widget.ui.im.provider.TextMessageProvider;
+import com.xxl.hello.widget.ui.im.provider.CenterMessageProvider;
+import com.xxl.hello.widget.ui.im.provider.LeftMessageProvider;
+import com.xxl.hello.widget.ui.im.provider.RightMessageProvider;
 
 import java.util.List;
 
@@ -16,20 +18,15 @@ import java.util.List;
  * @author xxl.
  * @date 2024/6/14.
  */
-public class ChatSessionProviderAdapter extends BaseMultiAdapter<MessageEntity, ChatSessionRecycleItemListener> {
+public class ChatSessionRenderAdapter extends BaseMultiAdapter<MessageEntity, ChatSessionRecycleItemListener> {
 
     //region: 成员变量
-
-    /**
-     * 时间间隔
-     */
-    private static final long TIME_SPAN = 3 * 60 * 1000L;
 
     //endregion
 
     //region: 构造函数
 
-    public ChatSessionProviderAdapter() {
+    public ChatSessionRenderAdapter() {
         super();
     }
 
@@ -39,12 +36,14 @@ public class ChatSessionProviderAdapter extends BaseMultiAdapter<MessageEntity, 
 
     @Override
     public void registerItemProvider() {
-        registerItemProvider(TextMessageProvider.obtain());
+        registerItemProvider(LeftMessageProvider.obtain());
+        registerItemProvider(RightMessageProvider.obtain());
+        registerItemProvider(CenterMessageProvider.obtain());
     }
 
     @Override
     protected int getItemType(@NonNull List<? extends MessageEntity> list, int position) {
-        return list.get(position).getMessageType();
+        return list.get(position).getMessageDirection();
     }
 
     //endregion

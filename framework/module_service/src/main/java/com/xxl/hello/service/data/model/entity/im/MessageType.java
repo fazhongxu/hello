@@ -15,6 +15,7 @@ import java.lang.annotation.RetentionPolicy;
         MessageType.TEXT,
         MessageType.IMAGE,
         MessageType.VIDEO,
+        MessageType.NOTIFICATION,
 })
 @Retention(RetentionPolicy.SOURCE)
 public @interface MessageType {
@@ -38,5 +39,10 @@ public @interface MessageType {
      * 视频消息
      */
     int VIDEO = 3;
+
+    /**
+     * 通知消息
+     */
+    int NOTIFICATION = 100;
 
 }

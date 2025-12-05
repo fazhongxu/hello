@@ -9,6 +9,7 @@ import com.xxl.core.ui.ViewModelProviderFactory;
 import com.xxl.hello.widget.ui.im.message.session.base.adapter.ChatSessionAdapter;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.hello.service.qunlifier.ForApplication;
+import com.xxl.hello.widget.ui.im.message.session.base.adapter.ChatSessionRenderAdapter;
 
 import dagger.Module;
 import dagger.Provides;
@@ -36,6 +37,11 @@ public class PrivateChatFragmentModule {
     @Provides
     ChatSessionAdapter provideChatSessionAdapter() {
         return new ChatSessionAdapter();
+    }
+
+    @Provides
+    ChatSessionRenderAdapter provideChatSessionRenderAdapter() {
+        return new ChatSessionRenderAdapter();
     }
 
 }
