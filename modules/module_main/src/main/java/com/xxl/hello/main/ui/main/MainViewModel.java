@@ -2,12 +2,14 @@ package com.xxl.hello.main.ui.main;
 
 import android.app.Application;
 import android.os.Handler;
+import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.ObservableBoolean;
 import androidx.databinding.ObservableField;
 
 import com.xxl.core.response.ResponseListener;
+import com.xxl.core.rx.SchedulersProvider;
 import com.xxl.core.service.upload.UploadListener;
 import com.xxl.core.ui.BaseViewModel;
 import com.xxl.hello.common.config.AppConfig;
@@ -19,6 +21,8 @@ import com.xxl.hello.service.data.model.enums.SystemEnumsApi;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.hello.service.data.repository.api.UserRepositoryApi;
 import com.xxl.hello.service.upload.api.UploadService;
+import com.xxl.kit.ListUtils;
+import com.xxl.kit.LogUtils;
 import com.xxl.kit.OnRequestCallBack;
 import com.xxl.kit.TimeUtils;
 
@@ -27,8 +31,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
+import io.reactivex.rxjava3.core.ObservableSource;
 import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.functions.Function;
+import io.reactivex.rxjava3.subjects.PublishSubject;
 
 
 /**
@@ -45,6 +53,8 @@ public class MainViewModel extends BaseViewModel<MainNavigator> {
      * 数据服务接口集合
      */
     private final DataRepositoryKit mDataRepositoryKit;
+
+    private final UploadService mUploadService;
 
     /**
      * 用户ID
@@ -64,7 +74,10 @@ public class MainViewModel extends BaseViewModel<MainNavigator> {
         return new ObservableBoolean(false);
     }
 
-    private final UploadService mUploadService;
+    /**
+     * 搜索
+     */
+    private PublishSubject<String> mSearchSubject = PublishSubject.create();
 
     /**
      * 是否强制请求网络
@@ -123,6 +136,23 @@ public class MainViewModel extends BaseViewModel<MainNavigator> {
                 callBack.onSuccess(list);
             }
         }, page == 1 ? 3000 : 1000);
+    }
+
+    private void setupSearch() {
+        Disposable disposable = mSearchSubject.debounce(300, TimeUnit.MILLISECONDS)
+                .distinctUntilChanged()
+                .switchMap(new Function<String, ObservableSource<?>>() {
+                    @Override
+                    public ObservableSource<?> apply(String s) throws Throwable {
+                        return null;
+                    }
+                })
+                .compose(SchedulersProvider.applySchedulers())
+                .subscribe(memberEntities -> {
+                    LogUtils.d("aaa" + "搜索成员 ");
+                }, throwable -> {
+                    LogUtils.e("aaa" + "搜索成员报错 " + throwable);
+                });
     }
 
     //endregion
