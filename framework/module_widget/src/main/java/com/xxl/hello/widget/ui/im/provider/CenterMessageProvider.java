@@ -13,6 +13,7 @@ import com.xxl.hello.widget.R;
 import com.xxl.hello.widget.databinding.WidgetRecycleItemMessageCenterBinding;
 import com.xxl.hello.widget.ui.im.render.MessageRender;
 import com.xxl.hello.widget.ui.im.render.MessageRenderWrapper;
+import com.xxl.hello.widget.ui.im.template.OnMessageTemplateListener;
 
 /**
  * 中间模板提供类
@@ -24,12 +25,18 @@ public class CenterMessageProvider extends BaseItemProvider<MessageEntity> {
 
     //region: 成员变量
 
+    private OnMessageTemplateListener mListener;
+
     //endregion
 
     //region: 构造函数
 
-    public static CenterMessageProvider obtain() {
-        return new CenterMessageProvider();
+    public CenterMessageProvider(OnMessageTemplateListener listener){
+        mListener = listener;
+    }
+
+    public static CenterMessageProvider obtain(OnMessageTemplateListener listener) {
+        return new CenterMessageProvider(listener);
     }
 
     //endregion
@@ -52,7 +59,7 @@ public class CenterMessageProvider extends BaseItemProvider<MessageEntity> {
         MessageRender messageRender = MessageRenderWrapper.getMessageRender(messageEntity.getMessageType());
         Drawable background = messageRender.getBackground(messageEntity);
         itemBinding.flMessageContainer.setBackground(background);
-        messageRender.render(getContext(),itemBinding.flMessageContainer,messageEntity);
+        messageRender.render(getContext(), itemBinding.flMessageContainer, messageEntity,mListener);
         itemBinding.executePendingBindings();
     }
 

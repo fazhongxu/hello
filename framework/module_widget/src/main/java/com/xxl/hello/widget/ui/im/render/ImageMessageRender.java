@@ -15,13 +15,14 @@ import androidx.databinding.DataBindingUtil;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.xxl.core.image.loader.ImageLoader;
-import com.xxl.hello.service.data.model.entity.im.MessageDirection;
 import com.xxl.hello.service.data.model.entity.im.MessageEntity;
 import com.xxl.hello.service.data.model.entity.im.MessageType;
 import com.xxl.hello.widget.R;
 import com.xxl.hello.widget.databinding.WidgetRecycleItemMessageImageBinding;
+import com.xxl.hello.widget.ui.im.template.OnMessageTemplateListener;
+import com.xxl.kit.ClipboardUtils;
 import com.xxl.kit.DisplayUtils;
-import com.xxl.kit.DrawableUtils;
+import com.xxl.kit.ToastUtils;
 
 /**
  * 图片消息渲染
@@ -92,11 +93,29 @@ public class ImageMessageRender implements MessageRender {
      * @param messageEntity
      */
     @Override
-    public View render(Context context, FrameLayout container, MessageEntity messageEntity) {
+    public View render(Context context, FrameLayout container, MessageEntity messageEntity,OnMessageTemplateListener listener) {
         container.removeAllViews();
         WidgetRecycleItemMessageImageBinding messageBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.widget_recycle_item_message_image, container, false);
         container.addView(messageBinding.getRoot());
         setupImageView(messageBinding, messageEntity);
+
+        messageBinding.ivImage.setOnClickListener(v -> {
+            if (listener != null && listener.onMessageItemClick(messageEntity)) {
+                return;
+            }
+        });
+        messageBinding.ivImage.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (listener != null && listener.onMessageItemLongClick(messageBinding.llItemContainer, messageEntity)) {
+                    return true;
+                }
+                ClipboardUtils.copyText(messageEntity.getMediaPath());
+                ToastUtils.success(R.string.resources_copied).show();
+                return true;
+            }
+        });
+
         messageBinding.executePendingBindings();
         return messageBinding.getRoot();
     }

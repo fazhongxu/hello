@@ -13,6 +13,7 @@ import com.xxl.hello.service.data.model.entity.im.MessageEntity;
 import com.xxl.hello.service.data.model.entity.im.MessageType;
 import com.xxl.hello.widget.R;
 import com.xxl.hello.widget.databinding.WidgetRecycleItemMessageTextBinding;
+import com.xxl.hello.widget.ui.im.template.OnMessageTemplateListener;
 import com.xxl.kit.DrawableUtils;
 
 /**
@@ -74,11 +75,30 @@ public class TextMessageRender implements MessageRender {
      * @param messageEntity
      */
     @Override
-    public View render(Context context, FrameLayout container, MessageEntity messageEntity) {
+    public View render(Context context, FrameLayout container, MessageEntity messageEntity, OnMessageTemplateListener listener) {
         container.removeAllViews();
         WidgetRecycleItemMessageTextBinding messageBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.widget_recycle_item_message_text, container, false);
         container.addView(messageBinding.getRoot());
         messageBinding.tvContent.setText(messageEntity.getMessageText());
+
+        messageBinding.tvContent.setOnClickListener(v -> {
+            if (listener != null && listener.onMessageItemClick(messageEntity)) {
+                return;
+            }
+        });
+        messageBinding.llItemContainer.setOnLongClickListener(v -> {
+            if (listener != null && listener.onMessageItemLongClick(messageBinding.llItemContainer,messageEntity)){
+                return true;
+            }
+            return false;
+        });
+        messageBinding.tvContent.setOnLongClickListener(v -> {
+            if (listener != null && listener.onMessageItemLongClick(messageBinding.llItemContainer,messageEntity)){
+                return true;
+            }
+            return false;
+        });
+
         messageBinding.executePendingBindings();
         return messageBinding.getRoot();
     }

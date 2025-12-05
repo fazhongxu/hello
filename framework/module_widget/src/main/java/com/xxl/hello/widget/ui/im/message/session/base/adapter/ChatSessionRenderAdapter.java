@@ -1,12 +1,22 @@
 package com.xxl.hello.widget.ui.im.message.session.base.adapter;
 
+import android.view.View;
+
 import androidx.annotation.NonNull;
 
 import com.xxl.core.widget.recyclerview.adapter.BaseMultiAdapter;
 import com.xxl.hello.service.data.model.entity.im.MessageEntity;
+import com.xxl.hello.service.data.model.enums.ChatEnumsApi;
+import com.xxl.hello.widget.data.router.WidgetRouterApi;
+import com.xxl.hello.widget.ui.im.message.session.base.actions.MessageLongClickAction;
+import com.xxl.hello.widget.ui.im.message.session.base.actions.MessageLongClickActionManager;
+import com.xxl.hello.widget.ui.im.message.session.base.menu.MessageLongClickMenu;
 import com.xxl.hello.widget.ui.im.provider.CenterMessageProvider;
 import com.xxl.hello.widget.ui.im.provider.LeftMessageProvider;
 import com.xxl.hello.widget.ui.im.provider.RightMessageProvider;
+import com.xxl.hello.widget.ui.im.template.OnMessageTemplateListener;
+import com.xxl.kit.ListUtils;
+import com.xxl.kit.ToastUtils;
 
 import java.util.List;
 
@@ -18,7 +28,8 @@ import java.util.List;
  * @author xxl.
  * @date 2024/6/14.
  */
-public class ChatSessionRenderAdapter extends BaseMultiAdapter<MessageEntity, ChatSessionRecycleItemListener> {
+public class ChatSessionRenderAdapter extends BaseMultiAdapter<MessageEntity, ChatSessionRecycleItemListener>
+        implements OnMessageTemplateListener {
 
     //region: 成员变量
 
@@ -36,9 +47,9 @@ public class ChatSessionRenderAdapter extends BaseMultiAdapter<MessageEntity, Ch
 
     @Override
     public void registerItemProvider() {
-        registerItemProvider(LeftMessageProvider.obtain());
-        registerItemProvider(RightMessageProvider.obtain());
-        registerItemProvider(CenterMessageProvider.obtain());
+        registerItemProvider(LeftMessageProvider.obtain(this));
+        registerItemProvider(RightMessageProvider.obtain(this));
+        registerItemProvider(CenterMessageProvider.obtain(this));
     }
 
     @Override
@@ -48,7 +59,42 @@ public class ChatSessionRenderAdapter extends BaseMultiAdapter<MessageEntity, Ch
 
     //endregion
 
-    //region: 页面视图渲染
+    //region: OnMessageTemplateListener
+
+    @Override
+    public boolean onMessageItemClick(MessageEntity messageEntity) {
+        if (messageEntity.getMessageType() == 2) {
+            WidgetRouterApi.MediaPreview.newBuilder()
+                    .setMediaPreviewItem(messageEntity.getMediaPath())
+                    .navigation();
+            return true;
+        }
+        if (messageEntity.getMessageType() == 1) {
+            ToastUtils.success(messageEntity.getMessageText()).show();
+            return true;
+        }
+        return false;
+    }
+
+    private MessageLongClickMenu mMessageLongClickMenu;
+
+    @Override
+    public boolean onMessageItemLongClick(View targetView,
+                                          MessageEntity messageEntity) {
+        List<MessageLongClickAction> actions = MessageLongClickActionManager.getInstance().getActions(ChatEnumsApi.SceneType.CHAT, messageEntity);
+        if (!ListUtils.isEmpty(actions)) {
+            mMessageLongClickMenu = MessageLongClickMenu.from(targetView)
+                    .setItems(actions)
+                    .setOnMenuItemClickListener(action -> {
+                        if (mListener != null) {
+                            mListener.onMessageMenuItemClick(action.getTag(), messageEntity);
+                        }
+                    });
+            mMessageLongClickMenu.show();
+            return true;
+        }
+        return false;
+    }
 
     //endregion
 

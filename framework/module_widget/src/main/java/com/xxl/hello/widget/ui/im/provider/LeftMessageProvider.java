@@ -13,6 +13,7 @@ import com.xxl.hello.widget.R;
 import com.xxl.hello.widget.databinding.WidgetRecycleItemMessageLeftBinding;
 import com.xxl.hello.widget.ui.im.render.MessageRender;
 import com.xxl.hello.widget.ui.im.render.MessageRenderWrapper;
+import com.xxl.hello.widget.ui.im.template.OnMessageTemplateListener;
 
 /**
  * 左边模板提供类
@@ -24,12 +25,18 @@ public class LeftMessageProvider extends BaseItemProvider<MessageEntity> {
 
     //region: 成员变量
 
+    private OnMessageTemplateListener mListener;
+
     //endregion
 
     //region: 构造函数
 
-    public static LeftMessageProvider obtain() {
-        return new LeftMessageProvider();
+    public LeftMessageProvider(OnMessageTemplateListener listener){
+        mListener = listener;
+    }
+
+    public static LeftMessageProvider obtain(OnMessageTemplateListener listener) {
+        return new LeftMessageProvider(listener);
     }
 
     //endregion
@@ -52,7 +59,7 @@ public class LeftMessageProvider extends BaseItemProvider<MessageEntity> {
         MessageRender messageRender = MessageRenderWrapper.getMessageRender(messageEntity.getMessageType());
         Drawable background = messageRender.getBackground(messageEntity);
         itemBinding.flMessageContainer.setBackground(background);
-        messageRender.render(getContext(),itemBinding.flMessageContainer,messageEntity);
+        messageRender.render(getContext(),itemBinding.flMessageContainer,messageEntity,mListener);
         itemBinding.executePendingBindings();
     }
 

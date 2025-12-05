@@ -7,6 +7,7 @@ import android.widget.FrameLayout;
 
 import com.xxl.hello.service.data.model.entity.im.MessageEntity;
 import com.xxl.hello.service.data.model.entity.im.MessageType;
+import com.xxl.hello.widget.ui.im.template.OnMessageTemplateListener;
 
 /**
  * 消息渲染
@@ -40,6 +41,6 @@ public interface MessageRender {
      * @param messageEntity
      * @return
      */
-    View render(Context context, FrameLayout container, MessageEntity messageEntity);
+    View render(Context context, FrameLayout container, MessageEntity messageEntity,OnMessageTemplateListener listener);
 
 }
