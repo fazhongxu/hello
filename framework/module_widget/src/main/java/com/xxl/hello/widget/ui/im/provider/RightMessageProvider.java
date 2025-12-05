@@ -3,10 +3,7 @@ package com.xxl.hello.widget.ui.im.provider;
 import android.graphics.drawable.Drawable;
 
 import androidx.annotation.NonNull;
-import androidx.databinding.DataBindingUtil;
 
-import com.chad.library.adapter.base.provider.BaseItemProvider;
-import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.xxl.hello.service.data.model.entity.im.MessageDirection;
 import com.xxl.hello.service.data.model.entity.im.MessageEntity;
 import com.xxl.hello.widget.R;
@@ -21,18 +18,16 @@ import com.xxl.hello.widget.ui.im.template.OnMessageTemplateListener;
  * @author xxl.
  * @date 2024/6/14.
  */
-public class RightMessageProvider extends BaseItemProvider<MessageEntity> {
+public class RightMessageProvider extends BaseMessageProvider<WidgetRecycleItemMessageRightBinding,MessageEntity> {
 
     //region: 成员变量
-
-    private OnMessageTemplateListener mListener;
 
     //endregion
 
     //region: 构造函数
 
-    public RightMessageProvider(OnMessageTemplateListener listener){
-        mListener = listener;
+    public RightMessageProvider(OnMessageTemplateListener listener) {
+        super(listener);
     }
 
     public static RightMessageProvider obtain(OnMessageTemplateListener listener) {
@@ -54,13 +49,12 @@ public class RightMessageProvider extends BaseItemProvider<MessageEntity> {
     }
 
     @Override
-    public void convert(@NonNull BaseViewHolder viewHolder, MessageEntity messageEntity) {
-        WidgetRecycleItemMessageRightBinding itemBinding = DataBindingUtil.bind(viewHolder.itemView);
-        MessageRender messageRender = MessageRenderWrapper.getMessageRender(messageEntity.getMessageType());
-        Drawable background = messageRender.getBackground(messageEntity);
+    public void convert(@NonNull WidgetRecycleItemMessageRightBinding itemBinding, MessageEntity itemEntity) {
+        MessageRender messageRender = MessageRenderWrapper.getMessageRender(itemEntity.getMessageType());
+        Drawable background = messageRender.getBackground(itemEntity);
         itemBinding.flMessageContainer.setBackground(background);
-        messageRender.render(getContext(),itemBinding.flMessageContainer,messageEntity,mListener);
-        itemBinding.executePendingBindings();
+        messageRender.render(getContext(), itemBinding.flMessageContainer, itemEntity, mListener);
+        setUserAvatarListener(itemBinding.ivAvatar, itemEntity);
     }
 
     //endregion

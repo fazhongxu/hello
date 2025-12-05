@@ -61,6 +61,35 @@ public class ChatSessionRenderAdapter extends BaseMultiAdapter<MessageEntity, Ch
 
     //region: OnMessageTemplateListener
 
+
+    @Override
+    public void onAvatarClick(@NonNull View targetView,
+                              @NonNull String targetUserId,
+                              @NonNull String targetNickname) {
+        if (mListener != null) {
+            mListener.onAvatarClick(targetView, targetUserId, targetNickname);
+        }
+    }
+
+    @Override
+    public boolean onAvatarLongClick(@NonNull View targetView,
+                                     @NonNull String targetUserId,
+                                     @NonNull String targetNickname) {
+        if (mListener != null) {
+            return mListener.onAvatarLongClick(targetView, targetUserId, targetNickname);
+        }
+        return false;
+    }
+
+    @Override
+    public void onAvatarDoubleClick(@NonNull View targetView,
+                                    @NonNull String targetUserId,
+                                    @NonNull String targetNickname) {
+        if (mListener != null) {
+            mListener.onAvatarDoubleClick(targetView, targetUserId, targetNickname);
+        }
+    }
+
     @Override
     public boolean onMessageItemClick(MessageEntity messageEntity) {
         if (messageEntity.getMessageType() == 2) {
