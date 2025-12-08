@@ -10,7 +10,9 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <include layout="@layout/widget_include_message_time"/>
+        <include
+            android:id="@+id/include_message_time"
+            layout="@layout/widget_include_message_time" />
 
         <RelativeLayout
             android:layout_width="wrap_content"

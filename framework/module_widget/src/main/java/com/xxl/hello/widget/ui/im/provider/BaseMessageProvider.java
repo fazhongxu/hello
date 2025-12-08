@@ -1,9 +1,11 @@
 package com.xxl.hello.widget.ui.im.provider;
 
 import android.annotation.SuppressLint;
+import android.graphics.drawable.Drawable;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,6 +16,8 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.provider.BaseItemProvider;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.xxl.hello.service.data.model.entity.im.MessageEntity;
+import com.xxl.hello.widget.ui.im.render.MessageRender;
+import com.xxl.hello.widget.ui.im.render.MessageRenderWrapper;
 import com.xxl.hello.widget.ui.im.template.OnMessageTemplateListener;
 import com.xxl.kit.TimeUtils;
 
@@ -23,7 +27,7 @@ import com.xxl.kit.TimeUtils;
  * @author xxl.
  * @date 2024/6/14.
  */
-public abstract class BaseMessageProvider<Adapter extends BaseQuickAdapter,Binding extends ViewDataBinding, T extends MessageEntity> extends BaseItemProvider<T> {
+public abstract class BaseMessageProvider<Adapter extends BaseQuickAdapter, Binding extends ViewDataBinding, T extends MessageEntity> extends BaseItemProvider<T> {
 
     //region: 成员变量
 
@@ -75,6 +79,20 @@ public abstract class BaseMessageProvider<Adapter extends BaseQuickAdapter,Bindi
     //endregion
 
     //region: 页面视图渲染
+
+    /**
+     * 渲染消息
+     *
+     * @param container
+     * @param itemEntity
+     * @return
+     */
+    protected View render(FrameLayout container, MessageEntity itemEntity) {
+        MessageRender messageRender = MessageRenderWrapper.getMessageRender(itemEntity.getMessageType());
+        Drawable background = messageRender.getBackground(itemEntity);
+        container.setBackground(background);
+        return messageRender.render(getContext(), container, itemEntity, mListener);
+    }
 
     /**
      * 设置消息时间

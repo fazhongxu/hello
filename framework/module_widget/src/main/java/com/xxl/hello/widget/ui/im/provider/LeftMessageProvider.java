@@ -1,8 +1,5 @@
 package com.xxl.hello.widget.ui.im.provider;
 
-import android.graphics.drawable.Drawable;
-import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -10,10 +7,7 @@ import com.xxl.hello.service.data.model.entity.im.MessageDirection;
 import com.xxl.hello.service.data.model.entity.im.MessageEntity;
 import com.xxl.hello.widget.R;
 import com.xxl.hello.widget.databinding.WidgetRecycleItemMessageLeftBinding;
-import com.xxl.hello.widget.ui.im.render.MessageRender;
-import com.xxl.hello.widget.ui.im.render.MessageRenderWrapper;
 import com.xxl.hello.widget.ui.im.template.OnMessageTemplateListener;
-import com.xxl.kit.ViewUtils;
 
 /**
  * 左边模板提供类
@@ -53,13 +47,9 @@ public class LeftMessageProvider extends BaseMessageProvider<BaseQuickAdapter, W
 
     @Override
     public void convert(@NonNull WidgetRecycleItemMessageLeftBinding itemBinding, MessageEntity itemEntity) {
-        TextView tvMessageTime = ViewUtils.findView(itemBinding.getRoot(), R.id.tv_message_time);
-        setupMessageTime(tvMessageTime, itemEntity);
+        render(itemBinding.flMessageContainer, itemEntity);
+        setupMessageTime(itemBinding.includeMessageTime.tvMessageTime, itemEntity);
         setUserAvatarListener(itemBinding.ivAvatar, itemEntity);
-        MessageRender messageRender = MessageRenderWrapper.getMessageRender(itemEntity.getMessageType());
-        Drawable background = messageRender.getBackground(itemEntity);
-        itemBinding.flMessageContainer.setBackground(background);
-        messageRender.render(getContext(), itemBinding.flMessageContainer, itemEntity, mListener);
     }
 
     //endregion

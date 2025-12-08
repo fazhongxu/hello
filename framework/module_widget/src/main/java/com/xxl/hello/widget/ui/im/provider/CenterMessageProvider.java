@@ -1,18 +1,12 @@
 package com.xxl.hello.widget.ui.im.provider;
 
-import android.graphics.drawable.Drawable;
-
 import androidx.annotation.NonNull;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.xxl.hello.service.data.model.entity.im.MessageDirection;
 import com.xxl.hello.service.data.model.entity.im.MessageEntity;
 import com.xxl.hello.widget.R;
 import com.xxl.hello.widget.databinding.WidgetRecycleItemMessageCenterBinding;
-import com.xxl.hello.widget.ui.im.message.session.base.adapter.ChatSessionRenderAdapter;
-import com.xxl.hello.widget.ui.im.render.MessageRender;
-import com.xxl.hello.widget.ui.im.render.MessageRenderWrapper;
 import com.xxl.hello.widget.ui.im.template.OnMessageTemplateListener;
 
 /**
@@ -53,10 +47,7 @@ public class CenterMessageProvider extends BaseMessageProvider<BaseQuickAdapter,
 
     @Override
     public void convert(@NonNull WidgetRecycleItemMessageCenterBinding itemBinding, MessageEntity itemEntity) {
-        MessageRender messageRender = MessageRenderWrapper.getMessageRender(itemEntity.getMessageType());
-        Drawable background = messageRender.getBackground(itemEntity);
-        itemBinding.flMessageContainer.setBackground(background);
-        messageRender.render(getContext(), itemBinding.flMessageContainer, itemEntity, mListener);
+        render(itemBinding.flMessageContainer,itemEntity);
     }
 
     //endregion
