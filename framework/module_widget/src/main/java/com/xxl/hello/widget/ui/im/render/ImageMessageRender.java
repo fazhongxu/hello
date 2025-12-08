@@ -94,8 +94,6 @@ public class ImageMessageRender implements MessageRender {
      */
     @Override
     public View render(Context context, FrameLayout container, MessageEntity messageEntity, OnMessageTemplateListener listener) {
-        container.removeAllViews();
-        container.setPadding(0, 0, 0, 0);
         WidgetRecycleItemMessageImageBinding messageBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.widget_recycle_item_message_image, container, false);
         container.addView(messageBinding.getRoot());
         setupImageView(messageBinding, messageEntity);

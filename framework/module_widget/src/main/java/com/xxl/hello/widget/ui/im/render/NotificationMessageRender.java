@@ -71,7 +71,6 @@ public class NotificationMessageRender implements MessageRender {
      */
     @Override
     public View render(Context context, FrameLayout container, MessageEntity messageEntity, OnMessageTemplateListener listener) {
-        container.removeAllViews();
         WidgetRecycleItemMessageNotificationBinding messageBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.widget_recycle_item_message_notification, container, false);
         container.addView(messageBinding.getRoot());
         messageBinding.executePendingBindings();

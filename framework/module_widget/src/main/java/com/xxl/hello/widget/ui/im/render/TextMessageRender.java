@@ -76,7 +76,6 @@ public class TextMessageRender implements MessageRender {
      */
     @Override
     public View render(Context context, FrameLayout container, MessageEntity messageEntity, OnMessageTemplateListener listener) {
-        container.removeAllViews();
         WidgetRecycleItemMessageTextBinding messageBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.widget_recycle_item_message_text, container, false);
         container.addView(messageBinding.getRoot());
         messageBinding.tvContent.setText(messageEntity.getMessageText());

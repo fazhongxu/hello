@@ -88,6 +88,8 @@ public abstract class BaseMessageProvider<Adapter extends BaseQuickAdapter, Bind
      * @return
      */
     protected View render(FrameLayout container, MessageEntity itemEntity) {
+        container.removeAllViews();
+        container.setPadding(0, 0, 0, 0);
         MessageRender messageRender = MessageRenderWrapper.getMessageRender(itemEntity.getMessageType());
         Drawable background = messageRender.getBackground(itemEntity);
         container.setBackground(background);
