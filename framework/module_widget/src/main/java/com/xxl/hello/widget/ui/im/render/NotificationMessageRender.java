@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 
 import com.xxl.hello.service.data.model.entity.im.MessageEntity;
@@ -43,13 +42,13 @@ public class NotificationMessageRender implements MessageRender {
     //region: 生命周期
 
     /**
-     * 获取消息类型
+     * 获取消息标识
      *
      * @return
      */
     @Override
-    public int getMessageType() {
-        return MessageType.NOTIFICATION;
+    public String getMessageTag() {
+        return String.valueOf(MessageType.NOTIFICATION);
     }
 
     /**

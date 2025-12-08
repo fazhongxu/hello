@@ -66,13 +66,13 @@ public class ImageMessageRender implements MessageRender {
     //region: 生命周期
 
     /**
-     * 获取消息类型
+     * 获取消息标识
      *
      * @return
      */
     @Override
-    public int getMessageType() {
-        return MessageType.IMAGE;
+    public String getMessageTag() {
+        return String.valueOf(MessageType.IMAGE);
     }
 
     /**

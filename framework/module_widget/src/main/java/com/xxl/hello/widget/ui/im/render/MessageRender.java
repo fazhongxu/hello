@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.xxl.hello.service.data.model.entity.im.MessageEntity;
-import com.xxl.hello.service.data.model.entity.im.MessageType;
 import com.xxl.hello.widget.ui.im.template.OnMessageTemplateListener;
 
 /**
@@ -18,12 +17,11 @@ import com.xxl.hello.widget.ui.im.template.OnMessageTemplateListener;
 public interface MessageRender {
 
     /**
-     * 获取消息类型
+     * 获取消息标识
      *
      * @return
      */
-    @MessageType
-    int getMessageType();
+    String getMessageTag();
 
     /**
      * 获取背景
