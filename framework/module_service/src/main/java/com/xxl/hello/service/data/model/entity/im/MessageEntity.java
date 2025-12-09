@@ -1,5 +1,7 @@
 package com.xxl.hello.service.data.model.entity.im;
 
+import com.xxl.hello.service.data.model.enums.ChatEnumsApi.MessageType;
+
 /**
  * 消息类
  *
@@ -142,6 +144,18 @@ public class MessageEntity {
     public String getMediaPath() {
         if (mSdkMessage != null) {
             return mSdkMessage.getMediaPath();
+        }
+        return null;
+    }
+
+    /**
+     * 获取通知消息内容
+     *
+     * @return
+     */
+    public String getNotificationContent(){
+        if (mSdkMessage != null) {
+            return mSdkMessage.getNotificationContent();
         }
         return null;
     }

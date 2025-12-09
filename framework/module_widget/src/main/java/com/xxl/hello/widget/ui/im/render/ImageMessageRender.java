@@ -16,7 +16,7 @@ import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.xxl.core.image.loader.ImageLoader;
 import com.xxl.hello.service.data.model.entity.im.MessageEntity;
-import com.xxl.hello.service.data.model.entity.im.MessageType;
+import com.xxl.hello.service.data.model.enums.ChatEnumsApi.MessageType;
 import com.xxl.hello.widget.R;
 import com.xxl.hello.widget.databinding.WidgetRecycleItemMessageImageBinding;
 import com.xxl.hello.widget.ui.im.template.OnMessageTemplateListener;

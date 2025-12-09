@@ -63,6 +63,9 @@
     <string name="resources_message_title">消息</string>
     <string name="resources_private_chat_title">单聊</string>
     <string name="resources_group_chat_title">群聊</string>
+    <string name="resources_message_recall_format">%s撤回了一条消息</string>
+    <string name="resources_you_text">你</string>
+    <string name="resources_current_version_not_support_this_message">当前版本不支持查看此消息</string>
 
     <string name="resources_menu_copy">复制</string>
     <string name="resources_menu_edit">编辑</string>
@@ -70,5 +73,6 @@
     <string name="resources_menu_share">分享</string>
     <string name="resources_menu_favorite">收藏</string>
     <string name="resources_menu_remind">提醒</string>
+    <string name="resources_menu_recall">撤回</string>
 
 </resources>

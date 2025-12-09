@@ -5,20 +5,23 @@
 
     </data>
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
+        android:gravity="center_horizontal"
         android:orientation="vertical">
+
+        <include
+            android:id="@+id/include_message_time"
+            layout="@layout/widget_include_message_time" />
 
         <FrameLayout
             android:id="@+id/fl_message_container"
             android:layout_width="wrap_content"
-            android:layout_centerHorizontal="true"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp" />
+            android:layout_marginTop="5dp"
+            android:gravity="center_horizontal" />
 
-    </RelativeLayout>
+    </LinearLayout>
 
 </layout>

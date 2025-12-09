@@ -10,7 +10,7 @@ import androidx.databinding.DataBindingUtil;
 
 import com.xxl.hello.service.data.model.entity.im.MessageDirection;
 import com.xxl.hello.service.data.model.entity.im.MessageEntity;
-import com.xxl.hello.service.data.model.entity.im.MessageType;
+import com.xxl.hello.service.data.model.enums.ChatEnumsApi.MessageType;
 import com.xxl.hello.widget.R;
 import com.xxl.hello.widget.databinding.WidgetRecycleItemMessageTextBinding;
 import com.xxl.hello.widget.ui.im.template.OnMessageTemplateListener;

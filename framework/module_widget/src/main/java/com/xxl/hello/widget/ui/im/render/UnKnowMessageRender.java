@@ -9,27 +9,32 @@ import android.widget.FrameLayout;
 import androidx.databinding.DataBindingUtil;
 
 import com.xxl.hello.service.data.model.entity.im.MessageEntity;
+import com.xxl.hello.service.data.model.enums.ChatEnumsApi.MessageType;
 import com.xxl.hello.widget.R;
-import com.xxl.hello.widget.databinding.WidgetRecycleItemMessageNotificationBinding;
+import com.xxl.hello.widget.databinding.WidgetRecycleItemMessageUnknowBinding;
 import com.xxl.hello.widget.ui.im.template.OnMessageTemplateListener;
+import com.xxl.kit.StringUtils;
 
 /**
- * 通知消息渲染
+ * 未知消息渲染
  *
  * @author xxl.
  * @date 2025/12/5.
  */
-public abstract class NotificationMessageRender implements MessageRender {
+public class UnKnowMessageRender implements MessageRender  {
 
     //region: 成员变量
-
 
     //endregion
 
     //region: 构造函数
 
-    public NotificationMessageRender() {
+    private UnKnowMessageRender() {
 
+    }
+
+    public final static UnKnowMessageRender obtain() {
+        return new UnKnowMessageRender();
     }
 
     //endregion
@@ -37,9 +42,20 @@ public abstract class NotificationMessageRender implements MessageRender {
     //region: 生命周期
 
     /**
+     * 获取消息标识
+     *
+     * @return
+     */
+    @Override
+    public String getMessageTag() {
+        return String.valueOf(MessageType.UNKNOW);
+    }
+
+    /**
      * 获取背景
      *
      * @param messageEntity
+     * @return
      */
     @Override
     public Drawable getBackground(MessageEntity messageEntity) {
@@ -52,35 +68,17 @@ public abstract class NotificationMessageRender implements MessageRender {
      * @param context
      * @param container
      * @param messageEntity
+     * @param listener
+     * @return
      */
     @Override
     public View render(Context context, FrameLayout container, MessageEntity messageEntity, OnMessageTemplateListener listener) {
-        WidgetRecycleItemMessageNotificationBinding messageBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.widget_recycle_item_message_notification, container, false);
+        WidgetRecycleItemMessageUnknowBinding messageBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.widget_recycle_item_message_unknow, container, false);
         container.addView(messageBinding.getRoot());
-        CharSequence content = getNotificationContent(messageEntity);
-        messageBinding.tvContent.setText(content);
-
-        messageBinding.tvContent.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                if (listener != null && listener.onMessageItemLongClick(messageBinding.llItemContainer, messageEntity)) {
-                    return true;
-                }
-                return false;
-            }
-        });
-
+        messageBinding.tvContent.setText(StringUtils.getString(R.string.resources_current_version_not_support_this_message));
         messageBinding.executePendingBindings();
         return messageBinding.getRoot();
     }
-
-    /**
-     * 获取通知消息内容
-     *
-     * @param messageEntity
-     * @return
-     */
-    public abstract CharSequence getNotificationContent(MessageEntity messageEntity);
 
     //endregion
 

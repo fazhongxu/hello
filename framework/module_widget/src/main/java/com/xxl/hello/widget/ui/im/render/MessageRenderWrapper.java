@@ -1,6 +1,9 @@
 package com.xxl.hello.widget.ui.im.render;
 
+import static com.xxl.hello.service.data.model.enums.ChatEnumsApi.MessageType;
+
 import com.xxl.hello.service.data.model.entity.im.MessageEntity;
+import com.xxl.hello.service.data.model.enums.ChatEnumsApi.NotificationMessageType;
 
 import java.util.LinkedHashMap;
 
@@ -15,7 +18,8 @@ public class MessageRenderWrapper {
     static {
         registerMessageRender(TextMessageRender.obtain());
         registerMessageRender(ImageMessageRender.obtain());
-        registerMessageRender(NotificationMessageRender.obtain());
+        registerMessageRender(NormalTextNotificationMessageRender.obtain());
+        registerMessageRender(RecallNotificationMessageRender.obtain());
     }
 
     /**
@@ -39,7 +43,11 @@ public class MessageRenderWrapper {
      */
     public static MessageRender getMessageRender(MessageEntity messageEntity) {
         String messageTag = getMessageTag(messageEntity);
-        return sMessageRenderMap.get(messageTag);
+        MessageRender messageRender = sMessageRenderMap.get(messageTag);
+        if (messageRender != null) {
+            return messageRender;
+        }
+        return UnKnowMessageRender.obtain();
     }
 
     /**
@@ -49,6 +57,11 @@ public class MessageRenderWrapper {
      * @return
      */
     public static String getMessageTag(MessageEntity messageEntity) {
-        return String.valueOf(messageEntity.getMessageType());//未来可能有命令消息/通知消息 通知消息还有具体类型到时候组合成为tag使用
+        if (messageEntity.getMessageType() == MessageType.NOTIFICATION) {
+            if (NotificationMessageType.RECALL.equals(messageEntity.getNotificationContent())) {
+                return messageEntity.getMessageType() + NotificationMessageType.RECALL;
+            }
+        }
+        return String.valueOf(messageEntity.getMessageType());
     }
 }

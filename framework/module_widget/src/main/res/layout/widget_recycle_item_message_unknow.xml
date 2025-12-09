@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/resources_text_content_color"
             android:textSize="13sp"
-            tools:text="撤回了一条消息" />
+            tools:text="当前版本不支持查看此消息" />
 
     </LinearLayout>
 

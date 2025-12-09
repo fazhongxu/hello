@@ -26,6 +26,11 @@ public class SDKMessage {
      */
     private String mMediaPath;
 
+    /**
+     * 通知消息内容
+     */
+    private String mNotificationContent;
+
     //endregion
 
     //region: 构造函数
@@ -55,6 +60,10 @@ public class SDKMessage {
         return mMediaPath;
     }
 
+    public String getNotificationContent() {
+        return mNotificationContent;
+    }
+
     public SDKMessage setMessageTime(long messageTime) {
         this.mMessageTime = messageTime;
         return this;
@@ -67,6 +76,11 @@ public class SDKMessage {
 
     public SDKMessage setMediaPath(String mediaPath) {
         mMediaPath = mediaPath;
+        return this;
+    }
+
+    public SDKMessage setNotificationContent(String notificationContent) {
+        mNotificationContent = notificationContent;
         return this;
     }
 
