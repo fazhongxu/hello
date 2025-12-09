@@ -4,6 +4,7 @@ import com.xxl.kit.TimeUtils;
 
 /**
  * 假设这个是IM SDK 消息实体
+ *
  * @author xxl.
  * @date 2024/12/16.
  */
@@ -15,6 +16,11 @@ public class SDKMessage {
      * 消息时间
      */
     private long mMessageTime;
+
+    /**
+     * 消息状态
+     */
+    private int mMessageStatus;
 
     /**
      * 消息文本
@@ -52,6 +58,10 @@ public class SDKMessage {
         return mMessageTime;
     }
 
+    public int getMessageStatus() {
+        return mMessageStatus;
+    }
+
     public String getTextContent() {
         return mTextContent;
     }
@@ -66,6 +76,11 @@ public class SDKMessage {
 
     public SDKMessage setMessageTime(long messageTime) {
         this.mMessageTime = messageTime;
+        return this;
+    }
+
+    public SDKMessage setMessageStatus(int status) {
+        mMessageStatus = status;
         return this;
     }
 

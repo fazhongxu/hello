@@ -1,5 +1,7 @@
 package com.xxl.hello.service.data.model.entity.im;
 
+import static com.xxl.hello.service.data.model.enums.ChatEnumsApi.MessageStatus;
+
 import com.xxl.hello.service.data.model.enums.ChatEnumsApi.MessageType;
 
 /**
@@ -130,6 +132,33 @@ public class MessageEntity {
     }
 
     /**
+     * 发送成功
+     *
+     * @return
+     */
+    public boolean isSendSuccess() {
+        return mSdkMessage != null && mSdkMessage.getMessageStatus() == MessageStatus.SEND_SUCCESS;
+    }
+
+    /**
+     * 发送失败
+     *
+     * @return
+     */
+    public boolean isSendFailure() {
+        return mSdkMessage != null && mSdkMessage.getMessageStatus() == MessageStatus.SEND_FAILURE;
+    }
+
+    /**
+     * 发送中
+     *
+     * @return
+     */
+    public boolean isSending() {
+        return mSdkMessage != null && mSdkMessage.getMessageStatus() == MessageStatus.SENDING;
+    }
+
+    /**
      * 获取消息文本
      *
      * @return
@@ -153,7 +182,7 @@ public class MessageEntity {
      *
      * @return
      */
-    public String getNotificationContent(){
+    public String getNotificationContent() {
         if (mSdkMessage != null) {
             return mSdkMessage.getNotificationContent();
         }

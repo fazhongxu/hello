@@ -51,6 +51,39 @@ public class ChatEnumsApi {
 
     //endregion
 
+    //region: 消息状态
+
+    @IntDef({MessageStatus.UNKNOW,
+            MessageStatus.SEND_SUCCESS,
+            MessageStatus.SEND_FAILURE,
+            MessageStatus.SENDING,
+    })
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface MessageStatus {
+
+        /**
+         * 未知
+         */
+        int UNKNOW = 0;
+
+        /**
+         * 发送成功
+         */
+        int SEND_SUCCESS = 1;
+
+        /**
+         * 发送失败
+         */
+        int SEND_FAILURE = 2;
+
+        /**
+         * 发送中
+         */
+        int SENDING = 3;
+    }
+
+    //endregion
+
     //region: 消息展示场景
 
     @IntDef({SceneType.NORMAL,
@@ -74,51 +107,6 @@ public class ChatEnumsApi {
          * 收藏展示
          */
         int FAVORITE = 2;
-    }
-
-    //endregion
-
-    //region: 消息渲染类型
-
-    @StringDef({MessageRenderType.UNKNOW,
-            MessageRenderType.TEXT,
-            MessageRenderType.IMAGE,
-            MessageRenderType.VIDEO,
-            MessageRenderType.NOTIFICATION,
-            MessageRenderType.COMMAND,
-    })
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface MessageRenderType {
-
-        /**
-         * 未知消息
-         */
-        String UNKNOW = "unknow";
-
-        /**
-         * 文本消息
-         */
-        String TEXT = "text";
-
-        /**
-         * 图片消息
-         */
-        String IMAGE = "image";
-
-        /**
-         * 视频消息
-         */
-        String VIDEO = "video";
-
-        /**
-         * 通知消息（显示到视图）
-         */
-        String NOTIFICATION = "notification";
-
-        /**
-         * 命令消息（不显示到视图）
-         */
-        String COMMAND = "command";
     }
 
     //endregion
