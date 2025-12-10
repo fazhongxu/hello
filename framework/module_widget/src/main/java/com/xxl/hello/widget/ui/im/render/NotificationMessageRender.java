@@ -1,12 +1,7 @@
 package com.xxl.hello.widget.ui.im.render;
 
-import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.FrameLayout;
-
-import androidx.databinding.DataBindingUtil;
 
 import com.xxl.hello.service.data.model.entity.im.MessageEntity;
 import com.xxl.hello.widget.R;
@@ -19,12 +14,7 @@ import com.xxl.hello.widget.ui.im.template.OnMessageTemplateListener;
  * @author xxl.
  * @date 2025/12/5.
  */
-public abstract class NotificationMessageRender implements MessageRender {
-
-    //region: 成员变量
-
-
-    //endregion
+public abstract class NotificationMessageRender extends BaseMessageRender<WidgetRecycleItemMessageNotificationBinding> {
 
     //region: 构造函数
 
@@ -46,17 +36,13 @@ public abstract class NotificationMessageRender implements MessageRender {
         return null;
     }
 
-    /**
-     * 渲染
-     *
-     * @param context
-     * @param container
-     * @param messageEntity
-     */
     @Override
-    public View render(Context context, FrameLayout container, MessageEntity messageEntity, OnMessageTemplateListener listener) {
-        WidgetRecycleItemMessageNotificationBinding messageBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.widget_recycle_item_message_notification, container, false);
-        container.addView(messageBinding.getRoot());
+    public int getResLayout() {
+        return R.layout.widget_recycle_item_message_notification;
+    }
+
+    @Override
+    public void render(WidgetRecycleItemMessageNotificationBinding messageBinding, MessageEntity messageEntity, OnMessageTemplateListener listener) {
         CharSequence content = getNotificationContent(messageEntity);
         messageBinding.tvContent.setText(content);
 
@@ -69,9 +55,6 @@ public abstract class NotificationMessageRender implements MessageRender {
                 return false;
             }
         });
-
-        messageBinding.executePendingBindings();
-        return messageBinding.getRoot();
     }
 
     /**

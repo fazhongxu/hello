@@ -1,16 +1,12 @@
 package com.xxl.hello.widget.ui.im.render;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.databinding.DataBindingUtil;
 
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
@@ -30,7 +26,7 @@ import com.xxl.kit.ToastUtils;
  * @author xxl.
  * @date 2025/12/5.
  */
-public class ImageMessageRender implements MessageRender {
+public class ImageMessageRender extends BaseMessageRender<WidgetRecycleItemMessageImageBinding> {
 
     //region: 成员变量
 
@@ -63,7 +59,7 @@ public class ImageMessageRender implements MessageRender {
 
     //endregion
 
-    //region: 生命周期
+    //region: 生命周期方法
 
     /**
      * 获取消息标识
@@ -86,18 +82,25 @@ public class ImageMessageRender implements MessageRender {
     }
 
     /**
-     * 渲染
+     * 获取资源视图
      *
-     * @param context
-     * @param container
-     * @param messageEntity
+     * @return
      */
     @Override
-    public View render(Context context, FrameLayout container, MessageEntity messageEntity, OnMessageTemplateListener listener) {
-        WidgetRecycleItemMessageImageBinding messageBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.widget_recycle_item_message_image, container, false);
-        container.addView(messageBinding.getRoot());
-        setupImageView(messageBinding, messageEntity);
+    public int getResLayout() {
+        return R.layout.widget_recycle_item_message_image;
+    }
 
+    /**
+     * 渲染
+     *
+     * @param messageBinding
+     * @param messageEntity
+     * @param listener
+     */
+    @Override
+    public void render(WidgetRecycleItemMessageImageBinding messageBinding, MessageEntity messageEntity, OnMessageTemplateListener listener) {
+        setupImageView(messageBinding, messageEntity);
         messageBinding.ivImage.setOnClickListener(v -> {
             if (listener != null && listener.onMessageItemClick(messageEntity)) {
                 return;
@@ -114,9 +117,6 @@ public class ImageMessageRender implements MessageRender {
                 return true;
             }
         });
-
-        messageBinding.executePendingBindings();
-        return messageBinding.getRoot();
     }
 
     /**

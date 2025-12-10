@@ -1,12 +1,6 @@
 package com.xxl.hello.widget.ui.im.render;
 
-import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.FrameLayout;
-
-import androidx.databinding.DataBindingUtil;
 
 import com.xxl.hello.service.data.model.entity.im.MessageDirection;
 import com.xxl.hello.service.data.model.entity.im.MessageEntity;
@@ -22,11 +16,7 @@ import com.xxl.kit.DrawableUtils;
  * @author xxl.
  * @date 2025/12/5.
  */
-public class TextMessageRender implements MessageRender {
-
-    //region: 成员变量
-
-    //endregion
+public class TextMessageRender extends BaseMessageRender<WidgetRecycleItemMessageTextBinding> {
 
     //region: 构造函数
 
@@ -40,7 +30,7 @@ public class TextMessageRender implements MessageRender {
 
     //endregion
 
-    //region: 生命周期
+    //region: 生命周期方法
 
     /**
      * 获取消息标识
@@ -67,39 +57,46 @@ public class TextMessageRender implements MessageRender {
         }
     }
 
+
+    /**
+     * 获取资源视图
+     *
+     * @return
+     */
+    @Override
+    public int getResLayout() {
+        return R.layout.widget_recycle_item_message_text;
+    }
+
     /**
      * 渲染
      *
-     * @param context
-     * @param container
+     * @param messageBinding
      * @param messageEntity
+     * @param listener
      */
     @Override
-    public View render(Context context, FrameLayout container, MessageEntity messageEntity, OnMessageTemplateListener listener) {
-        WidgetRecycleItemMessageTextBinding messageBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.widget_recycle_item_message_text, container, false);
-        container.addView(messageBinding.getRoot());
+    public void render(WidgetRecycleItemMessageTextBinding messageBinding, MessageEntity messageEntity, OnMessageTemplateListener listener) {
         messageBinding.tvContent.setText(messageEntity.getMessageText());
-
         messageBinding.tvContent.setOnClickListener(v -> {
             if (listener != null && listener.onMessageItemClick(messageEntity)) {
                 return;
             }
         });
         messageBinding.llItemContainer.setOnLongClickListener(v -> {
-            if (listener != null && listener.onMessageItemLongClick(messageBinding.llItemContainer,messageEntity)){
+            if (listener != null && listener.onMessageItemLongClick(messageBinding.llItemContainer, messageEntity)) {
                 return true;
             }
             return false;
         });
         messageBinding.tvContent.setOnLongClickListener(v -> {
-            if (listener != null && listener.onMessageItemLongClick(messageBinding.llItemContainer,messageEntity)){
+            if (listener != null && listener.onMessageItemLongClick(messageBinding.llItemContainer, messageEntity)) {
                 return true;
             }
             return false;
         });
 
         messageBinding.executePendingBindings();
-        return messageBinding.getRoot();
     }
 
     //endregion

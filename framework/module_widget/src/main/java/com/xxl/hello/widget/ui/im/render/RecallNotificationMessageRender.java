@@ -14,11 +14,6 @@ import com.xxl.kit.StringUtils;
  */
 public class RecallNotificationMessageRender extends NotificationMessageRender {
 
-    //region: 成员变量
-
-
-    //endregion
-
     //region: 构造函数
 
     private RecallNotificationMessageRender() {
@@ -31,7 +26,7 @@ public class RecallNotificationMessageRender extends NotificationMessageRender {
 
     //endregion
 
-    //region: 生命周期
+    //region: 生命周期方法
 
     /**
      * 获取消息标识
