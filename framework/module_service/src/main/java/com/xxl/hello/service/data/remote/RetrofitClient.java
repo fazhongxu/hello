@@ -97,7 +97,7 @@ public class RetrofitClient {
             Request.Builder builder = request.newBuilder();
             String userAgent = NetworkConfig.Companion.getUserAgent();
             String userId = UserManager.getInstance().getUserId();
-            String userToken = UserManager.getInstance().getUserToken();
+            String userToken = UserManager.getInstance().getAccessToken();
 
             builder.addHeader("User-Agent", userAgent);
             if (!TextUtils.isEmpty(userId)) {
