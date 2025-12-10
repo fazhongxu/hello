@@ -30,7 +30,7 @@ public abstract class BaseMessageRender<Binding extends ViewDataBinding> impleme
      */
     @Override
     public View render(Context context, FrameLayout container, MessageEntity messageEntity, OnMessageTemplateListener listener) {
-        Binding binding = DataBindingUtil.inflate(LayoutInflater.from(context), getResLayout(), container, false);
+        Binding binding = DataBindingUtil.inflate(LayoutInflater.from(context), getLayoutRes(), container, false);
         container.addView(binding.getRoot());
         render(binding, messageEntity, listener);
         return binding.getRoot();
@@ -41,7 +41,7 @@ public abstract class BaseMessageRender<Binding extends ViewDataBinding> impleme
      *
      * @return
      */
-    public abstract int getResLayout();
+    public abstract int getLayoutRes();
 
     /**
      * 渲染

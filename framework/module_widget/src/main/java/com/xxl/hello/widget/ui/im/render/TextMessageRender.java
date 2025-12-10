@@ -64,7 +64,7 @@ public class TextMessageRender extends BaseMessageRender<WidgetRecycleItemMessag
      * @return
      */
     @Override
-    public int getResLayout() {
+    public int getLayoutRes() {
         return R.layout.widget_recycle_item_message_text;
     }
 

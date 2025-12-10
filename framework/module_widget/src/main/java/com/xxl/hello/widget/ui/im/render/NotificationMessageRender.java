@@ -37,7 +37,7 @@ public abstract class NotificationMessageRender extends BaseMessageRender<Widget
     }
 
     @Override
-    public int getResLayout() {
+    public int getLayoutRes() {
         return R.layout.widget_recycle_item_message_notification;
     }
 
