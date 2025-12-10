@@ -69,6 +69,8 @@ uploadArchives {
  adb shell dumpsys activity your.package.name
  或adb shell dumpsys activity top
 
+ 查看当前Activity还有一个方法 在logcat输入框输入start u0 过滤，直接就可以看到当前页面
+
  查看崩溃完整日志
  adb logcat ->crash.log
  ctr+c结束日志抓取，会在你终端所在目录（也可以指定目录）生成完整的logcat日志 log 分析崩溃
