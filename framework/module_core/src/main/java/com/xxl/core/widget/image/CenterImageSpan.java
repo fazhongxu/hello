@@ -50,7 +50,7 @@ public class CenterImageSpan extends ImageSpan {
 
     //endregion
 
-    //region: 生命周期方法
+    //region: 生命周期
 
     @Override
     public void draw(@NonNull final Canvas canvas,

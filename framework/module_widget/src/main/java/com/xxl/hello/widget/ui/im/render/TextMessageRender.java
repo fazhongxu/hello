@@ -30,7 +30,7 @@ public class TextMessageRender extends BaseMessageRender<WidgetRecycleItemMessag
 
     //endregion
 
-    //region: 生命周期方法
+    //region: 生命周期
 
     /**
      * 获取消息标识

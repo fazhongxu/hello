@@ -29,7 +29,7 @@ public class UnKnowMessageRender extends BaseMessageRender<WidgetRecycleItemMess
 
     //endregion
 
-    //region: 生命周期方法
+    //region: 生命周期
 
     /**
      * 获取消息标识

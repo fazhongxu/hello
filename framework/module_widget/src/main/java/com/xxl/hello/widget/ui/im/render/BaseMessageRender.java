@@ -17,7 +17,7 @@ import com.xxl.hello.widget.ui.im.template.OnMessageTemplateListener;
  */
 public abstract class BaseMessageRender<Binding extends ViewDataBinding> implements MessageRender {
 
-    //region: 生命周期方法
+    //region: 生命周期
 
     /**
      * 渲染

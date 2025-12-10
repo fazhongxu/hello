@@ -59,7 +59,7 @@ public class ImageMessageRender extends BaseMessageRender<WidgetRecycleItemMessa
 
     //endregion
 
-    //region: 生命周期方法
+    //region: 生命周期
 
     /**
      * 获取消息标识
