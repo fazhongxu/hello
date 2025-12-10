@@ -27,12 +27,8 @@ public class TestVideoProvider extends BaseItemProvider<TestListEntity> {
 
     //region: 构造函数
 
-    private TestVideoProvider(@NonNull final OnTestItemProviderListener providerListener) {
+    public TestVideoProvider(@NonNull final OnTestItemProviderListener providerListener) {
         mListener = providerListener;
-    }
-
-    public final static TestVideoProvider obtain(@NonNull final OnTestItemProviderListener providerListener) {
-        return new TestVideoProvider(providerListener);
     }
 
     //endregion

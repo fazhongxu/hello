@@ -27,12 +27,8 @@ public class TestTextProvider extends BaseItemProvider<TestListEntity> {
 
     //region: 构造函数
 
-    private TestTextProvider(@NonNull final OnTestItemProviderListener providerListener) {
+    public TestTextProvider(@NonNull final OnTestItemProviderListener providerListener) {
         mListener = providerListener;
-    }
-
-    public final static TestTextProvider obtain(@NonNull final OnTestItemProviderListener providerListener) {
-        return new TestTextProvider(providerListener);
     }
 
     //endregion

@@ -27,10 +27,6 @@ public class CenterMessageProvider extends BaseMessageProvider<BaseQuickAdapter,
         super(adapter, listener);
     }
 
-    public static CenterMessageProvider obtain(BaseQuickAdapter adapter, OnMessageTemplateListener listener) {
-        return new CenterMessageProvider(adapter, listener);
-    }
-
     //endregion
 
     //region: 页面生命周期

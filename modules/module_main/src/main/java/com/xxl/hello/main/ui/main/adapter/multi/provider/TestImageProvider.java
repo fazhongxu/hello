@@ -27,12 +27,8 @@ public class TestImageProvider extends BaseItemProvider<TestListEntity> {
 
     //region: 构造函数
 
-    private TestImageProvider(@NonNull final OnTestItemProviderListener providerListener) {
+    public TestImageProvider(@NonNull final OnTestItemProviderListener providerListener) {
         mListener = providerListener;
-    }
-
-    public final static TestImageProvider obtain(@NonNull final OnTestItemProviderListener providerListener) {
-        return new TestImageProvider(providerListener);
     }
 
     //endregion

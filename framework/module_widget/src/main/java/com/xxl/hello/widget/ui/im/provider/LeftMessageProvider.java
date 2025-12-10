@@ -27,10 +27,6 @@ public class LeftMessageProvider extends BaseMessageProvider<BaseQuickAdapter, W
         super(adapter, listener);
     }
 
-    public static LeftMessageProvider obtain(BaseQuickAdapter adapter, OnMessageTemplateListener listener) {
-        return new LeftMessageProvider(adapter, listener);
-    }
-
     //endregion
 
     //region: 页面生命周期

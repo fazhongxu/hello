@@ -27,10 +27,6 @@ public class RightMessageProvider extends BaseMessageProvider<BaseQuickAdapter, 
         super(adapter, listener);
     }
 
-    public static RightMessageProvider obtain(BaseQuickAdapter adapter, OnMessageTemplateListener listener) {
-        return new RightMessageProvider(adapter, listener);
-    }
-
     //endregion
 
     //region: 页面生命周期

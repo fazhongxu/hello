@@ -45,9 +45,9 @@ public class TestMultiAdapter extends BaseMultiDraggableAdapter<TestListEntity, 
 
     @Override
     public void registerItemProvider() {
-        registerItemProvider(TestTextProvider.obtain(this));
-        registerItemProvider(TestImageProvider.obtain(this));
-        registerItemProvider(TestVideoProvider.obtain(this));
+        registerItemProvider(new TestTextProvider(this));
+        registerItemProvider(new TestImageProvider(this));
+        registerItemProvider(new TestVideoProvider(this));
     }
 
     @Override
