@@ -3,15 +3,13 @@ package com.xxl.core.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.alipay.sdk.app.PayTask;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -22,9 +20,7 @@ import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
-import com.xxl.core.data.model.entity.pay.AliPayResult;
 import com.xxl.core.listener.OnAuthListener;
-import com.xxl.core.listener.OnPayListener;
 import com.xxl.kit.AppUtils;
 import com.xxl.kit.FileUtils;
 import com.xxl.kit.ListUtils;
@@ -42,10 +38,7 @@ import java.util.Map;
  */
 public class ShareUtils {
 
-    /**
-     * 支付监听
-     */
-    private static OnPayListener sOnPayListener;
+    private static final Handler HANDLER = new Handler(Looper.getMainLooper());
 
     /**
      * 登录授权监听
@@ -270,44 +263,9 @@ public class ShareUtils {
     }
 
     /**
-     * 支付宝支付
-     *
-     * @param activity
-     * @param orderInfo
-     * @param listener
-     */
-    public static void doAliPay(@NonNull Activity activity,
-                                @NonNull String orderInfo,
-                                @NonNull OnPayListener listener) {
-        final Runnable payRunnable = () -> {
-            PayTask payTask = new PayTask(activity);
-            Map<String, String> result = payTask.payV2(orderInfo, true);
-            AliPayResult payResult = new AliPayResult(result);
-
-            if (payResult.isSuccess()) {
-                listener.onPayComplete();
-                return;
-            }
-            if (payResult.isCancel()) {
-                listener.onPayCancel();
-                return;
-            }
-            if (payResult.isFailure()) {
-                listener.onPayFailure(null);
-                return;
-            }
-        };
-
-        Thread payThread = new Thread(payRunnable);
-        payThread.start();
-    }
-
-
-    /**
      * 销毁
      */
-    public static void onDestory() {
-        sOnPayListener = null;
+    public static void onDestroy() {
         sOnAuthListener = null;
     }
 

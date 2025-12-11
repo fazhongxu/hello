@@ -1,6 +1,8 @@
 package com.xxl.core.utils;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -12,13 +14,11 @@ import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.umeng.socialize.PlatformConfig;
-import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.xxl.core.data.model.entity.pay.AliPayResult;
 import com.xxl.core.data.model.entity.pay.WXPayEntity;
 import com.xxl.core.listener.OnPayListener;
 import com.xxl.kit.AppUtils;
-import com.xxl.kit.ThreadUtils;
 
 import java.util.Map;
 
@@ -45,11 +45,8 @@ public class PayUtils {
     public static void doWeChatPay(@NonNull final Activity activity,
                                    @NonNull final WXPayEntity wxPayEntity,
                                    @NonNull final OnPayListener listener) {
-        boolean isInstall = UMShareAPI.get(AppUtils.getApplication()).isInstall(activity, SHARE_MEDIA.WEIXIN);
-        if (!isInstall) {
-            if (listener != null) {
-                listener.onNotInstall();
-            }
+        if (!isInstallWeChat()) {
+            listener.onNotInstall();
             return;
         }
         sOnPayListener = listener;
@@ -75,11 +72,11 @@ public class PayUtils {
         OnPayListener listener = sOnPayListener;
         if (listener != null) {
             if (resp.errCode == WeChatPayErrCode.ERR_OK) {
-                listener.onPayComplete();
-            } else if (resp.errCode == WeChatPayErrCode.ERR_USER_CANCEL) {
-                listener.onPayCancel();
+                listener.onPaySuccess();
             } else if (resp.errCode == WeChatPayErrCode.ERR_AUTH_DENIED) {
                 listener.onPayFailure(null);
+            } else if (resp.errCode == WeChatPayErrCode.ERR_USER_CANCEL) {
+                listener.onPayCancel();
             }
             return true;
         }
@@ -96,26 +93,69 @@ public class PayUtils {
     public static void doAliPay(@NonNull Activity activity,
                                 @NonNull String orderInfo,
                                 @NonNull OnPayListener listener) {
+        if (!isInstallAliPay()) {
+            listener.onNotInstall();
+            return;
+        }
         final Runnable payRunnable = () -> {
             PayTask payTask = new PayTask(activity);
             Map<String, String> result = payTask.payV2(orderInfo, true);
             AliPayResult payResult = new AliPayResult(result);
             if (payResult.isSuccess()) {
-                HANDLER.post(listener::onPayComplete);
-                return;
-            }
-            if (payResult.isCancel()) {
-                HANDLER.post(listener::onPayCancel);
+                HANDLER.post(listener::onPaySuccess);
                 return;
             }
             if (payResult.isFailure()) {
                 HANDLER.post(() -> listener.onPayFailure(null));
                 return;
             }
+            if (payResult.isCancel()) {
+                HANDLER.post(listener::onPayCancel);
+                return;
+            }
         };
 
         Thread payThread = new Thread(payRunnable);
         payThread.start();
+    }
+
+    /**
+     * 是否安装微信
+     *
+     * @return
+     */
+    public static boolean isInstallWeChat() {
+        try {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse("weixin://"));
+            return intent.resolveActivity(AppUtils.getApplication().getPackageManager()) != null;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     * 是否安装支付宝
+     *
+     * @return
+     */
+    public static boolean isInstallAliPay() {
+        try {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse("alipays://platformapi/startApp"));
+            return intent.resolveActivity(AppUtils.getApplication().getPackageManager()) != null;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     * 销毁
+     */
+    public static void onDestroy() {
+        sOnPayListener = null;
     }
 
     /**
