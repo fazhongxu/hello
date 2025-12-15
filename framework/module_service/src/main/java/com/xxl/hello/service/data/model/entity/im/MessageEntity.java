@@ -3,6 +3,7 @@ package com.xxl.hello.service.data.model.entity.im;
 import static com.xxl.hello.service.data.model.enums.ChatEnumsApi.MessageStatus;
 
 import com.xxl.hello.service.data.model.enums.ChatEnumsApi.MessageType;
+import com.xxl.hello.service.data.model.enums.ChatEnumsApi.SessionType;
 
 /**
  * 消息类
@@ -76,6 +77,18 @@ public class MessageEntity {
     }
 
     /**
+     * 获取会话类型
+     *
+     * @return
+     */
+    public int getSessionType() {
+        if (mSdkMessage != null) {
+            return mSdkMessage.getSessionType();
+        }
+        return SessionType.NONE;
+    }
+
+    /**
      * 获取消息模板类型
      *
      * @return
@@ -116,7 +129,7 @@ public class MessageEntity {
      * @return
      */
     public String getSenderNickname() {
-        return "";
+        return "lisa";
     }
 
     /**

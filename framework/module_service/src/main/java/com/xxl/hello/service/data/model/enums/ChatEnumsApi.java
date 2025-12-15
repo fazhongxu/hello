@@ -14,6 +14,33 @@ public class ChatEnumsApi {
 
     //region: 消息类型
 
+    @IntDef({SessionType.NONE,
+            SessionType.PRIVATE,
+            SessionType.GROUP,
+    })
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface SessionType {
+
+        /**
+         * 未知类型
+         */
+        int NONE = -1;
+
+        /**
+         * 单聊
+         */
+        int PRIVATE = 0;
+
+        /**
+         * 群聊
+         */
+        int GROUP = 1;
+    }
+
+    //endregion
+
+    //region: 消息类型
+
     @IntDef({MessageType.UNKNOW,
             MessageType.TEXT,
             MessageType.IMAGE,

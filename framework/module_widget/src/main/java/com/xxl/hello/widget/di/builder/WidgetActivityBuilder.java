@@ -4,7 +4,7 @@ import com.xxl.hello.widget.ui.browser.FileBrowserActivity;
 import com.xxl.hello.widget.ui.browser.FileBrowserFragmentProvider;
 import com.xxl.hello.widget.ui.im.message.list.MessageActivity;
 import com.xxl.hello.widget.ui.im.message.list.MessageFragmentProvider;
-import com.xxl.hello.widget.ui.im.message.session.privites.PrivateChatFragmentProvider;
+import com.xxl.hello.widget.ui.im.message.session.privites.PrivateChatSessionFragmentProvider;
 import com.xxl.hello.widget.ui.im.message.session.privites.PrivateChatSessionActivity;
 import com.xxl.hello.widget.ui.preview.MediaPreviewActivity;
 import com.xxl.hello.widget.ui.preview.MediaPreviewFragmentProvider;
@@ -69,6 +69,6 @@ public abstract class WidgetActivityBuilder {
      *
      * @return
      */
-    @ContributesAndroidInjector(modules = PrivateChatFragmentProvider.class)
+    @ContributesAndroidInjector(modules = PrivateChatSessionFragmentProvider.class)
     abstract PrivateChatSessionActivity bindPrivateChatSesssionActivityBuilder();
 }

@@ -8,13 +8,13 @@ import dagger.android.ContributesAndroidInjector;
  * @date 2024/6/28.
  */
 @Module
-public abstract class PrivateChatFragmentProvider {
+public abstract class PrivateChatSessionFragmentProvider {
 
     /**
      * 绑定单聊页
      *
      * @return
      */
-    @ContributesAndroidInjector(modules = PrivateChatFragmentModule.class)
+    @ContributesAndroidInjector(modules = PrivateChatSessionFragmentModule.class)
     abstract PrivateChatSessionFragment bindPrivateChatSessionFragmentFactory();
 }

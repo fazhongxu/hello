@@ -19,6 +19,7 @@ import com.xxl.hello.service.data.model.entity.im.SDKMessage;
 import com.xxl.hello.service.data.model.enums.ChatEnumsApi.MenuOperateType;
 import com.xxl.hello.service.data.model.enums.ChatEnumsApi.MessageType;
 import com.xxl.hello.service.data.model.enums.ChatEnumsApi.NotificationMessageType;
+import com.xxl.hello.service.data.model.enums.ChatEnumsApi.SessionType;
 import com.xxl.hello.widget.BR;
 import com.xxl.hello.widget.R;
 import com.xxl.hello.widget.databinding.WidgetFragmentChatSessionBinding;
@@ -135,6 +136,14 @@ public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel
         mMenuOperates.put(MenuOperateType.DELETE, new OnDeleteOperate());
     }
 
+    /**
+     * 获取会话类型
+     *
+     * @return
+     */
+    @SessionType
+    protected abstract int getSessionType();
+
     //endregion
 
     //region: OnRefreshDataListener
@@ -171,6 +180,7 @@ public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel
     @Override
     public void onSendClick(@Nullable String content) {
         SDKMessage sdkMessage = SDKMessage.obtain()
+                .setSessionType(getSessionType())
                 .setTextContent(content);
         MessageEntity messageEntity = MessageEntity.obtain(sdkMessage);
         messageEntity.setMessageType(MessageType.TEXT);
@@ -258,6 +268,7 @@ public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel
         int randomDirection = new Random().nextInt(10) % 3 == 0 ? MessageDirection.LEFT : MessageDirection.RIGHT;
         for (LocalMedia targetMedia : targetMedias) {
             SDKMessage sdkMessage = SDKMessage.obtain()
+                    .setSessionType(getSessionType())
                     .setMediaPath(MediaSelector.getMediaPath(targetMedia));
             MessageEntity messageEntity = MessageEntity.obtain(sdkMessage);
             messageEntity.setMessageType(MimeType.isVideo(targetMedia.getMimeType()) ? MessageType.VIDEO : MessageType.IMAGE);

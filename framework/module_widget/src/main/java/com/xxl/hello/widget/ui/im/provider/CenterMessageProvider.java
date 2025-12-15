@@ -42,7 +42,7 @@ public class CenterMessageProvider extends BaseMessageProvider<BaseQuickAdapter,
     }
 
     @Override
-    public void convert(@NonNull WidgetRecycleItemMessageCenterBinding itemBinding, MessageEntity itemEntity) {
+    public void convert(@NonNull WidgetRecycleItemMessageCenterBinding itemBinding,@NonNull MessageEntity itemEntity) {
         render(itemBinding.flMessageContainer,itemEntity);
         setupMessageTime(itemBinding.includeMessageTime.tvMessageTime, itemEntity);
     }

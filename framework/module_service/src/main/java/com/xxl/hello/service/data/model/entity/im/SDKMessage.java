@@ -23,6 +23,11 @@ public class SDKMessage {
     private int mMessageStatus;
 
     /**
+     * 会话类型
+     */
+    private int mSessionType;
+
+    /**
      * 消息文本
      */
     private String mTextContent;
@@ -53,13 +58,16 @@ public class SDKMessage {
 
     //region: 提供方法
 
-
     public long getMessageTime() {
         return mMessageTime;
     }
 
     public int getMessageStatus() {
         return mMessageStatus;
+    }
+
+    public int getSessionType() {
+        return mSessionType;
     }
 
     public String getTextContent() {
@@ -81,6 +89,11 @@ public class SDKMessage {
 
     public SDKMessage setMessageStatus(int status) {
         mMessageStatus = status;
+        return this;
+    }
+
+    public SDKMessage setSessionType(int sessionType) {
+        mSessionType = sessionType;
         return this;
     }
 

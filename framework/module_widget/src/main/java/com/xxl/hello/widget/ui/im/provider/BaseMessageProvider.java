@@ -60,7 +60,7 @@ public abstract class BaseMessageProvider<Adapter extends BaseQuickAdapter, Bind
         itemBinding.executePendingBindings();
     }
 
-    public abstract void convert(@NonNull Binding itemBinding, T itemEntity);
+    public abstract void convert(@NonNull Binding itemBinding,@NonNull T itemEntity);
 
     /**
      * 获取前一条消息

@@ -21,7 +21,7 @@ import dagger.Provides;
  * @date 2024/06/28.
  */
 @Module
-public class PrivateChatFragmentModule {
+public class PrivateChatSessionFragmentModule {
 
     @Provides
     PrivateChatSessionViewModel providePrivateChatSessionViewModel(@ForApplication final Application application,

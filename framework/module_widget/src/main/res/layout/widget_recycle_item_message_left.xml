@@ -43,7 +43,8 @@
                     android:layout_marginBottom="2dp"
                     android:text="lisa"
                     android:textColor="@color/resources_text_sub_title_color"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:visibility="gone" />
 
                 <FrameLayout
                     android:id="@+id/fl_message_container"

@@ -42,7 +42,7 @@ public class RightMessageProvider extends BaseMessageProvider<BaseQuickAdapter, 
     }
 
     @Override
-    public void convert(@NonNull WidgetRecycleItemMessageRightBinding itemBinding, MessageEntity itemEntity) {
+    public void convert(@NonNull WidgetRecycleItemMessageRightBinding itemBinding, @NonNull MessageEntity itemEntity) {
         render(itemBinding.flMessageContainer, itemEntity);
         setupMessageTime(itemBinding.includeMessageTime.tvMessageTime, itemEntity);
         setUserAvatarListener(itemBinding.ivAvatar, itemEntity);
