@@ -28,7 +28,7 @@ public class MessageRenderWrapper {
      * @param render
      */
     public static void registerMessageRender(MessageRender render) {
-        String messageTag = render.getMessageTag();
+        String messageTag = render.getRenderTag();
         if (messageTag == null) {
             throw new RuntimeException("registerMessageRender getMessageTag must not be empty");
         }
@@ -51,7 +51,7 @@ public class MessageRenderWrapper {
     }
 
     /**
-     * 获取消息标识
+     * 获取渲染标识
      *
      * @param messageEntity
      * @return

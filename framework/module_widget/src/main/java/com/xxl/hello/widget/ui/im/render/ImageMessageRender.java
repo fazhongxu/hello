@@ -62,12 +62,12 @@ public class ImageMessageRender extends BaseMessageRender<WidgetRecycleItemMessa
     //region: 生命周期
 
     /**
-     * 获取消息标识
+     * 获取渲染标识
      *
      * @return
      */
     @Override
-    public String getMessageTag() {
+    public String getRenderTag() {
         return String.valueOf(MessageType.IMAGE);
     }
 

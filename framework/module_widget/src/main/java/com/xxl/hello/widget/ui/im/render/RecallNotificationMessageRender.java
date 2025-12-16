@@ -29,12 +29,12 @@ public class RecallNotificationMessageRender extends NotificationMessageRender {
     //region: 生命周期
 
     /**
-     * 获取消息标识
+     * 获取渲染标识
      *
      * @return
      */
     @Override
-    public String getMessageTag() {
+    public String getRenderTag() {
         return MessageType.NOTIFICATION + NotificationMessageType.RECALL;
     }
 

@@ -17,11 +17,11 @@ import com.xxl.hello.widget.ui.im.template.OnMessageTemplateListener;
 public interface MessageRender {
 
     /**
-     * 获取消息标识
+     * 获取渲染标识
      *
      * @return
      */
-    String getMessageTag();
+    String getRenderTag();
 
     /**
      * 获取背景
@@ -39,6 +39,6 @@ public interface MessageRender {
      * @param messageEntity
      * @return
      */
-    View render(Context context, FrameLayout container, MessageEntity messageEntity,OnMessageTemplateListener listener);
+    View render(Context context, FrameLayout container, MessageEntity messageEntity, OnMessageTemplateListener listener);
 
 }
