@@ -20,6 +20,8 @@ import com.xxl.kit.ToastUtils;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 /**
  * 会话列表适配器
  * 多条目（区分左右消息）+消息渲染（不同消息类型）
@@ -36,6 +38,7 @@ public class ChatSessionRenderAdapter extends BaseMultiAdapter<MessageEntity, Ch
 
     //region: 构造函数
 
+    @Inject
     public ChatSessionRenderAdapter() {
         super();
     }

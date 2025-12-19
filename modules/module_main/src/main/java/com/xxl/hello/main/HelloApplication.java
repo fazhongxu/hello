@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.pm.ShortcutInfo;
 import android.content.res.Configuration;
 import android.text.TextUtils;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -25,8 +24,6 @@ import com.xxl.hello.common.config.AppConfig;
 import com.xxl.hello.common.config.NetworkConfig;
 import com.xxl.hello.common.config.ShareConfig;
 import com.xxl.hello.common.config.ShortcutConfig;
-import com.xxl.hello.common.utils.TbsUtils;
-import com.xxl.hello.main.di.component.DaggerAppComponent;
 import com.xxl.hello.router.api.UserRouterApi;
 import com.xxl.hello.service.handle.api.AppSchemeService;
 import com.xxl.hello.user.ui.setting.UserSettingActivity;
