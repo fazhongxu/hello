@@ -32,6 +32,7 @@
 
     <string name="resources_delete_text">删除</string>
     <string name="resources_set_top_text">置顶</string>
+    <string name="resources_cancel_top_text">取消置顶</string>
     <string name="resources_refresh_to_top_text">刷新到顶部</string>
 
     <string name="resources_login_title">login</string>
@@ -54,6 +55,7 @@
     <string name="resources_download">下载</string>
 
     <string name="resources_send_text">发送</string>
+    <string name="resources_send_failure_text">发送失败</string>
     <string name="resources_please_input_content_hint">请输入内容</string>
     <string name="resources_emotion_text">表情</string>
     <string name="resources_can_not_parse_link_tips">无法解析该连接</string>
@@ -62,6 +64,9 @@
     <string name="resources_message_title">消息</string>
     <string name="resources_private_chat_title">单聊</string>
     <string name="resources_group_chat_title">群聊</string>
+    <string name="resources_message_recall_format">%s撤回了一条消息</string>
+    <string name="resources_you_text">你</string>
+    <string name="resources_current_version_not_support_this_message">当前版本不支持查看此消息</string>
 
     <string name="resources_menu_copy">复制</string>
     <string name="resources_menu_edit">编辑</string>
@@ -69,5 +74,6 @@
     <string name="resources_menu_share">分享</string>
     <string name="resources_menu_favorite">收藏</string>
     <string name="resources_menu_remind">提醒</string>
+    <string name="resources_menu_recall">撤回</string>
 
 </resources>

@@ -10,7 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import com.xxl.hello.widget.R;
-import com.xxl.kit.CountDownWrapper;
+import com.xxl.kit.CountdownWrapper;
 
 import java.util.concurrent.TimeUnit;
 
@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit;
  * @author xxl.
  * @date 2024/6/27.
  */
-public class CountDownTimeView extends LinearLayout implements CountDownWrapper.OnCountDownCallback {
+public class CountDownTimeView extends LinearLayout implements CountdownWrapper.OnCountDownCallback {
 
     /**
      * 天
@@ -49,7 +49,7 @@ public class CountDownTimeView extends LinearLayout implements CountDownWrapper.
 
     private long mCountDownTime;
 
-    private CountDownWrapper mCountDownWrapper;
+    private CountdownWrapper mCountdownWrapper;
 
     public CountDownTimeView(Context context) {
         this(context, null);
@@ -61,7 +61,7 @@ public class CountDownTimeView extends LinearLayout implements CountDownWrapper.
 
     public CountDownTimeView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        mCountDownWrapper = CountDownWrapper.create(this);
+        mCountdownWrapper = CountdownWrapper.create(this);
         setupLayout(context);
     }
 
@@ -111,16 +111,16 @@ public class CountDownTimeView extends LinearLayout implements CountDownWrapper.
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        if (mCountDownWrapper != null) {
-            mCountDownWrapper.cancel();
+        if (mCountdownWrapper != null) {
+            mCountdownWrapper.cancel();
         }
     }
 
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        if (mCountDownWrapper != null && mCountDownTime > 0) {
-            mCountDownWrapper.start(mCountDownTime);
+        if (mCountdownWrapper != null && mCountDownTime > 0) {
+            mCountdownWrapper.start(mCountDownTime);
         }
     }
 
@@ -131,6 +131,6 @@ public class CountDownTimeView extends LinearLayout implements CountDownWrapper.
      */
     public void setCountDownTime(long countDownTime) {
         mCountDownTime = countDownTime;
-        mCountDownWrapper.start(countDownTime);
+        mCountdownWrapper.start(countDownTime);
     }
 }

@@ -87,7 +87,7 @@ public class MessagePopupWindow extends BasePopupWindow {
      * @param title
      * @return
      */
-    public MessagePopupWindow setTitle(final CharSequence title) {
+    public MessagePopupWindow setTitle(CharSequence title) {
         mTvTitle.setText(title);
         mTvTitle.setVisibility(TextUtils.isEmpty(title) ? View.GONE : View.VISIBLE);
         return this;
@@ -110,11 +110,22 @@ public class MessagePopupWindow extends BasePopupWindow {
      * @param fakeBoldText
      * @return
      */
-    public MessagePopupWindow setTitleFakeBoldText(final boolean fakeBoldText) {
+    public MessagePopupWindow setTitleFakeBoldText(boolean fakeBoldText) {
         TextPaint paint = mTvTitle.getPaint();
         if (paint != null) {
             paint.setFakeBoldText(fakeBoldText);
         }
+        return this;
+    }
+
+    /**
+     * 设置标题对齐方式
+     *
+     * @param gravity
+     * @return
+     */
+    public MessagePopupWindow setTitleGravity(int gravity) {
+        mTvTitle.setGravity(gravity);
         return this;
     }
 
@@ -124,7 +135,7 @@ public class MessagePopupWindow extends BasePopupWindow {
      * @param isVisible
      * @return
      */
-    public MessagePopupWindow setTitleVisibility(final boolean isVisible) {
+    public MessagePopupWindow setTitleVisibility(boolean isVisible) {
         mTvTitle.setVisibility(isVisible ? View.VISIBLE : View.GONE);
         return this;
     }
@@ -135,7 +146,7 @@ public class MessagePopupWindow extends BasePopupWindow {
      * @param message
      * @return
      */
-    public MessagePopupWindow setMessage(final CharSequence message) {
+    public MessagePopupWindow setMessage(CharSequence message) {
         mTvMessage.setText(message);
         return this;
     }
@@ -146,7 +157,7 @@ public class MessagePopupWindow extends BasePopupWindow {
      * @param color
      * @return
      */
-    public MessagePopupWindow setMesageColor(@IntegerRes final int color) {
+    public MessagePopupWindow setMesageColor(@IntegerRes int color) {
         mTvMessage.setTextColor(color);
         return this;
     }
@@ -157,11 +168,22 @@ public class MessagePopupWindow extends BasePopupWindow {
      * @param fakeBoldText
      * @return
      */
-    public MessagePopupWindow setMessageFakeBoldText(final boolean fakeBoldText) {
+    public MessagePopupWindow setMessageFakeBoldText(boolean fakeBoldText) {
         TextPaint paint = mTvMessage.getPaint();
         if (paint != null) {
             paint.setFakeBoldText(fakeBoldText);
         }
+        return this;
+    }
+
+    /**
+     * 设置消息对齐方式
+     *
+     * @param gravity
+     * @return
+     */
+    public MessagePopupWindow setMessageGravity(int gravity) {
+        mTvMessage.setGravity(gravity);
         return this;
     }
 
@@ -171,7 +193,7 @@ public class MessagePopupWindow extends BasePopupWindow {
      * @param isVisible
      * @return
      */
-    public MessagePopupWindow setMessageVisibility(final boolean isVisible) {
+    public MessagePopupWindow setMessageVisibility(boolean isVisible) {
         mTvMessage.setVisibility(isVisible ? View.VISIBLE : View.GONE);
         return this;
     }
@@ -266,7 +288,7 @@ public class MessagePopupWindow extends BasePopupWindow {
      * @param color
      * @return
      */
-    public MessagePopupWindow setNegativeButtonTextColor(final int color) {
+    public MessagePopupWindow setNegativeButtonTextColor(int color) {
         mTvCancel.setTextColor(color);
         return this;
     }
@@ -277,7 +299,7 @@ public class MessagePopupWindow extends BasePopupWindow {
      * @param color
      * @return
      */
-    public MessagePopupWindow setPositiveButtonTextColor(final int color) {
+    public MessagePopupWindow setPositiveButtonTextColor(int color) {
         mTvConfirm.setTextColor(color);
         return this;
     }
@@ -288,7 +310,7 @@ public class MessagePopupWindow extends BasePopupWindow {
      * @param fakeBoldText
      * @return
      */
-    public MessagePopupWindow setNegativeButtonFakeBoldText(final boolean fakeBoldText) {
+    public MessagePopupWindow setNegativeButtonFakeBoldText(boolean fakeBoldText) {
         TextPaint paint = mTvCancel.getPaint();
         if (paint != null) {
             paint.setFakeBoldText(fakeBoldText);
@@ -302,7 +324,7 @@ public class MessagePopupWindow extends BasePopupWindow {
      * @param fakeBoldText
      * @return
      */
-    public MessagePopupWindow setPositiveButtonFakeBoldText(final boolean fakeBoldText) {
+    public MessagePopupWindow setPositiveButtonFakeBoldText(boolean fakeBoldText) {
         TextPaint paint = mTvConfirm.getPaint();
         if (paint != null) {
             paint.setFakeBoldText(fakeBoldText);

@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -49,6 +50,7 @@ import com.xxl.hello.widget.ui.view.record.RecordButton;
 import com.xxl.hello.widget.ui.window.MessagePopupWindow;
 import com.xxl.kit.AppUtils;
 import com.xxl.kit.ClipboardUtils;
+import com.xxl.kit.CountdownWrapper;
 import com.xxl.kit.FFmpegUtils;
 import com.xxl.kit.ListUtils;
 import com.xxl.kit.LogUtils;
@@ -79,9 +81,12 @@ import io.reactivex.rxjava3.disposables.Disposable;
 @AndroidEntryPoint
 public class MainFragment extends BaseStateViewModelFragment<MainViewModel, MainFragmentBinding>
         implements MainNavigator, OnAppStatusChangedListener, OnAudioFrameCapturedListener,
-        TestBindingRecycleItemListener, OnRefreshDataListener, OnTestRecycleItemListener {
+        TestBindingRecycleItemListener, OnRefreshDataListener, OnTestRecycleItemListener,
+        CountdownWrapper.OnCountDownCallback {
 
     //region: 成员变量
+
+    private Handler mHandler = new Handler();
 
     /**
      * 首页数据模型
@@ -218,7 +223,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     private void setupRecyclerView() {
         mViewDataBinding.rvList.addItemDecoration(DecorationUtils.createHorizontalDividerItemDecoration(ResourceUtils.getAttrColor(AppUtils.getTopActivity(), R.attr.h_common_divider_color), 10, 0));
         mViewDataBinding.refreshLayout.setRefreshDataListener(this);
-        mViewDataBinding.refreshLayout.bindRecyclerView(mViewDataBinding.rvList, mTestBindingAdapter, new GridLayoutManager(getActivity(),3));
+        mViewDataBinding.refreshLayout.bindRecyclerView(mViewDataBinding.rvList, mTestBindingAdapter, new GridLayoutManager(getActivity(), 3));
         mViewDataBinding.refreshLayout.setPageSize(20);
         mTestBindingAdapter.setListener(this);
         mTestBindingAdapter.setDragItemEnable(true, R.id.tv_content, mViewDataBinding.rvList);
@@ -296,6 +301,112 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
     //endregion
 
+    //region: TestBindingRecycleItemListener
+
+    /**
+     * 条目点击
+     *
+     * @param value
+     */
+    @Override
+    public void onItemClick(@NonNull TestListEntity value) {
+        ToastUtils.success(value.getContent()).show();
+    }
+
+    /**
+     * 媒体视图点击
+     *
+     * @param testListEntity
+     * @param targetView
+     */
+    @Override
+    public void onMediaItemClick(@NonNull TestListEntity testListEntity,
+                                 @NonNull View targetView) {
+        if (isActivityFinishing()) {
+            return;
+        }
+        List<MediaPreviewItemEntity> mediaPreviewItemEntities = new ArrayList<>();
+        List<TestListEntity> entities = mTestBindingAdapter.getData();
+        if (!ListUtils.isEmpty(entities)) {
+            for (TestListEntity entity : entities) {
+                int position = mTestBindingAdapter.getItemPosition(entity);
+                if (entity.getMediaType() == SystemEnumsApi.CircleMediaType.IMAGE) {
+                    MediaPreviewItemEntity mediaPreviewItemEntity = MediaPreviewItemEntity.obtain()
+                            .setMediaUrl(entity.getUrl());
+                    mediaPreviewItemEntities.add(mediaPreviewItemEntity);
+                    if (position >= 0) {
+                        mediaPreviewItemEntity.setTargetViewAttributes(mTestBindingAdapter.getViewByPosition(position, R.id.iv_photo));
+                    }
+                }
+            }
+        }
+
+        WidgetRouterApi.MediaPreview.newBuilder()
+                .setMediaPreviewItemEntities(mediaPreviewItemEntities)
+                .setCurrentPosition(mTestBindingAdapter.getItemPosition(testListEntity))
+                .navigation();
+    }
+
+    /**
+     * 移除条目
+     *
+     * @param value
+     */
+    @Override
+    public void onRemoveItemClick(@NonNull TestListEntity value) {
+        mTestBindingAdapter.remove(value);
+    }
+
+    /**
+     * 置顶
+     *
+     * @param entity
+     */
+    @Override
+    public void onTopItemClick(@NonNull TestListEntity entity) {
+        ToastUtils.success(entity + " " + (entity.isTop() ? StringUtils.getString(R.string.resources_cancel_top_text) : StringUtils.getString(R.string.resources_set_top_text))).show();
+        if (entity.isTop()) {
+            entity.setTop(false);
+            final List<TestListEntity> entities = mTestBindingAdapter.getData();
+            if (!ListUtils.isEmpty(entities)) {
+                Collections.sort(entities, (o1, o2) -> {
+                    if (Boolean.compare(o2.isTop(), o1.isTop()) == 0) {
+                        return (int) (o2.getSortTime() - o1.getSortTime());
+                    }
+                    return Boolean.compare(o2.isTop(), o1.isTop());
+                });
+                mTestBindingAdapter.notifyDataSetChanged();
+            }
+        } else {
+            mTestBindingAdapter.remove(entity);
+            entity.setTop(true);
+            mTestBindingAdapter.addData(0, entity);
+            mViewDataBinding.rvList.scrollToPosition(0);
+        }
+    }
+
+    /**
+     * 刷新到顶部
+     *
+     * @param targetEntity
+     */
+    @Override
+    public void onRefreshTopItemClick(@NonNull TestListEntity targetEntity) {
+        targetEntity.setSortTime(TimeUtils.currentServiceTimeMillis());
+        final List<TestListEntity> entities = mTestBindingAdapter.getData();
+        if (!ListUtils.isEmpty(entities)) {
+            Collections.sort(entities, (o1, o2) -> {
+                if (Boolean.compare(o2.isTop(), o1.isTop()) == 0) {
+                    return (int) (o2.getSortTime() - o1.getSortTime());
+                }
+                return Boolean.compare(o2.isTop(), o1.isTop());
+            });
+        }
+        mTestBindingAdapter.notifyDataSetChanged();
+    }
+
+    //endregion
+
     //region: OnAppStatusChangedListener
 
     @Override
@@ -306,6 +417,33 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     @Override
     public void onBackground(Activity activity) {
         ToastUtils.success(R.string.resources_app_is_background_tips).show();
+    }
+
+    //endregion
+
+    //region: OnCountDownCallback
+
+    /**
+     * 倒计时结束
+     */
+    private boolean mIsCountDownFinish;
+
+    /**
+     * 定期触发回调
+     *
+     * @param millisUntilFinished 单位时间内完成倒计时后剩余的时间
+     */
+    @Override
+    public void onTick(long millisUntilFinished) {
+        Log.e("aaa", "onTick: " + millisUntilFinished);
+    }
+
+    /**
+     * 倒计时结束
+     */
+    @Override
+    public void onFinish() {
+        mIsCountDownFinish = true;
     }
 
     //endregion
@@ -332,8 +470,8 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
         mViewDataBinding.tvTest.setText(getString(R.string.core_start_record_audio_text));
 
         String audio = CacheDirConfig.SHARE_FILE_DIR + File.separator + "1.mp3";
-        String audio1 = CacheDirConfig.SHARE_FILE_DIR + File.separator + TimeUtils.currentTimeMillis() + "--" + ".mp3";
-        String audio2 = CacheDirConfig.SHARE_FILE_DIR + File.separator + TimeUtils.currentTimeMillis() + "录音背景音乐" + ".mp3";
+        String audio1 = CacheDirConfig.SHARE_FILE_DIR + File.separator + System.currentTimeMillis() + "--" + ".mp3";
+        String audio2 = CacheDirConfig.SHARE_FILE_DIR + File.separator + System.currentTimeMillis() + "录音背景音乐" + ".mp3";
         ToastUtils.success(getString(R.string.core_record_audio_finish_text) + audioFile.getAbsolutePath()).show();
         new Thread() {
             @Override
@@ -422,12 +560,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
             AudioCapture.getInstance().mergeAudioFiles(new OnRequestCallBack<String>() {
                 @Override
                 public void onSuccess(@Nullable String path) {
-                    ThreadUtils.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            ToastUtils.success("完成录音 " + path + " " + ListUtils.getSize(audioFiles)).show();
-                        }
-                    });
+                    ToastUtils.success("完成录音 " + path + " " + ListUtils.getSize(audioFiles)).show();
                 }
             });
 
@@ -518,97 +651,33 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
         }
     }
 
-    //region: TestBindingRecycleItemListener
-
     /**
-     * 条目点击
-     *
-     * @param value
+     * 开始录音
      */
-    @Override
-    public void onItemClick(@NonNull TestListEntity value) {
-        ToastUtils.success(value.getContent()).show();
-    }
+    public void startRecording() {
+        AudioCapture.getInstance()
+                .setAudioRecordFormat(AudioRecordFormat.AAC)
+                .setOutFilePath(CacheDirConfig.SHARE_MUSIC_FILE_DIR)
+                .setMaxDuration(20)
+                .setMultiRecord(true)
+                .setOnAudioFrameCapturedListener(new OnAudioFrameCapturedListener() {
+                    @Override
+                    public void onStartRecord() {
 
-    /**
-     * 媒体视图点击
-     *
-     * @param testListEntity
-     * @param targetView
-     */
-    @Override
-    public void onMediaItemClick(@NonNull TestListEntity testListEntity,
-                                 @NonNull View targetView) {
-        if (isActivityFinishing()) {
-            return;
-        }
-        List<MediaPreviewItemEntity> mediaPreviewItemEntities = new ArrayList<>();
-        List<TestListEntity> entities = mTestBindingAdapter.getData();
-        if (!ListUtils.isEmpty(entities)) {
-            for (TestListEntity entity : entities) {
-                int position = mTestBindingAdapter.getItemPosition(entity);
-                if (entity.getMediaType() == SystemEnumsApi.CircleMediaType.IMAGE) {
-                    MediaPreviewItemEntity mediaPreviewItemEntity = MediaPreviewItemEntity.obtain()
-                            .setMediaUrl(entity.getUrl());
-                    mediaPreviewItemEntities.add(mediaPreviewItemEntity);
-                    if (position >= 0) {
-                        mediaPreviewItemEntity.setTargetViewAttributes(mTestBindingAdapter.getViewByPosition(position, R.id.iv_photo));
                     }
-                }
-            }
-        }
 
-        WidgetRouterApi.MediaPreview.newBuilder()
-                .setMediaPreviewItemEntities(mediaPreviewItemEntities)
-                .setCurrentPosition(mTestBindingAdapter.getItemPosition(testListEntity))
-                .navigation();
+                    @Override
+                    public void onCompleteRecord(@NonNull File audioFile) {
+                        mHandler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                //startRecordingService();
+                            }
+                        }, 2000);
+                    }
+                })
+                .startCapture();
     }
-
-    /**
-     * 移除条目
-     *
-     * @param value
-     */
-    @Override
-    public void onRemoveItemClick(@NonNull TestListEntity value) {
-        mTestBindingAdapter.removeItem(value);
-    }
-
-    /**
-     * 置顶
-     *
-     * @param entity
-     */
-    @Override
-    public void onTopItemClick(@NonNull TestListEntity entity) {
-        ToastUtils.success(entity + " " + StringUtils.getString(R.string.resources_set_top_text)).show();
-        mTestBindingAdapter.removeItem(entity);
-        entity.setTop(true);
-        mTestBindingAdapter.addData(0, entity);
-        mViewDataBinding.rvList.scrollToPosition(0);
-    }
-
-    /**
-     * 刷新到顶部
-     *
-     * @param targetEntity
-     */
-    @Override
-    public void onRefreshTopItemClick(@NonNull TestListEntity targetEntity) {
-        targetEntity.setSortTime(TimeUtils.currentServiceTimeMillis());
-        final List<TestListEntity> entities = mTestBindingAdapter.getData();
-        if (!ListUtils.isEmpty(entities)) {
-            Collections.sort(entities, (o1, o2) -> {
-                if (Boolean.compare(o2.isTop(), o1.isTop()) == 0) {
-                    return (int) (o2.getSortTime() - o1.getSortTime());
-                }
-                return Boolean.compare(o2.isTop(), o1.isTop());
-            });
-        }
-        mTestBindingAdapter.notifyDataSetChanged();
-    }
-
-    //endregion
 
     //endregion
 

@@ -220,7 +220,7 @@ public class UserSettingModel extends BaseResourceQueueViewModel<UserSettingNavi
                                    long width,
                                    long height) {
                 final LoginUserEntity loginUserEntity = LoginUserEntity.obtain()
-                        .setUserAvatar(filePath);
+                        .setAvatar(filePath);
                 submitUserInfoToService(loginUserEntity);
             }
 

@@ -1,5 +1,6 @@
 package com.xxl.hello.widget.ui.im.message.session.privites;
 
+import com.xxl.hello.service.data.model.enums.ChatEnumsApi.SessionType;
 import com.xxl.hello.widget.ui.im.message.session.base.BaseChatSessionFragment;
 
 import javax.inject.Inject;
@@ -41,6 +42,17 @@ public class PrivateChatSessionFragment extends BaseChatSessionFragment<PrivateC
     //endregion
 
     //region: 页面生命周期
+
+    /**
+     * 获取会话类型
+     *
+     * @return
+     */
+    @SessionType
+    @Override
+    public int getSessionType() {
+        return SessionType.PRIVATE;
+    }
 
     //endregion
 

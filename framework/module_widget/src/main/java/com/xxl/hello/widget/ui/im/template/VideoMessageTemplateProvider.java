@@ -74,7 +74,7 @@ public class VideoMessageTemplateProvider extends MessageTemplateProvider {
         imageBinding.ivCover.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                if (listener != null && listener.onMessageItemLongClick(imageBinding.llItemContainer,messageEntity)) {
+                if (listener != null && listener.onMessageItemLongClick(imageBinding.llItemContainer, messageEntity)) {
                     return true;
                 }
                 ClipboardUtils.copyText(messageEntity.getMediaPath());

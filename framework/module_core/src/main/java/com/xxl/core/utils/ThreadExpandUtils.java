@@ -55,7 +55,7 @@ public final class ThreadExpandUtils {
     private static final int MAXIMUM_POOL_SIZE = CPU_COUNT * 2;
 
     /**
-     * 超过 corePoolSize 线程数量，超过这个时间，线程就会被回收
+     * 超过 corePoolSize 线程数量，非核心线程超过这个时间，线程就会被回收
      */
     private static final long KEEP_ALIVE_TIME = TimeUnit.SECONDS.toSeconds(60);
 

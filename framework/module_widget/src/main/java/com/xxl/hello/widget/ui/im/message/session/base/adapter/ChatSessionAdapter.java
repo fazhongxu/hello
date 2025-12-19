@@ -21,6 +21,7 @@ import com.xxl.hello.widget.ui.im.message.session.base.menu.MessageLongClickMenu
 import com.xxl.hello.widget.ui.im.template.MessageTemplateWrapper;
 import com.xxl.hello.widget.ui.im.template.OnMessageTemplateListener;
 import com.xxl.kit.ListUtils;
+import com.xxl.kit.TimeUtils;
 import com.xxl.kit.ToastUtils;
 
 import javax.inject.Inject;
@@ -39,6 +40,11 @@ public class ChatSessionAdapter extends BaseBindingAdapter<MessageEntity, ChatSe
         implements OnMessageTemplateListener {
 
     //region: 成员变量
+
+    /**
+     * 时间间隔
+     */
+    private static final long TIME_SPAN = 3 * 60 * 1000L;
 
     //endregion
 
@@ -79,8 +85,39 @@ public class ChatSessionAdapter extends BaseBindingAdapter<MessageEntity, ChatSe
     private void setMessageLayout(@NonNull WidgetRecycleItemChatSessionBinding itemBinding,
                                   @NonNull MessageEntity itemEntity) {
         View view = MessageTemplateWrapper.bindView(itemBinding.flMessageProviderLayout, itemEntity, getItemPosition(itemEntity), this);
+
+        long messageTime = itemEntity.getMessageTime();
+        MessageEntity preMessage = getPreMessage(itemEntity);
+        boolean isShowTime = false;
+        if (preMessage != null) {
+            isShowTime = messageTime - preMessage.getMessageTime() > TIME_SPAN;
+        }else {
+            isShowTime = true;
+        }
+
+        if (isShowTime) {
+            itemBinding.tvMessageTime.setText(TimeUtils.getChatTimeSpanByNow(messageTime));
+            itemBinding.tvMessageTime.setVisibility(View.VISIBLE);
+        } else {
+            itemBinding.tvMessageTime.setText("");
+            itemBinding.tvMessageTime.setVisibility(View.GONE);
+        }
         setMessageGravity(itemBinding, itemEntity);
         setUserLayout(itemBinding, itemEntity);
+    }
+
+    /**
+     * 获取前一条消息
+     *
+     * @param itemEntity
+     * @return
+     */
+    private MessageEntity getPreMessage(@NonNull MessageEntity itemEntity) {
+        int position = getItemPosition(itemEntity);
+        if (position <= 0) {
+            return null;
+        }
+        return getItem(position - 1);
     }
 
     /**

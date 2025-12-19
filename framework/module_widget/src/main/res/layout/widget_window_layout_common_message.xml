@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:maxHeight="500dp"
-    android:minHeight="156dp"
+    android:minHeight="100dp"
     app:rv_backgroundColor="@android:color/white"
     app:rv_cornerRadius="8dp">
 
@@ -21,6 +21,7 @@
         android:textSize="18sp"
         android:textStyle="bold"
         android:visibility="gone"
+        app:layout_constrainedWidth="true"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -43,7 +44,8 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_title"
-        tools:text="我是内容我是内容我是内容" />
+        tools:text="我是内容我是内容我是内容"
+        tools:visibility="visible" />
 
     <View
         android:layout_width="match_parent"

@@ -27,9 +27,9 @@ public class LoginUserEntity implements Serializable {
     private String mUserId;
 
     /**
-     * 用户名
+     * 用户昵称
      */
-    private String mUserName;
+    private String mNickname;
 
     /**
      * 用户头像
@@ -91,7 +91,7 @@ public class LoginUserEntity implements Serializable {
     }
 
     public String getUserName() {
-        return mUserName;
+        return mNickname;
     }
 
     public String getAvatar() {
@@ -105,33 +105,33 @@ public class LoginUserEntity implements Serializable {
     /**
      * 设置用户ID
      *
-     * @param targetUserId
+     * @param userId
      * @return
      */
-    public LoginUserEntity setUserId(@NonNull final String targetUserId) {
-        this.mUserId = targetUserId;
+    public LoginUserEntity setUserId(@NonNull final String userId) {
+        mUserId = userId;
         return this;
     }
 
     /**
      * 设置用户名称
      *
-     * @param targetUserName
+     * @param nickname
      * @return
      */
-    public LoginUserEntity setUserName(@NonNull final String targetUserName) {
-        this.mUserName = targetUserName;
+    public LoginUserEntity setNickname(@NonNull final String nickname) {
+        mNickname = nickname;
         return this;
     }
 
     /**
      * 设置用户头像
      *
-     * @param targetUserAvatar
+     * @param avatar
      * @return
      */
-    public LoginUserEntity setUserAvatar(@NonNull final String targetUserAvatar) {
-        this.mAvatar = targetUserAvatar;
+    public LoginUserEntity setAvatar(@NonNull final String avatar) {
+        mAvatar = avatar;
         return this;
     }
 
@@ -161,7 +161,7 @@ public class LoginUserEntity implements Serializable {
         if (NetworkConfig.Companion.isNetworkDebug()) {
             return LoginUserEntity.obtain()
                     .setUserId(String.valueOf(TimeUtils.currentServiceTimeMillis()))
-                    .setUserName("six six");
+                    .setNickname("six six");
         }
         throw new RuntimeException("仅测试环境可用");
     }

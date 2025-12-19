@@ -76,4 +76,34 @@ public class SystemEventApi {
 
     //endregion
 
+    //region: 录音通知事件
+
+    /**
+     * 开始录音通知事件
+     */
+    public static final class OnStartRecordingEvent {
+        private OnStartRecordingEvent() {
+
+        }
+
+        public static final OnStartRecordingEvent obtain() {
+            return new OnStartRecordingEvent();
+        }
+    }
+
+    /**
+     * 停止录音通知事件
+     */
+    public static final class OnStopRecordingEvent {
+        private OnStopRecordingEvent() {
+
+        }
+
+        public static final OnStopRecordingEvent obtain() {
+            return new OnStopRecordingEvent();
+        }
+    }
+
+    //endregion
+
 }

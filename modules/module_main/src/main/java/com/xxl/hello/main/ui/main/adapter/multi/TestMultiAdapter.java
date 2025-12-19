@@ -2,9 +2,6 @@ package com.xxl.hello.main.ui.main.adapter.multi;
 
 import androidx.annotation.NonNull;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.module.BaseDraggableModule;
-import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.xxl.core.widget.recyclerview.adapter.BaseMultiDraggableAdapter;
 import com.xxl.hello.main.ui.main.adapter.OnTestRecycleItemListener;
 import com.xxl.hello.main.ui.main.adapter.TestListEntity;
@@ -12,8 +9,6 @@ import com.xxl.hello.main.ui.main.adapter.multi.provider.OnTestItemProviderListe
 import com.xxl.hello.main.ui.main.adapter.multi.provider.TestImageProvider;
 import com.xxl.hello.main.ui.main.adapter.multi.provider.TestTextProvider;
 import com.xxl.hello.main.ui.main.adapter.multi.provider.TestVideoProvider;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -49,9 +44,9 @@ public class TestMultiAdapter extends BaseMultiDraggableAdapter<TestListEntity, 
 
     @Override
     public void registerItemProvider() {
-        registerItemProvider(TestTextProvider.obtain(this));
-        registerItemProvider(TestImageProvider.obtain(this));
-        registerItemProvider(TestVideoProvider.obtain(this));
+        registerItemProvider(new TestTextProvider(this));
+        registerItemProvider(new TestImageProvider(this));
+        registerItemProvider(new TestVideoProvider(this));
     }
 
     @Override

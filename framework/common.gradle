@@ -117,6 +117,7 @@ dependencies {
     implementation deps.refresh_layout
 
     implementation deps.flyco_round_view
+    implementation deps.flyco_tab_layout
 
     implementation deps.tbs
     implementation deps.pdf_viewer
@@ -143,6 +144,8 @@ dependencies {
     implementation deps.viewfinderview
 
     compileOnly deps.umeng.umeng_share_core
+
+    implementation deps.dkplayer.dkplayer_videocache
 
 }
 

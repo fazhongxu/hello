@@ -86,7 +86,7 @@ public class UserManager {
      *
      * @return
      */
-    public String getUserToken() {
+    public String getAccessToken() {
         LoginUserEntity userEntity = getUserEntity();
         if (userEntity != null) {
             return userEntity.getAccessToken();
@@ -99,7 +99,7 @@ public class UserManager {
      *
      * @return
      */
-    public String getUserName() {
+    public String getNickname() {
         LoginUserEntity userEntity = getUserEntity();
         if (userEntity != null) {
             return userEntity.getUserName();
@@ -112,7 +112,7 @@ public class UserManager {
      *
      * @return
      */
-    public String getUserAvatar() {
+    public String getAvatar() {
         LoginUserEntity userEntity = getUserEntity();
         if (userEntity != null) {
             return userEntity.getAvatar();

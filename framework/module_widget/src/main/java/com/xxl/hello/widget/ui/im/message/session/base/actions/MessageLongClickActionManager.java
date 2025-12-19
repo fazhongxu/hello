@@ -2,9 +2,10 @@ package com.xxl.hello.widget.ui.im.message.session.base.actions;
 
 import androidx.annotation.NonNull;
 
+import com.xxl.hello.service.data.model.entity.im.MessageDirection;
 import com.xxl.hello.service.data.model.entity.im.MessageEntity;
-import com.xxl.hello.service.data.model.entity.im.MessageType;
 import com.xxl.hello.service.data.model.enums.ChatEnumsApi.MenuOperateType;
+import com.xxl.hello.service.data.model.enums.ChatEnumsApi.MessageType;
 import com.xxl.hello.service.data.model.enums.ChatEnumsApi.SceneType;
 import com.xxl.hello.widget.R;
 import com.xxl.kit.StringUtils;
@@ -57,6 +58,7 @@ public class MessageLongClickActionManager {
         mActions.add(buildCopyAction());
         mActions.add(buildEditAction());
         mActions.add(buildShareAction());
+        mActions.add(buildRecallAction());
         mActions.add(buildDeleteAction());
         mActions.add(buildFavoriteAction());
     }
@@ -102,6 +104,21 @@ public class MessageLongClickActionManager {
                     @Override
                     public boolean filter(@SceneType int sceneType, MessageEntity messageEntity) {
                         return true;
+                    }
+                });
+    }
+
+    /**
+     * 撤回
+     *
+     * @return
+     */
+    private MessageLongClickAction buildRecallAction() {
+        return MessageLongClickAction.obtain(StringUtils.getString(R.string.resources_menu_recall), R.drawable.resources_ic_menu_delete,MenuOperateType.RECALL)
+                .setFilter(new MessageLongClickAction.Filter() {
+                    @Override
+                    public boolean filter(@SceneType int sceneType, MessageEntity messageEntity) {
+                        return messageEntity.getMessageDirection() == MessageDirection.RIGHT;
                     }
                 });
     }

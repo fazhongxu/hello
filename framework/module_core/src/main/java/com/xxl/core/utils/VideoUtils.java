@@ -2,6 +2,7 @@ package com.xxl.core.utils;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.graphics.Bitmap;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Build;
@@ -15,14 +16,21 @@ import androidx.annotation.Nullable;
 import com.hw.videoprocessor.VideoProcessor;
 import com.xxl.core.rx.SchedulersProvider;
 import com.xxl.kit.AppUtils;
+import com.xxl.kit.FFmpegUtils;
 import com.xxl.kit.FileUtils;
+import com.xxl.kit.ListUtils;
 import com.xxl.kit.LogUtils;
 import com.xxl.kit.MediaUtils;
+import com.xxl.kit.OnRequestCallBack;
+import com.xxl.kit.PathUtils;
+import com.xxl.kit.QRCodeUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.List;
+import java.util.Locale;
 
 import io.reactivex.rxjava3.core.Observable;
 
@@ -32,9 +40,7 @@ import io.reactivex.rxjava3.core.Observable;
  */
 public class VideoUtils {
 
-    private VideoUtils() {
-        throw new UnsupportedOperationException("u can't instantiate me...");
-    }
+    private static final String TAG = "video_";
 
     /**
      * 视频压缩
@@ -133,6 +139,163 @@ public class VideoUtils {
             emitter.onNext(true);
             emitter.onComplete();
         });
+    }
+
+    /**
+     * 检测视频里面是否有二维码
+     *
+     * @param videoPath 视频路径
+     * @param interval  间隔时间（秒）
+     */
+    public static void detectVideoQRCode(String videoPath,
+                                         int interval,
+                                         OnRequestCallBack<Boolean> callBack) {
+        String outPath = PathUtils.getAppExtCachePath() + File.separator + "video_frame";
+        extractFrames(videoPath, outPath, interval, new OnRequestCallBack<Boolean>() {
+            @Override
+            public void onSuccess(@NonNull Boolean isSuccess) {
+                List<File> files = FileUtils.listFilesInDir(outPath);
+                LogUtils.d(TAG + "视频抽帧完成 " + isSuccess + "  " + ListUtils.getSize(files));
+                if (isSuccess) {
+                    requestDecodeQRCode(files, new OnDetectQRCodeCallback() {
+                        @Override
+                        public void onQRCodeDetected(String result,long timeMs) {
+                            LogUtils.d(TAG + "onQRCodeDetected  " + result);
+                            callBack.onSuccess(true);
+                        }
+
+                        @Override
+                        public void onDetectedComplete(boolean isSuccess) {
+                            LogUtils.d(TAG + "onDetectedComplete  ");
+                            callBack.onSuccess(false);
+                        }
+                    });
+                } else {
+                    callBack.onSuccess(false);
+                }
+            }
+        });
+    }
+
+    /**
+     * 视频抽帧
+     *
+     * @param videoPath 视频路径
+     * @param interval  间隔时间（秒）
+     */
+    public static void extractFrames(String videoPath,
+                                     String outFrameDir,
+                                     int interval,
+                                     OnRequestCallBack<Boolean> callBack) {
+        if (FileUtils.isFileExists(outFrameDir)) {
+            FileUtils.deleteDir(outFrameDir);
+        }
+        FileUtils.createOrExistsDir(outFrameDir);
+        String command = String.format(Locale.getDefault(), "-y -i %s -vf fps=%d -vcodec png %s/frame_%%04d.png", videoPath, interval, outFrameDir);
+        FFmpegUtils.executeAsync(command,callBack);
+    }
+
+    /**
+     * 识别二维码
+     *
+     * @param targetFiles
+     * @param callBack
+     */
+    public static void requestDecodeQRCode(@NonNull final List<File> targetFiles,
+                                           @NonNull final OnDetectQRCodeCallback callBack) {
+        LogUtils.d("识别二维码 " + ListUtils.getSize(targetFiles));
+        if (ListUtils.isEmpty(targetFiles)) {
+            callBack.onDetectedComplete(false);
+            return;
+        }
+        String targetUrl = targetFiles.remove(0).getAbsolutePath();
+        QRCodeUtils.requestDecodeQRCodeObservable(targetUrl)
+                .compose(SchedulersProvider.applySchedulers())
+                .subscribe(s -> {
+                    if (!TextUtils.isEmpty(s)) {
+                        callBack.onQRCodeDetected(s, 0);
+                        return;
+                    }
+                    requestDecodeQRCode(targetFiles, callBack);
+                }, throwable -> {
+                    requestDecodeQRCode(targetFiles, callBack);
+                });
+    }
+
+    /**
+     * 视频抽帧
+     *
+     * @param videoPath 视频路径
+     * @param interval  间隔时间（毫秒）
+     * @param callback  回调
+     */
+    public static void extractFrames(String videoPath,
+                                     long interval,
+                                     OnExtractFramesCallback callback) {
+        extractFramesObservable(videoPath, interval, callback)
+                .compose(SchedulersProvider.applySchedulers())
+                .subscribe(isSuccess -> {
+                    callback.onExtractedComplete();
+                }, throwable -> {
+                    callback.onError(throwable);
+                });
+    }
+
+    /**
+     * 视频抽帧
+     *
+     * @param videoPath
+     * @param interval
+     * @param callback
+     */
+    public static Observable<Boolean> extractFramesObservable(String videoPath,
+                                                              long interval,
+                                                              OnExtractFramesCallback callback) {
+        return Observable.create(emitter -> {
+            doExtractFrames(videoPath, interval, callback);
+            emitter.onNext(true);
+            emitter.onComplete();
+        });
+    }
+
+    /**
+     * 视频抽帧
+     *
+     * @param videoPath 视频路径
+     * @param interval  间隔时间（毫秒）
+     * @param callback  回调
+     */
+    private static void doExtractFrames(String videoPath,
+                                        long interval,
+                                        OnExtractFramesCallback callback) {
+        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+        try {
+            retriever.setDataSource(videoPath);
+            long intervalUs = interval * 1000L;// 微秒
+            long videoDurationUs = Long.parseLong(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)) * 1000L;
+            if (videoDurationUs <= 0) {
+                callback.onError(new Throwable("获取视频信息失败"));
+                return;
+            }
+            int totalFrames = (int) (videoDurationUs / intervalUs);
+            for (int i = 0; i < totalFrames; i++) {
+                long timeUs = i * intervalUs;
+                Bitmap frame = retriever.getFrameAtTime(timeUs, MediaMetadataRetriever.OPTION_CLOSEST);
+                if (frame != null) {
+                    callback.onFrameExtracted(frame, timeUs);
+                }
+            }
+            callback.onExtractedComplete();
+        } catch (Throwable e) {
+            e.printStackTrace();
+            callback.onError(e);
+        } finally {
+            try {
+                retriever.release();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**
@@ -256,4 +419,58 @@ public class VideoUtils {
          */
         void onComplete(final String videoPath);
     }
+
+    /**
+     * 视频抽帧回调
+     */
+    public interface OnExtractFramesCallback {
+
+        /**
+         * 抽帧回调
+         *
+         * @param frame
+         * @param timeUs
+         */
+        void onFrameExtracted(Bitmap frame,
+                              long timeUs);
+
+        /**
+         * 抽帧完成
+         */
+        void onExtractedComplete();
+
+        /**
+         * 错误
+         *
+         * @param t
+         */
+        void onError(Throwable t);
+    }
+
+    /**
+     * 检测二维码
+     */
+    public interface OnDetectQRCodeCallback {
+
+        /**
+         * 检测到二维码
+         *
+         * @param result
+         * @param timeUs
+         */
+        void onQRCodeDetected(String result, long timeUs);
+
+        /**
+         * 检测完成
+         *
+         * @param isSuccess
+         */
+        void onDetectedComplete(boolean isSuccess);
+    }
+
+
+    private VideoUtils() {
+        throw new UnsupportedOperationException("u can't instantiate me...");
+    }
+
 }

@@ -227,6 +227,28 @@ public class FFmpegUtils {
     }
 
     /**
+     * 生成"AI"摩斯密码的音频
+     *
+     * @param outputPath 音频输出路径
+     * @param callBack   回调
+     */
+    public static void generateAIMorseCodeAudio(String outputPath,
+                                                OnRequestCallBack<Boolean> callBack) {
+        String command = String.format("-y " +
+                "-f lavfi -i \"aevalsrc=0:d=1.0\" " +
+                "-f lavfi -i \"sine=frequency=800:duration=0.4\" " +
+                "-f lavfi -i \"aevalsrc=0:d=0.4\" " +
+                "-f lavfi -i \"sine=frequency=800:duration=1.2\" " +
+                "-f lavfi -i \"aevalsrc=0:d=1.2\" " +
+                "-f lavfi -i \"sine=frequency=800:duration=0.4\" " +
+                "-f lavfi -i \"aevalsrc=0:d=0.4\" " +
+                "-f lavfi -i \"sine=frequency=800:duration=0.4\" " +
+                "-filter_complex \"[0:a][1:a][2:a][3:a][4:a][5:a][6:a][7:a]concat=n=8:v=0:a=1\" " +
+                "-t 5.6 -acodec libmp3lame -ar 44100 %s", outputPath);
+        FFmpegUtils.executeAsync(command, callBack);
+    }
+
+    /**
      * 音频拼接
      *
      * @param inputAudioPaths 目标音频文件路径
@@ -234,6 +256,9 @@ public class FFmpegUtils {
      */
     public static FFmpegSession concatAudio(@NonNull final List<String> inputAudioPaths,
                                             @NonNull final String outputAudioPath) {
+        if (Thread.currentThread() == Looper.getMainLooper().getThread() || ListUtils.isEmpty(inputAudioPaths)) {
+            return null;
+        }
         return concatAudio(inputAudioPaths, outputAudioPath, null);
     }
 
@@ -246,9 +271,6 @@ public class FFmpegUtils {
     public static FFmpegSession concatAudio(@NonNull final List<String> inputAudioPaths,
                                             @NonNull final String outputAudioPath,
                                             @Nullable final OnRequestCallBack<Boolean> callBack) {
-        if (Thread.currentThread() == Looper.getMainLooper().getThread() || ListUtils.isEmpty(inputAudioPaths)) {
-            return null;
-        }
         final StringBuilder command = new StringBuilder("-hide_banner ")
                 .append("-y ");
         for (String inputAudioPath : inputAudioPaths) {
@@ -263,6 +285,40 @@ public class FFmpegUtils {
         if (callBack == null) {
             return FFmpegKit.execute(command.toString());
         }
+        return executeAsync(command.toString(), isSuccess -> {
+            if (callBack != null) {
+                callBack.onSuccess(isSuccess);
+            }
+        });
+    }
+
+    /**
+     * 音频拼接
+     *
+     * @param inputAudioPath  目标音频文件路径
+     * @param outputAudioPath 输出音频文件路径
+     * @param startTime       开始时间
+     * @param duration        时长
+     */
+    public static FFmpegSession cutAudio(@NonNull final String inputAudioPath,
+                                         @NonNull final String outputAudioPath,
+                                         final long startTime,
+                                         final long duration,
+                                         @Nullable final OnRequestCallBack<Boolean> callBack) {
+        final StringBuilder command = new StringBuilder("-hide_banner ")
+                .append("-y ")
+                .append("-i ")
+                .append(inputAudioPath)
+                .append(" ")
+                .append("-ss ")
+                .append(startTime)
+                .append(" ")
+                .append("-t ")
+                .append(duration)
+                .append(" ")
+                .append("-c copy ")
+                .append(outputAudioPath);
+
         return executeAsync(command.toString(), isSuccess -> {
             if (callBack != null) {
                 callBack.onSuccess(isSuccess);
@@ -856,6 +912,29 @@ public class FFmpegUtils {
                 if (callback != null) {
                     callback.onSuccess(isSuccess);
                 }
+            }
+        });
+    }
+
+    /**
+     * 视频抽帧
+     *
+     * @param videoPath 视频路径
+     * @param interval  间隔时间（秒）
+     */
+    public static void extractFrames(String videoPath,
+                                     String outFrameDir,
+                                     int interval,
+                                     OnRequestCallBack<Boolean> callBack) {
+        if (FileUtils.isFileExists(outFrameDir)) {
+            FileUtils.deleteDir(outFrameDir);
+        }
+        FileUtils.createOrExistsDir(outFrameDir);
+        String command = String.format(Locale.getDefault(), "-y -i %s -vf fps=%d -vcodec png %s/frame_%%04d.png", videoPath, interval, outFrameDir);
+        executeAsync(command, new OnRequestCallBack<Boolean>() {
+            @Override
+            public void onSuccess(Boolean aBoolean) {
+                callBack.onSuccess(aBoolean);
             }
         });
     }

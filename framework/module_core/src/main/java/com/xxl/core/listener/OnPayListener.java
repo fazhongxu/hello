@@ -9,14 +9,9 @@ package com.xxl.core.listener;
 public interface OnPayListener {
 
     /**
-     * 支付完成
+     * 支付成功
      */
-    void onPayComplete();
-
-    /**
-     * 支付取消
-     */
-    void onPayCancel();
+    void onPaySuccess();
 
     /**
      * 支付失败
@@ -24,6 +19,11 @@ public interface OnPayListener {
      * @param throwable
      */
     void onPayFailure(Throwable throwable);
+
+    /**
+     * 支付取消
+     */
+    void onPayCancel();
 
     /**
      * 未安装客户端

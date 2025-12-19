@@ -69,6 +69,14 @@ uploadArchives {
  adb shell dumpsys activity your.package.name
  或adb shell dumpsys activity top
 
+ 查看当前Activity还有一个方法 在logcat输入框输入start u0 过滤，直接就可以看到当前页面
+
+ 查看崩溃完整日志
+ adb logcat ->crash.log
+ ctr+c结束日志抓取，会在你终端所在目录（也可以指定目录）生成完整的logcat日志 log 分析崩溃
+
+ ./adb logcat ->/Users/xxx/xxx/hello/app/build/crash.log
+
  搜索执行结果中，fragment 状态
  mUserVisibleHint= true 的就是当前显示的fragment
 

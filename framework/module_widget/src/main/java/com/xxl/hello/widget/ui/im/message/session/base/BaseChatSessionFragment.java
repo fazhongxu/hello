@@ -15,17 +15,20 @@ import com.xxl.core.widget.recyclerview.OnRefreshDataListener;
 import com.xxl.core.widget.recyclerview.UISmartRefreshLayout;
 import com.xxl.hello.service.data.model.entity.im.MessageDirection;
 import com.xxl.hello.service.data.model.entity.im.MessageEntity;
-import com.xxl.hello.service.data.model.entity.im.MessageType;
 import com.xxl.hello.service.data.model.entity.im.SDKMessage;
 import com.xxl.hello.service.data.model.enums.ChatEnumsApi.MenuOperateType;
+import com.xxl.hello.service.data.model.enums.ChatEnumsApi.MessageType;
+import com.xxl.hello.service.data.model.enums.ChatEnumsApi.NotificationMessageType;
+import com.xxl.hello.service.data.model.enums.ChatEnumsApi.SessionType;
 import com.xxl.hello.widget.BR;
 import com.xxl.hello.widget.R;
 import com.xxl.hello.widget.databinding.WidgetFragmentChatSessionBinding;
-import com.xxl.hello.widget.ui.im.message.session.base.adapter.ChatSessionAdapter;
 import com.xxl.hello.widget.ui.im.message.session.base.adapter.ChatSessionRecycleItemListener;
+import com.xxl.hello.widget.ui.im.message.session.base.adapter.ChatSessionRenderAdapter;
 import com.xxl.hello.widget.ui.im.message.session.base.menu.OnCopyOperate;
 import com.xxl.hello.widget.ui.im.message.session.base.menu.OnDeleteOperate;
 import com.xxl.hello.widget.ui.im.message.session.base.menu.OnMenuItemOperate;
+import com.xxl.hello.widget.ui.im.message.session.base.menu.OnRecallOperate;
 import com.xxl.hello.widget.ui.im.message.session.base.menu.OnShareOperate;
 import com.xxl.hello.widget.ui.view.keyboard.CommonKeyboardLayout;
 import com.xxl.hello.widget.ui.view.keyboard.OnCommonKeyboardListener;
@@ -62,8 +65,11 @@ public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel
     /**
      * 会话列表适配器
      */
+//    @Inject
+//    ChatSessionAdapter mChatSessionAdapter;
+
     @Inject
-    ChatSessionAdapter mChatSessionAdapter;
+    ChatSessionRenderAdapter mChatSessionAdapter;
 
     //endregion
 
@@ -128,8 +134,17 @@ public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel
     protected void setupMenu() {
         mMenuOperates.put(MenuOperateType.COPY, new OnCopyOperate());
         mMenuOperates.put(MenuOperateType.SHARE, new OnShareOperate());
+        mMenuOperates.put(MenuOperateType.RECALL, new OnRecallOperate());
         mMenuOperates.put(MenuOperateType.DELETE, new OnDeleteOperate());
     }
+
+    /**
+     * 获取会话类型
+     *
+     * @return
+     */
+    @SessionType
+    protected abstract int getSessionType();
 
     //endregion
 
@@ -167,6 +182,7 @@ public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel
     @Override
     public void onSendClick(@Nullable String content) {
         SDKMessage sdkMessage = SDKMessage.obtain()
+                .setSessionType(getSessionType())
                 .setTextContent(content);
         MessageEntity messageEntity = MessageEntity.obtain(sdkMessage);
         messageEntity.setMessageType(MessageType.TEXT);
@@ -254,6 +270,7 @@ public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel
         int randomDirection = new Random().nextInt(10) % 3 == 0 ? MessageDirection.LEFT : MessageDirection.RIGHT;
         for (LocalMedia targetMedia : targetMedias) {
             SDKMessage sdkMessage = SDKMessage.obtain()
+                    .setSessionType(getSessionType())
                     .setMediaPath(MediaSelector.getMediaPath(targetMedia));
             MessageEntity messageEntity = MessageEntity.obtain(sdkMessage);
             messageEntity.setMessageType(MimeType.isVideo(targetMedia.getMimeType()) ? MessageType.VIDEO : MessageType.IMAGE);
@@ -276,6 +293,23 @@ public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel
         if (mChatSessionAdapter.getItemCount() - 1 >= 0) {
             mChatSessionBinding.rvList.getLayoutManager().scrollToPosition(mChatSessionAdapter.getItemCount() - 1);
         }
+    }
+
+    /**
+     * 消息撤回
+     *
+     * @param messageEntity
+     */
+    public void onMessageRecallClick(MessageEntity messageEntity) {
+        SDKMessage sdkMessage = SDKMessage.obtain()
+                .setNotificationContent(NotificationMessageType.RECALL);
+
+        MessageEntity targetMessageEntity = MessageEntity.obtain(sdkMessage);
+        targetMessageEntity.setMessageType(MessageType.NOTIFICATION);
+        targetMessageEntity.setMessageDirection(MessageDirection.CENTER);
+        int position = mChatSessionAdapter.getItemPosition(messageEntity);
+        mChatSessionAdapter.remove(messageEntity);
+        mChatSessionAdapter.addData(position,targetMessageEntity);
     }
 
     /**

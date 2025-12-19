@@ -135,6 +135,8 @@ dependencies {
     implementation deps.statemanager
     implementation deps.swipe_menu_layout
 
+    implementation deps.flyco_tab_layout
+
     implementation deps.jsoup
 
     implementation deps.tbs

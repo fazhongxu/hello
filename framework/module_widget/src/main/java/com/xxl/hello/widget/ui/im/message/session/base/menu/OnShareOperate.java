@@ -3,7 +3,7 @@ package com.xxl.hello.widget.ui.im.message.session.base.menu;
 import androidx.annotation.NonNull;
 
 import com.xxl.hello.service.data.model.entity.im.MessageEntity;
-import com.xxl.hello.service.data.model.entity.im.MessageType;
+import com.xxl.hello.service.data.model.enums.ChatEnumsApi.MessageType;
 import com.xxl.hello.widget.R;
 import com.xxl.hello.widget.ui.im.message.session.base.BaseChatSessionFragment;
 import com.xxl.kit.ClipboardUtils;

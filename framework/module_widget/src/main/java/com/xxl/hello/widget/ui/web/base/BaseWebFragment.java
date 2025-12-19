@@ -7,15 +7,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.SslErrorHandler;
 import android.webkit.ValueCallback;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.ViewDataBinding;
 
+import com.just.agentweb.AbsAgentWebSettings;
 import com.just.agentweb.AgentWeb;
+import com.just.agentweb.AgentWebSettingsImpl;
 import com.just.agentweb.AgentWebView;
 import com.just.agentweb.DefaultWebClient;
+import com.just.agentweb.IAgentWebSettings;
 import com.just.agentweb.JsAccessEntrace;
 import com.just.agentweb.WebChromeClient;
 import com.just.agentweb.WebViewClient;
@@ -95,6 +99,21 @@ public abstract class BaseWebFragment<V extends BaseViewModel, T extends ViewDat
                 .setWebView(getCustomWebView())
                 .setWebChromeClient(getWebChromeClient())
                 .addJavascriptInterface("Android", getJavascriptInterface())
+                .setAgentWebWebSettings(new AgentWebSettingsImpl() {
+
+                    @Override
+                    public IAgentWebSettings toSetting(WebView webView) {
+                        IAgentWebSettings settings = super.toSetting(webView);
+                        WebSettings webSettings = settings.getWebSettings();
+                        webSettings.setUseWideViewPort(true);
+                        webSettings.setLoadWithOverviewMode(true);
+                        webSettings.setDisplayZoomControls(false);
+                        webSettings.setBuiltInZoomControls(true);
+                        webSettings.setAllowFileAccessFromFileURLs(true);
+                        webSettings.setAllowUniversalAccessFromFileURLs(true);
+                        return settings;
+                    }
+                })
                 .setWebViewClient(getWebViewClient())
                 .setMainFrameErrorView(R.layout.agentweb_error_page, -1)
                 .setSecurityType(AgentWeb.SecurityType.STRICT_CHECK)

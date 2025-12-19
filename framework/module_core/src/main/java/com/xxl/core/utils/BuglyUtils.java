@@ -53,7 +53,7 @@ public class BuglyUtils {
      *
      * @param throwable
      */
-    public static void postCatchedException(Throwable throwable) {
+    public static void postCachedException(Throwable throwable) {
         CrashReport.postCatchedException(throwable);
     }
 
@@ -64,7 +64,7 @@ public class BuglyUtils {
      * @param thread
      */
 
-    public static void postCatchedException(Throwable throwable, Thread thread) {
+    public static void postCachedException(Throwable throwable, Thread thread) {
         CrashReport.postCatchedException(throwable, thread);
     }
 

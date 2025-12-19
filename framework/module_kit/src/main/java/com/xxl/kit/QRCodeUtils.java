@@ -14,7 +14,9 @@ import org.opencv.OpenCV;
 
 import java.util.List;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 
 /**
@@ -37,6 +39,24 @@ public final class QRCodeUtils {
      * 请求解析二维码
      *
      * @param targetUrl
+     * @param callBack
+     */
+    public static void requestDecodeQRCode(@NonNull final String targetUrl,
+                                           @NonNull final OnRequestCallBack<String> callBack) {
+        QRCodeUtils.requestDecodeQRCodeObservable(targetUrl)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(result -> {
+                    callBack.onSuccess(result);
+                }, throwable -> {
+                    callBack.onSuccess("");
+                });
+    }
+
+    /**
+     * 请求解析二维码
+     *
+     * @param targetUrl
      */
     public static Observable<String> requestDecodeQRCodeObservable(@NonNull final String targetUrl) {
         return Observable.create(emitter -> {
@@ -47,6 +67,39 @@ public final class QRCodeUtils {
             String result;
             Bitmap bitmap = target.get();
             List<String> results = WeChatQRCodeDetector.detectAndDecode(bitmap);
+            result = ListUtils.getFirst(results);
+            if (TextUtils.isEmpty(result)) {
+                result = "";
+            }
+            emitter.onNext(result);
+            emitter.onComplete();
+        });
+    }
+
+
+    /**
+     * 请求解析二维码
+     *
+     * @param targetBitmap
+     */
+    public static String requestDecodeQRCode(@NonNull final Bitmap targetBitmap) {
+        List<String> results = WeChatQRCodeDetector.detectAndDecode(targetBitmap);
+        String result = ListUtils.getFirst(results);
+        if (TextUtils.isEmpty(result)) {
+            result = "";
+        }
+        return result;
+    }
+
+    /**
+     * 请求解析二维码
+     *
+     * @param targetBitmap
+     */
+    public static Observable<String> requestDecodeQRCodeObservable(@NonNull final Bitmap targetBitmap) {
+        return Observable.create(emitter -> {
+            String result;
+            List<String> results = WeChatQRCodeDetector.detectAndDecode(targetBitmap);
             result = ListUtils.getFirst(results);
             if (TextUtils.isEmpty(result)) {
                 result = "";

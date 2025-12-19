@@ -13,6 +13,8 @@ import com.xxl.hello.service.upload.api.UploadService;
 import com.xxl.kit.FileUtils;
 import com.xxl.kit.TimeUtils;
 
+import java.io.File;
+
 /**
  * @author xxl.
  * @date 2022/5/27.
@@ -58,7 +60,7 @@ public class VideoUploadProcessProvider extends BaseUploadProcessProvider {
     @Override
     public void handleCompress(@NonNull final String waitCompressUrl,
                                @NonNull final OnResourcesCompressCallback callback) {
-        final String targetFilePath = getCompressionDir() + TimeUtils.currentServiceTimeMillis();
+        final String targetFilePath = getCompressionDir() + File.separator + TimeUtils.currentServiceTimeMillis() + ".mp4";
         if (FileUtils.createOrExistsFile(targetFilePath)) {
             VideoUtils.compress(waitCompressUrl, targetFilePath, new VideoUtils.OnVideoProgressListener() {
 

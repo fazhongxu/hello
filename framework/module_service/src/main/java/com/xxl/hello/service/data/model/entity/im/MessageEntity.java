@@ -1,5 +1,10 @@
 package com.xxl.hello.service.data.model.entity.im;
 
+import static com.xxl.hello.service.data.model.enums.ChatEnumsApi.MessageStatus;
+
+import com.xxl.hello.service.data.model.enums.ChatEnumsApi.MessageType;
+import com.xxl.hello.service.data.model.enums.ChatEnumsApi.SessionType;
+
 /**
  * 消息类
  *
@@ -72,6 +77,18 @@ public class MessageEntity {
     }
 
     /**
+     * 获取会话类型
+     *
+     * @return
+     */
+    public int getSessionType() {
+        if (mSdkMessage != null) {
+            return mSdkMessage.getSessionType();
+        }
+        return SessionType.NONE;
+    }
+
+    /**
      * 获取消息模板类型
      *
      * @return
@@ -112,7 +129,46 @@ public class MessageEntity {
      * @return
      */
     public String getSenderNickname() {
-        return "";
+        return "lisa";
+    }
+
+    /**
+     * 获取消息时间
+     *
+     * @return
+     */
+    public long getMessageTime() {
+        if (mSdkMessage != null) {
+            return mSdkMessage.getMessageTime();
+        }
+        return 0;
+    }
+
+    /**
+     * 发送成功
+     *
+     * @return
+     */
+    public boolean isSendSuccess() {
+        return mSdkMessage != null && mSdkMessage.getMessageStatus() == MessageStatus.SEND_SUCCESS;
+    }
+
+    /**
+     * 发送失败
+     *
+     * @return
+     */
+    public boolean isSendFailure() {
+        return mSdkMessage != null && mSdkMessage.getMessageStatus() == MessageStatus.SEND_FAILURE;
+    }
+
+    /**
+     * 发送中
+     *
+     * @return
+     */
+    public boolean isSending() {
+        return mSdkMessage != null && mSdkMessage.getMessageStatus() == MessageStatus.SENDING;
     }
 
     /**
@@ -130,6 +186,18 @@ public class MessageEntity {
     public String getMediaPath() {
         if (mSdkMessage != null) {
             return mSdkMessage.getMediaPath();
+        }
+        return null;
+    }
+
+    /**
+     * 获取通知消息内容
+     *
+     * @return
+     */
+    public String getNotificationContent() {
+        if (mSdkMessage != null) {
+            return mSdkMessage.getNotificationContent();
         }
         return null;
     }

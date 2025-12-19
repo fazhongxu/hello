@@ -5,14 +5,13 @@ import android.media.AudioRecord;
 import android.media.MediaRecorder;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.SystemClock;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.arthenica.ffmpegkit.FFmpegSession;
-import com.xxl.core.utils.ThreadExpandUtils;
 import com.xxl.kit.FFmpegUtils;
 import com.xxl.kit.FileUtils;
 import com.xxl.kit.ListUtils;
@@ -37,7 +36,7 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
 
     //region: 成员变量
 
-    private static final String TAG = "AudioCapture";
+    private static final String TAG = "AudioCapture ";
 
     private static final int DEFAULT_SOURCE = MediaRecorder.AudioSource.MIC;
     private static final int DEFAULT_SAMPLE_RATE = 44100;
@@ -55,7 +54,7 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
 
     private OnAudioFrameCapturedListener mAudioFrameCapturedListener;
 
-    private Handler mHandler = new Handler();
+    private Handler mHandler = new Handler(Looper.getMainLooper());
 
     /**
      * 倒计时
@@ -110,7 +109,7 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
     private int mAudioRecordFormat = AudioRecordFormat.AAC;
 
     /**
-     * 录音最大时长，默认不限制
+     * 录音最大时长，默认不限制，秒
      */
     private long mMaxDuration = -1;
 
@@ -164,7 +163,7 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
     }
 
     /**
-     * 设置最大录制时长
+     * 设置最大录制时长，秒
      *
      * @param maxDuration
      * @return
@@ -214,31 +213,20 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
      * @return 返回合并后的音频文件路径
      */
     public void mergeAudioFiles(@NonNull final OnRequestCallBack<String> callBack) {
-        final Runnable runnable = new Runnable() {
+        if (ListUtils.isEmpty(mAudioPaths)) {
+            return;
+        }
+        File audioFile = mAudioRecordFormat == AudioRecordFormat.MP3 ? createAudioMp3File() : createAudioAACFile();
+        FFmpegUtils.concatAudio(mAudioPaths, audioFile.getAbsolutePath(), new OnRequestCallBack<Boolean>() {
             @Override
-            public void run() {
-                if (!ListUtils.isEmpty(mAudioPaths)) {
-                    if (mAudioRecordFormat == AudioRecordFormat.MP3) {
-                        File audioFile = createAudioMp3File();
-                        FFmpegSession ffmpegSession = FFmpegUtils.concatAudio(mAudioPaths, audioFile.getAbsolutePath());
-                        if (ffmpegSession.getReturnCode().isValueSuccess()) {
-                            callBack.onSuccess(audioFile.getAbsolutePath());
-                        } else {
-                            callBack.onFailure(new Throwable("音频文件合并失败"));
-                        }
-                    } else if (mAudioRecordFormat == AudioRecordFormat.AAC) {
-                        File audioFile = createAudioAACFile();
-                        FFmpegSession ffmpegSession = FFmpegUtils.concatAudio(mAudioPaths, audioFile.getAbsolutePath());
-                        if (ffmpegSession.getReturnCode().isValueSuccess()) {
-                            callBack.onSuccess(audioFile.getAbsolutePath());
-                        } else {
-                            callBack.onFailure(new Throwable("音频文件合并失败"));
-                        }
-                    }
+            public void onSuccess(Boolean isSuccess) {
+                if (isSuccess) {
+                    callBack.onSuccess(audioFile.getAbsolutePath());
+                } else {
+                    callBack.onFailure(new Throwable("音频文件合并失败"));
                 }
             }
-        };
-        ThreadExpandUtils.createDefaultThreadPoolExecutor().execute(runnable);
+        });
     }
 
     /**
@@ -321,7 +309,7 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
         }
 
         if (mMaxDuration > 0) {
-            mCountDownTimer = new RecordCountDownTimer(mMaxDuration, 5);
+            mCountDownTimer = new RecordCountDownTimer(mMaxDuration * 1000, 1000);
         }
 
         mAudioRecord.startRecording();
@@ -562,7 +550,7 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
 
         @Override
         public void onTick(long millisUntilFinished) {
-
+            LogUtils.d(TAG + "mills " + millisUntilFinished / 1000);
         }
 
         @Override

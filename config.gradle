@@ -101,6 +101,7 @@ versions.dkplayer = "3.3.5"
 versions.exoplayer = "2.15.0"
 
 versions.flyco_round_view = "1.10.13"
+versions.flyco_tab_layout = "3.0.0"
 
 versions.tbs = "44181"
 versions.pdf_viewer = "3.2.0-beta.1"
@@ -332,6 +333,7 @@ deps.jsoup = "org.jsoup:jsoup:$versions.jsoup"
 def dkplayer = [:]
 dkplayer.dkplayer = "xyz.doikki.android.dkplayer:dkplayer-java:$versions.dkplayer"
 dkplayer.dkplayer_ijk = "xyz.doikki.android.dkplayer:player-ijk:$versions.dkplayer"
+dkplayer.dkplayer_videocache ="xyz.doikki.android.dkplayer:videocache:$versions.dkplayer"
 deps.dkplayer = dkplayer
 
 //exoplayer
@@ -339,6 +341,9 @@ deps.exoplayer = "com.google.android.exoplayer:exoplayer-core:$versions.exoplaye
 
 //https://github.com/fazhongxu/FlycoRoundView
 deps.flyco_round_view = "com.github.fazhongxu:FlycoRoundView:v$versions.flyco_round_view"
+
+//https://github.com/H07000223/FlycoTabLayout
+deps.flyco_tab_layout = "io.github.h07000223:flycoTabLayout:$versions.flyco_tab_layout"
 
 // tbs https://x5.tencent.com/docs/access.html
 deps.tbs = "com.tencent.tbs:tbssdk:$versions.tbs"

@@ -227,9 +227,9 @@ public class LoginFragment extends BaseViewModelFragment<LoginViewModel, UserFra
      */
     @VipIntercept(functionId = VipConfig.LONG_CLICK_USER_SETTING_VIP_FUNCTION_ID)
     private void navigationToFileBrowser() {
-        final String targetFilePath = CacheDirConfig.CACHE_DIR + File.separator + "alibaba_doc.pdf";
+        final String targetFilePath = CacheDirConfig.CACHE_DIR + File.separator + "test.pdf";
         if (!FileUtils.isFileExists(targetFilePath)) {
-            boolean isSuccess = ResourceUtils.copyFileFromAssets("alibaba_doc.pdf", targetFilePath);
+            boolean isSuccess = ResourceUtils.copyFileFromAssets("test.pdf", targetFilePath);
             if (!isSuccess) {
                 ToastUtils.warning(R.string.resources_file_copy_failure_text).show();
                 return;
