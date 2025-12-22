@@ -19,12 +19,14 @@ import com.xxl.hello.widget.R
 import com.xxl.hello.widget.databinding.WidgetFragmentCommonWebBinding
 import com.xxl.hello.widget.ui.web.base.BaseWebFragment
 import com.xxl.kit.ColorUtils
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  *
  * @author xxl.
  * @date 2025/7/7.
  */
+@AndroidEntryPoint
 class CommonWebFragment :
     BaseWebFragment<CommonWebViewModel, WidgetFragmentCommonWebBinding>(),
     CommonWebNavigator, OnRefreshListener, OnScrollChangeListener {
@@ -141,7 +143,7 @@ class CommonWebFragment :
             error: WebResourceError?
         ) {
             super.onReceivedError(view, request, error)
-            mCommonWebBinding!!.swipeRefreshLayout.isRefreshing= false
+            mCommonWebBinding!!.swipeRefreshLayout.isRefreshing = false
         }
 
         override fun onReceivedSslError(
@@ -150,7 +152,7 @@ class CommonWebFragment :
             error: SslError?
         ) {
             super.onReceivedSslError(view, handler, error)
-            mCommonWebBinding!!.swipeRefreshLayout.isRefreshing= false
+            mCommonWebBinding!!.swipeRefreshLayout.isRefreshing = false
         }
     }
 
