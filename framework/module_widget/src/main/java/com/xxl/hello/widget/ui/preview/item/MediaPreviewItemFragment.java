@@ -157,6 +157,7 @@ public class MediaPreviewItemFragment extends BaseViewModelFragment<MediaPreview
     //region: 页面视图渲染
 
     private void setupLayout() {
+        mMediaPreviewBinding.dragDismissLayout.attachContext(getActivity());
         mMediaPreviewBinding.dragDismissLayout.bindPhotoView(mMediaPreviewBinding.ivPhoto);
         mMediaPreviewBinding.dragDismissLayout.setEnableDrag(mDragEnable);
         if (mTargetMediaPreviewItemEntity == null) {

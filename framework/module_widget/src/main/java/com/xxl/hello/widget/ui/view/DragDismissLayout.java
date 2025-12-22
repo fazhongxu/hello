@@ -335,6 +335,10 @@ public class DragDismissLayout extends ViewGroup {
         return this;
     }
 
+    public void attachContext(Activity activity) {
+        mActivity = activity;
+    }
+
     public void attachTo(Activity activity) {
         if (activity == null) {
             return;
