@@ -1,6 +1,7 @@
 package com.xxl.hello.widget.ui.im.render;
 
 import android.graphics.drawable.Drawable;
+import android.text.TextUtils;
 
 import com.xxl.hello.service.data.model.entity.im.MessageDirection;
 import com.xxl.hello.service.data.model.entity.im.MessageEntity;
@@ -40,6 +41,20 @@ public class TextMessageRender extends BaseMessageRender<WidgetRecycleItemMessag
     @Override
     public String getRenderTag() {
         return String.valueOf(MessageType.TEXT);
+    }
+
+    /**
+     * 获取消息摘要
+     *
+     * @param messageEntity
+     * @return
+     */
+    @Override
+    public CharSequence getContentSummary(MessageEntity messageEntity) {
+        if (!TextUtils.isEmpty(messageEntity.getMessageText())) {
+            return messageEntity.getMessageText();
+        }
+        return "[文本]";
     }
 
     /**

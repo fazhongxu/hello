@@ -15,7 +15,7 @@ import com.xxl.kit.StringUtils;
  * @author xxl.
  * @date 2025/12/5.
  */
-public class UnKnowMessageRender extends BaseMessageRender<WidgetRecycleItemMessageUnknowBinding>   {
+public class UnKnowMessageRender extends BaseMessageRender<WidgetRecycleItemMessageUnknowBinding> {
 
     //region: 构造函数
 
@@ -42,6 +42,17 @@ public class UnKnowMessageRender extends BaseMessageRender<WidgetRecycleItemMess
     }
 
     /**
+     * 获取消息摘要
+     *
+     * @param messageEntity
+     * @return
+     */
+    @Override
+    public CharSequence getContentSummary(MessageEntity messageEntity) {
+        return "[未知]";
+    }
+
+    /**
      * 获取背景
      *
      * @param messageEntity
@@ -54,7 +65,7 @@ public class UnKnowMessageRender extends BaseMessageRender<WidgetRecycleItemMess
 
     @Override
     public int getLayoutRes() {
-       return R.layout.widget_recycle_item_message_unknow;
+        return R.layout.widget_recycle_item_message_unknow;
     }
 
     @Override

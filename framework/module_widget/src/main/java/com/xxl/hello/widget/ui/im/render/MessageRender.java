@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.xxl.hello.service.data.model.entity.im.ConversationEntity;
 import com.xxl.hello.service.data.model.entity.im.MessageEntity;
 import com.xxl.hello.widget.ui.im.template.OnMessageTemplateListener;
 
@@ -22,6 +23,14 @@ public interface MessageRender {
      * @return
      */
     String getRenderTag();
+
+    /**
+     * 获取消息摘要
+     *
+     * @param messageEntity
+     * @return
+     */
+    CharSequence getContentSummary(MessageEntity messageEntity);
 
     /**
      * 获取背景
