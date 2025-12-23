@@ -41,6 +41,17 @@ public class NormalTextNotificationMessageRender extends NotificationMessageRend
     }
 
     /**
+     * 获取消息摘要
+     *
+     * @param messageEntity
+     * @return
+     */
+    @Override
+    public CharSequence getContentSummary(MessageEntity messageEntity) {
+        return "[通知]";
+    }
+
+    /**
      * 获取通知消息内容
      *
      * @param messageEntity

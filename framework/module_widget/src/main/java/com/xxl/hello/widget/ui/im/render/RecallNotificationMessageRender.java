@@ -39,6 +39,17 @@ public class RecallNotificationMessageRender extends NotificationMessageRender {
     }
 
     /**
+     * 获取消息摘要
+     *
+     * @param messageEntity
+     * @return
+     */
+    @Override
+    public CharSequence getContentSummary(MessageEntity messageEntity) {
+        return "[撤回]";
+    }
+
+    /**
      * 获取通知消息内容
      *
      * @param messageEntity

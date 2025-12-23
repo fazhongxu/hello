@@ -2,6 +2,7 @@ package com.xxl.hello.widget.ui.im.render;
 
 import static com.xxl.hello.service.data.model.enums.ChatEnumsApi.MessageType;
 
+import com.xxl.hello.service.data.model.entity.im.ConversationEntity;
 import com.xxl.hello.service.data.model.entity.im.MessageEntity;
 import com.xxl.hello.service.data.model.enums.ChatEnumsApi.NotificationMessageType;
 
@@ -48,6 +49,23 @@ public class MessageRenderWrapper {
             return messageRender;
         }
         return UnKnowMessageRender.obtain();
+    }
+
+    /**
+     * 获取会话内容摘要
+     *
+     * @param conversationEntity
+     * @return
+     */
+    public static CharSequence getContentSummary(ConversationEntity conversationEntity) {
+        MessageEntity lastMessageEntity = conversationEntity.getLastMessageEntity();
+        if (lastMessageEntity != null) {
+            MessageRender messageRender = getMessageRender(lastMessageEntity);
+            if (messageRender != null) {
+                return messageRender.getContentSummary(lastMessageEntity);
+            }
+        }
+        return "[未知]";
     }
 
     /**

@@ -72,6 +72,17 @@ public class ImageMessageRender extends BaseMessageRender<WidgetRecycleItemMessa
     }
 
     /**
+     * 获取消息摘要
+     *
+     * @param messageEntity
+     * @return
+     */
+    @Override
+    public CharSequence getContentSummary(MessageEntity messageEntity) {
+        return "[图片]";
+    }
+
+    /**
      * 获取背景
      *
      * @param messageEntity
