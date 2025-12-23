@@ -113,7 +113,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
     @Override
     public void uncaughtException(@Nullable Thread thread,
                                   @Nullable Throwable throwable) {
-        LogUtils.e("程序发生了一点小意外 " + (thread == null ? "" : throwable.getMessage()));
+        LogUtils.e("程序发生了一点小意外 " + getCrashInfo(throwable));
         if (handleException(throwable)) {
             return;
         }
