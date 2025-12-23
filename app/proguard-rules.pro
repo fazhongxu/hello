@@ -20,6 +20,12 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
+#混淆字典 https://github.com/ysrc/AndroidObfuseDictionary
+#如果需要开启，把面这几行放开
+#-obfuscationdictionary proguard_dic.txt
+#-classobfuscationdictionary proguard_dic.txt
+#-packageobfuscationdictionary proguard_dic.txt
+
 #@keep
 -dontskipnonpubliclibraryclassmembers
 -printconfiguration
