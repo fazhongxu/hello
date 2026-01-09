@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import com.xxl.core.widget.recyclerview.adapter.BaseMultiAdapter;
 import com.xxl.hello.service.data.model.entity.im.MessageEntity;
 import com.xxl.hello.service.data.model.enums.ChatEnumsApi;
+import com.xxl.hello.service.data.model.enums.ChatEnumsApi.MessageType;
 import com.xxl.hello.widget.data.router.WidgetRouterApi;
 import com.xxl.hello.widget.ui.im.message.session.base.actions.MessageLongClickAction;
 import com.xxl.hello.widget.ui.im.message.session.base.actions.MessageLongClickActionManager;
@@ -91,13 +92,13 @@ public class ChatSessionRenderAdapter extends BaseMultiAdapter<MessageEntity, Ch
 
     @Override
     public boolean onMessageItemClick(MessageEntity messageEntity) {
-        if (messageEntity.getMessageType() == 2) {
+        if (messageEntity.getMessageType() == MessageType.IMAGE) {
             WidgetRouterApi.MediaPreview.newBuilder()
                     .setMediaPreviewItem(messageEntity.getMediaPath())
                     .navigation();
             return true;
         }
-        if (messageEntity.getMessageType() == 1) {
+        if (messageEntity.getMessageType() == MessageType.TEXT) {
             ToastUtils.success(messageEntity.getMessageText()).show();
             return true;
         }

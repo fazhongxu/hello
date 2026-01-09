@@ -72,6 +72,7 @@ public class MessageEntity {
      *
      * @return
      */
+    @MessageType
     public int getMessageType() {
         return mMessageType;
     }
