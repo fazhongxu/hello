@@ -264,17 +264,19 @@ public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel
 
     //region: AlbumPluginObservable
 
+    private int mPreDirection = MessageDirection.LEFT;
+
     @Override
     public void handleAlbumPluginResult(final List<LocalMedia> targetMedias) {
         List<MessageEntity> messageEntities = new ArrayList<>();
-        int randomDirection = new Random().nextInt(10) % 3 == 0 ? MessageDirection.LEFT : MessageDirection.RIGHT;
+        int direction = mPreDirection = mPreDirection == MessageDirection.LEFT ? MessageDirection.RIGHT : MessageDirection.LEFT;
         for (LocalMedia targetMedia : targetMedias) {
             SDKMessage sdkMessage = SDKMessage.obtain()
                     .setSessionType(getSessionType())
                     .setMediaPath(MediaSelector.getMediaPath(targetMedia));
             MessageEntity messageEntity = MessageEntity.obtain(sdkMessage);
             messageEntity.setMessageType(MimeType.isVideo(targetMedia.getMimeType()) ? MessageType.VIDEO : MessageType.IMAGE);
-            messageEntity.setMessageDirection(randomDirection);
+            messageEntity.setMessageDirection(direction);
             messageEntities.add(messageEntity);
         }
         mChatSessionAdapter.addData(messageEntities);
@@ -309,7 +311,7 @@ public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel
         targetMessageEntity.setMessageDirection(MessageDirection.CENTER);
         int position = mChatSessionAdapter.getItemPosition(messageEntity);
         mChatSessionAdapter.remove(messageEntity);
-        mChatSessionAdapter.addData(position,targetMessageEntity);
+        mChatSessionAdapter.addData(position, targetMessageEntity);
     }
 
     /**
