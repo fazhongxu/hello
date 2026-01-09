@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
  * @author xxl.
  * @date 2022/2/23.
  */
-public abstract class ResponseResult<T> {
+public class ResponseResult<T> {
 
     //region: 成员变量
 
@@ -25,10 +25,10 @@ public abstract class ResponseResult<T> {
     private String mMessage;
 
     /**
-     * 请求返回的状态
+     * 数据
      */
-    @SerializedName("status")
-    private String mStatus;
+    @SerializedName("data")
+    private T mData;
 
     //endregion
 
@@ -43,11 +43,13 @@ public abstract class ResponseResult<T> {
     //region: 提供方法
 
     /**
-     * 获取响应数据
+     * 获取数据
      *
      * @return
      */
-    public abstract T getData();
+    public T getData() {
+        return mData;
+    }
 
     /**
      * 获取请求Code
@@ -65,15 +67,6 @@ public abstract class ResponseResult<T> {
      */
     public String getMessage() {
         return mMessage;
-    }
-
-    /**
-     * 获取请求返回的状态
-     *
-     * @return
-     */
-    public String getStatus() {
-        return mStatus;
     }
 
     //endregion

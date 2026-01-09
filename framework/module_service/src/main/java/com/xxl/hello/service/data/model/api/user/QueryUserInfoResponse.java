@@ -3,7 +3,7 @@ package com.xxl.hello.service.data.model.api.user;
 import androidx.annotation.Keep;
 
 import com.google.gson.annotations.SerializedName;
-import com.xxl.core.data.model.api.response.DataResponseResult;
+import com.xxl.core.data.model.api.response.ResponseResult;
 
 
 /**
@@ -13,7 +13,7 @@ import com.xxl.core.data.model.api.response.DataResponseResult;
  * @date 2021/7/27.
  */
 @Keep
-public class QueryUserInfoResponse extends DataResponseResult<QueryUserInfoResponse> {
+public class QueryUserInfoResponse extends ResponseResult<QueryUserInfoResponse> {
 
     //region: 成员变量
 

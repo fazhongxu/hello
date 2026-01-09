@@ -65,7 +65,7 @@ public class MessageRenderWrapper {
                 return messageRender.getContentSummary(lastMessageEntity);
             }
         }
-        return "[未知]";
+        return "";
     }
 
     /**

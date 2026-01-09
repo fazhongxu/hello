@@ -29,7 +29,7 @@ public class SchedulersProvider {
      */
     public static <T> ObservableTransformer<T, T> applySchedulers() {
         return upstream -> upstream
-                .flatMap((Function<T, ObservableSource<T>>) SchedulersProvider::convertException)
+                .flatMap(new ResponseFunction<>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
@@ -42,27 +42,24 @@ public class SchedulersProvider {
      */
     public static <T> ObservableTransformer<T, T> applyIOSchedulers() {
         return upstream -> upstream
-                .flatMap((Function<T, ObservableSource<T>>) SchedulersProvider::convertException)
+                .flatMap(new ResponseFunction<>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io());
     }
 
-    /**
-     * 异常转换
-     *
-     * @param t
-     * @param <T>
-     * @return
-     */
-    public static <T> Observable<T> convertException(T t) {
-        if (t instanceof ResponseResult) {
-            ResponseResult<T> response = (ResponseResult) t;
-            if (response.getCode() == ResponseCode.RESPONSE_CODE_SUCCESS) {
-                return Observable.just(t);
+    public static class ResponseFunction<T> implements Function<T, ObservableSource<T>> {
+
+        @Override
+        public ObservableSource<T> apply(T t) throws Throwable {
+            if (t instanceof ResponseResult) {
+                ResponseResult<T> response = (ResponseResult) t;
+                if (response.getCode() == ResponseCode.RESPONSE_CODE_SUCCESS) {
+                    return Observable.just(t);
+                }
+                final ResponseException responseException = ResponseException.create(response.getCode(), response.getMessage());
+                return Observable.error(responseException);
             }
-            final ResponseException responseException = ResponseException.create(response.getCode(), response.getMessage());
-            return Observable.error(responseException);
+            return Observable.just(t);
         }
-        return Observable.just(t);
     }
 }
