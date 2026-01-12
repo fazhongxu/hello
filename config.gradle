@@ -74,6 +74,7 @@ versions.combine_bitmap = "1.0.5"
 versions.photo_view = "2.3.0"
 
 versions.kprogresshud = "1.2.0"
+versions.indicatorseekbar = "2.1.2"
 
 versions.easy_float = "2.0.4"
 
@@ -230,6 +231,8 @@ deps.rxpermission = "com.github.fazhongxu:RxPermissions:$versions.rxpermission"
 
 //kprogresshud 进度条 https://github.com/Kaopiz/KProgressHUD
 deps.kprogresshud = "com.kaopiz:kprogresshud:$versions.kprogresshud"
+//indicatorseekbar https://github.com/warkiz/IndicatorSeekBar
+deps.indicatorseekbar = "com.github.warkiz.widget:indicatorseekbar:$versions.indicatorseekbar"
 
 //https://github.com/princekin-f/EasyFloat
 deps.easy_float = "com.github.princekin-f:EasyFloat:$versions.easy_float"

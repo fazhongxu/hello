@@ -96,6 +96,7 @@ dependencies {
     implementation deps.picture_selector
 
     implementation deps.kprogresshud
+    implementation deps.indicatorseekbar
 
     implementation deps.easy_float
 

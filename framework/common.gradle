@@ -84,6 +84,7 @@ dependencies {
     compileOnly deps.glide.glide_okhttp
 
     implementation deps.kprogresshud
+    implementation deps.indicatorseekbar
 
     implementation deps.aspectjrt
 
