@@ -76,7 +76,10 @@ public class SchedulersProvider {
         @Override
         public ObservableSource<T> apply(ResponseResult<T> result) throws Throwable {
             if (result.getCode() == ResponseCode.RESPONSE_CODE_SUCCESS) {
-                return Observable.just(result.getData());
+                if (result.getData() != null) {
+                    return Observable.just(result.getData());
+                }
+                return (ObservableSource<T>) Observable.just(new Object());
             }
             final ResponseException responseException = ResponseException.create(result.getCode(), result.getMessage());
             return Observable.error(responseException);
