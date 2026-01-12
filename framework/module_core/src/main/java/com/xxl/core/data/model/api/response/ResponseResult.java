@@ -1,6 +1,7 @@
 package com.xxl.core.data.model.api.response;
 
 import com.google.gson.annotations.SerializedName;
+import com.xxl.core.response.ResponseCode;
 
 /**
  * 请求的响应结果
@@ -8,7 +9,7 @@ import com.google.gson.annotations.SerializedName;
  * @author xxl.
  * @date 2022/2/23.
  */
-public class ResponseResult<T> {
+public abstract class ResponseResult<T> {
 
     //region: 成员变量
 
@@ -24,12 +25,6 @@ public class ResponseResult<T> {
     @SerializedName("message")
     private String mMessage;
 
-    /**
-     * 数据
-     */
-    @SerializedName("data")
-    private T mData;
-
     //endregion
 
     //region: 构造函数
@@ -43,12 +38,19 @@ public class ResponseResult<T> {
     //region: 提供方法
 
     /**
-     * 获取数据
+     * 获取响应数据
      *
      * @return
      */
-    public T getData() {
-        return mData;
+    public abstract T getData();
+
+    /**
+     * 是否成功
+     *
+     * @return
+     */
+    public boolean isSuccess() {
+        return mCode == ResponseCode.RESPONSE_CODE_SUCCESS;
     }
 
     /**

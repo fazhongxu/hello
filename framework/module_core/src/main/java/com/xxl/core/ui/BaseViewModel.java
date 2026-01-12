@@ -9,9 +9,10 @@ import androidx.databinding.ObservableField;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
+import com.xxl.core.data.model.api.response.ResponseResult;
+import com.xxl.core.manager.ExceptionServiceManager;
 import com.xxl.core.response.ResponseException;
 import com.xxl.core.response.ResponseListener;
-import com.xxl.core.manager.ExceptionServiceManager;
 import com.xxl.core.rx.SchedulersProvider;
 import com.xxl.core.ui.ProgressBarWrapper.Attributes;
 import com.xxl.kit.LogUtils;
@@ -191,8 +192,8 @@ public class BaseViewModel<N> extends AndroidViewModel {
      * @param <T>
      * @return
      */
-    protected <T> ObservableTransformer<T, T> applySchedulers() {
-        return SchedulersProvider.applySchedulers();
+    protected <T> ObservableTransformer<ResponseResult<T>, T> applyNetSchedulers() {
+        return SchedulersProvider.applyNetSchedulers();
     }
 
     /**
@@ -201,8 +202,8 @@ public class BaseViewModel<N> extends AndroidViewModel {
      * @param <T>
      * @return
      */
-    protected <T> ObservableTransformer<T, T> applyIOSchedulers() {
-        return SchedulersProvider.applyIOSchedulers();
+    protected <T> ObservableTransformer<ResponseResult<T>, T> applyNetIOSchedulers() {
+        return SchedulersProvider.applyNetIOSchedulers();
     }
 
     //endregion

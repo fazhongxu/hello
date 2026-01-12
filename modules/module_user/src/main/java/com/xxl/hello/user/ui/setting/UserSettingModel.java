@@ -12,6 +12,7 @@ import androidx.databinding.ObservableField;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.xxl.core.image.selector.MediaSelector;
 import com.xxl.core.listener.OnResourcesCompressListener;
+import com.xxl.core.rx.SchedulersProvider;
 import com.xxl.hello.common.config.CacheDirConfig;
 import com.xxl.hello.service.data.local.db.entity.SubmitQueueResourceDBEntity;
 import com.xxl.hello.service.data.local.db.entity.UploadQueueResourceDBEntity;
@@ -131,7 +132,7 @@ public class UserSettingModel extends BaseResourceQueueViewModel<UserSettingNavi
     public void requestPutResourcesUploadQueueDBEntities(@NonNull final List<UploadQueueResourceDBEntity> resourcesUploadQueueDBEntities) {
         final ResourceRepositoryApi resourceRepositoryApi = getDataRepositoryKit().getResourceRepositoryApi();
         final Disposable disposable = resourceRepositoryApi.putResourcesUploadQueueDBEntities(resourcesUploadQueueDBEntities)
-                .compose(applySchedulers())
+                .compose(SchedulersProvider.applySchedulers())
                 .subscribe(isSuccess -> {
                     LogUtils.d("添加资源到队列完成" + isSuccess);
                     getNavigator().onRequestPutResourcesUploadQueueDBEntities(isSuccess);

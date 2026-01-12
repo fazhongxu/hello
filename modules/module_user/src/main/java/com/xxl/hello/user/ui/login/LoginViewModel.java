@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.ObservableField;
 
+import com.xxl.core.rx.SchedulersProvider;
 import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.core.ui.BaseViewModel;
@@ -97,7 +98,7 @@ public class LoginViewModel extends BaseViewModel<LoginNavigator> {
                 .setPhoneNumber(phoneNumber)
                 .setVerifyCode(verifyCode);
         final Disposable disposable = mUserRepository.login(request)
-                .compose(applySchedulers())
+                .compose(SchedulersProvider.applySchedulers())
                 .subscribe(userLoginResponse -> {
                     getNavigator().onRequestLoginComplete(userLoginResponse);
                 }, this::setResponseException);

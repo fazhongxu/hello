@@ -4,6 +4,7 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 
+import com.xxl.core.rx.SchedulersProvider;
 import com.xxl.core.ui.BaseViewModel;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.hello.service.qunlifier.ForApplication;
@@ -49,7 +50,7 @@ public class QRCodeViewModel extends BaseViewModel<QRCodeNavigator> {
     void requestDecodeQRCode(@NonNull final String targetUrl,
                              @NonNull final OnRequestCallBack<String> callBack) {
         final Disposable disposable = QRCodeUtils.requestDecodeQRCodeObservable(targetUrl)
-                .compose(applySchedulers())
+                .compose(SchedulersProvider.applySchedulers())
                 .subscribe(result -> {
                     callBack.onSuccess(result);
                 }, throwable -> {

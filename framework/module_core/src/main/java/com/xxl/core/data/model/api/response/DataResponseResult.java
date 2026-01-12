@@ -3,15 +3,16 @@ package com.xxl.core.data.model.api.response;
 import com.google.gson.annotations.SerializedName;
 
 /**
+ *
  * @author xxl.
  * @date 2022/2/23.
  */
-public class ObjectResponseResult<T> extends ResponseResult<T> {
+public class DataResponseResult<T> extends ResponseResult<T> {
 
     //region: 成员变量
 
     @SerializedName("data")
-    private Data<T> mData;
+    private T mData;
 
     //endregion
 
@@ -24,23 +25,8 @@ public class ObjectResponseResult<T> extends ResponseResult<T> {
      */
     @Override
     public T getData() {
-        if (mData != null) {
-            return mData.mObject;
-        }
-        return null;
+        return mData;
     }
 
     //endregion
-
-    //region: Content
-
-    public static class Data<T> {
-
-        @SerializedName("object")
-        private T mObject;
-    }
-
-    //endregion
-
-
 }
