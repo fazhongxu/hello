@@ -29,7 +29,6 @@ public class SchedulersProvider {
      */
     public static <T> ObservableTransformer<T, T> applySchedulers() {
         return upstream -> upstream
-                .flatMap(new ResponseFunction<>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
@@ -42,24 +41,45 @@ public class SchedulersProvider {
      */
     public static <T> ObservableTransformer<T, T> applyIOSchedulers() {
         return upstream -> upstream
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io());
+    }
+
+    /**
+     * 数据流线程切换 子线程->主线程
+     *
+     * @param <T>
+     * @return
+     */
+    public static <T> ObservableTransformer<ResponseResult<T>, T> applyNetSchedulers() {
+        return upstream -> upstream
+                .flatMap(new ResponseFunction<>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * 数据流线程切换 子线程->子线程
+     *
+     * @param <T>
+     * @return
+     */
+    public static <T> ObservableTransformer<ResponseResult<T>, T> applyNetIOSchedulers() {
+        return upstream -> upstream
                 .flatMap(new ResponseFunction<>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io());
     }
 
-    public static class ResponseFunction<T> implements Function<T, ObservableSource<T>> {
+    public static class ResponseFunction<T> implements Function<ResponseResult<T>, ObservableSource<T>> {
 
         @Override
-        public ObservableSource<T> apply(T t) throws Throwable {
-            if (t instanceof ResponseResult) {
-                ResponseResult<T> response = (ResponseResult) t;
-                if (response.getCode() == ResponseCode.RESPONSE_CODE_SUCCESS) {
-                    return Observable.just(t);
-                }
-                final ResponseException responseException = ResponseException.create(response.getCode(), response.getMessage());
-                return Observable.error(responseException);
+        public ObservableSource<T> apply(ResponseResult<T> result) throws Throwable {
+            if (result.getCode() == ResponseCode.RESPONSE_CODE_SUCCESS) {
+                return Observable.just(result.getData());
             }
-            return Observable.just(t);
+            final ResponseException responseException = ResponseException.create(result.getCode(), result.getMessage());
+            return Observable.error(responseException);
         }
     }
 }

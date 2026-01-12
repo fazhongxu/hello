@@ -2,7 +2,6 @@ package com.xxl.hello.main.ui.main;
 
 import android.app.Application;
 import android.os.Handler;
-import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.ObservableBoolean;
@@ -21,7 +20,6 @@ import com.xxl.hello.service.data.model.enums.SystemEnumsApi;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.hello.service.data.repository.api.UserRepositoryApi;
 import com.xxl.hello.service.upload.api.UploadService;
-import com.xxl.kit.ListUtils;
 import com.xxl.kit.LogUtils;
 import com.xxl.kit.OnRequestCallBack;
 import com.xxl.kit.TimeUtils;
@@ -194,17 +192,17 @@ public class MainViewModel extends BaseViewModel<MainNavigator> {
      */
     void requestQueryUserInfo(@NonNull final ResponseListener listener) {
         if (!mForceRequest) {
-            getNavigator().onRequestQueryUserInfoComplete(QueryUserInfoResponse.obtain());
+            getNavigator().onRequestQueryUserInfoComplete(new QueryUserInfoResponse.Content());
             return;
         }
         final QueryUserInfoRequest request = QueryUserInfoRequest.obtain()
                 .setTargetUserName(AppConfig.User.GITHUB_USER_NAME);
         final UserRepositoryApi userRepositoryApi = mDataRepositoryKit.getUserRepositoryApi();
         final Disposable disposable = userRepositoryApi.queryUserInfo(request)
-                .compose(applySchedulers())
-                .subscribe(queryUserInfoResponse -> {
+                .compose(applyNetSchedulers())
+                .subscribe(content -> {
                     mRetryCount = 0;
-                    getNavigator().onRequestQueryUserInfoComplete(queryUserInfoResponse);
+                    getNavigator().onRequestQueryUserInfoComplete(content);
                 }, throwable -> {
                     if (mRetryCount >= 1) {
                         mForceRequest = false;

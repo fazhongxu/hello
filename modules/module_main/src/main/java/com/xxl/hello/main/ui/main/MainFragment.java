@@ -257,20 +257,20 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     /**
      * 请求查询用户信息完成
      *
-     * @param response
+     * @param content
      */
     @Override
-    public void onRequestQueryUserInfoComplete(@NonNull final QueryUserInfoResponse response) {
+    public void onRequestQueryUserInfoComplete(@NonNull final QueryUserInfoResponse.Content content) {
         showCoreState();
-        if (response != null && !TextUtils.isEmpty(response.getUserId())) {
-            mMainViewModel.setObservableUserInfo(response.getUserId().concat("\n").concat(response.getAvatarUrl()));
+        if (content != null && !TextUtils.isEmpty(content.getUserId())) {
+            mMainViewModel.setObservableUserInfo(content.getUserId().concat("\n").concat(content.getAvatarUrl()));
         }
 
         final LoginUserEntity loginUserEntity = mMainViewModel.requestGetCurrentLoginUserEntity();
         if (loginUserEntity != null) {
             mMainViewModel.setObservableUserId(loginUserEntity.getUserId());
         } else {
-            mMainViewModel.setObservableUserId((response == null || TextUtils.isEmpty(response.getUserId())) ? String.valueOf(TimeUtils.currentServiceTimeMillis()) : response.getUserId());
+            mMainViewModel.setObservableUserId((content == null || TextUtils.isEmpty(content.getUserId())) ? String.valueOf(TimeUtils.currentServiceTimeMillis()) : content.getUserId());
         }
     }
 

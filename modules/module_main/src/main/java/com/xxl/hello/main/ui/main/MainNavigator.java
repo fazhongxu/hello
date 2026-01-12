@@ -13,9 +13,9 @@ public interface MainNavigator {
     /**
      * 请求查询用户信息完成
      *
-     * @param response
+     * @param content
      */
-    void onRequestQueryUserInfoComplete(@NonNull final QueryUserInfoResponse response);
+    void onRequestQueryUserInfoComplete(@NonNull final QueryUserInfoResponse.Content content);
 
     /**
      * 测试按钮点击

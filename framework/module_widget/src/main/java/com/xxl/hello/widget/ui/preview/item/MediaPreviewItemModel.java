@@ -11,6 +11,7 @@ import com.watermark.androidwm.bean.WatermarkImage;
 import com.watermark.androidwm.bean.WatermarkLocation;
 import com.watermark.androidwm.bean.WatermarkPosition;
 import com.xxl.core.image.loader.ImageLoader;
+import com.xxl.core.rx.SchedulersProvider;
 import com.xxl.core.ui.BaseViewModel;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.kit.AppUtils;
@@ -58,12 +59,12 @@ public class MediaPreviewItemModel extends BaseViewModel<MediaPreviewItemNavigat
                                               final OnRequestCallBack<Bitmap> callBack) {
 
         final Disposable disposable = Observable.just(originImagePath)
-                .compose(applyIOSchedulers())
+                .compose(SchedulersProvider.applyIOSchedulers())
                 .flatMap((Function<String, ObservableSource<Bitmap>>) imagePath -> {
                     final Bitmap targetBitmap = generateWatermarkImage(imagePath, watermarkImagePath);
                     return Observable.just(targetBitmap);
                 })
-                .compose(applySchedulers())
+                .compose(SchedulersProvider.applySchedulers())
                 .subscribe(targetBitmap -> {
                     callBack.onSuccess(targetBitmap);
                 }, throwable -> {
