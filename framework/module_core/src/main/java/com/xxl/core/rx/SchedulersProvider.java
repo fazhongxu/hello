@@ -1,7 +1,6 @@
 package com.xxl.core.rx;
 
 import com.xxl.core.data.model.api.response.ResponseResult;
-import com.xxl.core.response.ResponseCode;
 import com.xxl.core.response.ResponseException;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
@@ -75,7 +74,7 @@ public class SchedulersProvider {
 
         @Override
         public ObservableSource<T> apply(ResponseResult<T> result) throws Throwable {
-            if (result.getCode() == ResponseCode.RESPONSE_CODE_SUCCESS) {
+            if (result.isSuccess()) {
                 if (result.getData() != null) {
                     return Observable.just(result.getData());
                 }

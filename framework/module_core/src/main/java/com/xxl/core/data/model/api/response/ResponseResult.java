@@ -1,6 +1,7 @@
 package com.xxl.core.data.model.api.response;
 
 import com.google.gson.annotations.SerializedName;
+import com.xxl.core.response.ResponseCode;
 
 /**
  * 请求的响应结果
@@ -42,6 +43,15 @@ public abstract class ResponseResult<T> {
      * @return
      */
     public abstract T getData();
+
+    /**
+     * 是否成功
+     *
+     * @return
+     */
+    public boolean isSuccess() {
+        return mCode == ResponseCode.RESPONSE_CODE_SUCCESS;
+    }
 
     /**
      * 获取请求Code
