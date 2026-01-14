@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 
@@ -15,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
+import com.scottyab.aescrypt.AESCrypt;
 import com.tbruyelle.rxpermissions3.RxPermissions;
 import com.xxl.core.aop.annotation.Safe;
 import com.xxl.core.media.audio.AudioCapture;
@@ -50,7 +52,9 @@ import com.xxl.hello.widget.ui.view.record.RecordButton;
 import com.xxl.hello.widget.ui.window.MessagePopupWindow;
 import com.xxl.kit.AppUtils;
 import com.xxl.kit.ClipboardUtils;
+import com.xxl.kit.ConvertUtils;
 import com.xxl.kit.CountdownWrapper;
+import com.xxl.kit.EncryptUtils;
 import com.xxl.kit.FFmpegUtils;
 import com.xxl.kit.ListUtils;
 import com.xxl.kit.LogUtils;
@@ -64,6 +68,9 @@ import com.xxl.kit.TimeUtils;
 import com.xxl.kit.ToastUtils;
 
 import java.io.File;
+import java.nio.charset.StandardCharsets;
+import java.security.GeneralSecurityException;
+import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -239,7 +246,30 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
     @Override
     public void onTestClick() {
-        UserRouterApi.Login.newBuilder().navigation(getActivity());
+        try {
+            UserRouterApi.Login.newBuilder().navigation(getActivity());
+            String key = "123456";
+            String value = "abcdef";
+
+            String encrypt = AESCrypt.encrypt(key, value);
+            Log.e("aaa", "onTestClick: " + encrypt);
+
+            String decrypt = AESCrypt.decrypt(key, encrypt);
+            Log.e("aaa", "onTestClick: 1" + decrypt);
+
+            final byte[] ivBytes = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+
+            byte[] decryptedBytes = EncryptUtils.decryptAES(
+                    Base64.decode(encrypt, Base64.NO_WRAP), // 注意编码方式
+                    EncryptUtils.encryptSHA256(key.getBytes()),                    // 32字节密钥
+                    "AES/CBC/PKCS5Padding",    // 算法和模式
+                    ivBytes                    // IV
+            );
+
+            Log.e("aaa", "onTestClick: 2"+new String(decryptedBytes,"UTF-8"));
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
     }
 
     /**
