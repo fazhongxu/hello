@@ -9,10 +9,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -48,7 +44,6 @@ import com.xxl.hello.service.data.model.entity.media.MediaPreviewItemEntity;
 import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi;
 import com.xxl.hello.service.handle.api.AppSchemeService;
-import com.xxl.hello.user.ui.login.LoginActivity;
 import com.xxl.hello.widget.data.router.WidgetRouterApi;
 import com.xxl.hello.widget.ui.view.record.OnRecordListener;
 import com.xxl.hello.widget.ui.view.record.RecordButton;
@@ -121,7 +116,6 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
      */
     @Inject
     AppSchemeService mAppSchemeService;
-    private ActivityResultLauncher<Intent> mResultLauncher;
 
     //endregion
 
@@ -136,20 +130,6 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     //endregion
 
     //region: 页面生命周期
-
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-            @Override
-            public void onActivityResult(ActivityResult result) {
-                if (result.getResultCode() == Activity.RESULT_OK) {
-                    ToastUtils.success(R.string.resources_login_success).show();
-                }
-            }
-        });
-    }
 
     /**
      * 获取视图资源ID
@@ -258,11 +238,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
     @Override
     public void onTestClick() {
-//        UserRouterApi.Login.newBuilder().navigation(getActivity());
-//        startActivityForResult();
-
-        Intent intent = new Intent(getContext(), LoginActivity.class);
-        mResultLauncher.launch(intent);
+        UserRouterApi.Login.newBuilder().navigation(getActivity());
     }
 
     /**
