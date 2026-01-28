@@ -8,7 +8,6 @@ import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 
 import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
@@ -239,15 +238,6 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
     @Override
     public void onTestClick() {
-        Log.e("aaa", "onTestClick: " + mViewDataBinding.tvTest.getWidth() + "  " + mViewDataBinding.tvTest.getHeight());
-        ViewGroup.LayoutParams layoutParams = mViewDataBinding.tvTest.getLayoutParams();
-        Log.e("aaa", "onTestClick: "+layoutParams +" "+layoutParams.width +" "+layoutParams.height );
-        layoutParams.width = 100;
-        layoutParams.height = 54;
-        mViewDataBinding.tvTest.setLayoutParams(layoutParams);
-        Log.e("aaa", "onTestClick: " + mViewDataBinding.tvTest.getWidth() + "  " + mViewDataBinding.tvTest.getHeight());
-        Log.e("aaa", "onTestClick: "+layoutParams +" "+layoutParams.width +" "+layoutParams.height );
-
         UserRouterApi.Login.newBuilder().navigation(getActivity());
     }
 
