@@ -18,10 +18,20 @@ public interface OnAudioPlayListener {
     }
 
     /**
+     * 播放状态变化
+     *
+     * @param isPlaying
+     */
+    default void onIsPlayingChanged(boolean isPlaying) {
+
+    }
+
+    /**
      * @param playWhenReady
      * @param reason
      */
     default void onPlayWhenReadyChanged(boolean playWhenReady, int reason) {
 
     }
+
 }

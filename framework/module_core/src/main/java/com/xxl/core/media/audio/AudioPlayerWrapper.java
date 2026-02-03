@@ -58,6 +58,13 @@ public class AudioPlayerWrapper implements Player.Listener {
     }
 
     @Override
+    public void onIsPlayingChanged(boolean isPlaying) {
+        if (mOnAudioPlayListener != null) {
+            mOnAudioPlayListener.onIsPlayingChanged(isPlaying);
+        }
+    }
+
+    @Override
     public void onPlayWhenReadyChanged(boolean playWhenReady, @PlayWhenReadyChangeReason int reason) {
         if (mOnAudioPlayListener != null) {
             mOnAudioPlayListener.onPlayWhenReadyChanged(playWhenReady, reason);
@@ -153,6 +160,18 @@ public class AudioPlayerWrapper implements Player.Listener {
         }
         prepare();
         mMediaPlayer.setPlayWhenReady(playWhenReady);
+    }
+
+    /**
+     * 设置播放倍数
+     *
+     * @param speed
+     */
+    public void setPlaybackSpeed(final float speed) {
+        if (mMediaPlayer == null) {
+            return;
+        }
+        mMediaPlayer.setPlaybackSpeed(speed);
     }
 
     /**
