@@ -19,9 +19,7 @@ import com.tbruyelle.rxpermissions3.RxPermissions;
 import com.xxl.core.aop.annotation.Safe;
 import com.xxl.core.media.audio.AudioCapture;
 import com.xxl.core.media.audio.AudioCapture.OnAudioFrameCapturedListener;
-import com.xxl.core.media.audio.AudioPlayerWrapper;
 import com.xxl.core.media.audio.AudioRecordFormat;
-import com.xxl.core.media.audio.OnAudioPlayListener;
 import com.xxl.core.ui.BaseEventBusWrapper;
 import com.xxl.core.ui.fragment.BaseStateViewModelFragment;
 import com.xxl.core.ui.state.EmptyState;
@@ -238,32 +236,9 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
     //region: MainNavigator
 
-    AudioPlayerWrapper mAudioPlayerWrapper;
-
     @Override
     public void onTestClick() {
-//        UserRouterApi.Login.newBuilder().navigation(getActivity());
-        if (mAudioPlayerWrapper == null) {
-            mAudioPlayerWrapper = AudioPlayerWrapper.create(getActivity())
-                    .setDataSource("xx");
-            mAudioPlayerWrapper.setOnAudioPlayListener(new OnAudioPlayListener() {
-
-                @Override
-                public void onIsPlayingChanged(boolean isPlaying) {
-                    Log.e("aaa", "onIsPlayingChanged: " + isPlaying);
-                }
-
-                @Override
-                public void onProgressChanged(long currentPosition, long totalDuration) {
-                    Log.e("aaa", "onProgressChanged: " + currentPosition + "  " + totalDuration);
-                }
-            });
-        }
-        if (mAudioPlayerWrapper.isPlaying()) {
-            mAudioPlayerWrapper.pause();
-        } else {
-            mAudioPlayerWrapper.play();
-        }
+        UserRouterApi.Login.newBuilder().navigation(getActivity());
     }
 
     /**
