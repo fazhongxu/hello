@@ -47,9 +47,9 @@ public class ChatSessionRenderAdapter extends BaseMultiAdapter<MessageEntity, Ch
 
     @Override
     public void registerItemProvider() {
-        registerItemProvider(new LeftMessageProvider(this, this));
-        registerItemProvider(new RightMessageProvider(this, this));
-        registerItemProvider(new CenterMessageProvider(this, this));
+        registerItemProvider(new LeftMessageProvider(this));
+        registerItemProvider(new RightMessageProvider(this));
+        registerItemProvider(new CenterMessageProvider(this));
     }
 
     @Override

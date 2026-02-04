@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseProviderMultiAdapter;
 import com.chad.library.adapter.base.provider.BaseItemProvider;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.xxl.hello.service.data.model.entity.im.MessageEntity;
@@ -27,7 +27,7 @@ import com.xxl.kit.TimeUtils;
  * @author xxl.
  * @date 2024/6/14.
  */
-public abstract class BaseMessageProvider<Adapter extends BaseQuickAdapter, Binding extends ViewDataBinding, T extends MessageEntity> extends BaseItemProvider<T> {
+public abstract class BaseMessageProvider<Binding extends ViewDataBinding, T extends MessageEntity> extends BaseItemProvider<T> {
 
     //region: 成员变量
 
@@ -36,16 +36,13 @@ public abstract class BaseMessageProvider<Adapter extends BaseQuickAdapter, Bind
      */
     private static final long TIME_SPAN = 3 * 60 * 1000L;
 
-    protected Adapter mAdapter;
-
     protected OnMessageTemplateListener mListener;
 
     //endregion
 
     //region: 构造函数
 
-    public BaseMessageProvider(Adapter adapter, OnMessageTemplateListener listener) {
-        mAdapter = adapter;
+    public BaseMessageProvider(OnMessageTemplateListener listener) {
         mListener = listener;
     }
 
@@ -60,7 +57,7 @@ public abstract class BaseMessageProvider<Adapter extends BaseQuickAdapter, Bind
         itemBinding.executePendingBindings();
     }
 
-    public abstract void convert(@NonNull Binding itemBinding,@NonNull T itemEntity);
+    public abstract void convert(@NonNull Binding itemBinding, @NonNull T itemEntity);
 
     /**
      * 获取前一条消息
@@ -69,11 +66,15 @@ public abstract class BaseMessageProvider<Adapter extends BaseQuickAdapter, Bind
      * @return
      */
     private MessageEntity getPreMessage(@NonNull MessageEntity itemEntity) {
-        int position = mAdapter.getItemPosition(itemEntity);
-        if (position <= 0) {
-            return null;
+        BaseProviderMultiAdapter adapter = getAdapter();
+        if (adapter != null) {
+            int position = adapter.getItemPosition(itemEntity);
+            if (position <= 0) {
+                return null;
+            }
+            return (MessageEntity) adapter.getItem(position - 1);
         }
-        return (MessageEntity) mAdapter.getItem(position - 1);
+        return null;
     }
 
     //endregion
