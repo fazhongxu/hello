@@ -1,6 +1,8 @@
 package com.xxl.core.media.audio;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 
 import androidx.annotation.NonNull;
 
@@ -24,6 +26,8 @@ import java.util.List;
 public class AudioPlayerWrapper implements Player.Listener {
 
     //region: 成员变量
+
+    private Handler mHandler = new Handler(Looper.getMainLooper());
 
     private ExoPlayer mMediaPlayer;
 
@@ -62,6 +66,11 @@ public class AudioPlayerWrapper implements Player.Listener {
         if (mOnAudioPlayListener != null) {
             mOnAudioPlayListener.onIsPlayingChanged(isPlaying);
         }
+        if (isPlaying) {
+            startUpdateProgress();
+        } else {
+            stopUpdateProgress();
+        }
     }
 
     @Override
@@ -69,6 +78,37 @@ public class AudioPlayerWrapper implements Player.Listener {
         if (mOnAudioPlayListener != null) {
             mOnAudioPlayListener.onPlayWhenReadyChanged(playWhenReady, reason);
         }
+    }
+
+    //endregion
+
+    //region: 进度相关
+
+    private Runnable mProgressRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (mMediaPlayer != null && mMediaPlayer.isPlaying()) {
+                if (mOnAudioPlayListener != null) {
+                    mOnAudioPlayListener.onProgressChanged(mMediaPlayer.getCurrentPosition(), mMediaPlayer.getDuration());
+                }
+            }
+            mHandler.postDelayed(this, 1000);
+        }
+    };
+
+    /**
+     * 开始更新进度
+     */
+    private void startUpdateProgress() {
+        stopUpdateProgress();
+        mHandler.post(mProgressRunnable);
+    }
+
+    /**
+     * 停止更新进度
+     */
+    private void stopUpdateProgress() {
+        mHandler.removeCallbacks(mProgressRunnable);
     }
 
     //endregion
@@ -223,6 +263,7 @@ public class AudioPlayerWrapper implements Player.Listener {
                 mMediaPlayer.stop();
                 mMediaPlayer.release();
                 mMediaPlayer = null;
+                stopUpdateProgress();
             }
         } catch (Throwable ignore) {
 

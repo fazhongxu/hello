@@ -27,6 +27,16 @@ public interface OnAudioPlayListener {
     }
 
     /**
+     * 播放进度变化
+     *
+     * @param currentPosition
+     * @param totalDuration
+     */
+    default void onProgressChanged(long currentPosition, long totalDuration) {
+
+    }
+
+    /**
      * @param playWhenReady
      * @param reason
      */
