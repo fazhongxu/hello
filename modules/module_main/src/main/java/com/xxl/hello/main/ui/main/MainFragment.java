@@ -2,7 +2,9 @@ package com.xxl.hello.main.ui.main;
 
 import android.Manifest;
 import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -15,8 +17,12 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
+import com.clj.fastble.callback.BleScanCallback;
+import com.clj.fastble.data.BleDevice;
 import com.tbruyelle.rxpermissions3.RxPermissions;
 import com.xxl.core.aop.annotation.Safe;
+import com.xxl.core.manager.BluetoothManager;
+import com.xxl.core.manager.BluetoothPeripheralManager;
 import com.xxl.core.media.audio.AudioCapture;
 import com.xxl.core.media.audio.AudioCapture.OnAudioFrameCapturedListener;
 import com.xxl.core.media.audio.AudioRecordFormat;
@@ -67,6 +73,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 import javax.inject.Inject;
 
@@ -236,9 +243,137 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
     //region: MainNavigator
 
+    private BluetoothPeripheralManager mBleHelper;
+
     @Override
     public void onTestClick() {
-        UserRouterApi.Login.newBuilder().navigation(getActivity());
+//        UserRouterApi.Login.newBuilder().navigation(getActivity());
+
+        BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (!bluetoothAdapter.isEnabled()) {
+            ToastUtils.error("请先开启蓝牙").show();
+            return;
+        }
+
+        RxPermissions rxPermissions = new RxPermissions(this);
+        if (rxPermissions.isGranted(Manifest.permission.ACCESS_FINE_LOCATION)) {
+            startScan();
+        } else {
+            rxPermissions.request(Manifest.permission.ACCESS_FINE_LOCATION)
+                    .subscribe(isSuccess -> {
+                        if (isSuccess) {
+                            startScan();
+                        } else {
+                            ToastUtils.warning("扫描蓝牙需要打开定位功能").show();
+                        }
+                    }, throwable -> {
+                        ToastUtils.warning("扫描蓝牙需要打开定位功能").show();
+                    });
+
+//            new AlertDialog.Builder(getActivity())
+//                    .setTitle("权限提示")
+//                    .setMessage("扫描蓝牙需要打开定位功能")
+//                    .setNegativeButton(R.string.resources_cancel_text, null)
+//                    .setPositiveButton(R.string.resources_confirm_text,
+//                            new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialog, int which) {
+//                                    BluetoothUtils.gotoLocServiceSettings(getActivity());
+//                                }
+//                            })
+//
+//                    .setCancelable(false)
+//                    .show();
+        }
+    }
+
+    private void startScan() {
+        BluetoothManager.init();
+        BluetoothManager.getInstance().scanDevices(new BleScanCallback() {
+            @Override
+            public void onScanFinished(List<BleDevice> scanResultList) {
+                LogUtils.d("扫描设备结束 " + ListUtils.getSize(scanResultList));
+            }
+
+            @Override
+            public void onScanStarted(boolean isSuccess) {
+                LogUtils.d("扫描设备开始 " + isSuccess);
+            }
+
+            @Override
+            public void onScanning(BleDevice bleDevice) {
+                LogUtils.d("发现设备 " + bleDevice.getMac() + " " + bleDevice.getName());
+                if (TextUtils.equals(bleDevice.getMac(), uuid)) {
+                    ToastUtils.success("连接成功").show();
+                }
+            }
+        });
+    }
+
+    private String uuid = "00001815-0000-1000-8000-00805f9b34fb";
+
+    private void startBlePeripheral() {
+        // 自定义 UUID
+        UUID SERVICE_UUID = UUID.fromString(uuid);
+        UUID CHAR_UUID = UUID.fromString("00002A56-0000-1000-8000-00805f9b34fb");
+
+        if (mBleHelper == null) {
+            mBleHelper = new BluetoothPeripheralManager(requireContext(), SERVICE_UUID, CHAR_UUID);
+        }
+        mBleHelper.setCallback(new BluetoothPeripheralManager.Callback() {
+            @Override
+            public void onAdvertisingStarted() {
+                ToastUtils.success("BLE 广播已启动").show();
+            }
+
+            @Override
+            public void onAdvertisingFailed(int errorCode) {
+                ToastUtils.error("BLE 广播失败: " + errorCode).show();
+            }
+
+            @Override
+            public void onDeviceConnected(String address) {
+                Log.d("BLE", "设备连接: " + address);
+            }
+
+            @Override
+            public void onDeviceDisconnected(String address) {
+                Log.d("BLE", "设备断开: " + address);
+            }
+        });
+
+        mBleHelper.start();
+    }
+
+    private void requestBlePermissionsAndStart() {
+        RxPermissions rxPermissions = new RxPermissions(this);
+        String[] permissions;
+        if (Build.VERSION.SDK_INT >= 31) {
+            // Android 12+：请求新权限
+            permissions = new String[]{
+                    "android.permission.BLUETOOTH_ADVERTISE",
+                    "android.permission.BLUETOOTH_CONNECT"
+            };
+        } else {
+            // Android 11 及以下：请求位置权限
+            permissions = new String[]{
+                    Manifest.permission.ACCESS_FINE_LOCATION
+            };
+        }
+
+        rxPermissions.request(permissions)
+                .subscribe(granted -> {
+                    if (granted) {
+                        // 所有权限已授予，启动 BLE Peripheral
+                        startBlePeripheral();
+                    } else {
+                        if (Build.VERSION.SDK_INT >= 31) {
+                            ToastUtils.warning("需要蓝牙权限才能广播").show();
+                        } else {
+                            ToastUtils.warning("需要蓝牙位置权限才能广播").show();
+                        }
+                    }
+                });
     }
 
     /**
@@ -246,10 +381,40 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
      */
     @Override
     public boolean onTestLongClick() {
-        mViewDataBinding.refreshLayout.showLoadingState();
-        mViewDataBinding.refreshLayout.setVisibility(View.VISIBLE);
-        mViewDataBinding.ctlContentContainer.setVisibility(View.GONE);
-        mViewDataBinding.refreshLayout.requestData();
+//        mViewDataBinding.refreshLayout.showLoadingState();
+//        mViewDataBinding.refreshLayout.setVisibility(View.VISIBLE);
+//        mViewDataBinding.ctlContentContainer.setVisibility(View.GONE);
+//        mViewDataBinding.refreshLayout.requestData();
+
+//        if (BluetoothUtils.isOpenLocService(getActivity())) {
+//            requestBlePermissionsAndStart();
+//        } else {
+//            ToastUtils.warning("扫码需要开启定位服务").show();
+//        }
+
+
+        BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (!bluetoothAdapter.isEnabled()) {
+            ToastUtils.error("请先开启蓝牙").show();
+            return true;
+        }
+
+        RxPermissions rxPermissions = new RxPermissions(this);
+        if (rxPermissions.isGranted(Manifest.permission.ACCESS_FINE_LOCATION)) {
+            startBlePeripheral();
+        } else {
+            rxPermissions.request(Manifest.permission.ACCESS_FINE_LOCATION)
+                    .subscribe(isSuccess -> {
+                        if (isSuccess) {
+                            startBlePeripheral();
+                        } else {
+                            ToastUtils.warning("扫描蓝牙需要打开定位功能").show();
+                        }
+                    }, throwable -> {
+                        ToastUtils.warning("扫描蓝牙需要打开定位功能").show();
+                    });
+        }
+
         return true;
     }
 

@@ -97,6 +97,7 @@ versions.jsbridge = "1.0.4"
 versions.agentweb = "v5.0.0-alpha.1-androidx"
 
 versions.jsoup = "1.15.3"
+versions.fastble="2.4.0"
 
 versions.dkplayer = "3.3.5"
 versions.exoplayer = "2.15.0"
@@ -326,6 +327,9 @@ deps.agentweb = "com.github.Justson.AgentWeb:agentweb-core:$versions.agentweb"
 
 //jsoup https://github.com/jhy/jsoup
 deps.jsoup = "org.jsoup:jsoup:$versions.jsoup"
+
+//https://github.com/Jasonchenlijian/FastBle
+deps.fastble = "com.github.Jasonchenlijian:FastBle:$versions.fastble"
 
 //dkplayer https://github.com/Doikki/DKVideoPlayer
 def dkplayer = [:]

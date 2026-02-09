@@ -134,6 +134,7 @@ dependencies {
     implementation deps.flyco_tab_layout
 
     implementation deps.jsoup
+    implementation deps.fastble
 
     implementation deps.tbs
 

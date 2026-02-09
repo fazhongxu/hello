@@ -18,6 +18,26 @@
         android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
         tools:ignore="ProtectedPermissions" />
 
+    <!-- 蓝牙权限 star -->
+
+    <!-- 必需权限 -->
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+
+    <!-- Android 12+ (API 31+) 新权限 -->
+    <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+
+    <!-- 旧版本兼容（Android 11 及以下） -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <!-- 声明 BLE 支持 -->
+    <uses-feature
+        android:name="android.hardware.bluetooth_le"
+        android:required="true" />
+
+    <!-- 蓝牙权限 end -->
+
     <!-- 移除第三方自启动能力-->
     <uses-permission
         android:name="android.permission.RECEIVE_BOOT_COMPLETED"

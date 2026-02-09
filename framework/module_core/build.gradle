@@ -184,4 +184,5 @@ dependencies {
     compileOnly deps.vasdolly
 
     compileOnly deps.jpinyin
+    compileOnly deps.fastble
 }
