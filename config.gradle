@@ -88,6 +88,7 @@ versions.auto_size = "v1.2.1"
 versions.state_manager = "1.0.0"
 versions.adapter_helper = "3.0.7"
 versions.pinned_decoration = "1.3.2-androidx"
+versions.chips_layout_manager = "0.3.7@aar"
 versions.refresh_layout = "2.0.5"
 
 versions.base_popup = "3.2.0"
@@ -306,6 +307,9 @@ deps.adapter_helper = "com.github.CymChad:BaseRecyclerViewAdapterHelper:$version
 
 // PinnedSectionItemDecoration https://github.com/oubowu/PinnedSectionItemDecoration
 deps.pinned_decoration = "com.oushangfeng:PinnedSectionItemDecoration:$versions.pinned_decoration"
+
+// ChipsLayoutManager https://github.com/Oleg-Beloy/ChipsLayoutManager
+deps.chips_layout_manager = "com.beloo.widget:ChipsLayoutManager:$versions.chips_layout_manager"
 
 // https://github.com/scwang90/SmartRefreshLayout
 deps.refresh_layout = "io.github.scwang90:refresh-layout-kernel:$versions.refresh_layout"
