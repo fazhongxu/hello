@@ -89,6 +89,7 @@ versions.state_manager = "1.0.0"
 versions.adapter_helper = "3.0.7"
 versions.pinned_decoration = "1.3.2-androidx"
 versions.chips_layout_manager = "0.3.7@aar"
+versions.flowlayout = "1.10@aar"
 versions.refresh_layout = "2.0.5"
 
 versions.base_popup = "3.2.0"
@@ -310,6 +311,9 @@ deps.pinned_decoration = "com.oushangfeng:PinnedSectionItemDecoration:$versions.
 
 // ChipsLayoutManager https://github.com/Oleg-Beloy/ChipsLayoutManager
 deps.chips_layout_manager = "com.beloo.widget:ChipsLayoutManager:$versions.chips_layout_manager"
+
+//android-flowlayout https://github.com/ApmeM/android-flowlayout
+deps.flowlayout = "org.apmem.tools:layouts:$versions.flowlayout"
 
 // https://github.com/scwang90/SmartRefreshLayout
 deps.refresh_layout = "io.github.scwang90:refresh-layout-kernel:$versions.refresh_layout"
