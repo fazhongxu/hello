@@ -133,7 +133,6 @@ public class PluginLayout extends LinearLayout {
 
         @Override
         public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-            super.destroyItem(container, position, object);
             container.removeView((View) object);
         }
 
