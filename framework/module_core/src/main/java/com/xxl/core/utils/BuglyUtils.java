@@ -1,8 +1,10 @@
 package com.xxl.core.utils;
 
 import android.app.Application;
+import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.tencent.bugly.crashreport.CrashReport;
 
@@ -25,6 +27,18 @@ public class BuglyUtils {
                             @NonNull final String appId,
                             final boolean isDebug) {
         CrashReport.initCrashReport(application, appId, isDebug);
+    }
+
+    /**
+     * 设置用户ID
+     *
+     * @param userId
+     */
+    public static void setUserId(@Nullable String userId) {
+        if (TextUtils.isEmpty(userId)) {
+            return;
+        }
+        CrashReport.setUserId(userId);
     }
 
     /**

@@ -56,7 +56,7 @@ versions.logger = "2.2.0"
 versions.arouter = "1.5.2"
 versions.arouter_register = "1.0.2"
 versions.fat_aar = "1.3.8"
-versions.bugly = "4.1.9.2"
+versions.bugly = "4.1.9.3"
 
 versions.android_state = "1.4.1"
 

@@ -107,6 +107,7 @@ public abstract class BaseApplication extends DaggerApplication {
      */
     public void setupBugly() {
         BuglyUtils.init(this, getBuglyAppId(), isDebug());
+        BuglyUtils.setUserId(getCurrentUserId());
     }
 
     //endregion
