@@ -16,7 +16,7 @@ class AppConfig private constructor() {
         /**
          * 本地数据存储文件名称
          */
-        private const val PREFERENCE_FILE_NAME_FORMAT = "preference_file_name_format_%s"
+        private const val PREF_FILE_NAME_FORMAT = "pref_file_name_%s"
 
         /**
          * app 包名
@@ -47,9 +47,9 @@ class AppConfig private constructor() {
          */
         fun buildPreferencesName(targetName: String): String {
             if (NetworkConfig.isNetworkDebug()) {
-                return String.format(PREFERENCE_FILE_NAME_FORMAT, targetName + "_DEBUG")
+                return String.format(PREF_FILE_NAME_FORMAT, targetName + "_DEBUG")
             }
-            return String.format(PREFERENCE_FILE_NAME_FORMAT, targetName)
+            return String.format(PREF_FILE_NAME_FORMAT, targetName)
         }
     }
 
