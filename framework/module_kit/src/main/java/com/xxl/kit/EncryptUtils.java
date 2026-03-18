@@ -1,6 +1,7 @@
 package com.xxl.kit;
 
 import android.os.Build;
+import android.util.Pair;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -9,8 +10,11 @@ import java.security.DigestInputStream;
 import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.KeyFactory;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.security.spec.AlgorithmParameterSpec;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
@@ -1172,6 +1176,49 @@ public final class EncryptUtils {
             ret[counter] = (byte) (data[counter] ^ k);
         }
         return ret;
+    }
+
+    /**
+     * return rsa keys
+     *
+     * @return
+     */
+    public static Pair<String, String> gen2048KeyPair() {
+        try {
+            return genKeyPair(2048);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Pair.create("", "");
+    }
+
+    /**
+     * return rsa keys
+     *
+     * @param size
+     * @return
+     * @throws NoSuchAlgorithmException
+     */
+    public static Pair<String, String> genKeyPair(int size) throws NoSuchAlgorithmException {
+        SecureRandom secureRandom = new SecureRandom();
+
+        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+
+        keyPairGenerator.initialize(size, secureRandom);
+
+        KeyPair keyPair = keyPairGenerator.generateKeyPair();
+
+        Key publicKey = keyPair.getPublic();
+
+        Key privateKey = keyPair.getPrivate();
+
+        byte[] publicKeyBytes = publicKey.getEncoded();
+        byte[] privateKeyBytes = privateKey.getEncoded();
+
+        String publicKeyBase64 = EncodeUtils.base64Encode2String(publicKeyBytes);
+        String privateKeyBase64 = EncodeUtils.base64Encode2String(privateKeyBytes);
+
+        return Pair.create(publicKeyBase64, privateKeyBase64);
     }
 
     private static byte[] joins(final byte[] prefix, final byte[] suffix) {

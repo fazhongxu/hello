@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.Pair;
 import android.view.View;
 
 import androidx.annotation.Keep;
@@ -51,6 +52,8 @@ import com.xxl.hello.widget.ui.window.MessagePopupWindow;
 import com.xxl.kit.AppUtils;
 import com.xxl.kit.ClipboardUtils;
 import com.xxl.kit.CountdownWrapper;
+import com.xxl.kit.EncodeUtils;
+import com.xxl.kit.EncryptUtils;
 import com.xxl.kit.FFmpegUtils;
 import com.xxl.kit.ListUtils;
 import com.xxl.kit.LogUtils;
@@ -239,6 +242,25 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
     @Override
     public void onTestClick() {
         UserRouterApi.Login.newBuilder().navigation(getActivity());
+        Pair<String, String> stringStringPair = EncryptUtils.gen2048KeyPair();
+        Log.e("aaa", "onTestClick: " + stringStringPair.first);
+        Log.e("aaa", "onTestClick:11 " + stringStringPair.second);
+
+        String publicKey = stringStringPair.first;
+        String privateKey = stringStringPair.second;
+        String data = "hello en";
+        String transformation = "RSA/ECB/PKCS1Padding";
+        String encryptedHex = EncryptUtils.encryptRSA2HexString(
+                data.getBytes(),
+                EncodeUtils.base64Decode(publicKey),
+                2048,
+                transformation
+        );
+
+        String s = new String(EncryptUtils.decryptHexStringRSA(encryptedHex, EncodeUtils.base64Decode(privateKey), 2048, transformation));
+
+        Log.e("aaa", "onTestClick: 加密后 " + encryptedHex);
+        Log.e("aaa", "onTestClick: 解密后 " + s);
     }
 
     /**
