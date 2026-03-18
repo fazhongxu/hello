@@ -1,12 +1,12 @@
 package com.xxl.core.utils;
 
 import android.app.Application;
-import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.tencent.bugly.crashreport.CrashReport;
+import com.xxl.kit.AppUtils;
 
 /**
  * bugly 工具类
@@ -35,10 +35,16 @@ public class BuglyUtils {
      * @param userId
      */
     public static void setUserId(@Nullable String userId) {
-        if (TextUtils.isEmpty(userId)) {
-            return;
-        }
         CrashReport.setUserId(userId);
+    }
+
+    /**
+     * 设置用户ID
+     *
+     * @param nickname
+     */
+    public static void setUserNickname(@Nullable String nickname) {
+        CrashReport.putUserData(AppUtils.getApplication(), "nickname", nickname);
     }
 
     /**

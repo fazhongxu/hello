@@ -14,6 +14,7 @@ import com.xxl.kit.GsonUtils;
  *
  * @author xxl.
  * @date 2025/1/24.
+ * // TODO: 2026/3/18 这种方式获取用户信息，在mvvm结构下 还需要再考虑下 暂不使用
  */
 public class UserManager {
 
