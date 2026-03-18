@@ -25,6 +25,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 /**
  * 加密解密工具类
+ * reference https://github.com/Blankj/AndroidUtilCode/blob/master/lib/utilcode/README-CN.md
  *
  * @author xxl.
  * @date 2022/07/02.
