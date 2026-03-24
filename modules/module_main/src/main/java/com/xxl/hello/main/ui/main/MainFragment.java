@@ -36,9 +36,7 @@ import com.xxl.hello.main.databinding.MainFragmentBinding;
 import com.xxl.hello.main.ui.main.adapter.OnTestRecycleItemListener;
 import com.xxl.hello.main.ui.main.adapter.TestBindingRecycleItemListener;
 import com.xxl.hello.main.ui.main.adapter.TestListEntity;
-import com.xxl.hello.main.ui.main.adapter.VideoCoverEntity;
 import com.xxl.hello.main.ui.main.adapter.multi.TestMultiAdapter;
-import com.xxl.hello.main.ui.main.window.VideoCoverPopupWindow;
 import com.xxl.hello.router.api.MainRouterApi;
 import com.xxl.hello.router.api.UserRouterApi;
 import com.xxl.hello.service.data.model.api.user.QueryUserInfoResponse;
@@ -240,20 +238,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
     @Override
     public void onTestClick() {
-//        UserRouterApi.Login.newBuilder().navigation(getActivity());
-        List<VideoCoverEntity> videoCoverEntities = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            VideoCoverEntity videoCoverEntity = new VideoCoverEntity(String.valueOf(i),R.drawable.resources_ic_hello,"","");
-            videoCoverEntities.add(videoCoverEntity);
-        }
-        VideoCoverPopupWindow videoCoverPopupWindow = VideoCoverPopupWindow.from(getActivity(), new VideoCoverPopupWindow.OnVideoCoverPopupWindowListener() {
-            @Override
-            public void onCoverSelected(VideoCoverEntity coverEntity) {
-
-            }
-        });
-        videoCoverPopupWindow.setCoverData(videoCoverEntities);
-        videoCoverPopupWindow.showPopupWindow();
+        UserRouterApi.Login.newBuilder().navigation(getActivity());
     }
 
     /**
