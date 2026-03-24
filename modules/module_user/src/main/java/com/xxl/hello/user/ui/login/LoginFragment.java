@@ -1,7 +1,6 @@
 package com.xxl.hello.user.ui.login;
 
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -30,6 +29,7 @@ import com.xxl.kit.FileUtils;
 import com.xxl.kit.LogUtils;
 import com.xxl.kit.ResourceUtils;
 import com.xxl.kit.RouterUtils;
+import com.xxl.kit.TimeUtils;
 import com.xxl.kit.ToastUtils;
 
 import java.io.File;
@@ -196,17 +196,7 @@ public class LoginFragment extends BaseViewModelFragment<LoginViewModel, UserFra
             ToastUtils.warning(R.string.resources_privacy_policy_agree_tips).show();
             return;
         }
-        String username = mViewDataBinding.etUsername.getText().toString().trim();
-        String password = mViewDataBinding.etPassword.getText().toString().trim();
-        if (TextUtils.isEmpty(username)) {
-            ToastUtils.warning(getString(R.string.user_login_username_tips)).show();
-            return;
-        }
-        if (TextUtils.isEmpty(password)) {
-            ToastUtils.warning(getString(R.string.user_login_password_tips)).show();
-            return;
-        }
-        mLoginViewModel.requestLogin(username, password);
+        mLoginViewModel.requestLogin("123456", String.valueOf(TimeUtils.currentServiceTimeMillis()));
     }
 
     /**
