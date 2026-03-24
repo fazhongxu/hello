@@ -1,11 +1,14 @@
 package com.xxl.hello.user.data.remote;
 
 import com.xxl.hello.service.data.model.api.user.QueryUserInfoResponse;
+import com.xxl.hello.user.data.model.api.PosterQueryListRequest;
+import com.xxl.hello.user.data.model.api.PosterQueryListResponse;
 import com.xxl.hello.user.data.model.api.UserLoginResponse;
 
 import java.util.Map;
 
 import io.reactivex.rxjava3.core.Observable;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -50,4 +53,15 @@ public interface UserRemoteDataSourceService {
      */
     @GET("users/{userNickname}")
     Observable<QueryUserInfoResponse> queryUserInfo(@Path("userNickname") String userNickname);
+
+    /**
+     * 海报查询列表(v7)
+     *
+     * @param headers 头部
+     * @param request 请求参数
+     * @return
+     */
+    @POST("/point/poster/v7/queryList.do")
+    Observable<PosterQueryListResponse> queryPosterList(@HeaderMap Map<String, String> headers,
+                                                        @Body PosterQueryListRequest request);
 }
