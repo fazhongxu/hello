@@ -4,4 +4,12 @@
     <string name="user_crm_shortcut_name">crm</string>
 
     <string name="user_setting_title">user setting</string>
+
+    <string name="user_login_title">请登录</string>
+    <string name="user_login_username_hint">用户名</string>
+    <string name="user_login_password_hint">密  码</string>
+    <string name="user_login_forgot_password">忘记密码？</string>
+    <string name="user_login_button">登录</string>
+    <string name="user_login_username_tips">请输入用户名</string>
+    <string name="user_login_password_tips">请输入密码</string>
 </resources>
