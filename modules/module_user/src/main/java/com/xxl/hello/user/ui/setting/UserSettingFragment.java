@@ -32,7 +32,6 @@ import com.xxl.hello.common.config.NetworkConfig;
 import com.xxl.hello.service.data.local.db.entity.UploadQueueResourceDBEntity;
 import com.xxl.hello.service.data.model.entity.media.MediaPreviewItemEntity;
 import com.xxl.hello.service.data.model.entity.share.ImageShareResourceEntity;
-import com.xxl.hello.service.data.model.entity.share.ShareOperateItem;
 import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
 import com.xxl.hello.service.data.model.enums.SystemEnumsApi.ShareOperateType;
 import com.xxl.hello.service.data.model.event.SystemEventApi;
@@ -43,22 +42,21 @@ import com.xxl.hello.user.databinding.UserFragmentSettingBinding;
 import com.xxl.hello.widget.data.router.ChatRouterApi;
 import com.xxl.hello.widget.data.router.WidgetRouterApi;
 import com.xxl.hello.widget.ui.view.keyboard.ICommonKeyboardLayout;
-import com.xxl.hello.widget.ui.view.share.OnShareItemOperate;
-import com.xxl.hello.widget.ui.view.share.ResourcesShareWindow;
+import com.xxl.hello.widget.ui.view.share2.OnShareInterceptor;
+import com.xxl.hello.widget.ui.view.share2.ShareBuilder;
+import com.xxl.hello.widget.ui.view.share2.ShareContent;
+import com.xxl.hello.widget.ui.view.share2.SharePlatform;
 import com.xxl.hello.widget.ui.view.share.api.ResourcesSharePickerKit;
 import com.xxl.kit.AppUtils;
 import com.xxl.kit.ClipboardUtils;
-import com.xxl.kit.FileUtils;
 import com.xxl.kit.ImageUtils;
 import com.xxl.kit.KeyboardWrapper;
 import com.xxl.kit.LanguageUtils;
 import com.xxl.kit.MomentShareUtils;
 import com.xxl.kit.PathUtils;
-import com.xxl.kit.ResourceUtils;
 import com.xxl.kit.ToastUtils;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -361,44 +359,67 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
             mResourcesSharePickerKit.operateHandle(this, ShareOperateType.WE_CHAT, ImageShareResourceEntity.obtain());
             return true;
         }
-        mResourcesSharePickerKit.showSharePicker(this, ImageShareResourceEntity.obtain(), new OnShareItemOperate() {
 
-            @Override
-            public boolean onClick(@NonNull ResourcesShareWindow window,
-                                   @NonNull ShareOperateItem operateItem,
-                                   @NonNull View targetView,
-                                   int position) {
-                if (operateItem.getOperateType() == ShareOperateType.WE_CHAT) {
-                    onShareWaterImageClick();
-                    window.dismiss();
-                    return true;
-                } else if (operateItem.getOperateType() == ShareOperateType.WE_CHAT_CIRCLE) {
-                    ToastUtils.success("自定义点击事件" + operateItem.getTitle()).show();
-                    final List<File> files = FileUtils.listFilesInDirWithFilter(CacheDirConfig.SHARE_FILE_DIR, new FileFilter() {
-                        @Override
-                        public boolean accept(File pathname) {
-                            return pathname.getName().endsWith(".jpg")
-                                    || pathname.getName().endsWith(".jpeg")
-                                    || pathname.getName().endsWith(".png");
-                        }
-                    });
-                    final List<String> imagePaths = new ArrayList<>();
-                    for (File file : files) {
-                        imagePaths.add(file.getAbsolutePath());
+
+        // 示例1: 单张图片
+        ShareContent content1 = new ShareContent.Builder()
+                .setType(ShareContent.Type.IMAGE)
+                .setTitle("精美图片")
+                .setImageUrl("https://example.com/image.jpg")
+                .build();
+
+// 使用分享器
+        new ShareBuilder(getActivity())
+                .setContent(content1)  // 100张图片
+                .setInterceptor(new OnShareInterceptor() {
+                    @Override
+                    public boolean onShare(SharePlatform platform, ShareContent content) {
+                        // 图片已自动下载，content.getImageUrls() 是本地路径列表
+                        List<String> localPaths = content.getImageUrls();
+                        // 自定义分享逻辑
+                        return true;
                     }
-                    if (imagePaths.size() <= 0) {
-                        String shareImagePath = CacheDirConfig.SHARE_FILE_DIR + File.separator + "hello.jpeg";
-                        ResourceUtils.copyFileFromAssets("hello.jpeg", shareImagePath);
-                        imagePaths.add(shareImagePath);
-                    }
-                    MomentShareUtils.shareSingleImageToWeChatMoment(getActivity(), imagePaths.size() > 0 ? imagePaths.get(0) : "");
-                    return true;
-                } else if (operateItem.getOperateType() == ShareOperateType.DOWNLOAD) {
-                    throw new IllegalArgumentException("手动测试崩溃");
-                }
-                return false;
-            }
-        });
+                })
+                .show();
+
+//        mResourcesSharePickerKit.showSharePicker(this, ImageShareResourceEntity.obtain(), new OnShareItemOperate() {
+//
+//            @Override
+//            public boolean onClick(@NonNull ResourcesShareWindow window,
+//                                   @NonNull ShareOperateItem operateItem,
+//                                   @NonNull View targetView,
+//                                   int position) {
+//                if (operateItem.getOperateType() == ShareOperateType.WE_CHAT) {
+//                    onShareWaterImageClick();
+//                    window.dismiss();
+//                    return true;
+//                } else if (operateItem.getOperateType() == ShareOperateType.WE_CHAT_CIRCLE) {
+//                    ToastUtils.success("自定义点击事件" + operateItem.getTitle()).show();
+//                    final List<File> files = FileUtils.listFilesInDirWithFilter(CacheDirConfig.SHARE_FILE_DIR, new FileFilter() {
+//                        @Override
+//                        public boolean accept(File pathname) {
+//                            return pathname.getName().endsWith(".jpg")
+//                                    || pathname.getName().endsWith(".jpeg")
+//                                    || pathname.getName().endsWith(".png");
+//                        }
+//                    });
+//                    final List<String> imagePaths = new ArrayList<>();
+//                    for (File file : files) {
+//                        imagePaths.add(file.getAbsolutePath());
+//                    }
+//                    if (imagePaths.size() <= 0) {
+//                        String shareImagePath = CacheDirConfig.SHARE_FILE_DIR + File.separator + "hello.jpeg";
+//                        ResourceUtils.copyFileFromAssets("hello.jpeg", shareImagePath);
+//                        imagePaths.add(shareImagePath);
+//                    }
+//                    MomentShareUtils.shareSingleImageToWeChatMoment(getActivity(), imagePaths.size() > 0 ? imagePaths.get(0) : "");
+//                    return true;
+//                } else if (operateItem.getOperateType() == ShareOperateType.DOWNLOAD) {
+//                    throw new IllegalArgumentException("手动测试崩溃");
+//                }
+//                return false;
+//            }
+//        });
         return true;
     }
 
