@@ -47,10 +47,6 @@ import com.xxl.hello.service.handle.api.AppSchemeService;
 import com.xxl.hello.widget.data.router.WidgetRouterApi;
 import com.xxl.hello.widget.ui.view.record.OnRecordListener;
 import com.xxl.hello.widget.ui.view.record.RecordButton;
-import com.xxl.hello.widget.ui.view.share2.OnShareInterceptor;
-import com.xxl.hello.widget.ui.view.share2.ShareBuilder;
-import com.xxl.hello.widget.ui.view.share2.ShareContent;
-import com.xxl.hello.widget.ui.view.share2.SharePlatform;
 import com.xxl.hello.widget.ui.window.MessagePopupWindow;
 import com.xxl.kit.AppUtils;
 import com.xxl.kit.ClipboardUtils;
@@ -69,7 +65,6 @@ import com.xxl.kit.ToastUtils;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -243,37 +238,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
     @Override
     public void onTestClick() {
-//        UserRouterApi.Login.newBuilder().navigation(getActivity());
-
-        // 示例1: 单张图片
-        ShareContent content1 = new ShareContent.Builder()
-                .setType(ShareContent.Type.IMAGE)
-                .setTitle("精美图片")
-                .setImageUrl("https://example.com/image.jpg")
-                .build();
-
-        // 使用分享器
-        new ShareBuilder(getActivity())
-                .setContent(content1)
-                .setPlatforms(Arrays.asList(SharePlatform.WEIXIN, SharePlatform.WEIXIN_CIRCLE, SharePlatform.SYSTEM))
-                .setInterceptor(new OnShareInterceptor() {
-                    @Override
-                    public boolean onShare(SharePlatform platform, ShareContent content) {
-                        // 图片已自动下载，content.getImageUrls() 是本地路径列表
-                        List<String> localPaths = content.getImageUrls();
-                        // 自定义分享逻辑
-                        return true;
-                    }
-
-                    @Override
-                    public boolean shouldInterceptBeforeDownload(SharePlatform platform, ShareContent content) {
-                        if (platform == SharePlatform.WEIXIN_CIRCLE) {
-                            return true;
-                        }
-                        return OnShareInterceptor.super.shouldInterceptBeforeDownload(platform, content);
-                    }
-                })
-                .show();
+        UserRouterApi.Login.newBuilder().navigation(getActivity());
     }
 
     /**
