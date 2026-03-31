@@ -264,6 +264,14 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
                         // 自定义分享逻辑
                         return true;
                     }
+
+                    @Override
+                    public boolean shouldInterceptBeforeDownload(SharePlatform platform, ShareContent content) {
+                        if (platform == SharePlatform.WEIXIN_CIRCLE) {
+                            return true;
+                        }
+                        return OnShareInterceptor.super.shouldInterceptBeforeDownload(platform, content);
+                    }
                 })
                 .show();
     }

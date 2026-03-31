@@ -118,6 +118,16 @@ public class ShareDialog extends BottomSheetDialogFragment {
             shareListener.onShareStart(platform);
         }
 
+        if (shareInterceptor != null && shareInterceptor.shouldInterceptBeforeDownload(platform, shareContent)) {
+            if (shareInterceptor.onShare(platform, shareContent)) {
+                if (shareListener != null) {
+                    shareListener.onShareSuccess(platform);
+                }
+                dismiss();
+                return;
+            }
+        }
+
         if (needDownload()) {
             showProgress(true);
             downloadAndShare(platform);
