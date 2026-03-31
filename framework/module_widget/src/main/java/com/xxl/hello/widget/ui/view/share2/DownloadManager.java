@@ -2,6 +2,8 @@
 package com.xxl.hello.widget.ui.view.share2;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 
 import java.io.File;
@@ -21,6 +23,7 @@ public class DownloadManager {
     private Context context;
     private OkHttpClient okHttpClient;
     private ExecutorService executorService;
+    private Handler handler = new Handler(Looper.getMainLooper());
 
     public interface DownloadCallback {
         void onSuccess(List<String> localPaths);
@@ -51,7 +54,12 @@ public class DownloadManager {
 
     private void downloadFiles(List<String> urls, String fileType, DownloadCallback callback) {
         if (urls == null || urls.isEmpty()) {
-            callback.onSuccess(new ArrayList<>());
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    callback.onSuccess(new ArrayList<>());
+                }
+            });
             return;
         }
 
@@ -64,7 +72,13 @@ public class DownloadManager {
 
                 if (isFileExists(url)) {
                     localPaths.add(url);
-                    callback.onProgress(i + 1, total);
+                    int finalI = i;
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            callback.onProgress(finalI + 1, total);
+                        }
+                    });
                     continue;
                 }
 
@@ -78,7 +92,12 @@ public class DownloadManager {
 
                     Response response = okHttpClient.newCall(request).execute();
                     if (!response.isSuccessful()) {
-                        callback.onFailure("下载失败: " + response.code());
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                callback.onFailure("下载失败: " + response.code());
+                            }
+                        });
                         return;
                     }
 
@@ -96,16 +115,32 @@ public class DownloadManager {
                     inputStream.close();
 
                     localPaths.add(saveFile.getAbsolutePath());
-                    callback.onProgress(i + 1, total);
-
+                    int finalI1 = i;
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            callback.onProgress(finalI1 + 1, total);
+                        }
+                    });
                 } catch (Exception e) {
                     Log.e(TAG, "Download error", e);
-                    callback.onFailure("下载失败: " + e.getMessage());
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            callback.onFailure("下载失败: " + e.getMessage());
+                        }
+                    });
                     return;
                 }
             }
 
-            callback.onSuccess(localPaths);
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    callback.onSuccess(localPaths);
+                }
+            });
+
         });
     }
 
@@ -123,5 +158,9 @@ public class DownloadManager {
             extension = ".mp4";
         }
         return "share_" + System.currentTimeMillis() + "_" + Math.abs(url.hashCode()) + extension;
+    }
+
+    public  void runOnUiThread(final Runnable runnable) {
+        handler.post(runnable);
     }
 }

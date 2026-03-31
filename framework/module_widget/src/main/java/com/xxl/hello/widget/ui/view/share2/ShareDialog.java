@@ -1,10 +1,11 @@
 package com.xxl.hello.widget.ui.view.share2;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
@@ -14,17 +15,17 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
-import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.xxl.hello.widget.R;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShareDialog extends DialogFragment {
+public class ShareDialog extends BottomSheetDialogFragment {
     private Context context;
     private List<SharePlatformItem> platformItems;
     private ShareContent shareContent;
@@ -69,17 +70,21 @@ public class ShareDialog extends DialogFragment {
             }
         }
     }
-    
-    @Nullable
+
+    @NonNull
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, 
-                             @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.widget_dailog_layout_share, container, false);
-        initViews(view);
+    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        final Dialog dialog = super.onCreateDialog(savedInstanceState);
+
+        final View rootView = getLayoutInflater().inflate(R.layout.widget_dailog_layout_share, null, false);
+        initViews(rootView);
         setupRecyclerView();
-        return view;
+        dialog.setContentView(rootView);
+        final ViewGroup parent = (ViewGroup) rootView.getParent();
+        parent.setBackgroundColor(Color.TRANSPARENT);
+        return  dialog;
     }
-    
+
     private void initViews(View view) {
         recyclerView = view.findViewById(R.id.recycler_view);
         progressBar = view.findViewById(R.id.progress_bar);
