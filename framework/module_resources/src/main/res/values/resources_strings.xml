@@ -10,6 +10,7 @@
     <string name="resources_qr_code">二维码</string>
     <string name="resources_album_title">相册</string>
     <string name="resources_share_text">分享</string>
+    <string name="resources_share_to_text">分享到</string>
 
     <string name="resources_ext_plugin_capture">拍摄</string>
     <string name="resources_ext_plugin_album">相册</string>
