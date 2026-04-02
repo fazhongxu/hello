@@ -8,9 +8,11 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.arthenica.ffmpegkit.MediaInformationSession;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.xxl.core.image.loader.ImageLoader;
+import com.xxl.hello.common.config.NetworkConfig;
 import com.xxl.hello.service.data.model.entity.im.MessageEntity;
 import com.xxl.hello.service.data.model.enums.ChatEnumsApi.MessageType;
 import com.xxl.hello.widget.R;
@@ -18,6 +20,11 @@ import com.xxl.hello.widget.databinding.WidgetRecycleItemMessageVideoBinding;
 import com.xxl.hello.widget.ui.im.template.OnMessageTemplateListener;
 import com.xxl.kit.ClipboardUtils;
 import com.xxl.kit.DisplayUtils;
+import com.xxl.kit.FFmpegUtils;
+import com.xxl.kit.GsonUtils;
+import com.xxl.kit.LogUtils;
+import com.xxl.kit.NetworkUtils;
+import com.xxl.kit.OnRequestCallBack;
 import com.xxl.kit.ToastUtils;
 
 /**
