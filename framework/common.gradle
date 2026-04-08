@@ -127,6 +127,8 @@ dependencies {
     implementation deps.base_popup
     implementation deps.bubble_view
 
+    implementation deps.aescrypt
+
     implementation deps.agentweb
     implementation deps.jsoup
 

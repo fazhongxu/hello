@@ -41,7 +41,7 @@
     },
     {
       "id": "2:5161050270207000031",
-      "lastPropertyId": "6:7435421821174087412",
+      "lastPropertyId": "8:911793943718072982",
       "name": "h_t_category",
       "properties": [
         {
@@ -70,11 +70,21 @@
         {
           "id": "5:1817030339043400691",
           "name": "category_name",
-          "type": 6
+          "type": 9
         },
         {
           "id": "6:7435421821174087412",
           "name": "category_ext",
+          "type": 9
+        },
+        {
+          "id": "7:3137067967071459942",
+          "name": "category_code",
+          "type": 9
+        },
+        {
+          "id": "8:911793943718072982",
+          "name": "encrypted_category_code",
           "type": 9
         }
       ],

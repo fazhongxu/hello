@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 
@@ -15,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
+import com.scottyab.aescrypt.AESCrypt;
 import com.tbruyelle.rxpermissions3.RxPermissions;
 import com.xxl.core.aop.annotation.Safe;
 import com.xxl.core.media.audio.AudioCapture;
@@ -39,6 +41,9 @@ import com.xxl.hello.main.ui.main.adapter.TestListEntity;
 import com.xxl.hello.main.ui.main.adapter.multi.TestMultiAdapter;
 import com.xxl.hello.router.api.MainRouterApi;
 import com.xxl.hello.router.api.UserRouterApi;
+import com.xxl.hello.service.data.local.db.DBServiceKit;
+import com.xxl.hello.service.data.local.db.api.CategoryDBDataService;
+import com.xxl.hello.service.data.local.db.entity.CategoryDBEntity;
 import com.xxl.hello.service.data.model.api.user.QueryUserInfoResponse;
 import com.xxl.hello.service.data.model.entity.media.MediaPreviewItemEntity;
 import com.xxl.hello.service.data.model.entity.user.LoginUserEntity;
@@ -51,6 +56,7 @@ import com.xxl.hello.widget.ui.window.MessagePopupWindow;
 import com.xxl.kit.AppUtils;
 import com.xxl.kit.ClipboardUtils;
 import com.xxl.kit.CountdownWrapper;
+import com.xxl.kit.EncryptUtils;
 import com.xxl.kit.FFmpegUtils;
 import com.xxl.kit.ListUtils;
 import com.xxl.kit.LogUtils;
@@ -236,9 +242,23 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
     //region: MainNavigator
 
+    @Inject
+    DBServiceKit mDBServiceKit;
+
     @Override
     public void onTestClick() {
-        UserRouterApi.Login.newBuilder().navigation(getActivity());
+//        UserRouterApi.Login.newBuilder().navigation(getActivity());
+
+        CategoryDBDataService categoryDBDataService = mDBServiceKit.getCategoryDBDataService();
+        CategoryDBEntity categoryDBEntity = categoryDBDataService.getCategory(123);
+        if (categoryDBEntity == null) {
+            categoryDBEntity = new CategoryDBEntity();
+        }
+        categoryDBEntity.setCategoryId(123);
+        categoryDBEntity.setCategoryName("一二三");
+        categoryDBEntity.setCategoryCode("叮叮叮");
+        boolean b = categoryDBDataService.putCategory(categoryDBEntity);
+        Log.e("aaa", "onTestClick: " + b);
     }
 
     /**

@@ -6,10 +6,12 @@ import androidx.annotation.NonNull;
 
 import com.xxl.hello.service.data.local.db.DBServiceKit;
 import com.xxl.hello.service.data.local.db.api.CacheDBDataService;
+import com.xxl.hello.service.data.local.db.api.CategoryDBDataService;
 import com.xxl.hello.service.data.local.db.api.DBClientKit;
 import com.xxl.hello.service.data.local.db.api.OrderDBDataService;
 import com.xxl.hello.service.data.local.db.api.UploadQueueResourceDBDataService;
 import com.xxl.hello.service.data.local.db.entity.CacheDBEntity;
+import com.xxl.hello.service.data.local.db.entity.CategoryDBEntity;
 import com.xxl.hello.service.data.local.db.entity.OrderDBEntity;
 import com.xxl.hello.service.data.local.db.entity.UploadQueueResourceDBEntity;
 import com.xxl.hello.service.data.local.prefs.api.UserPreferences;
@@ -76,6 +78,17 @@ public class ObjectBoxDataStoreModel {
     @Singleton
     CacheDBDataService provideCacheDBDataService(@NonNull final ObjectBoxDBClientKit objectBoxClientKit) {
         return new CacheDataSource(objectBoxClientKit);
+    }
+
+    /**
+     * 构建对 {@link CategoryDBEntity} 的数据操作服务
+     *
+     * @return 返回以 ObjectBox为基础的数据库操作的服务
+     */
+    @Provides
+    @Singleton
+    CategoryDBDataService provideCategoryDBDataService(@NonNull final ObjectBoxDBClientKit objectBoxClientKit) {
+        return new CategoryDataSource(objectBoxClientKit);
     }
 
     /**
