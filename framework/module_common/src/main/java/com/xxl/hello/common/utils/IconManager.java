@@ -20,9 +20,9 @@ public class IconManager {
      * 图标类型枚举
      */
     public enum IconType {
-        DEFAULT(".main.DefaultIconAlias"),//多给了个main是因为启动页在包package="com.xxl.hello.main"下
-        VIP1(".main.Vip1IconAlias"),
-        VIP2(".main.Vip2IconAlias");
+        DEFAULT("com.xxl.hello.main.DefaultIconAlias"),
+        VIP1("com.xxl.hello.main.Vip1IconAlias"),
+        VIP2("com.xxl.hello.main.Vip2IconAlias");
 
         private String aliasName;
 
@@ -46,7 +46,7 @@ public class IconManager {
             disableAllIcons(context);
 
             // 启用目标图标
-            ComponentName componentName = new ComponentName(context, context.getPackageName() + iconType.getAliasName());
+            ComponentName componentName = new ComponentName(context, iconType.getAliasName());
 
             LogUtils.d(TAG + "ComponentName: " + componentName.flattenToString());
 
@@ -82,7 +82,7 @@ public class IconManager {
     private static void disableAllIcons(Context context) {
         for (IconType type : IconType.values()) {
             try {
-                ComponentName componentName = new ComponentName(context, context.getPackageName() + type.getAliasName());
+                ComponentName componentName = new ComponentName(context, type.getAliasName());
                 context.getPackageManager().setComponentEnabledSetting(componentName,
                         PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
                         PackageManager.DONT_KILL_APP);
@@ -102,7 +102,7 @@ public class IconManager {
     public static IconType getCurrentIcon(Context context) {
         for (IconType type : IconType.values()) {
             try {
-                ComponentName componentName = new ComponentName(context, context.getPackageName() + type.getAliasName());
+                ComponentName componentName = new ComponentName(context, type.getAliasName());
 
                 int state = context.getPackageManager()
                         .getComponentEnabledSetting(componentName);
