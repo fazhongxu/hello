@@ -108,7 +108,7 @@
         <activity-alias
             android:name=".Vip1IconAlias"
             android:enabled="false"
-            android:icon="@drawable/resources_ic_app_logo_pipi"
+            android:icon="@drawable/resources_ic_app_white_logo"
             android:targetActivity="com.xxl.hello.main.ui.splash.SplashActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
