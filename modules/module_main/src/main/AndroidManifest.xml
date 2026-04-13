@@ -77,16 +77,46 @@
             android:name="org.apache.http.legacy"
             android:required="false" />
 
+        <!--  <activity
+              android:name="com.xxl.hello.main.ui.splash.SplashActivity"
+              android:theme="@style/SplashTheme">
+              <intent-filter>
+                  <action android:name="android.intent.action.MAIN" />
+
+                  <category android:name="android.intent.category.LAUNCHER" />
+              </intent-filter>
+
+          </activity>
+  -->
         <activity
             android:name="com.xxl.hello.main.ui.splash.SplashActivity"
+            android:theme="@style/SplashTheme" />
+
+        <activity-alias
+            android:name=".DefaultIconAlias"
+            android:enabled="true"
+            android:icon="@drawable/resources_ic_app_logo"
+            android:targetActivity="com.xxl.hello.main.ui.splash.SplashActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity-alias>
 
-        </activity>
+        <activity-alias
+            android:name=".Vip1IconAlias"
+            android:enabled="false"
+            android:icon="@drawable/resources_ic_app_logo_pipi"
+            android:targetActivity="com.xxl.hello.main.ui.splash.SplashActivity"
+            android:theme="@style/SplashTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
 
         <activity
             android:name="com.xxl.hello.main.ui.main.MainActivity"
