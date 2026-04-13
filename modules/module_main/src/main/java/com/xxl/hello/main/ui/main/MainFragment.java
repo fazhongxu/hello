@@ -240,8 +240,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
     @Override
     public void onTestClick() {
-//        UserRouterApi.Login.newBuilder().navigation(getActivity());
-        IconManager.changeIcon(getActivity(), IconManager.IconType.VIP1);
+        UserRouterApi.Login.newBuilder().navigation(getActivity());
     }
 
     /**
