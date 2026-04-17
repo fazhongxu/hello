@@ -47,6 +47,10 @@ import com.xxl.hello.service.handle.api.AppSchemeService;
 import com.xxl.hello.widget.data.router.WidgetRouterApi;
 import com.xxl.hello.widget.ui.view.record.OnRecordListener;
 import com.xxl.hello.widget.ui.view.record.RecordButton;
+import com.xxl.hello.widget.ui.view.share2.OnShareInterceptor;
+import com.xxl.hello.widget.ui.view.share2.ShareBuilder;
+import com.xxl.hello.widget.ui.view.share2.ShareContent;
+import com.xxl.hello.widget.ui.view.share2.SharePlatform;
 import com.xxl.hello.widget.ui.window.MessagePopupWindow;
 import com.xxl.kit.AppUtils;
 import com.xxl.kit.ClipboardUtils;
@@ -55,6 +59,7 @@ import com.xxl.kit.FFmpegUtils;
 import com.xxl.kit.ListUtils;
 import com.xxl.kit.LogUtils;
 import com.xxl.kit.MediaUtils;
+import com.xxl.kit.MomentShareUtils;
 import com.xxl.kit.OnAppStatusChangedListener;
 import com.xxl.kit.OnRequestCallBack;
 import com.xxl.kit.ResourceUtils;
@@ -65,6 +70,7 @@ import com.xxl.kit.ToastUtils;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -238,7 +244,28 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
 
     @Override
     public void onTestClick() {
-        UserRouterApi.Login.newBuilder().navigation(getActivity());
+//        UserRouterApi.Login.newBuilder().navigation(getActivity());
+
+        ShareContent shareContent = new ShareContent.Builder()
+                .setTitle("标题")
+                .setContent("内容内容")
+                .build();
+        new ShareBuilder(getActivity())
+//                .setPlatforms(Arrays.asList(SharePlatform.WEIXIN, SharePlatform.WEIXIN_CIRCLE))
+                .setContent(shareContent)
+                .share(SharePlatform.WEIXIN);
+//                .setInterceptor(new OnShareInterceptor() {
+//                    @Override
+//                    public boolean onShare(SharePlatform platform, ShareContent content) {
+//                        if (platform == SharePlatform.WEIXIN_CIRCLE) {
+//                            ToastUtils.success("朋友圈").show();
+//                            return true;
+//                        }
+//                        return false;
+//                    }
+//                })
+//                .show();
+
     }
 
     /**

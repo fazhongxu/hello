@@ -65,4 +65,15 @@ public class ShareBuilder {
         dialog.setShareInterceptor(shareInterceptor);
         dialog.show(((FragmentActivity) context).getSupportFragmentManager(), "share_dialog");
     }
+
+    public void share(SharePlatform platform) {
+        if (shareContent == null) {
+            throw new IllegalStateException("ShareContent cannot be null");
+        }
+
+        ShareHelper shareHelper = new ShareHelper(context);
+        shareHelper.setShareListener(shareListener);
+        shareHelper.setShareInterceptor(shareInterceptor);
+        shareHelper.share(platform, shareContent);
+    }
 }
