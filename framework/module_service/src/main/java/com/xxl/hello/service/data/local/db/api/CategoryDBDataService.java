@@ -1,5 +1,7 @@
 package com.xxl.hello.service.data.local.db.api;
 
+import com.xxl.hello.service.data.local.db.entity.CategoryDBEntity;
+
 /**
  * 分类数据库服务
  *
@@ -8,4 +10,27 @@ package com.xxl.hello.service.data.local.db.api;
  **/
 public interface CategoryDBDataService {
 
+    /**
+     * 添加分类
+     *
+     * @param categoryDBEntity
+     * @return
+     */
+    boolean putCategory(CategoryDBEntity categoryDBEntity);
+
+    /**
+     * 获取分类
+     *
+     * @param categoryId
+     * @return
+     */
+    CategoryDBEntity getCategory(long categoryId);
+
+    /**
+     * 删除分类
+     *
+     * @param categoryId
+     * @return
+     */
+    boolean removeCategory(long categoryId);
 }

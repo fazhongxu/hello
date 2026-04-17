@@ -56,7 +56,7 @@ versions.logger = "2.2.0"
 versions.arouter = "1.5.2"
 versions.arouter_register = "1.0.2"
 versions.fat_aar = "1.3.8"
-versions.bugly = "4.1.9.2"
+versions.bugly = "4.1.9.3"
 
 versions.android_state = "1.4.1"
 
@@ -74,6 +74,7 @@ versions.combine_bitmap = "1.0.5"
 versions.photo_view = "2.3.0"
 
 versions.kprogresshud = "1.2.0"
+versions.indicatorseekbar = "2.1.2"
 
 versions.easy_float = "2.0.4"
 
@@ -87,6 +88,8 @@ versions.auto_size = "v1.2.1"
 versions.state_manager = "1.0.0"
 versions.adapter_helper = "3.0.7"
 versions.pinned_decoration = "1.3.2-androidx"
+versions.chips_layout_manager = "0.3.7@aar"
+versions.flowlayout = "1.10@aar"
 versions.refresh_layout = "2.0.5"
 
 versions.base_popup = "3.2.0"
@@ -96,6 +99,7 @@ versions.jsbridge = "1.0.4"
 versions.agentweb = "v5.0.0-alpha.1-androidx"
 
 versions.jsoup = "1.15.3"
+versions.fastble="2.4.0"
 
 versions.dkplayer = "3.3.5"
 versions.exoplayer = "2.15.0"
@@ -235,6 +239,8 @@ deps.rxpermission = "com.github.fazhongxu:RxPermissions:$versions.rxpermission"
 
 //kprogresshud 进度条 https://github.com/Kaopiz/KProgressHUD
 deps.kprogresshud = "com.kaopiz:kprogresshud:$versions.kprogresshud"
+//indicatorseekbar https://github.com/warkiz/IndicatorSeekBar
+deps.indicatorseekbar = "com.github.warkiz.widget:indicatorseekbar:$versions.indicatorseekbar"
 
 //https://github.com/princekin-f/EasyFloat
 deps.easy_float = "com.github.princekin-f:EasyFloat:$versions.easy_float"
@@ -308,6 +314,12 @@ deps.adapter_helper = "com.github.CymChad:BaseRecyclerViewAdapterHelper:$version
 // PinnedSectionItemDecoration https://github.com/oubowu/PinnedSectionItemDecoration
 deps.pinned_decoration = "com.oushangfeng:PinnedSectionItemDecoration:$versions.pinned_decoration"
 
+// ChipsLayoutManager https://github.com/Oleg-Beloy/ChipsLayoutManager
+deps.chips_layout_manager = "com.beloo.widget:ChipsLayoutManager:$versions.chips_layout_manager"
+
+//android-flowlayout https://github.com/ApmeM/android-flowlayout
+deps.flowlayout = "org.apmem.tools:layouts:$versions.flowlayout"
+
 // https://github.com/scwang90/SmartRefreshLayout
 deps.refresh_layout = "io.github.scwang90:refresh-layout-kernel:$versions.refresh_layout"
 
@@ -328,6 +340,9 @@ deps.agentweb = "com.github.Justson.AgentWeb:agentweb-core:$versions.agentweb"
 
 //jsoup https://github.com/jhy/jsoup
 deps.jsoup = "org.jsoup:jsoup:$versions.jsoup"
+
+//https://github.com/Jasonchenlijian/FastBle
+deps.fastble = "com.github.Jasonchenlijian:FastBle:$versions.fastble"
 
 //dkplayer https://github.com/Doikki/DKVideoPlayer
 def dkplayer = [:]

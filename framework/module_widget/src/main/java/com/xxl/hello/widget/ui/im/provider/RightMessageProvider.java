@@ -2,7 +2,6 @@ package com.xxl.hello.widget.ui.im.provider;
 
 import androidx.annotation.NonNull;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.xxl.hello.service.data.model.entity.im.MessageDirection;
 import com.xxl.hello.service.data.model.entity.im.MessageEntity;
 import com.xxl.hello.widget.R;
@@ -15,7 +14,7 @@ import com.xxl.hello.widget.ui.im.template.OnMessageTemplateListener;
  * @author xxl.
  * @date 2024/6/14.
  */
-public class RightMessageProvider extends BaseMessageProvider<BaseQuickAdapter, WidgetRecycleItemMessageRightBinding, MessageEntity> {
+public class RightMessageProvider extends BaseMessageProvider<WidgetRecycleItemMessageRightBinding, MessageEntity> {
 
     //region: 成员变量
 
@@ -23,8 +22,8 @@ public class RightMessageProvider extends BaseMessageProvider<BaseQuickAdapter, 
 
     //region: 构造函数
 
-    public RightMessageProvider(BaseQuickAdapter adapter, OnMessageTemplateListener listener) {
-        super(adapter, listener);
+    public RightMessageProvider(OnMessageTemplateListener listener) {
+        super(listener);
     }
 
     //endregion

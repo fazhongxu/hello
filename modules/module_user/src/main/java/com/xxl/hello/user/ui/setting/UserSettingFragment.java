@@ -363,6 +363,7 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
             mResourcesSharePickerKit.operateHandle(this, ShareOperateType.WE_CHAT, ImageShareResourceEntity.obtain());
             return true;
         }
+
         mResourcesSharePickerKit.showSharePicker(this, ImageShareResourceEntity.obtain(), new OnShareItemOperate() {
 
             @Override

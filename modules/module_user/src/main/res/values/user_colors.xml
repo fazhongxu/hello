@@ -1,3 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="login_edittext_bg">#F0F0F0</color>
+    <color name="login_button_bg">#2F9DD8</color>
+    <color name="login_forgot_password">#62B3D2</color>
 </resources>

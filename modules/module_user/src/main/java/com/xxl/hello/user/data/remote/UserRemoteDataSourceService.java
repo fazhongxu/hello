@@ -50,4 +50,5 @@ public interface UserRemoteDataSourceService {
      */
     @GET("users/{userNickname}")
     Observable<QueryUserInfoResponse> queryUserInfo(@Path("userNickname") String userNickname);
+
 }

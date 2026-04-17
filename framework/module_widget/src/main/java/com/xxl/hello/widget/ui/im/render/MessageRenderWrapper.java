@@ -19,6 +19,7 @@ public class MessageRenderWrapper {
     static {
         registerMessageRender(TextMessageRender.obtain());
         registerMessageRender(ImageMessageRender.obtain());
+        registerMessageRender(VideoMessageRender.obtain());
         registerMessageRender(NormalTextNotificationMessageRender.obtain());
         registerMessageRender(RecallNotificationMessageRender.obtain());
     }

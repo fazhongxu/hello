@@ -16,5 +16,8 @@ dependencies {
     api deps.exoplayer
 
     api deps.emoji_ios
+
+    compileOnly deps.ffmpeg_kit
+    compileOnly deps.ffmpeg_kit_exception
 }
 

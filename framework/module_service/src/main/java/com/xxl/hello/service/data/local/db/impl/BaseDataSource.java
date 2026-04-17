@@ -161,6 +161,19 @@ public abstract class BaseDataSource<E extends BaseDBEntity> {
     /**
      * 获取数据
      *
+     * @param primaryKey 数据库主键
+     * @return
+     */
+    public E get(@NonNull final Long primaryKey) {
+        return getOperateBox().query()
+                .equal(getPrimaryKey(), primaryKey)
+                .build()
+                .findFirst();
+    }
+
+    /**
+     * 获取数据
+     *
      * @param primaryKey  数据库主键
      * @param stringOrder 是否忽略大小写
      * @return

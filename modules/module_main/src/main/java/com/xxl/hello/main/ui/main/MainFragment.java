@@ -59,7 +59,6 @@ import com.xxl.kit.OnAppStatusChangedListener;
 import com.xxl.kit.OnRequestCallBack;
 import com.xxl.kit.ResourceUtils;
 import com.xxl.kit.StringUtils;
-import com.xxl.kit.ThreadUtils;
 import com.xxl.kit.TimeUtils;
 import com.xxl.kit.ToastUtils;
 

@@ -2,6 +2,7 @@ package com.xxl.hello.service.data.local.db.impl;
 
 import com.xxl.hello.service.data.local.db.DBServiceKit;
 import com.xxl.hello.service.data.local.db.api.CacheDBDataService;
+import com.xxl.hello.service.data.local.db.api.CategoryDBDataService;
 import com.xxl.hello.service.data.local.db.api.OrderDBDataService;
 import com.xxl.hello.service.data.local.db.api.UploadQueueResourceDBDataService;
 
@@ -38,6 +39,24 @@ public class ObjectBoxServiceKit implements DBServiceKit {
     @Override
     public CacheDBDataService getCacheDBDataService() {
         return mCacheDBDataServiceLazy.get();
+    }
+
+    /**
+     * 数据分类数据库服务
+     *
+     * @return
+     */
+    @Inject
+    Lazy<CategoryDBDataService> mCategoryDBDataServiceLazy;
+
+    /**
+     * 获取分类数据库服务
+     *
+     * @return
+     */
+    @Override
+    public CategoryDBDataService getCategoryDBDataService() {
+        return mCategoryDBDataServiceLazy.get();
     }
 
     /**

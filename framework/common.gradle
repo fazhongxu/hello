@@ -86,6 +86,7 @@ dependencies {
     compileOnly deps.glide.glide_okhttp
 
     implementation deps.kprogresshud
+    implementation deps.indicatorseekbar
 
     implementation deps.aspectjrt
 
@@ -130,6 +131,8 @@ dependencies {
 
     implementation deps.base_popup
     implementation deps.bubble_view
+
+    implementation deps.aescrypt
 
     implementation deps.agentweb
     implementation deps.jsoup

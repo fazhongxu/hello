@@ -41,7 +41,7 @@
     },
     {
       "id": "2:5161050270207000031",
-      "lastPropertyId": "6:7435421821174087412",
+      "lastPropertyId": "7:3137067967071459942",
       "name": "h_t_category",
       "properties": [
         {
@@ -70,11 +70,16 @@
         {
           "id": "5:1817030339043400691",
           "name": "category_name",
-          "type": 6
+          "type": 9
         },
         {
           "id": "6:7435421821174087412",
           "name": "category_ext",
+          "type": 9
+        },
+        {
+          "id": "7:3137067967071459942",
+          "name": "category_code",
           "type": 9
         }
       ],
@@ -251,10 +256,41 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "8:6469483967064209604",
+      "lastPropertyId": "4:7686988996830419062",
+      "name": "h_t_submit_queue_resources",
+      "properties": [
+        {
+          "id": "1:977746902947962126",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:3611586121250270052",
+          "name": "create_time",
+          "type": 6
+        },
+        {
+          "id": "3:6092754050202331803",
+          "name": "update_time",
+          "type": 6
+        },
+        {
+          "id": "4:7686988996830419062",
+          "name": "task_id",
+          "indexId": "10:8673416592194912989",
+          "type": 9,
+          "flags": 2080
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "7:2295720323493687375",
-  "lastIndexId": "9:3999672552690350148",
+  "lastEntityId": "8:6469483967064209604",
+  "lastIndexId": "10:8673416592194912989",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
   "modelVersion": 5,

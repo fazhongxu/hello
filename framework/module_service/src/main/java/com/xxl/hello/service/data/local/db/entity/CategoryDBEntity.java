@@ -1,5 +1,8 @@
 package com.xxl.hello.service.data.local.db.entity;
 
+import com.xxl.hello.service.data.local.db.convert.EncryptConverter;
+
+import io.objectbox.annotation.Convert;
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Index;
 import io.objectbox.annotation.NameInDb;
@@ -30,13 +33,26 @@ public class CategoryDBEntity extends BaseDBEntity<CategoryDBEntity> {
      * 分类名称
      */
     @NameInDb("category_name")
-    private long categoryName;
+    private String categoryName;
 
     /**
      * 扩展字段
      */
     @NameInDb("category_ext")
     String categoryExt;
+
+    /**
+     * 分类code
+     */
+    @NameInDb("category_code")
+    String categoryCode;
+
+    /**
+     * 加密的分类code
+     */
+    @Convert(converter = EncryptConverter.class, dbType = String.class)
+    @NameInDb("encrypted_category_code")
+    String encryptedCategoryCode;
 
     //endregion
 
@@ -50,8 +66,30 @@ public class CategoryDBEntity extends BaseDBEntity<CategoryDBEntity> {
         return categoryId;
     }
 
-    public long getCategoryName() {
+    public String getCategoryName() {
         return categoryName;
+    }
+
+    public String getCategoryCode() {
+        if (encryptedCategoryCode != null) {
+            return encryptedCategoryCode;
+        }
+        return categoryCode;
+    }
+
+    public CategoryDBEntity setCategoryId(long categoryId) {
+        this.categoryId = categoryId;
+        return this;
+    }
+
+    public CategoryDBEntity setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+        return this;
+    }
+
+    public CategoryDBEntity setCategoryCode(String categoryCode) {
+        this.encryptedCategoryCode = categoryCode;
+        return this;
     }
 
     //endregion

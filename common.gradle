@@ -98,6 +98,7 @@ dependencies {
     implementation deps.picture_selector
 
     implementation deps.kprogresshud
+    implementation deps.indicatorseekbar
 
     implementation deps.easy_float
 
@@ -129,6 +130,8 @@ dependencies {
     implementation deps.state_manager
     implementation deps.adapter_helper
     implementation deps.pinned_decoration
+    implementation deps.chips_layout_manager
+    implementation deps.flowlayout
     implementation deps.refresh_layout
     implementation deps.refresh_header_material
 

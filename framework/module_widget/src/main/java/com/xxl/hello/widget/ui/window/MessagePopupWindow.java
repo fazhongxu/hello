@@ -74,6 +74,9 @@ public class MessagePopupWindow extends BasePopupWindow {
         mTvMessage = rootView.findViewById(R.id.tv_message);
         mTvCancel = rootView.findViewById(R.id.tv_cancel);
         mTvConfirm = rootView.findViewById(R.id.tv_confirm);
+
+        setNegativeButton(getContext().getString(R.string.resources_cancel_text), null);
+        setPositiveButton(getContext().getString(R.string.resources_confirm_text), null);
         setContentView(rootView);
     }
 

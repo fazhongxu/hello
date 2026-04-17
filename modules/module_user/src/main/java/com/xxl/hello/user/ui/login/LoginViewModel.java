@@ -51,6 +51,16 @@ public class LoginViewModel extends BaseViewModel<LoginNavigator> {
     private ObservableField<String> mObservableNetworkConfig = new ObservableField<>();
 
     /**
+     * 用户名
+     */
+    private ObservableField<String> mUsername = new ObservableField<>();
+
+    /**
+     * 密码
+     */
+    private ObservableField<String> mPassword = new ObservableField<>();
+
+    /**
      * 用户信息
      */
     private LoginUserEntity mTargetLoginUserEntity;
@@ -128,6 +138,14 @@ public class LoginViewModel extends BaseViewModel<LoginNavigator> {
 
     public ObservableField<String> getObservableNetworkConfig() {
         return mObservableNetworkConfig;
+    }
+
+    public ObservableField<String> getUsername() {
+        return mUsername;
+    }
+
+    public ObservableField<String> getPassword() {
+        return mPassword;
     }
 
     /**

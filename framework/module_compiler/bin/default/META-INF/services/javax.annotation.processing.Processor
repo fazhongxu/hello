@@ -1,0 +1,4 @@
+com.xxl.hello.compiler.ButterKnifeCompiler
+com.xxl.hello.compiler.HelloCompiler
+com.xxl.hello.compiler.TemplateCompiler
+com.xxl.hello.compiler.WXEntryCompiler
