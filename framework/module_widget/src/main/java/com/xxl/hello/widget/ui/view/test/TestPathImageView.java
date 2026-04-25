@@ -52,7 +52,7 @@ public class TestPathImageView extends AppCompatImageView {
     }
 
     public void drawShapeBitmap() {
-        Bitmap bitmap = ImageUtils.getBitmap(R.drawable.resources_ic_app_white_logo);
+        Bitmap bitmap = ImageUtils.getBitmap(R.drawable.resources_ic_app_logo);
 
         Bitmap customShapeBitmap = ImageUtils.clip(bitmap, getSamplePath());
 
@@ -105,7 +105,7 @@ public class TestPathImageView extends AppCompatImageView {
         paint.setAntiAlias(true);
         paint.setFilterBitmap(true);
 
-        Bitmap bitmap = ImageUtils.getBitmap(R.drawable.resources_ic_app_white_logo);
+        Bitmap bitmap = ImageUtils.getBitmap(R.drawable.resources_ic_app_logo);
         // 绘制一个left 左边偏移量 top 上边偏移量
         //canvas.drawBitmap(bitmap, 10, 10, paint);
 

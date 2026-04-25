@@ -21,8 +21,7 @@ public class IconManager {
      */
     public enum IconType {
         DEFAULT("com.xxl.hello.main.DefaultIconAlias"),
-        VIP1("com.xxl.hello.main.Vip1IconAlias"),
-        VIP2("com.xxl.hello.main.Vip2IconAlias");
+        ICON1("com.xxl.hello.main.Icon1Alias");
 
         private String aliasName;
 
