@@ -3,6 +3,7 @@
     <string name="resources_switch_environment_text">切换环境</string>
     <string name="resources_setting_text">设置</string>
     <string name="resources_is_develop_environment_format">是否是开发环境:%s</string>
+    <string name="resources_switch_icon">切换图标</string>
     <string name="resources_channel_format">渠道:%s</string>
     <string name="resources_host_format">主机地址:%s</string>
     <string name="resources_app_is_foreground_tips">进入到前台</string>

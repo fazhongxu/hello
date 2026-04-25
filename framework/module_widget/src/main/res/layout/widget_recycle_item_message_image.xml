@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:scaleType="centerCrop"
-            tools:src="@drawable/resources_ic_app_white_logo" />
+            tools:src="@drawable/resources_ic_app_logo" />
 
     </LinearLayout>
 

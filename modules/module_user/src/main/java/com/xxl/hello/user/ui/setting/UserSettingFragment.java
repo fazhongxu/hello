@@ -29,6 +29,7 @@ import com.xxl.core.utils.ChannelUtils;
 import com.xxl.hello.common.config.AppConfig;
 import com.xxl.hello.common.config.CacheDirConfig;
 import com.xxl.hello.common.config.NetworkConfig;
+import com.xxl.hello.common.utils.IconManager;
 import com.xxl.hello.service.data.local.db.entity.UploadQueueResourceDBEntity;
 import com.xxl.hello.service.data.model.entity.media.MediaPreviewItemEntity;
 import com.xxl.hello.service.data.model.entity.share.ImageShareResourceEntity;
@@ -490,6 +491,18 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
         ChatRouterApi.PrivateChat.newBuilder()
                 .navigation();
         return true;
+    }
+
+    /**
+     * 切换图标点击
+     */
+    @Override
+    public void onSwitchIconClick() {
+        if (IconManager.isDefaultIcon(AppUtils.getApplication())) {
+            IconManager.changeIcon(AppUtils.getApplication(), IconManager.IconType.ICON1);
+        } else {
+            IconManager.changeIcon(AppUtils.getApplication(), IconManager.IconType.DEFAULT);
+        }
     }
 
     /**
