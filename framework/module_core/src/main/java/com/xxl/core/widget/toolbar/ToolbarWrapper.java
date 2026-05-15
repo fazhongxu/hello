@@ -141,6 +141,42 @@ public class ToolbarWrapper {
         }
     }
 
+    /**
+     * 设置左边图标可见性
+     */
+    public void setLeftIconVisible(int visibility) {
+        if (mCustomToolBar != null) {
+            mCustomToolBar.setLeftIconVisible(visibility);
+        }
+    }
+
+    /**
+     * 设置左边文字可见性
+     */
+    public void setLeftTextVisible(int visibility) {
+        if (mCustomToolBar != null) {
+            mCustomToolBar.setLeftTextVisible(visibility);
+        }
+    }
+
+    /**
+     * 设置左边文字
+     */
+    public void setLeftText(@NonNull CharSequence text) {
+        if (mCustomToolBar != null) {
+            mCustomToolBar.setLeftText(text);
+        }
+    }
+
+    /**
+     * 设置左边文字
+     */
+    public void setLeftText(@StringRes int resId) {
+        if (mCustomToolBar != null) {
+            mCustomToolBar.setLeftText(resId);
+        }
+    }
+
     //endregion
 
     //region: 内部辅助方法

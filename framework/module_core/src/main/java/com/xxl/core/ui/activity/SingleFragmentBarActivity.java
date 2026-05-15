@@ -132,5 +132,45 @@ public abstract class SingleFragmentBarActivity<F extends Fragment> extends Sing
         finish();
     }
 
+    /**
+     * 设置左边图标可见性
+     */
+    @Override
+    public void setLeftIconVisible(int visibility) {
+        if (mToolbarWrapper != null) {
+            mToolbarWrapper.setLeftIconVisible(visibility);
+        }
+    }
+
+    /**
+     * 设置左边文字可见性
+     */
+    @Override
+    public void setLeftTextVisible(int visibility) {
+        if (mToolbarWrapper != null) {
+            mToolbarWrapper.setLeftTextVisible(visibility);
+        }
+    }
+
+    /**
+     * 设置左边文字
+     */
+    @Override
+    public void setLeftText(@NonNull CharSequence text) {
+        if (mToolbarWrapper != null) {
+            mToolbarWrapper.setLeftText(text);
+        }
+    }
+
+    /**
+     * 设置左边文字
+     */
+    @Override
+    public void setLeftText(@StringRes int resId) {
+        if (mToolbarWrapper != null) {
+            mToolbarWrapper.setLeftText(resId);
+        }
+    }
+
     //endregion
 }

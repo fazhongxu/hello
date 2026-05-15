@@ -19,6 +19,7 @@ import com.xxl.hello.widget.ui.im.template.OnMessageTemplateListener;
 import com.xxl.kit.ListUtils;
 import com.xxl.kit.ToastUtils;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -140,12 +141,22 @@ public class ChatSessionRenderAdapter extends BaseMultiAdapter<MessageEntity, Ch
     }
 
     /**
-     * 获取选中的消息集合
+     * 获取选中消息集合（按照列表展示顺序）
      *
-     * @return
+     * @return 按列表顺序排列的选中消息列表
      */
-    public Set<MessageEntity> getSelectedMessages() {
-        return mSelectedMessages;
+    public List<MessageEntity> getSelectedMessages() {
+        List<MessageEntity> allMessages = getData();
+        if (ListUtils.isEmpty(allMessages)) {
+            return allMessages;
+        }
+        List<MessageEntity> selectedMessages = new ArrayList<>();
+        for (MessageEntity message : allMessages) {
+            if (mSelectedMessages.contains(message)) {
+                selectedMessages.add(message);
+            }
+        }
+        return selectedMessages;
     }
 
     /**
@@ -194,9 +205,6 @@ public class ChatSessionRenderAdapter extends BaseMultiAdapter<MessageEntity, Ch
     public boolean onMessageItemClick(MessageEntity messageEntity) {
         if (mInMultiSelectMode) {
             toggleSelection(messageEntity);
-            if (mListener != null) {
-                mListener.onMultiSelectCountChanged(getSelectedCount());
-            }
             return true;
         }
         if (messageEntity.getMessageType() == MessageType.IMAGE) {

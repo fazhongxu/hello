@@ -38,6 +38,16 @@ public class CustomToolBar extends Toolbar implements OnToolbarProvider {
     private LinearLayout mLeftContainer;
 
     /**
+     * 左边图标
+     */
+    private ImageView mIvLeftIcon;
+
+    /**
+     * 左边文字
+     */
+    private TextView mTvLeftText;
+
+    /**
      * 右边视图
      */
     private LinearLayout mRightContainer;
@@ -198,16 +208,17 @@ public class CustomToolBar extends Toolbar implements OnToolbarProvider {
                                        View.OnLongClickListener onLongClickListener) {
         LayoutInflater.from(getContext()).inflate(R.layout.core_layout_include_toolbar_left, this);
         mLeftContainer = findViewById(R.id.ll_left_container);
-        ImageView ivLeftIcon = findViewById(R.id.iv_left_icon);
-        TextView tvLeftText = findViewById(R.id.tv_left_text);
-        if (leftIcon != null) {
-            ivLeftIcon.setImageDrawable(leftIcon);
+        mIvLeftIcon = findViewById(R.id.iv_left_icon);
+        mTvLeftText = findViewById(R.id.tv_left_text);
+        if (mIvLeftIcon != null) {
+            mIvLeftIcon.setImageDrawable(leftIcon);
+            mIvLeftIcon.setVisibility(isDisplayLeftIcon ? View.VISIBLE : View.GONE);
         }
-        if (leftText != null) {
-            tvLeftText.setText(leftText);
+        if (mTvLeftText != null) {
+            mTvLeftText.setText(leftText);
+            mTvLeftText.setVisibility(isDisplayLeftText ? View.VISIBLE : View.GONE);
         }
-        ivLeftIcon.setVisibility(isDisplayLeftIcon ? View.VISIBLE : View.GONE);
-        tvLeftText.setVisibility(isDisplayLeftText ? View.VISIBLE : View.GONE);
+
         if (mLeftContainer != null) {
             mLeftContainer.setOnClickListener(onClickListener);
             mLeftContainer.setOnLongClickListener(onLongClickListener);
@@ -258,6 +269,46 @@ public class CustomToolBar extends Toolbar implements OnToolbarProvider {
         mRightContainer = findViewById(R.id.ll_right_container);
         if (mRightContainer != null) {
             mRightContainer.addView(targetView);
+        }
+    }
+
+    /**
+     * 设置左边图标可见性
+     */
+    @Override
+    public void setLeftIconVisible(int visibility) {
+        if (mIvLeftIcon != null) {
+            mIvLeftIcon.setVisibility(visibility);
+        }
+    }
+
+    /**
+     * 设置左边文字可见性
+     */
+    @Override
+    public void setLeftTextVisible(int visibility) {
+        if (mTvLeftText != null) {
+            mTvLeftText.setVisibility(visibility);
+        }
+    }
+
+    /**
+     * 设置左边文字
+     */
+    @Override
+    public void setLeftText(@NonNull CharSequence text) {
+        if (mTvLeftText != null) {
+            mTvLeftText.setText(text);
+        }
+    }
+
+    /**
+     * 设置左边文字
+     */
+    @Override
+    public void setLeftText(int resId) {
+        if (mTvLeftText != null) {
+            mTvLeftText.setText(resId);
         }
     }
 

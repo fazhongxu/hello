@@ -1,6 +1,7 @@
 package com.xxl.hello.widget.ui.im.message.session.base;
 
 import android.animation.ObjectAnimator;
+import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 
@@ -13,6 +14,7 @@ import com.xxl.core.image.selector.MediaSelector;
 import com.xxl.core.ui.fragment.BaseViewModelFragment;
 import com.xxl.core.widget.recyclerview.OnRefreshDataListener;
 import com.xxl.core.widget.recyclerview.UISmartRefreshLayout;
+import com.xxl.core.widget.toolbar.OnToolbarProvider;
 import com.xxl.hello.service.data.model.entity.im.MessageDirection;
 import com.xxl.hello.service.data.model.entity.im.MessageEntity;
 import com.xxl.hello.service.data.model.entity.im.SDKMessage;
@@ -59,6 +61,11 @@ public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel
     //region: 成员变量
 
     /**
+     * Toolbar 操作接口
+     */
+    private OnToolbarProvider mToolbarProvider;
+
+    /**
      * 会话视图
      */
     private WidgetFragmentChatSessionBinding mChatSessionBinding;
@@ -89,6 +96,14 @@ public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel
     @Override
     public int getViewNavigatorVariable() {
         return BR.navigator;
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof OnToolbarProvider) {
+            mToolbarProvider = (OnToolbarProvider) context;
+        }
     }
 
     @Override
@@ -262,16 +277,6 @@ public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel
         }
     }
 
-    /**
-     * 多选模式下选中数量变化
-     *
-     * @param selectedCount 当前选中数量
-     */
-    @Override
-    public void onMultiSelectCountChanged(int selectedCount) {
-        updateMultiSelectActionBar(selectedCount);
-    }
-
     //endregion
 
     //region: AlbumPluginObservable
@@ -353,8 +358,12 @@ public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel
         mChatSessionAdapter.enterMultiSelectMode(messageEntity);
         mChatSessionBinding.commonKeyboard.hideExtendLayout();
         mChatSessionBinding.commonKeyboard.setVisibility(View.GONE);
-        showMultiSelectActionBar();
-        updateMultiSelectActionBar(mChatSessionAdapter.getSelectedCount());
+
+        if (mToolbarProvider != null) {
+            mToolbarProvider.setLeftIconVisible(View.GONE);
+            mToolbarProvider.setLeftTextVisible(View.VISIBLE);
+            mToolbarProvider.setLeftText(R.string.resources_cancel_select);
+        }
     }
 
     /**
@@ -363,51 +372,11 @@ public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel
     public void exitMultiSelectMode() {
         mChatSessionAdapter.exitMultiSelectMode();
         mChatSessionBinding.commonKeyboard.setVisibility(View.VISIBLE);
-        hideMultiSelectActionBar();
-    }
 
-    /**
-     * 显示多选操作栏
-     */
-    private void showMultiSelectActionBar() {
-        mChatSessionBinding.llMultiSelectActionBar.setVisibility(View.VISIBLE);
-        setupMultiSelectActionBarListeners();
-    }
-
-    /**
-     * 隐藏多选操作栏
-     */
-    private void hideMultiSelectActionBar() {
-        mChatSessionBinding.llMultiSelectActionBar.setVisibility(View.GONE);
-    }
-
-    /**
-     * 更新多选操作栏
-     *
-     * @param selectedCount 选中数量
-     */
-    private void updateMultiSelectActionBar(int selectedCount) {
-        mChatSessionBinding.tvDeleteSelected.setText(getString(R.string.resources_delete_selected_format, selectedCount));
-    }
-
-    /**
-     * 设置多选操作栏点击事件
-     */
-    private void setupMultiSelectActionBarListeners() {
-        mChatSessionBinding.tvSelectAll.setOnClickListener(v -> {
-            mChatSessionAdapter.selectAll();
-            updateMultiSelectActionBar(mChatSessionAdapter.getSelectedCount());
-        });
-
-        mChatSessionBinding.tvDeleteSelected.setOnClickListener(v -> {
-            Set<MessageEntity> selectedMessages = mChatSessionAdapter.getSelectedMessages();
-            for (MessageEntity entity : selectedMessages) {
-                mChatSessionAdapter.remove(entity);
-            }
-            exitMultiSelectMode();
-        });
-
-        mChatSessionBinding.tvCancelSelect.setOnClickListener(v -> exitMultiSelectMode());
+        if (mToolbarProvider != null) {
+            mToolbarProvider.setLeftIconVisible(View.VISIBLE);
+            mToolbarProvider.setLeftTextVisible(View.GONE);
+        }
     }
 
     //endregion

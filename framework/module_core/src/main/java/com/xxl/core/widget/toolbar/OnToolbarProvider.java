@@ -111,6 +111,42 @@ public interface OnToolbarProvider {
     }
 
     /**
+     * 设置左边图标可见性
+     *
+     * @param visibility 可见性（View.VISIBLE / View.GONE / View.INVISIBLE）
+     */
+    default void setLeftIconVisible(int visibility) {
+
+    }
+
+    /**
+     * 设置左边文字可见性
+     *
+     * @param visibility 可见性（View.VISIBLE / View.GONE / View.INVISIBLE）
+     */
+    default void setLeftTextVisible(int visibility) {
+
+    }
+
+    /**
+     * 设置左边文字
+     *
+     * @param text 文字内容
+     */
+    default void setLeftText(@NonNull CharSequence text) {
+
+    }
+
+    /**
+     * 设置左边文字
+     *
+     * @param resId 文字资源ID
+     */
+    default void setLeftText(@StringRes int resId) {
+
+    }
+
+    /**
      * 左边按钮点击
      *
      * @param view
