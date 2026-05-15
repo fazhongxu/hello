@@ -1,6 +1,7 @@
 package com.xxl.hello.widget.ui.im.message.session.privites;
 
 import android.content.Intent;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 
@@ -9,6 +10,7 @@ import com.luck.picture.lib.entity.LocalMedia;
 import com.xxl.core.ui.activity.SingleFragmentBarActivity;
 import com.xxl.hello.widget.R;
 import com.xxl.hello.widget.data.router.ChatRouterApi;
+import com.xxl.hello.widget.ui.im.message.session.base.BaseChatSessionActivity;
 import com.xxl.hello.widget.ui.view.plugin.impl.AlbumPlugin;
 
 import java.util.List;
@@ -20,7 +22,7 @@ import java.util.List;
  * @date 2024/6/14.
  */
 @Route(path = ChatRouterApi.PrivateChat.PATH)
-public class PrivateChatSessionActivity extends SingleFragmentBarActivity<PrivateChatSessionFragment>
+public class PrivateChatSessionActivity extends BaseChatSessionActivity<PrivateChatSessionFragment>
         implements AlbumPlugin.AlbumPluginObservable {
 
     //region: 成员变量
@@ -37,6 +39,25 @@ public class PrivateChatSessionActivity extends SingleFragmentBarActivity<Privat
     @Override
     public PrivateChatSessionFragment createFragment() {
         return PrivateChatSessionFragment.newInstance();
+    }
+
+    @Override
+    public boolean isDisplayRightIcon() {
+        return true;
+    }
+
+    @Override
+    public int getRightIcon() {
+        return R.drawable.resources_ic_more_white;
+    }
+
+    @Override
+    public boolean onToolbarRightLongClick(View view) {
+        PrivateChatSessionFragment fragment = getCurrentFragment();
+        if (fragment != null) {
+            return fragment.onToolbarRightLongClick();
+        }
+        return super.onToolbarRightLongClick(view);
     }
 
     @Override

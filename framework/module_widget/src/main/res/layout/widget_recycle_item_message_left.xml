@@ -21,12 +21,22 @@
             android:layout_marginBottom="5dp"
             android:orientation="vertical">
 
+            <RadioButton
+                android:id="@+id/rb_select"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="5dp"
+                android:visibility="gone" />
+
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iv_avatar"
                 android:layout_width="42dp"
                 android:layout_height="42dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="5dp"
+                android:layout_toRightOf="@+id/rb_select"
                 android:scaleType="centerCrop"
                 android:src="@drawable/resources_ic_avatar1" />
 

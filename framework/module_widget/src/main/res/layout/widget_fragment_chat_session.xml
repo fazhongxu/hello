@@ -16,9 +16,17 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:background="@color/resources_background_color"
         android:layout_height="match_parent"
+        android:background="@color/resources_background_color"
         android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_select_to_here_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/resources_ic_chat_select_to_hear_down"
+            android:visibility="gone" />
 
         <com.xxl.core.widget.recyclerview.UISmartRefreshLayout
             android:id="@+id/refresh_layout"
@@ -38,11 +46,54 @@
 
         </com.xxl.core.widget.recyclerview.UISmartRefreshLayout>
 
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_select_to_here_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:src="@drawable/resources_ic_chat_select_to_hear_down"
+            android:visibility="gone" />
+
         <com.xxl.hello.widget.ui.view.keyboard.CommonKeyboardLayout
             android:id="@+id/common_keyboard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/ll_multi_select_action_bar"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@color/resources_background_color"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_select_all"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/resources_select_all" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_delete_selected"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/resources_delete_selected_format" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_cancel_select"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/resources_cancel_select" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

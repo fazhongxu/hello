@@ -29,6 +29,8 @@ public class MessageEntity {
     @MessageDirection
     private int mMessageDirection;
 
+    private boolean mSelected;
+
     //endregion
 
     //region: 构造函数
@@ -201,6 +203,15 @@ public class MessageEntity {
             return mSdkMessage.getNotificationContent();
         }
         return null;
+    }
+
+    public boolean isSelected() {
+        return mSelected;
+    }
+
+    public MessageEntity setSelected(boolean selected) {
+        mSelected = selected;
+        return this;
     }
 
     //endregion

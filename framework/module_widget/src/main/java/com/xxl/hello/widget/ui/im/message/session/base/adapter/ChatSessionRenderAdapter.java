@@ -19,7 +19,9 @@ import com.xxl.hello.widget.ui.im.template.OnMessageTemplateListener;
 import com.xxl.kit.ListUtils;
 import com.xxl.kit.ToastUtils;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 会话列表适配器
@@ -32,6 +34,16 @@ public class ChatSessionRenderAdapter extends BaseMultiAdapter<MessageEntity, Ch
         implements OnMessageTemplateListener {
 
     //region: 成员变量
+
+    /**
+     * 是否处于多选模式
+     */
+    private boolean mInMultiSelectMode = false;
+
+    /**
+     * 选中的消息集合
+     */
+    private final Set<MessageEntity> mSelectedMessages = new HashSet<>();
 
     //endregion
 
@@ -55,6 +67,94 @@ public class ChatSessionRenderAdapter extends BaseMultiAdapter<MessageEntity, Ch
     @Override
     protected int getItemType(@NonNull List<? extends MessageEntity> list, int position) {
         return list.get(position).getMessageDirection();
+    }
+
+    //endregion
+
+    //region: 多选模式操作
+
+    /**
+     * 是否处于多选模式
+     *
+     * @return
+     */
+    public boolean isInMultiSelectMode() {
+        return mInMultiSelectMode;
+    }
+
+    /**
+     * 进入多选模式
+     *
+     * @param messageEntity 初始选中的消息
+     */
+    public void enterMultiSelectMode(@NonNull MessageEntity messageEntity) {
+        mInMultiSelectMode = true;
+        messageEntity.setSelected(true);
+        mSelectedMessages.add(messageEntity);
+        notifyDataSetChanged();
+    }
+
+    /**
+     * 退出多选模式
+     */
+    public void exitMultiSelectMode() {
+        mInMultiSelectMode = false;
+        for (MessageEntity entity : mSelectedMessages) {
+            entity.setSelected(false);
+        }
+        mSelectedMessages.clear();
+        notifyDataSetChanged();
+    }
+
+    /**
+     * 切换消息选中状态
+     *
+     * @param messageEntity
+     */
+    public void toggleSelection(@NonNull MessageEntity messageEntity) {
+        if (messageEntity.isSelected()) {
+            messageEntity.setSelected(false);
+            mSelectedMessages.remove(messageEntity);
+        } else {
+            messageEntity.setSelected(true);
+            mSelectedMessages.add(messageEntity);
+        }
+        notifyDataChanged(getItemPosition(messageEntity));
+    }
+
+    /**
+     * 全选
+     */
+    public void selectAll() {
+        List<MessageEntity> data = getData();
+        if (data == null) {
+            return;
+        }
+        for (MessageEntity entity : data) {
+            if (!entity.isSelected()) {
+                entity.setSelected(true);
+                mSelectedMessages.add(entity);
+            }
+        }
+        notifyDataSetChanged();
+    }
+
+    /**
+     * 获取选中的消息集合
+     *
+     * @return
+     */
+    public Set<MessageEntity> getSelectedMessages() {
+        return mSelectedMessages;
+    }
+
+    /**
+     * 获取选中消息数量
+     *
+     * @return
+     */
+    public int getSelectedCount() {
+        return mSelectedMessages.size();
     }
 
     //endregion
@@ -92,6 +192,13 @@ public class ChatSessionRenderAdapter extends BaseMultiAdapter<MessageEntity, Ch
 
     @Override
     public boolean onMessageItemClick(MessageEntity messageEntity) {
+        if (mInMultiSelectMode) {
+            toggleSelection(messageEntity);
+            if (mListener != null) {
+                mListener.onMultiSelectCountChanged(getSelectedCount());
+            }
+            return true;
+        }
         if (messageEntity.getMessageType() == MessageType.IMAGE) {
             WidgetRouterApi.MediaPreview.newBuilder()
                     .setMediaPreviewItem(messageEntity.getMediaPath())
@@ -110,6 +217,9 @@ public class ChatSessionRenderAdapter extends BaseMultiAdapter<MessageEntity, Ch
     @Override
     public boolean onMessageItemLongClick(View targetView,
                                           MessageEntity messageEntity) {
+        if (mInMultiSelectMode) {
+            return true;
+        }
         List<MessageLongClickAction> actions = MessageLongClickActionManager.getInstance().getActions(ChatEnumsApi.SceneType.CHAT, messageEntity);
         if (!ListUtils.isEmpty(actions)) {
             mMessageLongClickMenu = MessageLongClickMenu.from(targetView)
