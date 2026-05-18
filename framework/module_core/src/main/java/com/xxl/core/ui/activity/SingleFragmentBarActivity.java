@@ -116,6 +116,36 @@ public abstract class SingleFragmentBarActivity<F extends Fragment> extends Sing
     }
 
     /**
+     * 设置标题（OnToolbarProvider 接口方法）
+     */
+    @Override
+    public void setToolbarTitle(@NonNull CharSequence title) {
+        setTitle(title);
+    }
+
+    /**setToolbarTitle
+     * 设置标题（OnToolbarProvider 接口方法）
+     */
+    @Override
+    public void setToolbarTitle(@StringRes int resId) {
+        setTitle(resId);
+    }
+
+    /**
+     * 获取当前标题
+     */
+    @Override
+    public CharSequence getToolbarTitleText() {
+        if (getToolbarTitle() != 0) {
+            return getString(getToolbarTitle());
+        }
+        if (getDisplayToolbarTitle() != null) {
+            return getDisplayToolbarTitle();
+        }
+        return "";
+    }
+
+    /**
      * 设置标题
      *
      * @param resId
@@ -169,6 +199,16 @@ public abstract class SingleFragmentBarActivity<F extends Fragment> extends Sing
     public void setLeftText(@StringRes int resId) {
         if (mToolbarWrapper != null) {
             mToolbarWrapper.setLeftText(resId);
+        }
+    }
+
+    /**
+     * 设置右边图标可见性
+     */
+    @Override
+    public void setRightIconVisible(int visibility) {
+        if (mToolbarWrapper != null) {
+            mToolbarWrapper.setRightIconVisible(visibility);
         }
     }
 

@@ -59,4 +59,11 @@ public interface ChatSessionRecycleItemListener extends BaseRecycleItemListener 
     void onMessageMenuItemClick(@MenuOperateType String operateType,
                                 @NonNull MessageEntity messageEntity);
 
+    /**
+     * 选中消息数量变化
+     *
+     * @param selectedCount 选中的消息数量
+     */
+    void onSelectionChanged(int selectedCount);
+
 }

@@ -93,6 +93,7 @@ public class ChatSessionRenderAdapter extends BaseMultiAdapter<MessageEntity, Ch
         messageEntity.setSelected(true);
         mSelectedMessages.add(messageEntity);
         notifyDataSetChanged();
+        notifySelectionChanged();
     }
 
     /**
@@ -121,6 +122,7 @@ public class ChatSessionRenderAdapter extends BaseMultiAdapter<MessageEntity, Ch
             mSelectedMessages.add(messageEntity);
         }
         notifyDataChanged(getItemPosition(messageEntity));
+        notifySelectionChanged();
     }
 
     /**
@@ -245,5 +247,14 @@ public class ChatSessionRenderAdapter extends BaseMultiAdapter<MessageEntity, Ch
 
     //endregion
 
+    //region: 内部辅助方法
+
+    private void notifySelectionChanged() {
+        if (mListener != null) {
+            mListener.onSelectionChanged(getSelectedCount());
+        }
+    }
+
+    //endregion
 
 }

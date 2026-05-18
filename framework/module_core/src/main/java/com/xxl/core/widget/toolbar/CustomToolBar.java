@@ -312,6 +312,16 @@ public class CustomToolBar extends Toolbar implements OnToolbarProvider {
         }
     }
 
+    /**
+     * 设置右边图标可见性
+     */
+    @Override
+    public void setRightIconVisible(int visibility) {
+        if (mRightContainer != null) {
+            mRightContainer.setVisibility(visibility);
+        }
+    }
+
     //endregion
 
     //region: 内部辅助方法

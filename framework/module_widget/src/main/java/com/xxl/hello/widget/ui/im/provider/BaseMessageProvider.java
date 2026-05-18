@@ -170,26 +170,32 @@ public abstract class BaseMessageProvider<Binding extends ViewDataBinding, T ext
     }
 
     /**
-     * 设置多选状态
+     * 设置选择状态
      *
      * @param rootView       条目根视图
      * @param messageEntity  消息实体
      */
-    protected void setupMultiSelectState(@NonNull View rootView,
+    protected void setupSelectState(@NonNull View rootView,
                                          @NonNull MessageEntity messageEntity) {
         RadioButton radioButton = rootView.findViewById(R.id.rb_select);
         if (radioButton == null) {
             return;
         }
+        radioButton.setClickable(false);
+        radioButton.setFocusable(false);
         BaseProviderMultiAdapter adapter = getAdapter();
         if (adapter instanceof ChatSessionRenderAdapter) {
             ChatSessionRenderAdapter renderAdapter = (ChatSessionRenderAdapter) adapter;
             if (renderAdapter.isInMultiSelectMode()) {
                 radioButton.setVisibility(View.VISIBLE);
                 radioButton.setChecked(messageEntity.isSelected());
+                rootView.setOnClickListener(v -> {
+                    renderAdapter.toggleSelection(messageEntity);
+                });
             } else {
                 radioButton.setVisibility(View.GONE);
                 radioButton.setChecked(false);
+                rootView.setOnClickListener(null);
             }
         }
     }

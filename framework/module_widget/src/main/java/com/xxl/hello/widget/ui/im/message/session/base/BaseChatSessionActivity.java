@@ -1,5 +1,7 @@
 package com.xxl.hello.widget.ui.im.message.session.base;
 
+import android.view.View;
+
 import com.xxl.core.ui.activity.SingleFragmentBarActivity;
 
 /**
@@ -15,6 +17,15 @@ public abstract class BaseChatSessionActivity<F extends BaseChatSessionFragment>
             return;
         }
         super.onBackPressed();
+    }
+
+    @Override
+    public void onToolbarLeftClick(View view) {
+        F fragment = getCurrentFragment();
+        if (fragment != null && fragment.onBackPressed()) {
+            return;
+        }
+        super.onToolbarLeftClick(view);
     }
 
 }

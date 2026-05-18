@@ -20,10 +20,11 @@
         android:layout_height="wrap_content"
         android:maxLines="1"
         android:singleLine="true"
-        android:textColor="@color/framework_core_title_color"
+        android:textColor="@android:color/white"
         android:textSize="14sp"
         android:visibility="gone"
         tools:text="返回"
+        tools:textColor="#999999"
         tools:visibility="visible" />
 
 </LinearLayout>

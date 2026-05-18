@@ -66,6 +66,11 @@ public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel
     private OnToolbarProvider mToolbarProvider;
 
     /**
+     * 进入多选模式前的原始标题
+     */
+    private CharSequence mOriginalToolbarTitle;
+
+    /**
      * 会话视图
      */
     private WidgetFragmentChatSessionBinding mChatSessionBinding;
@@ -277,6 +282,18 @@ public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel
         }
     }
 
+    /**
+     * 选中消息数量变化
+     *
+     * @param selectedCount 选中的消息数量
+     */
+    @Override
+    public void onSelectionChanged(int selectedCount) {
+        if (mToolbarProvider != null && mChatSessionAdapter.isInMultiSelectMode()) {
+            mToolbarProvider.setToolbarTitle(getString(R.string.resources_select_message_title, selectedCount));
+        }
+    }
+
     //endregion
 
     //region: AlbumPluginObservable
@@ -355,6 +372,9 @@ public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel
      * @param messageEntity 初始选中的消息
      */
     public void enterMultiSelectMode(@NonNull MessageEntity messageEntity) {
+        if (mToolbarProvider != null) {
+            mOriginalToolbarTitle = mToolbarProvider.getToolbarTitleText();
+        }
         mChatSessionAdapter.enterMultiSelectMode(messageEntity);
         mChatSessionBinding.commonKeyboard.hideExtendLayout();
         mChatSessionBinding.commonKeyboard.setVisibility(View.GONE);
@@ -363,6 +383,7 @@ public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel
             mToolbarProvider.setLeftIconVisible(View.GONE);
             mToolbarProvider.setLeftTextVisible(View.VISIBLE);
             mToolbarProvider.setLeftText(R.string.resources_cancel_select);
+            mToolbarProvider.setRightIconVisible(View.GONE);
         }
     }
 
@@ -376,6 +397,8 @@ public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel
         if (mToolbarProvider != null) {
             mToolbarProvider.setLeftIconVisible(View.VISIBLE);
             mToolbarProvider.setLeftTextVisible(View.GONE);
+            mToolbarProvider.setRightIconVisible(View.VISIBLE);
+            mToolbarProvider.setToolbarTitle(mOriginalToolbarTitle != null ? mOriginalToolbarTitle : "");
         }
     }
 

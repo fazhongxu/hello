@@ -177,6 +177,15 @@ public class ToolbarWrapper {
         }
     }
 
+    /**
+     * 设置右边图标可见性
+     */
+    public void setRightIconVisible(int visibility) {
+        if (mCustomToolBar != null) {
+            mCustomToolBar.setRightIconVisible(visibility);
+        }
+    }
+
     //endregion
 
     //region: 内部辅助方法

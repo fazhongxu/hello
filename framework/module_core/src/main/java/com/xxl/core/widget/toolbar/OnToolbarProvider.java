@@ -102,6 +102,15 @@ public interface OnToolbarProvider {
     }
 
     /**
+     * 获取当前标题
+     *
+     * @return
+     */
+    default CharSequence getToolbarTitleText() {
+        return "";
+    }
+
+    /**
      * 设置标题
      *
      * @param resId
@@ -143,6 +152,15 @@ public interface OnToolbarProvider {
      * @param resId 文字资源ID
      */
     default void setLeftText(@StringRes int resId) {
+
+    }
+
+    /**
+     * 设置右边图标可见性
+     *
+     * @param visibility 可见性（View.VISIBLE / View.GONE / View.INVISIBLE）
+     */
+    default void setRightIconVisible(int visibility) {
 
     }
 

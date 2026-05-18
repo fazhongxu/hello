@@ -82,5 +82,6 @@
     <string name="resources_select_all">全选</string>
     <string name="resources_delete_selected_format">删除(%1$d)</string>
     <string name="resources_cancel_select">取消</string>
+    <string name="resources_select_message_title">选择消息(%1$d)</string>
 
 </resources>
