@@ -14,5 +14,7 @@
 
         <activity android:name=".ui.im.message.list.MessageActivity"/>
 
+        <activity android:name=".ui.video.VideoDownloadActivity" />
+
     </application>
 </manifest>

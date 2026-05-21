@@ -84,4 +84,11 @@
     <string name="resources_cancel_select">取消</string>
     <string name="resources_select_message_title">选择消息(%1$d)</string>
 
+    <string name="resources_video_download_title">视频下载</string>
+    <string name="resources_video_download_start">开始下载</string>
+    <string name="resources_video_download_downloading">下载中...</string>
+    <string name="resources_video_download_complete">下载完成</string>
+    <string name="resources_video_download_failed">下载失败</string>
+    <string name="resources_video_download_video_url_hint">请输入视频链接</string>
+
 </resources>

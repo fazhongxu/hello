@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.xxl.hello.widget.ui.video.VideoDownloadViewModel" />
+
+        <variable
+            name="navigator"
+            type="com.xxl.hello.widget.ui.video.VideoDownloadNavigator" />
+
+    </data>
+
+    <LinearLayout
+        android:id="@+id/ll_root_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- 视频标题 -->
+        <TextView
+            android:id="@+id/tv_video_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.videoTitle}"
+            android:textSize="18sp"
+            android:textColor="#333333"
+            android:textStyle="bold"
+            android:maxLines="2"
+            android:ellipsize="end" />
+
+        <!-- 视频缩略图占位区域 -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="12dp"
+            android:background="#F0F0F0">
+
+            <ImageView
+                android:id="@+id/iv_video_thumbnail"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop" />
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:src="@drawable/widget_ic_play_circle"
+                android:contentDescription="播放" />
+
+        </FrameLayout>
+
+        <EditText
+            android:id="@+id/et_video_url"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginTop="12dp"
+            android:background="@android:drawable/edit_text"
+            android:hint="@string/resources_video_download_video_url_hint"
+            android:inputType="textUri"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:singleLine="true"
+            android:text="@={viewModel.videoUrl}"
+            android:textColor="#333333"
+            android:textSize="14sp" />
+
+        <!-- 下载进度区域 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_download_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.downloadStatusText}"
+                android:textSize="14sp"
+                android:textColor="#666666" />
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:layout_marginTop="8dp"
+                android:max="100"
+                android:progress="@{viewModel.downloadProgress}"
+                android:progressDrawable="@drawable/widget_progress_download" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@{viewModel.videoFileSize}"
+                    android:textSize="12sp"
+                    android:textColor="#999999" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{String.valueOf(viewModel.downloadProgress) + `%`}"
+                    android:textSize="12sp"
+                    android:textColor="#999999" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- 下载按钮 -->
+        <Button
+            android:id="@+id/btn_download"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginTop="24dp"
+            android:text="@{viewModel.isDownloading ? @string/resources_video_download_downloading : @string/resources_video_download_start}"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:background="@drawable/widget_btn_download_bg"
+            android:enabled="@{!viewModel.isDownloading}" />
+
+    </LinearLayout>
+
+</layout>

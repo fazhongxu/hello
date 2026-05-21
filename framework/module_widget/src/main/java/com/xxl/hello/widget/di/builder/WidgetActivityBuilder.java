@@ -13,6 +13,8 @@ import com.xxl.hello.widget.ui.qrcode.QRCodeActivity;
 import com.xxl.hello.widget.ui.qrcode.QRCodeFragmentProvider;
 import com.xxl.hello.widget.ui.web.CommonWebActivity;
 import com.xxl.hello.widget.ui.web.CommonWebFragmentProvider;
+import com.xxl.hello.widget.ui.video.VideoDownloadActivity;
+import com.xxl.hello.widget.ui.video.VideoDownloadFragmentProvider;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -71,4 +73,12 @@ public abstract class WidgetActivityBuilder {
      */
     @ContributesAndroidInjector(modules = PrivateChatSessionFragmentProvider.class)
     abstract PrivateChatSessionActivity bindPrivateChatSesssionActivityBuilder();
+
+    /**
+     * 绑定视频下载页面
+     *
+     * @return
+     */
+    @ContributesAndroidInjector(modules = VideoDownloadFragmentProvider.class)
+    abstract VideoDownloadActivity bindVideoDownloadActivityBuilder();
 }
