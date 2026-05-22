@@ -61,6 +61,7 @@ public class MessageLongClickActionManager {
         mActions.add(buildRecallAction());
         mActions.add(buildDeleteAction());
         mActions.add(buildFavoriteAction());
+        mActions.add(buildMultiSelectAction());
     }
 
     /**
@@ -145,6 +146,21 @@ public class MessageLongClickActionManager {
      */
     private MessageLongClickAction buildFavoriteAction() {
         return MessageLongClickAction.obtain(StringUtils.getString(R.string.resources_menu_favorite), R.drawable.resources_ic_menu_favorite,MenuOperateType.FAVORITE)
+                .setFilter(new MessageLongClickAction.Filter() {
+                    @Override
+                    public boolean filter(@SceneType int sceneType, MessageEntity messageEntity) {
+                        return true;
+                    }
+                });
+    }
+
+    /**
+     * 多选
+     *
+     * @return
+     */
+    private MessageLongClickAction buildMultiSelectAction() {
+        return MessageLongClickAction.obtain(StringUtils.getString(R.string.resources_menu_multi_select), R.drawable.resources_ic_menu_multi_select, MenuOperateType.MULTI_SELECT)
                 .setFilter(new MessageLongClickAction.Filter() {
                     @Override
                     public boolean filter(@SceneType int sceneType, MessageEntity messageEntity) {

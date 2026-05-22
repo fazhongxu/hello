@@ -1,6 +1,7 @@
 package com.xxl.hello.widget.ui.im.message.session.base;
 
 import android.animation.ObjectAnimator;
+import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 
@@ -13,6 +14,7 @@ import com.xxl.core.image.selector.MediaSelector;
 import com.xxl.core.ui.fragment.BaseViewModelFragment;
 import com.xxl.core.widget.recyclerview.OnRefreshDataListener;
 import com.xxl.core.widget.recyclerview.UISmartRefreshLayout;
+import com.xxl.core.widget.toolbar.OnToolbarProvider;
 import com.xxl.hello.service.data.model.entity.im.MessageDirection;
 import com.xxl.hello.service.data.model.entity.im.MessageEntity;
 import com.xxl.hello.service.data.model.entity.im.SDKMessage;
@@ -20,6 +22,7 @@ import com.xxl.hello.service.data.model.enums.ChatEnumsApi.MenuOperateType;
 import com.xxl.hello.service.data.model.enums.ChatEnumsApi.MessageType;
 import com.xxl.hello.service.data.model.enums.ChatEnumsApi.NotificationMessageType;
 import com.xxl.hello.service.data.model.enums.ChatEnumsApi.SessionType;
+import com.xxl.hello.service.utils.ChatUtils;
 import com.xxl.hello.widget.BR;
 import com.xxl.hello.widget.R;
 import com.xxl.hello.widget.databinding.WidgetFragmentChatSessionBinding;
@@ -28,6 +31,7 @@ import com.xxl.hello.widget.ui.im.message.session.base.adapter.ChatSessionRender
 import com.xxl.hello.widget.ui.im.message.session.base.menu.OnCopyOperate;
 import com.xxl.hello.widget.ui.im.message.session.base.menu.OnDeleteOperate;
 import com.xxl.hello.widget.ui.im.message.session.base.menu.OnMenuItemOperate;
+import com.xxl.hello.widget.ui.im.message.session.base.menu.OnMultiSelectOperate;
 import com.xxl.hello.widget.ui.im.message.session.base.menu.OnRecallOperate;
 import com.xxl.hello.widget.ui.im.message.session.base.menu.OnShareOperate;
 import com.xxl.hello.widget.ui.view.keyboard.CommonKeyboardLayout;
@@ -41,6 +45,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -56,6 +61,16 @@ public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel
         implements OnRefreshDataListener, OnCommonKeyboardListener, ChatSessionRecycleItemListener, AlbumPluginObservable {
 
     //region: 成员变量
+
+    /**
+     * Toolbar 操作接口
+     */
+    private OnToolbarProvider mToolbarProvider;
+
+    /**
+     * 进入多选模式前的原始标题
+     */
+    private CharSequence mOriginalToolbarTitle;
 
     /**
      * 会话视图
@@ -88,6 +103,14 @@ public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel
     @Override
     public int getViewNavigatorVariable() {
         return BR.navigator;
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof OnToolbarProvider) {
+            mToolbarProvider = (OnToolbarProvider) context;
+        }
     }
 
     @Override
@@ -136,6 +159,7 @@ public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel
         mMenuOperates.put(MenuOperateType.SHARE, new OnShareOperate());
         mMenuOperates.put(MenuOperateType.RECALL, new OnRecallOperate());
         mMenuOperates.put(MenuOperateType.DELETE, new OnDeleteOperate());
+        mMenuOperates.put(MenuOperateType.MULTI_SELECT, new OnMultiSelectOperate());
     }
 
     /**
@@ -260,6 +284,18 @@ public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel
         }
     }
 
+    /**
+     * 选中消息数量变化
+     *
+     * @param selectedCount 选中的消息数量
+     */
+    @Override
+    public void onSelectionChanged(int selectedCount) {
+        if (mToolbarProvider != null && mChatSessionAdapter.isInMultiSelectMode()) {
+            mToolbarProvider.setToolbarTitle(getString(R.string.resources_select_message_title, selectedCount));
+        }
+    }
+
     //endregion
 
     //region: AlbumPluginObservable
@@ -286,7 +322,7 @@ public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel
 
     //endregion
 
-    //region: Fragment 方法
+    //region: Fragment 操作
 
     /**
      * 滚动到最后一个位置
@@ -321,6 +357,70 @@ public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel
      */
     public void onMessageDeleteClick(MessageEntity messageEntity) {
         mChatSessionAdapter.remove(messageEntity);
+    }
+
+    /**
+     * 获取会话列表适配器
+     *
+     * @return
+     */
+    public ChatSessionRenderAdapter getChatSessionAdapter() {
+        return mChatSessionAdapter;
+    }
+
+    /**
+     * 进入多选模式
+     *
+     * @param messageEntity 初始选中的消息
+     */
+    public void enterMultiSelectMode(@NonNull MessageEntity messageEntity) {
+        if (mToolbarProvider != null) {
+            mOriginalToolbarTitle = mToolbarProvider.getToolbarTitleText();
+        }
+        mChatSessionAdapter.enterMultiSelectMode(messageEntity);
+        mChatSessionBinding.commonKeyboard.hideExtendLayout();
+        mChatSessionBinding.commonKeyboard.setVisibility(View.GONE);
+
+        if (mToolbarProvider != null) {
+            mToolbarProvider.setLeftIconVisible(View.GONE);
+            mToolbarProvider.setLeftTextVisible(View.VISIBLE);
+            mToolbarProvider.setLeftText(R.string.resources_cancel_select);
+            mToolbarProvider.setRightIconVisible(View.GONE);
+        }
+    }
+
+    /**
+     * 退出多选模式
+     */
+    public void exitMultiSelectMode() {
+        mChatSessionAdapter.exitMultiSelectMode();
+        mChatSessionBinding.commonKeyboard.setVisibility(View.VISIBLE);
+
+        if (mToolbarProvider != null) {
+            mToolbarProvider.setLeftIconVisible(View.VISIBLE);
+            mToolbarProvider.setLeftTextVisible(View.GONE);
+            mToolbarProvider.setRightIconVisible(View.VISIBLE);
+            mToolbarProvider.setToolbarTitle(mOriginalToolbarTitle != null ? mOriginalToolbarTitle : "");
+        }
+    }
+
+    //endregion
+
+    //region: Activity 操作
+
+    public boolean onBackPressed() {
+        if (mChatSessionAdapter.isInMultiSelectMode()) {
+            exitMultiSelectMode();
+            return true;
+        }
+        return false;
+    }
+
+    public boolean onToolbarRightLongClick() {
+        List<MessageEntity> messageEntities = ChatUtils.generateRandomMessages();
+        mChatSessionAdapter.getData().clear();
+        mChatSessionAdapter.addData(messageEntities);
+        return true;
     }
 
     //endregion

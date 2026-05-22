@@ -6,6 +6,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,6 +17,8 @@ import com.chad.library.adapter.base.BaseProviderMultiAdapter;
 import com.chad.library.adapter.base.provider.BaseItemProvider;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.xxl.hello.service.data.model.entity.im.MessageEntity;
+import com.xxl.hello.widget.R;
+import com.xxl.hello.widget.ui.im.message.session.base.adapter.ChatSessionRenderAdapter;
 import com.xxl.hello.widget.ui.im.render.MessageRender;
 import com.xxl.hello.widget.ui.im.render.MessageRenderWrapper;
 import com.xxl.hello.widget.ui.im.template.OnMessageTemplateListener;
@@ -164,6 +167,37 @@ public abstract class BaseMessageProvider<Binding extends ViewDataBinding, T ext
                 return true;
             }
         });
+    }
+
+    /**
+     * 设置选择状态
+     *
+     * @param rootView       条目根视图
+     * @param messageEntity  消息实体
+     */
+    protected void setupSelectState(@NonNull View rootView,
+                                         @NonNull MessageEntity messageEntity) {
+        RadioButton radioButton = rootView.findViewById(R.id.rb_select);
+        if (radioButton == null) {
+            return;
+        }
+        radioButton.setClickable(false);
+        radioButton.setFocusable(false);
+        BaseProviderMultiAdapter adapter = getAdapter();
+        if (adapter instanceof ChatSessionRenderAdapter) {
+            ChatSessionRenderAdapter renderAdapter = (ChatSessionRenderAdapter) adapter;
+            if (renderAdapter.isInMultiSelectMode()) {
+                radioButton.setVisibility(View.VISIBLE);
+                radioButton.setChecked(messageEntity.isSelected());
+                rootView.setOnClickListener(v -> {
+                    renderAdapter.toggleSelection(messageEntity);
+                });
+            } else {
+                radioButton.setVisibility(View.GONE);
+                radioButton.setChecked(false);
+                rootView.setOnClickListener(null);
+            }
+        }
     }
 
     //endregion

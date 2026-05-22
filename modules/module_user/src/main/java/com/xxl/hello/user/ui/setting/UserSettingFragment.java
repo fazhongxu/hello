@@ -398,7 +398,10 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
                     MomentShareUtils.shareSingleImageToWeChatMoment(getActivity(), imagePaths.size() > 0 ? imagePaths.get(0) : "");
                     return true;
                 } else if (operateItem.getOperateType() == ShareOperateType.DOWNLOAD) {
-                    throw new IllegalArgumentException("手动测试崩溃");
+                    WidgetRouterApi.VideoDownload.newBuilder()
+                            .navigation();
+                    window.dismiss();
+                    return true;
                 }
                 return false;
             }

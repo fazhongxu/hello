@@ -16,9 +16,17 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:background="@color/resources_background_color"
         android:layout_height="match_parent"
+        android:background="@color/resources_background_color"
         android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_select_to_here_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/resources_ic_chat_select_to_hear_down"
+            android:visibility="gone" />
 
         <com.xxl.core.widget.recyclerview.UISmartRefreshLayout
             android:id="@+id/refresh_layout"
@@ -37,6 +45,14 @@
                 tools:listitem="@layout/widget_recycle_item_chat_session" />
 
         </com.xxl.core.widget.recyclerview.UISmartRefreshLayout>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_select_to_here_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:src="@drawable/resources_ic_chat_select_to_hear_down"
+            android:visibility="gone" />
 
         <com.xxl.hello.widget.ui.view.keyboard.CommonKeyboardLayout
             android:id="@+id/common_keyboard"

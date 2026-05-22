@@ -258,4 +258,68 @@ public final class WidgetRouterApi {
     }
 
     //endregion
+
+    //region: 视频下载路由相关
+
+    public static class VideoDownload {
+
+        /**
+         * 视频下载页面路径地址
+         */
+        public static final String PATH = WIDGET_MODULE_NAME + "/video_download";
+
+        /**
+         * 视频下载链接
+         */
+        public static final String PARAMS_KEY_VIDEO_URL = "params_key_video_url";
+
+        /**
+         * 视频标题
+         */
+        public static final String PARAMS_KEY_VIDEO_TITLE = "params_key_video_title";
+
+        public static Builder newBuilder() {
+            return new Builder();
+        }
+
+        public static class Builder {
+
+            private Bundle mParams = new Bundle();
+
+            public Builder() {
+
+            }
+
+            /**
+             * 设置视频下载链接
+             *
+             * @param videoUrl
+             * @return
+             */
+            public Builder setVideoUrl(@NonNull final String videoUrl) {
+                mParams.putString(PARAMS_KEY_VIDEO_URL, videoUrl);
+                return this;
+            }
+
+            /**
+             * 设置视频标题
+             *
+             * @param videoTitle
+             * @return
+             */
+            public Builder setVideoTitle(@NonNull final String videoTitle) {
+                mParams.putString(PARAMS_KEY_VIDEO_TITLE, videoTitle);
+                return this;
+            }
+
+            /**
+             * 跳转到视频下载页面
+             */
+            public void navigation() {
+                RouterUtils.navigation(PATH, mParams);
+            }
+        }
+    }
+
+    //endregion
 }

@@ -34,9 +34,11 @@
                 android:src="@drawable/resources_ic_avatar3" />
 
             <LinearLayout
+                android:id="@+id/ll_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_toLeftOf="@+id/iv_avatar"
+                android:layout_toRightOf="@+id/rb_multi_select"
                 android:gravity="right"
                 android:orientation="vertical">
 
@@ -73,6 +75,14 @@
                 </LinearLayout>
 
             </LinearLayout>
+
+            <RadioButton
+                android:id="@+id/rb_select"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="5dp"
+                android:visibility="gone" />
 
         </RelativeLayout>
     </LinearLayout>

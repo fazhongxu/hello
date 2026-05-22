@@ -45,6 +45,7 @@ public class RightMessageProvider extends BaseMessageProvider<WidgetRecycleItemM
         render(itemBinding.flMessageContainer, itemEntity);
         setupMessageTime(itemBinding.includeMessageTime.tvMessageTime, itemEntity);
         setUserAvatarListener(itemBinding.ivAvatar, itemEntity);
+        setupSelectState(itemBinding.getRoot(), itemEntity);
     }
 
     //endregion

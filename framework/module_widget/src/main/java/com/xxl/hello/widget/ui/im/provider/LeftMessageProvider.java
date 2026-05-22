@@ -49,6 +49,7 @@ public class LeftMessageProvider extends BaseMessageProvider<WidgetRecycleItemMe
         setupMessageTime(itemBinding.includeMessageTime.tvMessageTime, itemEntity);
         setUserNickName(itemBinding, itemEntity);
         setUserAvatarListener(itemBinding.ivAvatar, itemEntity);
+        setupSelectState(itemBinding.getRoot(), itemEntity);
     }
 
     /**

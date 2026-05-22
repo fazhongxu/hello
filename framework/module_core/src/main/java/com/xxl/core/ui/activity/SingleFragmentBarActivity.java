@@ -116,6 +116,36 @@ public abstract class SingleFragmentBarActivity<F extends Fragment> extends Sing
     }
 
     /**
+     * 设置标题（OnToolbarProvider 接口方法）
+     */
+    @Override
+    public void setToolbarTitle(@NonNull CharSequence title) {
+        setTitle(title);
+    }
+
+    /**setToolbarTitle
+     * 设置标题（OnToolbarProvider 接口方法）
+     */
+    @Override
+    public void setToolbarTitle(@StringRes int resId) {
+        setTitle(resId);
+    }
+
+    /**
+     * 获取当前标题
+     */
+    @Override
+    public CharSequence getToolbarTitleText() {
+        if (getToolbarTitle() != 0) {
+            return getString(getToolbarTitle());
+        }
+        if (getDisplayToolbarTitle() != null) {
+            return getDisplayToolbarTitle();
+        }
+        return "";
+    }
+
+    /**
      * 设置标题
      *
      * @param resId
@@ -130,6 +160,56 @@ public abstract class SingleFragmentBarActivity<F extends Fragment> extends Sing
     @Override
     public void onToolbarLeftClick(View view) {
         finish();
+    }
+
+    /**
+     * 设置左边图标可见性
+     */
+    @Override
+    public void setLeftIconVisible(int visibility) {
+        if (mToolbarWrapper != null) {
+            mToolbarWrapper.setLeftIconVisible(visibility);
+        }
+    }
+
+    /**
+     * 设置左边文字可见性
+     */
+    @Override
+    public void setLeftTextVisible(int visibility) {
+        if (mToolbarWrapper != null) {
+            mToolbarWrapper.setLeftTextVisible(visibility);
+        }
+    }
+
+    /**
+     * 设置左边文字
+     */
+    @Override
+    public void setLeftText(@NonNull CharSequence text) {
+        if (mToolbarWrapper != null) {
+            mToolbarWrapper.setLeftText(text);
+        }
+    }
+
+    /**
+     * 设置左边文字
+     */
+    @Override
+    public void setLeftText(@StringRes int resId) {
+        if (mToolbarWrapper != null) {
+            mToolbarWrapper.setLeftText(resId);
+        }
+    }
+
+    /**
+     * 设置右边图标可见性
+     */
+    @Override
+    public void setRightIconVisible(int visibility) {
+        if (mToolbarWrapper != null) {
+            mToolbarWrapper.setRightIconVisible(visibility);
+        }
     }
 
     //endregion

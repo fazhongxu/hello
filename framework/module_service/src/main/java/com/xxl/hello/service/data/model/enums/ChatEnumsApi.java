@@ -173,6 +173,7 @@ public class ChatEnumsApi {
             MenuOperateType.RECALL,
             MenuOperateType.DELETE,
             MenuOperateType.FAVORITE,
+            MenuOperateType.MULTI_SELECT,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface MenuOperateType {
@@ -206,6 +207,11 @@ public class ChatEnumsApi {
          * 收藏
          */
         String FAVORITE = "favorite";
+
+        /**
+         * 多选
+         */
+        String MULTI_SELECT = "multi_select";
     }
 
     //endregion
