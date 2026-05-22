@@ -13,12 +13,17 @@ import com.xxl.core.service.download.DownloadTaskInfo;
 import com.xxl.core.ui.BaseViewModel;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.lifecycle.HiltViewModel;
+
 /**
  * 视频下载页面
  *
  * @author xxl.
  * @date 2026/05/21.
  */
+@HiltViewModel
 public class VideoDownloadViewModel extends BaseViewModel<VideoDownloadNavigator> {
 
     //region: 成员变量
@@ -66,6 +71,7 @@ public class VideoDownloadViewModel extends BaseViewModel<VideoDownloadNavigator
 
     //region: 构造函数
 
+    @Inject
     public VideoDownloadViewModel(@NonNull final Application application,
                                   @NonNull final DataRepositoryKit dataRepositoryKit) {
         super(application);

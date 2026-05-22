@@ -5,7 +5,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.xxl.core.ui.fragment.BaseViewModelFragment;
@@ -14,12 +13,15 @@ import com.xxl.hello.widget.R;
 import com.xxl.hello.widget.data.router.WidgetRouterApi;
 import com.xxl.hello.widget.databinding.WidgetFragmentVideoDownloadBinding;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
 /**
  * 视频下载页面
  *
  * @author xxl.
  * @date 2026/05/21.
  */
+@AndroidEntryPoint
 public class VideoDownloadFragment extends BaseViewModelFragment<VideoDownloadViewModel, WidgetFragmentVideoDownloadBinding>
         implements VideoDownloadNavigator {
 
