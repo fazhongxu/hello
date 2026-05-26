@@ -286,10 +286,10 @@ deps.bugly = "com.tencent.bugly:crashreport:$versions.bugly"
 deps.media_metadata_retriever = "in.xiandan.mmrc:media-metadata-retriever-compat:$versions.media_metadata_retriever"
 
 // ffmpeg_kit [https://github.com/tanersener/ffmpeg-kit]
-versions.ffmpeg_kit_remote = true
+versions.ffmpeg_kit_remote = false
 
 if (versions.ffmpeg_kit_remote) {
-    deps.ffmpeg_kit = "com.arthenica:ffmpeg-kit-full-gpl:$versions.ffmpeg_kit"
+    deps.ffmpeg_kit = "com.arthenica:ffmpeg-kit-full-gpl:$versions.ffmp：eg_kit"
 } else {
     deps.ffmpeg_kit = project(':module_libs:lib_ffmpeg')
 }
