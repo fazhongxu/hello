@@ -16,5 +16,7 @@
 
         <activity android:name=".ui.video.VideoDownloadActivity" />
 
+        <activity android:name=".ui.imageedit.ImageEditActivity" />
+
     </application>
 </manifest>

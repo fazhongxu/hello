@@ -322,4 +322,52 @@ public final class WidgetRouterApi {
     }
 
     //endregion
+
+    //region: 图片编辑路由相关
+
+    public static class ImageEdit {
+
+        /**
+         * 图片编辑页面路径地址
+         */
+        public static final String PATH = WIDGET_MODULE_NAME + "/image_edit";
+
+        /**
+         * 图片路径
+         */
+        public static final String PARAMS_KEY_IMAGE_PATH = "params_key_image_path";
+
+        public static Builder newBuilder() {
+            return new Builder();
+        }
+
+        public static class Builder {
+
+            private Bundle mParams = new Bundle();
+
+            public Builder() {
+
+            }
+
+            /**
+             * 设置图片路径
+             *
+             * @param imagePath
+             * @return
+             */
+            public Builder setImagePath(@NonNull final String imagePath) {
+                mParams.putString(PARAMS_KEY_IMAGE_PATH, imagePath);
+                return this;
+            }
+
+            /**
+             * 跳转到图片编辑页面
+             */
+            public void navigation() {
+                RouterUtils.navigation(PATH, mParams);
+            }
+        }
+    }
+
+    //endregion
 }

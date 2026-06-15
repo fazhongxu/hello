@@ -13,6 +13,8 @@ import com.xxl.hello.widget.ui.qrcode.QRCodeActivity;
 import com.xxl.hello.widget.ui.qrcode.QRCodeFragmentProvider;
 import com.xxl.hello.widget.ui.web.CommonWebActivity;
 import com.xxl.hello.widget.ui.web.CommonWebFragmentProvider;
+import com.xxl.hello.widget.ui.imageedit.ImageEditActivity;
+import com.xxl.hello.widget.ui.imageedit.ImageEditFragmentProvider;
 import com.xxl.hello.widget.ui.video.VideoDownloadActivity;
 import com.xxl.hello.widget.ui.video.VideoDownloadFragmentProvider;
 
@@ -81,4 +83,12 @@ public abstract class WidgetActivityBuilder {
      */
     @ContributesAndroidInjector(modules = VideoDownloadFragmentProvider.class)
     abstract VideoDownloadActivity bindVideoDownloadActivityBuilder();
+
+    /**
+     * 绑定图片编辑页面
+     *
+     * @return
+     */
+    @ContributesAndroidInjector(modules = ImageEditFragmentProvider.class)
+    abstract ImageEditActivity bindImageEditActivityBuilder();
 }

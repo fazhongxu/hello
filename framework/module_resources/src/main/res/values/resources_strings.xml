@@ -91,4 +91,6 @@
     <string name="resources_video_download_failed">下载失败</string>
     <string name="resources_video_download_video_url_hint">请输入视频链接</string>
 
+    <string name="resources_image_edit_title">图片编辑</string>
+
 </resources>
