@@ -1,10 +1,8 @@
 package com.xxl.hello.widget.ui.imageedit;
 
 import android.app.Application;
-import android.graphics.Bitmap;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.databinding.ObservableField;
 import androidx.databinding.ObservableInt;
 
@@ -42,9 +40,6 @@ public class ImageEditViewModel extends BaseViewModel<ImageEditNavigator> {
 
     private DataRepositoryKit mDataRepositoryKit;
 
-    private Bitmap mSourceBitmap;
-    private ImageEditView mImageEditView;
-
     public ImageEditViewModel(@NonNull Application application,
                               @NonNull DataRepositoryKit dataRepositoryKit) {
         super(application);
@@ -52,116 +47,24 @@ public class ImageEditViewModel extends BaseViewModel<ImageEditNavigator> {
     }
 
     /**
-     * 设置图片 Bitmap
+     * 更新撤销/重做状态
      */
-    public void setImageBitmap(@Nullable Bitmap bitmap) {
-        mSourceBitmap = bitmap;
+    public void updateEditState(boolean canUndo, boolean canRedo) {
+        this.canUndo.set(canUndo);
+        this.canRedo.set(canRedo);
     }
 
     /**
-     * 绑定 ImageEditView
+     * 更新编辑模式
      */
-    public void bindImageEditView(@NonNull ImageEditView imageEditView) {
-        mImageEditView = imageEditView;
-        imageEditView.setOnEditListener((canUndo, canRedo) -> {
-            this.canUndo.set(canUndo);
-            this.canRedo.set(canRedo);
-        });
-
-        if (mSourceBitmap != null) {
-            imageEditView.setImageBitmap(mSourceBitmap);
-        }
+    public void updateEditMode(int mode) {
+        editMode.set(mode);
     }
 
     /**
-     * 切换到矩形圈选模式
+     * 更新画笔大小
      */
-    public void setRectSelectMode() {
-        editMode.set(ImageEditView.EditMode.RECT_SELECT);
-        if (mImageEditView != null) {
-            mImageEditView.setEditMode(ImageEditView.EditMode.RECT_SELECT);
-        }
-    }
-
-    /**
-     * 切换到涂抹模式
-     */
-    public void setBrushMode() {
-        editMode.set(ImageEditView.EditMode.BRUSH);
-        if (mImageEditView != null) {
-            mImageEditView.setEditMode(ImageEditView.EditMode.BRUSH);
-        }
-    }
-
-    /**
-     * 设置画笔大小
-     */
-    public void setBrushSize(int size) {
+    public void updateBrushSize(int size) {
         brushSize.set(size);
-        if (mImageEditView != null) {
-            mImageEditView.setBrushSize(size);
-        }
-    }
-
-    /**
-     * 撤销
-     */
-    public void undo() {
-        if (mImageEditView != null) {
-            mImageEditView.undo();
-        }
-    }
-
-    /**
-     * 重做
-     */
-    public void redo() {
-        if (mImageEditView != null) {
-            mImageEditView.redo();
-        }
-    }
-
-    /**
-     * 重画（清除所有）
-     */
-    public void redraw() {
-        if (mImageEditView != null) {
-            mImageEditView.clear();
-        }
-    }
-
-    /**
-     * 完成编辑
-     */
-    public void completeEdit() {
-        if (mImageEditView != null) {
-            Bitmap editedBitmap = mImageEditView.getEditedBitmap();
-            if (getNavigator() != null) {
-                getNavigator().onEditComplete(editedBitmap);
-            }
-        }
-    }
-
-    /**
-     * 取消编辑
-     */
-    public void cancelEdit() {
-        if (getNavigator() != null) {
-            getNavigator().onEditCancel();
-        }
-    }
-
-    /**
-     * 释放资源
-     */
-    public void release() {
-        if (mImageEditView != null) {
-            mImageEditView.release();
-            mImageEditView = null;
-        }
-        if (mSourceBitmap != null && !mSourceBitmap.isRecycled()) {
-            mSourceBitmap.recycle();
-            mSourceBitmap = null;
-        }
     }
 }

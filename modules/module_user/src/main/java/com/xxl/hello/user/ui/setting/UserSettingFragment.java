@@ -80,11 +80,6 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
     //region: 成员变量
 
     /**
-     * 图片编辑请求码
-     */
-    private static final int REQUEST_CODE_IMAGE_EDIT = 10001;
-
-    /**
      * 用户设置数据模型
      */
     private UserSettingModel mUserSettingModel;
@@ -175,22 +170,6 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode != Activity.RESULT_OK) {
             return;
-        }
-
-        // 图片编辑请求
-        if (requestCode == REQUEST_CODE_IMAGE_EDIT) {
-            final List<LocalMedia> mediaList = MediaSelector.obtainMultipleResult(data);
-            if (!mediaList.isEmpty()) {
-                final LocalMedia media = mediaList.get(0);
-                final Uri uri = Uri.parse(media.isCut() ? media.getCutPath() : media.getPath());
-                String filePath = PathUtils.getFilePathByUri(uri);
-                if (!TextUtils.isEmpty(filePath)) {
-                    WidgetRouterApi.ImageEdit.newBuilder()
-                            .setImagePath(filePath)
-                            .navigation();
-                    return;
-                }
-            }
         }
 
         // 头像选择请求
@@ -420,12 +399,8 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
                     MomentShareUtils.shareSingleImageToWeChatMoment(getActivity(), imagePaths.size() > 0 ? imagePaths.get(0) : "");
                     return true;
                 } else if (operateItem.getOperateType() == ShareOperateType.DOWNLOAD) {
-                    // 图片编辑入口
-                    MediaSelector.create(UserSettingFragment.this)
-                            .openGallery(PictureMimeType.ofImage())
-                            .maxSelectNum(1)
-                            .forResult(REQUEST_CODE_IMAGE_EDIT);
                     window.dismiss();
+                    ToastUtils.success("下载功能暂未开放").show();
                     return true;
                 }
                 return false;

@@ -30,6 +30,7 @@ import com.xxl.hello.widget.ui.im.message.session.base.adapter.ChatSessionRecycl
 import com.xxl.hello.widget.ui.im.message.session.base.adapter.ChatSessionRenderAdapter;
 import com.xxl.hello.widget.ui.im.message.session.base.menu.OnCopyOperate;
 import com.xxl.hello.widget.ui.im.message.session.base.menu.OnDeleteOperate;
+import com.xxl.hello.widget.ui.im.message.session.base.menu.OnEditOperate;
 import com.xxl.hello.widget.ui.im.message.session.base.menu.OnMenuItemOperate;
 import com.xxl.hello.widget.ui.im.message.session.base.menu.OnMultiSelectOperate;
 import com.xxl.hello.widget.ui.im.message.session.base.menu.OnRecallOperate;
@@ -154,6 +155,7 @@ public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel
      */
     protected void setupMenu() {
         mMenuOperates.put(MenuOperateType.COPY, new OnCopyOperate());
+        mMenuOperates.put(MenuOperateType.EDIT, new OnEditOperate());
         mMenuOperates.put(MenuOperateType.SHARE, new OnShareOperate());
         mMenuOperates.put(MenuOperateType.RECALL, new OnRecallOperate());
         mMenuOperates.put(MenuOperateType.DELETE, new OnDeleteOperate());

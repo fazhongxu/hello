@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
@@ -379,26 +380,60 @@ public class ImageEditView extends View {
      */
     @Nullable
     public Bitmap getEditedBitmap() {
-        if (mDisplayBitmap == null) return null;
+        if (mSourceBitmap == null || mDisplayBitmap == null) return null;
 
-        Bitmap result = mDisplayBitmap.copy(Bitmap.Config.ARGB_8888, true);
+        // 计算缩放比例：原图宽度 / 显示宽度
+        float scale = (float) mSourceBitmap.getWidth() / mDisplayRect.width();
+
+        // 在原图上绘制
+        Bitmap result = mSourceBitmap.copy(Bitmap.Config.ARGB_8888, true);
         Canvas canvas = new Canvas(result);
 
         for (DrawStep step : mDrawSteps) {
             Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-            paint.setColor(Color.parseColor("#80FF0000"));
+            paint.setColor(Color.parseColor("#66E61919"));
             paint.setStyle(Paint.Style.FILL);
 
             if (step.type == EditMode.RECT_SELECT && step.rect != null) {
-                canvas.drawRect(step.rect, paint);
+                // 将屏幕坐标映射到原图坐标
+                RectF mappedRect = mapScreenToOriginal(step.rect, scale);
+                canvas.drawRect(mappedRect, paint);
             } else if (step.type == EditMode.BRUSH && step.path != null) {
                 paint.setStyle(Paint.Style.STROKE);
-                paint.setStrokeWidth(mBrushSize);
+                paint.setStrokeWidth(mBrushSize * scale); // 画笔也要按比例缩放
                 paint.setStrokeCap(Paint.Cap.ROUND);
-                canvas.drawPath(step.path, paint);
+                Path mappedPath = mapScreenToOriginal(step.path, scale);
+                canvas.drawPath(mappedPath, paint);
             }
         }
 
+        return result;
+    }
+
+    /**
+     * 将屏幕坐标的矩形映射到原图坐标
+     */
+    private RectF mapScreenToOriginal(RectF screenRect, float scale) {
+        RectF result = new RectF();
+        result.left = (screenRect.left - mDisplayRect.left) * scale;
+        result.top = (screenRect.top - mDisplayRect.top) * scale;
+        result.right = (screenRect.right - mDisplayRect.left) * scale;
+        result.bottom = (screenRect.bottom - mDisplayRect.top) * scale;
+        return result;
+    }
+
+    /**
+     * 将屏幕坐标的路径映射到原图坐标
+     */
+    private Path mapScreenToOriginal(Path screenPath, float scale) {
+        Path result = new Path();
+        Matrix matrix = new Matrix();
+
+        // 先平移（减去显示区域偏移），再缩放
+        matrix.postTranslate(-mDisplayRect.left, -mDisplayRect.top);
+        matrix.postScale(scale, scale);
+
+        screenPath.transform(matrix, result);
         return result;
     }
 

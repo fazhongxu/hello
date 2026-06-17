@@ -1,7 +1,7 @@
 package com.xxl.hello.widget.ui.imageedit;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 
@@ -9,12 +9,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
+import com.xxl.core.image.loader.ImageLoader;
 import com.xxl.core.ui.fragment.BaseStateViewModelFragment;
 import com.xxl.hello.widget.BR;
 import com.xxl.hello.widget.R;
 import com.xxl.hello.widget.data.router.WidgetRouterApi;
 import com.xxl.hello.widget.databinding.WidgetFragmentImageEditBinding;
 import com.xxl.hello.widget.ui.view.ImageEditView;
+import com.xxl.kit.AppUtils;
 import com.xxl.kit.ImageUtils;
 import com.xxl.kit.ToastUtils;
 
@@ -33,6 +37,7 @@ public class ImageEditFragment extends BaseStateViewModelFragment<ImageEditViewM
 
     private WidgetFragmentImageEditBinding mBinding;
     private ImageEditViewModel mViewModel;
+    private Bitmap mSourceBitmap;
 
     @Autowired(name = WidgetRouterApi.ImageEdit.PARAMS_KEY_IMAGE_PATH)
     String mImagePath;
@@ -80,51 +85,30 @@ public class ImageEditFragment extends BaseStateViewModelFragment<ImageEditViewM
 
     @Override
     protected void setupData() {
-        // 延迟到 setupLayout 后加载图片
+
     }
 
     @Override
     public void setupLayout(@NonNull View view) {
         mBinding = getViewDataBinding();
-        setupClickListeners();
         loadImage();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (mViewModel != null) {
-            mViewModel.release();
+        if (mBinding != null && mBinding.imageEditView != null) {
+            mBinding.imageEditView.release();
+        }
+        if (mSourceBitmap != null && !mSourceBitmap.isRecycled()) {
+            mSourceBitmap.recycle();
+            mSourceBitmap = null;
         }
     }
 
     //endregion
 
     //region: 页面视图渲染
-
-    private void setupClickListeners() {
-        mBinding.btnRectSelect.setOnClickListener(v -> {
-            updateModeButton(ImageEditView.EditMode.RECT_SELECT);
-            mViewModel.setRectSelectMode();
-        });
-
-        mBinding.btnBrush.setOnClickListener(v -> {
-            updateModeButton(ImageEditView.EditMode.BRUSH);
-            mViewModel.setBrushMode();
-        });
-
-        mBinding.btnRedraw.setOnClickListener(v -> {
-            mViewModel.redraw();
-        });
-
-        mBinding.btnUndo.setOnClickListener(v -> {
-            mViewModel.undo();
-        });
-
-        mBinding.btnRedo.setOnClickListener(v -> {
-            mViewModel.redo();
-        });
-    }
 
     /**
      * 更新模式按钮状态
@@ -143,50 +127,65 @@ public class ImageEditFragment extends BaseStateViewModelFragment<ImageEditViewM
      * 加载图片
      */
     private void loadImage() {
-        if (mImagePath == null) {
-            ToastUtils.error("图片路径为空").show();
-            if (getActivity() != null) {
-                getActivity().finish();
-            }
-            return;
-        }
+        ImageLoader.with(AppUtils.getApplication())
+                .asBitmap()
+                .load(mImagePath)
+                .into(new CustomTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                        mSourceBitmap = resource;
+                        mBinding.imageEditView.setImageBitmap(resource);
+                        setupImageEditView();
+                    }
 
-        try {
-            File file = new File(mImagePath);
-            if (!file.exists()) {
-                ToastUtils.error("图片文件不存在").show();
-                if (getActivity() != null) {
-                    getActivity().finish();
-                }
-                return;
-            }
+                    @Override
+                    public void onLoadCleared(@Nullable Drawable placeholder) {
 
-            Bitmap bitmap = BitmapFactory.decodeFile(mImagePath);
-            if (bitmap == null) {
-                ToastUtils.error("图片加载失败").show();
-                if (getActivity() != null) {
-                    getActivity().finish();
-                }
-                return;
-            }
+                    }
+                });
+    }
 
-            final Bitmap finalBitmap = bitmap;
-            mBinding.imageEditView.post(() -> {
-                mViewModel.setImageBitmap(finalBitmap);
-                mViewModel.bindImageEditView(mBinding.imageEditView);
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-            ToastUtils.error("图片加载失败").show();
-            if (getActivity() != null) {
-                getActivity().finish();
-            }
-        }
+    /**
+     * 设置 ImageEditView
+     */
+    private void setupImageEditView() {
+        mBinding.imageEditView.setOnEditListener((canUndo, canRedo) -> {
+            mViewModel.updateEditState(canUndo, canRedo);
+        });
     }
 
     //endregion
 
     //region: ImageEditNavigator
+
+    @Override
+    public void onRectSelectClick() {
+        updateModeButton(ImageEditView.EditMode.RECT_SELECT);
+        mViewModel.updateEditMode(ImageEditView.EditMode.RECT_SELECT);
+        mBinding.imageEditView.setEditMode(ImageEditView.EditMode.RECT_SELECT);
+    }
+
+    @Override
+    public void onBrushClick() {
+        updateModeButton(ImageEditView.EditMode.BRUSH);
+        mViewModel.updateEditMode(ImageEditView.EditMode.BRUSH);
+        mBinding.imageEditView.setEditMode(ImageEditView.EditMode.BRUSH);
+    }
+
+    @Override
+    public void onRedrawClick() {
+        mBinding.imageEditView.clear();
+    }
+
+    @Override
+    public void onUndoClick() {
+        mBinding.imageEditView.undo();
+    }
+
+    @Override
+    public void onRedoClick() {
+        mBinding.imageEditView.redo();
+    }
 
     @Override
     public void onEditComplete(@Nullable Bitmap editedBitmap) {

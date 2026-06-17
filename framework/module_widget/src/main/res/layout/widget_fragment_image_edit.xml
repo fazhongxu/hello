@@ -52,7 +52,8 @@
                 android:padding="8dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
-                android:focusable="true">
+                android:focusable="true"
+                android:onClick="@{() -> navigator.onRectSelectClick()}">
 
                 <View
                     android:layout_width="32dp"
@@ -80,7 +81,8 @@
                 android:padding="8dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
-                android:focusable="true">
+                android:focusable="true"
+                android:onClick="@{() -> navigator.onBrushClick()}">
 
                 <View
                     android:layout_width="32dp"
@@ -108,7 +110,8 @@
                 android:padding="8dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
-                android:focusable="true">
+                android:focusable="true"
+                android:onClick="@{() -> navigator.onRedrawClick()}">
 
                 <ImageView
                     android:layout_width="32dp"
@@ -136,7 +139,8 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:focusable="true"
-                android:contentDescription="撤销" />
+                android:contentDescription="撤销"
+                android:onClick="@{() -> navigator.onUndoClick()}" />
 
             <!-- 重做按钮 -->
             <ImageView
@@ -148,7 +152,8 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:focusable="true"
-                android:contentDescription="重做" />
+                android:contentDescription="重做"
+                android:onClick="@{() -> navigator.onRedoClick()}" />
 
         </LinearLayout>
 
