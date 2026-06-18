@@ -1,6 +1,7 @@
 package com.xxl.hello.widget.ui.im.message.session.base;
 
 import android.animation.ObjectAnimator;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
@@ -25,11 +26,13 @@ import com.xxl.hello.service.data.model.enums.ChatEnumsApi.SessionType;
 import com.xxl.hello.service.utils.ChatUtils;
 import com.xxl.hello.widget.BR;
 import com.xxl.hello.widget.R;
+import com.xxl.hello.widget.data.router.WidgetRouterApi;
 import com.xxl.hello.widget.databinding.WidgetFragmentChatSessionBinding;
 import com.xxl.hello.widget.ui.im.message.session.base.adapter.ChatSessionRecycleItemListener;
 import com.xxl.hello.widget.ui.im.message.session.base.adapter.ChatSessionRenderAdapter;
 import com.xxl.hello.widget.ui.im.message.session.base.menu.OnCopyOperate;
 import com.xxl.hello.widget.ui.im.message.session.base.menu.OnDeleteOperate;
+import com.xxl.hello.widget.ui.im.message.session.base.menu.OnEditOperate;
 import com.xxl.hello.widget.ui.im.message.session.base.menu.OnMenuItemOperate;
 import com.xxl.hello.widget.ui.im.message.session.base.menu.OnMultiSelectOperate;
 import com.xxl.hello.widget.ui.im.message.session.base.menu.OnRecallOperate;
@@ -45,7 +48,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -118,6 +120,23 @@ public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel
                                  int resultCode,
                                  @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode != Activity.RESULT_OK) {
+            return;
+        }
+        if (WidgetRouterApi.ImageEdit.isRequestCode(requestCode)) {
+            String imagePath = data.getStringExtra(WidgetRouterApi.ImageEdit.RESULT_IMAGE_PATH);
+            if (imagePath != null) {
+                SDKMessage sdkMessage = SDKMessage.obtain()
+                        .setSessionType(getSessionType())
+                        .setMediaPath(imagePath);
+                MessageEntity messageEntity = MessageEntity.obtain(sdkMessage);
+                messageEntity.setMessageType(MessageType.IMAGE);
+                messageEntity.setMessageDirection(MessageDirection.RIGHT);
+                mChatSessionAdapter.addData(messageEntity);
+                scrollToLastPosition();
+            }
+            return;
+        }
         CommonKeyboardLayout commonKeyboard = mChatSessionBinding.commonKeyboard;
         commonKeyboard.handleOnActivityResult(getActivity(), requestCode, resultCode, data);
     }
@@ -156,6 +175,7 @@ public abstract class BaseChatSessionFragment<V extends BaseChatSessionViewModel
      */
     protected void setupMenu() {
         mMenuOperates.put(MenuOperateType.COPY, new OnCopyOperate());
+        mMenuOperates.put(MenuOperateType.EDIT, new OnEditOperate());
         mMenuOperates.put(MenuOperateType.SHARE, new OnShareOperate());
         mMenuOperates.put(MenuOperateType.RECALL, new OnRecallOperate());
         mMenuOperates.put(MenuOperateType.DELETE, new OnDeleteOperate());

@@ -170,19 +170,22 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
-            if (MediaSelector.isMediaRequestCode(requestCode)) {
-                final List<LocalMedia> mediaList = MediaSelector.obtainMultipleResult(data);
-                final LocalMedia media = mediaList.get(0);
-                final Uri uri = Uri.parse(media.isCut() ? media.getCutPath() : media.getPath());
-                String filePath = PathUtils.getFilePathByUri(uri);
-                Log.e("aaa", "onActivityResult:2 " + filePath + " " + new File(filePath).exists());
+        if (resultCode != Activity.RESULT_OK) {
+            return;
+        }
 
-                mUserSettingModel.requestPutResourcesUploadQueueDBEntities(new ArrayList<>(mediaList));
+        // 头像选择请求
+        if (MediaSelector.isMediaRequestCode(requestCode)) {
+            final List<LocalMedia> mediaList = MediaSelector.obtainMultipleResult(data);
+            final LocalMedia media = mediaList.get(0);
+            final Uri uri = Uri.parse(media.isCut() ? media.getCutPath() : media.getPath());
+            String filePath = PathUtils.getFilePathByUri(uri);
+            Log.e("aaa", "onActivityResult:2 " + filePath + " " + new File(filePath).exists());
 
-                for (LocalMedia localMedia : mediaList) {
-                    Log.e("aaa", "onActivityResult: " + MediaSelector.getMediaPath(localMedia));
-                }
+            mUserSettingModel.requestPutResourcesUploadQueueDBEntities(new ArrayList<>(mediaList));
+
+            for (LocalMedia localMedia : mediaList) {
+                Log.e("aaa", "onActivityResult: " + MediaSelector.getMediaPath(localMedia));
             }
         }
     }
@@ -398,9 +401,8 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
                     MomentShareUtils.shareSingleImageToWeChatMoment(getActivity(), imagePaths.size() > 0 ? imagePaths.get(0) : "");
                     return true;
                 } else if (operateItem.getOperateType() == ShareOperateType.DOWNLOAD) {
-                    WidgetRouterApi.VideoDownload.newBuilder()
-                            .navigation();
                     window.dismiss();
+                    ToastUtils.success("下载功能暂未开放").show();
                     return true;
                 }
                 return false;

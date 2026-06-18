@@ -26,6 +26,12 @@ class CacheDirConfig private constructor() {
         val COMPRESSION_FILE_DIR = PathUtils.getAppExtCachePath() + "/.compression_file_dir"
 
         /**
+         * 默认相册名称
+         */
+        @JvmField
+        val DEFAULT_ALBUM_NAME ="Hello";
+
+        /**
          * 分享缓存文件夹（图片/视频）
          */
         @JvmField

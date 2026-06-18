@@ -1,6 +1,8 @@
 package com.xxl.hello.widget.data.router;
 
 import android.Manifest;
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -318,6 +320,89 @@ public final class WidgetRouterApi {
             public void navigation() {
                 RouterUtils.navigation(PATH, mParams);
             }
+        }
+    }
+
+    //endregion
+
+    //region: 图片编辑路由相关
+
+    public static class ImageEdit {
+
+        /**
+         * 图片编辑页面路径地址
+         */
+        public static final String PATH = WIDGET_MODULE_NAME + "/image_edit";
+
+        /**
+         * 图片编辑请求码
+         */
+        public static final int IMAGE_EDIT_REQUEST_CODE = 9900;
+
+        /**
+         * 图片路径
+         */
+        public static final String PARAMS_KEY_IMAGE_PATH = "params_key_image_path";
+
+        /**
+         * 编辑后的图片路径
+         */
+        public static final String RESULT_IMAGE_PATH = "result_image_path";
+
+        /**
+         * 判断是否是图片编辑页面的请求码
+         *
+         * @param requestCode
+         * @return
+         */
+        public static boolean isRequestCode(final int requestCode) {
+            return IMAGE_EDIT_REQUEST_CODE == requestCode;
+        }
+
+        /**
+         * 设置页面返回结果
+         *
+         * @param activity
+         * @param imagePath
+         */
+        public static void setActivityResult(@NonNull final Activity activity,
+                                             @Nullable final String imagePath) {
+            final Intent intent = new Intent();
+            intent.putExtra(RESULT_IMAGE_PATH, imagePath);
+            activity.setResult(Activity.RESULT_OK, intent);
+            activity.finish();
+        }
+
+        public static Builder newBuilder() {
+            return new Builder();
+        }
+
+        public static class Builder {
+
+            private Bundle mParams = new Bundle();
+
+            public Builder() {
+
+            }
+
+            /**
+             * 设置图片路径
+             *
+             * @param imagePath
+             * @return
+             */
+            public Builder setImagePath(@NonNull final String imagePath) {
+                mParams.putString(PARAMS_KEY_IMAGE_PATH, imagePath);
+                return this;
+            }
+
+            /**
+             * 跳转到图片编辑页面
+             */
+            public void navigation(@NonNull Activity activity) {
+                RouterUtils.navigation(activity, PATH, mParams, IMAGE_EDIT_REQUEST_CODE);
+            }
+
         }
     }
 
