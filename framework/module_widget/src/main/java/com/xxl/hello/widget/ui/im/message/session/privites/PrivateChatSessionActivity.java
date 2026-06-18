@@ -1,13 +1,9 @@
 package com.xxl.hello.widget.ui.im.message.session.privites;
 
-import android.content.Intent;
 import android.view.View;
-
-import androidx.annotation.Nullable;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.luck.picture.lib.entity.LocalMedia;
-import com.xxl.core.ui.activity.SingleFragmentBarActivity;
 import com.xxl.hello.widget.R;
 import com.xxl.hello.widget.data.router.ChatRouterApi;
 import com.xxl.hello.widget.ui.im.message.session.base.BaseChatSessionActivity;
@@ -58,17 +54,6 @@ public class PrivateChatSessionActivity extends BaseChatSessionActivity<PrivateC
             return fragment.onToolbarRightLongClick();
         }
         return super.onToolbarRightLongClick(view);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode,
-                                    int resultCode,
-                                    @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        PrivateChatSessionFragment fragment = getCurrentFragment();
-        if (fragment != null) {
-            fragment.onActivityResult(requestCode, resultCode, data);
-        }
     }
 
     //endregion

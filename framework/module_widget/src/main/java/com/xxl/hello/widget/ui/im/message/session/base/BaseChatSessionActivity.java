@@ -1,6 +1,9 @@
 package com.xxl.hello.widget.ui.im.message.session.base;
 
+import android.content.Intent;
 import android.view.View;
+
+import androidx.annotation.Nullable;
 
 import com.xxl.core.ui.activity.SingleFragmentBarActivity;
 
@@ -17,6 +20,15 @@ public abstract class BaseChatSessionActivity<F extends BaseChatSessionFragment>
             return;
         }
         super.onBackPressed();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        F fragment = getCurrentFragment();
+        if (fragment != null) {
+            fragment.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     @Override

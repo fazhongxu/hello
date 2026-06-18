@@ -32,10 +32,24 @@ public class ImageEditFragment extends BaseStateViewModelFragment<ImageEditViewM
 
     //region: 成员变量
 
+    /**
+     * 视图绑定
+     */
     private WidgetFragmentImageEditBinding mBinding;
+
+    /**
+     * 视图模型
+     */
     private ImageEditViewModel mViewModel;
+
+    /**
+     * 原始图片 Bitmap
+     */
     private Bitmap mSourceBitmap;
 
+    /**
+     * 图片路径
+     */
     @Autowired(name = WidgetRouterApi.ImageEdit.PARAMS_KEY_IMAGE_PATH)
     String mImagePath;
 
@@ -183,6 +197,9 @@ public class ImageEditFragment extends BaseStateViewModelFragment<ImageEditViewM
 
     //region: Activity 操作
 
+    /**
+     * 工具栏右侧点击
+     */
     public void onToolbarRightClick() {
         Bitmap editedBitmap = getEditedBitmap();
         if (editedBitmap == null) {
@@ -191,7 +208,7 @@ public class ImageEditFragment extends BaseStateViewModelFragment<ImageEditViewM
         }
         File file = ImageUtils.save2Album(editedBitmap, CacheDirConfig.DEFAULT_ALBUM_NAME, Bitmap.CompressFormat.JPEG);
         if (file != null) {
-            ToastUtils.success("图片已保存").show();
+            WidgetRouterApi.ImageEdit.setActivityResult(requireActivity(), file.getAbsolutePath());
         }
     }
 

@@ -1,9 +1,5 @@
 package com.xxl.hello.widget.ui.imageedit;
 
-import android.graphics.Bitmap;
-
-import androidx.annotation.Nullable;
-
 /**
  * 图片编辑页面导航接口
  *

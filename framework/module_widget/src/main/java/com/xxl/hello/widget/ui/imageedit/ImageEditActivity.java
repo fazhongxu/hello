@@ -1,6 +1,5 @@
 package com.xxl.hello.widget.ui.imageedit;
 
-import android.graphics.Bitmap;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -10,11 +9,6 @@ import com.xxl.core.ui.activity.SingleFragmentBarActivity;
 import com.xxl.core.widget.toolbar.OnToolbarProvider;
 import com.xxl.hello.widget.R;
 import com.xxl.hello.widget.data.router.WidgetRouterApi.ImageEdit;
-import com.xxl.kit.PathUtils;
-import com.xxl.kit.ToastUtils;
-
-import java.io.File;
-import java.io.FileOutputStream;
 
 /**
  * 图片编辑页面
