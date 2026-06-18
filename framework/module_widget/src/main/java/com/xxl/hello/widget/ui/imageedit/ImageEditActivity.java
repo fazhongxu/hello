@@ -10,12 +10,15 @@ import com.xxl.core.widget.toolbar.OnToolbarProvider;
 import com.xxl.hello.widget.R;
 import com.xxl.hello.widget.data.router.WidgetRouterApi.ImageEdit;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
 /**
  * 图片编辑页面
  *
  * @author xxl
  * @date 2026/06/15
  */
+@AndroidEntryPoint
 @Route(path = ImageEdit.PATH)
 public class ImageEditActivity extends SingleFragmentBarActivity<ImageEditFragment> implements OnToolbarProvider {
 

@@ -10,12 +10,17 @@ import com.xxl.core.ui.BaseViewModel;
 import com.xxl.hello.service.data.repository.DataRepositoryKit;
 import com.xxl.hello.widget.ui.view.ImageEditView;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.lifecycle.HiltViewModel;
+
 /**
  * 图片编辑页面视图模型
  *
  * @author xxl
  * @date 2026/06/15
  */
+@HiltViewModel
 public class ImageEditViewModel extends BaseViewModel<ImageEditNavigator> {
 
     /**
@@ -40,6 +45,7 @@ public class ImageEditViewModel extends BaseViewModel<ImageEditNavigator> {
 
     private DataRepositoryKit mDataRepositoryKit;
 
+    @Inject
     public ImageEditViewModel(@NonNull Application application,
                               @NonNull DataRepositoryKit dataRepositoryKit) {
         super(application);

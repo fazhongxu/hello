@@ -21,12 +21,15 @@ import com.xxl.kit.ToastUtils;
 
 import java.io.File;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
 /**
  * 图片编辑页面
  *
  * @author xxl
  * @date 2026/06/15
  */
+@AndroidEntryPoint
 public class ImageEditFragment extends BaseStateViewModelFragment<ImageEditViewModel, WidgetFragmentImageEditBinding>
         implements ImageEditNavigator {
 
