@@ -37,15 +37,4 @@ public interface ImageEditNavigator {
      */
     void onRedoClick();
 
-    /**
-     * 编辑完成回调
-     *
-     * @param editedBitmap 编辑后的图片
-     */
-    void onEditComplete(@Nullable Bitmap editedBitmap);
-
-    /**
-     * 取消编辑
-     */
-    void onEditCancel();
 }

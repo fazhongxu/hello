@@ -1,7 +1,7 @@
 package com.xxl.hello.widget.ui.imageedit;
 
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 
@@ -9,16 +9,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
-import com.bumptech.glide.request.target.CustomTarget;
-import com.bumptech.glide.request.transition.Transition;
-import com.xxl.core.image.loader.ImageLoader;
 import com.xxl.core.ui.fragment.BaseStateViewModelFragment;
+import com.xxl.hello.common.config.CacheDirConfig;
 import com.xxl.hello.widget.BR;
 import com.xxl.hello.widget.R;
 import com.xxl.hello.widget.data.router.WidgetRouterApi;
 import com.xxl.hello.widget.databinding.WidgetFragmentImageEditBinding;
 import com.xxl.hello.widget.ui.view.ImageEditView;
-import com.xxl.kit.AppUtils;
 import com.xxl.kit.ImageUtils;
 import com.xxl.kit.ToastUtils;
 
@@ -97,13 +94,7 @@ public class ImageEditFragment extends BaseStateViewModelFragment<ImageEditViewM
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (mBinding != null && mBinding.imageEditView != null) {
-            mBinding.imageEditView.release();
-        }
-        if (mSourceBitmap != null && !mSourceBitmap.isRecycled()) {
-            mSourceBitmap.recycle();
-            mSourceBitmap = null;
-        }
+        mBinding.imageEditView.release();
     }
 
     //endregion
@@ -127,22 +118,11 @@ public class ImageEditFragment extends BaseStateViewModelFragment<ImageEditViewM
      * 加载图片
      */
     private void loadImage() {
-        ImageLoader.with(AppUtils.getApplication())
-                .asBitmap()
-                .load(mImagePath)
-                .into(new CustomTarget<Bitmap>() {
-                    @Override
-                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                        mSourceBitmap = resource;
-                        mBinding.imageEditView.setImageBitmap(resource);
-                        setupImageEditView();
-                    }
-
-                    @Override
-                    public void onLoadCleared(@Nullable Drawable placeholder) {
-
-                    }
-                });
+        mSourceBitmap = BitmapFactory.decodeFile(mImagePath);
+        if (mSourceBitmap != null) {
+            mBinding.imageEditView.setImageBitmap(mSourceBitmap);
+            setupImageEditView();
+        }
     }
 
     /**
@@ -187,24 +167,6 @@ public class ImageEditFragment extends BaseStateViewModelFragment<ImageEditViewM
         mBinding.imageEditView.redo();
     }
 
-    @Override
-    public void onEditComplete(@Nullable Bitmap editedBitmap) {
-        if (editedBitmap != null) {
-            ToastUtils.success("编辑完成").show();
-        }
-        if (getActivity() != null) {
-            getActivity().setResult(android.app.Activity.RESULT_OK);
-            getActivity().finish();
-        }
-    }
-
-    @Override
-    public void onEditCancel() {
-        if (getActivity() != null) {
-            getActivity().finish();
-        }
-    }
-
     //endregion
 
     //region: 公共方法
@@ -214,12 +176,8 @@ public class ImageEditFragment extends BaseStateViewModelFragment<ImageEditViewM
      */
     @Nullable
     public Bitmap getEditedBitmap() {
-        if (mBinding != null && mBinding.imageEditView != null) {
-            return mBinding.imageEditView.getEditedBitmap();
-        }
-        return null;
+        return mBinding.imageEditView.getEditedBitmap();
     }
-
 
     //endregion
 
@@ -231,17 +189,9 @@ public class ImageEditFragment extends BaseStateViewModelFragment<ImageEditViewM
             ToastUtils.error("没有可保存的图片").show();
             return;
         }
-
-        try {
-            File file = ImageUtils.save2Album(editedBitmap, Bitmap.CompressFormat.JPEG);
-            if (file != null) {
-                ToastUtils.success("图片已保存").show();
-            } else {
-                ToastUtils.error("保存失败").show();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            ToastUtils.error("保存失败").show();
+        File file = ImageUtils.save2Album(editedBitmap, CacheDirConfig.DEFAULT_ALBUM_NAME, Bitmap.CompressFormat.JPEG);
+        if (file != null) {
+            ToastUtils.success("图片已保存").show();
         }
     }
 
