@@ -14,6 +14,53 @@
 - `schemas/`、`docs/`、`tools/` — 辅助资源与文档。
 - 源码遵循标准 Android 目录结构：`src/main/`、`src/test/`（单元测试）、`src/androidTest/`（插桩测试）。
 
+
+## 架构总览
+
+应用采用 **MVVM** 架构，严格按依赖方向自上而下分为四层，无循环依赖（`gradle.properties` 中 `org.gradle.parallel=true` 生效的前提）。模块间不直接写 `project()`，而是通过 `config.gradle` 的 `deps` 映射间接引用，每个模块有 `versions.*_remote` 开关在「本地源码」与「Nexus 私服 AAR」间切换。
+
+### 分层依赖关系
+
+```
+                     app  (应用壳: 签名/渠道/AndResGuard/AspectJX)
+                      │
+        ┌─────────────┴─────────────┐
+   module_main                 module_user        (业务层, 用 common.gradle)
+        │                           │
+        └─────────────┬─────────────┘
+                     ▼
+   ┌─────────────────────────────────────────────┐
+   │  hello.router  hello.widget  hello.common   │   (framework 业务库)
+   │  hello.service  hello.annotation            │
+   └────────────────────┬────────────────────────┘
+                        │ kapt hello.compiler
+                        ▼
+                 origin.core  origin.kit           (framework 底座)
+                        │
+                        ▼
+              module_libs (lib_ffmpeg / lib_picture_selector /
+                           lib_pinyin / lib_watermark)        (三方隔离层)
+```
+
+### framework 各模块职责
+
+- **`module_core`**（`com.xxl.core`）— 底座。`BaseActivity`/`BaseApplication`/`BaseBindingAdapter`、AOP 切面（`AsyncAspect`、`AndroidIdHookAspect`）、音频（`AudioPlayer`/`AudioCapture`）、下载（`AriaDownloadServiceImpl`）、网络 `ApiHeader`。
+- **`module_kit`**（`com.xxl.kit`）— 纯工具箱，零业务依赖。`FFmpegUtils`、`EncryptUtils`、`ImageUtils`、`DeviceUtils`、`CountdownWrapper`、路由聚合 `AppRouterApi`。
+- **`module_common`**（`com.xxl.hello.common`）— 业务配置中心（Kotlin 为主）：`AppConfig`/`AppOptions`、`NetworkConfig`、`ShareConfig`、`CacheDirConfig`、`IconManager`（图标切换）。
+- **`module_service`**（`com.xxl.hello.service`）— 数据层与服务抽象：`BaseService`/`BaseRepositoryIml`/`BaseDataSource`、ObjectBox 实体、`*LocalDataSource` 与 `*RemoteDataSource` 双源分离、Scheme 服务。
+- **`module_widget`**（`com.xxl.hello.widget`）— 复杂 UI 组件：聊天会话体系（`BaseChatSessionActivity/Fragment/ViewModel`、`ChatSessionAdapter`、`BaseMessageProvider`）、分享 `BaseSharePicker`、`BaseWebFragment`。
+- **`module_router`**（`com.xxl.hello.router`）— 路由 API 与拦截器：`MainRouterApi`、`UserRouterApi`、`LoginInterceptor`。
+- **`module_annotation` + `module_compiler`** — 注解 + APT 处理器：`@WXEntry`（绕过微信支付需在 app 建 wxapi 目录）、`@Bind`、`@Template`，由 `HelloCompiler` 聚合入口。
+
+### 业务模块（modules）
+
+- **`module_main`** — App 壳业务实现：`HelloApplication`、`MainActivity`、`SplashActivity`（启动页）、`SchemeJumpActivity`（Scheme 统一跳转）、Dagger2 图（`AppComponent`/`AppModule`）、微信回调 `WeChatCallbackActivity`、桌面小部件 `HelloAppWidgetProvider`。
+- **`module_user`** — 用户体系（标准 MVVM 分层）：`LoginActivity`/`LoginViewModel`/`LoginNavigator`、Repository 模式（`UserRepository` + 本地/远程双数据源）、请求响应实体、`PrivacyPolicyPopupWindow`。
+
+### 关键设计点
+
+- **本地 ⇄ 远程切换**：`config.gradle` 中改 `versions.module_core_remote = true`，即可把 `module_core` 从源码依赖切到私服 AAR，便于核心库独立发版联调；`module_libs` 同理（`ffmpeg_kit_remote`、`picture_selector_remote`）。
+- **数据层双源**：`module_service` 每个领域都有 `*LocalDataSource` 与 `*RemoteDataSource`，由 Repository 统一调度，符合 MVVM + Clean Architecture 数据流向。
 ## 构建、测试与开发命令
 
 所有命令均通过 Gradle Wrapper 在仓库根目录执行。
