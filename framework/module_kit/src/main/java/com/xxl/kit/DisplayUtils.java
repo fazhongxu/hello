@@ -371,4 +371,24 @@ public class DisplayUtils {
         return (params.flags & WindowManager.LayoutParams.FLAG_FULLSCREEN) == WindowManager.LayoutParams.FLAG_FULLSCREEN;
     }
 
+    /**
+     * 设置禁止截屏和录屏
+     *
+     * @param activity
+     */
+    public static void setSecure(@NonNull final Activity activity) {
+        Window window = activity.getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_SECURE);
+    }
+
+    /**
+     * 清除禁止截屏和录屏
+     *
+     * @param activity
+     */
+    public static void clearSecure(@NonNull final Activity activity) {
+        Window window = activity.getWindow();
+        window.clearFlags(WindowManager.LayoutParams.FLAG_SECURE);
+    }
+
 }
