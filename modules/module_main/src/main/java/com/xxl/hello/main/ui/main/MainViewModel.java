@@ -69,7 +69,7 @@ public class MainViewModel extends BaseViewModel<MainNavigator> {
     }
 
     public ObservableBoolean getObservable2() {
-        return new ObservableBoolean(false);
+        return new ObservableBoolean(true);
     }
 
     /**

@@ -28,6 +28,11 @@ android {
                 cFlags "-DSTDC_HEADERS"
             }
         }
+
+        ndk {
+            abiFilters = []
+            abiFilters.addAll(build_versions.abiFilters.split(',').collect { it as String })
+        }
     }
 
     buildTypes {
@@ -48,13 +53,13 @@ android {
 
 
 
-    // TODO: 2022/4/6 音频实时转码 需要用时，build.gradle 打开 cmake文件，才可以用，暂时注释掉（debug费时间）
-//    externalNativeBuild {
-//        cmake {
-//            path "src/main/cpp/CMakeLists.txt"
-//            version "3.10.2"
-//        }
-//    }
+    // 音频实时转码（PCM -> MP3）依赖 lame native 库，编译脚本见 src/main/cpp/CMakeLists.txt
+    // 已通过 defaultConfig 的 abiFilters 限定为 arm64-v8a / armeabi-v7a，控制 native 构建耗时
+    externalNativeBuild {
+        cmake {
+            path "src/main/cpp/CMakeLists.txt"
+        }
+    }
 }
 
 uploadArchives {

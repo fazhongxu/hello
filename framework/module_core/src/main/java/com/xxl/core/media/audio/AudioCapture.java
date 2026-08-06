@@ -32,7 +32,7 @@ import java.util.List;
  * @author xxl.
  * @date 2022/1/10.
  */
-public class AudioCapture implements PcmEncoderAac.EncoderListener {
+public class AudioCapture implements PcmEncoderAac.EncoderListener, PcmEncoderMp3.EncoderListener {
 
     //region: 成员变量
 
@@ -101,6 +101,11 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
      * pcm to aac
      */
     private PcmEncoderAac mPcmEncoderAac;
+
+    /**
+     * pcm to mp3 实时编码器
+     */
+    private PcmEncoderMp3 mPcmEncoderMp3;
 
     /**
      * 音频录制格式
@@ -267,15 +272,22 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
             }
             throw new IllegalArgumentException("必须设置音频文件输出路径！");
         }
-        mAudioFile = createAudioAACFile();
+        final int channelCount = channelConfig == AudioFormat.CHANNEL_IN_MONO ? 1 : 2;
         if (mAudioRecordFormat == AudioRecordFormat.MP3) {
-            mAudioMp3File = createAudioMp3File();
+            // 实时转码：直接输出 mp3 文件
+            mAudioFile = createAudioMp3File();
+            mAudioMp3File = mAudioFile;
+            if (mPcmEncoderMp3 == null) {
+                mPcmEncoderMp3 = new PcmEncoderMp3(this);
+            }
+            mPcmEncoderMp3.prepare(sampleRateInHz, channelCount);
+        } else {
+            mAudioFile = createAudioAACFile();
+            if (mPcmEncoderAac == null || mPcmEncoderAac.getSampleRate() != sampleRateInHz) {
+                mPcmEncoderAac = new PcmEncoderAac(sampleRateInHz, this);
+            }
         }
         mAudioOutputStream = createFileOutputStream();
-
-        if (mPcmEncoderAac == null || mPcmEncoderAac.getSampleRate() != sampleRateInHz) {
-            mPcmEncoderAac = new PcmEncoderAac(sampleRateInHz, this);
-        }
 
         if (mIsCaptureStarted) {
             LogUtils.e(TAG, "Capture already started !");
@@ -361,15 +373,14 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
         mIsCaptureStarted = false;
         mRecordState = AudioRecordState.STOP;
 
+        // 录音循环已结束，统一 finalize mp3 编码器（flush 残留帧 + 关闭 lame），避免 lame 句柄泄漏
+        if (mAudioRecordFormat == AudioRecordFormat.MP3 && mPcmEncoderMp3 != null) {
+            mPcmEncoderMp3.stop();
+        }
+
         if (mIsCancel) {
             recordCanceled();
             mRecordState = AudioRecordState.CANCEL;
-            return;
-        }
-
-        if (mAudioRecordFormat != AudioRecordFormat.AAC) {
-            Thread thread = new Thread(new AudioTranscodeRunnable());
-            thread.start();
             return;
         }
 
@@ -587,7 +598,11 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
                     LogUtils.d(TAG, "OK, Captured " + ret + " bytes !");
                     if (state == AudioRecord.RECORDSTATE_RECORDING) {
                         mRecordState = AudioRecordState.RECORDING;
-                        if (mPcmEncoderAac != null) {
+                        if (mAudioRecordFormat == AudioRecordFormat.MP3) {
+                            if (mPcmEncoderMp3 != null) {
+                                mPcmEncoderMp3.encodeData(buffer, ret);
+                            }
+                        } else if (mPcmEncoderAac != null) {
                             mPcmEncoderAac.encodeData(buffer);
                         }
                     }
@@ -599,31 +614,25 @@ public class AudioCapture implements PcmEncoderAac.EncoderListener {
 
     //endregion
 
-    //region: Inner Class AudioCaptureRunnable
-
-    private class AudioTranscodeRunnable implements Runnable {
-
-        @Override
-        public void run() {
-            if (mAudioRecordFormat == AudioRecordFormat.MP3) {
-                FFmpegUtils.aac2mp3(mAudioFile.getAbsolutePath(), mAudioMp3File.getAbsolutePath());
-                if (FileUtils.isFileExists(mAudioFile)) {
-                    FileUtils.deleteFile(mAudioFile);
-                }
-                mHandler.post(() -> recordComplete(mAudioMp3File));
-                return;
-            }
-        }
-    }
-
-    //endregion
-
     //region: PcmEncoderAac.EncoderListener
 
     @Override
     public void encodeAAC(byte[] data) {
-        LogUtils.d(TAG, "encodeAAC: " + data.length);
-        if (mAudioOutputStream == null) {
+        writeAudioBytes(data);
+    }
+
+    @Override
+    public void encodeMp3(byte[] data) {
+        writeAudioBytes(data);
+    }
+
+    /**
+     * 将编码后的音频数据写入输出流
+     *
+     * @param data
+     */
+    private void writeAudioBytes(final byte[] data) {
+        if (mAudioOutputStream == null || data == null || data.length <= 0) {
             return;
         }
         try {
