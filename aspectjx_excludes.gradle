@@ -1,21 +1,10 @@
 aspectjx {
-    //关闭AspectJX功能
-	enabled true
+    // 开启 AspectJX 功能
+    enabled true
 
-    // 排除一些第三方库的包名（如Gson、LeakCanary 和 AOP 有冲突）
-    exclude 'androidx',
-            "android.support",
-            'kotlin',
-            'com.google',
-            'com.squareup',
-            'com.tencent',
-            'com.github',
-            'io.github',
-            'io.reactivex',
-            'top.zibin',
-            'com.alipay',
-            'com.taobao',
-            'com.alipay',
-            'org.apache',
-            'versions.9'
+    // 只对项目自身代码（com.xxl 包）做 AOP 织入，第三方库一律跳过
+    // 白名单方式比黑名单（exclude）更安全：不会因遗漏而误织入第三方库，避免拖慢构建或产生冲突
+    // 覆盖：com.xxl.core（切面 + AOP 注解）、com.xxl.kit、com.xxl.hello.*（annotation/common/compiler/router/service/widget/main/user）
+    // 如果要测试织入别的包名的代码，可以暂时改回之前的方式
+    include 'com.xxl'
 }
