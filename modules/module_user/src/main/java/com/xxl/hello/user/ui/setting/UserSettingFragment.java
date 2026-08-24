@@ -400,7 +400,8 @@ public class UserSettingFragment extends BaseViewModelFragment<UserSettingModel,
                     return true;
                 } else if (operateItem.getOperateType() == ShareOperateType.DOWNLOAD) {
                     window.dismiss();
-                    ToastUtils.success("下载功能暂未开放").show();
+                    WidgetRouterApi.VideoDownload.newBuilder()
+                            .navigation();
                     return true;
                 }
                 return false;

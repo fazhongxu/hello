@@ -1,18 +1,23 @@
 package com.xxl.hello.widget.ui.video;
 
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.xxl.core.ui.fragment.BaseViewModelFragment;
+import com.xxl.hello.common.utils.TikTokUtils;
 import com.xxl.hello.widget.BR;
 import com.xxl.hello.widget.R;
 import com.xxl.hello.widget.data.router.WidgetRouterApi;
 import com.xxl.hello.widget.databinding.WidgetFragmentVideoDownloadBinding;
+import com.xxl.kit.ClipboardUtils;
+import com.xxl.kit.OnRequestCallBack;
+import com.xxl.kit.ToastUtils;
 
 /**
  * 视频下载页面
@@ -94,7 +99,28 @@ public class VideoDownloadFragment extends BaseViewModelFragment<VideoDownloadVi
 
     private void setupLayoutView() {
         mBinding.btnDownload.setOnClickListener(v -> {
-            mViewModel.startDownload();
+            final CharSequence clip = ClipboardUtils.getText();
+            Log.d("VideoDownloadFragment", "onTestClick 剪贴板内容: " + clip);
+            String url = mBinding.etVideoUrl.getText().toString();
+            if (TextUtils.isEmpty(url)) {
+                Log.w("VideoDownloadFragment", "视频地址为空");
+                ToastUtils.warning("视频地址为空，请先在抖音复制视频口令").show();
+                return;
+            }
+            TikTokUtils.parseVideo(url, new OnRequestCallBack<String>() {
+                @Override
+                public void onSuccess(final String videoUrl) {
+                    Log.d("VideoDownloadFragment", "抖音无水印视频地址: " + videoUrl);
+                    ClipboardUtils.copyText(videoUrl);
+                    ToastUtils.success("解析成功，地址已复制").show();
+                }
+
+                @Override
+                public void onFailure(final Throwable throwable) {
+                    Log.e("VideoDownloadFragment", "抖音视频解析失败: " + throwable.getMessage());
+                    ToastUtils.error("解析失败: " + throwable.getMessage()).show();
+                }
+            });
         });
     }
 
