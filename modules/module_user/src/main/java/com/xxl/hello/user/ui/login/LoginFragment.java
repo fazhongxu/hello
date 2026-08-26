@@ -21,6 +21,7 @@ import com.xxl.hello.user.R;
 import com.xxl.hello.user.data.model.api.UserLoginResponse;
 import com.xxl.hello.user.databinding.UserFragmentLoginBinding;
 import com.xxl.hello.user.ui.login.window.PrivacyPolicyPopupWindow;
+import com.xxl.hello.user.ui.login.window.SwipeCaptchaPopupWindow;
 import com.xxl.hello.widget.data.router.WidgetRouterApi;
 import com.xxl.hello.widget.ui.listener.OnVipInterceptListener;
 import com.xxl.hello.widget.ui.model.aop.annotation.VipIntercept;
@@ -196,7 +197,7 @@ public class LoginFragment extends BaseViewModelFragment<LoginViewModel, UserFra
             ToastUtils.warning(R.string.resources_privacy_policy_agree_tips).show();
             return;
         }
-        mLoginViewModel.requestLogin("123456", String.valueOf(TimeUtils.currentServiceTimeMillis()));
+        showSwipeCaptchaPopupWindow();
     }
 
     /**
@@ -262,6 +263,15 @@ public class LoginFragment extends BaseViewModelFragment<LoginViewModel, UserFra
     //endregion
 
     //region: Fragment 操作
+
+    /**
+     * 弹出滑块验证弹窗，验证通过后再发起登录
+     */
+    private void showSwipeCaptchaPopupWindow() {
+        SwipeCaptchaPopupWindow.from(getActivity())
+                .setOnSuccessClickListener(v -> mLoginViewModel.requestLogin("123456", String.valueOf(TimeUtils.currentServiceTimeMillis())))
+                .showPopupWindow();
+    }
 
     /**
      * 弹出隐私政策弹窗

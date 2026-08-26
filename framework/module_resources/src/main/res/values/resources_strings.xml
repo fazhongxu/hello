@@ -93,4 +93,9 @@
 
     <string name="resources_image_edit_title">图片编辑</string>
 
+    <string name="resources_swipe_captcha_title">安全验证</string>
+    <string name="resources_swipe_captcha_tips">向右滑动完成验证</string>
+    <string name="resources_swipe_captcha_success_tips">验证成功</string>
+    <string name="resources_swipe_captcha_fail_tips">验证失败，请重试</string>
+
 </resources>
