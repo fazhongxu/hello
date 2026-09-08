@@ -101,7 +101,7 @@ public class RetrofitClient {
 
             builder.addHeader("User-Agent", userAgent);
             if (!TextUtils.isEmpty(userId)) {
-                builder.addHeader("user_id", userAgent);
+                builder.addHeader("user_id", userId);
             }
 
             if (!TextUtils.isEmpty(userToken)) {
