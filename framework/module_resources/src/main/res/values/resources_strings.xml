@@ -98,4 +98,19 @@
     <string name="resources_swipe_captcha_success_tips">验证成功</string>
     <string name="resources_swipe_captcha_fail_tips">验证失败，请重试</string>
 
+    <string name="resources_sticky_collapse_announcement">团队管理员可以在这里发布公告！</string>
+    <string name="resources_sticky_collapse_search_tips">搜索素材</string>
+    <string name="resources_sticky_collapse_mode_album">相册模式</string>
+    <string name="resources_sticky_collapse_mode_dynamic">动态模式</string>
+    <string name="resources_sticky_collapse_mode_gallery">图集模式</string>
+    <string name="resources_sticky_collapse_category_all">所有</string>
+    <string name="resources_sticky_collapse_category_sale">卖货宣传</string>
+    <string name="resources_sticky_collapse_category_compare">对比反馈</string>
+    <string name="resources_sticky_collapse_category_price">价目表</string>
+    <string name="resources_sticky_collapse_category_filter">筛选</string>
+    <string name="resources_sticky_collapse_tag_red_collapse">红1折叠</string>
+    <string name="resources_sticky_collapse_tag_blue_sticky">蓝1吸顶</string>
+    <string name="resources_sticky_collapse_tag_red2_collapse">红2折叠</string>
+    <string name="resources_sticky_collapse_tag_blue2_sticky">蓝2吸顶</string>
+
 </resources>

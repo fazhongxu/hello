@@ -96,4 +96,11 @@
         <attr name="flower_normal_count" format="integer" />
     </declare-styleable>
 
+    <declare-styleable name="StickyHeaderLayout_Layout">
+        <!-- 是否是折叠项：内容上滑时整体收起 -->
+        <attr name="layout_collapse" format="boolean" />
+        <!-- 是否是吸顶项：上滑到顶部后固定 -->
+        <attr name="layout_sticky" format="boolean" />
+    </declare-styleable>
+
 </resources>

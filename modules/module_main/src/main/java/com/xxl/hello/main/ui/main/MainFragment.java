@@ -3,16 +3,20 @@ package com.xxl.hello.main.ui.main;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.tbruyelle.rxpermissions3.RxPermissions;
@@ -21,6 +25,7 @@ import com.xxl.core.media.audio.AudioCapture;
 import com.xxl.core.media.audio.AudioCapture.OnAudioFrameCapturedListener;
 import com.xxl.core.media.audio.AudioRecordFormat;
 import com.xxl.core.ui.BaseEventBusWrapper;
+import com.xxl.core.ui.CommonFragmentAdapter;
 import com.xxl.core.ui.fragment.BaseStateViewModelFragment;
 import com.xxl.core.ui.state.EmptyState;
 import com.xxl.core.utils.AppExpandUtils;
@@ -116,6 +121,16 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
      */
     @Inject
     AppSchemeService mAppSchemeService;
+
+    /**
+     * 折叠吸顶demo：模式切换Tab集合
+     */
+    private TextView[] mModeTabs;
+
+    /**
+     * 折叠吸顶demo：分类筛选Tab集合
+     */
+    private TextView[] mCategoryTabs;
 
     //endregion
 
@@ -215,6 +230,7 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
         mMainViewModel.setObservableUserId(String.valueOf(TimeUtils.currentServiceTimeMillis()));
         setupRecord();
         setupRecyclerView();
+        setupStickyCollapseLayout();
     }
 
     private void setupRecyclerView() {
@@ -615,6 +631,65 @@ public class MainFragment extends BaseStateViewModelFragment<MainViewModel, Main
                 AudioCapture.getInstance().stopCapture();
             }
         });
+    }
+
+    //endregion
+
+    //region: 折叠吸顶demo
+
+    /**
+     * 设置折叠吸顶效果demo：红色区块随内容上滑收起、蓝色区块吸顶固定
+     */
+    private void setupStickyCollapseLayout() {
+        mModeTabs = new TextView[]{mViewDataBinding.tvModeAlbum, mViewDataBinding.tvModeDynamic, mViewDataBinding.tvModeGallery};
+        mCategoryTabs = new TextView[]{mViewDataBinding.tvCategoryAll, mViewDataBinding.tvCategorySale,
+                mViewDataBinding.tvCategoryCompare, mViewDataBinding.tvCategoryPrice};
+
+        final List<Fragment> fragments = new ArrayList<>();
+        fragments.add(StickyCollapseListFragment.newInstance("相册模式"));
+        fragments.add(StickyCollapseListFragment.newInstance("动态模式"));
+        fragments.add(StickyCollapseListFragment.newInstance("图集模式"));
+        mViewDataBinding.viewPager.setAdapter(new CommonFragmentAdapter(requireActivity(), fragments));
+        mViewDataBinding.viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(final int position) {
+                refreshModeTabSelectStatus(position);
+            }
+        });
+        for (int index = 0; index < mModeTabs.length; index++) {
+            final int targetPosition = index;
+            mModeTabs[index].setOnClickListener(v -> mViewDataBinding.viewPager.setCurrentItem(targetPosition));
+        }
+        for (int index = 0; index < mCategoryTabs.length; index++) {
+            final int selectPosition = index;
+            mCategoryTabs[index].setOnClickListener(v -> refreshCategoryTabSelectStatus(selectPosition));
+        }
+        refreshModeTabSelectStatus(0);
+        refreshCategoryTabSelectStatus(0);
+    }
+
+    /**
+     * 刷新模式切换Tab选中状态
+     *
+     * @param selectPosition
+     */
+    private void refreshModeTabSelectStatus(final int selectPosition) {
+        for (int index = 0; index < mModeTabs.length; index++) {
+            final boolean isSelected = index == selectPosition;
+            mModeTabs[index].setTextColor(isSelected ? 0xFF07C160 : 0xFF333333);
+            mModeTabs[index].setTypeface(isSelected ? Typeface.DEFAULT_BOLD : Typeface.DEFAULT);
+        }
+    }
+
+    /**
+     * 刷新分类筛选Tab选中状态
+     *
+     * @param selectPosition
+     */
+    private void refreshCategoryTabSelectStatus(final int selectPosition) {
+        for (int index = 0; index < mCategoryTabs.length; index++) {
+            mCategoryTabs[index].setTextColor(index == selectPosition ? 0xFFFB5A5C : 0xFF666666);
+        }
     }
 
     //endregion
