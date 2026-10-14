@@ -44,6 +44,16 @@ public class StickyHeaderLayout extends LinearLayout {
     private int mMaxCollapseOffset;
 
     /**
+     * 折叠停靠点集合（含0，每个折叠项收起后的累计偏移量）
+     */
+    private int[] mCollapseStopOffsets = new int[0];
+
+    /**
+     * 折叠停靠点数量
+     */
+    private int mCollapseStopCount;
+
+    /**
      * 自定义绘制顺序：折叠项 -> 吸顶项
      */
     private int[] mDrawingOrder = new int[0];
@@ -99,10 +109,16 @@ public class StickyHeaderLayout extends LinearLayout {
     @Override
     protected void onLayout(final boolean changed, final int left, final int top, final int right, final int bottom) {
         super.onLayout(changed, left, top, right, bottom);
+        final int childCount = getChildCount();
+        if (mCollapseStopOffsets.length != childCount + 1) {
+            mCollapseStopOffsets = new int[childCount + 1];
+        }
+        mCollapseStopCount = 1;
+        mCollapseStopOffsets[0] = 0;
         int aboveCollapseHeight = 0;
         mMaxCollapseOffset = 0;
         // 记录每一个子项上方折叠项的总高度
-        for (int index = 0, count = getChildCount(); index < count; index++) {
+        for (int index = 0; index < childCount; index++) {
             final View child = getChildAt(index);
             if (child.getVisibility() == GONE) {
                 continue;
@@ -114,6 +130,7 @@ public class StickyHeaderLayout extends LinearLayout {
             if (layoutParams.mCollapse) {
                 aboveCollapseHeight += childHeight;
                 mMaxCollapseOffset += childHeight;
+                mCollapseStopOffsets[mCollapseStopCount++] = mMaxCollapseOffset;
             }
         }
         buildDrawingOrder();
@@ -201,6 +218,25 @@ public class StickyHeaderLayout extends LinearLayout {
      */
     public int getMaxCollapseOffset() {
         return mMaxCollapseOffset;
+    }
+
+    /**
+     * 查找距离指定偏移量最近的折叠停靠点（0、只收起部分折叠项、全部收起）
+     *
+     * @param offset 指定偏移量
+     * @return
+     */
+    public int findNearestStopOffset(final int offset) {
+        int nearestOffset = 0;
+        int nearestDistance = Integer.MAX_VALUE;
+        for (int index = 0; index < mCollapseStopCount; index++) {
+            final int distance = Math.abs(mCollapseStopOffsets[index] - offset);
+            if (distance < nearestDistance) {
+                nearestDistance = distance;
+                nearestOffset = mCollapseStopOffsets[index];
+            }
+        }
+        return nearestOffset;
     }
 
     /**

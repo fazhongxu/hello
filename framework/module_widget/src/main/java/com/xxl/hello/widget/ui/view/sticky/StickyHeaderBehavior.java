@@ -1,8 +1,10 @@
 package com.xxl.hello.widget.ui.view.sticky;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.animation.DecelerateInterpolator;
 
 import androidx.annotation.NonNull;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
@@ -20,6 +22,15 @@ import androidx.core.view.ViewCompat;
  * @date 2026/10/14.
  */
 public class StickyHeaderBehavior extends CoordinatorLayout.Behavior<StickyHeaderLayout> {
+
+    //region: 成员变量
+
+    /**
+     * 抬手后头部折叠位移动画
+     */
+    private ValueAnimator mSnapAnimator;
+
+    //endregion
 
     //region: 构造函数
 
@@ -45,6 +56,17 @@ public class StickyHeaderBehavior extends CoordinatorLayout.Behavior<StickyHeade
     }
 
     @Override
+    public void onNestedScrollAccepted(@NonNull final CoordinatorLayout coordinatorLayout,
+                                       @NonNull final StickyHeaderLayout child,
+                                       @NonNull final View directTargetChild,
+                                       @NonNull final View target,
+                                       final int nestedScrollAxes,
+                                       final int type) {
+        // 新的滚动开始，取消未完成的吸附动画
+        cancelSnapAnimation();
+    }
+
+    @Override
     public void onNestedPreScroll(@NonNull final CoordinatorLayout coordinatorLayout,
                                   @NonNull final StickyHeaderLayout child,
                                   @NonNull final View target,
@@ -52,8 +74,14 @@ public class StickyHeaderBehavior extends CoordinatorLayout.Behavior<StickyHeade
                                   final int dy,
                                   @NonNull final int[] consumed,
                                   final int type) {
-        // 手指上滑时优先折叠头部
         if (dy > 0 && child.getCurrentCollapseOffset() < child.getMaxCollapseOffset()) {
+            // 手指上滑时优先折叠头部
+            final int consumedOffset = child.setCollapseOffset(child.getCurrentCollapseOffset() + dy);
+            consumed[1] += consumedOffset;
+            updateContentOffsets(coordinatorLayout, child);
+        } else if (dy < 0 && child.getCurrentCollapseOffset() > 0
+                && !ViewCompat.canScrollVertically(target, -1)) {
+            // 列表已滚动到顶部时，下拉优先展开头部（保证展开跟手，不经过列表回滚阶段）
             final int consumedOffset = child.setCollapseOffset(child.getCurrentCollapseOffset() + dy);
             consumed[1] += consumedOffset;
             updateContentOffsets(coordinatorLayout, child);
@@ -87,6 +115,57 @@ public class StickyHeaderBehavior extends CoordinatorLayout.Behavior<StickyHeade
         if (dyUnconsumed < 0 && child.getCurrentCollapseOffset() > 0) {
             child.setCollapseOffset(child.getCurrentCollapseOffset() + dyUnconsumed);
             updateContentOffsets(coordinatorLayout, child);
+        }
+    }
+
+    @Override
+    public void onStopNestedScroll(@NonNull final CoordinatorLayout coordinatorLayout,
+                                   @NonNull final StickyHeaderLayout child,
+                                   @NonNull final View target,
+                                   final int type) {
+        // 滚动结束后将头部吸附到最近的停靠点，避免停在中间状态
+        startSnapAnimation(coordinatorLayout, child);
+    }
+
+    //endregion
+
+    //region: 吸附动画
+
+    /**
+     * 启动头部折叠吸附动画（吸附到最近的停靠点）
+     *
+     * @param coordinatorLayout
+     * @param header
+     */
+    private void startSnapAnimation(@NonNull final CoordinatorLayout coordinatorLayout,
+                                    @NonNull final StickyHeaderLayout header) {
+        final int currentOffset = header.getCurrentCollapseOffset();
+        final int targetOffset = header.findNearestStopOffset(currentOffset);
+        if (currentOffset == targetOffset) {
+            return;
+        }
+        cancelSnapAnimation();
+        mSnapAnimator = ValueAnimator.ofInt(currentOffset, targetOffset);
+        mSnapAnimator.setDuration(250L);
+        mSnapAnimator.setInterpolator(new DecelerateInterpolator());
+        mSnapAnimator.addUpdateListener(animation -> {
+            if (!coordinatorLayout.isAttachedToWindow()) {
+                animation.cancel();
+                return;
+            }
+            header.setCollapseOffset((int) animation.getAnimatedValue());
+            updateContentOffsets(coordinatorLayout, header);
+        });
+        mSnapAnimator.start();
+    }
+
+    /**
+     * 取消吸附动画
+     */
+    private void cancelSnapAnimation() {
+        if (mSnapAnimator != null) {
+            mSnapAnimator.cancel();
+            mSnapAnimator = null;
         }
     }
 
