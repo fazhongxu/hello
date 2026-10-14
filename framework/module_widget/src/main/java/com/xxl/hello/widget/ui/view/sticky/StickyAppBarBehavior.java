@@ -31,7 +31,8 @@ import java.util.List;
  * </ul>
  * 注意：吸顶项需要设置不透明背景，且建议设置android:elevation保证绘制在滑出的折叠项之上（API 21+）。
  * <p>
- * 滚动行为：内容上滑时优先折叠头部；列表滚动到顶部时下拉优先展开；滚动结束后吸附到最近停靠点。
+ * 滚动行为：上滑优先折叠头部、下拉优先展开头部（等价于scroll + enterAlways语义）；
+ * 滚动结束后吸附到最近停靠点。
  *
  * @author xxl.
  * @date 2026/10/14.
@@ -206,11 +207,11 @@ public class StickyAppBarBehavior extends CoordinatorLayout.Behavior<AppBarLayou
                                   @NonNull final int[] consumed,
                                   final int type) {
         if (dy > 0 && mCollapseOffset < mMaxCollapseOffset) {
-            // 手指上滑时优先折叠头部
+            // 手指上滑时优先折叠头部（等价于AppBarLayout的scroll语义）
             consumed[1] += setCollapseOffset(coordinatorLayout, child, mCollapseOffset + dy);
-        } else if (dy < 0 && mCollapseOffset > 0
-                && !ViewCompat.canScrollVertically(target, -1)) {
-            // 列表已滚动到顶部时，下拉优先展开头部（保证展开跟手，不经过列表回滚阶段）
+        } else if (dy < 0 && mCollapseOffset > 0) {
+            // 手指下拉时优先展开头部（等价于AppBarLayout的enterAlways语义）：
+            // 头部展开跟手，全部展开后列表才开始回滚，避免"先滚列表再展头部"的割裂感
             consumed[1] += setCollapseOffset(coordinatorLayout, child, mCollapseOffset + dy);
         }
     }
