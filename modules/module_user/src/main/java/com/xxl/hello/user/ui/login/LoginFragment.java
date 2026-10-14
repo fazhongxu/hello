@@ -197,7 +197,7 @@ public class LoginFragment extends BaseViewModelFragment<LoginViewModel, UserFra
             ToastUtils.warning(R.string.resources_privacy_policy_agree_tips).show();
             return;
         }
-        showSwipeCaptchaPopupWindow();
+        mLoginViewModel.requestLogin("123456", String.valueOf(TimeUtils.currentServiceTimeMillis()));
     }
 
     /**
