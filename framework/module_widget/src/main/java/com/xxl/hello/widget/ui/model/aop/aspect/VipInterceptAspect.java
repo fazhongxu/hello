@@ -59,6 +59,16 @@ public class VipInterceptAspect {
         }
         final boolean isVip = AppExpandUtils.isVip();
         LogUtils.d("点击了功能 functionId" + functionId + "--isVip " + isVip);
+
+        // 优先：业务方传了回调，无论是否 VIP 都交给业务自己处理
+        final OnVipInterceptCallback callback = findOnVipInterceptCallback(joinPoint);
+        if (callback != null) {
+            if (callback.onVipCheckResult(isVip)) {
+                joinPoint.proceed();
+            }
+            return;
+        }
+
         if (isVip) {
             joinPoint.proceed();
             return;
@@ -69,6 +79,21 @@ public class VipInterceptAspect {
             return;
         }
         joinPoint.proceed();
+    }
+
+    /**
+     * 从方法参数中查找 VIP 拦截结果回调
+     *
+     * @param joinPoint
+     * @return
+     */
+    private OnVipInterceptCallback findOnVipInterceptCallback(@NonNull final ProceedingJoinPoint joinPoint) {
+        for (Object arg : joinPoint.getArgs()) {
+            if (arg instanceof OnVipInterceptCallback) {
+                return (OnVipInterceptCallback) arg;
+            }
+        }
+        return null;
     }
 
     /**

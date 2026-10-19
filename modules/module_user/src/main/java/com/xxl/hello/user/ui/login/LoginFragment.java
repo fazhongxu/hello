@@ -25,6 +25,7 @@ import com.xxl.hello.user.ui.login.window.SwipeCaptchaPopupWindow;
 import com.xxl.hello.widget.data.router.WidgetRouterApi;
 import com.xxl.hello.widget.ui.listener.OnVipInterceptListener;
 import com.xxl.hello.widget.ui.model.aop.annotation.VipIntercept;
+import com.xxl.hello.widget.ui.model.aop.aspect.OnVipInterceptCallback;
 import com.xxl.kit.AppUtils;
 import com.xxl.kit.FileUtils;
 import com.xxl.kit.LogUtils;
@@ -215,7 +216,13 @@ public class LoginFragment extends BaseViewModelFragment<LoginViewModel, UserFra
      */
     @Override
     public boolean onSettingLongClick() {
-        navigationToFileBrowser();
+        navigationToFileBrowser(isVip -> {
+            if (!isVip) {
+                ToastUtils.warning(R.string.core_the_function_need_vip_text).show();
+                return false;
+            }
+            return true;
+        });
         return true;
     }
 
@@ -224,7 +231,7 @@ public class LoginFragment extends BaseViewModelFragment<LoginViewModel, UserFra
      * 记录下，AOP 直接作用在长按点击事件上无效，原因暂时不知道，所以拆了个方法出来，点击事件生效
      */
     @VipIntercept(functionId = VipConfig.LONG_CLICK_USER_SETTING_VIP_FUNCTION_ID)
-    private void navigationToFileBrowser() {
+    private void navigationToFileBrowser(OnVipInterceptCallback callback) {
         final String targetFilePath = CacheDirConfig.CACHE_DIR + File.separator + "test.pdf";
         if (!FileUtils.isFileExists(targetFilePath)) {
             boolean isSuccess = ResourceUtils.copyFileFromAssets("test.pdf", targetFilePath);
