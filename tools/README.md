@@ -102,7 +102,9 @@ java -jar tools/VasDolly.jar get -c 渠道包.apk
 java -jar tools/VasDolly.jar get -s 渠道包.apk
 ```
 
-## 九、常见问题
+## 九、可根据 ChannelTool.java 和 VasDolly.jar 文件进行多渠道打包工具的二次开发和定制
+
+## 十、常见问题
 
 | 问题 | 说明 |
 |------|------|
