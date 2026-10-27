@@ -7,7 +7,7 @@
     <key>CFBundleDisplayName</key>
     <string>多渠道打包工具</string>
     <key>CFBundleIdentifier</key>
-    <string>com.edujia.channeltool</string>
+    <string>com.xxl.channeltool</string>
     <key>CFBundleVersion</key>
     <string>1.0</string>
     <key>CFBundleShortVersionString</key>
