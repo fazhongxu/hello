@@ -1,0 +1,46 @@
+#!/bin/bash
+# 多渠道打包工具启动器（.app 内部使用，双击 .app 时由系统调用）
+# 职责：定位 Java，必要时编译源码，然后启动 Swing 图形界面。
+
+APP_DIR="$(cd "$(dirname "$0")/.." && pwd)"   # <app>/Contents
+RES="$APP_DIR/Resources"
+
+# ---- 定位 java / javac（macOS 标准方式 → 常见位置 → PATH） ----
+JAVA_HOME_DIR=""
+if [ -x /usr/libexec/java_home ]; then
+    JAVA_HOME_DIR="$(/usr/libexec/java_home 2>/dev/null)"
+fi
+
+JAVA=""
+[ -n "$JAVA_HOME_DIR" ] && JAVA="$JAVA_HOME_DIR/bin/java"
+[ -x "$JAVA" ] || JAVA="/usr/bin/java"
+[ -x "$JAVA" ] || JAVA="$(command -v java)"
+
+JAVAC=""
+[ -n "$JAVA_HOME_DIR" ] && JAVAC="$JAVA_HOME_DIR/bin/javac"
+[ -x "$JAVAC" ] || JAVAC="/usr/bin/javac"
+[ -x "$JAVAC" ] || JAVAC="$(command -v javac)"
+
+cd "$RES" || exit 1
+
+if [ -z "$JAVA" ] || [ ! -x "$JAVA" ]; then
+    osascript -e 'display alert "未找到 Java 环境" message "请先安装 Java（JDK）。" as critical' 2>/dev/null
+    exit 1
+fi
+
+# 源码比 class 新时才重新编译（已有编译产物则直接运行，无需 javac）
+if [ ! -f classes/ChannelTool.class ] || [ ChannelTool.java -nt classes/ChannelTool.class ]; then
+    if [ -z "$JAVAC" ] || [ ! -x "$JAVAC" ]; then
+        osascript -e 'display alert "需要编译但未找到 javac" message "请安装完整 JDK，或使用已编译好的版本。" as critical' 2>/dev/null
+        exit 1
+    fi
+    mkdir -p classes
+    if ! "$JAVAC" -encoding UTF-8 -d classes ChannelTool.java 2> classes/compile.log; then
+        osascript -e 'display alert "多渠道打包工具 编译失败" message "请查看 Resources/classes/compile.log" as critical' 2>/dev/null
+        exit 1
+    fi
+fi
+
+exec "$JAVA" -Xdock:name="多渠道打包工具" \
+    -Dvasdolly.jar="$RES/VasDolly.jar" \
+    -cp classes ChannelTool
